@@ -39,7 +39,7 @@ git push origin main
 
 4. **Add Environment Variables:**
    Click "Advanced" → "Add Environment Variable"
-   - `HF_API_TOKEN` = `hf_REDACTED`
+   - `HF_API_TOKEN` = `<your_hf_token>`
    - `FLASK_ENV` = `production`
    - `PORT` = `8000` (Render sets this automatically, but add it anyway)
 
@@ -71,7 +71,7 @@ railway init
 railway add
 
 # Set environment variables
-railway variables set HF_API_TOKEN=hf_REDACTED
+railway variables set HF_API_TOKEN=<your_hf_token>
 railway variables set FLASK_ENV=production
 
 # Deploy

@@ -43,7 +43,7 @@ This guide shows you how to deploy your application to the cloud so **anyone can
 
 4. **Environment Variables:**
    Add these in "Environment" section:
-   - `HF_API_TOKEN` = `hf_REDACTED`
+   - `HF_API_TOKEN` = `<your_hf_token>`
    - `FLASK_ENV` = `production`
    - `PORT` = `8000`
 
@@ -78,7 +78,7 @@ This guide shows you how to deploy your application to the cloud so **anyone can
 3. **Configure:**
    - Railway auto-detects Python
    - Add environment variables:
-     - `HF_API_TOKEN` = `hf_REDACTED`
+     - `HF_API_TOKEN` = `<your_hf_token>`
      - `FLASK_ENV` = `production`
 
 4. **Build Settings:**
@@ -102,7 +102,7 @@ railway login
 railway init
 
 # Add environment variables
-railway variables set HF_API_TOKEN=hf_REDACTED
+railway variables set HF_API_TOKEN=<your_hf_token>
 railway variables set FLASK_ENV=production
 
 # Deploy
@@ -249,7 +249,7 @@ All platforms need these:
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `HF_API_TOKEN` | `hf_REDACTED` | ✅ Yes |
+| `HF_API_TOKEN` | `<your_hf_token>` | ✅ Yes |
 | `FLASK_ENV` | `production` | ✅ Yes |
 | `PORT` | `8000` | ⚠️ Auto-set on most platforms |
 

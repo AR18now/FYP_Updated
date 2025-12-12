@@ -17,7 +17,9 @@ class Predictor(BasePredictor):
         model_name = os.getenv("HF_MODEL_NAME", "arar123/qwen2b-srs-finetuned")
         
         # Get Hugging Face token (set as environment variable in Replicate)
-        hf_token = os.getenv("HF_API_TOKEN", "hf_REDACTED")
+        hf_token = os.getenv("HF_API_TOKEN", "").strip()
+        if not hf_token:
+            raise RuntimeError("HF_API_TOKEN is required; set it as an environment variable in Render/Replicate.")
         
         try:
             # Load tokenizer with fallback options

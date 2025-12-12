@@ -114,7 +114,7 @@ If you make it public, consider:
      - **Build Command:** `pip install -r requirements.txt && pip install -r requirements_api.txt && cd frontend && npm install && npm run build`
      - **Start Command:** `python api_server.py`
      - **Environment Variables:**
-       - `HF_API_TOKEN`: `hf_REDACTED`
+       - `HF_API_TOKEN`: `<your_hf_token>`
        - `PORT`: `8000` (auto-set by Render)
        - `FLASK_ENV`: `production`
 

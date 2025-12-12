@@ -48,10 +48,7 @@ export HF_API_TOKEN="your_token_here"
 
 ## Token Format
 
-Your token should start with `hf_` followed by a long string of characters, for example:
-```
-hf_REDACTED
-```
+Your token should start with `hf_` followed by a long string of characters (do not share the full token publicly).
 
 ## Verification
 

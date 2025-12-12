@@ -49,7 +49,7 @@ class ModelConfig:
         "REPLICATE_MODEL",
         "ar18now/qwen2:e2488e00bc2be9f83f548b6f1591c4dcc69cd6dc5e7a82ceb4968dc209ebd420"
     )
-    api_token: str = os.getenv("REPLICATE_API_TOKEN", "r8_REDACTED")
+    api_token: str = os.getenv("REPLICATE_API_TOKEN", "")
     max_new_tokens: int = 4000  # Increased for H100 GPU - allows comprehensive SRS generation
     temperature: float = 0.4
     top_p: float = 0.9

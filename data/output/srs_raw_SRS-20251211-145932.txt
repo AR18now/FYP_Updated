@@ -1,0 +1,141 @@
+Project Title: TravelItineraryBookingSystem
+Author: ali
+Software Requirements Specification (SRS) for TravelItineraryBookingSystem
+
+1. Introduction1.1 PurposeThe purpose of this document is to specify the requirements for the TravelItineraryBookingSystem, which will enable users to search for multi-city itineraries, compare fares, filter by baggage and refund policies, reserve seats, add insurance, and receive e-tickets. The system will also manage voucher redemptions, fare changes, and provide trip reminders and simple changes/cancellations.
+
+1.2 ScopeThis SRS covers the functional and non-functional requirements for the TravelItineraryBookingSystem. It does not cover the detailed design or implementation aspects.
+
+1.3 Definitions/Acronyms- UI:User Interface
+- API:Application Programming Interface
+- DBMS:Database Management System
+- SSL:Secure Sockets Layer
+
+1.4 References- IEEE Standard for Software Requirements Specifications, IEEE 830-1998
+- [Other relevant documents]
+
+1.5 OverviewThe TravelItineraryBookingSystem is a web-based application that allows users to book travel itineraries, manage reservations, and handle various booking-related tasks.
+
+---
+
+2. Overall Description2.1 Product PerspectiveThe TravelItineraryBookingSystem is a web application designed to facilitate travel bookings for individual users. It will be accessible via a web browser and will interact with a database to store user information, itinerary details, and booking records.
+
+2.2 Product Functions- Search for multi-city itineraries
+- Compare fares
+- Filter itineraries by baggage and refund policies
+- Reserve seats
+- Add insurance
+- Receive e-tickets
+- Manage voucher redemptions
+- Handle fare changes
+- Provide trip reminders
+- Allow simple changes and cancellations
+- Store passenger profiles
+
+2.3 User Characteristics- Age range: 18-65 years old
+- Technical proficiency: Basic to intermediate
+- Language: English
+
+2.4 Constraints- The system must comply with local and international travel regulations.
+- The system must support multiple currencies.
+- The system must be compatible with major web browsers.
+
+2.5 Assumptions/Dependencies- The system will use a relational database management system (RDBMS).
+- The system will utilize secure communication protocols (e.g., SSL).
+
+---
+
+3. Specific Requirements3.1 External Interface Requirements- User Interface (UI):- Web-based interface accessible via a web browser.
+  - Responsive design for mobile and desktop devices.
+- Hardware:- Compatible with standard desktop and laptop computers.
+- Software:- Compatible with major web browsers (Chrome, Firefox, Safari, Edge).
+  - Compatible with operating systems (Windows, macOS, Linux).
+- Communication:- Secure communication using HTTPS.
+  - Integration with third-party APIs for payment processing and email notifications.
+
+3.2 Functional Requirements- FR-1: Search Multi-City Itineraries- Input: User searches for itineraries by origin, destination, date, and number of travelers.
+  - Processing: System retrieves and displays available itineraries.
+  - Output: List of itineraries with details such as price, duration, and stops.
+  - Priority: High
+
+- FR-2: Compare Fares- Input: User selects two or more itineraries to compare.
+  - Processing: System calculates and displays the total cost for each itinerary.
+  - Output: Comparison table showing fare differences.
+  - Priority: Medium
+
+- FR-3: Filter by Baggage and Refund Policies- Input: User selects filters based on baggage allowance and refund policy.
+  - Processing: System filters and displays itineraries that meet the selected criteria.
+  - Output: List of filtered itineraries.
+  - Priority: Medium
+
+- FR-4: Reserve Seats- Input: User selects an itinerary and confirms seat reservation.
+  - Processing: System reserves seats and updates the database.
+  - Output: Confirmation message and reservation details.
+  - Priority: High
+
+- FR-5: Add Insurance- Input: User selects an insurance plan.
+  - Processing: System adds insurance to the booking and updates the database.
+  - Output: Confirmation message and updated booking details.
+  - Priority: Medium
+
+- FR-6: Receive E-Tickets- Input: User requests e-tickets.
+  - Processing: System generates and sends e-tickets via email.
+  - Output: E-tickets sent to user's email address.
+  - Priority: High
+
+- FR-7: Manage Voucher Redemptions- Input: User enters a voucher code.
+  - Processing: System validates the voucher and applies the discount to the booking.
+  - Output: Updated booking details reflecting the applied discount.
+  - Priority: Medium
+
+- FR-8: Handle Fare Changes- Input: User requests a fare change.
+  - Processing: System processes the request and updates the booking details.
+  - Output: Confirmation message and updated booking details.
+  - Priority: High
+
+- FR-9: Provide Trip Reminders- Input: User sets up a reminder.
+  - Processing: System sends a reminder before the departure date.
+  - Output: Email reminder sent to user.
+  - Priority: Medium
+
+- FR-10: Simple Changes/Cancellations- Input: User requests a change or cancellation.
+  - Processing: System processes the request and updates the booking details.
+  - Output: Confirmation message and updated booking details.
+  - Priority: High
+
+- FR-11: Store Passenger Profiles- Input: User provides personal information.
+  - Processing: System stores the information in the database.
+  - Output: Confirmation message and stored profile details.
+  - Priority: Medium
+
+3.3 Non-functional Requirements- Performance:- Response time for search and booking operations should not exceed 5 seconds.
+  - System should handle at least 100 concurrent users without performance degradation.
+- Security:- Data transmitted between the client and server must be encrypted using SSL.
+  - User credentials must be securely stored and protected from unauthorized access.
+- Reliability:- System should have a downtime rate of less than 1% per month.
+- Availability:- System should be available 24 hours a day, 7 days a week.
+- Usability:- The system should be easy to use and navigate.
+  - Help documentation and tutorials should be provided.
+- Maintainability:- The system should be modular and easy to update and modify.
+- Portability:- The system should be deployable on different platforms and operating systems.
+
+3.4 System Features- Feature 1: Search Functionality- Users can search for itineraries by specifying origin, destination, date, and number of travelers.
+  - The system will display a list of available itineraries with relevant details.
+
+- Feature 2: Booking Process- Users can reserve seats, add insurance, and receive e-tickets.
+  - The system will handle voucher redemptions, fare changes, and alternative options during checkout.
+
+- Feature 3: User Profiles- Users can create and manage their profiles for faster bookings.
+  - The system will store user information securely.
+
+- Feature 4: Notifications- The system will send trip reminders and confirmation messages via email.
+  - Users can set up reminders for upcoming trips.
+
+- Feature 5: Payment Gateway Integration- The system will integrate with a secure payment gateway for processing payments.
+  - Users can pay for their bookings using various payment methods.
+
+- Feature 6: Customer Support- The system will provide help documentation and customer support resources.
+  - Users can contact support for assistance with booking issues.
+
+---
+End of SRS. \ No newline at end of file

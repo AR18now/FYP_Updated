@@ -1,0 +1,75 @@
+---
+Software Requirements Specification (SRS)
+
+1. Introduction- Purpose:To specify the functional and non-functional requirements for a print-on-demand web application.
+- Scope:The scope of this document includes the definition of the print-on-demand application, including its features, interfaces, and performance criteria.
+- Definitions/Acronyms:- API: Application Programming Interface
+  - DBMS: Database Management System
+  - UI: User Interface
+  - UX: User Experience
+- References:IEEE Standard for Software Requirements Specifications (IEEE 830-1998).
+- Overview:This document outlines the requirements for a web-based print-on-demand application that allows customers, designers, and manufacturers to create and publish custom products for sale.
+
+2. Overall Description- Product Perspective:The application is a web-based platform designed for creating, publishing, and selling custom printed products.
+- Product Functions:- Customer Functionality: Ability to browse and purchase products.
+  - Designer Functionality: Ability to upload and manage designs.
+  - Manufacturer Functionality: Ability to create and manage product templates.
+- User Characteristics:Users include customers, designers, and manufacturers who are interested in creating and selling custom printed products.
+- Constraints:- Limited budget for initial development.
+  - Compliance with JazzGash payment gateway standards.
+- Assumptions/Dependencies:- Existing database infrastructure.
+  - Integration with JazzGash payment gateway.
+
+3. Specific Requirements3.1 External Interface Requirements- User Interface:- Web-based interface accessible via standard web browsers.
+  - Responsive design for mobile and desktop devices.
+- Hardware Interface:- Compatible with standard PC and laptop hardware.
+- Software Interface:- Integration with JazzGash payment gateway.
+  - API for third-party integrations.
+- Communication Interface:- Secure HTTP (HTTPS) for data transmission.
+
+3.2 Functional Requirements- FR-1 (High Priority):Customer can browse and purchase products from the marketplace.
+  - Input:Product ID, Payment Information.
+  - Processing:Validate payment information, update inventory, generate order confirmation.
+  - Output:Order Confirmation, Updated Inventory.
+- FR-2 (Medium Priority):Designer can upload and manage designs.
+  - Input:Design files, Product Template ID.
+  - Processing:Validate design files, associate designs with templates, store in database.
+  - Output:Confirmation of design upload, Design Management Interface.
+- FR-3 (Low Priority):Manufacturer can create and manage product templates.
+  - Input:Product specifications, Pricing.
+  - Processing:Create product template, store in database, associate with manufacturer.
+  - Output:Product Template Creation Confirmation, Template Management Interface.
+
+3.3 Non-functional Requirements- Performance:- Response time for critical operations should not exceed 5 seconds.
+  - Scalability to support up to 10,000 concurrent users.
+- Security:- Data encryption for sensitive information.
+  - Secure authentication and authorization mechanisms.
+- Reliability:- System uptime of at least 99.9%.
+  - Regular backups and disaster recovery plan.
+- Usability:- Intuitive and user-friendly interface.
+  - Clear error messages and help documentation.
+- Maintainability:- Modular code structure for easy updates and maintenance.
+  - Comprehensive documentation.
+- Portability:- Cross-platform compatibility for web-based deployment.
+
+3.4 System Features- Feature 1:User Authentication and Authorization
+  - Users must register and log in to access the application.
+  - Different roles (customer, designer, manufacturer) with distinct permissions.
+- Feature 2:Product Marketplace
+  - Display of available products with images, descriptions, and pricing.
+  - Search functionality for products.
+- Feature 3:Design Management
+  - Upload and management of design files.
+  - Association of designs with specific product templates.
+- Feature 4:Order Management
+  - Customers can place orders and track order status.
+  - Admin can view and manage orders.
+- Feature 5:Payment Processing
+  - Integration with JazzGash payment gateway for secure transactions.
+  - Confirmation of successful payment.
+- Feature 6:Inventory Management
+  - Real-time tracking of product stock levels.
+  - Automatic updates to inventory based on sales.
+- Feature 7:Reporting and Analytics
+  - Generate reports on sales, customer activity, and design usage.
+  - Provide analytics dashboard for manufacturers and designers. End of Document.--- The generated SRS is now complete. Please let me know if you need any further adjustments or additional details. ---

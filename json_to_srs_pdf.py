@@ -129,13 +129,30 @@ def render_html(srs: SRSDocument) -> str:
 
 
 def save_pdf_or_html(html: str, output_path: str) -> str:
+    """
+    Convert HTML content to PDF using weasyprint, or save as HTML if PDF generation fails.
+    
+    Args:
+        html: HTML content string to convert
+        output_path: Desired output file path (should end with .pdf)
+    
+    Returns:
+        Path to the generated file (PDF if successful, HTML if PDF generation failed)
+    """
     output = Path(output_path)
     try:
         from weasyprint import HTML
-        HTML(string=html).write_pdf(str(output))
+        # Generate PDF with proper encoding
+        HTML(string=html, encoding='utf-8').write_pdf(str(output))
+        logging.info(f"PDF generated successfully: {output}")
         return str(output)
+    except ImportError:
+        logging.warning("weasyprint not installed. Saving HTML fallback.")
+        html_path = output.with_suffix('.html')
+        html_path.write_text(html, encoding='utf-8')
+        return str(html_path)
     except Exception as e:
-        logging.warning("PDF export failed (%s). Saving HTML fallback.", e)
+        logging.warning(f"PDF export failed ({e}). Saving HTML fallback.")
         html_path = output.with_suffix('.html')
         html_path.write_text(html, encoding='utf-8')
         return str(html_path)

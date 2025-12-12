@@ -1,0 +1,25 @@
+# Cog configuration for Replicate
+# This file tells Replicate how to build and run your model
+
+build:
+  gpu: true
+  cuda: "11.8"
+  python_version: "3.10"
+  
+# Request faster hardware (A40 or A100) for better performance
+# T4 is default but slower; A40/A100 are faster but cost more
+# You can also set this in Replicate's web UI under model settings
+  python_packages:
+    - numpy==1.26.4
+    - torch==2.2.2
+    - torchvision==0.17.2
+    - torchaudio==2.2.2
+    - transformers==4.40.2
+    - tokenizers>=0.15.0,<0.20.0
+    - accelerate==0.27.2
+    - sentencepiece>=0.2.0
+
+image: r8.im/ar18now/qwen
+
+predict: "predict.py:Predictor"
+

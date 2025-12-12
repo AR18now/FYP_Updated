@@ -1,0 +1,198 @@
+---
+
+1. Introduction
+Purpose: To define the requirements for a hospital appointment scheduling system.
+Scope: This document specifies the requirements for a web-based application that enables patients to find doctors by specialty, book appointments, and receive reminders. It also includes functionalities for doctors to manage their schedules and patient visits.
+Definitions: N/A
+Acronyms: SMS - Short Message Service; FR - Functional Requirement
+References: IEEE Standard for Software Requirements Specifications, IEEE Std 830-1998
+Overview: This document outlines the requirements for a hospital appointment scheduling system that supports both patients and medical professionals.
+
+2. Overall Description
+Product Perspective: The system will be a web-based application accessible via a web browser.
+Product Functions:
+1. Patients can search for doctors by specialty.
+2. Patients can book appointments.
+3. Patients can receive SMS/email reminders.
+4. Doctors can block unavailable time slots.
+5. Doctors can view daily schedules.
+6. Doctors can mark completed visits.
+7. The system handles walk-ins, rescheduling, and cancellations.
+8. The system avoids double booking.
+9. Basic patient history is visible during booking.
+10. The system maintains a minimal audit trail of booking changes for staff.
+User Characteristics: Users include patients and medical professionals.
+Constraints: The system must handle walk-ins, rescheduling, cancellations, and avoid double booking.
+Assumptions: The system will use SMS and email for reminders.
+Dependencies: N/A
+
+3. Specific Requirements
+External Interface Requirements:
+1. User Interface:
+   - Patients: Search for doctors by specialty, book appointments, receive SMS/email reminders.
+   - Doctors: Block unavailable time slots, view daily schedules, mark completed visits.
+2. Hardware Interface: N/A
+3. Software Interface: N/A
+4. Communication Interface: The system will use SMS and email for reminders.
+
+Functional Requirements:
+FR-1: The system shall allow patients to search for doctors by specialty (P1, High).
+Input: Patient enters specialty.
+Processing: The system retrieves a list of doctors specializing in the entered field.
+Output: List of doctors with availability.
+
+FR-2: The system shall enable patients to book appointments (P1, High).
+Input: Patient selects a doctor and preferred date and time.
+Processing: The system checks for availability, blocks the slot, and confirms the booking.
+Output: Confirmation message and appointment details.
+
+FR-3: The system shall send SMS/email reminders to patients before their scheduled appointments (P1, High).
+Input: Appointment details.
+Processing: The system sends a reminder to the patient's registered contact information.
+Output: Reminder sent.
+
+FR-4: The system shall allow doctors to block unavailable time slots (P1, High).
+Input: Doctor selects a date and time.
+Processing: The system marks the selected time slot as unavailable.
+Output: Time slot marked as unavailable.
+
+FR-5: The system shall enable doctors to view daily schedules (P1, High).
+Input: Doctor logs in.
+Processing: The system displays the doctor's schedule for the day.
+Output: Daily schedule.
+
+FR-6: The system shall allow doctors to mark completed visits (P1, High).
+Input: Doctor marks a visit as completed.
+Processing: The system updates the status of the visit.
+Output: Visit marked as completed.
+
+FR-7: The system shall handle walk-ins, rescheduling, and cancellations (P1, High).
+Input: Walk-in request, rescheduling request, cancellation request.
+Processing: The system processes the request according to predefined rules.
+Output: Updated schedule and notifications.
+
+FR-8: The system shall avoid double booking (P1, High).
+Input: Booking request.
+Processing: The system checks for available slots and prevents booking if the slot is already taken.
+Output: Confirmation or error message.
+
+FR-9: The system shall provide basic patient history during booking (P2, Medium).
+Input: Patient's medical record.
+Processing: The system retrieves and displays relevant patient history.
+Output: Patient history displayed.
+
+FR-10: The system shall maintain a minimal audit trail of booking changes for staff (P2, Medium).
+Input: Booking change request.
+Processing: The system logs the change and stores it in the audit trail.
+Output: Audit log entry created.
+
+Performance Requirements: N/A
+
+Design Constraints: The system must handle walk-ins, rescheduling, cancellations, and avoid double booking.
+
+Software System Attributes:
+- Reliability: The system must ensure that appointments are booked and managed accurately without errors.
+- Availability: The system must be accessible to users at all times.
+- Security: The system must protect patient and doctor information from unauthorized access.
+- Maintainability: The system must be easy to update and modify as needed.
+- Portability: The system must be deployable on various platforms.
+- Usability: The system must be intuitive and easy for patients and doctors to use.
+
+Other Requirements:
+- Database: The system will use a relational database to store patient and doctor information.
+- Operations: The system will require regular maintenance and updates.
+- Site Adaptation: The system will be adaptable to different hospital environments.
+- Legal: The system must comply with relevant healthcare regulations.
+- Documentation: The system will have comprehensive user and technical documentation.
+
+---
+
+This document strictly adheres to the IEEE 830-1998 standard and is based solely on the provided requirements. No additional content or assumptions have been added beyond what is necessary and directly related to the given requirements. --- 1. Introduction
+Purpose: To define the requirements for a hospital appointment scheduling system.
+Scope: This document specifies the requirements for a web-based application that enables patients to find doctors by specialty, book appointments, and receive reminders. It also includes functionalities for doctors to manage their schedules and patient visits.
+Definitions: N/A
+Acronyms: SMS - Short Message Service; FR - Functional Requirement
+References: IEEE Standard for Software Requirements Specifications, IEEE Std 830-1998
+Overview: This document outlines the requirements for a hospital appointment scheduling system that supports both patients and medical professionals.
+
+2. Overall Description
+Product Perspective: The system will be a web-based application accessible via a web browser.
+Product Functions:
+1. Patients can search for doctors by specialty.
+2. Patients can book appointments.
+3. Patients can receive SMS/email reminders.
+4. Doctors can block unavailable time slots.
+5. Doctors can view daily schedules.
+6. Doctors can mark completed visits.
+7. The system handles walk-ins, rescheduling, and cancellations.
+8. The system avoids double booking.
+9. Basic patient history is visible during booking.
+10. The system maintains a minimal audit trail of booking changes for staff.
+User Characteristics: Users include patients and medical professionals.
+Constraints: The system must handle walk-ins, rescheduling, cancellations, and avoid double booking.
+Assumptions: The system will use SMS and email for reminders.
+Dependencies: N/A
+
+3. Specific Requirements
+External Interface Requirements:
+1. User Interface:
+   - Patients: Search for doctors by specialty, book appointments, receive SMS/email reminders.
+   - Doctors: Block unavailable time slots, view daily schedules, mark completed visits.
+2. Hardware Interface: N/A
+3. Software Interface: N/A
+4. Communication Interface: The system will use SMS and email for reminders.
+
+Functional Requirements:
+FR-1: The system shall allow patients to search for doctors by specialty (P1, High).
+Input: Patient enters specialty.
+Processing: The system retrieves a list of doctors specializing in the entered field.
+Output: List of doctors with availability.
+
+FR-2: The system shall enable patients to book appointments (P1, High).
+Input: Patient selects a doctor and preferred date and time.
+Processing: The system checks for availability, blocks the slot, and confirms the booking.
+Output: Confirmation message and appointment details.
+
+FR-3: The system shall send SMS/email reminders to patients before their scheduled appointments (P1, High).
+Input: Appointment details.
+Processing: The system sends a reminder to the patient's registered contact information.
+Output: Reminder sent.
+
+FR-4: The system shall allow doctors to block unavailable time slots (P1, High).
+Input: Doctor selects a date and time.
+Processing: The system marks the selected time slot as unavailable.
+Output: Time slot marked as unavailable.
+
+FR-5: The system shall enable doctors to view daily schedules (P1, High).
+Input: Doctor logs in.
+Processing: The system displays the doctor's schedule for the day.
+Output: Daily schedule.
+
+FR-6: The system shall allow doctors to mark completed visits (P1, High).
+Input: Doctor marks a visit as completed.
+Processing: The system updates the status of the visit.
+Output: Visit marked as completed.
+
+FR-7: The system shall handle walk-ins, rescheduling, and cancellations (P1, High).
+Input: Walk-in request, rescheduling request, cancellation request.
+Processing: The system processes the request according to predefined rules.
+Output: Updated schedule and notifications.
+
+FR-8: The system shall avoid double booking (P1, High).
+Input: Booking request.
+Processing: The system checks for available slots and prevents booking if the slot is already taken.
+Output: Confirmation or error message.
+
+FR-9: The system shall provide basic patient history during booking (P2, Medium).
+Input: Patient's medical record.
+Processing: The system retrieves and displays relevant patient history.
+Output: Patient history displayed.
+
+FR-10: The system shall maintain a minimal audit trail of booking changes for staff (P2, Medium).
+Input: Booking change request.
+Processing: The system logs the change and stores it in the audit trail.
+Output: Audit log entry created.
+
+Performance Requirements: N/A
+
+Design Constraints: The system must handle walk-ins, rescheduling, cancell

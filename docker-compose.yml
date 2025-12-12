@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  req2design:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:8000
+    container_name: req2design-app
+    ports:
+      - "8000:8000"
+    environment:
+      - HF_API_TOKEN=${HF_API_TOKEN}
+      - FLASK_ENV=production
+      - PORT=8000
+    volumes:
+      # Mount data directory for persistence
+      - ./data:/app/data
+      # Mount output directory
+      - ./data/output:/app/data/output
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

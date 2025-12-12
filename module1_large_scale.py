@@ -121,7 +121,8 @@ class RequirementsProcessor:
             # Load Whisper (optional)
             if self.config.enable_whisper:
                 self.logger.info("Loading Whisper model...")
-                self.models['whisper'] = whisper.load_model(self.config.whisper_model_size)
+                # Force CPU load to avoid meta tensor/device issues
+                self.models['whisper'] = whisper.load_model(self.config.whisper_model_size, device="cpu")
             
             # Load spaCy
             self.logger.info("Loading spaCy model...")
@@ -130,11 +131,25 @@ class RequirementsProcessor:
             except Exception as sp_err:
                 self.logger.warning(f"spaCy model '{self.config.spacy_model_name}' not found ({sp_err}); using blank 'en' pipeline")
                 self.models['spacy'] = spacy.blank('en')
+            # Ensure sentence boundaries to avoid E030
+            if "sentencizer" not in self.models['spacy'].pipe_names:
+                self.models['spacy'].add_pipe("sentencizer")
             
             # Load Flan-T5
             self.logger.info(f"Loading Flan-T5 model ({self.config.flan_model_name})...")
-            self.models['flan_tokenizer'] = T5Tokenizer.from_pretrained(self.config.flan_model_name)
-            self.models['flan_model'] = T5ForConditionalGeneration.from_pretrained(self.config.flan_model_name)
+            try:
+                self.models['flan_tokenizer'] = T5Tokenizer.from_pretrained(self.config.flan_model_name)
+                # Force CPU dtype to avoid meta tensor errors
+                self.models['flan_model'] = T5ForConditionalGeneration.from_pretrained(
+                    self.config.flan_model_name,
+                    device_map=None,
+                    torch_dtype=torch.float32,
+                    low_cpu_mem_usage=False
+                )
+            except Exception as flan_err:
+                self.logger.warning(f"Flan-T5 load failed ({flan_err}); continuing without flan extraction.")
+                self.models['flan_tokenizer'] = None
+                self.models['flan_model'] = None
             
             self.logger.info("All models loaded successfully!")
             self.models_loaded = True
@@ -197,8 +212,21 @@ class RequirementsProcessor:
     def _transcribe_audio(self, file_path: str) -> str:
         """Transcribe audio file to text using Whisper"""
         try:
+            # Ensure models are loaded and whisper is available
+            if not getattr(self, 'models_loaded', False):
+                self._load_models()
+            if 'whisper' not in self.models:
+                raise RuntimeError("Whisper model is not loaded. Ensure enable_whisper=True and whisper is installed.")
+
+            # Basic file sanity checks
+            file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+            if file_size < 4096:  # <4KB is effectively empty
+                raise ValueError("Audio file is too small or empty for transcription.")
+
             # Check audio duration
             duration = self._get_audio_duration(file_path)
+            if duration <= 0.5:
+                raise ValueError("Audio is too short to transcribe. Please record at least 1 second.")
             if duration > self.config.max_audio_duration:
                 self.logger.warning(f"Audio file {file_path} is {duration}s long, may take time to process")
             
@@ -273,6 +301,9 @@ class RequirementsProcessor:
     
     def _extract_requirements_fields(self, text: str) -> Dict[str, str]:
         """Extract structured requirements fields using Flan-T5"""
+        if not self.models.get('flan_model') or not self.models.get('flan_tokenizer'):
+            self.logger.warning("Flan model unavailable; skipping field extraction.")
+            return {}
         prompt = f"""
 Analyze this requirements text and extract key information:
 

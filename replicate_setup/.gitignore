@@ -1,0 +1,20 @@
+# Ignore build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Ignore Cog cache
+.cog/
+
+# Ignore environment files
+.env
+.venv
+venv/
+

@@ -4,108 +4,72 @@ __pycache__/
 *$py.class
 *.so
 .Python
-
-# Virtual Environments
-requirements_env/
-venv/
 env/
+venv/
 ENV/
-*.venv
+.venv
+*.egg-info/
+dist/
+build/
 
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-.vs/
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# Logs
-*.log
-module1.log
-requirements_system.log
-
-# Node.js (Frontend)
+# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnp
+.pnp.js
+
+# Frontend
 frontend/build/
-frontend/dist/
-
-# Data files (keep structure but exclude content)
-*.db
-*.sqlite
-*.sqlite3
-
-# Audio files (large)
-*.wav
-*.mp3
-*.flac
-*.aac
-
-# Large model files
-models/*.bin
-models/*.pt
-models/*.pth
-models/*.h5
-models/*.pkl
-
-# PDF files (documentation)
-*.pdf
-
-# Temporary files
-data/temp/*
-!data/temp/.gitkeep
-
-# Output files (generated)
-data/output/**
-!data/output/.gitkeep
-srs_*.html
-srs_*.html
-srs_*.json
-!srs_ali.html
-!srs_ali.json
-*.html
-!frontend/public/index.html
-*.json
-!config_large_scale.json
-!package.json
-!package-lock.json
-!frontend/public/manifest.json
-
-# Model artifacts
-*.safetensors
-*.bin
-data/output/models/**
-data/output/experiments/**
-
-# Keep directory structure
-!.gitkeep
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
 # Environment variables
 .env
 .env.local
 .env.*.local
 
-# System files
-.pytest_cache/
-.coverage
-htmlcov/
-dist/
-build/
-*.egg-info/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
+# Logs
+*.log
+logs/
+*.log.*
 
-requirements_env.zip
-*.zip
+# Data
+data/output/processed/
+data/output/exports/
+data/temp/
+*.db
+*.sqlite
 
+# OS
+Thumbs.db
+.DS_Store
 
+# Docker
+.dockerignore
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# PDFs (optional - uncomment if you don't want to track PDFs)
+# *.pdf
+
+# Model files (if downloaded locally)
+models/*.bin
+models/*.safetensors
+*.pt
+*.pth

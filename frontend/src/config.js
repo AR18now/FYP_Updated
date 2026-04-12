@@ -5,11 +5,28 @@
  * In production, these values can be overridden using environment variables.
  */
 
-// API Base URL - can be overridden by REACT_APP_API_URL environment variable
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Main API: use REACT_APP_API_URL when set (e.g. split deploy). Otherwise in production builds
+// use same-origin relative URLs so /api/* hits the Flask app (e.g. Render). CRA dev server still
+// needs localhost:8000 because UI runs on :3000.
+function trimSlash(s) {
+  return String(s).replace(/\/$/, '');
+}
+const _rawApi = process.env.REACT_APP_API_URL;
+const API_BASE_URL =
+  _rawApi != null && String(_rawApi).trim() !== ''
+    ? trimSlash(_rawApi)
+    : process.env.NODE_ENV === 'production'
+      ? ''
+      : 'http://localhost:8000';
 
-/** SRS AI evaluation microservice (FastAPI) — `srs_eval_service` */
-const SRS_EVAL_BASE_URL = process.env.REACT_APP_SRS_EVAL_URL || 'http://localhost:8010';
+/** SRS AI evaluation microservice (FastAPI) — set REACT_APP_SRS_EVAL_URL when deployed */
+const _rawEval = process.env.REACT_APP_SRS_EVAL_URL;
+const SRS_EVAL_BASE_URL =
+  _rawEval != null && String(_rawEval).trim() !== ''
+    ? trimSlash(_rawEval)
+    : process.env.NODE_ENV === 'production'
+      ? ''
+      : 'http://localhost:8010';
 
 // API endpoints
 const API_ENDPOINTS = {

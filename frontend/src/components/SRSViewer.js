@@ -14,6 +14,8 @@ import {
   UserCheck,
   BarChart3,
   Sparkles,
+  ArrowDown,
+  ArrowRight,
 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
@@ -69,6 +71,8 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   const [isComparing, setIsComparing] = useState(false);
   const [compareData, setCompareData] = useState(null);
   const [compareError, setCompareError] = useState(null);
+  /** PlantUML use case diagram layout variant */
+  const [useCaseDiagramLayout, setUseCaseDiagramLayout] = useState('vertical');
 
   const buildRequirementsArray = useCallback((resultsData) => {
     if (!resultsData) return [];
@@ -526,13 +530,31 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     }
   }, [srsData, useCaseData]);
 
+  const useCaseDiagramB64 = useMemo(() => {
+    const d = useCaseData?.diagram;
+    if (!d) return '';
+    if (useCaseDiagramLayout === 'horizontal') {
+      return d.diagram_base64_horizontal || d.diagram_base64 || '';
+    }
+    return d.diagram_base64_vertical || d.diagram_base64 || '';
+  }, [useCaseData?.diagram, useCaseDiagramLayout]);
+
+  const useCaseDiagramPuml = useMemo(() => {
+    const d = useCaseData?.diagram;
+    if (!d) return '';
+    if (useCaseDiagramLayout === 'horizontal') {
+      return d.plantuml_code_horizontal || d.plantuml_code || '';
+    }
+    return d.plantuml_code_vertical || d.plantuml_code || '';
+  }, [useCaseData?.diagram, useCaseDiagramLayout]);
+
   const downloadUsecaseDiagramPdf = useCallback(async () => {
     try {
       const resp = await axios.post(
         config.API_ENDPOINTS.DOWNLOAD_USECASE_DIAGRAM_PDF,
         {
-          diagram_base64: useCaseData?.diagram?.diagram_base64 || '',
-          title: `${srsData?.title || 'SRS'} - Use Case Diagram`,
+          diagram_base64: useCaseDiagramB64,
+          title: `${srsData?.title || 'SRS'} - Use Case Diagram (${useCaseDiagramLayout})`,
         },
         { responseType: 'blob' }
       );
@@ -544,7 +566,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
       const msg = await messageFromAxiosBlobError(err);
       alert(msg);
     }
-  }, [srsData, useCaseData]);
+  }, [srsData, useCaseDiagramB64, useCaseDiagramLayout]);
 
   const downloadText = useCallback((filename, content, mimeType = 'text/plain') => {
     const blob = new Blob([content], { type: mimeType });
@@ -1319,9 +1341,50 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     <Workflow className="h-4 w-4" />
                     Use Case Diagram
                   </h4>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2 justify-end">
+                    <div className="flex rounded-md border border-slate-300 dark:border-slate-600 overflow-hidden text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setUseCaseDiagramLayout('vertical')}
+                        disabled={
+                          !useCaseData?.diagram?.diagram_base64_vertical &&
+                          !useCaseData?.diagram?.diagram_base64
+                        }
+                        className={`px-2.5 py-1.5 flex items-center gap-1 disabled:opacity-50 ${
+                          useCaseDiagramLayout === 'vertical'
+                            ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
+                        }`}
+                        title="Top-to-bottom (PlantUML)"
+                      >
+                        <ArrowDown className="h-3.5 w-3.5" />
+                        Vertical
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setUseCaseDiagramLayout('horizontal')}
+                        disabled={
+                          !useCaseData?.diagram?.diagram_base64_horizontal &&
+                          !useCaseData?.diagram?.diagram_base64
+                        }
+                        className={`px-2.5 py-1.5 flex items-center gap-1 border-l border-slate-300 dark:border-slate-600 disabled:opacity-50 ${
+                          useCaseDiagramLayout === 'horizontal'
+                            ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
+                        }`}
+                        title="Left-to-right (PlantUML)"
+                      >
+                        <ArrowRight className="h-3.5 w-3.5" />
+                        Horizontal
+                      </button>
+                    </div>
                     <button
-                      onClick={() => downloadText(`usecase_${srsData?.document_id || 'srs'}.puml`, useCaseData?.diagram?.plantuml_code || '')}
+                      onClick={() =>
+                        downloadText(
+                          `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.puml`,
+                          useCaseDiagramPuml || ''
+                        )
+                      }
                       className="text-sm bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded flex items-center gap-1"
                     >
                       <FileCode className="h-3.5 w-3.5" />
@@ -1329,31 +1392,38 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     </button>
                     <button
                       onClick={() => {
-                        const b64 = useCaseData?.diagram?.diagram_base64;
+                        const b64 = useCaseDiagramB64;
                         if (!b64) return;
                         const link = document.createElement('a');
                         link.href = `data:image/png;base64,${b64}`;
-                        link.download = `usecase_${srsData?.document_id || 'srs'}.png`;
+                        link.download = `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.png`;
                         document.body.appendChild(link);
                         link.click();
                         link.parentNode.removeChild(link);
                       }}
-                      disabled={!useCaseData?.diagram?.diagram_base64}
+                      disabled={!useCaseDiagramB64}
                       className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded"
                     >
                       Download .png
                     </button>
                   </div>
                 </div>
-                {useCaseData?.diagram?.diagram_base64 ? (
+                {useCaseDiagramB64 ? (
                   <img
-                    src={`data:image/png;base64,${useCaseData.diagram.diagram_base64}`}
-                    alt="Use case diagram"
+                    src={`data:image/png;base64,${useCaseDiagramB64}`}
+                    alt={`Use case diagram (${useCaseDiagramLayout})`}
                     className="w-full rounded border border-gray-200 dark:border-slate-600"
                   />
                 ) : (
-                  <div className="text-sm p-3 rounded border border-gray-200 dark:border-slate-600 text-gray-600 dark:text-slate-400">
-                    Diagram PNG was not rendered. {useCaseData?.diagram?.message || 'PlantUML rendering may be unavailable.'}
+                  <div className="text-sm space-y-2">
+                    <p className="p-3 rounded border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 text-amber-950 dark:text-amber-100">
+                      Diagram PNG was not rendered. {useCaseData?.diagram?.message || 'PlantUML rendering may be unavailable.'}
+                    </p>
+                    {useCaseData?.diagram?.plantuml_log ? (
+                      <pre className="text-xs whitespace-pre-wrap font-mono p-3 rounded border border-slate-200 dark:border-slate-600 bg-slate-900 text-green-400 max-h-64 overflow-auto">
+                        {useCaseData.diagram.plantuml_log}
+                      </pre>
+                    ) : null}
                   </div>
                 )}
                 <div className="mt-3 flex gap-2">
@@ -1365,7 +1435,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                   </button>
                   <button
                     onClick={downloadUsecaseDiagramPdf}
-                    disabled={!useCaseData?.diagram?.diagram_base64}
+                    disabled={!useCaseDiagramB64}
                     className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded"
                   >
                     Download PDF

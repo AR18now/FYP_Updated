@@ -2319,20 +2319,40 @@ def generate_usecases():
         )
 
         diagram_gen = UseCaseDiagramGenerator()
-        diagram_result = diagram_gen.generate_and_render(
+        diagram_bundle = diagram_gen.generate_both_layouts_and_render(
             textual_use_cases=textual_result['text'],
             system_name=title,
             output_dir=str(output_dir),
             output_name=f"usecase_{safe_id}",
         )
+        dv = diagram_bundle.get('vertical') or {}
+        dh = diagram_bundle.get('horizontal') or {}
 
+        def _png_b64(abs_path: str) -> str:
+            if abs_path and Path(abs_path).exists():
+                with open(abs_path, 'rb') as img_file:
+                    return base64.b64encode(img_file.read()).decode('utf-8')
+            return ''
+
+        diagram_base64_v = _png_b64(dv.get('diagram_file', ''))
+        diagram_base64_h = _png_b64(dh.get('diagram_file', ''))
+        diagram_base64 = diagram_base64_v or diagram_base64_h
+        diagram_abs_path = dv.get('diagram_file') or dh.get('diagram_file') or ''
         diagram_rel_path = ""
-        diagram_base64 = ""
-        diagram_abs_path = diagram_result.get('diagram_file', '')
         if diagram_abs_path and Path(diagram_abs_path).exists():
             diagram_rel_path = str(Path(diagram_abs_path).resolve().relative_to(Path.cwd().resolve())).replace("\\", "/")
-            with open(diagram_abs_path, 'rb') as img_file:
-                diagram_base64 = base64.b64encode(img_file.read()).decode('utf-8')
+
+        msg_parts = []
+        if dv.get('status') != 'rendered' and dv.get('message'):
+            msg_parts.append(f"Vertical: {dv.get('message')}")
+        if dh.get('status') != 'rendered' and dh.get('message'):
+            msg_parts.append(f"Horizontal: {dh.get('message')}")
+        combined_msg = " ".join(msg_parts) if msg_parts else ""
+        log_v = (dv.get('plantuml_log') or '').strip()
+        log_h = (dh.get('plantuml_log') or '').strip()
+        combined_log = "\n---\n".join(x for x in (log_v, log_h) if x)
+
+        diag_status = 'rendered' if (diagram_base64_v or diagram_base64_h) else 'saved_only'
 
         return jsonify({
             'textual_usecases': {
@@ -2341,13 +2361,19 @@ def generate_usecases():
                 'output_file': textual_result.get('output_file', ''),
             },
             'diagram': {
-                'status': diagram_result.get('status', 'saved_only'),
-                'plantuml_code': diagram_result.get('plantuml_code', ''),
-                'puml_file': diagram_result.get('puml_file', ''),
+                'status': diag_status,
+                'plantuml_code': dv.get('plantuml_code', ''),
+                'plantuml_code_vertical': dv.get('plantuml_code', ''),
+                'plantuml_code_horizontal': dh.get('plantuml_code', ''),
+                'puml_file': dv.get('puml_file', ''),
+                'puml_file_horizontal': dh.get('puml_file', ''),
                 'diagram_file': diagram_abs_path,
                 'diagram_rel_path': diagram_rel_path,
                 'diagram_base64': diagram_base64,
-                'message': diagram_result.get('message', ''),
+                'diagram_base64_vertical': diagram_base64_v,
+                'diagram_base64_horizontal': diagram_base64_h,
+                'message': combined_msg or dv.get('message', '') or dh.get('message', ''),
+                'plantuml_log': combined_log,
             }
         })
     except Exception as e:
@@ -3162,6 +3188,9 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
                 if seen_major:
                     doc.add_page_break()
                 seen_major = True
+            # §3.2 Functional Requirements starts on its own page (matches PDF/HTML export).
+            if depth == 2 and re.match(r'^3\.2[.:]?\s+Functional Requirements\b', line, flags=re.IGNORECASE):
+                doc.add_page_break()
             level = 1 if depth == 1 else 2 if depth == 2 else 3
             doc.add_heading(line, level=level)
             continue
@@ -3699,6 +3728,8 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
                         first_major_done = True
                     if re.match(r'^Non-Functional Requirements\b', display_txt.split('. ', 1)[-1], flags=re.IGNORECASE):
                         heading_cls += ' section-break'
+                    if num_txt == '3.2' and re.match(r'^Functional Requirements\b', label_txt, flags=re.IGNORECASE):
+                        heading_cls += ' section-break'
                     out.append(
                         f'<a name="{anchor}"></a><{tag} id="{anchor}" class="{heading_cls}">{num}: {label}</{tag}>'
                     )
@@ -3718,6 +3749,10 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
                             heading_cls += ' section-break'
                         first_major_done = True
                     if re.match(r'^Non-Functional Requirements\.?$', display_txt, flags=re.IGNORECASE):
+                        heading_cls += ' section-break'
+                    if re.match(r'^Functional Requirements\.?$', display_txt, flags=re.IGNORECASE):
+                        heading_cls += ' section-break'
+                    if re.match(r'^3\.2[.:]?\s+Functional Requirements\b', display_txt, flags=re.IGNORECASE):
                         heading_cls += ' section-break'
                     out.append(f'<a name="{anchor}"></a><{tag} id="{anchor}" class="{heading_cls}">{html.escape(row)}</{tag}>')
 
@@ -3876,7 +3911,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
                     heading_text = "Functional Requirements"
                     anchor = _slugify(heading_text)
                     toc.append((2, heading_text, anchor))
-                    out.append(f'<a name="{anchor}"></a><h3 id="{anchor}" class="srs-h d2">{heading_text}</h3>')
+                    out.append(f'<a name="{anchor}"></a><h3 id="{anchor}" class="srs-h d2 section-break">{heading_text}</h3>')
                     i += 1
                     continue
                 if re.match(r'^external interface requirements$', raw_key, flags=re.IGNORECASE):

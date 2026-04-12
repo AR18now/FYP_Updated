@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import axios from 'axios';
-import { Download, RefreshCw, Workflow, Maximize2 } from 'lucide-react';
+import { Download, RefreshCw, Workflow, Maximize2, ArrowDown, ArrowRight, FileCode } from 'lucide-react';
 import config from '../config';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
@@ -9,6 +9,39 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   /** false = prioritize vertical/tall diagram in viewport; true = fit width (horizontal emphasis) */
   const [fitWidth, setFitWidth] = useState(false);
+  /** PlantUML layout: which rendered PNG / .puml variant to show */
+  const [diagramLayout, setDiagramLayout] = useState('vertical');
+
+  const activeDiagramB64 = useMemo(() => {
+    const d = useCaseData?.diagram;
+    if (!d) return '';
+    if (diagramLayout === 'horizontal') {
+      return d.diagram_base64_horizontal || d.diagram_base64 || '';
+    }
+    return d.diagram_base64_vertical || d.diagram_base64 || '';
+  }, [useCaseData?.diagram, diagramLayout]);
+
+  const activePlantUml = useMemo(() => {
+    const d = useCaseData?.diagram;
+    if (!d) return '';
+    if (diagramLayout === 'horizontal') {
+      return d.plantuml_code_horizontal || d.plantuml_code || '';
+    }
+    return d.plantuml_code_vertical || d.plantuml_code || '';
+  }, [useCaseData?.diagram, diagramLayout]);
+
+  const downloadPuml = useCallback(() => {
+    if (!activePlantUml) return;
+    const blob = new Blob([activePlantUml], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `usecase_${srsData?.document_id || 'srs'}_${diagramLayout}.puml`;
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }, [activePlantUml, diagramLayout, srsData?.document_id]);
 
   const generateUseCases = useCallback(async () => {
     if (!srsData?.sections) return;
@@ -33,20 +66,20 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
       const resp = await axios.post(
         config.API_ENDPOINTS.DOWNLOAD_USECASE_DIAGRAM_PDF,
         {
-          diagram_base64: useCaseData?.diagram?.diagram_base64 || '',
-          title: `${srsData?.title || 'SRS'} - Use Case Diagram`,
+          diagram_base64: activeDiagramB64,
+          title: `${srsData?.title || 'SRS'} - Use Case Diagram (${diagramLayout})`,
         },
         { responseType: 'blob' }
       );
       await saveBlobResponseAsDownload(resp, {
-        defaultFilename: `usecase_diagram_${srsData?.document_id || 'srs'}.pdf`,
+        defaultFilename: `usecase_diagram_${srsData?.document_id || 'srs'}_${diagramLayout}.pdf`,
       });
     } catch (error) {
       console.error('Failed to download diagram PDF', error);
       const msg = await messageFromAxiosBlobError(error);
       alert(msg);
     }
-  }, [srsData, useCaseData]);
+  }, [srsData, activeDiagramB64, diagramLayout]);
 
   if (!srsData) {
     return (
@@ -82,7 +115,7 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
             <button
               type="button"
               onClick={downloadPdf}
-              disabled={!useCaseData?.diagram?.diagram_base64}
+              disabled={!activeDiagramB64}
               className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2"
             >
               <Download className="h-4 w-4" />
@@ -90,8 +123,48 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
             </button>
             <button
               type="button"
+              onClick={downloadPuml}
+              disabled={!activePlantUml}
+              className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center gap-2 text-sm disabled:opacity-50"
+              title="PlantUML source for the selected layout"
+            >
+              <FileCode className="h-4 w-4" />
+              .puml
+            </button>
+            <div className="flex rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setDiagramLayout('vertical')}
+                disabled={!useCaseData?.diagram?.diagram_base64_vertical && !useCaseData?.diagram?.diagram_base64}
+                className={`px-3 py-2 text-sm flex items-center gap-1.5 disabled:opacity-50 ${
+                  diagramLayout === 'vertical'
+                    ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
+                }`}
+                title="Top-to-bottom layout (PlantUML)"
+              >
+                <ArrowDown className="h-4 w-4" />
+                Vertical
+              </button>
+              <button
+                type="button"
+                onClick={() => setDiagramLayout('horizontal')}
+                disabled={!useCaseData?.diagram?.diagram_base64_horizontal && !useCaseData?.diagram?.diagram_base64}
+                className={`px-3 py-2 text-sm flex items-center gap-1.5 border-l border-slate-300 dark:border-slate-600 disabled:opacity-50 ${
+                  diagramLayout === 'horizontal'
+                    ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
+                }`}
+                title="Left-to-right layout (PlantUML)"
+              >
+                <ArrowRight className="h-4 w-4" />
+                Horizontal
+              </button>
+            </div>
+            <button
+              type="button"
               onClick={() => setFitWidth((w) => !w)}
-              disabled={!useCaseData?.diagram?.diagram_base64}
+              disabled={!activeDiagramB64}
               className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center gap-2 text-sm disabled:opacity-50"
               title="Toggle fit width vs tall (vertical) view"
             >
@@ -102,10 +175,10 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
         </div>
 
         <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-4 bg-slate-50 dark:bg-slate-950/50 min-h-[72vh] flex items-center justify-center overflow-auto">
-          {useCaseData?.diagram?.diagram_base64 ? (
+          {activeDiagramB64 ? (
             <img
-              src={`data:image/png;base64,${useCaseData.diagram.diagram_base64}`}
-              alt="Use case diagram"
+              src={`data:image/png;base64,${activeDiagramB64}`}
+              alt={`Use case diagram (${diagramLayout})`}
               className={
                 fitWidth
                   ? 'max-w-full max-h-[68vh] w-full object-contain'
@@ -113,7 +186,21 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               }
             />
           ) : (
-            <p className="text-gray-600 dark:text-slate-400">No diagram generated yet. Click &quot;Generate / Refresh&quot;.</p>
+            <div className="w-full max-w-3xl space-y-2 text-left">
+              <p className="text-gray-600 dark:text-slate-400">
+                No diagram generated yet. Click &quot;Generate / Refresh&quot;.
+              </p>
+              {useCaseData?.diagram?.message ? (
+                <p className="text-sm text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800 rounded-lg p-3 bg-amber-50/90 dark:bg-amber-950/40">
+                  {useCaseData.diagram.message}
+                </p>
+              ) : null}
+              {useCaseData?.diagram?.plantuml_log ? (
+                <pre className="text-xs whitespace-pre-wrap font-mono p-3 rounded border border-slate-600 bg-slate-950 text-green-400 max-h-72 overflow-auto w-full">
+                  {useCaseData.diagram.plantuml_log}
+                </pre>
+              ) : null}
+            </div>
           )}
         </div>
       </div>

@@ -6,10 +6,36 @@ from typing import Any, Dict, List
 class TextualUseCaseGenerator:
     """
     Generates textual use cases from SRS functional requirements
-    using an Alistair Cockburn-style template.
+    using an Alistair Cockburn-style template (IEEE 830–aligned traceability).
     """
 
-    KNOWN_ACTORS = ("Admin", "Administrator", "User", "Customer", "System", "Manager", "Operator")
+    KNOWN_ACTORS = (
+        "Admin",
+        "Administrator",
+        "User",
+        "Customer",
+        "System",
+        "Manager",
+        "Operator",
+        "Guest",
+        "Vendor",
+    )
+
+    _UI_TERMS = re.compile(
+        r"(?i)\b(button|click|tap|screen|page|modal|dropdown|toast|tooltip|"
+        r"navbar|sidebar|pixel|css|html|widget|gui)\b"
+    )
+
+    # FR-01:, FR-01, FR01 Browse, etc.
+    _FR_PREFIX = re.compile(r"^\s*FR[-\s:]?\d+\s*[:\-–]?\s*", re.IGNORECASE)
+    _SHALL = re.compile(r"(?i)^\s*(the\s+system\s+shall|the\s+system\s+must|the\s+system\s+will)\s+")
+    _VERB_START = re.compile(
+        r"(?i)^(browse|search|view|register|login|logout|submit|create|update|delete|"
+        r"remove|add|select|place|pay|cancel|confirm|validate|verify|send|receive|"
+        r"retrieve|list|filter|sort|manage|configure|authorize|authenticate|upload|"
+        r"download|schedule|track|notify|assign|approve|reject|request|process|"
+        r"generate|export|import|restore|backup|lock|unlock|grant|revoke)\b"
+    )
 
     def generate_from_srs(self, srs_sections: Dict[str, Any]) -> List[Dict[str, str]]:
         functional_requirements = (
@@ -17,7 +43,9 @@ class TextualUseCaseGenerator:
         )
         use_cases: List[Dict[str, str]] = []
         for idx, requirement in enumerate(functional_requirements, start=1):
-            use_cases.append(self._build_use_case(requirement, idx))
+            use_cases.append(self._build_use_case(requirement, idx, srs_sections))
+        use_cases = self._disambiguate_names(use_cases)
+        use_cases = self._annotate_shared_validation(use_cases)
         return use_cases
 
     def render_text(self, use_cases: List[Dict[str, str]]) -> str:
@@ -64,61 +92,355 @@ class TextualUseCaseGenerator:
         saved_path = self.save_to_file(rendered, output_path=output_path)
         return {"use_cases": use_cases, "text": rendered, "output_file": saved_path}
 
-    def _build_use_case(self, requirement: Any, index: int) -> Dict[str, str]:
+    def _build_use_case(self, requirement: Any, index: int, srs_sections: Dict[str, Any]) -> Dict[str, str]:
+        fr_id = ""
         if isinstance(requirement, dict):
+            fr_id = str(requirement.get("id", "")).strip()
             description = str(requirement.get("description", "")).strip() or f"Functional Requirement {index}"
             input_data = str(requirement.get("input", "")).strip()
             processing = str(requirement.get("processing", "")).strip()
             output_data = str(requirement.get("output", "")).strip()
+            priority = str(requirement.get("priority", "")).strip()
         else:
             description = str(requirement).strip() or f"Functional Requirement {index}"
             input_data = ""
             processing = ""
             output_data = ""
+            priority = ""
 
-        actor = self._identify_actor(description)
-        use_case_name = self._derive_use_case_name(description, index)
-        main_scenario = self._derive_main_scenario(description, processing)
+        description = self._strip_ui_jargon(description)
+        processing = self._strip_ui_jargon(processing)
+        input_data = self._strip_ui_jargon(input_data)
+        output_data = self._strip_ui_jargon(output_data)
+
+        actor = self._normalize_actor_role(self._identify_actor(description, processing))
+        use_case_name = self._derive_use_case_name(description, processing, index)
+        main_scenario = self._derive_main_scenario(
+            description, input_data, processing, output_data, actor
+        )
+        pre = self._derive_preconditions(input_data, actor, description, fr_id)
+        post = self._derive_postconditions(output_data, description)
+        extensions = self._derive_extensions(
+            input_data, processing, output_data, description, priority, actor
+        )
+        stakeholders = self._derive_stakeholders(actor, use_case_name, description)
+        special = self._derive_special_requirements(srs_sections)
+        frequency = self._derive_frequency(description, priority)
+        assumptions = self._derive_assumptions(actor, description)
 
         return {
             "use_case_name": use_case_name,
             "primary_actor": actor,
-            "stakeholders_and_interests": f"{actor}: wants the system to complete '{use_case_name}' correctly and quickly.",
-            "preconditions": input_data or f"{actor} is authenticated and required system components are available.",
-            "postconditions": output_data or "System stores results and confirms successful completion.",
+            "stakeholders_and_interests": stakeholders,
+            "preconditions": pre,
+            "postconditions": post,
             "main_success_scenario": main_scenario,
-            "extensions": "If validation fails, the system displays a clear error and asks for correction.",
-            "special_requirements": "Response must meet defined performance and security constraints.",
-            "frequency_of_occurrence": "Multiple times per day during normal system usage.",
-            "assumptions": "Users have valid access rights and network connectivity is available.",
+            "extensions": extensions,
+            "special_requirements": special,
+            "frequency_of_occurrence": frequency,
+            "assumptions": assumptions,
         }
 
-    def _identify_actor(self, description: str) -> str:
-        lowered = description.lower()
+    @staticmethod
+    def _strip_ui_jargon(text: str) -> str:
+        if not text:
+            return text
+        t = TextualUseCaseGenerator._UI_TERMS.sub("interface", text)
+        return " ".join(t.split())
+
+    def _annotate_shared_validation(self, use_cases: List[Dict[str, str]]) -> List[Dict[str, str]]:
+        """Note conceptual <<include>> where validation logic is clearly repeated (UML relationship hint)."""
+        if len(use_cases) < 2:
+            return use_cases
+        needles = []
+        for uc in use_cases:
+            m = re.search(r"2\.\s*([^.]+)", uc.get("main_success_scenario", ""))
+            if m:
+                needles.append(m.group(1).strip().lower()[:80])
+        from collections import Counter
+
+        c = Counter(needles)
+        common = {k for k, v in c.items() if v >= 2 and len(k) > 25}
+        if not common:
+            return use_cases
+        hint = (
+            " UML note: Where the same mandatory sub-behaviour appears in multiple use cases, "
+            "model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope)."
+        )
+        for uc in use_cases:
+            step2 = ""
+            m = re.search(r"2\.\s*([^.]+)", uc.get("main_success_scenario", ""))
+            if m:
+                step2 = m.group(1).strip().lower()[:80]
+            if step2 in common and hint.strip() not in uc["extensions"]:
+                uc["extensions"] = uc["extensions"].rstrip() + hint
+        return use_cases
+
+    def _disambiguate_names(self, use_cases: List[Dict[str, str]]) -> List[Dict[str, str]]:
+        seen: Dict[str, int] = {}
+        for uc in use_cases:
+            name = uc["use_case_name"]
+            n = seen.get(name, 0) + 1
+            seen[name] = n
+            if n > 1:
+                uc["use_case_name"] = f"{name} ({n})"
+        return use_cases
+
+    def _normalize_actor_role(self, actor: str) -> str:
+        a = actor.strip()
+        if a.lower() in ("admin", "administrator"):
+            return "Administrator"
+        if a.lower() in ("user", "end user", "end-user"):
+            return "User"
+        if a.lower() == "system":
+            return "System"
+        return a[0].upper() + a[1:] if a else "User"
+
+    def _identify_actor(self, description: str, processing: str) -> str:
+        text = f"{description} {processing}".lower()
         for actor in self.KNOWN_ACTORS:
-            if re.search(rf"\b{re.escape(actor.lower())}\b", lowered):
+            if re.search(rf"\b{re.escape(actor.lower())}\b", text):
                 return actor
-        if "payment" in lowered or "transaction" in lowered:
+        if "payment" in text or "purchase" in text or "order" in text or "checkout" in text:
             return "Customer"
-        if "manage" in lowered or "configure" in lowered:
-            return "Admin"
+        if "manage" in text or "configure" in text or "moderate" in text:
+            return "Administrator"
+        if "register" in text or "sign up" in text or "browse" in text:
+            return "User"
         return "User"
 
-    def _derive_use_case_name(self, description: str, index: int) -> str:
-        first_sentence = description.split(".")[0].strip()
-        if not first_sentence:
-            return f"Use Case {index}"
-        if len(first_sentence) > 90:
-            first_sentence = first_sentence[:90].rstrip() + "..."
-        return first_sentence[0].upper() + first_sentence[1:]
+    def _derive_use_case_name(self, description: str, processing: str, index: int) -> str:
+        raw = self._FR_PREFIX.sub("", description.strip())
+        raw = self._SHALL.sub("", raw).strip()
+        first = raw.split(".")[0].strip()
+        if not first:
+            return f"Complete Requirement {index}"
 
-    def _derive_main_scenario(self, description: str, processing: str) -> str:
+        candidate = first
+        if not self._VERB_START.match(candidate):
+            proc = self._FR_PREFIX.sub("", processing.strip())
+            proc_first = proc.split(".")[0].strip() if proc else ""
+            if proc_first and self._VERB_START.match(proc_first):
+                candidate = proc_first
+            elif proc_first:
+                candidate = proc_first
+        candidate = self._compact_phrase(candidate)
+        if len(candidate) > 88:
+            candidate = candidate[:85].rstrip() + "..."
+        candidate = self._title_case_heading(candidate)
+        return candidate if candidate else f"Use Case {index}"
+
+    @staticmethod
+    def _title_case_heading(s: str) -> str:
+        if not s:
+            return s
+        parts = []
+        small = {"a", "an", "the", "of", "and", "or", "in", "on", "to", "for", "vs", "via"}
+        words = s.split()
+        for i, w in enumerate(words):
+            lw = w.lower()
+            if i > 0 and lw in small:
+                parts.append(lw)
+            else:
+                parts.append(w[:1].upper() + w[1:].lower() if len(w) > 1 else w.upper())
+        return " ".join(parts)
+
+    @staticmethod
+    def _compact_phrase(s: str) -> str:
+        s = " ".join(s.split())
+        return s.strip(" -–—:")
+
+    def _derive_main_scenario(
+        self,
+        description: str,
+        input_data: str,
+        processing: str,
+        output_data: str,
+        actor: str,
+    ) -> str:
+        steps: List[str] = []
+
+        if input_data:
+            steps.append(
+                f"1. {actor} supplies inputs required by the SRS: {self._one_line(input_data)}."
+            )
+        else:
+            steps.append(
+                f"1. {actor} initiates the goal of this use case as stated in the functional requirement."
+            )
+
+        if input_data:
+            steps.append(
+                "2. System evaluates inputs against the rules implied by the SRS for this requirement."
+            )
+        else:
+            steps.append(
+                "2. System accepts the initiation and applies applicable consistency checks for this requirement."
+            )
+
         core = processing or description
-        core = " ".join(core.split())
+        core = self._one_line(self._FR_PREFIX.sub("", core))
+        if core:
+            cl = core.strip()
+            if cl.lower().startswith("system "):
+                steps.append(f"3. {cl[0].upper() + cl[1:] if cl else cl}")
+            else:
+                steps.append(f"3. System {self._lower_first_if_needed(cl)}")
+        else:
+            steps.append("3. System carries out the behaviour described in the functional requirement.")
+
+        if output_data:
+            steps.append(
+                f"4. System produces the SRS-defined outcome: {self._one_line(output_data)}."
+            )
+        else:
+            steps.append(
+                "4. System reaches a stable outcome: the requirement’s post-condition holds and "
+                f"{actor} receives confirmation where the SRS requires it."
+            )
+
+        return "\n".join(steps)
+
+    @staticmethod
+    def _lower_first_if_needed(sentence: str) -> str:
+        s = sentence.strip()
+        if not s:
+            return s
+        if s[0].isupper() and len(s) > 1 and s[1:2].islower():
+            return s[0].lower() + s[1:]
+        return s
+
+    @staticmethod
+    def _one_line(text: str, max_len: int = 320) -> str:
+        t = " ".join(text.split()).strip()
+        if len(t) > max_len:
+            return t[: max_len - 1].rstrip() + "…"
+        return t
+
+    def _derive_preconditions(self, input_data: str, actor: str, description: str, fr_id: str) -> str:
+        parts: List[str] = []
+        if fr_id:
+            parts.append(f"SRS traceability: functional requirement {fr_id} is in scope.")
+        low = description.lower()
+        if "authenticated" in low or "logged in" in low or "login" in low:
+            parts.append(f"{actor} holds a valid session for this capability.")
+        elif actor not in ("System",):
+            parts.append(f"{actor} is permitted to invoke this capability under the SRS.")
+        if input_data:
+            parts.append(f"Inputs needed for the main flow are available: {self._one_line(input_data, 220)}.")
+        if not parts:
+            parts.append("Preconditions stated in the SRS for this requirement are satisfied.")
+        return " ".join(parts)
+
+    def _derive_postconditions(self, output_data: str, description: str) -> str:
+        if output_data:
+            return (
+                "Measurable system state: outputs match the SRS specification "
+                f"({self._one_line(output_data, 240)}); persistent data and session state remain consistent with that outcome."
+            )
         return (
-            f"1. Actor initiates '{core}'. "
-            "2. System validates request details. "
-            "3. System executes the requested operation. "
-            "4. System returns confirmation to the actor."
+            "Measurable system state: the operation completes without inconsistent partial effects; "
+            "stored data and session attributes align with the SRS outcome for this requirement."
         )
 
+    def _derive_extensions(
+        self,
+        input_data: str,
+        processing: str,
+        output_data: str,
+        description: str,
+        priority: str,
+        actor: str,
+    ) -> str:
+        alt: List[str] = []
+        exc: List[str] = []
+
+        low = description.lower()
+        if "optional" in low or " may " in low:
+            alt.append(
+                "Where the SRS allows an optional branch, the system follows that branch and still reaches a valid end state."
+            )
+        if input_data:
+            exc.append(
+                f"Invalid or incomplete inputs: system rejects with a clear reason; {actor} may correct data and resume at step 1."
+            )
+        if "payment" in low or "pay" in low or "transaction" in low:
+            exc.append(
+                "Payment or authorization refusal: transaction does not commit; system records the failure state per SRS."
+            )
+        if processing:
+            exc.append(
+                "Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required."
+            )
+        pl = priority.lower()
+        if pl in ("high", "critical"):
+            exc.append(
+                "Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state."
+            )
+        if not alt:
+            alt.append("None beyond the exception flows below when the SRS defines no optional branches.")
+        if not exc:
+            exc.append(
+                f"Validation failure: system rejects with a recoverable error; {actor} may correct inputs and resume at step 2."
+            )
+            exc.append(
+                "Operation cannot complete: system aborts without partial effect where feasible and informs the actor."
+            )
+
+        return (
+            "Alternate flows — " + " ".join(alt) + " "
+            "Exception flows — " + " ".join(exc)
+        )
+
+    def _derive_stakeholders(self, actor: str, use_case_name: str, description: str) -> str:
+        low = description.lower()
+        secondary = "None stated in the SRS excerpt."
+        if re.search(r"\b(pay|payment|checkout|purchase|order)\b", low) or any(
+            x in low for x in ("gateway", "processor", "bank", "card")
+        ):
+            secondary = "External payment authority (boundary system) when settlement is out of scope for the subject system."
+        elif any(x in low for x in ("email", "sms", "notification", "third-party")):
+            secondary = "External notification or integration endpoint when the SRS delegates delivery outside the subject system."
+
+        return (
+            f"Primary actor ({actor}): achieve “{use_case_name}” successfully and traceably to the SRS. "
+            f"Product owner / sponsor: acceptance against the originating requirement. "
+            f"Supporting actors (if any): {secondary}"
+        )
+
+    def _derive_special_requirements(self, srs_sections: Dict[str, Any]) -> str:
+        spec = srs_sections.get("specific_requirements") or {}
+        attrs = spec.get("software_system_attributes") or {}
+        if not isinstance(attrs, dict):
+            return (
+                "Quality attributes for this capability are those recorded under the SRS specific requirements "
+                "(performance, security, usability, reliability) — no additional behaviour."
+            )
+        bits: List[str] = []
+        for key in ("security", "performance", "usability", "reliability"):
+            val = attrs.get(key)
+            if isinstance(val, str) and val.strip():
+                bits.append(f"{key.title()}: constrained by SRS statements.")
+        if bits:
+            return " ".join(bits) + " Further NFRs apply only as documented in the SRS."
+        return (
+            "Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail."
+        )
+
+    def _derive_frequency(self, description: str, priority: str) -> str:
+        low = description.lower()
+        if any(w in low for w in ("report", "admin", "audit", "export")):
+            return "On demand or on a schedule implied by the SRS (typically low to moderate frequency)."
+        if priority.lower() in ("high", "critical"):
+            return "High frequency during active use; response remains within SRS timing expectations."
+        return "According to normal operational load implied by the SRS."
+
+    def _derive_assumptions(self, actor: str, description: str) -> str:
+        low = description.lower()
+        parts = [
+            "The SRS is the sole authority on scope; this use case adds no latent requirements.",
+            f"{actor} behaviour is limited to what the SRS assigns to this actor.",
+        ]
+        if "network" in low or "online" in low:
+            parts.append("Connectivity matches the deployment context assumed in the SRS.")
+        return " ".join(parts)

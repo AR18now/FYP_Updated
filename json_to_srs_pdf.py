@@ -176,6 +176,7 @@ def render_html(srs: SRSDocument) -> str:
     .fr-table {{ width: 100%; border-collapse: collapse; font-size: 10.2pt; margin: 4px 0 12px; }}
     .fr-table th, .fr-table td {{ border: 1px solid #cbd5e1; padding: 6px 7px; text-align: left; vertical-align: top; }}
     .fr-table th {{ background: #f8fafc; font-weight: 700; }}
+    h3.fr-section-start {{ page-break-before: always; }}
   </style>
   </head>
 <body>
@@ -248,7 +249,7 @@ def render_html(srs: SRSDocument) -> str:
   <h4>3.1.4 Communication Interfaces</h4>
   <ul>{''.join(f'<li>{escape(i)}</li>' for i in _to_list(ext.get('communication_interfaces')))}</ul>
 
-  <h3>3.2 Functional Requirements</h3>
+  <h3 class="fr-section-start">3.2 Functional Requirements</h3>
   <table class="fr-table">
     <thead>
       <tr>

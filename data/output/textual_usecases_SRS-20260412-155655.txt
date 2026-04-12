@@ -1,0 +1,223 @@
+Use Case Name: Display List of Available Products With Images, Descriptions, Prices, and Ratings
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Display List of Available Products With Images, Descriptions, Prices, and Ratings” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-01 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: None.
+Postconditions: Measurable system state: outputs match the SRS specification (List of products with details); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: None.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System display list of available products with images, descriptions, prices, and ratings
+4. System produces the SRS-defined outcome: List of products with details.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Filter and Display Relevant Products Based on Inputs
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Filter and Display Relevant Products Based on Inputs” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-02 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Keywords, filters (category, price range, rating).
+Postconditions: Measurable system state: outputs match the SRS specification (Subset of products matching criteria); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: Keywords, filters (category, price range, rating).
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System filter and display relevant products based on inputs
+4. System produces the SRS-defined outcome: Subset of products matching criteria.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Update Shopping Cart Database With New Entry
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Update Shopping Cart Database With New Entry” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-03 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Selected product ID, quantity.
+Postconditions: Measurable system state: outputs match the SRS specification (Confirmation message and updated cart summary); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: Selected product ID, quantity.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System update shopping cart database with new entry
+4. System produces the SRS-defined outcome: Confirmation message and updated cart summary.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Calculate Total Cost, Apply Discount/coupon If Applicable, Generate Order Confirmation
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Calculate Total Cost, Apply Discount/coupon If Applicable, Generate Order Confirmation” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-04 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Shopping cart contents.
+Postconditions: Measurable system state: outputs match the SRS specification (Order summary interface with payment form); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Shopping cart contents.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System calculate total cost, apply discount/coupon if applicable, generate order confirmation
+4. System produces the SRS-defined outcome: Order summary interface with payment form.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Input: Credit Card Number, Expiration Date, Cvv, Billing Address Processing: Encrypt...
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Input: Credit Card Number, Expiration Date, Cvv, Billing Address Processing: Encrypt...” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): External payment authority (boundary system) when settlement is out of scope for the subject system.
+Preconditions: SRS traceability: functional requirement FR-05 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Credit card number, expiration date, CVV, billing address.
+Postconditions: Measurable system state: outputs match the SRS specification (Receipt sent to customer's email); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Credit card number, expiration date, CVV, billing address.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System input: Credit card number, expiration date, CVV, billing address Processing: Encrypt sensitive information, validate card, authorize transaction
+4. System produces the SRS-defined outcome: Receipt sent to customer's email.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Payment or authorization refusal: transaction does not commit; system records the failure state per SRS. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Validate Inputs, Update Database Accordingly
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Validate Inputs, Update Database Accordingly” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-06 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: New product details, existing product ID, changes.
+Postconditions: Measurable system state: outputs match the SRS specification (Success/failure message); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: New product details, existing product ID, changes.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System validate inputs, update database accordingly
+4. System produces the SRS-defined outcome: Success/failure message.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Adjust Inventory Records
+Primary Actor: Administrator
+Stakeholders and Interests: Primary actor (Administrator): achieve “Adjust Inventory Records” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-07 is in scope. Administrator is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Product ID, stock level change.
+Postconditions: Measurable system state: outputs match the SRS specification (Updated inventory status); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Administrator supplies inputs required by the SRS: Product ID, stock level change.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System adjust inventory records
+4. System produces the SRS-defined outcome: Updated inventory status.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Administrator may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Administrator behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Retrieve and Display Order Details
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Retrieve and Display Order Details” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): External payment authority (boundary system) when settlement is out of scope for the subject system.
+Preconditions: SRS traceability: functional requirement FR-08 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Order ID.
+Postconditions: Measurable system state: outputs match the SRS specification (Order summary with status); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Order ID.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System retrieve and display order details
+4. System produces the SRS-defined outcome: Order summary with status.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Display List of Available Products With Images, Descriptions, Prices, and Ratings (2)
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Display List of Available Products With Images, Descriptions, Prices, and Ratings” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-01 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: None.
+Postconditions: Measurable system state: outputs match the SRS specification (List of products with details); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: None.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System display list of available products with images, descriptions, prices, and ratings
+4. System produces the SRS-defined outcome: List of products with details.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Filter and Display Relevant Products Based on Inputs (2)
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Filter and Display Relevant Products Based on Inputs” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-02 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Keywords, filters (category, price range, rating).
+Postconditions: Measurable system state: outputs match the SRS specification (Subset of products matching criteria); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: Keywords, filters (category, price range, rating).
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System filter and display relevant products based on inputs
+4. System produces the SRS-defined outcome: Subset of products matching criteria.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Update Shopping Cart Database With New Entry (2)
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Update Shopping Cart Database With New Entry” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-03 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Selected product ID, quantity.
+Postconditions: Measurable system state: outputs match the SRS specification (Confirmation message and updated cart summary); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: Selected product ID, quantity.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System update shopping cart database with new entry
+4. System produces the SRS-defined outcome: Confirmation message and updated cart summary.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Calculate Total Cost, Apply Discount/coupon If Applicable, Generate Order Confirmation (2)
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Calculate Total Cost, Apply Discount/coupon If Applicable, Generate Order Confirmation” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-04 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Shopping cart contents.
+Postconditions: Measurable system state: outputs match the SRS specification (Order summary interface with payment form); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Shopping cart contents.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System calculate total cost, apply discount/coupon if applicable, generate order confirmation
+4. System produces the SRS-defined outcome: Order summary interface with payment form.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Input: Credit Card Number, Expiration Date, Cvv, Billing Address Processing: Encrypt... (2)
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Input: Credit Card Number, Expiration Date, Cvv, Billing Address Processing: Encrypt...” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): External payment authority (boundary system) when settlement is out of scope for the subject system.
+Preconditions: SRS traceability: functional requirement FR-05 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Credit card number, expiration date, CVV, billing address.
+Postconditions: Measurable system state: outputs match the SRS specification (Receipt sent to customer's email); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Credit card number, expiration date, CVV, billing address.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System input: Credit card number, expiration date, CVV, billing address Processing: Encrypt sensitive information, validate card, authorize transaction
+4. System produces the SRS-defined outcome: Receipt sent to customer's email.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Payment or authorization refusal: transaction does not commit; system records the failure state per SRS. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Validate Inputs, Update Database Accordingly (2)
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Validate Inputs, Update Database Accordingly” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-06 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: New product details, existing product ID, changes.
+Postconditions: Measurable system state: outputs match the SRS specification (Success/failure message); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User supplies inputs required by the SRS: New product details, existing product ID, changes.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System validate inputs, update database accordingly
+4. System produces the SRS-defined outcome: Success/failure message.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within SRS timing expectations.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Adjust Inventory Records (2)
+Primary Actor: Administrator
+Stakeholders and Interests: Primary actor (Administrator): achieve “Adjust Inventory Records” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: SRS traceability: functional requirement FR-07 is in scope. Administrator is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Product ID, stock level change.
+Postconditions: Measurable system state: outputs match the SRS specification (Updated inventory status); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Administrator supplies inputs required by the SRS: Product ID, stock level change.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System adjust inventory records
+4. System produces the SRS-defined outcome: Updated inventory status.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Administrator may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Administrator behaviour is limited to what the SRS assigns to this actor.
+
+Use Case Name: Retrieve and Display Order Details (2)
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Retrieve and Display Order Details” successfully and traceably to the SRS. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): External payment authority (boundary system) when settlement is out of scope for the subject system.
+Preconditions: SRS traceability: functional requirement FR-08 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Order ID.
+Postconditions: Measurable system state: outputs match the SRS specification (Order summary with status); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer supplies inputs required by the SRS: Order ID.
+2. System evaluates inputs against the rules implied by the SRS for this requirement.
+3. System retrieve and display order details
+4. System produces the SRS-defined outcome: Order summary with status.
+Extensions: Alternate flows — None beyond the exception flows below when the SRS defines no optional branches. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load implied by the SRS.
+Assumptions: The SRS is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to what the SRS assigns to this actor.

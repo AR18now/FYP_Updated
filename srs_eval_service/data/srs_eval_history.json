@@ -1,0 +1,142 @@
+[
+  {
+    "run_id": "8af5cee3-e606-461f-b8c0-21365079f5eb",
+    "prompt": "Patients should be able to find doctors by specialty, book appointments, and get reminders. Doctors need to block unavailable slots, view daily schedules, and mark completed visits. The system must handle walk-ins, rescheduling, cancellations, and avoid double booking. Basic patient history should be visible during booking. The platform should send SMS/email reminders and maintain a minimal audit of booking changes for staff.",
+    "timing_seconds": 20.456,
+    "metrics": [
+      {
+        "key": "instruction_adherence",
+        "name": "Instruction Adherence",
+        "score": 1.0,
+        "score_label": "100% of required sections",
+        "what_this_means": "This checks whether your SRS looks like a complete document: the main chapters most teams expect (introduction, big-picture description, functional needs, and quality-type needs).",
+        "how_calculated": "We scan the text for section titles and common labels (like FR- / NFR-). Your score is the share of those four blocks that we could find.",
+        "highlights": {
+          "warnings": [],
+          "examples": [
+            {
+              "type": "found",
+              "text": "Detected: Introduction, Overall Description, Functional Requirements, Non-Functional Requirements"
+            }
+          ]
+        },
+        "raw": {
+          "found_sections": [
+            "Introduction",
+            "Overall Description",
+            "Functional Requirements",
+            "Non-Functional Requirements"
+          ],
+          "missing_sections": []
+        }
+      },
+      {
+        "key": "hallucination",
+        "name": "Hallucination rate",
+        "score": 0.0,
+        "score_secondary": 1.0,
+        "score_label": "100% of lines flagged (lower is better)",
+        "what_this_means": "This estimates how many statements in the SRS drift away from what you actually asked for. A higher hallucination rate means more lines look unrelated to your input.",
+        "how_calculated": "We take lines that look like requirements, compare each one to your original description using meaning-based similarity, and count those that fall below a safety threshold as potentially unsupported.",
+        "highlights": {
+          "warnings": [
+            "10 requirement-like line(s) look weakly grounded in your prompt."
+          ],
+          "examples": [
+            {
+              "type": "flagged_line",
+              "text": "Constraints: The system must operate within existing network infrastructure without requiring significant additional resources beyond what is already allocated for hospital IT operations."
+            },
+            {
+              "type": "flagged_line",
+              "text": "Usability: The system shall be user-friendly and accessible across different devices."
+            },
+            {
+              "type": "flagged_line",
+              "text": "Reliability: The system must function consistently under normal operating conditions."
+            },
+            {
+              "type": "flagged_line",
+              "text": "Performance: Response times shall not exceed 5 seconds for critical functions such as searching for doctors and booking appointments."
+            },
+            {
+              "type": "flagged_line",
+              "text": "Portability: The application shall run on various platforms including Windows, macOS, iOS, and Android."
+            }
+          ]
+        },
+        "raw": {
+          "hallucination_rate": 1.0,
+          "lines_checked": 10,
+          "threshold": 0.42,
+          "avg_line_similarity": 0.27188254445791243
+        }
+      },
+      {
+        "key": "context_understanding",
+        "name": "Context understanding",
+        "score": 0.7309,
+        "score_label": "Relevance ≈ 73%",
+        "what_this_means": "This tells you how closely the generated document stays tied to the idea you typed in. Higher means the SRS content lines up with your description.",
+        "how_calculated": "We compare a single embedding of your prompt with an embedding of the whole SRS text and turn that match into a percentage-style score.",
+        "highlights": {
+          "warnings": [],
+          "examples": []
+        },
+        "raw": {
+          "cosine_similarity": 0.7309253811836243
+        }
+      },
+      {
+        "key": "coherence",
+        "name": "Coherence & logical flow",
+        "score": 1.0,
+        "score_label": "Structure score 1.00 / 1.0",
+        "what_this_means": "This is about readability and sensible structure: headings in a logical order, clear requirement IDs, and text that is not randomly chopped.",
+        "how_calculated": "We reward finding the usual major sections in order, count structured requirement tags (FR/NFR), and lightly check whether paragraph sizes look reasonable.",
+        "highlights": {
+          "warnings": [],
+          "examples": [
+            {
+              "type": "stats",
+              "text": "Found ~20 FR-style and ~0 NFR-style labels."
+            }
+          ]
+        },
+        "raw": {
+          "order_score": 1.0,
+          "structure_score": 1.0,
+          "flow_score": 1.0
+        }
+      },
+      {
+        "key": "consistency",
+        "name": "Consistency across outputs",
+        "score": null,
+        "score_label": "N/A for this check",
+        "what_this_means": "This would compare several SRS versions generated from the same input. Here you only have the current document.",
+        "how_calculated": "Not run: would require multiple full generations. Your score for other metrics still reflects this SRS.",
+        "highlights": {
+          "warnings": [],
+          "examples": []
+        },
+        "skipped": true
+      },
+      {
+        "key": "robustness",
+        "name": "Robustness",
+        "score": null,
+        "score_label": "N/A for this check",
+        "what_this_means": "This would compare SRS outputs after slightly rephrasing the prompt. That needs extra model runs beyond this document.",
+        "how_calculated": "Not run: needs two or more generations with perturbed prompts.",
+        "highlights": {
+          "warnings": [],
+          "examples": []
+        },
+        "skipped": true
+      }
+    ],
+    "mode": "existing_srs",
+    "srs_preview": "INTRODUCTION\nPurpose: To provide a healthcare scheduling system that facilitates efficient appointment management between patients and doctors at hospitals.\nScope: This document outlines the requirements for a hospital appointment scheduling system focusing on functionalities related to patient-doctor interaction, appointment booking, and reminder systems.\nDefinitions/Acronyms:\n- DOCTOR: Medical practitioner providing medical care.\n- PATIENT: Individual seeking medical services.\n- SYSTEM: Hospit"
+  }
+]

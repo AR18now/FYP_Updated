@@ -12,6 +12,7 @@ import {
   formatPct01,
   flagTypeLabel,
 } from '../utils/srsQualityCopy';
+import SrsAiEvaluationMetrics from './SrsAiEvaluationMetrics';
 
 const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, onUseCaseDataChange }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
@@ -708,6 +709,9 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
           )}
           </div>
         </div>
+
+        <SrsAiEvaluationMetrics srsData={srsData} currentResults={currentResults} />
+
         {showValidation && hasQualityChecks && (
           <div className="mb-6 space-y-4">
             {srsData.verification_report?.conflict_analysis?.conflicts?.length > 0 && (

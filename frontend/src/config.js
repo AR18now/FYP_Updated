@@ -8,6 +8,9 @@
 // API Base URL - can be overridden by REACT_APP_API_URL environment variable
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+/** SRS AI evaluation microservice (FastAPI) — `srs_eval_service` */
+const SRS_EVAL_BASE_URL = process.env.REACT_APP_SRS_EVAL_URL || 'http://localhost:8010';
+
 // API endpoints
 const API_ENDPOINTS = {
   HEALTH: `${API_BASE_URL}/api/health`,
@@ -36,10 +39,15 @@ const API_ENDPOINTS = {
   EXPERT_REVIEW_SUBMIT: `${API_BASE_URL}/api/expert-review/submit`,
   EXPERT_REVIEW_REQUESTS: `${API_BASE_URL}/api/expert-review/requests`,
   expertReviewRequest: (id) => `${API_BASE_URL}/api/expert-review/requests/${encodeURIComponent(id)}`,
+  /** POST { prompt, srs_text } — metrics on SRS already generated in the app */
+  SRS_EVAL_EXISTING: `${SRS_EVAL_BASE_URL}/api/evaluate-existing`,
+  SRS_EVAL_HISTORY: `${SRS_EVAL_BASE_URL}/api/history`,
+  SRS_EVAL_HEALTH: `${SRS_EVAL_BASE_URL}/health`,
 };
 
 export default {
   API_BASE_URL,
+  SRS_EVAL_BASE_URL,
   API_ENDPOINTS,
 };
 

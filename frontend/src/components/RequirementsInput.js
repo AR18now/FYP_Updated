@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, Mic, X, CheckCircle, AlertCircle, AlertTriangle, Square, Sparkles, Info, Loader2, Wand2 } from 'lucide-react';
+import { Upload, FileText, Mic, X, CheckCircle, AlertCircle, AlertTriangle, Square, Sparkles, Info, Loader2, Wand2, ChevronDown, PanelLeft } from 'lucide-react';
 import axios from 'axios';
 import { saveInput, saveSRS } from '../utils/storage';
 import config from '../config';
@@ -2000,14 +2000,31 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               </button>
             )}
             {lastSRSAvailable && !isGeneratingDirectSRS && (
-              <button
-                type="button"
-                onClick={() => navigate('/srs')}
-                className="mt-4 inline-flex items-center justify-center px-6 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all duration-200 shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-              >
-                <FileText className="h-5 w-5 mr-2" aria-hidden="true" />
-                View SRS
-              </button>
+              <details className="mt-4 max-w-sm mx-auto text-left [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl cursor-pointer list-none font-medium border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/90 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                  <FileText className="h-4 w-4 shrink-0 text-r2d-primary" aria-hidden="true" />
+                  SRS quick links
+                  <ChevronDown className="h-4 w-4 shrink-0 opacity-70" aria-hidden="true" />
+                </summary>
+                <div className="mt-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 shadow-lg py-1 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/srs')}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  >
+                    <FileText className="h-4 w-4 text-r2d-primary shrink-0" aria-hidden="true" />
+                    View SRS document
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/results')}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 border-t border-slate-100 dark:border-slate-700"
+                  >
+                    <PanelLeft className="h-4 w-4 text-r2d-accent shrink-0" aria-hidden="true" />
+                    Open processing results
+                  </button>
+                </div>
+              </details>
             )}
           </div>
 

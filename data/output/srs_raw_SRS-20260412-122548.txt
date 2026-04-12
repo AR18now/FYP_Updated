@@ -1,0 +1,184 @@
+INTRODUCTION
+Purpose: To provide a healthcare scheduling system that facilitates efficient appointment management between patients and doctors at hospitals.
+Scope: This document outlines the requirements for a hospital appointment scheduling system focusing on functionalities related to patient-doctor interaction, appointment booking, and reminder systems.
+Definitions/Acronyms:
+- DOCTOR: Medical practitioner providing medical care.
+- PATIENT: Individual seeking medical services.
+- SYSTEM: Hospital Appointment Management Software.
+References: IEEE Standard for Software Requirement Specifications (IEEE 830-1998), ISO/IEC 25010:2011(E) Software Engineering
+- Product Quality Model.
+Overview: The system aims to streamline the process of scheduling and managing appointments within a hospital setting, ensuring timely access to healthcare while maintaining operational efficiency.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is designed for hospitals where both patients and doctors require a seamless interface for appointment management.
+Product Functions: The system will enable patients to search for available doctors based on specialties, schedule appointments, receive reminders via SMS or email, and manage their basic health records. Doctors can block off time not available for consultations, review upcoming and past appointments, and update visit statuses. Additionally, the system will automatically handle walk-in scenarios, reschedule appointments, cancel bookings, and prevent double booking.
+User Characteristics: Users range from patients who may have varying levels of technical proficiency but generally seek ease-of-use, to doctors who expect robust functionality and accurate record keeping.
+Constraints: The system must operate within existing network infrastructure without requiring significant additional resources beyond what is already allocated for hospital IT operations.
+Assumptions/Dependencies: The system relies on existing internet connectivity, standard mobile devices, and a pre-existing database containing doctor profiles and patient information.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+- User Interface: Intuitive design allowing easy navigation; includes fields for entering personal details, selecting preferred timeslots, viewing appointment summaries, and accessing historical records.
+- Hardware Interface: Compatible with standard desktop computers and tablets used in hospital settings.
+- Software Interface: Integrates seamlessly with existing hospital databases and third-party communication tools.
+- Communication Interface: Supports sending SMS and emails to notify patients about scheduled appointments and updates.
+
+Functional Requirements
+- FR-01: Patient Search Doctor By Specialty
+Input: Specialization name.
+Processing: Query database to retrieve list of available doctors matching the specialization.
+Output: List of doctors along with their contact information and availability status.
+Priority: High
+- FR-02: Book Appointments
+Input: Selected doctor's ID, date, time slot.
+Processing: Validate selected time slot against doctor’s calendar, check for conflicts, and reserve the slot if valid.
+Output: Confirmation message indicating successful reservation or error message detailing why the request was denied.
+Priority: High
+- FR-03: Get Reminders
+Input: Appointment details including date and time.
+Processing: Schedule automated notifications through integrated messaging service.
+Output: SMS or email sent to patient confirming appointment details.
+Priority: Medium
+- FR-04: Block Unavailable Slots
+Input: Doctor ID, start and end dates/times.
+Processing: Update doctor’s calendar to indicate periods when they are unavailable.
+Output: Updated calendar reflecting blocked-off times.
+Priority: Low
+- FR-05: View Daily Schedule
+Input: Doctor ID.
+Processing: Retrieve and display all booked appointments for the specified day.
+Output: Calendar-like view showing all scheduled meetings.
+Priority: Low
+- FR-06: Mark Completed Visits
+Input: Visit ID.
+Processing: Update appointment status to 'completed'.
+Output: Updated appointment record.
+Priority: Low
+- FR-07: Handle Walk-In Scenarios
+Input: Current date and time.
+Processing: Check for open slots and offer them to walk-in patients.
+Output: Confirmation message or error message regarding availability.
+Priority: Low
+- FR-08: Reschedule Appointments
+Input: Original appointment ID, new date/time.
+Processing: Cancel old entry and create a new one with updated details.
+Output: New confirmation message or error message.
+Priority: Low
+- FR-09: Cancellations
+Input: Appointment ID.
+Processing: Remove entry from calendar and update relevant records.
+Output: Confirmation message or error message.
+Priority: Low
+- FR-10: Avoid Double Booking
+Input: Date and time proposed for booking.
+Processing: Cross-reference against existing reservations to ensure uniqueness.
+Output: Success message or warning indicating potential conflict.
+Priority: High
+Non-functional Requirements
+Usability: The system shall be user-friendly and accessible across different devices.
+Reliability: The system must function consistently under normal operating conditions.
+Performance: Response times shall not exceed 5 seconds for critical functions such as searching for doctors and booking appointments.
+Portability: The application shall run on various platforms including Windows, macOS, iOS, and Android.
+
+SYSTEM FEATURES
+Feature 1: Patient Portal
+- Allows patients to browse doctors by specialty, select preferred timeslots, confirm appointments, and view past visits.
+Feature 2: Doctor Dashboard
+- Provides real-time access to patient schedules, allows marking visits as complete, blocks out unavailability, and handles walk-ins.
+Feature 3: Automated Reminder System
+- Sends SMS or email alerts to remind patients of upcoming appointments.
+Feature 4: Audit Trail
+- Maintains logs of all changes made to appointments, including who made the change and when.
+End of Document.INTRODUCTION
+Purpose: To provide a healthcare scheduling system that facilitates efficient appointment management between patients and doctors at hospitals.
+Scope: This document outlines the requirements for a hospital appointment scheduling system focusing on functionalities related to patient-doctor interaction, appointment booking, and reminder systems.
+Definitions/Acronyms:
+- DOCTOR: Medical practitioner providing medical care.
+- PATIENT: Individual seeking medical services.
+- SYSTEM: Hospital Appointment Management Software.
+References: IEEE Standard for Software Requirement Specifications (IEEE 830-1998), ISO/IEC 25010:2011(E) Software Engineering
+- Product Quality Model.
+Overview: The system aims to streamline the process of scheduling and managing appointments within a hospital setting, ensuring timely access to healthcare while maintaining operational efficiency.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is designed for hospitals where both patients and doctors require a seamless interface for appointment management.
+Product Functions: The system will enable patients to search for available doctors based on specialties, schedule appointments, receive reminders via SMS or email, and manage their basic health records. Doctors can block off time not available for consultations, review upcoming and past appointments, and update visit statuses. Additionally, the system will automatically handle walk-in scenarios, reschedule appointments, cancel bookings, and prevent double booking.
+User Characteristics: Users range from patients who may have varying levels of technical proficiency but generally seek ease-of-use, to doctors who expect robust functionality and accurate record keeping.
+Constraints: The system must operate within existing network infrastructure without requiring significant additional resources beyond what is already allocated for hospital IT operations.
+Assumptions/Dependencies: The system relies on existing internet connectivity, standard mobile devices, and a pre-existing database containing doctor profiles and patient information.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+- User Interface: Intuitive design allowing easy navigation; includes fields for entering personal details, selecting preferred timeslots, viewing appointment summaries, and accessing historical records.
+- Hardware Interface: Compatible with standard desktop computers and tablets used in hospital settings.
+- Software Interface: Integrates seamlessly with existing hospital databases and third-party communication tools.
+- Communication Interface: Supports sending SMS and emails to notify patients about scheduled appointments and updates.
+
+Functional Requirements
+- FR-01: Patient Search Doctor By Specialty
+Input: Specialization name.
+Processing: Query database to retrieve list of available doctors matching the specialization.
+Output: List of doctors along with their contact information and availability status.
+Priority: High
+- FR-02: Book Appointments
+Input: Selected doctor's ID, date, time slot.
+Processing: Validate selected time slot against doctor’s calendar, check for conflicts, and reserve the slot if valid.
+Output: Confirmation message indicating successful reservation or error message detailing why the request was denied.
+Priority: High
+- FR-03: Get Reminders
+Input: Appointment details including date and time.
+Processing: Schedule automated notifications through integrated messaging service.
+Output: SMS or email sent to patient confirming appointment details.
+Priority: Medium
+- FR-04: Block Unavailable Slots
+Input: Doctor ID, start and end dates/times.
+Processing: Update doctor’s calendar to indicate periods when they are unavailable.
+Output: Updated calendar reflecting blocked-off times.
+Priority: Low
+- FR-05: View Daily Schedule
+Input: Doctor ID.
+Processing: Retrieve and display all booked appointments for the specified day.
+Output: Calendar-like view showing all scheduled meetings.
+Priority: Low
+- FR-06: Mark Completed Visits
+Input: Visit ID.
+Processing: Update appointment status to 'completed'.
+Output: Updated appointment record.
+Priority: Low
+- FR-07: Handle Walk-In Scenarios
+Input: Current date and time.
+Processing: Check for open slots and offer them to walk-in patients.
+Output: Confirmation message or error message regarding availability.
+Priority: Low
+- FR-08: Reschedule Appointments
+Input: Original appointment ID, new date/time.
+Processing: Cancel old entry and create a new one with updated details.
+Output: New confirmation message or error message.
+Priority: Low
+- FR-09: Cancellations
+Input: Appointment ID.
+Processing: Remove entry from calendar and update relevant records.
+Output: Confirmation message or error message.
+Priority: Low
+- FR-10: Avoid Double Booking
+Input: Date and time proposed for booking.
+Processing: Cross-reference against existing reservations to ensure uniqueness.
+Output: Success message or warning indicating potential conflict.
+Priority: High
+
+Non-functional Requirements
+Usability: The system shall be user-friendly and accessible across different devices.
+Reliability: The system must function consistently under normal operating conditions.
+Performance: Response times shall not exceed 5 seconds for critical functions such as searching for doctors and booking appointments.
+Portability: The application shall run on various platforms including Windows, macOS, iOS, and Android.
+
+SYSTEM FEATURES
+Feature 1: Patient Portal
+- Allows patients to browse doctors by specialty, select preferred timeslots, confirm appointments, and view past visits.
+Feature 2: Doctor Dashboard
+- Provides real-time access to patient schedules, allows marking visits as complete, blocks out unavailability, and handles walk-ins.
+Feature 3: Automated Reminder System
+- Sends SMS or email alerts to remind patients of upcoming appointments.
+Feature 4: Audit Trail
+- Maintains logs of all changes made to appointments, including who made the change and when.
+End of Document.

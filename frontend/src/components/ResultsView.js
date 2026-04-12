@@ -1,5 +1,22 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { FileText, Download, Eye, RefreshCw, ChevronDown, ChevronUp, CheckCircle, AlertTriangle, Sparkles, X, Edit3, Workflow, FileCode, UserCheck, BarChart3 } from 'lucide-react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import {
+  FileText,
+  Download,
+  Eye,
+  RefreshCw,
+  ChevronDown,
+  CheckCircle,
+  AlertTriangle,
+  Sparkles,
+  X,
+  Edit3,
+  Workflow,
+  FileCode,
+  UserCheck,
+  BarChart3,
+  ExternalLink,
+  FileDown,
+} from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { saveSRS } from '../utils/storage';
@@ -8,6 +25,59 @@ import config from '../config';
 import { formatSrsToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
+
+/**
+ * Summarize pipeline steps for the UI (no raw tab dumps).
+ */
+function buildPreprocessingBullets(items) {
+  if (!Array.isArray(items) || items.length === 0) return [];
+
+  const bullets = [];
+  let linguistic = false;
+  let ambTotal = 0;
+  let blocksWithExtracted = 0;
+  let hasSrsDraft = false;
+
+  for (const r of items) {
+    const p = r?.preprocessed;
+    if (
+      p &&
+      ((Array.isArray(p.sentences) && p.sentences.length > 0) ||
+        (Array.isArray(p.tokens) && p.tokens.length > 0) ||
+        (Array.isArray(p.entities) && p.entities.length > 0))
+    ) {
+      linguistic = true;
+    }
+    if (Array.isArray(r?.ambiguities)) ambTotal += r.ambiguities.length;
+    const ef = r?.extracted_fields;
+    if (ef && typeof ef === 'object' && Object.keys(ef).length > 0) blocksWithExtracted += 1;
+    const srs = r?.srs_sections;
+    if (srs && typeof srs === 'object' && Object.keys(srs).length > 0) hasSrsDraft = true;
+  }
+
+  if (linguistic) {
+    bullets.push(
+      'Text normalization and linguistic pre-processing were applied (sentence segmentation, tokenization, and light NLP analysis).'
+    );
+  }
+  if (ambTotal > 0) {
+    bullets.push(
+      `Ambiguity analysis flagged ${ambTotal} potential issue(s) (e.g. vague terms or unclear scope) for your review.`
+    );
+  }
+  if (blocksWithExtracted > 0) {
+    bullets.push(
+      `Structured attributes were extracted from ${blocksWithExtracted} requirement block(s) where the model found usable fields.`
+    );
+  }
+  if (hasSrsDraft) {
+    bullets.push(
+      'Intermediate SRS-oriented structure was built from the extracted content before the final SRS document was generated.'
+    );
+  }
+
+  return bullets;
+}
 
 const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData, onUseCaseDataChange }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
@@ -22,6 +92,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
   const [isGeneratingSRS, setIsGeneratingSRS] = useState(false);
   const [srsGenerated, setSrsGenerated] = useState(false);
   const [srsData, setSrsData] = useState(null);
+  const [srsActionsOpen, setSrsActionsOpen] = useState(false);
+  const srsActionsRef = useRef(null);
 
   useEffect(() => {
     if (srsFromApp === null) {
@@ -34,6 +106,23 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
       setSrsGenerated(true);
     }
   }, [srsFromApp]);
+
+  useEffect(() => {
+    if (!srsActionsOpen) return;
+    const onDoc = (e) => {
+      if (srsActionsRef.current && !srsActionsRef.current.contains(e.target)) setSrsActionsOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setSrsActionsOpen(false);
+    };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDoc);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [srsActionsOpen]);
+
   const [showSRS, setShowSRS] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
   const [isGeneratingUseCases, setIsGeneratingUseCases] = useState(false);
@@ -264,6 +353,17 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
     return Array.isArray(results) ? results : (Array.isArray(results?.results) ? results.results : [results]);
   }, [results]);
 
+  const preprocessingBullets = useMemo(() => buildPreprocessingBullets(items), [items]);
+
+  const hasRenderableRequirementText = useMemo(
+    () =>
+      items.some((r) => {
+        if (r == null || typeof r !== 'object') return false;
+        return String(r.original_text || r.content || r.text || '').trim().length > 0;
+      }),
+    [items]
+  );
+
   if (!results) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16 animate-fade-in" role="status">
@@ -289,101 +389,159 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                 <span>Processing Results</span>
               </h2>
               <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                Review processed requirements. After the pipeline, use View SRS, download, or regenerate below.
+                Review processed requirements. Use <strong className="text-slate-700 dark:text-slate-300">Generate / Regenerate</strong> for the
+                model run, then open <strong className="text-slate-700 dark:text-slate-300">SRS actions</strong> for view, export, edit, and review.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
-            {srsGenerated && srsData && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => navigate('/srs')}
-                  className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-                  aria-label="Open full SRS page"
-                >
-                  <FileText className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">View SRS</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={downloadSRSDocument}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                  aria-label="Download SRS document"
-                >
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">Download SRS</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={downloadSRSWord}
-                  className="bg-r2d-primary hover:bg-r2d-primaryLight text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-                  aria-label="Download SRS as Word"
-                >
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">Download .docx</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowEditor(true)}
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-                  aria-label="Edit SRS document"
-                >
-                  <Edit3 className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">Edit SRS</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowSRS(true)}
-                  className="bg-r2d-primary hover:bg-r2d-primaryLight text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-                  aria-label="Quick preview SRS in a modal"
-                >
-                  <Eye className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">Quick preview</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    navigate('/expert-review', {
-                      state: { preselectDocumentId: srsData.document_id || srsData.id },
-                    })
-                  }
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  aria-label="Send SRS to human expert review"
-                >
-                  <UserCheck className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">Expert review</span>
-                </button>
-                <Link
-                  to="/srs-metrics"
-                  className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md"
-                  aria-label="Open SRS quality metrics"
-                >
-                  <BarChart3 className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">SRS metrics</span>
-                </Link>
-              </>
-            )}
-            <button
-              type="button"
-              onClick={generateSRS}
-              disabled={isGeneratingSRS}
-              className="bg-slate-600 hover:bg-slate-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-              aria-label={srsGenerated ? 'Regenerate SRS document' : 'Generate SRS document'}
-              aria-busy={isGeneratingSRS}
-            >
-              {isGeneratingSRS ? (
-                <>
-                  <RefreshCw className="h-4 w-4 animate-spin" aria-hidden="true" />
-                  <span className="hidden sm:inline">Generating...</span>
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">{srsGenerated ? 'Regenerate SRS' : 'Generate SRS'}</span>
-                </>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 w-full md:w-auto md:justify-end">
+              <button
+                type="button"
+                onClick={generateSRS}
+                disabled={isGeneratingSRS}
+                className="order-1 sm:order-none bg-slate-700 hover:bg-slate-800 disabled:bg-gray-400 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 font-medium"
+                aria-label={srsGenerated ? 'Regenerate SRS document' : 'Generate SRS document'}
+                aria-busy={isGeneratingSRS}
+              >
+                {isGeneratingSRS ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 animate-spin shrink-0" aria-hidden="true" />
+                    <span>Generating…</span>
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>{srsGenerated ? 'Regenerate SRS' : 'Generate SRS'}</span>
+                  </>
+                )}
+              </button>
+
+              {srsGenerated && srsData && (
+                <div className="relative order-2 sm:order-none w-full sm:w-auto" ref={srsActionsRef}>
+                  <button
+                    type="button"
+                    onClick={() => setSrsActionsOpen((o) => !o)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-r2d-primary/40 bg-gradient-to-r from-r2d-primary to-r2d-accent text-white font-medium shadow-md hover:shadow-lg hover:from-r2d-primaryLight hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 transition-all"
+                    aria-expanded={srsActionsOpen}
+                    aria-haspopup="menu"
+                    aria-controls="srs-actions-menu"
+                    id="srs-actions-trigger"
+                  >
+                    <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>SRS actions</span>
+                    <ChevronDown className={`h-4 w-4 shrink-0 transition-transform duration-200 ${srsActionsOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+                  </button>
+
+                  {srsActionsOpen && (
+                    <div
+                      id="srs-actions-menu"
+                      role="menu"
+                      aria-labelledby="srs-actions-trigger"
+                      className="absolute right-0 left-0 sm:left-auto z-50 mt-2 w-full sm:w-72 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 shadow-2xl py-1 overflow-hidden animate-fade-in"
+                    >
+                      <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700">
+                        Document
+                      </div>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          navigate('/srs');
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <FileText className="h-4 w-4 shrink-0 text-r2d-primary" />
+                        View full SRS
+                        <ExternalLink className="h-3.5 w-3.5 ml-auto opacity-40" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          setShowSRS(true);
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <Eye className="h-4 w-4 shrink-0 text-r2d-accent" />
+                        Quick preview
+                      </button>
+
+                      <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-t border-b border-slate-100 dark:border-slate-700 mt-1">
+                        Export
+                      </div>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          downloadSRSDocument();
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <FileDown className="h-4 w-4 shrink-0 text-emerald-600" />
+                        Download PDF
+                      </button>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          downloadSRSWord();
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <Download className="h-4 w-4 shrink-0 text-r2d-primary" />
+                        Download Word (.docx)
+                      </button>
+
+                      <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-t border-b border-slate-100 dark:border-slate-700 mt-1">
+                        Edit
+                      </div>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          setShowEditor(true);
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <Edit3 className="h-4 w-4 shrink-0 text-orange-600" />
+                        Edit SRS
+                      </button>
+
+                      <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-t border-b border-slate-100 dark:border-slate-700 mt-1">
+                        Quality &amp; review
+                      </div>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => {
+                          navigate('/expert-review', {
+                            state: { preselectDocumentId: srsData.document_id || srsData.id },
+                          });
+                          setSrsActionsOpen(false);
+                        }}
+                      >
+                        <UserCheck className="h-4 w-4 shrink-0 text-indigo-600" />
+                        Expert review
+                      </button>
+                      <Link
+                        role="menuitem"
+                        to="/srs-metrics"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                        onClick={() => setSrsActionsOpen(false)}
+                      >
+                        <BarChart3 className="h-4 w-4 shrink-0 text-slate-600" />
+                        SRS metrics table
+                      </Link>
+                    </div>
+                  )}
+                </div>
               )}
-            </button>
-          </div>
+            </div>
           </div>
           {srsGenError && (
             <div
@@ -416,11 +574,70 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
           </div>
         </div>
 
-        {/* Detailed Results */}
-        <div className="space-y-6">
-          {items.map((result, index) => (
-            <RequirementCard key={index} result={result} index={index} />
-          ))}
+        {/* Pre-processing summary (replaces expandable tabs for ambiguities / preprocessed / etc.) */}
+        <div
+          className="mb-8 rounded-xl border p-5 md:p-6"
+          style={{ borderColor: 'var(--card-border)', background: 'var(--bg)' }}
+        >
+          <h3 className="text-lg font-semibold flex items-center gap-2 mb-3" style={{ color: 'var(--text)' }}>
+            <CheckCircle className="h-5 w-5 text-emerald-600 shrink-0" aria-hidden="true" />
+            Pre-processing
+          </h3>
+          {preprocessingBullets.length > 0 ? (
+            <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: 'var(--text)' }}>
+              {preprocessingBullets.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
+              Pre-processing completed successfully. Your requirements were validated and passed forward to SRS generation.
+              When the pipeline records extra steps (normalization, ambiguity checks, field extraction), they will appear here as
+              bullet points.
+            </p>
+          )}
+        </div>
+
+        {/* Requirement text only (no per-section tabs) */}
+        <div className="space-y-4">
+          <h3 className="text-base font-semibold" style={{ color: 'var(--text)' }}>
+            Your input
+          </h3>
+          {!hasRenderableRequirementText ? (
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>
+              No requirement text was included in the server response. If you expected content here, check the API or try
+              processing again.
+            </p>
+          ) : (
+            items.map((result, index) => {
+              if (result == null || typeof result !== 'object') return null;
+              const text = result.original_text || result.content || result.text || '';
+              if (!String(text).trim()) return null;
+              return (
+                <div
+                  key={index}
+                  className="rounded-xl border p-4 md:p-5"
+                  style={{ background: 'var(--card)', borderColor: 'var(--card-border)', color: 'var(--text)' }}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide mb-2 opacity-70">
+                    Requirement {index + 1}
+                    {result.status ? (
+                      <span
+                        className={`ml-2 normal-case font-medium px-2 py-0.5 rounded-full text-[11px] ${
+                          result.status === 'completed'
+                            ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-100'
+                            : 'bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-100'
+                        }`}
+                      >
+                        {result.status}
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{String(text).trim()}</p>
+                </div>
+              );
+            })
+          )}
         </div>
 
         {srsGenerated && (
@@ -668,177 +885,5 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
     </div>
   );
 };
-
-const RequirementCard = React.memo(({ result, index }) => {
-  const [expandedSection, setExpandedSection] = useState(null);
-
-  const toggleSection = useCallback((section) => {
-    setExpandedSection(prev => prev === section ? null : section);
-  }, []);
-
-  const sections = useMemo(() => [
-    { key: 'preprocessed', label: 'Preprocessed Data', data: result.preprocessed, color: 'blue' },
-    { key: 'ambiguities', label: 'Ambiguities', data: result.ambiguities, color: 'yellow', count: result.ambiguities?.length },
-    { key: 'extracted', label: 'Extracted Fields', data: result.extracted_fields, color: 'green' },
-    { key: 'srs', label: 'SRS Sections', data: result.srs_sections, color: 'purple' }
-  ], [result]);
-
-  const renderExpandedContent = useCallback((key, data) => {
-    if (!data || (Array.isArray(data) && data.length === 0)) return null;
-
-    if (key === 'preprocessed') {
-      return (
-        <>
-          <p><strong>Sentences:</strong> {data.sentences?.length || 0}</p>
-          <p><strong>Tokens:</strong> {data.tokens?.length || 0}</p>
-          <p><strong>Entities:</strong> {data.entities?.length || 0}</p>
-        </>
-      );
-    }
-
-    if (key === 'ambiguities' && Array.isArray(data)) {
-      return (
-        <div className="space-y-2">
-          {data.map((ambiguity, idx) => (
-            <div key={idx} className="p-2 bg-white/60 rounded border border-white/50">
-              <p><strong>{ambiguity.word}</strong> - {ambiguity.category}</p>
-              <p className="text-xs mt-1">{ambiguity.suggestion}</p>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    if (key === 'extracted' && typeof data === 'object') {
-      return (
-        <div className="space-y-2">
-          {Object.entries(data).map(([fieldKey, value]) => (
-            <div key={fieldKey} className="p-2 bg-white/60 rounded border border-white/50">
-              <p><strong>{fieldKey}:</strong> {value}</p>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    if (key === 'srs' && typeof data === 'object') {
-      return (
-        <div className="space-y-2">
-          {Object.entries(data).map(([sectionKey, value]) => (
-            <div key={sectionKey} className="p-2 bg-white/60 rounded border border-white/50">
-              <p><strong>{sectionKey}:</strong> {typeof value === 'object' ? (Array.isArray(value) ? value.join(', ') : Object.values(value).join(', ')) : value}</p>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
-  }, []);
-
-  return (
-    <div
-      className="border rounded-lg p-6 hover:shadow-md transition-shadow duration-200 animate-slide-up"
-      style={{
-        animationDelay: `${index * 50}ms`,
-        background: 'var(--card)',
-        borderColor: 'var(--card-border)',
-        color: 'var(--text)'
-      }}
-    >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
-        <h3 className="text-xl font-semibold flex items-center space-x-2" style={{ color: 'var(--text)' }}>
-          <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-700 rounded-full text-sm font-bold">
-            {index + 1}
-          </span>
-          <span>Requirement #{index + 1}</span>
-        </h3>
-        <span
-          className={`px-3 py-1 rounded-full text-sm font-medium ${
-            result.status === 'completed' 
-              ? 'bg-green-100 text-green-800 border border-green-200' 
-              : 'bg-red-100 text-red-800 border border-red-200'
-          }`}
-        >
-          {result.status}
-        </span>
-      </div>
-
-      {/* Original Text */}
-      <div className="mb-6">
-        <h4 className="text-lg font-medium mb-2 flex items-center space-x-2" style={{ color: 'var(--text)' }}>
-          <FileText className="h-4 w-4 text-gray-500" aria-hidden="true" />
-          <span>Original Text</span>
-        </h4>
-        <div
-          className="p-4 rounded-lg border"
-          style={{ background: 'var(--bg)', borderColor: 'var(--card-border)' }}
-        >
-          <p className="leading-relaxed" style={{ color: 'var(--text)' }}>{result.original_text}</p>
-        </div>
-      </div>
-
-      {/* Expandable Sections */}
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 items-start">
-        {sections.map(({ key, label, data, color, count }) => {
-          if (!data || (Array.isArray(data) && data.length === 0)) return null;
-          
-          const isExpanded = expandedSection === key;
-          const colorClasses = {
-            blue: 'bg-blue-50 border-blue-200 text-blue-900',
-            yellow: 'bg-yellow-50 border-yellow-200 text-yellow-900',
-            green: 'bg-green-50 border-green-200 text-green-900',
-            purple: 'bg-purple-50 border-purple-200 text-purple-900'
-          };
-
-          return (
-            <div key={key} className={`p-4 rounded-lg border transition-all duration-200 ${colorClasses[color]} ${isExpanded ? 'ring-2 ring-white/50' : ''}`}>
-              <button
-                onClick={() => toggleSection(key)}
-                className="w-full text-left font-medium mb-2 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-offset-2 rounded px-2 py-1 -mx-2 -my-1"
-                aria-expanded={isExpanded}
-                aria-controls={`${key}-content`}
-              >
-                <span className="flex items-center space-x-2">
-                  <span>{label}</span>
-                  {count !== undefined && (
-                    <span className="px-2 py-0.5 bg-white/50 rounded-full text-xs font-bold">
-                      {count}
-                    </span>
-                  )}
-                </span>
-                {isExpanded ? (
-                  <ChevronUp className="h-4 w-4 transition-transform duration-200" aria-hidden="true" />
-                ) : (
-                  <ChevronDown className="h-4 w-4 transition-transform duration-200" aria-hidden="true" />
-                )}
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
-      {expandedSection && (
-        <div
-          id={`${expandedSection}-content`}
-          className="mt-4 rounded-lg border p-4 bg-white/90 backdrop-blur-sm animate-slide-up sticky top-20 z-10"
-          style={{ borderColor: 'var(--card-border)', color: 'var(--text)' }}
-        >
-          <p className="text-sm font-semibold mb-3">
-            {sections.find((s) => s.key === expandedSection)?.label}
-          </p>
-          <div className="text-sm space-y-2">
-            {renderExpandedContent(
-              expandedSection,
-              sections.find((s) => s.key === expandedSection)?.data
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-});
-
-RequirementCard.displayName = 'RequirementCard';
 
 export default ResultsView;

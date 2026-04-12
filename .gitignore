@@ -46,6 +46,7 @@ logs/
 *.log.*
 
 # Data
+data/expert_reviews.json
 data/output/processed/
 data/output/exports/
 data/temp/

@@ -1,0 +1,425 @@
+# FYP1-MidReport-F24-011-D-SmartGuard - Muhammad Umer Farooq
+
+## 1. Introduction
+
+1. Introduction
+• Putting the product back on the shelf after reviewing it.
+• Placing a product in a bag, pocket, or clothing without paying for it.
+These behaviors are tracked in real time, and whenever any suspicious activity, such as
+shoplifting, is noticed, an alert is sent to the store staff to handle the incident.
+Out-of-Scope
+The project does not cover other criminal behaviors, such as:
+• Physical aggression.
+• Property damage.
+• Verbal aggression.
+Additionally, it does not address cases where people consume products in the store (e.g.,
+eating or drinking from shelves without paying). The system’s effectiveness may be lim-
+ited in situations where faces are obscured by masks, clothing, or any other obstructions,
+as facial recognition requires clear visibility of a person’s face
+1.3 Modules
+1.3.1 Real-Time Monitoring and Detection
+This module continuously monitors live camera feeds to detect suspicious activities, and
+in case of any suspicious activity it sends an alert to store management so that they can
+take any action.
+1. Live Feed Monitoring.
+2. Suspicious Behavior Detection.
+3. Alert Management.
+1.3.2 Facial Recognition and Centralized Watch list
+Utilizes facial recognition to identify individuals from a centralized watch list, helping
+store management track known offenders across multiple stores. The system will contin-
+uously train on the pictures stored in the centralized watch list.
+2
+1.3 Modules
+1. Facial Recognition.
+2. Common Watch list.
+1.3.3 Customer Insights and Analytics
+To enhance store security and inform management decisions, track customer visit fre-
+quency and log shoplifting incidents, providing data driven reports. .
+1. Visit Count
+2. Incident Reporting and Analytics.
+1.3.4 Advanced Search and Store Management
+Enables advanced search capabilities using image and filters, while also managing all the
+stores connected to Smart Guard.
+1. Search by image
+2. Advance Search.
+3. Store Management.
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+Store Man-
+agers
+Receive real-time alerts,access reports and analytics via mobile or web ap-
+plication.
+Store Em-
+ployees
+Monitor camera feed, respond to real-time alerts of shoplifting,provide on-
+the-ground support during any incident.
+System Ad-
+ministrators
+Handle system,Add and remove stores, provide technical support.
+CCTV Tech-
+nicians
+Ensure proper integration of CCTV cameras with Smart Guard, and handle
+hardware maintenance.
+4
+5
+2. Project Requirements
+Chapter 2
+Project Requirements
+2.1 Event Response Table
+Event System State System Response
+New video frame
+received from
+camera feed
+Processing frame, de-
+tecting objects and ac-
+tivities
+Process the frame using AI algo-
+rithms. Detect objects and human
+activities.
+Suspicious be-
+havior pattern
+detected
+Event logged, notifica-
+tions triggered
+Log the event with timestamp and
+details. Send notifications to mobile
+and web applications.
+Known offender
+recognized via fa-
+cial recognition
+Cross-referencing
+watch list database,
+sending alert if match
+is found
+Cross-reference face with watch list
+database. If a match is found, send
+alert to store management.
+New individual
+added to the
+watch list
+Centralized database
+updated, facial recogni-
+tion model retrained
+Update the centralized database.
+Retrain facial recognition model
+with new data.
+User searches for
+an individual us-
+ing an image
+Image processed, com-
+parison performed, re-
+sults returned or notifi-
+cation sent
+Process the uploaded image. Com-
+pare against images stored in com-
+mon watchlist. Return matching
+profiles or notify if none is found.
+User logs into the
+system
+Authenticating creden-
+tials, access granted to
+respective stores
+Authenticate credentials and grant
+access to their respective stores.
+Incident report
+requested
+Data retrieved, report
+generated, display op-
+tions provided
+Retrieve relevant data from the
+database. Generate report in the re-
+quested format. Display report to
+the user. Offer options to export or
+print.
+New store added
+to the system
+Store database updated,
+resources allocated
+Update the store’s database. Allo-
+cate resources for the new store.
+Table 2.1: Event Response Table
+6
+2.2 Functional Requirements
+2.2 Functional Requirements
+2.2.1 Real Time Monitoring and Detection
+This module continuously monitors live camera feeds to detect suspicious activities, and
+in case of any suspicious activity it sends an alert to store management so that they can
+take any action.
+1. FR1 :The system must continuously monitor the connected cameras to detect sus-
+picious behavior.
+2. FR2 :The system should detect suspicious behavior like picking an item from the
+shelf and putting it in a bag.
+3. FR3 :The system should send a notification to the store management if suspicious
+behavior is detected.
+2.2.2 Facial recognition and centralized watchlist
+Utilizes facial recognition to identify individuals from a centralized watch list, helping
+store management track known offenders across multiple stores. The system will contin-
+uously train on the pictures stored in the centralized watch list
+1. FR1: The system should perform facial recognition on the person detected by the
+camera.
+2. FR2 :The system should compare the faces detected by the camera with the com-
+mon watchlist to detect known offenders.
+3. FR3 :The watchlist should be accessible by all the stores.
+4. FR4 :The system should send a notification once a known shoplifter is detected.
+2.2.3 Customer Insights and Analytics
+To enhance store security and inform management decisions, track customer visit fre-
+quency and log shoplifting incidents, providing data driven reports.
+1. FR1 : The system records the number of customers visiting the store.
+2. FR2 : The system should log shoplifting incidents, including the date, time and
+store location.
+7
+2. Project Requirements
+2.2.4 Advance search and store management
+Enables advanced search capabilities using image and filters, while also managing all the
+stores connected to Smart Guard.
+1. FR1 : The system should allow store management to search a person by image
+based input.
+2. FR2 : The system should allow store managers to manage multiple stores from a
+single interface.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+1. REL-1: The system should achieve an MTBF (Mean Time Between Failures) of at
+least 1,000 hours of operation
+2. REL-2: The system should ensure data integrity during failures, with no loss of
+recorded data, logs, or alerts.
+2.3.2 Usability
+1. USE-1: The system should allow a user to access core functions (e.g., viewing
+camera feeds, responding to alerts) with no more than 3 clicks.
+2. USE-2: Users must be able to operate the system after no more than 2 hours of
+training.
+3. USE-3: The mobile application should be developed exclusively for Android de-
+vices, ensuring compatibility with Android versions 10 (Android Q) [22] and above
+4. USE-4: The web interface should work across all modern browsers, including
+Chrome, Firefox, Safari, and Edge.
+.
+2.3.3 Performance
+1. PER-1: Live video feeds should have a latency of less than 8 second, ensuring near
+real-time monitoring.
+8
+2.4 Domain Model
+2. PER-2: Detection of suspicious activity must occur within 10 seconds of the event
+being captured on camera.
+3. PER-3: The system should be able to handle up to 50 concurrent users accessing
+the web interface without noticeable lag or delays.
+4. PER-4: Facial recognition searches should return results in less than 5 seconds
+when scanning against the centralized watch list.
+5. PER-5: The system should process and send alerts within 10 seconds of detecting
+suspicious behavior.
+.
+2.3.4 Security
+1. SEC-1: Data, including shop details, passwords, should be encrypted at rest and in
+transit using at least 256-bit AES encryption [11].
+2. SEC-2: After 3 failed login attempts, the account should be locked for 10 minutes
+to prevent brute-force attacks.
+3. SEC-3: The system should log all user actions, including login attempts, access to
+critical features, and with logs stored for 1 year.
+.
+2.3.5 Scalability
+1. SCA-1: The system should be scalable to handle up to 2 stores connected to a
+centralized watch list, with each store running up to 3 cameras.
+2. SCA-2: The cloud infrastructure should automatically scale based on system load,
+scaling up when CPU utilization exceeds 70% and scaling down when utilization
+drops below 30%, using discrete scaling thresholds
+.
+2.4 Domain Model
+9
+2. Project Requirements
+Figure 2.1: Domain Model Representation
+10
+2.5 Architectural Design
+2.5 Architectural Design
+The architectural design provides a modular program structure to achieve the complete
+functionality of the system. The aim is to give a high-level overview of how the system is
+decomposed into modules and how these modules work together.
+2.5.1 Initial Modular Structure Overview
+The Smart Guard system consists of the following core modules:
+1. Edge Devices Module
+• Captures real-time video feeds and pre-processes the data.
+2. Edge Processing Module
+• Performs initial AI-based analysis on the edge devices for a quick response.
+3. Backend Services Module
+• Contains services for deeper AI analysis, data management, alerting, and in-
+cident tracking.
+4. AI/ML Models Module
+• Provides behavior detection, facial recognition, and data analytics capabilities.
+5. Database Module
+• Stores data like user information, watch lists, incidents, and analytics.
+6. Notification & Alerting Module
+• Manages the dispatch of real-time alerts and notifications to web and mobile
+applications.
+7. Web and Mobile Interface Module
+• Allows store managers and security personnel to interact with the system, view
+live feeds, and receive alerts.
+11
+2. Project Requirements
+2.5.2 Box and Line Diagram
+Figure 2.2: Box and Line Diagram of Smart Guard System
+2.5.3 Multi-Tiered (Layered) Architecture
+The Smart Guard system uses a multi-tiered layered [ 33] architecture. This architecture
+separates modules into distinct layers to ensure a clean separation of concerns. The ben-
+efits include scalability, maintainability, and efficient real-time processing.
+12
+2.5 Architectural Design
+Figure 2.3: Architecture Diagram
+2.5.4 Detailed Mapping of Modules to Architecture Layers
+2.5.4.1 Presentation Layer (UI Layer)
+• Modules: Web & Mobile Interface
+• Responsibilities: Provides a user-friendly interface for accessing system features,
+viewing live feeds, and managing incidents and alerts.
+2.5.4.2 Application Layer (Business Logic Layer)
+• Modules: Backend Services, Notification & Alerting
+• Responsibilities: Handles core functionality, processes requests from the UI, coor-
+dinates between other layers, and manages notifications.
+2.5.4.3 Data Layer (Data Access Layer)
+• Modules: Database
+• Responsibilities: Stores all data related to users, incidents, watch lists, and system
+configurations. Ensures secure storage and efficient retrieval of data.
+13
+2. Project Requirements
+2.5.4.4 Integration & Processing Layer
+• Modules: Edge Processing, AI/ML Models
+• Responsibilities:
+– Edge Processing : Handles initial data analysis to minimize latency.
+– AI/ML Models : Performs complex processing tasks such as behavior detec-
+tion, facial recognition, model training, and analytics.
+2.5.4.5 Edge Layer (Device Layer)
+• Modules: Edge Devices
+• Responsibilities: Captures video feeds and transmits data for further processing
+and analysis.
+2.6 Design Models
+2.6.1 Activity Diagram
+Figure 2.4: Activity Diagram
+14
+2.6 Design Models
+2.6.2 Data Flow Diagram Level 0
+Figure 2.5: Data Flow Diagram Level 0
+2.6.3 Data Flow Diagram Level 1
+Figure 2.6: Data Flow Diagram Level 1
+15
+2. Project Requirements
+2.6.4 Data Flow Diagram Level 2
+Figure 2.7: Data Flow Diagram Level 2
+2.6.5 System Level Sequence Diagram
+Figure 2.8: System Level Sequence Diagram
+16
+2.7 Data Design
+2.7 Data Design
+The SmartGuard system manages various types of data, including real-time video feed
+analysis, facial recognition, incident tracking, and store management. The data is orga-
+nized in a way to ensure fast access, efficient processing, and centralized management.
+Given the NoSQL storage format, data is stored in JSON documents across collections.
+Below is a breakdown of how the main data entities are structured and organized:
+2.7.1 Store Collection
+This collection holds the information about each store connected to the SmartGuard sys-
+tem.
+17
+2. Project Requirements
+{
+"storeId": "store_001",
+"storeName": "Main Retail Branch",
+"location": {
+"address": "123 Main Street, City, Country",
+"geoCoordinates": {
+"lat": 40.7128,
+"long": -74.0060
+}
+},
+"connectedCameras": [
+"cam_001",
+"cam_002",
+"cam_003"
+],
+"managers": [
+{
+"managerId": "manager_001",
+"name": "John Doe",
+"contact": "+1234567890",
+"email": "johndoe@example.com"
+}
+],
+"watchlist": [
+"person_001",
+"person_002"
+],
+"createdAt": "2024-09-01T10:00:00Z",
+"updatedAt": "2024-09-30T12:00:00Z"
+}
+Table 2.2: JSON schema of Store Collection
+18
+2.7 Data Design
+2.7.2 Watchlist Collection
+This collection keeps track of known offenders and persons of interest for all stores.
+{
+"personId": "person_001",
+"fullName": "Jane Smith",
+"photoUrl": "https://example.com/photos/jane_smith.jpg",
+"associatedStores": [
+"store_001",
+"store_002"
+],
+"addedBy": "manager_001",
+"addedAt": "2024-09-15T09:00:00Z",
+"description": "Known for repeat shoplifting in electronics section",
+"status": "active"
+}
+Table 2.3: JSON schema of Watchlist Collection
+19
+2. Project Requirements
+2.7.3 Incident Log Collection
+Logs any suspicious behavior or incidents detected in real-time.
+{
+"incidentId": "incident_001",
+"storeId": "store_001",
+"cameraId": "cam_001",
+"detectedPersonId": "person_001",
+"incidentType": "suspicious_behavior",
+"timestamp": "2024-09-30T13:20:00Z",
+"details": {
+"description": "Person was seen placing an item in bag.",
+"videoClipUrl": "https://example.com/videos/incident_001.mp4"
+},
+"reportedBySystem": true,
+"resolved": false,
+"createdAt": "2024-09-30T13:21:00Z",
+"updatedAt": "2024-09-30T14:00:00Z"
+}
+Table 2.4: JSON schema of Incident Log Collection
+20
+2.7 Data Design
+2.7.4 Facial Recognition Analytics Collection
+Stores details on facial recognition results for tracking individuals against the watchlist.
+{
+"recognitionId": "recognition_001",
+"storeId": "store_001",
+"cameraId": "cam_001",
+"detectedPerson": {
+"personId": "person_002",
+"fullName": "John Doe",
+"confidenceScore": 0.92
+},
+"timestamp": "2024-09-30T12:50:00Z",
+"recognizedBy": "AI_Model_v1.2",
+"alertSent": true,
+"createdAt": "2024-09-30T12:51:00Z"
+}
+Table 2.5: JSON schema of Facial Recognition Analytics
+21
+
+Bibliography
+[1] Wikipedia contributors. Advanced encryption standard.
+https://en.wikipedia.org/wiki/AdvancedEncryption Standard ,2003, June2.
+[2] Wikipedia contributors. Android 10. https://en.wikipedia.org/wiki/Android10 : :
+text = Android
+[3] Wikipedia contributors. Multitier architecture.
+https://en.wikipedia.org/wiki/Multitierarchitecture : : text = In
+[4] National Retail Security Survey. Nrf. https://nrf.com/research/national-retail-
+security-survey-2023, 2023, September 2.
+23
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,759 @@
+# FYP1-MidReport-F24-041-D-PhysioVision - i212478 Muhammad Tayyab Sohail
+
+## 1. Introduction
+
+1. Introduction
+erates detailed session reports, which, along with user feedback, are fed back into the
+chatbot to adjust future routines and diet plans based on the user’s progress.
+1.3 Modules
+1.3.1 Module 1 - Vision Model
+The vision model monitors and analyzes user exercise postures in real time, providing
+corrections and feedback to ensure proper form. It uses computer vision to track angles
+and movement, delivering guidance through multilingual audio and visual cues while
+generating detailed session reports for ongoing adjustments
+1. Real-Time Posture Monitoring
+2. Live Posture Correction
+3. Audio-Bot
+4. Visual Cues
+5. Multi-language support for audio-bot and visual cues.
+6. Session Reports
+7. User Feedback
+1.3.2 Module 2 - Chat Bot
+This module recommends personalized physiotherapy routines and nutrition plans based
+on user input and progress. It integrates with user feedback and session reports to contin-
+ually refine and adapt exercise and diet recommendations for optimal arthritis recovery.
+1. Nutrition Plan
+2. Exercise Recommendation
+3. Dynamic Recommendations
+2
+1.4 User Classes and Characteristics
+1.3.3 Module 3- Client Web Application
+The Client Web Application offers an intuitive interface for users to access and manage
+their personalized physiotherapy and nutrition plans. Integrated with the AI chat bot and
+vision model, it ensures tailored and adaptive support for optimal arthritis recovery.
+1. User-Friendly Interface
+1.4 User Classes and Characteristics
+User Class Description
+Patients Individuals suffering from arthritis who want to efficiently manage their
+treatment through personalized physiotherapy routines and nutrition plans
+from the comfort of their homes.
+Physiotherapist Healthcare professionals who provide physiotherapy services and will use
+the app to track patient progress, recommend exercises, and manage treat-
+ment plans more effectively.
+Caregiver Family members or friends assisting patients in managing their arthritis
+treatment. They will use the app to monitor progress and ensure adherence
+to exercise and nutrition plans.
+AI/ML
+Researcher
+Researchers in the fields of medicine or AI/ML interested in analyzing the
+algorithms used in the app to assess their effectiveness and explore potential
+improvements.
+Table 1.1: User Classes and Their Characteristics
+3
+Chapter 2
+Project Requirements
+This chapter explores the core elements that define how the system operates. We’ll dive
+into use cases that detail how our user will interact with the system, followed by an
+overview of the functional and non-functional requirements that ensure the system meets
+both user needs and technical standards and finally domain model for a conceptual view
+of the system.
+4
+2.1 Use-cases
+2.1 Use-cases
+2.1.1 Use-Case Diagram
+The use case diagram provides a high-level overview of the key interactions between the
+user and the system.
+Figure 2.1: Use-Case Diagram of User Interactions with the System
+5
+2. Project Requirements
+2.1.2 Exercise Recommendation via Chatbot
+Use Case Name Exercise Recommendation via Chatbot
+Scope Personalized Physiotherapy Routine Generation
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Wants to receive a personalized exercise routine
+based on their arthritis condition.
+AI Physiotherapist (Chatbot): Responsible for recommend-
+ing exercises.
+Healthcare Providers: Ensure the exercise recommenda-
+tions support patient health.
+System Admin: Ensures the chatbot operates smoothly and
+follows health guidelines.
+Preconditions 1. The user has logged into the application.
+2. The user has provided necessary health-related data (e.g.,
+age, arthritis severity, pain level, mobility restrictions).
+3. The chatbot is active and ready to provide recommenda-
+tions.
+4. Past session reports (if any) are available to refine the
+recommendations.
+Post Conditions Success: The chatbot provides a personalized exercise rou-
+tine, which the user performs under the guidance of the real-
+time correction model.
+Failure: An error message appears if the chatbot fails to
+generate an exercise plan or if critical data is missing.
+Main Success Scenario 1. The user opens the chatbot and requests an exercise plan.
+2. The chatbot retrieves the user’s health profile, mobility
+data, and past session reports.
+3. The AI generates a personalized exercise routine suited
+to the user’s arthritis condition.
+4. The chatbot provides detailed instructions for each exer-
+cise.
+5. The user performs the exercises under the supervision of
+the real-time correction model.
+6
+2.1 Use-cases
+Alternatives Incomplete Health Data: If the system detects missing or
+incomplete health data, the chatbot prompts the user to fill
+in the required information before generating recommenda-
+tions.
+User Requests Adjustments: If the user feels pain during
+an exercise, the chatbot adjusts the routine by suggesting
+easier alternatives. The chatbot also provides additional ad-
+vice based on user feedback during the session.
+Chatbot Unavailable: If the chatbot is down, the system
+suggests accessing previously saved exercise routines until
+service is restored.
+Table 2.1: Use Case 1: Exercise Plan
+7
+2. Project Requirements
+2.1.3 Nutrition Recommendation via Chatbot
+Use Case Name Nutrition Recommendation via Chatbot
+Scope Personalized Nutrition Plan Generation
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Seeks a personalized nutrition plan that supports
+arthritis recovery.
+AI Nutritionist (Chatbot): Provides tailored dietary recom-
+mendations.
+Healthcare Providers: Ensure the dietary plan is appropriate
+for the patient’s condition.
+System Admin: Maintains the chatbot’s smooth operation
+and adherence to health guidelines.
+Preconditions 1. The user is logged into the application.
+2. The user has provided health and dietary information
+(e.g., arthritis severity, dietary restrictions, preferences, al-
+lergies).
+3. The chatbot is available to interact and provide recom-
+mendations.
+4. Past feedback or session reports (if applicable) are avail-
+able to refine the recommendations.
+Post Conditions Success: The chatbot delivers a personalized nutrition plan,
+which the user can follow to support arthritis management.
+The system logs user feedback on the nutrition plan for fu-
+ture adjustments.
+Failure: An error message is shown if the chatbot cannot
+generate a nutrition plan due to missing data or technical
+issues.
+8
+2.1 Use-cases
+Main Success Scenario 1. The user initiates a conversation with the chatbot and re-
+quests a personalized nutrition plan.
+2. The chatbot retrieves the user’s health data, including any
+dietary restrictions or preferences.
+3. The AI system generates a custom diet plan that focuses
+on anti-inflammatory foods, appropriate portion sizes, and
+essential nutrients to support arthritis recovery.
+4. The chatbot provides a detailed breakdown of rec-
+ommended meals, including breakfast, lunch, dinner, and
+snacks.
+5. The chatbot offers practical meal suggestions, along with
+tips on food preparation and ingredient alternatives.
+6. The system logs the user’s feedback on the plan, allowing
+future recommendations to be refined based on preferences
+and health progress.
+Alternatives Incomplete Dietary Information: If the user has not pro-
+vided complete dietary data (e.g., allergies, preferences),
+the chatbot asks for additional information before generat-
+ing a plan.
+User Requests Specific Adjustments: If the user prefers
+certain foods or has specific dietary needs, the chatbot mod-
+ifies the plan to accommodate those preferences without
+compromising nutritional goals.
+Chatbot Unavailable: If the chatbot is unavailable due to
+technical issues, the system allows the user to access pre-
+saved nutrition plans or meal ideas.
+Table 2.2: Use Case 2: Nutrition Plan
+9
+2. Project Requirements
+2.1.4 Real-Time Exercise Posture Correction
+Use Case Name Real-Time Exercise Posture Correction
+Scope Exercise Posture Monitoring and Correction
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Seeks immediate feedback on exercise posture to
+avoid injury and maximize effectiveness.
+AI Physiotherapist (Computer Vision Model): Responsi-
+ble for monitoring and correcting the user’s posture in real-
+time.
+Healthcare Providers: Want to ensure exercises are per-
+formed safely and correctly.
+System Admin: Ensures the computer vision model func-
+tions correctly.
+Preconditions 1. The user has initiated an exercise routine via the system.
+2. The camera and computer vision model are operational.
+3. The user’s posture is within the model’s field of view.
+Post Conditions Success: The computer vision model successfully monitors
+the user’s posture and provides real-time corrections. The
+system logs the user’s performance for future analysis.
+Failure: The system alerts the user if posture cannot be
+monitored due to camera issues or incorrect placement.
+Main Success Scenario 1. The user begins performing exercises as recommended
+by the system.
+2. The computer vision model monitors the user’s body an-
+gles and movement in real-time.
+3. If incorrect posture or joint movement is detected, the
+system highlights the issue visually on-screen.
+4. The system suggests immediate corrections (e.g.,
+"Straighten your back," "Bend your knees slightly").
+5. The user adjusts their posture according to the feedback,
+and the system continues monitoring until the session is
+complete.
+10
+2.1 Use-cases
+Alternatives Camera Malfunction or Poor Visibility: If the camera is
+malfunctioning or the user is out of frame, the system alerts
+the user to adjust the camera or their position.
+Posture Not Corrected: If the user doesn’t correct their
+posture after multiple prompts, the system suggests stop-
+ping the exercise to avoid injury.
+Table 2.3: Use Case 3: Posture Correction
+11
+2. Project Requirements
+2.1.5 Audiobot Exercise Posture Correction
+Use Case Name Audiobot Exercise Posture Correction
+Scope Multilingual Audio Feedback for Exercise Correction
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Receives verbal cues in real-time to adjust posture
+while exercising.
+Audiobot: Provides correction instructions in the user’s pre-
+ferred language (English/Urdu).
+Healthcare Providers: Ensure patients perform exercises
+safely through guided corrections.
+System Admin: Maintains the functionality of the audiobot.
+Preconditions 1. The user is performing exercises recommended by the
+system.
+2. The computer vision model detects incorrect posture.
+3. The audiobot is active and ready to provide feedback in
+the selected language.
+Post Conditions Success: The audiobot provides real-time audio feedback to
+correct exercise posture in the user’s chosen language (En-
+glish/Urdu). The system logs feedback sessions for future
+adjustments.
+Failure: An error message appears if the audiobot is unable
+to provide feedback due to technical issues.
+Main Success Scenario 1. The user begins their exercise routine, and the computer
+vision model monitors posture.
+2. When the model detects incorrect posture, the au-
+diobot provides real-time correction via verbal cues (e.g.,
+"Straighten your back" in English or "Kamar seedhi karain"
+in Urdu).
+3. The user adjusts their posture according to the audio in-
+structions while continuing the exercise.
+4. The audiobot continues providing corrections as needed,
+ensuring safe and effective exercise performance.
+12
+2.1 Use-cases
+Alternatives Audiobot Unavailable: If the audiobot is unavailable, the
+system defaults to visual on-screen feedback only.
+Incorrect Posture Not Corrected After Audio Cues: If
+the user does not correct their posture after multiple audio
+prompts, the system suggests stopping the exercise to pre-
+vent injury.
+Table 2.4: Use Case 4: Audiobot
+13
+2. Project Requirements
+2.1.6 Exercise Session Report Generation
+Use Case Name Exercise Session Report Generation
+Scope Exercise Session Data Analysis and Report Creation
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Receives detailed reports on exercise performance
+and posture correction to track progress and guide future
+routines.
+AI Physiotherapist (System): Responsible for generating
+the report based on exercise session data.
+Healthcare Providers: May review reports to monitor the
+user’s progress and make adjustments to the therapy if nec-
+essary.
+System Admin: Ensures accurate and timely report genera-
+tion.
+Preconditions 1. The user has completed an exercise session.
+2. Data from the completed session is logged by the system
+(exercise performance, posture corrections, feedback).
+3. The system is operational and able to access past session
+data, if available.
+Post Conditions Success: A comprehensive report is generated, summariz-
+ing the user’s exercise performance, posture corrections,
+and improvements.
+Failure: An error occurs if session data is incomplete or if
+the system is unable to generate the report.
+14
+2.1 Use-cases
+Main Success Scenario 1. The user completes a scheduled exercise session.
+2. The system collects relevant data, including:
+(a) Number of repetitions and sets completed for each exer-
+cise.
+(b) Any posture corrections made during the session (based
+on real-time feedback).
+(c) Duration of the session.
+(d) Any feedback from the user regarding discomfort or
+pain during the exercises.
+3. The AI system analyzes the data and generates a detailed
+report.
+4. The report includes:
+(a) Exercise Performance: Number of completed repeti-
+tions, sets, and overall time spent on each exercise.
+(b) Posture Corrections: A summary of real-time posture
+corrections and improvements during the session.
+(c) User Feedback: Details on how the user felt during the
+session, including any pain or discomfort experienced.
+(d) Progress: Comparisons with previous sessions, high-
+lighting improvements or areas for further attention.
+5. The report is displayed to the user, with visual charts
+showing progress over time (e.g., improvement in posture,
+increase in repetitions).
+6. The report is stored in the system and used by the AI to
+adjust future exercise routines based on the user’s progress.
+Alternatives Incomplete Session Data: If the session data is incomplete,
+the system generates a partial report and notifies the user of
+missing data (e.g., skipped exercises, incomplete feedback).
+User Requests Detailed Analysis: If the user requests
+more detailed feedback, the system generates an in-
+depth report comparing performance over multiple sessions,
+showing trends in posture correction, repetition increase,
+and more.
+System Unavailable: If the system is unavailable or data
+is corrupted, the user is notified that the report could not be
+generated and advised to try again later.
+Table 2.5: Use Case 5: Session Report
+15
+2. Project Requirements
+2.1.7 User Feedback Collection and Integration
+Use Case Name User Feedback Collection and Integration
+Scope Collecting and Using User Feedback to Adjust Future Ex-
+ercise Routines
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Provides feedback on exercise sessions to influence
+future recommendations.
+AI Physiotherapist (System): Collects and uses feedback to
+adjust future exercise routines.
+Healthcare Providers: May use feedback data to monitor the
+user’s experience and adjust treatment plans if needed.
+System Admin: Ensures the feedback system operates
+smoothly and integrates properly with the AI.
+Preconditions 1. The user has completed an exercise session.
+2. The system is ready to collect feedback immediately after
+the session.
+Post Conditions Success: The user’s feedback is successfully collected,
+stored, and integrated into future exercise routine recom-
+mendations.
+Failure: Feedback collection fails due to system issues, or
+the user does not submit feedback.
+16
+2.1 Use-cases
+Main Success Scenario 1. After completing an exercise session, the system prompts
+the user to provide feedback.
+2. The user submits feedback on various aspects, including:
+(a) Exercise Difficulty: Whether the exercises were too
+hard, too easy, or appropriately challenging.
+(b) Pain or Discomfort: Whether any exercises caused pain
+or discomfort, and if so, in which joints or areas.
+(c) Session Satisfaction: General satisfaction with the ses-
+sion and how it helped their recovery.
+(d) Posture Correction: How helpful the real-time feedback
+was during the exercises.
+3. The system collects the feedback and logs it for analysis.
+4. The AI system uses the feedback to adjust future exercise
+routines, focusing on:
+(a) Reducing or increasing the intensity based on the user’s
+reported experience.
+(b) Replacing exercises that caused discomfort with safer
+alternatives.
+(c) Adjusting posture correction prompts based on user
+preference and feedback.
+5. The feedback is stored alongside the user’s session data
+for future reference and progress tracking.
+6. The system confirms with the user that their feedback
+has been successfully received and will be integrated into
+the next session.
+Alternatives User Skips Feedback: If the user chooses not to provide
+feedback, the system logs the session data but does not ad-
+just the routine. A reminder is shown during the next ses-
+sion.
+Incomplete Feedback: If the user only partially submits
+feedback, the system analyzes the available information and
+adjusts recommendations accordingly, while prompting for
+missing details later.
+System Unavailable: If the feedback system is down, the
+user is notified and prompted to provide feedback after the
+issue is resolved, with an option to provide offline feedback
+for future use.
+Table 2.6: Use Case 6: User Feedback
+17
+2. Project Requirements
+2.1.8 Progress Tracking for Exercise Performance
+Use Case Name Progress Tracking for Exercise Performance
+Scope Monitoring and Analyzing User Progress Over Time
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Seeks to monitor progress in exercise performance
+and overall recovery.
+AI Physiotherapist (System): Responsible for tracking and
+analyzing user performance data.
+Healthcare Providers: May review progress reports to ad-
+just treatment plans based on user progress.
+System Admin: Ensures that progress tracking functionali-
+ties work correctly and data is securely stored.
+Preconditions 1. The user has completed multiple exercise sessions.
+2. The system has collected and stored performance data
+from these sessions.
+Post Conditions Success: The system successfully tracks and displays the
+user’s progress over time, helping to inform future exercise
+routines and motivate the user.
+Failure: An error occurs if data is incomplete or if the sys-
+tem is unable to retrieve performance history.
+18
+2.1 Use-cases
+Main Success Scenario 1. The user logs into the application and navigates to the
+progress tracking section.
+2. The system retrieves historical exercise performance
+data, including:
+(a) Number of repetitions and sets completed over time.
+(b) Posture correction data and improvements.
+(c) User feedback collected after each session.
+(d) Any reported pain or discomfort associated with specific
+exercises.
+3. The system analyzes the data and generates a visual rep-
+resentation of progress, such as:
+(a) Graphs showing improvements in exercise performance
+(e.g., increased repetitions or improved form).
+(b) Charts highlighting trends in reported discomfort or pain
+levels associated with specific exercises.
+(c) Summaries of session satisfaction ratings over time.
+4. The user reviews their progress, noting areas of improve-
+ment and any exercises that may require modification based
+on pain levels.
+5. The system may suggest future exercises or adjustments
+based on progress, encouraging users to set new goals for
+their rehabilitation.
+6. The user can export or share progress reports with health-
+care providers if needed.
+Alternatives Insufficient Data for Tracking:If there is insufficient data
+to provide a meaningful analysis, the system informs the
+user and encourages them to continue logging sessions for
+better tracking.
+User Requests Detailed Progress Analysis: If the user
+wants more in-depth analysis, the system can generate a
+comprehensive report comparing performance across mul-
+tiple sessions or specific time frames.
+System Unavailable: If the progress tracking feature is
+down, the user is notified and given the option to receive
+updates once the feature is restored.
+Table 2.7: Use Case 7: Progress Tracking
+19
+2. Project Requirements
+2.1.9 Account Management for User Profiles
+Use Case Name Account Management for User Profiles
+Scope Managing User Accounts and Personal Information
+Level User Goal
+Primary Actor User (Arthritis Patient)
+Stakeholders User: Manages personal information, preferences, and ac-
+count settings.
+System: Ensures the security and accuracy of user account
+data.
+Healthcare Providers: May access account information to
+better understand user preferences and treatment needs.
+System Admin: Responsible for maintaining the integrity
+and security of user accounts.
+Preconditions 1. The user has registered and created an account in the
+application.
+2. The user has successfully logged into the system.
+Post Conditions Success: The user successfully updates their account infor-
+mation, preferences, and settings. Any changes made are
+saved securely and reflected in future sessions.
+Failure: An error occurs if the system is unable to save
+changes or if invalid information is entered.
+20
+2.1 Use-cases
+Main Success Scenario 1. The user logs into their account and navigates to the ac-
+count management section.
+2. The user can view and edit the following account details:
+(a) Personal Information: Name, email address, phone
+number, etc.
+(b) Preferences: Language settings (English/Urdu), notifi-
+cation preferences, etc.
+(c) Health Information: Any relevant health details, exer-
+cise preferences, and goals.
+(d) Password Management: Options to change or reset the
+password.
+3. The user makes the desired changes and submits the up-
+dates.
+4. The system validates the information entered (e.g.,
+checks for valid email format, password strength).
+5. Upon successful validation, the system saves the changes
+and updates the user’s profile.
+6. The user receives a confirmation message indicating that
+their account details have been successfully updated.
+7. The user can log out, and the system retains all updated
+information for the next login.
+Alternatives Invalid Information Entered: If the user enters invalid
+data (e.g., an incorrectly formatted email), the system dis-
+plays an error message and prompts the user to correct it.
+Password Reset Requested: If the user forgets their pass-
+word, they can initiate a password reset process that in-
+volves verifying their identity through email.
+System Unavailable: If the account management feature is
+down, the user is notified that they cannot make changes at
+that time and advised to try again later.
+Table 2.8: Use Case 8: Manage Account
+21
+2. Project Requirements
+2.2 Functional Requirements
+Listed below are the functional requirements of our system, organized by modules.
+2.2.1 Module 1 - Vision Model
+Following are the requirements for module 1:
+1. The system shall generate a detailed report after each session, summarizing user
+performance, posture errors, and corrections made.
+2. The system shall track user progress over time by comparing session reports.
+3. The system shall provide visual graphs or data summaries on a weekly or monthly
+basis to show improvements or regressions.
+4. The system shall use a computer vision model to detect key body joints and posi-
+tions in real-time during exercises.
+5. The system shall analyze body positions and angles to detect deviations from cor-
+rect posture and identify common mistakes (e.g., slouching, incorrect limb angles).
+6. The system shall provide real-time feedback for incorrect posture via audio or on-
+screen text.
+7. The system shall offer specific guidance to correct posture errors (e.g., "Raise your
+arms higher" or "Straighten your back").
+2.2.2 Module 2 - Chat Bot
+Following are the requirements for module 2:
+1. The system shall allow users to input personal data (e.g., height, weight, arthritis
+severity).
+2. The system shall collect feedback from users on exercise difficulty, pain level, and
+progress.
+3. The system shall track exercise completion using data from the computer vision
+model.
+4. The system shall generate personalized physiotherapy routines based on user inputs
+(e.g., arthritis severity, physical ability).
+22
+2.3 Non-Functional Requirements
+5. The system shall suggest tailored nutrition plans to support arthritis management
+based on user inputs.
+6. The system shall generate weekly or monthly reports on user progress, including
+pain improvement, exercise completion, and dietary adherence.
+2.3 Non-Functional Requirements
+2.3.1 Multilingual Support for Audio-Bot and Visual Cues
+1. The audio-bot and on-screen feedback must be available in multiple languages (in-
+cluding English and Urdu).
+2. Users should be able to select their preferred language for both audio and visual
+guidance.
+2.3.2 Performance
+1. The system must provide real-time posture analysis and feedback within a maxi-
+mum delay of 200 milliseconds to ensure a seamless user experience.
+2. It should support continuous operation during exercise sessions without noticeable
+lag or delays in corrections.
+2.3.3 Compatibility
+1. The system must be compatible with a variety of devices, including smartphones,
+tablets, and computers, across different operating systems (e.g., iOS, Android, Win-
+dows).
+2. It should work seamlessly across different screen sizes and resolutions.
+2.3.4 Scalability
+1. The system should be scalable to accommodate future features, such as new exer-
+cises, languages, or additional types of therapy for other conditions.
+23
+2. Project Requirements
+2.3.5 Real-Time Interaction
+1. The chatbot must respond to user queries and inputs within a minimal latency period
+for a smooth user experience.
+2.3.6 User-Friendly Interface
+1. The chatbot’s user interface must be intuitive, with easy navigation for people of all
+ages, especially arthritis patients who may have limited mobility.
+2.3.7 Accessibility
+1. The chatbot must be designed with accessibility in mind, supporting voice com-
+mands and text input for users with physical impairments.
+2.3.8 Error Handling
+1. The chatbot should gracefully handle errors (e.g., unrecognized commands or in-
+complete data input) by providing appropriate feedback to users and attempting to
+correct issues.
+2.3.9 User Authentication
+1. Authentication must be secure, following industry standards for data protection
+(e.g., HTTPS, encryption).
+2.3.10 User-Friendly Interface for Web Application
+1. The web application must allow users to easily access and manage their personal-
+ized physiotherapy and nutrition plans.
+2. It must integrate with the AI chatbot to provide real-time feedback and guidance
+based on user input.
+2.3.11 Availability
+1. The Client Web Application must achieve high uptime, ensuring continuous access
+to physiotherapy and nutrition plans.
+24
+2.4 Domain Model
+2.3.12 Concurrent User Access
+1. The Client Web Application must support concurrent access by multiple users with-
+out performance degradation, ensuring a seamless experience for all us
+2.4 Domain Model
+Figure 2.2: Domain Model PhysioVision
+25
+Chapter 3
+System Overview
+This chapter will analyze the architectural design of the project, focusing on key mod-
+ules and their interactions. It will explore how the system transitions between different
+states and how data flows through various components, providing a concise overview of
+the design’s functionality and context. By breaking down the architecture and illustrat-
+ing relationships between modules, this chapter aims to clarify the overall structure and
+operational dynamics of the system.
+26
+3.1 Architectural Design
+3.1 Architectural Design
+3.1.1 Box and Line Diagram
+The Box and Line Diagram visually represents the system’s architecture, highlighting
+key modules and their interconnections. It features a User Interface that encompasses a
+Chatbot Interface for personalized exercise and nutrition suggestions, and a Vision Model
+Interface for posture detection and correction. The Database module serves as a central-
+ized repository for user profiles and progress tracking, supporting all system components.
+Overall, the diagram illustrates how each module collaborates to provide a comprehensive
+support platform for users’ health journeys.
+Figure 3.1: Box and Line Diagram of the System Architecture
+27
+3. System Overview
+3.1.2 Layered Architecture Diagram
+The architecture diagram illustrates a multi-layered structure comprising three primary
+layers: Presentation, Business Logic, and Database. The Presentation Layer includes user
+interfaces such as the Chatbot Interface and Vision Model Interface, enabling users to
+interact with the system. This layer sends requests to the Business Logic Layer, which
+processes these requests through modules like Nutrition Recommendation and Posture
+Detection Model, facilitating tasks such as report generation and posture correction. The
+Database Layer serves as the backend, storing essential data such as exercise records,
+user progress and user profiles, handling read/write operations from the Business Logic
+Layer. This architectural model supports a clear separation of concerns, allowing for ef-
+ficient communication between user interfaces and backend processes, enhancing system
+maintainability and scalability.
+Figure 3.2: Layered Architecture Diagram
+28
+3.2 Design Models
+3.2 Design Models
+The following design models outline the project’s architecture, detailing the interactions
+and relationships between system components. They serve as a visual representation of
+how different modules collaborate to deliver a seamless user experience. These mod-
+els provide a comprehensive framework for understanding the system’s functionality and
+operational flow.
+29
+3. System Overview
+3.2.1 Sequence Diagrams
+The following Sequence Diagrams are being used to visualize the flow of messages or
+interactions between different objects or components in the system for each particular
+usecase.
+3.2.1.1 Exercise Recommendation via Chatbot
+30
+3.2 Design Models
+3.2.1.2 Nutrition Recommendation via Chatbot
+31
+3. System Overview
+3.2.1.3 Real-Time Exercise Posture Correction
+32
+3.2 Design Models
+3.2.1.4 Audiobot Exercise Posture Correction
+33
+3. System Overview
+3.2.1.5 Exercise Session Report Generation
+34
+3.2 Design Models
+3.2.1.6 User Feedback Collection and Integration
+35
+3. System Overview
+3.2.1.7 Progress Tracking for Exercise Performance
+36
+3.2 Design Models
+3.2.1.8 Account Management for User Profiles
+3.2.2 Activity Diagrams
+The following Activity Diagrams represent the workflow of the system, illustrating the se-
+quence of activities, decision points, and parallel processes, and how individual modules
+come together to create a smooth user experience.
+37
+3. System Overview
+3.2.2.1 Exercise Recommendation via Chatbot
+38
+3.2 Design Models
+3.2.2.2 Nutrition Recommendation via Chatbot
+39
+3. System Overview
+3.2.2.3 Real-Time Exercise Posture Correction
+40
+3.2 Design Models
+3.2.2.4 Audiobot Exercise Posture Correction
+41
+3. System Overview
+3.2.2.5 Exercise Session Report Generation
+42
+3.2 Design Models
+3.2.2.6 User Feedback Collection and Integration
+43
+3. System Overview
+3.2.2.7 Progress Tracking for Exercise Performance
+44
+3.2 Design Models
+3.2.2.8 Account Management for User Profiles
+3.2.3 State Transition Diagrams
+The state transition diagrams depict how the system handles different events during user
+interactions. They outline the various states that a user or component can enter and show
+how specific actions cause transitions between these states.
+45
+3. System Overview
+3.2.3.1 Starting Computer Vision
+Figure 3.3: State transition diagram illustrating the initial setup of the computer vision
+component
+46
+3.2 Design Models
+3.2.3.2 Starting Chat Bot
+Figure 3.4: State transition diagram depicting the startup process of the chatbot module.
+47
+3. System Overview
+3.2.3.3 User Profile
+Figure 3.5: State transition diagram outlining user profile management and interactions.
+48
+3.2 Design Models
+3.2.3.4 End Session
+Figure 3.6: State transition diagram detailing the process of ending a user session.
+49
+3. System Overview
+3.2.4 Class Diagram
+This class diagram illustrates the structure of the system by detailing the various classes,
+their attributes, methods, and the relationships between them. This diagram provides
+a clear representation of the system’s object-oriented design, highlighting how different
+classes interact and collaborate to fulfill the desired functionalities. By mapping out these
+components, this diagram helps in understanding the system’s organization and the roles
+of each class within it.
+Figure 3.7: Class Diagram for PhysioVision
+50
+3.3 Data Design
+3.3 Data Design
+This JSON schema defines key components essential for the system. The User component
+stores personal details and session data related to physiotherapy routines. The Session
+component details each routine, including timestamps and specific exercises performed.
+The Exercise component outlines each activity, specifying repetitions and targeted joints.
+The VisionModel assists in posture correction, while UserFeedback captures pain and dif-
+ficulty ratings to personalize routines. ProgressTracking monitors user recovery over time,
+and the Chatbot provides tailored exercise suggestions and nutrition plans. Lastly, the Re-
+port component generates performance summaries, offering insights into user progress.
+Together, these elements create a comprehensive solution for personalized physiotherapy
+management.
+Figure 3.8: JSON SCHEMA
+51
+Bibliography
+[1] Maha Azeez, Ciara Clancy, Tom O’Dwyer, Conor Lahiff, Fiona Wilson, and Gaye
+Cunnane. Benefits of exercise in patients with rheumatoid arthritis: a randomized
+controlled trial of a patient-specific exercise programme. Clinical Rheumatology ,
+39:1783–179, 2020.
+[2] Huibin Long, Qiang Liu, Heyong Yin, Kai Wang, Naicheng Diao, Yuqing Zhang,
+Jianhao Lin, and Ai Guo. Prevalence trends of site-specific osteoarthritis from 1990 to
+2019: Findings from the global burden of disease study 2019. Arthritis and Rheuma-
+tology, 74, 2022.
+52
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

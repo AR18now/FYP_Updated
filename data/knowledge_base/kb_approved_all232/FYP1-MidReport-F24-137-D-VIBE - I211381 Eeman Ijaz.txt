@@ -1,0 +1,516 @@
+# FYP1-MidReport-F24-137-D-VIBE - I211381 Eeman Ijaz
+
+## 1. Introduction
+
+1. Introduction
+voice assistants such as Alexa and Siri rely on traditional language models to process user
+requests, they mainly use rule-based keyword recognition mechanisms to determine user
+intent and fall short of maintaining coherent multi-turn conversations [66]. Hence, it can be
+deduced that traditional voice assistants do not offer personalized, context-aware interac-
+tions [11] vital for effective student support. Multilingual progress in intelligent personal
+assistants (IPAs) utilising speech interfaces has been particularly slow [ 33]. Due to lan-
+guage barriers, Urdu-speaking students in Pakistan face significant challenges in access-
+ing digital tools and resources. Most existing voice assistants and chatbots are designed
+for English and other widely spoken languages, leaving these students underserved. They
+are unable to participate in educational and professional possibilities due to a lack of ac-
+cessible technologies. Our solution solves these challenges by creating an Urdu V oice
+Assistant designed exclusively for students, allowing them to access opportunities and
+manage their funds in their native tongue.
+1.2 Scope
+This project focuses on developing a mobile application that serves as a personalised Urdu
+voice assistant for students in Pakistan. The app’s primary goal is to provide voice-based
+interaction in Urdu, ensuring accessibility for students more comfortable with their native
+language. A key feature is integrating LinkedIn to deliver curated opportunities tailored
+to each student’s academic and professional needs.
+While the app also includes namaz reminders and a student finance budgeting feature, the
+main emphasis is on offering a seamless Urdu experience and personalized support. The
+project will ensure the app is user-friendly, secure, and accessible across major mobile
+platforms, with ongoing updates to enhance functionality.
+1.2.1 Data Collection
+Gather relevant datasets for training and fine-tuning the Urdu language model and col-
+lecting user requirements for app features.
+1. Collect Urdu language datasets for NLP.
+2. Gather user feedback and requirements.
+3. Preprocessing the collected Urdu audio and text data.
+2
+1.2 Scope
+1.2.2 Model Fine-Tuning
+Fine-tunes the LLaMA 3.1 model to enhance its performance for Urdu language process-
+ing.
+1. Use of Python and PyTorch for model training.
+2. Integration with Hugging Face for managing pre-trained models and datasets.
+1.2.3 Personalized Opportunities
+Integrate the various components of the app, including the fine-tuned LLaMA 3.1 model,
+backend services, and third-party APIs.
+1. API integration with LinkedIn to retrieve personalised job and internship listings
+2. API integration with Google Maps to get current location of students for namaz
+reminders.
+1.2.4 Figma Design for Mobile App
+Develop the visual and interactive design of the mobile app using Figma, focusing on a
+user-friendly interface.
+1. Design wireframes and prototypes.
+2. Create a cohesive UI/UX for Urdu-speaking users.
+1.2.5 Mobile App Development
+Develop the mobile application using Flutter, implementing all the designed features and
+ensuring smooth functionality across platforms.
+1. Implement voice interaction, text display features.
+2. Ensure cross-platform compatibility.
+1.2.6 Testing
+Ensures the app’s functionality and performance are refined through continuous testing
+cycles during development.
+3
+1. Introduction
+1. Unit testing to validate individual components for expected behavior.
+2. Integration testing to ensure different modules work together without conflicts.
+3. User Acceptance Testing (UAT) for users to engage in real-world scenarios to en-
+sure the app meets their needs.
+1.3 User Classes and Characteristics
+In Table 1.11.1, the various user categories anticipated to engage with the Urdu voice assis-
+tant application are summarized, along with their main attributes. This information will
+be valuable in developing user-focused functionalities tailored to their individual require-
+ments.
+User Class Characteristics
+Undergraduate Stu-
+dents
+These users are tech-savvy, looking for academic and career
+opportunities, and likely to benefit from stress management
+and budgeting tools.
+Graduate Students Focused on advanced career opportunities and research,
+these users may also seek tools for stress management and
+financial planning.
+Educational Adminis-
+trators
+Oversee the integration of university email systems, ensur-
+ing students receive relevant opportunities. They also man-
+age institutional data.
+Career Counsellors Interested in guiding students towards using LinkedIn ef-
+fectively and leveraging the app’s personalized career re-
+sources.
+Table 1.1: User Classes and Characteristics
+4
+Chapter 2
+Project Requirements
+Figure 2.1: Use-Case Diagram for ULingo
+2.1 Use-Case
+The primary interactions between the user and the voice assistant application are depicted
+in the use case diagram shown in Figure2.12.1. It starts with the system initiating communi-
+cation in a user-friendly manner by saying Greetings. Users can then make various Re-
+quests, which the system processes, ranging from simple queries to complex commands.
+5
+2. Project Requirements
+Additionally, the system enables users to set and retrieve Preferences to customize their
+interaction experience based on individual needs.
+The system handles Everyday Tasks, assisting users in efficiently managing their daily
+schedules. It offers auditory responses through Audio Feedback, improving user engage-
+ment by creating more interactive and accessible interactions. In terms of career growth,
+it utilizes LinkedIn’s API to retrieveJob/Internship opportunities that are customized to
+the user’s profile.
+Furthermore, the app makes use of the user’s Location to provide localized services like
+weather updates and navigation, as well as offering Namaz Reminders tailored to the
+user’s location and settings to facilitate religious observances. TheConversation function
+demonstrates the system’s ability to participate in dynamic interactions, learning from
+user inputs in order to enhance the quality of responses over time.
+2.2 High Level Use Cases
+Use Case Description Actors Subsystem
+Involved
+Submit
+Request
+User interacts with the chatbot by submitting a
+query or command.
+User Chatbot,
+NLP
+Speech
+Recognition
+Converts spoken user input into text for further
+processing.
+User,
+Speech-
+to-Text
+System
+NLP
+Intent
+Recogni-
+tion
+The NLP system identifies the user’s intent based
+on the text input.
+User, NLP NLP
+Entity Ex-
+traction
+Extracts key information such as dates, names, or
+locations from the user’s input.
+User, NLP NLP
+Query
+Knowledge
+Base
+The NLP or chatbot queries the knowledge base
+to retrieve relevant information (e.g., jobs).
+Chatbot,
+Knowledge
+Base
+Knowledge
+Base
+Generate Re-
+sponse
+Based on NLP and knowledge base data, the
+chatbot generates a response.
+Chatbot,
+NLP
+Response
+Generation
+Conversation
+Tracking
+Manages the conversation flow, ensuring context
+is maintained throughout multiple interactions.
+Chatbot Conversation
+Management
+6
+2.3 Extended Use Cases
+Text-to-
+Speech
+Converts textual responses from the chatbot into
+audio format for the user.
+User, Text-
+to-Speech
+System
+NLP, Re-
+sponse
+Generation
+View Con-
+versation
+History
+Allows the system to access previous conversa-
+tions to maintain context.
+Chatbot,
+Conversation
+History
+Conversation
+Management
+Table 2.1: High Level Use Cases
+2.3 Extended Use Cases
+Use Case 1: Submit Request
+Scope: Chatbot System
+Level: User Interaction
+Primary Actors: User
+Stakeholders and Interests: Users want to submit queries or commands to the system.
+Success Guarantee: Request successfully received and processed by the system.
+Main Success Scenario:
+1. User sends a request.
+2. System accepts and processes the request.
+Extensions:
+• Request contains incomplete or invalid data.
+Special Requirements: Low latency and accurate parsing.
+Technology: NLP, Chatbot System
+Frequency of Occurrence: Frequent
+Use Case 2: Speech Recognition
+Scope: NLP Module
+Level: Low-level Processing
+Primary Actors: Speech-to-Text System
+Stakeholders and Interests: Users expect accurate conversion of speech to text.
+Success Guarantee: Audio is accurately transcribed to text.
+Main Success Scenario:
+7
+2. Project Requirements
+1. Speech input is accurately processed and converted to text.
+Extensions:
+• Poor quality audio, noisy background.
+Special Requirements: High accuracy of transcription.
+Technology: NLP, Speech Recognition
+Frequency of Occurrence: Occasional
+Use Case 3: Intent Recognition
+Scope: NLP Module
+Level: Low-level Processing
+Primary Actors: NLP System
+Stakeholders and Interests: Users expect the system to accurately understand their in-
+tents.
+Success Guarantee: Intent is correctly identified from input.
+Main Success Scenario:
+1. User sends a query.
+2. NLP system identifies intent based on query.
+Extensions:
+• Ambiguous or unclear intent in the user request.
+Special Requirements: NLP model accuracy.
+Technology: NLP Model
+Frequency of Occurrence: Frequent
+Use Case 4: Entity Extraction
+Scope: NLP Module
+Level: Low-level Processing
+Primary Actors: NLP System
+Stakeholders and Interests: NLP system extracts necessary entities for response pro-
+cessing.
+Success Guarantee: Relevant entities like names, dates extracted correctly.
+Main Success Scenario:
+8
+2.3 Extended Use Cases
+1. NLP system extracts key entities such as dates, locations, names.
+Extensions:
+• Entities not clearly specified by the user.
+Special Requirements: Named Entity Recognition (NER)
+Technology: NLP Model
+Frequency of Occurrence: Frequent
+Use Case 5: Generate Response
+Scope: NLP Module
+Level: Low-level Processing
+Primary Actors: NLP, Chatbot System
+Stakeholders and Interests: Users expect a meaningful response based on their input.
+Success Guarantee: Response is generated based on user’s input.
+Main Success Scenario:
+1. Chatbot generates a response based on NLP output and knowledge base.
+Extensions:
+• Response fails to match user’s expectations.
+Special Requirements: Response relevance and accuracy.
+Technology: NLP, Chatbot System
+Frequency of Occurrence: Frequent
+Use Case 6: Query Knowledge Base
+Scope: Chatbot System
+Level: Subsystem Interaction
+Primary Actors: Chatbot, Knowledge Base
+Stakeholders and Interests: Retrieve domain-specific information effectively.
+Success Guarantee: Information from the knowledge base is retrieved accurately.
+Main Success Scenario:
+1. Chatbot queries the knowledge base for information related to jobs or tasks.
+2. The system retrieves and provides the required information.
+9
+2. Project Requirements
+Extensions:
+• No relevant data in the knowledge base.
+Special Requirements: Rich domain knowledge.
+Technology: Knowledge Base
+Frequency of Occurrence: Frequent
+Use Case 7: Conversation Tracking
+Scope: Conversation System
+Level: Context Management
+Primary Actors: Chatbot
+Stakeholders and Interests: Ensure continuity and relevance in ongoing user interac-
+tions.
+Success Guarantee: System maintains conversation history and context.
+Main Success Scenario:
+1. Chatbot maintains conversation flow and remembers context from previous ex-
+changes.
+Extensions:
+• Context lost due to user confusion or unclear input.
+Special Requirements: Persistent conversation memory.
+Technology: Chatbot, NLP System
+Frequency of Occurrence: Occasional
+Use Case 8: Text-to-Speech
+Scope: NLP Module
+Level: Output Interaction
+Primary Actors: Text-to-Speech System
+Stakeholders and Interests: User expects responses in audio format to enhance accessi-
+bility.
+Success Guarantee: Text is successfully converted into speech.
+Main Success Scenario:
+1. Generated text is converted into speech and played to the user.
+10
+2.4 Functional Requirements
+Extensions:
+• Text-to-speech system malfunctions or provides unclear audio output.
+Special Requirements: High-quality text-to-speech generation.
+Technology: NLP, Text-to-Speech System
+Frequency of Occurrence: Occasional
+Use Case 9: View Conversation History
+Scope: Chatbot System
+Level: Context Retrieval
+Primary Actors: Chatbot, User
+Stakeholders and Interests: User or system needs to check previous conversations for
+reference or continuity.
+Success Guarantee: Chatbot retrieves and displays previous conversation history accu-
+rately.
+Main Success Scenario:
+1. User checks the history of interactions with the bot.
+2. The system provides a complete and accurate history.
+Extensions:
+• Conversation history not available or incorrectly retrieved.
+Special Requirements: Persistent storage.
+Technology: Chatbot System
+Frequency of Occurrence: Rare
+2.4 Functional Requirements
+The functional requirements define the core operations that the Urdu voice assistant app
+must fulfill. These include data collection fine-tuning a machine learning model for Urdu
+language processing, personalizing student opportunities, and creating a user-friendly mo-
+bile interface. The system also needs to integrate external services, including APIs, to en-
+hance functionality, like retrieving career opportunities from LinkedIn and location-based
+services for prayer reminders.
+11
+2. Project Requirements
+2.4.1 Data Retrieval
+1. The system shall collect data from user inputs through the mobile app.
+2. The system shall fetch tailored opportunities from LinkedIn based on the user’s
+preferences.
+3. The system shall retrieve the current location of user through Google Maps API.
+2.4.2 Model Finetuning
+1. The system shall fine-tune the LLaMA 3.1 model to improve Urdu language under-
+standing.
+2. The system shall process user inputs and queries in Urdu, generating accurate re-
+sponses based on the fine-tuned model.
+2.4.3 Mobile App Development
+1. The system shall authenticate the user during login.
+2. The system shall converse with the user in Urdu (Nastaliq).
+3. The system shall interact with the user via voice and display chat in text.
+4. The system shall provide dark and light modes in the app.
+2.5 Non-Functional Requirements
+The app’s non-functional requirements address its quality, including performance, us-
+ability, reliability, and security. It must ensure high reliability with minimal downtime,
+provide an intuitive and responsive user experience, and guarantee data protection. Secu-
+rity measures should prevent unauthorized access, and usability should prioritize ease of
+use for Urdu-speaking students with varying technical skills.
+2.5.1 Reliability
+The Urdu voice assistant app must have a high degree of reliability. Failures could occur
+in understanding voice commands or in providing accurate recommendations. Mean Time
+12
+2.6 Domain Model
+Between Failures (MTBF) will be used to measure reliability, and error detection strate-
+gies will involve logging errors and providing fallback mechanisms. Correction strategies
+include model retraining and frequent software updates.
+2.5.2 Usability
+The app’s usability will focus on ease of learning and interaction for students, especially
+those from non-technical backgrounds. Features such as voice interaction and personal-
+ized recommendations should be intuitive and error recovery easy. The UI/UX design
+will prioritize accessibility, especially for Urdu-speaking users.
+2.5.3 Performance
+The performance goals of the app will ensure that 95% of responses are delivered within
+3 seconds of user input, regardless of the mobile platform. This includes fetching person-
+alized job opportunities and location-based reminders like namaz timings.
+2.5.4 Security
+Security measures will protect user data such as LinkedIn and university email creden-
+tials. The system must resist unauthorized access, with encryption used to secure sensitive
+data. The app will also ensure proper API authentication and user session management to
+prevent data breaches.
+2.6 Domain Model
+The domain model provides a structured representation of the data handling and process-
+ing mechanisms within the voice assistant system, divided into several key components:
+• Audio to Text: Converts spoken inputs into text format, facilitating further process-
+ing.
+• Text Processing: Involves refining the converted text to ensure it is ready for anal-
+ysis, including correcting errors and formatting.
+• Text Analysis: Examines the text to understand context or intent, crucial for accu-
+rately responding to user queries.
+13
+2. Project Requirements
+Figure 2.2: Domain Model
+• LLM (Large Language Model) : Uses advanced algorithms to interpret and re-
+spond to user inputs intelligently.
+On the user data side, the system manages:
+• Personal Details: To personalize interactions.
+• Common Questions : Cataloged to quicken response times for frequently asked
+queries.
+• Preferences: Utilized to tailor the system’s operations to the user’s likes.
+• Daily Life Tasks: Provides assistance in managing daily schedules effectively.
+14
+Chapter 3
+System Overview
+This Urdu voice assistant mobile application project aims to assist students in effectively
+managing their academic and personal lives. Through voice commands in Urdu, the app
+enables students to receive personalized career opportunities, financial budgeting assis-
+tance, and reminders, including Namaz timing alerts based on their location. The design
+emphasizes the integration of LinkedIn for career opportunities and Google Maps API
+for location-based services. The system’s architecture involves gathering Urdu datasets,
+refining LLaMA 3.1, and creating a user-friendly mobile interface using Flutter.
+Figure 3.1: Modular Structure
+15
+3. System Overview
+Figure 3.2: Architectural Diagram
+3.1 Architectural Design
+The architecture of a mobile application shown in Figure 3.13.1 and 3.23.2 is developed using
+Flutter is illustrated in the modular structure diagram, showcasing the flow from user
+interaction to data processing and response generation. It encompasses key modules such
+as the User Interface for input collection, and Data Collection for directing inputs to
+the Model Fine-Tuning module powered by LLaMA 3.1 for intelligent processing. The
+functionality is enhanced by API Integration with LinkedIn and Google Maps, offering
+personalized opportunities and location-based services. Backend Services are in place to
+support system operations, while Testing Modules ensure the system’s robustness through
+comprehensive UI/UX and system tests.
+3.2 Design Models
+We have utilized an object-oriented (OO) development approach to organize our system
+for this project. This method is well-suited for the intricacy of the voice assistant, as it ne-
+cessitates reusable, modular components like voice input processing, API integration, and
+response generation. The OO method facilitates encapsulation, enabling the system to be
+scalable and easily maintained. Detailed descriptions of each design model implemented
+are provided below.
+Figure 3.33.3 shows a step-by-step flow of actions from both the User and the system per-
+spective. The User initiates the process by starting a conversation, after which the system
+greets them and requests input. Depending on the query, the system either retrieves job
+opportunities through the LinkedIn API or obtains prayer reminders using the Google
+16
+3.2 Design Models
+Figure 3.3: Activity Diagram of Ulingo
+Maps API. The Model then processes this data, adds it to the Database, and subsequently
+provides a response to the User. Finally, the interaction either continues or concludes
+based on the User’s input.
+Figure 3.43.4 is the class diagram for ULingo. It represents the interaction between the User
+and various components of the voice assistant system. The User begins a conversation
+with the V oice Assistant, for example, by inquiring about job opportunities or request-
+ing reminders for prayers. The V oice Assistant communicates with various subsystems,
+including the Model for processing and comprehending queries, the LinkedIn API, and
+the Google Maps API. Subsequently, the information is stored in the Database for future
+reference, and a response is then provided to the User.
+In Figure 3.53.5 (Class Level Sequence Diagram), we see the more specific interaction be-
+tween different classes and objects. The User communicates with the V oice Assistant,
+which then sends the query to the Model for language processing. If the request involves
+job data, the JobAPI is called to fetch opportunities. For location-based services, the Lo-
+cationAPI is triggered. Once the necessary data is retrieved, it is stored in the Database,
+and the User is provided with a response based on the query.
+17
+3. System Overview
+Figure 3.4: Class Diagram of Ulingo
+3.3 Data Design
+The data structures in this system are created from the information domain using Firebase,
+which is Flutter’s backend solution. Firebase is a NoSQL database hosted in the cloud,
+storing data in a flexible, document-oriented format arranged into collections.
+18
+3.3 Data Design
+Figure 3.5: Class Sequence Diagram of Ulingo
+3.3.1 Key Data Entities
+• User Data: Contains user profiles, preferences, LinkedIn credentials, and location
+data. This information is stored in Firebase Firestore for real-time updates and
+retrieval.
+• Job Opportunities: These are fetched from LinkedIn’s API and temporarily stored
+to curate personalized job suggestions based on user preferences.
+• V oice Inputs and Outputs: User voice inputs and system-generated responses are
+processed by the model and stored in Firestore to improve the model’s performance
+and maintain interaction history.
+• Namaz Reminders: Based on the user’s location, fetched using the Google Maps
+API, prayer reminders are stored and used to notify the user at appropriate times.
+• API Keys: Sensitive information, such as API keys for LinkedIn and Google Maps,
+19
+3. System Overview
+is securely handled using Firebase’s environment variable storage to ensure safety
+and security.
+3.3.2 Data Processing and Organization
+Firebase supports real-time synchronization of data, making it ideal for the interactive
+nature of this app. The following key processes are implemented:
+• Authentication: Firebase Authentication is used to securely manage user login
+credentials and session management, ensuring user data is protected.
+• Data Retrieval: Data is retrieved from Firebase and external APIs (LinkedIn,
+Google Maps), processed by the machine learning model, and stored in Firestore to
+generate personalized recommendations and responses.
+• Real-Time Syncing: Firebase ensures that changes to user data, interactions, and
+preferences are synced in real-time across the user’s devices.
+20
+Bibliography
+[1] Smit Desai and Jessie Chin. Hey google, can you help me learn? In Proceedings
+of the 3rd Conference on Conversational User Interfaces , CUI ’21, New York, NY ,
+USA, 2021. Association for Computing Machinery.
+[2] Pratik Joshi, Sebastin Santy, Amar Budhiraja, Kalika Bali, and Monojit Choudhury.
+The state and fate of linguistic diversity and inclusion in the NLP world. In Dan
+Jurafsky, Joyce Chai, Natalie Schluter, and Joel Tetreault, editors,Proceedings of the
+58th Annual Meeting of the Association for Computational Linguistics , pages 6282–
+6293, Online, July 2020. Association for Computational Linguistics.
+[3] Amanda Kann. V oice assistants have a plurilingualism problem. In Proceedings of
+the 4th Conference on Conversational User Interfaces , pages 1–5, 2022.
+[4] Taylor Kerns. Google offers a silly solution for multilingual android auto users: Stick
+to one language, 2021.
+[5] Areeba Khalid, Malik Daler Ali Awan, Nadeem Iqbal Kajla, Amnah Firdous, Hafiz
+Muhammad Sanaullah Badar, and Malik Muhammad Saad Missen. Audio-to-text
+urdu chatbot using deep learning algorithms rnn and wav2vec2.Journal of Computing
+& Biomedical Informatics, 2024.
+[6] Amama Mahmood, Junxiang Wang, Bingsheng Yao, Dakuo Wang, and Chien-Ming
+Huang. Llm-powered conversational voice assistants: Interaction patterns, opportu-
+nities, challenges, and design guidelines. arXiv preprint arXiv:2309.13879, 2023.
+[7] Chad Taylor. Siri, alexa, and other voice assistants struggle with bilinguals, 2020.
+21
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

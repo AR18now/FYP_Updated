@@ -1,0 +1,741 @@
+# FYP1-MidReport-F24-203-R-NeuroGen - i210306 Rameen Tariq
+
+## 1. Introduction
+
+Introduction __________________________________________________________ 1 
+1.1 Problem Domain ________________________________________________________ 1 
+1.2 Problem Statement ______________________________________________________ 1 
+1.3 Proposed Solution/Method _______________________________________________ 1 
+Preliminary Literature Review ____________________________________________ 3 
+2.1 Deep learning-Based 3D inpainting of brain MR images _____________________ 3 
+2.1.1 Summary ___________________________________________________________________ 3 
+2.1.2 Critical Analysis ___________________________________________________________ 3 
+2.1.3 Relation to the project: _____________________________________________________ 4 
+2.2 Conditional Diffusion Models for Semantic 3D Brain MRI Synthesis ________________ 4 
+2.2.1 Summary: ________________________________________________________________ 4 
+2.2.2 Critical Analysis ___________________________________________________________ 4 
+2.2.3 Relation to the Project: _____________________________________________________ 5 
+2.3 Denoising Diffusion Models for 3D Healthy Brain Tissue Inpainting ________________ 5 
+2.3.1 Summary: __________________________________________________________________ 5 
+2.3.2 Critical analysis: ______________________________________________________________ 6 
+2.3.3 Relation to our project: ________________________________________________________ 6 
+2.4 Multitask Brain Tumor In-painting with Diffusion Models ___________________ 6 
+2.4.1 Summary: __________________________________________________________________ 6 
+2.4.2 Critical analysis: ___________________________________________________________ 7 
+2.4.3 Relation to our project: ____________________________________________________ 7 
+2.5 Blind MRI Brain Lesion In-painting Using Deep Learning _____________________ 8 
+2.5.1 Summary: ________________________________________________________________ 8 
+2.5.2 Critical Analysis: __________________________________________________________ 8 
+2.5.3 Relation to the project: _____________________________________________________ 8 
+2.6 GAN-based metal artifacts region inpainting in brain MRI imaging with reflective 
+registration _______________________________________________________________ 9 
+2.6.1 Summary: ________________________________________________________________ 9 
+2.6.2 Critical Analysis: ___________________________________________________________ 9 
+2.6.3 Relation to the project: ____________________________________________________ 10 
+2.7 Inpainting non-anatomical objects in brain imaging using enhanced deep convolutional 
+autoencoder network ______________________________________________________ 10 
+2.7.1 Summary: _______________________________________________________________ 10 
+2.7.2 Critical Analysis __________________________________________________________ 10 
+2.7.3 Relation to the project: ____________________________________________________ 11 
+2.8 Brain MR Atlas Construction Using Symmetric Deep Neural Inpainting ____________ 11 
+2.8.1 Summary: _______________________________________________________________ 11 
+2.8.2 Critical Analysis: _________________________________________________________ 12 
+2.8.3 Relation to the project: ____________________________________________________ 12 
+Comparative Table ____________________________________________________ 12 
+ 
+3 
+Approximate methodology/Proposal Approach _____________________________ 14 
+3.1 Verifying the BraTS Challenge Dataset for Brain MRI Inpainting Workflow _________ 14 
+3.2 Workflow for Rescaling, Normalization, and Ensuring Consistent Voxel Size ________ 14 
+3.2.1 Rescaling to Consistent Voxel Size ______________________________________________ 14 
+3.2.2 Normalization of Intensity Values _______________________________________________ 15 
+3.2.3 Ensuring Voxel Size Consistency ________________________________________________ 15 
+3.3 Quality Control and Final Validation ________________________________________ 15 
+ 
+0 
+List of Tables 
+ 2.1 Comparison of Various Methods and Datasets . . . . . . . . . . . . . . . 13 
+ 
+1 
+Introduction 
+1.1 Problem Domain 
+Present Challenge: MRI scans typically generate high-resolution images, but they often 
+show missing or corrupted regions, which nega tively affects the reliability of the 
+diagnosis. This makes pinpointing brain tumors extremely difficult. 
+Essential Requirement: Precise evaluation of glioma tumors is necessary for efficient 
+diagnosis and therapeutic strategizing. Unfortunately, because o f the limits of the 
+imaging data, medical experts frequently struggle to provide accurate MRI 
+interpretations. 
+Study Motivation: By producing upgraded pictures that correct for missing or corrupted 
+regions, this study seeks to solve the deficiencies in MRI analysis for patients diagnosed 
+with gliomas. Our goal is to enhance the accuracy of MRU scans to enable healthcare 
+providers to make well-informed decisions and optimize patient outcomes in the setting 
+of brain tumour management. 
+1.2 Problem Statement 
+The project tackles the difficulty of interpreting brain MRI scans with gliomas, where 
+standard algorithms frequently underperform due to the presence of lesions. Such 
+algorithms are usually trained on healthy brain pictures, which limits their usefulness in 
+clinical situations when analysing tumor -affected regions.The proposed program 
+attempts to address this issue by using advanced inpainting techniques to generate 
+healthy 3D brain tissue in tumor -affected areas. This approach will help to resto re MRI 
+data integrity, increasing the dependability of essential therapeutic operations including 
+brain tissue segmentation, anatomical parcellation, and tumour growth modelling. The 
+method improves the performance of brain MRI analysis by providing realis tic tissue 
+reconstructions, making it better suited for clinical decision making. 
+1.3 Proposed Solution/Method 
+The proposed approach is an extensive machine learning method that employs a number 
+of cutting-edge models, including Denoising Diffusion Probabilistic Models (DDPMs), to 
+in-paint (create) 3D healthy brain tissue in the region impacted by the glioma tumour. 
+ 
+2 
+We’ll use MRI scans of glioma-affected brains as input, together with an in-painting mask 
+to highlight the tumor -affected area. The solution wi ll generate healthy tissue brain 
+within the masked region in voided part of the MRI by experimenting with a variety of 
+in-painting techniques, including DDPMs, Generative Adversarial Networks (GANs), 
+Variational Auto-encoders (VAEs), and possibly Latent Diffusion Models (LDMs), resulting 
+in a complete brain MRI scan that accurately represents a healthy state. This in-painting 
+procedure will aid in the reconstruction of missing or damaged portions with realistic 
+tissue, ultimately boosting the quality of data used in therapeutic jobs. 
+The training phase will involve T1 MRI modality scans from the BraTs dataset 2024 , which 
+includes voided tumor-affected MRI scans of Glioma-affected patients. The models will 
+learn to synthesize healthy tissue in tumor-affected areas, using the healthy brain tissue 
+mask as input with voided MRI . Model performance will be assessed using conventional 
+metrices such as SSIM, PSNR and MSE to verify that the synthetically generated regions 
+closely mimic real healthy brain tissue. Fur thermore, several approaches such as 3D 
+Wavelet-based models or memory efficient 3D models, will be explored to overcome 
+scaling concerns with high -resolution MRIs The project will not only generate realistic 
+healthy brain tissue, but will also seek to inc rease the ability to enhance the analysis of 
+brain MRI , making it more useful for clinical applications such as tissue segmentation, 
+anatomical parcellation, and tumour growth tracking. The approach will use both 
+diffusion models and alternative in -painting approaches, resulting in complete results 
+and a strong answer to medical imaging difficulties. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+3 
+Preliminary Literature Review 
+2.1 Deep learning-Based 3D inpainting of brain MR images 
+2.1.1 Summary 
+This paper [8] addresses the issue of reconstructing 3D brain MR images from sparse 2D 
+slices, which are commonly used due to long scan times for 3D imaging. The authors 
+propose a deep learning model [10] with a U -Net-like structure using DenseNet sub -
+blocks to perform 3D inpainting. The model was trained using both fidelity loss and 
+perceptual loss, enabling it to recover detailed anatomical structures. They used 680 T1-
+weighted 3D MR images for training and testing, focusing on assessing the quality of the 
+inpainted images through various metrics like PSNR, SSIM, and HFEN.Results show that 
+the proposed method outperformed conventional interpolation and U -Net models in 
+both image quality and accuracy in morphometric measurements. 
+2.1.2 Critical Analysis 
+1-Both fidelity and perceptual losses integrated that helped Network to recover more 
+realistic and accurate anatomical structures in comparison to other methods 
+2-Gradient flow and efficient features extraction got better because of usage of 
+DenseNet sub-blocks 
+3-Cortical thickness and gray matter volume which are essential for neuroimaging were 
+effectively recovered 
+4-Boundary artifacts in reconstructed images were a limitation of the model that could 
+potentially impact its clinical applicability. Because the training process uses multiple 
+2. Preliminary Literature Review 
+4 
+layers in the dense block and patch -based learning, the method requires a lot of 
+processing power. 
+2.1.3 Relation to the project: 
+Our project and this paper both focuses on reconstructing missing or distorted tissue in 
+3D MRIs. The use of multi -modal MRI data and the architecture, which combines 
+DenseNet sub -blocks with a U -Net-like model emphasis on 3D in -painting. To target 
+tumor-affected areas, we can modify their methodology by potentially improving the 
+model to incorporate glioma-specific features. Our project aims to expand on the healthy 
+brain tissue recovery discussed in the paper. Specifically, we wou ld concentrate on 
+regions affected by tumors and make sure the algorithm creates realistic healthy tissue 
+2.2 Conditional Diffusion Models for Semantic 3D Brain MRI 
+Synthesis 
+2.2.1 Summary: 
+This paper [3] presents the novel approach to the 3D brain MRI syn thesis using 
+conditional diffusion models. Generating the accurate brain MRI synthesis based on 
+labels probabilistic models in denoising and generation of image. They used the dataset 
+of BraTS2021 and generates MRI using segmentation Mask. The main idea is to guide the 
+denoising process through semantic conditioning, to make sure the resulting brain MRI 
+is realistic [13] This paper reviews the already used techniques like GANs and VAEs 
+focusing on its struggle with structural coherence and fine detailing of 3D images, also 
+proposed the ways to overcome these limitations [7] which should be use as a better 
+approach, by integrating sematic guidance which allows the model to produce the high 
+quality MRI scan image anatomically correct and much realistic. The pr ocess of training 
+the model uses the 3D brain MRI dataset labelled with brain regions and model 
+iteratively improving the quality. Adapted Vanilla DDM Model for generating 3D 
+volumetric images. 
+2.2.2 Critical Analysis 
+1- Used a simple 3D U-NET model. 
+ 
+5 
+2- Diffusion models are known for their ability to denoise noisy images iteratively 
+improve image quality. Applying this to 3D MRI synthesis ensures that the output is 
+both 
+3- high-resolution and anatomically accurate which is of much importance for clinical 
+applications. 
+4- Earlier models like GANs and VAEs which are not much successful in preserving the 
+anatomical features of images, the models were then conditioned on semantic labels 
+results in more accurate brain structure image generated. 
+5- The reliance on the semantic labels also means that the model’s performance can be 
+limited by quality of the dataset and granularity of the label data. 
+6- The diffusion and denoising of the image require multiple iterations which maybe or 
+can be computationally expensive and for 3D data the figures may increase 
+exponentially. 
+2.2.3 Relation to the Project: 
+The relation of this paper to the project we are working on are: 
+1-The diffusion and denoising process used in this paper could also be used for 
+Inpainting tasks, to fill out the voided images of brain MRI, and synthesis healthy 
+tissues in region affected by glioma 
+2- For making sure the generated MRI image or the inpainted part is anatomically 
+accurate we can use the semantic labelling used in this paper, also the diffusion model 
+can ensure the structural coherence throughout the multiple iterations occurred. 
+2.3 Denoising Diffusion Models for 3D Healthy Brai n Tissue 
+Inpainting 
+2.3.1 Summary: 
+This paper [4] explores the DD PMs for the inpainting and its uses to generate the 3D 
+images for the area effected by the disease or brain having the tumors . T he main 
+motivation is the need to restore the image of heathy area for the better diagnosis. The 
+authors of this paper analyse and evaluate and modify different models including 2D, 
+pseudo-3D, and fully 3D methods, to solve and overcome the challenge of consistent 
+2. Preliminary Literature Review 
+6 
+inpainting in 3D MRIs. the main contribution through this paper and its study is the 
+extension of 2D and 3D Diffusion mode ls for inpainting and balancing the performance 
+of pseudo 3D model as best approach.as this model outperform the traditional approach 
+that was through the FSL Lesion-filing tool. 
+2.3.2 Critical analysis: 
+1-The paper directly works on the main task of our p roject we are working on glioma 
+affected regions. DDPMs usage for this task is highly relevant, as DDPMs are used for 
+iteratively denoise and generate tissue structures, which is important for filling in missing 
+or damaged brain tissue. The BraTS dataset is also used in the paper. 
+2-The paper includes pseudo-3D method which is dealing with this issue by utilizing 2D 
+convolutions and 1D convolutions in the z -axis, which ensures consistent generation of 
+3D volumes. This model outperform the 2D slice based and efficient in terms of SSIM, 
+MSE and PSNR . Which makes it a good choice to use for brain inpainting task. 
+3-This paper also shows the clinical relevance of inpainting by testing the model on a MS 
+lesion-filling task, where the pseudo -3D method outperforms the traditional FSL lesion 
+filling tool, which indicates that this approach could be similarly effective for glioma 
+affected regions. 
+4-The 3D diffusion models are computationally heavy, with sampling times reaching up 
+to 20 m/vol, which makes them imprac tical for real -time applications. This could be a 
+problem for our project where handling a large amount of data quickly is important.. 
+2.3.3 Relation to our project: 
+Both of them are focused on almost same issue as they are working on reconstructing 
+brain MRI after it got affected by the disease and reconstruct the healthy brain after it 
+got affected by glioma. Also uses DDM Ps for reaching the goal and which could also be 
+helpful to us while choosing which model to go with. 
+ 
+ 
+2.4 Multitask Brain Tumor In-painting with Diffusion Models 
+2.4.1 Summary: 
+ 
+7 
+This paper [15]focus on the methodological approach of using Diffusion models[6] for 
+the in-painting and multitasking brain tumor. And also focus on to improve the accuracy 
+and efficiency of these in -painting me thods specifically related to brain tumors. This 
+paper proposed the multitask frameworks where the trained model is able to multitask, 
+tasks like segmentation of tumor and tissue in -painting, which helps in improving the 
+performance. The authors use the da taset of brain MRI s with annotated tumors by 
+evaluating the performance of methods using same metrics we talked about earlier i.e. 
+SSIM,PSNR. Few enhanced methods can help in improving diagnostic outcomes and 
+support in clinical decision making by giving more accurate and clearer representation of 
+brain tissues and tumors. 
+2.4.2 Critical analysis: 
+1-The use of diffusion models for multitask brain tumor inpainting is a novel approach. 
+These diffusion models have capabilities in generating and in image tasking. Using them 
+in inpainting in the multitask framework is innovative. 
+2-As these inpainting techniques will be improved this can directly benefi ts the clinical 
+methods by enhancing the MRI interpretations and potentially aiding in a better 
+monitoring. 
+3-While SSIM and PSNR are commonly used metrics, they may not be able to capture the 
+clinical insignificant of the inpainting results. Use of new an d additional metrics could 
+help in improving and producing the best outcome. 
+4-This method was solely tested on a dataset from a Mayo clinic. Therefore, the 
+generalizability of the method is need to be addressed. The method may behave 
+differently due to th e variability in MRI protocols and tumor characteristics. A critical 
+analysis with the widely used inpainting methods can provide a clear image. 
+5-Further improvement can be brought by conducting experiments on the different 
+dataset from different institutions and exploring methods that can reduce computational 
+burden of diffusion model and making them more practical for the real time clinics. 
+2.4.3 Relation to our project: 
+The Research paper is using the multitask framework integrating tumor segmentation 
+and tissue inpainting which align directly with the project we are working on, by training 
+2. Preliminary Literature Review 
+8 
+the model to multitask which effectively captures and reconstruct the missing tissues 
+that aligns with our main goals too.This paper is using the diffusion models wh ich are 
+frequently used in challenge of generating realistic and coherent brain tissue, preserving 
+both global and local anatomical features which is key requirement in our project 
+2.5 Blind MRI Brain Lesion In-painting Using Deep Learning 
+2.5.1 Summary: 
+This research paper [12] focusses on an inpainting technique for brain MRI images 
+damaged by lesions using deep learning. By using a 3D U -Net architecture for blind 
+inpainting, the technique replaces the requirement for manual lesion delineation b y 
+automatically reconstructing parts of the lesion with brain tissue that seems healthy. The 
+network is taught in two stages: first, artificial training data is created using a non -blind 
+inpainting network, and then the inpainted images are utilised to train a blind inpainting 
+network. The model improves robustness against the existence of lesions, which 
+improves the performance of existing pipelines, such as brain tissue segmentation. 
+2.5.2 Critical Analysis: 
+1-The time -consuming and error -prone nature of conventional in -painting techniques is 
+decreased by using blind in -painting, which eliminates the need for manual lesion area 
+identification. 
+2-The use of a complete 3D U-Net, rather than 2D slices or 3D patches, allows for better 
+context awareness and more accurate in-painting of entire brain volumes. 
+3-Given the solutions’ possible clinical use, the computational efficiency of the model , 
+which can handle data in as little as 0.5 seconds is remarkable. 
+4-As the method is primarily intended to treat white matter anomalies, it is not 
+generalized to other brain tumors, such as gliomas or vascular lesions. 
+2.5.3 Relation to the project: 
+By concentrating on glioma -aware in -painting, our approach expands on previous 
+research and tackles the difficulty of rebuilding brain tissue damaged by tumours instead 
+of only white matter abnormalities. MRI and a larger range of assessment metrics, such 
+as the Dice coefficient, are combined. 
+ 
+9 
+2.6 GAN-based metal artifacts region inpainting in brain MRI 
+imaging with reflective registration 
+2.6.1 Summary: 
+This research paper [18] describes the metal Artifacts Region in-painting Network(MARINet), 
+a deep learning model / f or in-painting regions in brain MRI with metal artifacts . MARINet 
+uses U-Net architecture with dual-path encoder and takes advantage of brain symmetry via 
+reflective version of it [14] .The model in -paints metal artifacts by referring to both the 
+original image and a flipped registered version of it.The research compares MARINet against 
+existing in -painting approaches , including partial Convolution(PCony) and Gated 
+Convolution(GCony), and finds that it outperforms them. Evaluation metrics such as mean 
+absolute error(MAE) and peak signal-to-noise ratio(PSNR) demonstrate MARINet’s ability to 
+improve image quality and restore texture of tissue.The model is applied to clinical MRI scans 
+with metal implants[17].The dataset used in this research paper includes:- Patient Data MRI 
+images from 100 patients without dentures, scanned between 2017 and 2021. This group 
+included 61 males and 39 females, with an average age of 57 years and Image Data:T1 -
+weighted MRI images containing or located near the teeth, resulting in 9000 slices after data 
+augmentation. 
+2.6.2 Critical Analysis: 
+1-MARINet uses reflective registration to utilise the quasi -symmetry of brain pictures, 
+dramatically improving in-painting quality. 
+2-MARINet outperforms other approaches like as PConv and GC onv in terms of 
+numerous metrics (MAE, PSNR, and SSIM). 
+3-It solves a critical problem in MRI imaging, particularly in the presence of metal 
+artefacts, by producing more realistic reconstructions of damaged/tumor -affected 
+regions. 
+4-The dual-path encoder in U-Net, along with partial convolution, enables MARINet to 
+focus on valid pixel areas, enhancing in-painting accuracy. 
+5-Because the model relies on brain symmetry, it may perform badly in circumstances of 
+asymmetry, such as when artefacts exist on both sides of the brain. 
+2. Preliminary Literature Review 
+10 
+6-The method focusses on 2D in -painting rather than fully utilising the 3D structure of 
+MRI data. 
+2.6.3 Relation to the project: 
+MARINet’s inpainting approach based on brain symmetry is directly relevant to our effort 
+because both aim t o restore MRI image regions impacted by artefacts. Our initiative 
+focusses on tumor-affected regions, specifically gliomas, whereas MARINet focusses on 
+metal artefacts. The reflecting registration technique and the utilisation of symmetry 
+may inspire new a pproaches to treating glioma -affected areas, particularly in cases 
+where brain symmetry remains largely intact. 
+2.7 Inpainting non-anatomical objects in brain imaging using 
+enhanced deep convolutional autoencoder network 
+2.7.1 Summary: 
+This research paper [9] discusses an enhanced deep convolutional auto-encoder network 
+for in-painting non-anatomical objects in brain MRI and CT scan data. The suggested 
+method employs deep learning techniques, notably convolutional neural networks 
+(CNNs) and generative adver sarial networks (GANs), to restore missing or distorted 
+portions in medical images. To improve pixel precision and ensure global consistency, the 
+model employs an enhanced encoder -decoder architecture with skip connections, as 
+well as two adversarial losses (global local). The method is faster and more precise than 
+previous methods, resulting in high -quality findings for PSNR (52.44), SSIM (0.95), and 
+MSE (40.73). It considerably improves diagnostic image quality, particularly in areas 
+affected by non-anatomical aberrations such artifacts [16] or object removal.The dataset 
+utilised in this study comes from the Visible Human Project (VHP). The pictures were 
+created with Siemens Biograph mCT and downsampled to 1x1x1 mm from the original 
+0.85x0.85x5 mm. The dat aset contains 800 photos, which were separated into three 
+groups: training, testing, and validation, each of 640, 80, and 80 images [2]. 
+2.7.2 Critical Analysis 
+1-The combination of adversarial losses make sure the realistic in -painting and better 
+consistency in the reconstructed areas. 
+ 
+11 
+2-Preserve high-resolution feature information, improving the fidelity of the in -painted 
+images. 
+3-The paper demonstrates excellent quantitative results in metrics like PSNR, SSIM, and 
+MSE. The method accounts for both global and local losses, which enhances the realism 
+of the final output. 
+4-The focus is on non -anatomical object removal rather than pathological tissue 
+reconstruction. The method does not specifically address the unique challenges of in -
+painting regions affected by gliomas, such as irregular tumor boundaries or 
+heterogeneous textures. 
+5-As the method is said to be faster, the use of two adversarial networks and 
+highresolution in-painting may still require significant computational resources. 
+2.7.3 Relation to the project: 
+This research work emphasises on non -anatomical in -painting [11], which is rather 
+different from our project’s goal of in -painting glioma -affected bra in tissue. Certain 
+essential components, such as the use of CNNs, skip connections, and adversarial losses, 
+are compatible with our project’s technical approach. The proposed model may inspire 
+the creation of our own in -painting framework, especially in terms of preserving global 
+consistency and high-resolution details in 3D brain MRI data. 
+ 
+2.8 Brain MR Atlas Construction Using Symmetric Deep Neural 
+Inpainting 
+2.8.1 Summary: 
+This paper [19]describes a deep learning -based method for in -painting brain MRI data, 
+focusing on tumor -affected areas. The method seeks to replace tumor regions with 
+synthetic normal tissue to ease brain atlas building, which is a bit difficult when tumor s 
+are present. The proposed method constructs a statistical brain atlas using only 
+pathological MRI data [5], filling irregularly shaped tumor patches with realistic tissue. 
+Handling randomly dispersed tumor locations, leveraging a symmetry constraint 
+between brain hemispheres, and making use of partial datasets are all examples of key 
+2. Preliminary Literature Review 
+12 
+improvements. The method was tested on the Multimodal Brain Tumor Segmentation 
+(BraTS) dataset and demonstrated higher reconstruction quality, cross -correlation, and 
+mutual i nformation metrics than earlier methods.The 2018 Multimodal Brain Tumor 
+Segmentation (BraTS) dataset is used in this paper .This database consists of 
+approximately 210 clinical 3T multimodal MRI scans of glioblastoma and lower -grade 
+glioma with pathologica lly confirmed diagnoses. The tumor locations were manually 
+identified by expert neuro -radiologists and used as ground truth. The dataset includes 
+T1-weighted, T2-weighted, and T1-weighted contrastenhanced (T1ce) MRI scans [1]. 
+2.8.2 Critical Analysis: 
+1.The technique successfully handles incomplete datasets with irregular tumour regions, 
+overcoming a common limitation in brain atlas creation. 
+2.The symmetry restriction between brain hemispheres improves in -painting accuracy, 
+yielding more realistically reproduced regions. 
+3.Several assessment metrics (SSIM, PSNR, and L1 error) show that the method 
+outperforms earlier in-painting techniques such as patch-match and partial convolution. 
+4.In this paper method relies mostly on 2D slices, restricting its potenti al to capture 3D 
+information, which could increase in-painting accuracy in MR data. 
+5.The symmetry notion, while useful, may not always hold true due to natural asymmetry 
+in brain structures, and significant misalignments might impair performance. 
+6.The method is strongly reliant on the manual modification of loss function weights, 
+which may reduce in-painting performance and create bias. 
+2.8.3 Relation to the project: 
+This study closely resembles our project in that both aim to rebuild brain tissue in tumor 
+affected areas. While this research focusses on statistical brain atlas building and uses 
+2D slices, our project will broaden its scope by focussing on 3D inpainting, making it more 
+useful to clinical analysis tasks such as tumour monitoring and tissue segmentation. The 
+symmetry restriction they applied can serve as inspiration for our method, but we want 
+to take it a step further by combining multi-modal MRI data and advanced 3D inpainting 
+techniques. 
+Comparative Table 
+ 
+13 
+ 
+Reference Dataset Data Preprocess Accuracy 
+Evaluation 
+Method 
+Pipeline Weakness 
+Nature (2020) 
+680 T1-weighted 
+3D MR images 
+from KBASE 
+(527 for training, 
+153 for testing) 
+Patch-based 
+learning 
+PET/MRI 
+preprocessing of 
+3D 
+MRI 
+nil 
+PSNR, SSIM, 
+HFEN 
+U-Net-like 
+structure with 
+DenseNet sub- 
+blocks 
+Boundary 
+artifacts, high 
+computational 
+cost 
+HAL (2020) 
+Open access IXI 
+dataset MS 
+dataset 
+composed of 3T 
+3D-T1w MPRAGE 
+im- 
+ages 
+Non-blind 
+inpainting 
+followed by blind 
+inpainting 
+PSNR: 48.13, 
+Correlation: 
+0.9997 
+PSNR, DICE, 
+correlation 
+3D U-Net archi- 
+tecture 
+Focus on
+ white 
+matter lesions, 
+reliance on 
+synthetic data, 
+computational 
+complexity 
+PMC (2022) 
+BraTS 2018 (210 
+glioma cases) 
+Symmetry 
+constraint 
+handling 
+incomplete 
+datasets 
+SSIM: 0.9823, 
+PSNR: 35.85, 
+Mean L1 
+error: 211.7, 
+Inception 
+score: 
+11.74 
+SSIM, PSN R, 
+Mean L1 error, 
+inception 
+score 
+Coarse-to-fine 
+architecture with 
+patch-swap 
+Use of 2D slices, 
+symmetry 
+assumption may 
+not always hold 
+Wiley (2024) 
+9000 slices from 
+100 patients with 
+metal artifacts 
+Images were 
+acquired on a 
+Philips Achieva 
+scanner using a 
+T1-weighted 
+high-resolution 
+isotropic volume 
+examination 
+sequence. 
+Reflective 
+registration was 
+performed on 
+the corrupted 
+image for the test 
+and real clinical 
+artifact data. 
+MAE: 18.34 ± 
+2.75x 10 -2, 
+PSNR: 17.62 ± 
+0.96, SSIM: 
+98.63 ± 0.46 
+800 images 
+from the 
+Visible Human 
+Project 
+Enhanced
+ deep 
+convolutional 
+autoencoder, 
+data 
+downsampling 
+the model may 
+perform poorly in 
+cases where 
+symmetry is not 
+applicable. This 
+approach 
+required 
+reflective 
+registration, 
+which may 
+reduce 
+effectiveness 
+when artifacts 
+are large or affect 
+both sides of the 
+brain. 
+DDPMs 
+BraTS 2023 
+containing 
+T1weighted brain 
+MR scans with 
+tumors 
+Publicly available 
+on BraTS website 
+SSIM, MSE, 
+PSNR 
+0.8527 
+0.1196, 
+0.0103 
+0.0107, 
+20.9258 
+3.3835 
+± 
+± 
+± 
+Expensive, 
+results depend 
+on quality and 
+diversity of 
+dataset. Lacks 
+clinical 
+Not good results 
+with 3D models 
+2. Preliminary Literature Review 
+14 
+evaluations 
+Table 2.1: Comparison of Various Methods and Datasets 
+ 
+Approximate methodology/Proposal Approach 
+3.1 Verifying the BraTS Challenge Dataset for Brain MRI 
+Inpainting Workflow 
+3.1.1 Verification of data integration: 
+• Download the BraTS dataset. 
+• Confirm the presence of ground truth segmentation masks for tumor regions. 
+3.1.2 Visual Inspection 
+ • We chose a MRI volume sample at random . Then we superimposed the matching 
+segmentations from each data set and visualized them . By this method we were able to 
+recognize all the corrupted files and checked whether the pictures align with the data set 
+correctly. 
+ • Corrective measures, like resampling or removing faulty data from the dataset, are 
+implemented when the problems of alignment and corrupted files were encountered. 
+3.1.3 Statistical Consistency 
+• We calculated statistical measures such as mean, variance, and intensity histograms 
+for MRI scans. This helped in finding any sort of anomalies from the data set and 
+outliers 
+• When the anomalies were found in the data set like very high or low values. Then 
+the normalization techniques were carried out. 
+3.2 Workflow for Rescaling, Normalization, and Ensuring 
+Consistent Voxel Size 
+Once we validated the dataset. Our next step was to preprocess whether the images are 
+suitable for the inpainting tasks. 
+3.2.1 Rescaling to Consistent Voxel Size 
+ 
+15 
+• MRI scans often varied in voxel resolutions depending upon which sort of scanner is 
+being used. In this step, we rescaled all the MRI volumes to a consistent voxel size 
+of 1x1x1 mm³. 
+• 3D interpolation (such as linear or cubic interpolation) is used to achieve this 
+rescaling. This helps ensuring that anatomical structures are preserved and that 
+voxel size discrepancies do not impact the model’s ability to reconstruct brain 
+tissue. 
+• Our final goal was to see the images consistency which will help in the model 
+training. 
+3.2.2 Normalization of Intensity Values 
+• MRI scans may have different ranges which may confuse the deep learning model. 
+To implement standardized ranges, we apply Z-score normalization for each 
+modality. This step involves subtracting the mean voxel intensity and dividing by the 
+standard deviation. 
+• In some cases, percentile normalization is used when the intensity range is 
+normalized between the 1st and 99th percentiles to [0, 1] or [-1, 1]. This helps in 
+ensuring that learning process is not disturbed. 
+3.2.3 Ensuring Voxel Size Consistency 
+• After the data is rescaled, it was verified that all MRI volumes have consistent voxel 
+sizes by checking the voxel size metadata stored in the image headers 
+(DICOM/NIFTI). 
+• In case of any mismatches found, we resampled the affected images using 3D 
+interpolation techniques such as this was provided by image processing libraries 
+like SimpleITK or ANTs. 
+• Second time the visualization technique was conducted to ensure that anatomical 
+fidelity is maintained, and during resampling no distortions were introduced 
+We see a raw MRI scan with varying intensities and voxel sizes on the left side. The middle 
+shows the transformation through 3D interpolation for rescaling and Z-score normalization. 
+While on the right side we have a uniformed intensity image with uniform voxel sizes. The 
+above visual workflow emphasizes the necessity of preprocessing steps for m aintaining 
+consistency. 
+3.3 Quality Control and Final Validation 
+When the rescaling, normalization and voxel size corrections were done. Following steps 
+were taken: 
+2. Preliminary Literature Review 
+16 
+• Random visual checks to ensure that the inpainted regions are anatomically 
+plausible. 
+• Statistical checks were used to compare the pre-processed dataset with the original 
+dataset to check intensity distributions have not been distorted during 
+preprocessing. 
+• We used the Dice score and SSIM to compare images pre-processing and post-
+processing, while ensuring that data intensity remains high. 
+ 
+ 
+ 
+ 
+18 
+Bibliography 
+[1] Karim Armanious, Vijeth Kumar, Sherif Abdulatif, Tobias Hepp, Sergios Gatidis, and 
+Bin Yang. ipa-medgan: inpainting of arbitrary regions in medical imaging. In 2020 
+IEEE international conference on image processing (ICIP) , pages 3005 –3009. IEEE, 
+2020. 
+[2] Yahya Dogan and Hacer Yalim Keles. Iterative facial image inpainting based on an 
+encoder-generator architecture. Neural Computing and Applications , 
+34(12):10001– 10021, 2022. 
+[3] Zolnamar Dorjsembe, Hsing -Kuo Pao, Sodtavilan Odonchimed, and Furen Xiao . 
+Conditional diffusion models for semantic 3d brain mri synthesis. IEEE Journal of 
+Biomedical and Health Informatics, 2024. 
+[4] Alicia Durrer, Julia Wolleb, Florentin Bieder, Paul Friedrich, Lester Melie -Garcia, 
+Mario Ocampo-Pineda, Cosmin I Bercea, Ibrahim E Hamamci, Benedikt Wiestler, 
+Marie Piraud, et al. Denoising diffusion models for 3d healthy brain tissue 
+inpainting. arXiv preprint arXiv:2403.14499, 2024. 
+[5] Alan C Evans, D Louis Collins, SR Mills, Edward D Brown, Ryan L Kelly, and Terry M 
+Peters. 3d statistical neuroanatomical models from 305 mri volumes. In 1993 IEEE 
+conference record nuclear science symposium and medical imaging conference , 
+pages 1813–1817. IEEE, 1993. 
+[6] Chunming He, Yuqi Shen, Chengyu Fang, Fengyang Xiao, Longxiang Tang, Yulun 
+Zhang, Wangm eng Zuo, Zhenhua Guo, and Xiu Li. Diffusion models in low -level 
+vision: A survey. arXiv preprint arXiv:2406.11138, 2024. 
+[7] Kelei He, Chen Gan, Zhuoyuan Li, Islem Rekik, Zihao Yin, Wen Ji, Yang Gao, Qian 
+Wang, Junfeng Zhang, and Dinggang Shen. Transformers in medical image analysis. 
+Intelligent Medicine, 3(1):59–78, 2023. 
+[8] Seung Kwan Kang, Seong A Shin, Seongho Seo, Min Soo Byun, Dong Young Lee, Yu 
+Kyeong Kim, Dong Soo Lee, and Jae Sung Lee. Deep learning-based 3d inpainting of 
+brain mr images. Scientific reports, 11(1):1673, 2021. 
+[9] Puranam Revanth Kumar, B Shilpa, Rajesh Kumar Jha, B Deevena Raju, and 
+Thayyaba Khatoon Mohammed. Inpainting non -anatomical objects in brain 
+ 
+19 
+imaging using enhanced deep convolutional autoencoder network. Sadhan¯ a¯ , 
+49(2):1–13, 2024. 
+[10] Jae Sung Lee. A review of deep -learning-based approaches for attenuation 
+correction in positron emission tomography. IEEE Transactions on Radiation and 
+Plasma Medical Sciences, 5(2):160–184, 2020. 
+[11] Haiyin Luo and Yuhui Zheng. Semantic residua l pyramid network for image 
+inpainting. Information, 13(2):71, 2022. 
+[12] José V Manjón, José E Romero, Roberto Vivo-Hernando, Gregorio Rubio, Fernando 
+Aparici, Maria de La Iglesia -Vaya, Thomas Tourdias, and Pierrick Coupé. Blind mri 
+brain lesion inpainting using deep learning. In Simulation and Synthesis in Medical 
+Imaging: 5th International Workshop, SASHIMI 2020, Held in Conjunction with 
+MICCAI 2020, Lima, Peru, October 4, 2020, Proceedings 5 , pages 41–49. Springer, 
+2020. 
+[13] Luciano M Prevedello, Safwan S Halabi , George Shih, Carol C Wu, Marc D Kohli, 
+Falgun H Chokshi, Bradley J Erickson, Jayashree Kalpathy -Cramer, Katherine P 
+Andriole, and Adam E Flanders. Challenges related to artificial intelligence research 
+in medical imaging and the importance of image analysis competitions. Radiology: 
+Artificial Intelligence, 1(1):e180031, 2019. 
+[14] Marta BM Ranzini, Irme Groothuis, Kerstin Kläser, M Jorge Cardoso, Johann 
+Henckel, Sébastien Ourselin, Alister Hart, and Marc Modat. Combining multimodal 
+information for metal artefact reduction: an unsupervised deep learning 
+framework. In 2020 IEEE 17th International Symposium on Biomedical Imaging 
+(ISBI), pages 600–604. IEEE, 2020. 
+[15] Pouria Rouzrokh, Bardia Khosravi, Shahriar Faghani, Mana Moassefi, Sanaz Vahdati, 
+and Bradley J Erickson. Multitask brain tumor inpainting with diffusion models: A 
+methodological report. arXiv preprint arXiv:2210.12113, 2022. 
+[16] Jingwen Su, Boyan Xu, and Hujun Yin. A survey of deep learning approaches to 
+image restoration. Neurocomputing, 487:46–65, 2022. 
+[17] Kai Xie, Liugang Gao, Zhengda Lu, Chunying Li, Qianyi Xi, Fan Zhang, Jiawei Sun, Tao 
+Lin, Jianfeng Sui, and Xinye Ni. Inpainting the metal artifact region in mri images by 
+ 
+20 
+using generative adversarial networks with gated convolution. Medical physics , 
+49(10):6424–6438, 2022. 
+[18] Kai Xie, Liugang Gao, Heng Zhang, Sai Zhang, Qianyi Xi, Fan Zhang, Jiawei Sun, Tao 
+Lin, Jianfeng Sui, and Xinye Ni. Gan-based metal artifacts region inpainting in brain 
+mri imaging with reflective registration. Medical Physics, 51(3):2066–2080, 2024. 
+[19] Fangxu Xing, Xiaofeng Liu, C-C Jay Kuo, Georges El Fakhri, and Jonghye Woo. Brain 
+mr atlas construction using symmetric deep neural inpainting. IEEE journal of 
+biomedical and health informatics, 26(7):3185–3196, 2022.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

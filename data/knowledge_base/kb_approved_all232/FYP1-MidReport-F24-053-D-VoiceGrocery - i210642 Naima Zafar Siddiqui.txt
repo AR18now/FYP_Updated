@@ -1,0 +1,671 @@
+# FYP1-MidReport-F24-053-D-VoiceGrocery - i210642 Naima Zafar Siddiqui
+
+## 1. Introduction
+
+Introduction………………………………………………………………. 3 
+ 1.1 Problem Statement………………………………………………………….3 
+ 1.2 Motivation…………………………………………………………………...3 
+ 1.3 Problem Solution……………………………………………………………3 
+ 1.4 Motivation…………………………………………………………………...4 
+ 1.5 problem Solution……………………………………………………………4 
+ 1.6 Stake Holders………………………………………………………………..4 
+ 1.7 Project Description………………………………………………………….5 
+ 1.8 Scope…………………………………………………………………………5 
+ 1.7 Modules……………………………………………………………………...6 
+ 1.8 Tools and Technologies……………………………………………………..9 
+ 1.9 Work Division……………………………………………………………...10 
+ 1.10 Timeline…………………………………………………………………...10 
+2 Project Requirements……………………………………..11 
+ 2.1 Use Case Diagram………………………………………………………….12 
+ 2.2 Functional Requirements………………………………………………….13 
+ 2.3 Non-Functional Requirements…………………………………………….13 
+ 2.4 Domain Model………………………………………………………………14 
+3 System Overview…………………………………………...16 
+ 3.1 System and Architecture Design…………………………………………....17 
+ 3.2 Design Models……………………………………………………………......18 
+ 3.3 Data Design…………………………………………………………………...19 
+4 Conclusion…………………………………………………...23 
+5 References……………………………………………………23 
+3 
+ 
+ 
+1 Introduction 
+In today’s modern digital world, where everything is altered, and almost every product is just a 
+click away, some illiterate people still find grocery shopping difficult. Because these grocery 
+apps rely heavily on text-based guidance. Which increases the difficulty for such people when it 
+comes to shopping for food online. V oice Grocery, solves this major issue by offering simple 
+voice-based navigation and virtual assistant where user can control the whole process through 
+simple voice commands, and the user can search for the specific process, add it to cart then 
+check out, moreover user can also give audio feedback about the product he/she have received. 
+This strategy bridges gap in engagement of users in daily routine tasks such as food and 
+promotes independence and autonomy among the users. 
+ 
+1.1 Problem Statement: 
+Handling grocery shopping is extremely difficult in today’s modern era because most of the 
+people are too busy to go and buy food for themselves and family but in the case of non literate 
+people or people with no knowledge of today’s technology have difficulty to do grocery 
+shopping even today when technology is at the fore front of innovation. The main reason for this 
+issue is that most of the e-commerce and grocery shopping websites rely heavily on scripted 
+assistance and text driven support. Hence people with little knowledge of technology or people 
+with no knowledge of how to use such apps end up facing multiple barriers. V oice grocery is 
+here to lessen and ease these problems stated above. Because this app supports voice interface 
+which eradicates navigation through textual commands with in the application. In this app, users 
+can search the desired item and add them in to the cart through simple voice commands in either 
+English or Urdu language because many non-literate people in Pakistan are unable to speak or 
+understand English Language. Hence this user-friendly design of application makes it more 
+accessible to the users and makes this whole shopping experience more manageable for the non-
+educated and elderly users in world especially in Pakistan. It is a voice assisted user friendly 
+solution that helps non literate individuals to do their own grocery shopping. The application also 
+helps the users by spoken words recognition and feedback system which makes the purchasing 
+experience easier to manage, thus mostly increase inclusion of a particular device in everyday 
+life. We have taken a big step forward in narrowing the accessibility gap and creating a more 
+equitable digital experience for everyone. This User-friendly voice-activated interface will help 
+those non literate elderly people to do their own grocery shopping on daily basis without any 
+accessibility gap. More over this app also supports the feedback system through simple spoken 
+words in either English or Urdu language which makes this whole shopping experience easier to 
+manage which will automatically 3 enhance participation of the individual in daily activities 
+4 
+ 
+independently. By choosing V oiceGrocery, we have taken substantial improvement in bridging 
+this gap and allowing every individual to have an amazing and equitable grocery shopping 
+experience. 
+ 
+1.2 Motivation: 
+The lack of competence and inability to shop for the grocery online by themselves causes 
+autonomy and restricts their freedom as well as erodes their independence among the non literate 
+and elderly folks in the society. V oiceGrocery is just a creative and groundbreaking method to 
+overcome this disparity driven by the underlying vision and mission. V oiceGrocery aims to 
+address this shortfall of receptiveness and accessibility by providing a voice based intuitive app. 
+This app will help the folks to their grocery shopping without any help and guidance of any third 
+party. As explained earlier it supports voice-based interface and virtual assistant, which will 
+diminish the asking help of any other person. This technology will help consumers to do their 
+daily grocery shopping without having the know how of how to read or write. 
+ 
+1.3 Problem Solution: 
+V oiceGrocery is committed to increase individual independence and self-sufficiency by 
+providing a user friendly and very easy to use voice enabled way to achieve self-reliance and 
+manage daily grocery needs. This app will be accessible on both android and iOS devices. Since 
+it supports all the features of a typical e-commerce grocery app by simple voice commands, all 
+hands free, making things easier for non literate and individual folks while online grocery 
+shopping. Since non literate consumers often need someone to help them to guide while doing 
+online grocery shopping, their ability to be self-independent and self-reliable is hindered, leading 
+to a constraint liberty. Hence V oice grocery provides a solution which promotes self-confidence 
+along with creating more digital space for individuals. This app also represents Groundbreaking 
+step in advancing cross-accessibility solutions and provide an important tool to facilitate greater 
+independence for those with limited literacy and less knowledge of technology. 
+ 
+1.4 Stake Holders: 
+The stake holders are as follows: 
+ 
+1) Primary Users: 
+The V oiceGrocery app's primary users are illiterate people and elderly folks, because 
+such people have difficulty while using e-commerce grocery shopping apps because they 
+support text-based assistance. 
+5 
+ 
+2) Development Team: 
+V oiceGrocery app is designed and maintained by the development team. This team may 
+include front end developers as well as backend developers who will design the whole 
+interface of the app and will maintain the functionality of voice-based commands and 
+virtual assistant to improve the functionality of the app. 
+ 
+3) Supervisors and Project sponsors: 
+Supervisors who are responsible for providing guidance and ensuring the completion of 
+the project with in the given span of time are also included in the stake holders. In context 
+of V oiceGrocery, Ma’am Marium Hida is the supervisor. More over sponsors who are 
+willing to provide financial or intellectual capital are also counted as stakeholders. 
+ 
+4) Retailers and Businesses: 
+Retailers can be staking holders if they collaborate, by providing grocery products and 
+businesses which will help coordinate the pickup and delivery function. 
+ 
+5) End Users and General Public: 
+People who prefer voice-based assistance while online grocery shopping, are counted as 
+end users stake holders of this app. 
+ 
+6) Investors or Financial stakeholders: 
+In the future in the idea becomes a commercial app, the involvement of investors will be 
+very important, since these stakeholders will Anticipate benefiting from their investment 
+via commercialisation. 
+ 
+1.5 Project Description: 
+ 
+V oiceGrocery is a mobile app which is designed to bridge the convenience and exclusiveness for 
+non literate and elderly people. This app supports voice-based navigation and virtual assistance 
+which helps perform the detailed shopping process like browsing the specific desired product, 5 
+adding it in to their cart, pickup and delivery process and feedback through simple voice 
+commands all hands free. It is compatible on both android and iOS devices which increases its 
+comprehensive support. It also supports the use of advanced speech recognition in either Urdu or 
+English language to provide effective and accurate answers. In this way this app allows the non 
+literate and elderly folks to be independent in todays digital world. 
+6 
+ 
+1.5 Scope: 
+ 
+The V oiceGrocery aims to create a mobile app which is recognize voice speech through 
+advanced voice speech recognition to make the shopping experience easy and accessible for non 
+literate people. The target audience of this app includes non literate people, elderly folks and 
+those who prefer voice assisted shopping. More over customers will have a virtual assistant 
+which will help them while shopping like managing their shopping list, make payments etc. The 
+goal is very important. V oiceGrocery will offer a hands-free shopping experience designed to 
+empower non literate folks. V oice based navigation, virtual assistant and speech recognition are 
+important features of these apps. Although apps like Daraz, dMart and food panda do exist in 
+Pakistan and they excel in user friendliness and their functionality but these apps lack this crucial 
+feature of voice-based navigation which will be supported by V oiceGrocery. Because this app is 
+designed with accessibility in mind, hence even most illiterate people and those having zero 
+knowledge of technology will be able to use it and order their desired food and products. 
+ 
+1.6 Modules: 
+ 
+The modules of the app are as follows: 
+ 
+Voice Assistant Module: 
+This is the core module of the application, where users talk to the app and it responds 
+through voice commands. 
+ 
+1) Training the Voice Assistant: 
+The foundation of the V oice Assistant Module relies on accurate and 
+comprehensive data. To make voice assistant work well, we need to train it 
+with lots of Urdu phrases: including formal language and casual words etc. It 
+will also learn to understand Urdu mixed with some English words (that are 
+used in Urdu language as well). For example, when the user mention product 
+names in English, the model will help the assistant to recognize different 
+ways people speak as well. 
+ 
+2) Speech -to-Text (ASR): 
+In this module, the app will listen to what the user says and changes it into 
+text. For example, if someone says, “mujhe chawal dekhao”, the app will turn 
+7 
+ 
+that into text so that it can understand the requests. We will make sure that 
+the app understands different ways by which people pronounce words in 
+Urdu. 
+ 
+3) Intents model (Understanding the user): 
+Once the speech is converted to text, it figures out what the user wants to do. 
+Explaining the previous example, if someone says, “mujhe chawal dekhao”, 
+the app will know that they want to search for rice. If they say, “isme sabsy 
+acha konsa wala ha?” the app will understand that they want a comparison of 
+different brands and qualities of rice. This model is trained to recognize 
+different commands and requests. 
+ 
+4) Text-to-speech (TTS): 
+After processing the user's request, the app responds by speaking. TTS 
+converts the textual response generated by the app into Urdu speech. For 
+example, the app might say, "Yeh chawal aap ke liye behtreen hai" (This is 
+the best rice for you). This makes the interaction smooth and easy for the 
+user. 
+ 
+ 
+ 
+ 
+Client Module: 
+This is the user-facing interface where customers can interact with the app aside from the 
+voice features. 
+ 
+1) User Interface and User Experience (UI/UX): 
+While the app is voice-centric and most things are voice-controlled, it still 
+provides a simple user interface for basic functions like registration, 
+profile management, and settings. For people who cannot read (illiterate) 
+or elderly users, the design will be super minimal with large buttons and 
+easy-to-understand visual aids (e.g., product images with minimal text). 
+Our goal is to make sure that anyone can use the app easily, even if they 
+are not used to technology. 
+ 
+2) Shopping Cart & Checkout: 
+The app will automatically add the products and items to the cart when the 
+user tells it to. After they are done shopping and ready to buy, the app will 
+8 
+ 
+guide them through the checkout process using voice commands. It will 
+also confirm the total cost and asking about the delivery and payment 
+choices. 
+ 
+Delivery Module: 
+This part handles everything about delivering groceries to our respected customers. 
+ 
+1) Order Assignment : 
+Once the user has placed the order, the app will automatically assign it to the 
+closest delivery person, making sure the order gets to the customer quickly. 
+ 
+2) Order Tracking : 
+This module allows the user to track their order through voice commands like 
+"Mera order kahan tak pohncha hai?" (Where has my order reached?). The 
+system will respond with live updates on the delivery status, giving the user a 
+sense of control over the delivery process. 
+ 
+3) Delivery Confirmation: 
+When the groceries are delivered, the app will ask the user to confirm that 
+they received everything. It will help making sure all deliveries are 
+completed correctly. 
+ 
+Admin Module: 
+The Admin Module provides the necessary tools for app administrators to manage the 
+platform. 
+1) Product Management: 
+Administrators will have the ability to add, edit, or remove products from 
+the catalog, ensuring that the latest items are available for users. This 
+includes adding product details, pricing, availability, and descriptions. 
+ 
+2) Order Management: 
+Admins can keep an eye on all ongoing and past orders, resolve issues, 
+and handle customer queries. If a problem arises with an order, such as an 
+unavailable product, admins can contact the user through automated voice 
+notifications or directly intervene to resolve the issue. 
+ 
+3) User Management: 
+Admins can also manage user accounts, including the registration and 
+9 
+ 
+preferences. They can check how users are using the app to make things 
+better. 
+1.7 Tools and Technologies: 
+ 
+1) Front end development: 
+Flutter: Flutter will allow us to build app which will be accessible on both android 
+and iOS. 
+Figma: Figma will be used to design the UI/UX part of our app to help make app 
+visually better to make it under stable for non literate users. 
+React: react will also be used to design the UI/UX part of our app. 
+ 
+2) Back -end development: 
+Firebase: will be used for data management of our app. And it will also provide user 
+Access control and service review in V oiceGrocery. 
+SQLite: All the database of our app will be supported by SQLite featuring offline 
+access to shopping list and other important features of V oiceGrocery. 
+ 
+3) Real time Integration: 
+Flask: Real time integration will be supported by APIs in Flask to manage and 
+control interaction between users and data flow in the V oiceGrocery app. 
+Python: will be used for the backend logic. Like it will support the correct voice 
+speech recognition and virtual assistant features of V oiceGrocery. 
+ 
+4) Machine learning: 
+TensorFlow: Will be used for the development for models which will recognize the 
+voice commands it will also support the virtual assistant feature in V oiceGrocery 
+app. 
+PyTorch: will be used to train and fine-tune models. In our app it will be used to 
+understand the complex voice commands and process them afterwards. 
+ 
+5) Management tools: 
+Trello: Trello will be used to organize our weekly tasks and iterations ensuring a 
+well-coordinated app and timely development of that app. 
+ 
+6) Version Control: 
+GitHub: will be used to upload the source code ensuring teamwork and optimal 
+10 
+ 
+alterations during the whole development process of V oiceGrocery. 
+ 
+1.8 Work Division: 
+ 
+ 
+1.9 Timeline: 
+ 
+Phase-1: September-October 
+ 
+During these two months, the main focus of our app is building the UI/UX of the V oiceGrocery 
+app, including the prototype of the UI interface to make sure that it is user friendly and 
+completely understandable to non literate users. More over data collection is also part of this 
+phase. Like whole data which will be used afterwards will be collected and prepared to train the 
+model. This time span/phase is the basis for the usability of V oiceGrocery. 
+ 
+Phase-2: November-December 
+ 
+The 2nd phase is marked to train the model on the data we collected in the phase 1. The main 
+model will be trained and developed in this 2 month’s time span. Various machine learning 
+models which process the user commands (easy and difficult) will be trained to understand in 
+this phase. Meanwhile the application database will also be created to store important 
+
+11 
+ 
+information of the user. Along with some important features such as payment and 
+pickup/delivery process will also be integrated which forms the basis of V oiceGrocery. 
+ 
+Phase-3: January-March 
+The third phase is dedicated to improving the app from the initial user feedback from the last 2 
+phases. And then improving it afterwards. More over in this time phase some more important 
+features will be integrated as well such as cart management and delivery/pickup options, and 
+allowing users to complete orders with voice commands. Mainly the focus will be on optimizing 
+the app for use and preparing it for full release. 
+ 
+Phase-4: April-May 
+In the final phase, the app will be evaluated and refined ed for the final release. This phase will 
+include thorough testing and comprehensive evaluation to identify bugs or issues considering the 
+optimization as well to ensure that the app works well and is user friendly and completely 
+accessible to users on different devices. After the app is refined and validated, the final version 
+will be released. 
+ 
+ 
+ 2 Project Requirements: 
+In today’s modern digital world, where everything is altered and almost every product is just a 
+click away, some illiterate people still find grocery shopping difficult. Because these grocery 
+apps rely heavily on text-based guidance. Which increases the difficulty for such people when it 
+comes to shopping for food online. Voice Grocery solves this major issue by offering simple 
+voice-based navigation and a virtual assistant where the user can control the whole process 
+through simple voice commands, and the user can search for the specific process, add it to the 
+cart, then check out; moreover, the user can also give audio feedback about the product he/she 
+has received. This strategy bridges the gap in engagement of users in daily routine tasks such as 
+food and promotes independence and autonomy among the users. 
+ 
+2.1 Use Case Diagram: 
+The key functionalities of our app include user authentication, voice-based navigation, voice 
+assistant interaction, product search and browsing, speech-to-text (ASR) done, text-to-speech 
+(TTS), shopping cart management, payment and delivery, and order tracking, which will be 
+handled by the user. Whereas, user profile management, managing products and orders, resolving 
+customer queries, and all the sales analytics will be looked at by the admin. In terms of non-
+functional requirements, the Voice Grocery app is built to be highly usable, and it will perform 
+well in all terms, providing scalability, security, compatibility, reliability, localization, user 
+12 
+ 
+experience consistency, and data privacy to all its users. In other words, the use-case for our app 
+can be viewed as: 
+ 
+ 
+2.2 Functional Requirements: 
+Let's start with the functional and non-functional requirements for each module: 
+
+13 
+ 
+Voice Assistant Module: 
+Functional Requirements: 
+1) The system shall recognize and process voice commands in both Urdu and English. 
+2) The system shall convert speech to text accurately. 
+3) The system shall interpret user intents from the converted text. 
+4) The system shall generate appropriate responses based on user intents. 
+5) The system shall convert text responses to speech in Urdu. 
+Non -Funct ional Requirements: 
+1) The speech recognition system shall have an accuracy rate of at least 95% in normal 
+speaking conditions. 
+2) The system shall process voice commands and generate responses within 2 seconds. 
+3) The system shall support a variety of Urdu accents and dialects. 
+ 
+Client Module: 
+Functional Requirements: 
+1) The system shall provide a simple, visual user interface for basic functions like 
+registration and settings. 
+2) The system shall allow users to manage their shopping cart using voice commands. 
+3) The system shall guide users through the checkout process using voice instructions. 
+4) The system shall confirm order details and total cost verbally before finalizing an order. 
+Non -Functional Requirements: 
+1) The user interface shall be accessible to users with low literacy levels. 
+2) The system shall support both Android and iOS devices. 
+3) The app shall be usable by 90% of test users without prior training. 
+ 
+Delivery Module: 
+Functional Requirements: 
+1) The system shall automatically assign orders to the nearest available delivery person. 
+2) The system shall provide real-time order tracking information upon user request. 
+3) The system shall prompt users for delivery confirmation upon order completion. 
+Non -Functional Requirements: 
+1) The system shall update order status in real-time, with a maximum delay of 30 seconds. 
+2) The order assignment algorithm shall optimize for the shortest delivery time. 
+14 
+ 
+ 
+Admin Module: 
+Functional Requirements: 
+1) The system shall allow administrators to add, edit, and remove products from the catalog. 
+2) The system shall provide tools for managing and monitoring orders. 
+3) The system shall allow administrators to manage user accounts and analyse usage 
+patterns. 
+Non -Functional Requirements : 
+1) The admin interface shall be secure, requiring multi-factor authentication for access. 
+2) The system shall log all administrative actions for auditing purposes. 
+2.3 Non-Functional Requirements: 
+Some other Non -Functional requirements can be: 
+Availability: 
+1) The system should have an uptime of 99.9%, ensuring high availability for users to shop 
+at any time without downtime. 
+2) Backend services should be robust with failover mechanisms to ensure seamless 
+transitions in case of server issues. 
+Error Handling: 
+1) The app should gracefully handle errors and provide clear voice feedback. For instance, if 
+a voice command is misunderstood, the system should prompt the user to try again or 
+clarify the command. 
+2) Connectivity issues or temporary service failures (e.g., payment gateway issues) should 
+notify the user with a clear error message or voice prompt while maintaining their 
+progress in the app. 
+Data Integrity: 
+1) Transactions, order data, and user profiles should be consistently backed up to ensure that 
+no data is lost in the event of a system crash or failure. 
+2) The app must prevent duplicate orders or cart items from being added due to unexpected 
+interruptions. 
+ 
+Usability : 
+ 
+15 
+ 
+1) The app shall be usable by individuals with no prior experience with smartphone 
+applications. 
+2) 90% of users should be able to complete a purchase within 5 minutes of their first use. 
+3) The app shall provide clear voice feedback for all user actions. 
+4) The user interface shall use large, easily recognizable icons to supplement voice 
+interactions. 
+ 
+ 
+Security : 
+ 
+1) All data transmissions shall be encrypted using industry-standard protocols (e.g., TLS). 
+2) User passwords shall be hashed and salted before storage. 
+3) Secure login methods like OAuth or multi-factor authentication should be in place for 
+user accounts to prevent unauthorized access. 
+4) The app shall implement secure authentication mechanisms. 
+5) Regular security audits and penetration testing shall be conducted. 
+6) The app shall automatically log out inactive sessions after 15 minutes. 
+7) User data such as profile information, order history, and payment details must be 
+encrypted, and strict privacy policies must be enforced. 
+Performance: 
+ 
+1) The app should process and respond to voice commands within 1-2 seconds for common 
+tasks like product search, adding items to the cart, or providing feedback. 
+2) Speech recognition should process voice inputs with minimal delay, especially for users 
+with different accents or languages. 
+ 
+3) The system should scale efficiently to handle multiple users interacting with the voice 
+assistant at the same time, without affecting response time. 
+4) Should handle a growing number of products and orders without significant performance 
+degradation. 
+ 
+5) The backend services should maintain consistent performance under high traffic, 
+especially during peak shopping hours or sales events. 
+6) Load balancing techniques can be employed to distribute traffic evenly across servers. 
+ 
+Maintainability: 
+ 
+16 
+ 
+1) The app should follow a modular design, where different components (e.g., voice 
+assistant, cart management, payment processing) can be updated independently to 
+facilitate easier maintenance and updates. 
+2) The system architecture should be flexible enough to allow new features, such as 
+additional languages or voice APIs, to be added without significant rework. 
+Testability: 
+ 
+1) The system should be designed to support unit and integration testing of key components, 
+such as voice processing, product search, and payment. 
+2) V oice interactions should be tested across different accents and languages to ensure high 
+accuracy and natural flow. 
+ 
+2.4 Domain Model: 
+ 
+ 
+The domain model explains the classes which will be added in out app along with the 
+relationships between those classes. 
+ 
+
+17 
+ 
+ 
+3 System Overview: 
+VoiceGrocery is a mobile application designed to empower visually impaired users and those 
+with limited literacy by providing an accessible, user-friendly, and voice-operated grocery 
+shopping experience. The app leverages voice recognition technology and a virtual assistant to 
+facilitate the entire grocery shopping process, from browsing products to making purchases, 
+tracking orders, and managing deliveries. 
+The app's primary goal is to create a barrier-free shopping experience, allowing users to interact 
+with the system through natural language commands in both English and Urdu, without the 
+need for traditional visual interfaces or text-based inputs. This significantly enhances autonomy 
+and ease of use for individuals who may struggle with conventional shopping apps due to visual 
+or literacy constraints. 
+ 
+3.1 System and Architecture Design: 
+ 
+The VoiceGrocery system comprises multiple layers that work together to provide seamless 
+functionality: 
+ Frontend (Mobile App): 
+ 
+The app interface is designed using cross-platform frameworks like React Native or 
+Flutter, ensuring compatibility with both Android and iOS devices. Users interact with 
+the system using voice commands facilitated by an intuitive interface that requires 
+minimal visual engagement. 
+ Voice Processing Layer: 
+ 
+The app integrates with advanced Speech-to-Text (ASR) and Text-to-Speech (TTS) 
+engines, converting spoken commands into actionable inputs and providing feedback in 
+natural language. Natural Language Processing (NLP) is employed to interpret user 
+commands, extract intent, and facilitate interactions in both English and Urdu. 
+ Backend (Business Logic): 
+ 
+The core backend handles user management, product management, order processing, 
+payment integration, and delivery scheduling. This layer interacts with external 
+services like payment gateways and delivery platforms to ensure a smooth workflow. 
+ Database: 
+18 
+ 
+ 
+A centralized database stores user profiles, product catalog, order histories, and 
+preferences. This data is accessed in real-time to personalize the shopping experience for 
+individual users. 
+ 
+ External Integrations: 
+ 
+VoiceGrocery integrates with third-party APIs such as payment gateways (e.g., Stripe, 
+PayPal), delivery services, and voice-processing platforms (e.g., Google or AWS 
+services) to provide voice recognition and payment functionality. 
+ 
+Architectural Design: 
+ 
+ 
+ 
+ 
+ 
+ 
+Package Diagram: 
+
+19 
+ 
+ 
+ 
+ 
+The package diagram explains the software design pattern, as our app is user based so we have 
+used MVC design pattern through which user can easily use our app having these three distinct 
+elements known as model, view and controller as shown above. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+20 
+ 
+3.2 Design Models: 
+ 
+Activity Diagram: 
+ 
+
+21 
+ 
+ 
+ 
+ 
+ 
+The activity diagram explains the order in which the whole process of our app is explained in a 
+flow. 
+ 
+ 
+ 
+ 
+
+22 
+ 
+ 
+ 
+ 
+ 
+Data Flow Diagram: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+23 
+ 
+ 
+ 
+ 
+ 
+ 
+System-level Sequence Diagram: 
+ 
+ 
+ 
+
+24 
+ 
+State Transition Diagram: 
+ 
+ 
+ 
+
+25 
+ 
+3.3 Data Design: 
+ 
+This diagram outlines the data design for your VoiceGrocery app, showing the relationships 
+between key entities: 
+ User: Stores user details and types (Admin, Customer, DeliveryPerson). 
+ Cart: Linked to users, contains products through CartItems. 
+ Order: Represents purchases made by users, including OrderItems, delivery, and 
+payment information. 
+ Product: Contains product details, belongs to a Category, and is tracked in Inventory. 
+Products can also have Reviews. 
+ Delivery: Manages the delivery of orders by assigned DeliveryPersons. 
+ Payment: Tracks payment methods and statuses for orders. 
+This structure supports the app’s functionalities like placing orders, managing carts, and handling 
+deliveries. 
+ 
+ 
+
+26 
+ 
+4 Conclusion: 
+The Voice Grocery app successfully addresses the accessibility challenges faced by non-literate 
+individuals in grocery shopping. With features like voice-based navigation, speech recognition 
+(STT), and text-to-speech (TTS) in both English and Urdu, it enables users to shop 
+independently and interact with the app hands-free. The app ensures an intuitive, user-friendly 
+experience, helping non-literate people access essential services with ease. 
+Future work can focus on expanding the app’s language support, enhancing personalization 
+through machine learning, integrating with more local stores for real-time updates, and 
+improving security with voice biometrics. These developments will further enhance accessibility 
+and user satisfaction. 
+ 
+5 References: 
+ Agence France-Presse. (2022, September 10). Voice-Operated Smartphones Target 
+Africa’s Illiterate. Voice of America; Voice of America (VOA News). 
+https://www.google.com/amp/s/www.voanews.com/amp/voice-operated-
+smartphonestarget-africa-s-illiterate/6738092.html 
+ Foster, K. (2021, November 9). What is ASR? An Overview of Automatic Speech 
+Recognition. AssemblyAI Blog. https://www.assemblyai.com/blog/what-is-asr/ 
+ Adobe Acrobat. (2022). Adobe.com. 
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:e8273a62-2383-4d6f-9f2b-d3a8e99d6a21
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

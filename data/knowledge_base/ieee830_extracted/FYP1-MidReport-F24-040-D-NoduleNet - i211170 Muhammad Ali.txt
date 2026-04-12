@@ -1,0 +1,363 @@
+# FYP1-MidReport-F24-040-D-NoduleNet - i211170 Muhammad Ali
+
+## 1. Introduction
+
+1. Introduction
+professionals for improved patient outcomes.
+1.2 Scope
+The scope of this project is to develop an AI-based system for the detection and seg-
+mentation of lung, breast, and skin cancers. The system will employ advanced deep
+learning techniques such as Convolutional Neural Networks (CNNs) and Transformers to
+perform accurate segmentation of cancerous regions in medical images, specifically using
+CT scans for lung cancer, mammograms for breast cancer, and 2D images for skin can-
+cer. Additionally, the system will estimate the size of cancerous nodules or lesions using
+radiomic features and predict the risk of cancer progression in the lungs. The web-based
+interface will enable medical professionals to interact with the models, view detected
+cancerous areas, collaborate with colleagues, and generate comprehensive diagnostic re-
+ports. The platform will also support 3D visualization tools for interacting with CT scan
+images, secure patient record-keeping, data encryption, and APIs for integration with
+hospital management systems and electronic health records (EHR). The solution aims
+to enhance diagnostic accuracy, streamline workflows, and foster collaboration among
+healthcare professionals, thereby improving patient outcomes.
+1.3 Modules
+The system is divided into various modules for different functionalities and features in the
+multi-cancer detection system. The modules are organized regarding the types of cancer
+detection and extra functionality, which is provided by the system.
+1.3.1 Module 1:Cancer Detection and Segmentation
+In this module, models will be applied to detect and segment lung, breast, and skin can-
+cers, each based on various kinds of imaging techniques with different machine learning
+models.
+Lung Cancer Detection and Segmentation : Utilize CT Scans for the detection and
+segmentation of lungs, further segmenting the cancerous regions in order to train the
+models on nodule size estimation using the detected radiomic features.
+Breast Cancer Detection and Segmentation :Breast cancer detection and segmentation
+by mammograms, estimation of size of nodules with the use of radiomic features.
+2
+1.3 Modules
+Skin Cancer Classification and Segmentation: Melanoma, basal cell carcinoma, vari-
+eties of skin cancer are to be classified and segmented from 2D skin images .
+1.3.2 Module 2: Cancer Severity and Risk Prediction
+It provides the prediction about the severity in lung cancer and estimates the risk for
+further development of cancer .
+Lung Cancer Severity Prediction:It will predict the severity of the detected lung cancer,
+which would further facilitate finding the urgency and treatment planning.
+Cancer Growth Risk Prediction:In the case of lung cancer, it calculates the possibility
+of growth and dispersion of cancer because in the near future, it would be possible to
+manage such a risk .
+1.3.3 Module 3: Web Application Interface
+This module represents the development of the Web application through which the user
+can interact with it by generating reports and is able to collaborate in it .
+User Dashboard :Implement an active, user-friendly interface through which medical
+professionals will be able to upload images, visualize model outputs, and manage cases
+via the frontend .
+3D Visualization Tools:Give the user the ability to interactively visualize the CT scan
+images in 3D in a manner that could further help illustrate the understanding of the seg-
+mented regions .
+1.3.4 Module 4: Reporting and Collaboration
+This module will also include report generation and the facility for health professionals
+to collaborate on a specific case .
+1. Report Generation Tools: Detailed analysis reports in PDF format, comprising
+the predictions with segmentation regarding size/location of the nodules .
+2. Collaboration Features: The user can be allowed to make invitations for other
+medical experts so as to collaborate on particular cases in terms of discussing the
+findings.
+3
+1. Introduction
+1.3.5 Module 5: Integration and Security
+This module will work on data security and its integration with other systems .
+1. Data Encryption: Avail different methods of data encryption to integrate the data
+and keep it safe during transport and at rest.
+2. API Development for Integration: Development of APIs for seamless integration
+with Hospital Management Systems, EHRs, Third-party software.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+4
+1.4 User Classes and Characteristics
+User class Description
+Radiologists Specialists who will focus on the analysis of image data, ensuring the accu-
+racy of tumor segmentation and classification, particularly in lung and breast
+cancer cases.
+Oncologists Cancer specialists who will use the system for evaluating the severity and
+progression of cancer and making treatment recommendations based on risk
+predictions.
+Medical Re-
+searchers
+Researchers using the system to collect and analyze data to improve cancer
+detection algorithms, often collaborating with healthcare professionals to
+validate findings.
+Hospital
+Management
+The administration staff who will use APIs to integrate the system with hos-
+pital management systems (HMS) and ensure that the system is operating
+within compliance.
+Healthcare
+Providers
+Entities like clinics or hospitals who will be responsible for managing pa-
+tient records and ensuring that the system aligns with their health informa-
+tion workflows.
+Example: User Classes and Characteristics
+5
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-Cases
+• Actors: Radiologists, Oncologists,
+• Primary Use Cases:
+– Upload medical images (CT scans, mammograms, 2D skin images)
+– Detect Cancer
+– Visualize cancer segmentation results
+– Generate Diagnostic reports
+– Collaborate with other medical professionals
+• Use Case 1: Upload Medical Images
+– Actor: Radiologist
+– Description: The user uploads CT scans, mammograms, or 2D skin images
+for analysis.
+– Precondition: The user is authenticated and logged into the system.
+– Postcondition: The uploaded images are processed and analyzed by the sys-
+tem.
+7
+2. Project Requirements
+• Use Case 2: Visualize Cancer Segmentation
+– Actor: Radiologist
+– Description: The user visualizes the segmentation of cancerous regions in the
+medical images uploaded.
+– Precondition: The user has uploaded the required images.
+– Postcondition: The system displays the segmented areas, with options for 3D
+visualization for CT scans.
+• Use Case 3: Generate Reports
+– Actor: Radiologist ,Oncologist
+– Description: The user generates detailed diagnostic reports based on the seg-
+mentation and prediction results.
+– Precondition: The user has completed the cancer segmentation process.
+– Postcondition: The system generates a PDF report for the patient’s case.
+• Use Case 4: Collaborate on Cases
+– Actor:Radiologist, Oncologist
+– Description: The user invites other medical professionals to collaborate on
+the case and discuss the findings.
+– Precondition: A report or case has been generated.
+– Postcondition: Multiple users are granted access to the case for collaboration.
+2.2 Functional Requirements
+This chapter presents the functional requirements for the AI-Based Cancer Diagnosis Sys-
+tem.
+8
+2.2 Functional Requirements
+2.2.1 Module 1: Cancer Detection and Segmentation
+Following are the requirements for module 1:
+1. FR1: The system shall detect and segment lung cancer from CT scan images.
+2. FR2: The system shall detect and segment breast cancer from mammogram images.
+3. FR3: The system shall classify and segment skin cancers, including melanoma and
+basal cell carcinoma, using 2D skin images.
+4. FR4: The system shall allow users to upload medical images (CT, mammogram, or
+2D skin images) for processing.
+5. FR5:The system shall estimate the size of detected nodules or lesions..
+2.2.2 Module 2: Cancer Severity and Risk Prediction
+Following are the requirements for module 2:
+1. FR1: The system shall predict the severity of lung cancer based on the size and
+spread of nodules detect.
+2. FR2: The system shall assess the risk of lung cancer growth and spread from CT
+scan images.
+2.2.3 Module 3: Web Application Interface
+Following are the requirements for module 3:
+1. FR1: The web application shall provide a dashboard for users to upload images and
+visualize the segmentation results.
+2. FR2: The system shall support interactive 3D visualization of CT scan images for
+better understanding of segmented cancer regions.
+3. FR3: The system shall allow users to download and share detailed reports in PDF
+format.
+4. FR4: The system shall allow users to collaborate by inviting other professionals to
+review cases.
+9
+2. Project Requirements
+2.2.4 Module 4: Reporting and Collaboration
+Following are the requirements for module 4:
+1. FR1: The system shall generate diagnostic reports in PDF format summarizing the
+segmentation and prediction results. [1]
+2. FR2: The system shall allow users to invite other professionals to collaborate on a
+specific case.
+2.2.5 Module 5: Integration and Security
+Following are the requirements for module 5:
+1. FR1: The system shall use data Hashing methods to ensure secure storage and
+transmission of patient data.
+2. FR2: The system shall provide REST APIs for integration with hospital manage-
+ment systems and EHRs.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements.
+2.3.1 Usability
+• NFR1: The system shall allow a user to upload medical images in less than 2
+interactions.
+• NFR2: The dashboard shall be designed to minimize errors, with recovery options
+for users to retry failed image uploads.
+2.3.2 Performance
+• NFR1: The system shall perform detection and segmentation tasks within 1 minute.
+• NFR2: The 3D visualization interface shall render CT scans in less than 10 seconds.
+10
+2.4 Use-Case Diagram
+2.3.3 Security
+• NFR1: The system shall require multi-factor authentication for all medical profes-
+sionals.
+• NFR2: The system shall encrypt all stored data using hashing algorithms, ensuring
+the highest levels of protection against unauthorized access.
+2.4 Use-Case Diagram
+Figure 2.1: Use Case Diagram
+11
+2. Project Requirements
+2.5 Domain Model
+Figure 2.2: Domain Model
+12
+Chapter 3
+System Overview
+3.1 Architectural Design
+3.1.1 Architecture Diagram
+Figure 3.1: Architecture Diagram
+13
+3. System Overview
+3.2 Design Models
+3.2.1 Activity Diagram 01
+Figure 3.2: Activity Diagram
+14
+3.2 Design Models
+3.2.2 Activity Diagram 02
+Figure 3.3: Activity Diagram
+15
+3. System Overview
+3.2.3 Activity Diagram 03
+Figure 3.4: Activity Diagram
+16
+3.2 Design Models
+3.2.4 Activity Diagram 04
+Figure 3.5: Activity Diagram
+17
+3. System Overview
+3.3 Data Flow Diagrams
+3.3.1 DFD Level 0
+Figure 3.6: DFD-Level0
+18
+3.3 Data Flow Diagrams
+3.3.2 DFD Level 1
+Figure 3.7: DFD-Level1
+19
+3. System Overview
+3.3.3 DFD Level 2 D1
+Figure 3.8: DFD-Level2
+20
+3.3 Data Flow Diagrams
+3.3.4 DFD Level 2 D2
+Figure 3.9: DFD-Level2
+21
+3. System Overview
+3.3.5 DFD Level 2 D3
+Figure 3.10: DFD-Level2
+22
+3.3 Data Flow Diagrams
+3.3.6 DFD Level 2 D4
+Figure 3.11: DFD-Level2
+23
+3. System Overview
+3.3.7 DFD Level 2 D5
+Figure 3.12: DFD-Level2
+24
+3.4 System Sequence Diagram
+3.4 System Sequence Diagram
+Figure 3.13: System Sequence Diagram
+25
+3. System Overview
+3.5 Data Design
+This section outlines the data organization and schemas utilized within the system. The
+system manages various types of data essential for cancer detection and diagnosis, includ-
+ing medical images, patient information, cancer diagnosis results, segmentation details,
+and records of medical professionals. Each type of data is structured in specific JSON
+documents to facilitate efficient access, processing, and management.
+3.5.1 Medical Professional Schema
+{
+"medicalProfessionalId": "doctor_001",
+"specialization": "Oncologist"
+}
+3.5.2 Security Schema
+{
+"securityId": "sec_001",
+"multiFactorAuthentication": true,
+"encryptedData": "encrypted_string_value"
+}
+3.5.3 Medical Image Schema
+{
+"imageId": 1,
+"type": "Mammogram",
+"filePath": "https://example.com/images/scan_001.dcm",
+"uploadImage": "function to upload an image"
+}
+3.5.4 Cancer Detection Schema
+{
+"detectionId": 1,
+26
+3.5 Data Design
+"lungCancerDetection": {
+"imageId": 1,
+"segmentationResult": {
+"segmentedRegions": "regions data",
+"3DVisualization": "3d_visualization_data"
+}
+},
+"breastCancerDetection": {
+"imageId": 2,
+"segmentationResult": {
+"segmentedRegions": "regions data",
+"3DVisualization": "3d_visualization_data"
+}
+},
+"skinCancerDetection": {
+"imageId": 3,
+"segmentationResult": {
+"segmentedRegions": "regions data",
+"3DVisualization": "3d_visualization_data"
+}
+}
+}
+3.5.5 Cancer Segmentation Result Schema
+{
+"segmentationResultId": 1,
+"segmentedRegions": "regions data",
+"3DVisualization": "3d_visualization_data",
+"visualizeSegmentation": "function to visualize segmentation"
+}
+3.5.6 Risk Prediction Schema
+{
+"riskPredictionId": 1,
+"lungCancerRiskSeverity": {
+27
+3. System Overview
+"segmentationResultId": 1,
+"riskLevel": "High"
+},
+"cancerRiskGrowth": {
+"segmentationResultId": 2,
+"growthRate": "Fast"
+}
+}
+3.5.7 Diagnostic Report Schema
+{
+"reportId": 1,
+"content": "This is a diagnostic report",
+"reportPath": "https://example.com/reports/report_001.pdf",
+"generateReport": "function to generate report"
+}
+3.5.8 Collaboration Schema
+{
+"collaborationId": 1,
+"caseId": 1,
+"professionals": [
+"doctor_001",
+"doctor_002"
+],
+"inviteCollaborators": "function to invite collaborators"
+}
+28
+Bibliography
+29
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

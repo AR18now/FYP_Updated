@@ -1,0 +1,390 @@
+# FYP1-MidReport-F24-131-D-BTCConversa - i210333 Muneeza Zaki
+
+## 1. Introduction
+
+Introduction 22
+1.1 Problem Statement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+1.2 Motivation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+1.3 Scope . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+1.4 Modules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+1.4.1 Module 1: Information Management . . . . . . . . . . . . . . . . 44
+1.4.2 Module 2: Action Handling . . . . . . . . . . . . . . . . . . . . . 44
+1.4.3 Module 3: Analysis Module . . . . . . . . . . . . . . . . . . . . 44
+1.4.4 Module 4: Advisory Module . . . . . . . . . . . . . . . . . . . . 55
+1.5 User Classes and Characteristics . . . . . . . . . . . . . . . . . . . . . . 55
+2 Project Requirements 66
+2.1 Use-case/Event Response Table/Storyboarding . . . . . . . . . . . . . . . 66
+2.1.1 Detailed Use Cases . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.2 Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.2.1 Module 1: Information Management . . . . . . . . . . . . . . . . 88
+2.2.2 Module 2: Action Handling . . . . . . . . . . . . . . . . . . . . . 88
+2.3 Non-Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . 88
+2.3.1 Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 88
+2.3.2 Usability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 88
+2.3.3 Performance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+2.3.4 Security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+2.4 Domain Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+3 System Overview 1111
+3.1 General Description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+3.2 Architectural Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+3.3 Design Models . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1212
+3.4 Data Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1515
+4 Conclusions and Future Work 1616
+4.1 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1616
+2
+CONTENTS
+References 1717
+3
+List of Figures
+2.1 Use Case Diagram for BTC Conversa . . . . . . . . . . . . . . . . . . . 66
+2.2 Domain Model for BTC Conversa . . . . . . . . . . . . . . . . . . . . . 1010
+3.1 Box and Line Diagram of BTC Conversa Architecture . . . . . . . . . . . 1212
+3.2 Activity Diagram for BTC Conversa . . . . . . . . . . . . . . . . . . . . 1313
+3.3 Simple Class Diagram for BTC Conversa . . . . . . . . . . . . . . . . . 1414
+3.4 Sequence Diagram for BTC Conversa Query Processing . . . . . . . . . . 1515
+4
+List of Tables
+1.1 User Classes and Characteristics . . . . . . . . . . . . . . . . . . . . . . 55
+0
+LIST OF TABLES
+Acknowledgements
+First and foremost, we would like to express our sincere gratitude to our supervisor, Mr.
+Hassan Raza, and co-supervisor, Mr. Adil Majeed, for their continuous support, guidance,
+and valuable insights throughout the development of this project. Their expertise and
+encouragement have kept us motivated and focused as we work through each phase.
+We are also grateful to BluTech Consulting for providing the opportunity to collaborate
+externally. Their industry insights and continuous feedback have been instrumental in
+aligning our project with real-world applications and needs.
+We would also like to thank the faculty members and the Department of Artificial Intel-
+ligence at the National University of Computer and Emerging Sciences, Islamabad, for
+their resources and support throughout this project.
+Abstract
+BTC Conversa: Generative AI Banking Chatbot is designed to simplify and automate
+mundane banking through the use of conversational AI. In this Phase One for the project,
+most of the concentration will be placed on the Information Bot, which greeting re-
+sponses associated with account-related inquiries, balance inquiries, account statements,
+and branch information. The system is developed on Flask for API management and
+SQLite to simulate banking database management. It processes multiple queries via
+RASA for seamlessness, making the experience personalized. Also, session management
+by this bot maintains consistency across devices and browsers. This report describes the
+work completed during the first phase and underlines the chatbot’s potential to bring about
+a sea change in customer interactions within the banking sector.
+1
+Chapter 1
+Introduction
+The banking sector has steadily moved towards digital platforms, enabling customers to
+manage their accounts, transfer funds, and pay bills online. However, many banking
+apps still require complex navigation and lack the user-friendliness needed for day-to-day
+banking tasks. In today’s ever developing world, customers demand more personalized
+and faster solutions to simplify their interactions with banks.
+This project, BTC Conversa, is designed to tackle these needs by introducing a conver-
+sational AI-based banking assistant. Using generative AI technology, this chatbot will
+automate routine banking tasks, enabling users to interact with their banks seamlessly
+through text-based conversations. This will allow users to complete tasks such as check-
+ing balances, managing accounts, and viewing transaction history without the need to
+navigate through a myriad of screens.
+1.1 Problem Statement
+Traditional banking systems and apps are functional but they fall short of delivering user-
+friendly experiences. Customers face delays in accessing important account information
+and frequently find the interface complicated to use. This leads to poor customer satis-
+faction, especially when users need personalized financial advice or quick access to their
+account details.
+BTC Conversa aims to solve these issues by providing a single conversational AI-based
+solution. With features like real-time transaction history, automated responses to common
+queries, and personalized financial insights, BTC Conversa seeks to streamline banking
+for the modern day customer.
+2
+1.2 Motivation
+1.2 Motivation
+This project is motivated by the high demand for better and easier to use banking ser-
+vices. In the age of digital banking adoption — requiring more personalized, real-time
+interactions from AI-powered solutions is the new normality.
+The inspiration behind BTC conversa comes out of the requirement to give a more natural,
+human like experience to users. By incorporating conversational AI, we want to build a
+product not just to make banking tasks simpler but which also provides more personalized
+insights and support for an improved customer experience.
+Additionally, this project is being carried out in collaboration with BluTech Consulting,
+providing valuable industry insights and guidance, ensuring that the solution aligns with
+real-world needs.
+1.3 Scope
+The scope of BTC Conversa defines a conversational AI-powered banking assistant to
+ease and automate routine banking tasks through natural language. This paper focuses,
+first of all, on major functionalities for the balance inquiry, account statement retrieval,
+money transfer, and branch information request. One can ask about several things in a
+single message, such as "What is my balance, ntn, and e-mail?" or ask for specific details
+about each transaction.
+The system will be integrated seamlessly with banking for total security and personal
+experiences both on the web and mobile; BTC Conversa will also include session storage
+across device and browser changes to make users’ data safe and consistent throughout
+their banking activities. It shall also be able to provide personalized financial insights to
+users based on their transaction history for better spending management and improved
+financial literacy.
+BTC Conversa will allow pure financial and non-financial action handling, such as bill
+payments, fund transfers across accounts, actions related to adding a new payee, and
+spending alert management through text or voice-based conversations. Besides that, ad-
+visory services will also be provided regarding personalized tips for budgeting, saving on
+taxes, and spending patterns. It will also keep the records of all branch-related informa-
+tion updated within the system for facilitating the process of finding branches based on
+certain criteria related to region or availability on weekends.
+In the future versions, more modules will be integrated to enable this chatbot with ad-
+vanced analytics and advisory functions. BTC Conversa serves both personal banking
+customers and financial institutions by providing them with scalable solutions that are
+3
+1.4 Modules
+adaptable to on-site banking needs.
+1.4 Modules
+BTC Conversa is divided into multiple modules, each handling specific banking func-
+tions. These modules include Information Management, Action Handling, Analysis, and
+Advisory Services, all integrated into a unified chatbot platform.
+1.4.1 Module 1: Information Management
+This module allows users to manage and access personal and account-related information.
+1. Update personal information such as contact details, address, and security settings.
+2. View and retrieve account details such as balance, account type, and transaction
+history.
+3. Display information related to bank branches, including branch timings and ser-
+vices.
+1.4.2 Module 2: Action Handling
+This module manages both financial and non-financial actions for the user.
+1. Perform financial actions such as bill payments, fund transfers, and adding payees.
+2. Handle non-financial actions like card management, setting spending alerts, and
+filing complaints.
+1.4.3 Module 3: Analysis Module
+The analysis module helps users understand their spending and financial behavior.
+1. Expenditure analysis based on transaction history to review spending patterns.
+2. Payment analysis for insights into regular payments and financial habits.
+4
+1.5 User Classes and Characteristics
+1.4.4 Module 4: Advisory Module
+This module offers personalized financial advice based on the user’s transactions.
+1. Personalized tips on managing finances, saving, and tax optimization.
+2. Advisory on improving financial habits and managing personal budgets.
+1.5 User Classes and Characteristics
+BTC Conversa is designed for a variety of user classes, each with specific characteristics
+and needs. Below is a breakdown of the anticipated user types.
+User Class Description
+Bank Cus-
+tomers
+Bank customers will manage their accounts with BTC Conversa and query
+balance, initiate transfers, pay bills, and receive financial tips, all based on
+their relationships. The system is envisioned to be web and mobile-friendly
+for all sorts of variable devices; one session might see a customer execut-
+ing several of these actions, including personalized queries that the chatbot
+would answer in real time.
+Bank Staff Bank staff will be given access to the system for the management of cus-
+tomer interactions and debugging of issues preventing the chatbot from op-
+erating effectively. They will have administrative access so that they can
+view and update backend information, such as details about any particular
+branch and also the system logs. They will also analyze the user data to
+improve the customer services and find trends.
+IT Adminis-
+trators
+IT Administrators will be in charge of the infrastructure of the chatbot, en-
+suring security protocols, >95% uptime of the system, and resolution of any
+technical problems. They are also to deploy updates and manage API inte-
+grations with existing systems at the bank
+Financial
+Advisors
+With the analytics and advisory built into the chatbot, financial advisors can
+be privy to a customer’s financial habits. Detailed financial data will then
+be at their disposal, when they can offer personalized recommendations to
+users through BTC Conversa.
+Table 1.1: User Classes and Characteristics
+5
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the BTC Con-
+versa project.
+2.1 Use-case/Event Response Table/Storyboarding
+BTC Conversa is an interactive end-user application, so we will represent its requirements
+using a Use Case Diagram and a detailed Use Case description for each module. These
+use cases will highlight the interaction between users and the system, particularly in the
+areas of account information queries, fund transfers, and branch information retrieval.
+Figure 2.1: Use Case Diagram for BTC Conversa
+6
+2.2 Functional Requirements
+2.1.1 Detailed Use Cases
+Use Case 1: Retrieve Account Balance
+Description: The user asks for their account balance, and the chatbot responds with the
+requested information.
+Actors: User, System
+Precondition: User is authenticated and has an active session.
+Flow of Events:
+• The user initiates the query by asking, "What is my account balance?"
+• The system verifies the user’s authentication.
+• The system retrieves the balance from the database.
+• The system returns the balance to the user in a conversational format.
+Postcondition: The user receives the balance and the session remains active.
+Use Case 2: View Transaction History
+Description: The user requests their transaction history, and the chatbot provides a sum-
+mary of transactions.
+Actors: User, System
+Precondition: User is authenticated and has requested a valid date range.
+Flow of Events:
+• The user asks, "Show me my transaction history for the last 30 days."
+• The system verifies the user’s authentication.
+• The system retrieves the transaction history from the database.
+• The system presents the transaction details to the user.
+Postcondition: The user is presented with the requested transaction history.
+2.2 Functional Requirements
+This section describes the functional requirements of the system, organized by feature.
+Each module has specific functionalities that contribute to the overall user experience.
+7
+2.3 Non-Functional Requirements
+2.2.1 Module 1: Information Management
+Following are the requirements for the Information Management module:
+1. The system shall allow users to query account details, such as balance and account
+number.
+2. The system shall allow users to view their transaction history for a specified period.
+3. The system shall provide details about bank branches, including address, timings,
+and weekend availability.
+2.2.2 Module 2: Action Handling
+Following are the requirements for the Action Handling module:
+1. The system shall allow users to transfer funds between accounts.
+2. The system shall allow users to add new payees and manage payees.
+3. The system shall allow users to pay bills through the chatbot interface.
+2.3 Non-Functional Requirements
+This section specifies non-functional requirements that will ensure the quality, perfor-
+mance, and security of the system.
+2.3.1 Reliability
+The system should have an availability rate of 99.9%, with a mean time between failures
+(MTBF) of 10,000 hours. Error detection should be automated, and the system should
+provide real-time error logs for debugging and recovery.
+2.3.2 Usability
+The system should be easy to use for both tech-savvy and non-tech-savvy users. The chat-
+bot shall respond to user queries within 2-3 seconds and support natural language queries
+in both English and Urdu.
+USE-1: The chatbot shall allow users to query multiple account details in a single inter-
+action, such as "What is my balance and my recent transactions?"
+8
+2.4 Domain Model
+2.3.3 Performance
+Performance is critical to ensuring user satisfaction. The system should handle up to
+1,000 concurrent users with no more than a 5% drop in response time.
+PER-1: 95% of queries should be processed within 3 seconds of submission, assuming an
+Internet connection of at least 10 Mbps.
+2.3.4 Security
+The system must protect user data and banking information. Sensitive information such
+as account balances and transaction details should be encrypted in transit and at rest.
+SEC-1: The system shall implement two-factor authentication (2FA) to ensure the secu-
+rity of user accounts. SEC-2: The system should log all access attempts and flag suspi-
+cious behavior for administrative review.
+2.4 Domain Model
+The domain model for BTC Conversa defines the key entities and their relationships in
+the system. The core entities include User, Account, Transaction, Branch, and Chatbot.
+These entities will be interconnected to support the system’s functionality.
+9
+2.4 Domain Model
+Figure 2.2: Domain Model for BTC Conversa
+10
+Chapter 3
+System Overview
+3.1 General Description
+BTC Conversa is designed to be a conversational AI banking assistant and is envisioned
+to guide the users in performing routine banking tasks. This encapsulates most of the key
+functionalities, including account balance inquiries, transaction history, fund transfers,
+and requests for branch information. Users can interact with the system using a chatbot
+interface that processes real-time natural language input using RASA.
+The architecture is client-server, where the interface of the chatbot interacts with the back-
+end services and APIs to fetch and process information related to banking. The system
+sustains security and usability for both web and mobile platforms by managing the ses-
+sions to ensure continuity between devices.
+3.2 Architectural Design
+The architecture of BTC Conversa follows a modular client-server design. The primary
+modules include:
+1. Frontend: Provides the chatbot interface for user interactions. Users can query in-
+formation such as account balance, transaction history, and transfer funds through this
+interface.
+2. API Layer (Flask): Serves as the intermediary between the frontend and the backend
+systems. It handles API requests, authenticates users, and routes the queries to the appro-
+priate service.
+3. Backend Database (SQLite): Stores essential banking data such as user accounts,
+transaction records, and branch information. The database is accessed via API calls.
+4. Chatbot (RASA): Handles natural language processing and intent recognition. It iden-
+11
+3.3 Design Models
+tifies the user’s query and triggers the appropriate action or API call.
+5. Session Management: Manages user sessions to ensure secure and personalized ex-
+periences. Sessions store authentication tokens and track user activity across devices.
+6. LLaMA Model: For advanced user queries, such as financial analysis or spending
+habits, the LLaMA model is invoked to process data and generate insights.
+Box and Line Diagram: The following diagram provides a high-level representation of
+the system’s architecture, showing how the major modules interact with each other:
+Figure 3.1: Box and Line Diagram of BTC Conversa Architecture
+These subsystems are decompositions for scalability, modularity, and separation of con-
+cerns. Users’ interactions are handled by the frontend, while complex data processing
+and storage happen in the backend; the API layer bridges the communication between the
+layers to make sure that the chatbot fetches data in real time to meet user requests.
+3.3 Design Models
+BTC Conversa utilizes the object-oriented development approach. The following design
+models are applicable:
+The activity diagram represents the user’s interaction with the chatbot, from login to query
+processing. It details the steps the system follows when handling a request, such as query-
+ing account balance or transaction history.
+12
+3.3 Design Models
+Figure 3.2: Activity Diagram for BTC Conversa
+A class diagram was provided earlier in the report, showing the structure of key entities
+such as ‘User‘, ‘Account‘, ‘Transaction‘, ‘Chatbot‘, etc. This is a more generic view of
+our project and its structure.
+13
+3.3 Design Models
+Figure 3.3: Simple Class Diagram for BTC Conversa
+The sequence diagram shows the flow of information between objects and systems during
+an account balance inquiry. It traces the steps from user input, to API calls, to retrieving
+data from the backend, and finally delivering the response to the user.
+14
+3.4 Data Design
+Figure 3.4: Sequence Diagram for BTC Conversa Query Processing
+3.4 Data Design
+The data design for BTC Conversa is focused on how user data, account information,
+and transaction history are stored and processed. The system uses a relational database
+(SQLite) to manage the banking data.
+- Users Table: Contains user profile information including name, email, and authentica-
+tion credentials.
+- Accounts Table: Stores account details such as account number, balance, and the type
+of account (e.g., savings, current).
+- Transactions Table: Logs all financial transactions made by the user, including the
+transaction date, amount, and associated account.
+- Branches Table: Contains information about bank branches, such as the address, con-
+tact details, and availability on weekends.
+Data Storage and Processing: - All user-related data is stored securely using encrypted
+storage. - The backend processes incoming queries by retrieving relevant information
+from the database and sends the processed data back to the frontend. - The system en-
+sures secure communication through session tokens, which protect user data during inter-
+actions.
+15
+Chapter 4
+Conclusions and Future Work
+4.1 Conclusions
+BTC Conversa is a conversational AI Banking Assistant engineered to be more interactive
+with the user’s banking services. The initial part of the project involves setting up the fun-
+damental architecture and introducing basic features such as balance inquiry, transaction
+history, and elementary fund transfers.
+During this stage, the chatbot is at a partial implementation using RASA for natural lan-
+guage understanding and SQLite to simulate banking databases. It can process simple
+queries and respond in real time. Advanced functionality remains under development.
+The project is in development with BluTech Consulting. The first version has created
+the bedrock, while further versions are needed to get close to the envisioned intelligent
+assistant for full assistance in banking. Initial progress is promising, and the modular
+architecture of the system ensures that future features can be integrated seamlessly.
+Future stages of the project will be directed at improving overall functionality, usability,
+and security features of BTC Conversa. As this project progresses with development, it
+shall eventually become a fully capable and secure banking assistant that should appeal
+to the increasing demands of this modern banking industry.
+16
+Bibliography
+[1] Chatbot.com. (n.d.). Banking Chatbots . Retrieved from
+https://www.chatbot.com/blog/banking-chatbots/https://www.chatbot.com/blog/banking-chatbots/
+[2] IBM. (n.d.). Watsonx Assistant for Banking . Retrieved from
+https://www.ibm.com/products/watsonx-assistant/bankinghttps://www.ibm.com/products/watsonx-assistant/banking
+[3] Capital One. (n.d.). Chatbot in the Crowd . Retrieved from
+https://www.capitalone.com/tech/machine-learning/chatbot-in-the-crowd/https://www.capitalone.com/tech/machine-learning/chatbot-in-the-crowd/
+[4] Citi. (2018). Citi Releases Its First Citi Bot SG on Facebook Messenger in Singa-
+pore. Retrieved from https://www.citigroup.comhttps://www.citigroup.com
+17
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

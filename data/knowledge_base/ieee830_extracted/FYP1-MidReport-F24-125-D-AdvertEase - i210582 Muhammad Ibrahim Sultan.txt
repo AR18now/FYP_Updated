@@ -1,0 +1,626 @@
+# FYP1-MidReport-F24-125-D-AdvertEase - i210582 Muhammad Ibrahim Sultan
+
+## 1. Introduction
+
+1. Introduction
+Figure 1.1: Poster Advertisement
+Figure 1.2: Video Advertisement
+2
+1.2 Scope
+1.2 Scope
+The project focuses on building AI-generated poster and video ads for furniture indus-
+try. Initially, a product link is given to our application, which will automatically scrape
+product descriptions from the web, preprocess them, and feed it to an LLM, which will
+generate the poster advertisement description. The description will be given to an image
+generator model, which will generate the poster. customer can further tweak their adver-
+tisement by giving prompt to their model regarding changes in the poster. For video ads,
+a description from an LLM will be created and fed into the video generator model, which
+will generate a video . The video will have a human avatar with enhanced emotions and
+gestures explaining the product description. There will be both a male as well as a female
+avatar trained for the advertisements. Our application will be web based and will be de-
+ployed on cloud (AWS) for reliability and availability. However, the app does not scrap
+data from all websites but rather a selected few, the video ads created will not be dynamic;
+instead, templates will be used, however, the content of the videos will be dynamic and
+change with each product
+1.3 Modules
+1.3.1 Module 1 : AI generated Poster advertisements
+This module will be responsible for creating unique and attractive poster ads for our prod-
+ucts. The ads will include tags like sale, buy one get one free, etc to enhance customer
+engagement. Users can further tweak this poster by providing feedback to the model and
+the poster will be regenerated, reflecting the required changes
+1. Automated web scraping
+2. Text pre-processing
+3. LLM script generation for poster generation
+4. Image generation by models
+5. Prompt based image editing
+1.3.2 Module 2 : AI generated Video advertisements
+This module will be responsible for creating engaging videos for the product. We will be
+using in-painting/Gen AI techniques to map our product into the video. The video will
+3
+1. Introduction
+also consist of an avatar which will be explaining the product features as the video goes
+on. That avatar will be a key point in the video as it will persuade the viewers to buy that
+product.
+1. LLM script generation for video generation
+2. Video generation by video inpainting / Camera Control /Motion Control techniques
+3. Avatar generation for video
+4. Creating templates for the Generated product videos and avatar
+1.3.3 Module 3 : Website Development
+Our application will be deployed as a website so we aim to develop a website using MERN
+stack. Our website would be easy to use and have a visually attractive appeal to attract
+customers
+1. Frontend development
+2. Backend development
+3. CI/CD pipeline
+1.3.4 Module 4 : Cloud Deployment
+Our application will be deployed on the cloud for further reliability and durability. By
+cloud deployment, our application would be fault tolerant and less prone to common on
+premise deployment issues
+1. Deployment on AWS
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+4
+1.4 User Classes and Characteristics
+User class Description
+End User An individual or company trying to create advertisements for their goods or
+services is the end user. Product URLs will be entered, preferences will be
+chosen, and the created advertising will be downloaded or shared. Because
+users might not be highly proficient in technology, the system must be easy
+to use. The users, who may come from a variety of industries like retail or
+e-commerce, demand a fast and easy ad generating procedure.
+Admin The administrator oversees the platform’s operation, handles user manage-
+ment, keeps an eye on system performance, and makes sure the AI tool for
+creating ads is operating at peak efficiency. The administrator is also capable
+of managing problems with system updates, authentication, and user regis-
+tration. In the event of a system failure or to update algorithms for improved
+efficiency, they might step in.
+Marketing
+experts
+The task of improving the scripts, avatars, and templates utilised in ad gen-
+erating falls to a marketing specialist. They evaluate the efficacy of different
+advertising tactics and offer suggestions for raising the quality of voiceovers,
+video material, and poster creation. Their feedback aids in the optimisation
+of ad formats for particular target markets.
+Developers The backend of the system is maintained and updated by the developer, who
+also makes sure that upgrades, bug fixes, and new features are applied prop-
+erly. They are in charge of AWS deployment, cloud services, AI modules
+like Llama3 and Stable Diffusion, and system integration. Their tight col-
+laboration with the admin guarantees a seamless user experience.
+5
+Chapter 2
+Project Requirements
+2.1 Use-case/Event Response Table/Storyboarding
+Following is the use case diagram of our system. Our system includes three major actors
+• User - Ones who uses the system to generate the advertisment
+• System - AI system which generated things on the backend
+• Admin - One who is responsible for managing the users and generating reports
+Figure 2.1: Usecase Diagram
+6
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.1 Authenticate User
+Use Case Name Authenticate User
+Scope Authentication for system access
+Level User-goal
+Actor User, Admin
+Stakeholders System Admin, User
+Preconditions User is registered;
+system login page is accessible
+Main Success Scenario 1. The user inputs their login credentials.
+2. The system checks credentials.
+3. The system provides access to the dashboard.
+Postconditions User or admin is logged into the system
+Table 2.1: Authenticate User
+2.1.2 Input Product URL
+Use Case Name Submit Product URL
+Scope Submit URL for data scraping
+Level User-goal
+Actor User
+Stakeholders System Admin, User
+Preconditions User is authenticated
+Main Success Scenario 1. User enters the product URL.
+2. The system accepts the URL.
+3. The system validates a successful submission.
+Postconditions URL is submitted; system ready to scrape data
+Table 2.2: Input Product URL
+7
+2. Project Requirements
+2.1.3 Scrape Product Data
+Use Case Name Extract Product Data
+Scope Scrape data from product URL
+Level Subfunction
+Actor System
+Stakeholders User, Product Owner
+Preconditions Product URL is submitted
+Main Success Scenario 1. The system collects product photos, descriptions, and
+features from the URL.
+2. Data is parsed and saved.
+Postconditions Data is available for generating ads
+Table 2.3: Scrape Product Data
+2.1.4 Generate Poster Advertisements
+Use Case Name Create Poster Advertisements
+Scope Generate static image ads
+Level User-goal
+Actor System
+Stakeholders User
+Preconditions Product data is scraped
+Main Success Scenario 1. The system analyses product data.
+2. The system generates a poster ad
+3. An advertisement is displayed to the user.
+Postconditions Poster ad is ready for download or modification
+Table 2.4: Generate Poster Advertisements
+8
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.5 Generate Advertisement Script
+Use Case Name Generate Advertisement Script
+Scope Create text script for video ad
+Level Subfunction
+Actor System
+Stakeholders User
+Preconditions Product data is scraped
+Main Success Scenario 1. System creates text based on the product description.
+2. Script is displayed to the user.
+Postconditions Script is ready for speech synthesis or editing
+Table 2.5: Generate Advertisement Script
+2.1.6 Edit Advertisement
+Use Case Name Modify Advertisement Content
+Scope Edit content of poster or video ad
+Level User-goal
+Actor User
+Stakeholders User
+Preconditions Ad or script is generated
+Main Success Scenario 1. The user selects an ad to alter.
+2. The user updates the content, graphics, or layout.
+3. System updates ads
+Postconditions Advertisement is updated with new content
+Table 2.6: Edit Advertisement
+9
+2. Project Requirements
+2.1.7 Select A vatar
+Use Case Name Select Avatar
+Scope Choose avatar for video ad
+Level User-goal
+Actor User
+Stakeholders User
+Preconditions Product data is scraped; user is logged in
+Main Success Scenario 1. The user browses avatar selections.
+2. The user selects an avatar.
+3. The avatar is added to the video advertisement.
+Postconditions Avatar is set for the video ad
+Table 2.7: Select Avatar
+2.1.8 Modify Script
+Use Case Name Edit Ad Script
+Scope Modify the automatically generated script
+Level User-goal
+Actor User
+Stakeholders User
+Preconditions Script is generated
+Main Success Scenario 1. The user views the created script.
+2. The user changes or rewrites the script.
+3. The system stores the changed script.
+Postconditions Script is updated for speech synthesis
+Table 2.8: Modify Script
+10
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.9 Synthesize Speech from Script
+Use Case Name Synthesize Speech from Script
+Scope Convert the edited script to speech
+Level Subfunction
+Actor System
+Stakeholders User
+Preconditions Script is ready
+Main Success Scenario 1. The system processes the script.
+2. System synthesises voice audio.
+3. Audio is generated with proper intonation.
+Postconditions Speech audio is ready for video ad
+Table 2.9: Synthesize Speech from Script
+2.1.10 Enhance Emotional Tone in Speech
+Use Case Name Enhance Emotional Tone in Speech
+Scope Add emotional modulation to synthesized speech
+Level Subfunction
+Actor System
+Stakeholders User
+Preconditions Speech is synthesized
+Main Success Scenario 1. The system analyses script content.
+2. An emotional tone (e.g., excitement, seriousness) is used.
+3. Emotionally enriched speech is produced.
+Postconditions Emotionally enhanced speech is ready
+Table 2.10: Enhance Emotional Tone in Speech
+11
+2. Project Requirements
+2.1.11 Generate Video Advertisement
+Use Case Name Produce Video Advertisement
+Scope Generate a complete video ad
+Level User-goal
+Actor System
+Stakeholders User
+Preconditions Speech, avatar, and script are prepared
+Main Success Scenario 1. The system creates the video ad
+2. The final video advertisement is displayed to the user.
+Postconditions Video ad is ready for download or modification
+Table 2.11: Generate Video Advertisement
+2.1.12 Download Ads
+Use Case Name Download Ads
+Scope Save locally created video and poster advertisements.
+Level User-goal
+Actor User
+Stakeholders User
+Preconditions The created ads can be downloaded.
+Main Success Scenario 1. The user selects the download option.
+2. The user is prompted by the system to choose a download
+format.
+3. The user decides the format to use
+The system stores the advertisement on the user’s device in
+the designated format.
+Postconditions The user can now access and successfully download the ad-
+vertisement.
+Table 2.12: Download Ads
+12
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.13 Share Ads
+Use Case Name Share Ads
+Scope Post the created advertisements on social media.
+Level User-goal
+Actor User
+Stakeholders User, Social Media Platforms
+Preconditions The created ads are prepared for sharing.
+Main Success Scenario 1. The user selects "Share" from the menu.
+2. The system shows sharing choices (email, social media,
+etc.)
+3. The user chooses the preferred sharing network
+4. System posts the advertisement on the chosen network.
+Postconditions Successfully shared advertisement on the selected platform
+Table 2.13: Share Ads
+2.1.14 Manage Users
+Use Case Name Manage Users
+Scope The admin controls user accounts in the system.
+Level Admin-goal
+Actor Admin
+Stakeholders System Admin, Users
+Preconditions The admin is authorised and has the ability to oversee users.
+Main Success Scenario 1. The admin logs into the user interface.
+2. The administrator sees the user registration list
+3. The admin chooses whether to add, modify, or remove a
+user
+4. The request is processed by the system, which then mod-
+ifies the user database.
+5. The system displays a success message to validate the
+action.
+Postconditions User accounts can be successfully updated or changed.
+Table 2.14: Manage Users
+13
+2. Project Requirements
+2.1.15 Generate Reports
+Use Case Name Generate Reports
+Scope The admin creates reports on system performance and ad
+production.
+Level Admin-goal
+Actor Admin
+Stakeholders Admin, Management
+Preconditions The admin is authorised and able to provide reports.
+Main Success Scenario 1. The administrator chooses the option for report genera-
+tion.
+2. The administrator defines the report’s parameters (such
+as the date range and user activity).
+3. The system gathers information and creates the report
+4. The administrator looks at or gets the report
+Postconditions A generated report is available for download or review.
+Table 2.15: Generate Reports
+2.2 Functional Requirements
+2.2.1 Authenticate User
+• 1.1 The system shall provide a login page where users can enter their login infor-
+mation.
+• 1.2 The database shall be used by the system to verify user credentials.
+• 1.3 After a successful login, the system shall grant access to the dashboard.
+2.2.2 Input product URL
+• 2.1 Users shall be able to enter a legitimate product URL into the system.
+• 2.2 The format of the URL that the user enters shall be verified by the system.
+• 2.3 After the URL is approved, the system shall send a confirmation message.
+14
+2.2 Functional Requirements
+2.2.3 Scrape product data
+• 3.1 Product data shall be extracted by the system from the given URL.
+• 3.2 In the event of a data scraping error, the system shall handle it and alert the user.
+• 3.3 The data that has been scraped shall be stored by the system in an organised
+manner for further processing.
+2.2.4 Generate poster ads
+• 4.1 The system shall utilise the product data that has been scraped to produce aes-
+thetically appealing poster adverts.
+• 4.2 Users shall be able to alter the poster advertising’ design aspects using the sys-
+tem.
+• 4.3 The user shall be given a sneak peek at the generated poster advertisement by
+the system.
+2.2.5 Generate advertisement script
+• 5.1 The system shall utilise the product data to create an advertisement script.
+• 5.2 Users shall be able to modify the generated advertisement script through the
+system.
+2.2.6 Edit advertisement
+• 6.1 The script and poster ad generated by the system shall be editable by users
+through an interface.
+• 6.2 User edits to the script and advertisement shall be saved by the system.
+2.2.7 Select A vatar
+• 7.1 The system should let users choose a video ad avatar.
+• 7.2 A library of selectable avatars shall be made available by the system.
+15
+2. Project Requirements
+2.2.8 Modify script
+• 8.1 After the advertisement script is generated, users shall be able to edit it using
+the system.
+• 8.2 To make sure the script stays coherent, the system shall validate the changes.
+2.2.9 Synthesize Speech from Script
+• 9.1 The system shall employ text-to-speech technology to translate the commercial
+script into audio.
+2.2.10 Enhance Emotional Tone in Speech
+• 10.1 In accordance with script’s nature, the system shall make the synthesised
+speech sound more emotionally charged.
+2.2.11 Generate video ads
+• 11.1 To produce a video advertisement, the system shall combine the script, syn-
+thesised speech, and poster advertisement.
+• 11.2 The user shall be given a sneak peek at the generated video advertisement by
+the system.
+2.2.12 Download ads
+• 12.1 Users shall be able to download the produced video advertisements and posters
+in a variety of formats from the system.
+• 12.2 The system shall confirm that the user has successfully downloaded the adver-
+tisements.
+2.2.13 Share ads
+• 13.1: Users shall have the ability to share the created adverts on social media sites
+using options provided by the system.
+• 13.2 The system shall allow sharing through email or other channels that the user
+specifies.
+16
+2.3 Non-Functional Requirements
+2.2.14 Manage users
+• 14.1 The admin shall be able to view a list of users who have registered on the
+system.
+• 14.2 The admin shall be able to add, modify, and remove user accounts using the
+system.
+• 14.3 The system shall notify users when the administrator makes modifications to
+their accounts.
+2.2.15 Generate reports
+• 15.1 The system shall allow the administrator to provide reports on user behaviour
+and the creation of ads.
+• 15.2 The system shall require customisation choices for report criteria, such as date
+range and user activity.
+• 15.3 The admin shall be able to retrieve created reports from the system in a variety
+of forms (such as PDF and CSV).
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+• REL-1: During regular operation, the system must maintain an average Mean Time
+Between Failures (MTBF) of at least 1000 hours.
+• REL-2: Should a failure occur, the system will record the error information and
+notify the administrator in five minutes.
+• REL-3: In the event of a breakdown, the system must have automated recovery
+methods that enable it to function again in two minutes.
+• REL-4: To guarantee data integrity, the system must regularly backup user data and
+configurations, preferably once every 24 hours.
+2.3.2 Usability
+• USE-1: The system must have an easy-to-use interface that lets users create adver-
+tising from the dashboard in only three clicks or less.
+17
+2. Project Requirements
+• USE-2: To help users grasp the functionality, the system will include tooltips and
+contextual help for all significant functions.
+• USE-3: With only one click, users will be able to access previously created adver-
+tisements from their user dashboard.
+• USE-4: To guarantee that all users can efficiently use the program, the system
+must include accessibility capabilities such keyboard navigation and screen reader
+compatibility.
+2.3.3 Performance
+• PER-1: After the user enters the necessary product URL and data, the system will
+create a poster advertisement in no more than five seconds.
+• PER-2: Under typical circumstances, the system should be able to parse and scrape
+data from a product URL in 10 seconds.
+• PER-3: The system must guarantee that a video ad is created in maximum of 5
+minutes and the poster ads are created in 10 seconds.
+• PER-4: The system must guarantee that all functional requirements are satisfied
+within predetermined time frames, supporting a minimum of 100 concurrent users
+without compromising performance.
+2.3.4 Security
+• SEC-1: To prevent unwanted access, the system must encrypt all sensitive user data
+(such as login passwords and personal information) both in transit and at rest.
+• SEC-2: Role-based access control (RBAC) will be implemented by the system to
+limit access to various capabilities according to user roles (Admin and User).
+• SEC-3: To find and fix vulnerabilities, the system must conduct routine security
+audits.
+• SEC-4: The system must offer defence against widely-known online threats like
+SQL injection, XSS, and CSRF (cross-site request forgery).
+18
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain Model
+19
+Chapter 3
+System Overview
+3.1 Architectural Design
+The system is structured into four main layers:
+3.1.1 Presentation Layer
+• This layer includes the user interface where users interact with the system.
+• Users provide input (e.g., URL for scraping, image edits, video requests).
+• Flow of data occurs from this to the Application Layer.
+3.1.2 Application Layer
+• It is the middle layer between communication between the presentation and busi-
+ness logic layers.
+• Receives input from the Presentation Layer (e.g., URLs, prompt editing requests).
+• Passes requests to the Business Logic Layer for processing (e.g., scraping, im-
+age/video generation).
+• Returns results to the Presentation Layer for display.
+3.1.3 Business Logic Layer
+• This layer has the core functionality of the application.
+20
+3.1 Architectural Design
+• It has all main processes such as scraping the web, LLM prompt generation, image
+generation, prompt-based image editing, and video generation.
+• All necessary services like Scraping Service, LLM-based Text Generation, Im-
+age/Video Generators, and Prompt Editor.
+• It also interacts with the Data Layer to fetch or store information (e.g., scraped data,
+generated media).
+3.1.4 Data Layer
+• It is responsible for data storage and retrieval.
+• It stores scraped content, generated prompts, images, and videos.
+• It works with databases or file systems to manage project data.
+• It communicates with the Business Logic Layer to provide data required for image
+generation and video creation.
+3.1.5 Flow of Information
+• Data and commands flow downward from the Presentation Layer to the Data Layer
+for processing.
+• Results and responses flow upward from the Data Layer to the Presentation Layer
+for user interaction.
+21
+3. System Overview
+Figure 3.1: Box and Line Architecture
+22
+3.1 Architectural Design
+Figure 3.2: Architecture Diagram
+23
+3. System Overview
+3.2 Design Models
+3.2.1 Activity Diagram
+Figure 3.3: Activity Diagram
+24
+3.2 Design Models
+3.2.2 Data Flow Diagram
+Figure 3.4: Data Flow Diagram
+25
+3. System Overview
+3.2.3 System-level Sequence Diagram
+Figure 3.5: Activity Diagram
+26
+3.3 Data Design
+3.2.4 State Transition Diagram
+Figure 3.6: Activity Diagram
+3.3 Data Design
+This section describes the application’s data storage and updating procedures. I’ll walk
+through key entities and their operations.
+27
+3. System Overview
+3.3.1 Roles and Users
+3.3.1.1 Roles Table
+Contains only two records: one for regular users and one for administrators. It contains
+role information like "admin" or "user."
+3.3.1.2 Users Table
+Holds user information, including user_id, name, email, password, and role_id, which
+identifies each user’s unique role.
+Storage Example
+{
+"user_id": 123,
+"name": "Ibrahim",
+"email": "ibrahim@example.com",
+"password": "hashed_password",
+"role_id": "admin"
+}
+Updates When a user registers, their data is inserted into the users table. Admins can
+update user roles by changing the role_id in the users table.
+3.3.2 Projects
+3.3.2.1 Projects Table
+Stores project information for both image and video projects. Important fields include
+project_name, project_type (image or video), status, and timestamps.
+Storage Example
+{
+"project_id": 12,
+"project_name": "Chair Ad for interwood",
+"user_id": 123,
+"created_at": "2024-10-06T12:34:56",
+28
+3.3 Data Design
+"updated_at": "2024-10-06T13:45:00",
+"project_type": "video",
+"status": "completed"
+}
+Updates When a project is created, the data is inserted into the projects table. Project
+status is updated as the workflow progresses (e.g., from ’in progress’ to ’completed’).
+Whenever a user works on the project, the last update time is also updated.
+3.3.3 Image Projects
+3.3.3.1 Image Projects Table
+It holds information unique to projects involving images. Fields include text (the one
+that is to be displayed on the poster), base_image_path (the path where the image is
+stored in the cloud), and generated_image_path (the path where the generated image
+is stored). Keeping the original information is mandatory, as this allows the user to work
+on a previous project and update it.
+Storage Example
+{
+"image_project_id": 122,
+"project_id": 11,
+"text": "Buy 1 get 1 Free",
+"base_image_path": "/images/base_image1.png",
+"generated_image_path": "/images/generated_image1.png"
+}
+Updates When an image project is created, details like the base image and text are
+saved. The generated image is saved after processing, and the generated image path is
+updated. This allows the user to access previous projects and even make changes.
+3.3.4 Video Projects
+3.3.4.1 Video Projects Table
+Stores details specific to video-based projects. Fields includescript_text, voice_path,
+final_video_path, and the selected avatar_id.
+29
+3. System Overview
+Storage Example
+{
+"video_project_id": 12,
+"project_id": 11,
+"avatar_id": 0,
+"script_text": "Welcome back to the new video yxz",
+"voice_path": "/voices/voice1.mp3",
+"final_video_path": "/videos/final_video1.mp4"
+}
+Updates The user chooses an avatar, and the avatar id is chosen. script text and voice
+path are updated once the script is generated and converted to speech. The final video
+path is updated once the final video is created.
+3.3.5 A vatars
+3.3.5.1 A vatars Table
+Stores the available avatars that users can select for video projects.
+Storage Example
+{
+"avatar_id": "a1",
+"avatar_name": "John",
+"avatar_path": "/avatars/avatar1.svg"
+}
+Updates There will be just two avatars in our project.
+3.3.6 Scraped Images and Generated Videos
+3.3.6.1 Scraped Images Table
+Saves images that have been scraped from the input URL for use in video and image
+projects.
+30
+3.4 Summary of Data Flows
+Storage Example
+{
+"image_id": 2,
+"project_id": 1,
+"image_path": "/scraped_images/image1.png"
+}
+3.3.6.2 Generated Videos Table
+Stores individual video clips generated from scraped images, later joined into a final
+video.
+Storage Example
+{
+"video_id": 1,
+"project_id": 1,
+"video_path": "/generated_videos/video1.mp4"
+}
+Updates Scraped images are stored immediately after scraping. Generated videos are
+stored as parts of the video project are completed and then joined into a final video.
+3.4 Summary of Data Flows
+When the user Creates an account The data is stored in the users tables, when he/she
+enters a URL into the field, both the text and images are scrapped from the URL and
+saved, the text is saved in database, while the images are saved in cloud storage and then
+their paths are saved in the database. The next step is to create either a video or an image;
+once that is created, we save the generated image or videos depending on the the type and
+they are stored in their respective tables. this is how the data is majorly stored
+31
+3. System Overview
+Figure 3.7: Activity Diagram
+32
+Bibliography
+[1] E. Brown and G. Williams. The economic impacts of artificial intelligence in global
+markets. SSRN Electronic Journal, 2024.
+[2] R. Johnson and L. Patel. The role of artificial intelligence in future technologies.
+IEEE Transactions on Emerging Technologies, 2024.
+[3] M. Smith and J. Doe. Generative ai’s impact on software development: A multidisci-
+plinary perspective. IEEE Transactions on Software Engineering, 2024.
+33
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

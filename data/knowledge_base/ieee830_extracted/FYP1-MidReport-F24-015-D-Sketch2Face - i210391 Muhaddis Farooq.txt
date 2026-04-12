@@ -1,0 +1,498 @@
+# FYP1-MidReport-F24-015-D-Sketch2Face - i210391 Muhaddis Farooq
+
+## 1. Introduction
+
+1. Introduction
+1.1 Problem Statement
+Creating real human facial images from inputs, like sketches, partial photos, or text, is
+a complex and unresolved problem. Despite advancements in artificial intelligence, ex-
+isting solutions (reference 1) fall short in generating high quality real-images that truly
+transform to human face. These limitations are particularly problematic for law enforce-
+ment, where the accurate reconstruction of a face from a sketch can be critical to identify
+the suspect. This project aims to address this gap by developing an AI-driven system that
+not only generates realistic human faces from but also offers powerful editing capabilities
+through a user-friendly application for agencies to modify image according to their needs.
+1.2 Scope
+Our proposed project aims to develop a AI-driven system capable to convert both hand-
+drawn sketches and textual prompts into realistic human facial images. This makes are
+system valuable for forensic investigation to catch suspect where CCTV footages are not
+available they really on sketches to identify suspect. Moreover artist use to convert their
+sketches to realistic looking facial images.
+One of the key features of our system is manipulating and editing the generated im-
+ages based on user input. Users can modify specific facial features, such as face shape,
+hairstyle, hair color, eye color, and more, simply by providing prompts. This flexibility
+allows users to generate images according to their specific needs and preferences. This
+helps in forensic investigations.
+Moreover, our system supports real-time conversion of sketches into images, allowing
+users to see the image being created dynamically as they draw. This real-time interaction
+enhances usability, and helps adjusting during the image creation process.
+The boundaries of this project are focused on facial image generation and manipulation.
+While it helps in creating and editing facial features, it is not extended to full-body genera-
+tion or other types of images. Moreover, the system will be deployed as a web application,
+ensuring accessibility to a wide range of users.
+1.3 Modules
+We have divided our project into three modules. Each module has its own features. Fol-
+lowing are the modules that are going to be developed in this project :
+2
+1.4 User Classes and Characteristics
+1.3.1 Sketch to Facial Images
+This module focuses on generating facial images through hand-drawn sketches by utiliz-
+ing AI models. The model will accurately capture facial details from sketches and convert
+them into realistic looking facial images.
+1. Generate Facial Images through hand-drawn sketches.
+2. Generation of High Quality images through complete or partially drawn sketches.
+1.3.2 Facial Image Generation and Manipulation Using Text
+This module focuses on the model that will generate facial images through textual de-
+scriptions provided through prompts. Users will able to modify facial attributes of the
+generated image by providing feedback.
+1. Generate Facial Images through textual descriptions.
+2. Manipulation of Facial Images through textual descriptions provided via prompts.
+1.3.3 Web Application
+In this module, we will be developing a web application that will allow the user to draw
+sketches as well as enter textual descriptions via prompts to generate facial images. This
+module also focuses on developing a user-friendly interface.
+1. Interface for drawing sketches and entering textual prompts.
+2. Real-time Conversion of Sketches to Facial Images.
+3. Integration of AI models with web application.
+4. Implementing APIs for communication between AI models and web application.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+3
+1. Introduction
+Table 1.1: User Classes and Characteristics
+User Class Description
+Law En-
+forcement
+Agencies
+Law enforcement agencies will use Sketch2Face to generate realistic facial
+images from witness sketches during criminal investigations. The system
+allows for rapid, accurate image generation from sketches or descriptions,
+significantly improving the identification process and assisting in catching
+suspects efficiently, reducing investigation time.
+Forensic Ex-
+perts
+Forensic experts require a tool that can accurately reconstruct faces from
+textual descriptions or partial images. Sketch2Face allows them to fine-tune
+facial features based on witnesses’ descriptions, enabling forensic teams to
+create more accurate images of suspects. This can also be used to enhance
+or manipulate facial images for case documentation.
+Digital
+Artists
+Artists and content creators can leverage Sketch2Face to transform their
+sketches into realistic facial images. This will be particularly useful in fields
+like digital content creation, entertainment, or artistic presentations, where
+generating lifelike facial images quickly and with creative freedom is cru-
+cial.
+Government
+Agencies
+Government bodies tasked with public safety can use Sketch2Face to gener-
+ate accurate images from incomplete data, such as during national security
+investigations or for creating visuals to assist in public warnings. The sys-
+tem can be employed to enhance and edit suspect images or create public
+safety visuals quickly and accurately.
+General
+Public
+(Casual
+Users)
+Casual users, including individuals use Sketch2Face to create or manipulate
+realistic facial images for personal projects, social media content, or fun.
+The system allows easy access to AI-driven image generation, enabling any-
+one to create real facial images from simple sketches or descriptions without
+professional knowledge.
+Content
+Creators
+Content creators working on visual storytelling or media projects can use
+the system to generate realistic characters from sketches. This reduces pro-
+duction time and enhances creativity, allowing them to generate high-quality
+visuals.
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-Case Table
+For Sketch2Face, an Use-Case Table is suitable, it involves clear interactions between
+users and the system.
+Table 2.1: Use-Case Table for Sketch2Face
+Use Case Description Actors PreconditionsPostconditions
+Generate Fa-
+cial Image
+from Sketch
+User uploads or draws a sketch,
+and the system generates a re-
+alistic facial image.
+Law En-
+forcement,
+Artists, Gen-
+eral Users
+A sketch is
+uploaded or
+drawn.
+A realistic fa-
+cial image is
+generated.
+Generate Fa-
+cial Image
+from Text
+User inputs textual descriptions
+(e.g., "male, short hair, blue
+eyes") to generate a facial im-
+age.
+Law En-
+forcement,
+Forensic
+Experts
+Text descrip-
+tions are pro-
+vided.
+A realistic fa-
+cial image is
+generated.
+Modify Fa-
+cial Features
+Based on
+Prompts
+User modifies specific features
+of the generated facial image
+(e.g., change hair color, adjust
+jawline).
+Artists,
+Forensic
+Experts,
+General
+Users
+A facial
+image is
+already gen-
+erated.
+The facial im-
+age is modified
+as per the input
+prompt.
+Real-time
+Sketch Con-
+version
+The system converts a hand-
+drawn sketch in real time,
+showing the image as the
+sketch is being created.
+Law En-
+forcement,
+Artists
+User starts
+drawing a
+sketch.
+The image
+is generated
+dynamically as
+the user draws.
+Save Gener-
+ated Image
+User saves the generated or
+modified image to their device.
+All Users A facial im-
+age is gener-
+ated.
+The image is
+saved success-
+fully.
+5
+2. Project Requirements
+2.2 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style. The requirements are organized by system feature, where each module
+contains specific functional requirements associated with the feature it supports.
+2.2.1 Module 1: Sketch to Facial Images
+Following are the requirements for Module 1, which focuses on generating facial images
+from hand-drawn sketches:
+1. FR1: The system shall allow users to upload or draw hand-drawn sketches and
+generate facial images from those sketches using AI models.
+2. FR2: The system shall generate high-quality facial images based on complete or
+partially drawn sketches.
+3. FR3: The AI model shall accurately capture facial features and details from sketches
+to convert them into realistic facial images.
+4. FR4: The system shall provide options for users to edit or refine the sketches before
+generating the final facial image.
+2.2.2 Module 2: Facial Image Generation and Manipulation Using
+Text
+Following are the requirements for Module 2, which focuses on generating and manipu-
+lating facial images based on textual descriptions:
+1. FR1: The system shall allow users to input textual descriptions (e.g., "short hair,
+blue eyes") to generate facial images.
+2. FR2: The system shall support text-based manipulation of facial images by allow-
+ing users to modify specific facial attributes.
+3. FR3: The system shall provide feedback on changes and display real-time adjust-
+ments as users modify the facial image using text inputs.
+6
+2.3 Non-Functional Requirements
+2.2.3 Module 3: Web Application
+Following are the requirements for Module 3, which focuses on the development of a web
+application for user interaction:
+1. FR1: The system shall provide a user-friendly interface that allows users to draw
+sketches and enter textual descriptions to generate facial images.
+2. FR2: The system shall support real-time conversion of hand-drawn sketches into
+facial images, dynamically updating the image as the user draws.
+3. FR3: The system shall integrate AI models for both sketch-to-image and text-to-
+image generation.
+4. FR4: The system shall implement APIs for communication between the AI models
+and the web application to ensure smooth functionality.
+5. FR5: The system shall provide options to save facial images through the web ap-
+plication.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements. These quality requirements are spe-
+cific, quantitative, and verifiable.
+2.3.1 Reliability
+The system shall ensure a high level of reliability to support continuous facial image
+generation and manipulation operations.
+• R-1: In the event of system failure, recovery procedures shall be automatic, and the
+system should restore services, including facial image generation, within 3 minutes.
+• R-2: Any critical failure in image generation or manipulation processes must trig-
+ger an automatic logging of the incident for future analysis.
+• R-3: The system shall be able to handle 5 user requests simultaneously, ensuring
+consistent performance even under high usage scenarios, without degradation in
+reliability.
+7
+2. Project Requirements
+2.3.2 Usability
+The system shall be user-friendly and easy to navigate for users of all technical levels,
+including law enforcement officers, artists, and general users.
+• USE-1: The system shall allow users to generate a facial image from a sketch with
+no more than three interactions (e.g., upload sketch, draw sketch, and prompt).
+• USE-2: The system shall provide clear and concise instructions at every step to
+guide the user through the sketch or text input processes.
+• USE-3: A user should be able to undo any modifications made to the generated
+facial image with a single action.
+2.3.3 Performance
+Performance requirements for various operations are critical to ensure the efficiency of
+the system.
+• PER-1: Facial image generated from sketch shall be completed within 15 seconds
+of submission, given a standard input size.
+• PER-2: Facial image generated from textual descriptions shall be completed within
+20 seconds.
+• PER-3: The web application interface shall load within 5 seconds for users with a
+20 Mbps or faster Internet connection.
+2.3.4 Security
+The system shall ensure that the facial images generated and any user data are protected
+from unauthorized access.
+• SEC-1: The system shall require user authentication before any access to personal
+data or saved facial images.
+• SEC-2: Attempts to break into the system shall be logged, and after five consecu-
+tive unsuccessful login attempts, the account shall be locked for 15 minutes.
+8
+2.4 Domain Model
+2.4 Domain Model
+Below is the domain model for our project Sketch2Face
+Figure 2.1: Domain Model
+9
+
+Chapter 3
+System Overview
+This chapter provides the description of the functionalities involed along with the context
+and design of our proposed system.
+3.1 System Workflow
+Following is the workflow of our system :
+• The user is asked to generate a facial image of a sketch or a textual description.
+• Firstly, if the user selects to generate the facial image through a sketch, then he can
+either upload a sketch or draw by himself.
+• The sketch is then denoised and passed to the Sketch-To-Face model which then
+generates an upsampled image.
+• Secondly, if the user enters a prompt, the prompt is converted into tokens and en-
+coded.
+• The Text-To-Face Model then generates the facial image.
+• Lastly, the user can manipulate the facial attributes of the generated face.
+3.2 Architectural Design
+The system is based on a Client-Server architecture in which the user interacts with system
+using a web interface.
+11
+3. System Overview
+3.2.1 Client-Server Architecture
+The communication between the web interface and the backend components is done
+through an API Gateway. The backend consists of three modules which includes Sketch
+to Face Module, Text to Face Module and Face Manipulation Module. The input is passed
+through these individual modules. Each module performs a specific task. The output of
+these modules is stored in a Database.
+3.2.2 Client Side
+The client is responsible for the communication between the system and the user. It
+consists of the following two modules :
+• Web Portal : The user interacts with the system using a Web Portal. This mod-
+ule is responsible for all the front-end related tasks. It consists of the following
+functionalities :
+– Allow the user to draw or upload Hand-drawn sketches.
+– Allow the user to enter textual prompts for facial image generation.
+– Allow the user to manipulate facial attributes of a generated image.
+– Display the generated output to the user.
+• API Gateway : This module is used to make communication between the web por-
+tal and the backend system possible using API Calls. It is responsible for handling
+requests and responses. It is used to handle API Clients in an efficient manner.
+3.2.3 Server Side
+The server is responsible for handling all the backend components such as the Database.
+It consists of all the services that are required by the system. Following modules are
+involed in this:
+• Sketch to Face Module : This module is responsible for the generation of facial
+images through sketches. The module takes a sketch as an input through API and
+uses it to generate a similar facial image.
+• Text to Face Module : This module is responsible for the generation of facial im-
+ages through textual prompts given by the user. The module takes a textual prompt
+as an input and then generates a facial image based on the description provided.
+12
+3.3 Design Models
+• Sketch to Face Module : This module is responsible for the manipulation of fa-
+cial attributes of the generated facial image. The user specifies the facial attributes
+that needs to be manipulated. The module takes the generated facial image and
+manipulates the facial attributes as specified by the user.
+• Database : This module is responsible for storing all the related data that is gener-
+ated by the system for a specific user.
+Figure 3.1: Architecture Diagram
+3.3 Design Models
+The design models for the Sketch2Face system are captured in theprocedural approach.
+The reason behind going for the procedural approach is that it offers a simple way of ad-
+dressing the flow like and linear nature of the Sketch2Face where the user inputs such as
+sketches or text prompts are processed in a sequential manner to create and transform fa-
+cial images. The following diagrams assist in understanding how the system is structured
+and how the different parts of the system are linked and how the system transforms user
+inputs into final facial image.
+13
+3. System Overview
+3.3.1 Activity Diagram
+Figure 3.2: Activity Diagram
+14
+3.3 Design Models
+3.3.2 Data Flow Diagram
+The Data Flow Diagram is used to conceptualize the flow of data in the proposed system.
+It defines the overall design of the system and sub-systems that are implemented. The
+system is expanded to level 0, 1 and 2 diagrams respectively.
+3.3.2.1 Data Flow Diagram Level 0
+The level 0 Data Flow Diagram represents the overall functionality of the proposed sys-
+tem. It provides a broader aspect of the services provided by the system. It defines the
+inputs and the outputs that the system generates associated with each functionality.
+Figure 3.3: DFD Level 0
+3.3.2.2 Data Flow Diagram Level 1
+The level 1 Data Flow Diagram further explains the sub-systems involed in the system.
+It describes the flow of data through these individual sub-systems. The "Image Genera-
+tion 1.0" takes the Hand-drawn sketches and generates the facial image. Whereas "Image
+Generation 2.0" takes the textual prompt and generates a facial image. "Image Manipu-
+lation 3.0" takes the generated facial images and manipulates the facial attributes on the
+basis of the input provided.
+15
+3. System Overview
+Figure 3.4: DFD Level 1
+3.3.2.3 Data Flow Diagram Level 2
+• The following Level 2 Data Flow Diagram explains the "Image Generation 1.0"
+sub-system. A hand-drawn sketch is provided which is then passed to the Noise
+Removal component. The denoised image is then passed to a model whose ouput
+is then upsampled and displayed to the user.
+16
+3.3 Design Models
+Figure 3.5: Image Generation 1.0
+• The Data Flow Level 2 diagram of "Image Generation 2.0" takes the textual prompt as
+an input and is tokenized. After Encoding, a facial image is generated using the text to
+face model. The generated image is displayed to the user.
+Figure 3.6: Image Generation 2.0
+17
+3. System Overview
+3.3.3 System-Level Sequence Diagram
+Figure 3.7: System-Level Sequence Diagram
+18
+3.3 Design Models
+3.3.4 State Transition Diagram
+Figure 3.8: State Transition Diagram
+19
+3. System Overview
+3.4 Data Design
+This section explains how the major data entities are organized, processed, and stored
+within the system. In the Sketch2Face, the information domain consists of various inputs
+(sketches, textual prompts) and outputs (generated and manipulated facial images).
+3.4.1 Data Representation Diagram
+For the representation of our data, we selected Entity-Relationship Diagram for this pur-
+pose which is as following :
+Figure 3.9: ERD Diagram
+3.4.2 Data Structures
+The primary data structures in Sketch2Face include:
+3.4.2.1 Sketch Data
+• Input: Hand-drawn sketches uploaded or drawn on GUI by the user.
+• Structure: Stored as image files (e.g., PNG or JPEG) in a temporary storage system
+before processing.
+20
+3.4 Data Design
+• Processing: The sketches are passed through an AI model, which converts them
+into a facial image.
+• Storage: The processed sketch is saved temporarily for manipulation or can be
+saved directly in database if no manipulation is required.
+3.4.2.2 Textual Prompt Data
+• Input: Textual descriptions provided by the user (e.g., "male, short hair, blue
+eyes").
+• Structure: The data/text is passed through AI model for image generation.
+• Processing: Each attribute (hair color, facial features, etc.) is mapped to specific
+facial characteristics during the image generation process.
+• Storage: Once converted to an image, it can be further manipulated or stored di-
+rectly into database.
+3.4.2.3 Generated Image Data
+• Output: The AI model generates facial images from the user’s sketches or textual
+prompts.
+• Structure: Stored as image files (e.g., PNG, JPEG).
+• Storage: Image can be further manipulated or stored directly into database.
+3.4.2.4 Manipulation Data
+• Input: User requests to manipulate specific features of the generated image (e.g.,
+change hair color or adjust facial shape).
+• Processing: The AI model updates the image based on the modifications, and the
+new image is stored in the system.
+• Output: Modified image.
+• Storage: Image can be further manipulated or stored directly into database if user
+is satisfied with modification.
+21
+3. System Overview
+3.4.2.5 User Data
+• Input: User profiles include login information, history of inputs (sketches, text
+prompts), and saved images.
+• Structure: Stored in a relational database with tables for user details, login creden-
+tials, and historical actions.
+3.4.3 Databases and Data Storage
+The system utilizes a combination of file storage and database management systems to
+handle large amounts of image data and user information.
+3.4.3.1 Database (Relational Database)
+• User Profiles: A relational database that stores user information, including login
+details, history of actions, and saved images.
+• Sketch/Prompt History: Tracks sketches and text prompts submitted by the user,
+mapping each submission to the respective generated image.
+• Manipulation History : Stores details of the changes made to the images (e.g.,
+color, facial structure modifications).
+3.4.4 Organization and Processing
+3.4.4.1 Data Storage
+• All generated and manipulated images are stored with unique identifiers that map
+them to the original input (sketch or text prompt).
+3.4.4.2 Data Processing
+• Sketches and textual prompts are processed in real-time to generate facial images.
+• Manipulation requests are processed by applying changes to the image and storing
+the new version in the database, without overwriting the original.
+22
+3.4 Data Design
+3.4.4.3 Data Security
+• User data (login details, image history) is protected by enforcing strong password
+to prevent from unauthorized access.
+• User can only access their own generated and manipulated images through a secure
+login process.
+23
+
+Bibliography
+[1] Wikipedia contributors. Data-flow diagram. Wikipedia, The Free Encyclopedia, 2024.
+https://en.wikipedia.org/wiki/Data-flow_diagramhttps://en.wikipedia.org/wiki/Data-flow_diagram.
+[2] Chang Wook Seo Soyeon Yoon Seongcheol Kim Soohyun Ji Amirsaman Ashtari Jun-
+yong Noh Kwan Yun, Kwanggyoon Seo. Stylized face sketch extraction via gener-
+ative prior with limited data. IEEE Transactions on Pattern Analysis and Machine
+Intelligence, 2024.
+[3] Noberto Rodriguez. Domain modeling: What you need to know before coding.
+ThoughtWorks, 2021.
+[4] Jing-Hao Xue Baoyuan Wu Weihao Xia, Yujiu Yang. Tedigan: Text-guided diverse
+face image generation and manipulation. IEEE Transactions on Pattern Analysis and
+Machine Intelligence, 2021.
+[44]
+[22]
+[11]
+[33]
+25
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

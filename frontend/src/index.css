@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html.dark {
+  color-scheme: dark;
+}
+
 :root {
   --bg: #f8fafc;
   --text: #0f172a;
@@ -28,9 +32,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -242,4 +244,182 @@ code {
   .card-shadow {
     box-shadow: 0 0 0 2px currentColor;
   }
+}
+
+/* SRS raw_text HTML (documentFormatter) — body not bold; headings distinct */
+.srs-doc-root {
+  font-weight: 400;
+  line-height: 1.85;
+  font-size: 1rem;
+  text-align: left;
+  max-width: 88ch;
+  margin: 0 auto;
+}
+.srs-doc-root .srs-h {
+  font-weight: 700;
+  color: inherit;
+  margin: 1.45rem 0 0.6rem;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.52rem;
+}
+.srs-doc-root .srs-h--d1 {
+  font-size: 1.45rem;
+  margin-top: 1.7rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  padding-bottom: 0.35rem;
+}
+.srs-doc-root .srs-h--d2 { font-size: 1.22rem; }
+.srs-doc-root .srs-h--d3 { font-size: 1.08rem; }
+.srs-doc-root .srs-h--d4,
+.srs-doc-root .srs-h--d5 { font-size: 1rem; font-weight: 650; }
+.srs-doc-root .srs-heading-num {
+  min-width: 3.1rem;
+  display: inline-block;
+  color: #0f172a;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.srs-doc-root .srs-h--d2 .srs-heading-num { min-width: 3.9rem; color: #1e293b; }
+.srs-doc-root .srs-h--d3 .srs-heading-num,
+.srs-doc-root .srs-h--d4 .srs-heading-num,
+.srs-doc-root .srs-h--d5 .srs-heading-num { min-width: 4.6rem; color: #334155; }
+.srs-doc-root .srs-heading-text {
+  font-weight: inherit;
+  flex: 1;
+}
+.srs-doc-root .srs-p,
+.srs-doc-root .srs-body,
+.srs-doc-root .srs-li {
+  font-weight: 400;
+  text-align: left;
+}
+.srs-doc-root .srs-id {
+  font-weight: 700;
+}
+.srs-doc-root .srs-k {
+  font-weight: 700;
+}
+.srs-doc-root .srs-list {
+  margin: 0.5rem 0 0.95rem 1.25rem;
+  padding-left: 0.4rem;
+  list-style-type: disc;
+}
+.srs-doc-root .srs-li {
+  margin: 0.42rem 0;
+}
+.srs-doc-root .srs-p {
+  margin: 0.38rem 0 0.62rem;
+  text-indent: 0;
+}
+.srs-doc-root .srs-spacer {
+  height: 0.45rem !important;
+}
+html.dark .srs-doc-root .srs-heading-num {
+  color: #e2e8f0;
+}
+html.dark .srs-doc-root .srs-h--d2 .srs-heading-num {
+  color: #cbd5e1;
+}
+html.dark .srs-doc-root .srs-h--d3 .srs-heading-num,
+html.dark .srs-doc-root .srs-h--d4 .srs-heading-num,
+html.dark .srs-doc-root .srs-h--d5 .srs-heading-num {
+  color: #94a3b8;
+}
+.srs-doc-root .srs-p.srs-highlight {
+  background: rgba(251, 191, 36, 0.25);
+  outline: 2px solid rgba(245, 158, 11, 0.6);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+html.dark .srs-doc-root .srs-p.srs-highlight {
+  background: rgba(251, 191, 36, 0.12);
+  outline-color: rgba(251, 191, 36, 0.45);
+}
+
+/* Inline highlights inside SRS for live checks */
+.srs-doc-root mark.srs-mark {
+  background: rgba(37, 99, 235, 0.20);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 rgba(37, 99, 235, 0.25);
+}
+html.dark .srs-doc-root mark.srs-mark {
+  background: rgba(147, 197, 253, 0.16);
+  box-shadow: inset 0 -1px 0 rgba(147, 197, 253, 0.22);
+}
+.srs-doc-root mark.srs-mark--warn {
+  background: rgba(234, 88, 12, 0.18);
+  box-shadow: inset 0 -1px 0 rgba(234, 88, 12, 0.25);
+}
+html.dark .srs-doc-root mark.srs-mark--warn {
+  background: rgba(255, 237, 213, 0.14);
+  box-shadow: inset 0 -1px 0 rgba(255, 237, 213, 0.20);
+}
+
+/* Textual use cases formatted document */
+.tuc-doc {
+  max-width: 92ch;
+  margin: 0 auto;
+}
+.tuc-card {
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  background: #ffffff;
+}
+.tuc-title {
+  margin: 0 0 10px;
+  font-size: 1.12rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+.tuc-row,
+.tuc-para {
+  margin: 7px 0;
+  line-height: 1.75;
+  color: #1e293b;
+}
+.tuc-key {
+  font-weight: 700;
+  color: #0f172a;
+}
+.tuc-value {
+  font-weight: 400;
+}
+.tuc-list {
+  margin: 6px 0 8px 20px;
+  padding-left: 4px;
+  color: #1e293b;
+}
+.tuc-list li {
+  margin: 5px 0;
+  line-height: 1.7;
+}
+.tuc-empty {
+  color: #64748b;
+  font-style: italic;
+}
+html.dark .tuc-card {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: #334155;
+}
+html.dark .tuc-title {
+  color: #e2e8f0;
+  border-bottom-color: #334155;
+}
+html.dark .tuc-row,
+html.dark .tuc-para,
+html.dark .tuc-list {
+  color: #cbd5e1;
+}
+html.dark .tuc-key {
+  color: #f1f5f9;
 }

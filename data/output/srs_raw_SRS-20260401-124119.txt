@@ -1,0 +1,94 @@
+INTRODUCTION
+Purpose: To define the requirements for a food delivery application that allows customers to place orders from various restaurants, manage their orders, and track deliveries; while providing functionality for restaurants to manage incoming orders and drivers to deliver meals efficiently.
+Scope: This document covers all aspects of the food delivery application including customer interactions, restaurant operations, driver activities, payment processing, and order management systems.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- DBMS: Database Management System
+- UI: User Interface
+References: IEEE Std 830-1998, ISO/IEC 25010:2011
+Overview: This system aims to streamline the process of ordering food by integrating multiple stakeholders such as customers, restaurants, and delivery drivers through a single platform. OVERALL DESCRIPTION
+Product Perspective: The product is a web-based and mobile application designed for both customers and businesses involved in the food delivery industry. It supports real-time tracking of orders and provides tools for managing orders, preparing them, and delivering them.
+Product Functions:
+- Customer functions: Browsing restaurants, customizing orders, scheduling deliveries, and tracking rider progress.
+- Restaurant functions: Receiving orders, confirming preparation times, marking orders as ready, and pausing orders temporarily.
+- Driver functions: Accepting delivery tasks, navigating routes, reporting incidents, and handling order substitutions.
+Constraints: Limited network connectivity may affect real-time updates and communications between parties.
+Assumptions/Dependencies: Reliable internet connection for all users, consistent database synchronization across platforms, and timely responses from all participants. SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User interface (UI) for customers to interact with the application.
+- Hardware interfaces for mobile devices and servers hosting the application.
+- Software interfaces via APIs connecting different components of the system.
+- Communication protocols for exchanging data between client and server applications.
+Functional Requirements:
+FR-1: Browse Restaurants
+Input: Customer searches for nearby restaurants.
+Processing: Display list of matching restaurants based on location.
+Output: List of restaurants with details.
+Priority: High
+FR-2: Customize Orders
+Input: Customer selects items from menu.
+Processing: Allow customization options like quantity adjustments, add-ons, etc.
+Output: Updated order summary reflecting changes.
+Priority: Medium
+FR-3: Schedule Deliveries
+Input: Customer specifies preferred delivery date/time.
+Processing: Validate input against available slots and restaurant readiness.
+Output: Confirmed delivery slot displayed to customer.
+Priority: High
+FR-4: Track Rider Progress
+Input: Customer initiates tracking request.
+Processing: Retrieve current position of assigned rider.
+Output: Real-time map showing rider's location.
+Priority: High
+FR-5: Confirm Preparation Time
+Input: Restaurant receives order notification.
+Processing: Estimate preparation duration based on menu and inventory.
+Output: Estimated time provided to restaurant.
+Priority: Medium
+FR-6: Mark Order Ready
+Input: Restaurant marks order as prepared.
+Processing: Update order status and notify relevant parties.
+Output: Confirmation message sent to customer and rider.
+Priority: Medium
+FR-7: Pause Orders Temporarily
+Input: Restaurant requests order suspension due to outage or rush hour.
+Processing: Temporarily halt order processing until conditions improve.
+Output: Notification sent to customer about temporary hold.
+Priority: Low
+FR-8: Accept Delivery Tasks
+Input: Driver logs in and accepts task.
+Processing: Assign specific delivery route and pick-up point.
+Output: Detailed task information provided to driver.
+Priority: High
+FR-9: Navigate Routes Optimally
+Input: Driver needs directions to destination.
+Processing: Generate optimal route considering traffic and distance.
+Output: Turn-by-turn navigation instructions shown to driver.
+Priority: High
+FR-10: Report Incidents
+Input: Driver encounters issues during delivery.
+Processing: Log incident details and update order status.
+Output: Incident reported to support team for resolution.
+Priority: Medium
+FR-11: Handle Order Substitutions
+Input: Unexpected events require order change.
+Processing: Substitute new items if possible, communicate with customer.
+Output: New order details updated in system.
+Priority: Medium
+Non-functional Requirements:
+Performance: Ensure smooth operation even under heavy load.
+Security: Protect sensitive data using encryption and secure authentication methods.
+Reliability: Maintain high uptime and recover quickly from failures.
+Availability: Provide uninterrupted service to end-users.
+Usability: Design intuitive UI elements for ease of use.
+Maintainability: Facilitate easy updates and modifications to the system.
+Portability: Support deployment across diverse environments without significant changes. SYSTEM FEATURES
+Feature 1: Real-Time Tracking
+- Enables customers to monitor the status of their deliveries in real-time.
+- Provides detailed maps and estimated arrival times. Feature 2: Customizable Menus
+- Allows restaurants to offer flexible menus with various customization options.
+- Supports dynamic pricing based on selected choices. Feature 3: Automated Payment Handling
+- Manages transactions securely and retries failed payments automatically.
+- Ensures seamless financial exchanges between customers and merchants. Feature 4: Multi-Platform Support
+- Offers compatibility with multiple operating systems and devices.
+- Ensures consistent experience regardless of the chosen platform. End of Document.

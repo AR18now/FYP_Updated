@@ -1,0 +1,652 @@
+# FYP1-MidReport-F24-144-D-Personix. - Bilal Akbar
+
+## 1. Introduction
+
+1. Introduction
+ensuring that the transition from 2D images to 3D models is accurate and lifelike. Users
+will have access to a wide range of customization options to modify their avatars, such as
+adjusting skin tone, hairstyles, facial structure, and facial hair. These customization tools
+ensure that users can create avatars that closely reflect their personal appearance or their
+desired digital representation.
+A core feature of Personix is the ability to animate avatars with natural facial expressions
+and movements. The platform will also integrate text-to-speech functionality, allowing
+avatars to speak in a realistic manner. Sentiment analysis will further enhance the experi-
+ence by enabling avatars to display appropriate emotions based on the text input provided
+by the user. Users will be able to generate content such as stickers, GIFs, and short videos
+(30 seconds to 1 minute), which can easily be shared across various social media plat-
+forms.
+In addition to creating a single avatar, the platform will support the creation and man-
+agement of multiple avatars, allowing users to switch between different representations
+as needed. Users will also have the option to apply their avatars as face filters for video
+recordings, making the platform even more interactive. Cloud storage functionality will
+ensure that avatars are securely stored and synchronized across devices, providing users
+with the flexibility to access their avatars from anywhere. In summary, the scope of Per-
+sonix includes 3D modeling, avatar customization, animation, text-to-speech integration,
+content creation tools, and cloud synchronization, all designed to enhance digital self-
+representation while maintaining user privacy and flexibility.
+1.3 Modules
+1.3.1 Module 1: Image Preprocessing
+This module is responsible for verifying and preparing user-uploaded images for 3D
+avatar generation. It ensures that the provided images meet the requirements for accu-
+rate model creation by analyzing whether they display the necessary angles of the face.
+1. Takes image from user
+2. Processes the image
+3. Displays message based on result.
+2
+1.3 Modules
+1.3.2 Module 2: Avatar Creation and Customization
+This module focuses on creating realistic 3D avatars from user photos. It allows users
+to customize facial features, skin tone, and hairstyles, enabling personalized and unique
+avatar creation. Users can also create and manage multiple avatars and save their presets
+for later use.
+1. 3D model generation from user photos
+2. Facial feature customization (skin tone, hairstyle, etc.)
+3. Multiple avatar creation and management
+4. Save and load avatar
+1.3.3 Module 3: Animation and Expression
+This module manages the animation of avatars.. It integrates text-to-speech functionality,
+allowing avatars to speak while displaying emotions based on the sentiment of the text.
+1. Expression customization library
+2. Text-to-speech integration with sentiment analysis
+3. V oice customization options
+1.3.4 Module 4: Content Creation and Sharing
+This module provides tools for generating shareable content such as stickers, GIFs, and
+short videos. Users can add avatars to face filters for videos and easily share the content
+on social media.
+1. Sticker creation tools
+2. GIF maker with avatar integration
+3. Video recording with avatar face filters
+4. In-app sharing to social media
+3
+1. Introduction
+1.3.5 Module 5: Cloud Sync and Storage
+This module ensures that user avatars and content are securely stored in the cloud and
+synchronized across multiple devices. It includes tools for managing cloud storage and
+accessing avatars from any device.
+1. Secure cloud storage for avatars and content
+2. Cross-device synchronization
+3. Cloud storage management tools
+1.3.6 Module 6: User Profile and Settings
+This module manages user accounts, app preferences, and settings. It allows users to
+register, customize their profiles, manage notifications, and adjust app settings according
+to their preferences.
+1. User registration and authentication
+2. Profile customization
+3. Notification management
+4. App settings and preferences
+1.3.7 Module 7: App Development
+This module covers the overall development of the app, including design, functionality,
+and performance optimization. It also involves deploying the app to app stores and pro-
+viding updates.
+1. User interface (UI) and user experience (UX) design
+2. Core functionality implementation
+3. Performance optimization and testing
+4. App store deployment and updates
+1.4 User Classes and Characteristics
+Following table shows the user classes along with their description.
+4
+1.4 User Classes and Characteristics
+User class Description
+End User (Avatar
+Creator)
+The End User is a person who wants to create customized 3D avatars
+for personal or social media use. They will upload photos, customize
+avatars, and generate media assets such as GIFs, stickers, and videos.
+This class includes a diverse range of individuals who value privacy and
+creativity, typically interacting with the app on a regular basis.
+Content Creator Content Creators are advanced users who want to generate high-quality,
+shareable content using their avatars. They may frequently use features
+like video recording with face filters and sharing tools. Many of these
+users are active on social media platforms and want engaging, customiz-
+able avatars for their posts.
+Casual User A Casual User interacts with the app infrequently and may only use
+basic avatar customization features without diving deep into advanced
+animation or content creation. They may use the app for fun or one-time
+avatar creation without saving or frequently using the avatars.
+Tester/QA Testers or Quality Assurance (QA) personnel are responsible for testing
+the app’s features, ensuring that avatar creation, customization, and con-
+tent generation functionalities work as expected. They focus on identi-
+fying bugs, issues, or inconsistencies across different devices.
+Developer Developers are part of the team responsible for the technical develop-
+ment of the application. They work on updating the features, fixing
+bugs, improving performance, and adding new functionality as required.
+They are responsible for ensuring the app functions well across various
+devices and platforms.
+5
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case
+This section outlines the primary use cases for the Personix application, focusing on how
+users will interact with the platform to create and customize 3D avatars, animate them,
+and generate media content.
+2.1.1 Use Case Diagram
+Figure 2.1: Use Case Diagram
+6
+2.1 Use-case
+2.1.2 High-Level Use Cases
+2.1.2.1 Use Case 1: Create Avatar
+Use Case NameCreate Avatar
+Actors End User
+Type Primary
+Description The user uploads a photo, and the system generates a 3D avatar based on facial features.
+Table 2.1: High-Level Use Case: Create Avatar
+2.1.2.2 Use Case 2: Customize Avatar
+Use Case Name Customize Avatar
+Actors End User
+Type Primary
+Description The user customizes the 3D avatar’s facial features, hair, and other facial elements.
+Table 2.2: High-Level Use Case: Customize Avatar
+2.1.2.3 Use Case 3: Generate Expressive Video with TTS
+Use Case NameGenerate Expressive Video with TTSActors End UserType PrimaryDescriptionThe user enters a script and selects their 3D avatar. The system generates a video where the avatar speaks the script using TTS and animates expressions based on sentiment analysis.
+Table 2.3: High-Level Use Case: Generate Expressive Video with TTS
+2.1.2.4 Use Case 4: Generate and Share Content
+Use Case Name Generate and Share Content
+Actors End User
+Type Primary
+Description The user generates content (e.g., stickers, GIFs) and shares it on social media.
+Table 2.4: High-Level Use Case: Generate and Share Content
+7
+2. Project Requirements
+2.1.2.5 Use Case 5: User Registration
+Use Case Name User Registration
+Actors End User
+Type Primary
+Description The user registers with the system by providing required details.
+Table 2.5: High-Level Use Case: User Registration
+2.1.3 Fully Dressed Use Cases
+2.1.3.1 Use Case 1: Create Avatar
+Use Case Name Create Avatar
+Scope Personix Platform
+Level User Goal
+Primary Actor End User
+Stakeholders and Interests - End User: Wants to create an avatar.
+- Platform: Ensures proper avatar generation from photos.
+Preconditions - User has uploaded a valid photo.
+- User is logged into their account.
+Postconditions - A 3D avatar is generated.
+- The avatar is available for customization.
+Main Success Scenario
+1. User uploads a valid photo.
+2. The system processes the photo using facial recognition.
+3. The system generates a 3D avatar.
+Extensions
+2a. Invalid photo:
+- The system prompts the user to upload a valid photo.
+3a. Avatar generation error:
+- The system alerts the user and retries the avatar generation.
+Table 2.6: Fully Dressed Use Case: Create Avatar
+8
+2.1 Use-case
+2.1.3.2 Use Case 2: Customize Avatar
+Use Case Name Customize Avatar
+Scope Personix Platform
+Level User Goal
+Primary Actor End User
+Stakeholders and Interests- End User: Wants to personalize their avatar.
+- Platform: Offers a variety of customization options.
+Preconditions - User has a generated 3D avatar.
+- User is logged in.
+Postconditions - Avatar is customized.
+- Customizations are saved for future use.
+Main Success Scenario
+1. User selects an avatar feature (e.g., skin tone).
+2. The system displays customization options.
+3. User confirms changes.
+4. The system updates the avatar with the new features.
+Extensions
+3a. Invalid customization selection:
+- The system prompts the user to select valid customization options.
+4a. Customization error:
+- The system retries the customization process.
+Table 2.7: Fully Dressed Use Case: Customize Avatar
+9
+2. Project Requirements
+2.1.3.3 Use Case 3: Generate Expressive Video with TTS
+Use Case Name Generate Expressive Video with TTS
+Scope Personix Platform
+Level User Goal
+Primary Actor End User
+Stakeholders and Interests - End User: Wants to create videos using their 3D avatars.
+- Platform: Processes TTS and sentiment analysis to animate avatars.
+Preconditions - User has a customized 3D avatar.
+- User provides a valid script.
+Postconditions - A video is generated with the avatar speaking the script.
+- The avatar’s expressions match the sentiment analysis of the text.
+Main Success Scenario
+1. User selects their 3D avatar.
+2. User enters a script.
+3. The system applies sentiment analysis to the script.
+4. The system animates the avatar’s expressions.
+5. The system processes the script using TTS.
+6. The system generates a video with the avatar speaking the text.
+Extensions
+3a. Invalid script format:
+- The system prompts the user to enter a valid script.
+5a. TTS failure:
+- The system notifies the user and retries the TTS processing.
+6a. Video generation error:
+- The system alerts the user and retries generating the video.
+Table 2.8: Fully Dressed Use Case: Generate Expressive Video with TTS
+10
+2.1 Use-case
+2.1.3.4 Use Case 4: Generate and Share Content
+Use Case Name Generate and Share Content
+Scope Personix Platform
+Level User Goal
+Primary Actor End User
+Stakeholders and Interests - End User: Wants to create and share personalized content.
+- Platform: Facilitates content creation and sharing.
+Preconditions - User has customized their avatar.
+- User is logged in.
+Postconditions - Content is generated and available for sharing.
+- The content is shared on selected platforms.
+Main Success Scenario
+1. User selects content type (e.g., video, GIF).
+2. The system generates the content.
+3. The user shares the content on social media.
+Extensions
+2a. Content generation failure:
+- The system retries content generation or notifies the user.
+3a. Social media sharing error:
+- The system retries sharing or prompts the user to try again.
+Table 2.9: Fully Dressed Use Case: Generate and Share Content
+11
+2. Project Requirements
+2.1.3.5 Use Case 5: User Registration
+Use Case Name User Registration
+Scope Personix Platform
+Level User Goal
+Primary Actor End User
+Stakeholders and Interests- End User: Wants to register and access the platform.
+- Platform: Ensures secure registration and account management.
+Preconditions - User is not already registered.
+- Registration form is accessible to new users.
+Postconditions - A new user account is created.
+- User is redirected to the login page.
+Main Success Scenario
+1. User navigates to the registration page.
+2. User fills out the registration form (name, email, password).
+3. The system validates the information provided.
+4. The system creates a new user account.
+5. The system redirects the user to the login page.
+Extensions
+3a. Invalid email or weak password:
+- The system prompts the user to correct the input.
+4a. Account creation failure:
+- The system notifies the user and retries the registration.
+5a. Redirection failure:
+- The system logs the user into their newly created account directly.
+Table 2.10: Fully Dressed Use Case: User Registration
+2.2 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style. This section is typically organized by feature as a system feature name and
+specific functional requirements associated with this feature. It is just one possible way to
+arrange them. Other organizational options include arranging functional requirements by
+use case, process flow, mode of operation, user class, stimulus, and response depend on
+what kind of technique has been used to understand functional requirements. Hierarchical
+combinations of these elements are also possible, such as use cases within user classes.
+2.2.1 Module 1: Avatar Creation and Customization
+This module focuses on creating and customizing 3D avatars. It covers generating avatars
+from user photos and allowing the user to customize facial features.
+12
+2.2 Functional Requirements
+2.2.1.1 Requirements:
+1. FR1: The system shall allow users to upload photos for 3D avatar generation.
+2. FR2: The system shall generate a 3D avatar based on the uploaded photo.
+3. FR3: The system shall provide tools for facial feature customization (e.g., hairstyle,
+facial hairs, facial features.
+4. FR4: The system shall allow users to save customized avatar for future use.
+5. FR5: The system shall support creating multiple avatars per user.
+2.2.2 Module 2: Animation and Expression
+This module handles real-time avatar animation, including facial movements and voice
+interaction using text-to-speech.
+2.2.2.1 Requirements:
+1. FR1: The system shall allow real-time tracking of user facial movements and map
+them to the 3D avatar.
+2. FR2: The system shall support text-to-speech conversion with avatar lip synchro-
+nization.
+3. FR3: The system shall provide sentiment analysis to adjust facial expressions based
+on the tone of the speech.
+4. FR4: The system shall allow voice customization, including pitch and tone adjust-
+ments.
+2.2.3 Module 3: Content Creation and Sharing
+This module enables users to create content, such as stickers, GIFs, and videos, and share
+them through social media.
+2.2.3.1 Requirements:
+1. FR1: The system shall provide tools for users to create custom stickers using their
+avatars.
+13
+2. Project Requirements
+2. FR2: The system shall allow users to generate GIFs with avatar animations.
+3. FR3: The system shall support recording videos with avatar face filters.
+4. FR4: The system shall provide integration with social media platforms for sharing
+created content.
+5. FR5: The system shall allow in-app sharing of content with other users.
+2.2.4 Module 4: Cloud Sync and Storage
+This module focuses on storing avatars and content in the cloud and synchronizing them
+across devices.
+2.2.4.1 Requirements:
+1. FR1: The system shall securely store user avatars and content in the cloud.
+2. FR2: The system shall provide synchronization of avatars and content across mul-
+tiple devices.
+3. FR3: The system shall allow users to manage cloud storage, including deleting
+avatars.
+4. FR4: The system shall support automatic backup of avatars.
+2.2.5 Module 5: User Profile and Settings
+This module manages user profiles, authentication, and application settings.
+2.2.5.1 Requirements:
+1. FR1: The system shall support user registration and authentication.
+2. FR2: The system shall allow users to customize their profiles, including avatar
+preferences.
+3. FR3: The system shall enable users to configure application preferences such as
+notifications and privacy settings.
+4. FR4: The system shall allow users to manage notifications that includes enabling
+or disabling email alerts and app notification.
+14
+2.3 Non-Functional Requirements
+2.2.6 Module 6: App Development and Deployment
+This module covers the technical aspects of the app development process, including
+UI/UX, functionality, and optimization.
+2.2.6.1 Requirements:
+1. The system shall provide a user-friendly and responsive interface for both mobile
+and web platforms.
+2. The system shall implement core features defined in the use cases.
+3. The system shall support app deployment and updates through android play store.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+The system should ensure high reliability to prevent failure during critical operations such
+as avatar creation and content sharing.
+2.3.1.1 Reliability Requirements:
+1. The system shall achieve a mean time between failures (MTBF) of at least 1,000
+hours during avatar creation processes.
+2. System failures during content sharing shall not result in data loss and should auto-
+matically retry the operation.
+3. The system shall implement error detection mechanisms to log any failures and
+alert the user with corrective suggestions.
+4. In case of failure during avatar creation, the system shall save the avatar’s progress
+and allow the user to resume from the last saved state.
+2.3.2 Usability
+The system should be user-friendly, easy to navigate, and require minimal training for
+both new and returning users.
+15
+2. Project Requirements
+2.3.2.1 Usability Requirements:
+1. The system shall allow a user to create and customize an avatar with no more than
+3 interactions.
+2. The system shall provide tooltip guidance for all customizable features, helping
+users understand each option.
+3. The system shall allow users to recover from any customization mistakes with a
+single undo action.
+4. The system shall be optimized for performance, ensuring smooth operation on de-
+vices with limited resources.
+2.3.3 Performance
+The system should maintain efficient performance across different modules and opera-
+tions.
+2.3.3.1 Performance Requirements:
+1. 90% of avatar customization actions shall be reflected on-screen within 3 seconds
+of the user’s interaction.
+2. All content-sharing operations shall complete within 10 seconds over a 10 Mbps
+connection.
+3. The system shall handle up to 100 concurrent users customizing avatars without
+performance degradation.
+2.3.4 Security
+The system should protect user data, including personal information, and prevent unau-
+thorized access.
+2.3.4.1 Security Requirements:
+1. All user data, including avatar customizations and personal details, shall be en-
+crypted using AES-256 during storage and transmission.
+2. The system shall implement a two-factor authentication (2FA) mechanism for ac-
+cessing user accounts.
+16
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain model
+17
+Chapter 3
+System Overview
+Personix is an Android application focused on improving digital self-representation through
+3D facial models. Users can upload photographs, which are processed using computer
+vision and facial recognition algorithms to generate detailed 3D avatars. These avatars
+can be customized to match the user’s preferences, allowing changes to features such as
+head and facial hair, and facial structure. Additionally, Personix integrates text-to-speech
+technology with sentiment analysis, enabling the avatars to speak and exhibit appropriate
+facial expressions. The platform also supports media creation, including GIFs and videos,
+and offers cloud storage for cross-device synchronization.
+3.1 Architectural Design
+This section provides a high-level overview of the Architectural Design for the Personix’s
+system. The system is decomposed into several key modules that collaborate to achieve
+the desired core functionality of Personix. The relationships between the modules are also
+explained to show how data flows between them to ensure seamless operation.
+3.1.1 Box-and-Line Diagram
+Below is the initial box-and-line diagram representing the major modules of the system
+and how they interact with each other:
+18
+3.1 Architectural Design
+Figure 3.1: Box and line diagram
+3.1.2 Modular Program Structure
+The system is designed in a modular manner, where each module plays a distinct role in
+achieving the overall functionality. Below is a brief explanation of the major modules and
+their relationships:
+• User Input: Collects user data such as images and text, which is passed to other
+processing components.
+• Image Processing: Processes the image input for validation and then use in 3D
+Model Generation.
+• 3D Model Generation : Based on the processed images, this module generates
+a 3D avatar. The generated model is stored in the Data Store for further use or
+customization.
+• Text to Speech: Converts user-provided text into speech and passes the resulting
+speech to the Sentiment Analysis module.
+• Sentiment Analysis: Analyzes the emotional tone of the speech input and sends
+the results to Facial Expression Mapping.
+• Facial Expression Mapping: Maps the corresponding facial expressions onto the
+3D avatar based on the sentiment analysis.
+19
+3. System Overview
+• Avatar Customization: Allows users to modify and customize their 3D avatars.
+These modifications are stored back in the Data Store.
+• Data Store: Centralized storage for the 3D models and other data. It is accessed by
+both Avatar Customization and Video Rendering/Exporting.
+• Video Rendering/Exporting: Generates videos based on the customized avatars
+and provides options for exporting or sharing the content.
+Some of the modules operate independently, but together they contribute to the system’s
+goal of creating, customizing, and rendering expressive avatars.
+3.1.3 Architecture Style
+The system adopts a Layered Architecture, separating concerns into distinct layers to
+enhance maintainability and scalability. Below is a description of each layer:
+• Presentation Layer: This layer consists of modules responsible for user interaction
+and data presentation. Modules such as:
+– User Input
+– Avatar Customization
+– Video Rendering/Exporting
+belong here, as they handle user-facing functionality.
+• Business Logic Layer: Contains the core functional modules that perform process-
+ing tasks, such as:
+– Image Processing
+– 3D Model Generation
+– Text to Speech
+– Sentiment Analysis
+– Facial Expression Mapping
+fall under this layer, where the main processing of user data occurs.
+• Data Layer: This layer is responsible for data storage and retrieval. The:
+– Data Store
+module resides here, as it manages the persistent storage of avatar models and re-
+lated data.
+20
+3.2 Design Models
+3.1.4 Detailed Mapping of Components to Architecture
+Here’s a detailed mapping of the modules from the box-and-line diagram to the architec-
+ture layers:
+• Presentation Layer:
+– User Input
+– Avatar Customization
+– Video Rendering/Exporting
+• Business Logic Layer:
+– Image Processing
+– 3D Model Generation
+– Text to Speech
+– Sentiment Analysis
+– Facial Expression Mapping
+• Data Layer:
+– Data Store
+3.2 Design Models
+This section provides detailed design models for the system based on an object-oriented
+development approach. Each model is explained in detail, illustrating how different com-
+ponents of the system interact and function.
+3.2.1 Activity Diagram
+3.2.1.1 Description:
+The activity diagram represents the dynamic aspects of the system by showing the flow
+of activities and actions between different components. It is used to model the workflow
+of the system.
+• Purpose: The activity diagram helps visualize the flow of tasks, actions, and deci-
+sions that a user or the system performs to achieve a specific functionality.
+• Components: User Input, 3D Avatar Customization, Text-to-Speech, Sentiment
+Analysis, Video Export, etc.
+21
+3. System Overview
+3.2.1.2 Diagram:
+Use Case 1: Avatar Creation
+Figure 3.2: Activity diagram: Avatar Creation
+Use Case 2: Avatar Customization
+22
+3.2 Design Models
+Figure 3.3: Activity Diagram: Avatar Customization
+Use Case 3: Generate Expressive Video with TTS
+23
+3. System Overview
+Figure 3.4: Activity Diagram: Generate Expressive Video with TTS
+24
+3.2 Design Models
+Use Case 4: Generate and Share Content
+25
+3. System Overview
+Figure 3.5: Use Case 4: Generate and Share Content
+26
+3.2 Design Models
+Use Case 5: User Registration
+Figure 3.6: Activity Diagram: User Registration
+27
+3. System Overview
+3.2.2 Class Diagram
+3.2.2.1 Diagram:
+Figure 3.7: Enter Caption
+3.2.3 Sequence Diagram
+The sequence diagrams capture the interaction between various components and classes
+involved in key functionalities of the system. They illustrate the sequence of method
+calls, data exchanges, and flow of control within the application for different use cases.
+The following sequence diagrams represent crucial aspects of the user journey and system
+behavior.
+3.2.3.1 Use Case: User Registration
+• Description: This diagram models the steps involved when a user registers on the
+platform. The process involves user input submission, backend validation, database
+interaction for storing user details, and confirmation response sent back to the user.
+• Steps:
+1. User enters registration details.
+2. System validates the input.
+3. System checks if the user already exists in the database.
+4. If valid, the system stores user information in the database and sends a confir-
+mation.
+28
+3.2 Design Models
+Figure 3.8: User Registeration
+3.2.3.2 Use Case: Avatar Creation
+• Description: This sequence diagram showcases the flow where a user uploads an
+image to create a 3D avatar. The system processes the image, generates the avatar
+model, and prepares it for further customization.
+• Steps:
+1. User selects or uploads images.
+2. System preprocesses the image to ensure it’s valid for avatar creation.
+3. The backend generates a 3D model mesh of the avatar.
+4. The avatar model is stored and prepared for future customizations.
+29
+3. System Overview
+Figure 3.9: Create Avatar
+3.2.3.3 Use Case: Avatar Customization
+• Description: After creating the avatar, the user can customize its features. This
+diagram demonstrates the interaction between the user interface and backend when
+the user customizes the avatar’s appearance, expressions, and other attributes.
+• Steps:
+1. User selects avatar customization options.
+2. System applies the selected customizations (e.g., facial features, expressions).
+3. Changes are processed and stored in the system.
+30
+3.2 Design Models
+Figure 3.10: Avatar Customization
+3.2.3.4 Use Case: Generate Expressive Video with TTS
+• Description: In this flow, the user selects an avatar and provides a text script to
+generate an expressive video. The system applies text-to-speech (TTS) conversion,
+analyzes sentiment, and maps facial expressions to the avatar. The final result is
+rendered and available for export.
+• Steps:
+1. User selects an avatar and enters a script for video creation.
+2. The system converts the text to speech.
+3. Sentiment analysis is performed on the text to determine the emotions.
+4. The system maps expressions on the avatar to reflect the sentiment of the
+script.
+5. The video is rendered and saved.
+31
+3. System Overview
+Figure 3.11: Generate Expressive Video with TTS
+3.2.3.5 Use Case: Generate and Share Content
+• Description: This diagram illustrates the process by which the user selects the
+content format and shares it across various platforms. The system generates the ap-
+propriate content format (e.g., GIFs, stickers), displays sharing options, and allows
+the user to distribute the content.
+• Steps:
+1. User selects the content creation page.
+2. System generates the selected type of content.
+3. User chooses the format to share the content.
+4. The system prepares the content in the desired format and shares it.
+32
+3.2 Design Models
+Figure 3.12: Generate and share Content
+3.2.4 State Transition Diagram
+3.2.4.1 Description:
+The state transition diagram models the lifecycle of various entities in the system, partic-
+ularly focusing on how objects transition between different states based on events or user
+actions.
+• Example Entities: User Avatar, Image, text.
+• Possible States:
+– Image Processed
+– 3D model created
+– Text to speech converted
+– Speech analysed
+– Avatar ready
+– Avatar exported
+33
+3. System Overview
+3.2.4.2 Diagram:
+Figure 3.13: state machine diagram
+3.3 Data Design
+In the ERD of our system, the information domain is represented by entities such as
+"User," "Avatar," "3DModel," "MediaContent," and their associated attributes like "userID,"
+"avatarID," "modelID," etc. These entities map directly to data structures in MongoDB
+collections, where each entity is stored as a document.
+Major entities such as "User" and "Avatar" contain essential attributes to capture user
+details and avatar characteristics. MongoDB’s flexibility allows for dynamic and hierar-
+chical data organization, making it suitable for managing complex data like 3D models
+and media content. Data is processed through CRUD operations, where data creation,
+updating, and retrieval are facilitated by the MongoDB database and structured using
+34
+3.3 Data Design
+JSON-like documents, maintaining a fluid, schema-less structure ideal for your system’s
+evolving needs.
+Figure 3.14: ERD-Diagram
+35
+Bibliography
+[1] B. Fasel and J. Luettin. Automatic facial expression analysis: a survey. Pattern
+Recognition, 36(1):259–275, 2003. Accessed: 2024-09-13.
+[2] Y . Furukawa and C. Hernandez. Multi-view stereo: A tutorial. F oundations and
+Trends in Computer Graphics and Vision, 9(1–2):1–148, 2013.
+[3] F. Iqbal, J.M. Hashmi, B.C. Fung, R. Batool, A.M. Khattak, S. Aleem, et al. A hybrid
+framework for sentiment analysis using genetic algorithm based feature reduction.
+IEEE Access, 7:14637–14652, 2019.
+[4] Liisa Rätsep. Multispeaker text-to-speech synthesis with transformers, 2020. Ac-
+cessed: 2024-09-13.
+36
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,9 @@
+﻿@startuml
+top to bottom direction
+title UML 2.x Use Case Diagram\n<size:12><i>E-Shop</i></size>
+actor "Customer" as act_0
+rectangle "E-Shop" {
+  usecase "Login" as uc_0
+}
+act_0 -- uc_0
+@enduml

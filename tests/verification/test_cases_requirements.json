@@ -1,0 +1,23 @@
+[
+  {
+    "id": "TC-001",
+    "name": "Vague performance wording",
+    "input_text": "The system should be fast and user friendly for all users.",
+    "expected_min_clarity": 0.6,
+    "expected_min_conflict_score": 0.9
+  },
+  {
+    "id": "TC-002",
+    "name": "Conflicting access behavior",
+    "input_text": "The system must allow admin to edit user profiles. The system must prevent admin from editing user profiles.",
+    "expected_min_clarity": 0.5,
+    "expected_max_conflicts": 2
+  },
+  {
+    "id": "TC-003",
+    "name": "Measurable NFRs",
+    "input_text": "The system shall respond within 2 seconds for 95% requests and maintain 99.9% uptime.",
+    "expected_min_clarity": 0.7,
+    "expected_min_conflict_score": 0.9
+  }
+]

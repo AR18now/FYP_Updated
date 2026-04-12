@@ -1,0 +1,540 @@
+# FYP1-MidReport-F-24-035-D-AIFDS - i211661 Hammad Javaid
+
+## 1. Introduction
+
+1. Introduction
+By streamlining these critical phases of the fashion design and marketing workflow, AI
+Fashion Design Studio not only enhances efficiency and reduces time-to-market but also
+revolutionizes how fashion products are designed, presented, and sold, offering an inno-
+vative solution to the age-old challenges of the fashion industry.
+1.2 Scope
+The AI Fashion Design Studio was developed to make the transition from initial design
+to a market-ready products, focusing only on adult clothing; this studio does not sup-
+port accessories, makeup, children’s clothing, or any items not classified as clothing. The
+important functions in the project include converting initial sketches into digital images,
+building highly detailed 3D models for visualization purposes, and enabling virtual try-
+on fitting for assessing fit and style. However, it does not allow for real-time 3D editing
+and modifications: it does set pre-adjustments automatically, emphasizing setting bench-
+marks and having automatic processing. Marketing content generation is also automated,
+producing both image and video advertisements to facilitate the promotion of finished
+designs. It is a web application system, based on a tech stack that includes PyTorch,
+MERN(MongoDB, Express.js, React, Node.js) for full-stack development, FastAPI for
+high-performance backend services, and Hugging Face for leveraging state-of-the-art gen-
+erative models.
+1.3 Modules
+1.3.1 Module 1 : Template Management
+This module manages access to a library of pre-designed templates and provides a database
+of ready-made clothing design templates for user selection.
+1.3.2 Module 2: GUI Development
+This module will develop the graphical user interface for the application.
+1. We will design and implement the front-end interface where users interact with the
+system.
+2. We will integrate the interface with back-end processes to ensure seamless user
+experience.
+2
+1.3 Modules
+1.3.3 Module 3: Sketch to Image Conversion
+Utilizing a fine-tuned LoRa version of Stable Diffusion, this module transforms hand-
+drawn sketches into high-quality 2D digital images. It combines delightful and creative
+user prompts that can include sketches on every developed detail and a highly accurate
+digital picturing.
+1. User uploads sketch and textual description of the desired output.
+2. Convert user-uploaded sketches into digital images using fine-tuned SDXL LoRA
+model.
+1.3.4 Module 4: Virtual Try-On + 3D Visualization
+This module will enable virtual try-on experiences and create detailed 3D models of cloth-
+ing designs for comprehensive review.
+1. Enables users to virtually try on and interact with clothing designs using digital
+avatars.
+2. Converts 2D virtual try-on into 3D virtual try-on that can be viewed and manipu-
+lated in a 360-degree environment.
+1.3.5 Module 5: Crossover Design Mechanism
+This module will generate unique new designs by combining elements from existing gar-
+ments
+1. Allow users to select two existing designs for combination.
+2. Automatically generate a new design that incorporates elements of the chosen gar-
+ments.
+1.3.6 Module 6: Marketing Material Generation
+This module automatically generates marketing materials, leveraging diffusion models to
+create visually appealing image and video ads.
+1. Generate clothing image ads (3-5 images) featuring model in various poses wearing
+the designed clothes.
+2. Create short 5-10 second video ads showcasing the clothes in dynamic, custom
+scenes.
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User Class Description
+Fashion Design-
+ers
+Fashion designers are the primary customers of this system because
+they directly use AI Fashion Design Studio to improve and opti-
+mise the design process. They interact with the system from the
+sketch all the way to the final and polished version of the prod-
+uct.Designers take advantage of modules including the Template
+Management for base designs, turning Sketch to Image Conversion
+is used for digital rendering and 3D Modeling concerning more
+detailed visualization. The system fulfills their need for rapid pro-
+totyping and allows for high customization with tools that support
+creative freedom and precision.
+E-commerce Re-
+tailers
+E-commerce retailers use the platform to create appealing online
+catalogs and provide their customers with an innovative shopping
+experience. T They mostly use the Virtual Try-On and Marketing
+Content Creation modules (Clothing Image Ads and Video Ads)
+to produce realistic presentation and advertising contents which
+would be expected to have higher tendency of attracting the atten-
+tion of buyers and thus boost sales. The platform helps them reduce
+return rates by allowing customers to visualize products accurately
+before purchasing.
+Customers End consumers benefit from the Virtual Try-On and Crossover De-
+sign Mechanism modules, which provide a personalized shopping
+experience. They can see how garments look on avatars that match
+their body type and even participate in designing custom wear by
+selecting elements they like, meeting the demand for personalized
+fashion.
+Table 1.1: User Classes and Characteristics
+4
+Chapter 2
+Project Requirements
+2.1 Use-case
+The AI Fashion Design Studio offers an intuitive workflow diagram that visually rep-
+resents how users interact with the system from inception to final outputs. The process
+initiates when the user either uploads a sketch or selects from a library of templates. These
+actions trigger two paths: the Sketch to Cloth Image conversion for sketches and direct
+engagement with the Virtual Try-On for templates. Both paths converge at the Virtual
+Try-On phase where designs are fitted on digital avatars for accurate representation. Sub-
+sequently, 3D Visualization offers an enhanced, detailed view of the outfits. The process
+culminates in the creation of marketing content, where the system automatically gener-
+ates tailored image ads and video ads for showcasing the designs in various scenarios.
+This diagram clearly illustrates all possible interactions a user can have with the system,
+allowing for seamless navigation through each phase of the fashion design process.
+5
+2. Project Requirements
+Figure 2.1: Use Case Diagram
+Table 2.1: Use-Case Table
+User Class Actor Description System Response
+Upload
+Sketch/Image
+User User uploads a sketch or
+an image of a garment.
+System processes the upload
+and prepares it for transforma-
+tions.
+Select Template User User selects a template
+from a database.
+System retrieves the selected
+template.
+Sketch to Image
+Conversion
+User Converts uploaded sketch
+to a detailed 2D image us-
+ing AI.
+System displays the converted
+image for review.
+Crossover Design
+Generation
+User User combines two de-
+signs to initiate a crossover
+design.
+System merges designs and
+displays the new design.
+Virtual Try-On User User selects a garment for
+virtual try-on on an avatar.
+System fits the garment on the
+avatar.
+3D Visualization User User requests a 3D visual-
+ization of the garment.
+System generates a 3D model
+and displays it.
+Generate Cloth-
+ing Image Ads
+System Generates clothing image
+ads from finalized designs.
+System creates and stores ads
+in the ad database.
+Create Video AdsSystem Produces video ads featur-
+ing the clothes in dynamic
+scenes.
+System generates and stores
+video ads for marketing.
+6
+2.2 Functional Requirements
+2.2 Functional Requirements
+This section provides a list of functionalities of each of the proposed modules of the
+AI Fashion Design Studio, explaining users’ engagements and predicted outcomes in a
+software engineering perspective:
+2.2.1 Module 1: Template Management
+Following are the requirements for module 1:
+1. Functionality: Users can browse and select from a provided list of fashion tem-
+plates.
+2. User Interaction: fashion designers are able to browse through the template library,
+search for a specific template and choose including style or the season or the type
+of material it is made from for instance.
+3. Expected Output: The system shows the selected template, ready for further cus-
+tomization and editing.
+2.2.2 Module 2: Sketch to Image Conversion
+Following are the requirements for module 2:
+1. Functionality: Converts hand-drawn sketches into detailed 2D digital images using
+a fine-tuned Stable Diffusion model.
+2. User Interaction: Designers upload sketches and provide relevant descriptions or
+tags; the system processes these inputs.
+3. Expected Output: High-resolution digital images that closely resemble the original
+sketches are produced.
+2.2.3 Module 3: 3D Modeling and Visualization
+Following are the requirements for module 3:
+1. Functionality: Transforms 2D digital images into 3D models that are rotatable and
+viewable from any angle.
+7
+2. Project Requirements
+2. User Interaction: Once a 2D image is created, users can initiate 3D modeling with
+options to adjust lighting, angles, and zoom.
+3. Expected Output: A fully interactive 3D model of the clothing item is available for
+detailed inspection and further modifications.
+2.2.4 Module 4: Virtual Try-On
+Following are the requirements for module 4:
+1. Functionality: Simulates how clothing items look on virtual avatars using the VI-
+TON model.
+2. User Interaction: Users select a garment, choose an avatar or input body measure-
+ments, and then view the garment on the avatar.
+3. Expected Output: A visualization of the garment as worn by the avatar, providing
+realistic representations of fit and style.
+2.2.5 Module 5: Crossover Design Mechanism
+Following are the requirements for module 5:
+1. Functionality: Allows for the fusion of elements from two different garments to
+create a new, unique design.
+2. User Interaction: Designers choose two existing garments or design elements, and
+specify how they should be combined.
+3. Expected Output: A new garment design that incorporates the selected elements
+from the original garments.
+2.2.6 Module 6: Clothing Image Ads
+Following are the requirements for module 6:
+1. Functionality: Automatically generates multiple marketing images featuring mod-
+els wearing the designed clothes in various settings.
+2. User Interaction: Users select the garment, choose the model poses, and the back-
+ground settings.
+3. Expected Output: Professionally styled images suitable for marketing purposes,
+displaying the clothes in diverse, appealing poses.
+8
+2.3 Non-Functional Requirements
+2.2.7 Module 7: Video Ads
+Following are the requirements for module 7:
+1. Functionality: Creates short video clips showcasing the clothes in dynamic custom
+scenes.
+2. User Interaction: Users select clothes, define scene settings, and choose the se-
+quence of model actions.
+3. Expected Output: A 5-10 second marketing video that highlights the garment fea-
+tures dynamically, suitable for social media and advertising campaigns.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+1. Mean Time Between Failures (MTBF): The system shall have an MTBF of no less
+than 100 hours, ensuring that software failures are infrequent during normal opera-
+tion.
+2. Protection from Failure: The system will implement regular data backups, auto-
+mated recovery processes, and fail-over mechanisms to ensure minimal loss of
+progress in the event of a failure.
+2.3.2 Usability
+1. Ease of Use: The system shall allow users to complete common design tasks, such
+as selecting a template or uploading a sketch.
+2. Accessibility: The system shall comply with web accessibility standards, ensuring
+that it is fully navigable for users.
+2.3.3 Performance
+1. Response Time: The system shall generate high-resolution digital images from
+user-uploaded sketches, regardless of the complexity of the sketch. 3D models from
+2D digital images shall be rendered in within a minute.Virtual try-on simulations
+should generate results within 50 seconds of input. Marketing Content Generation
+module will generate a content within 3-4 minutes.
+9
+2. Project Requirements
+2. System Load: The system must handle up to 300 concurrent users without notice-
+able degradation in performance.
+3. Data Processing: The system must process and store data efficiently, ensuring that
+uploading and processing of images under 50MB happen in less than a minute.
+2.3.4 Security
+1. Protection from Unauthorized Access: The system must implement robust authen-
+tication and authorization mechanisms to ensure only registered users can access
+the design studio.
+10
+2.4 Domain Model
+Table 2.2: External and Non-Functional Requirements
+Requirement Cate-
+gory
+Requirement Description
+NFR Reliability The system shall have an MTBF of no less than 100
+hours, ensuring that software failures are infrequent
+during normal operation.
+NFR Reliability The system will implement regular data backups,
+automated recovery processes, and fail-over mecha-
+nisms to ensure minimal loss of progress in the event
+of a failure.
+NFR Usability The system shall allow users to complete common de-
+sign tasks, such as selecting a template or uploading
+a sketch.The system shall comply with web accessi-
+bility standards, ensuring that it is fully navigable for
+users.
+NFR Performance The system shall generate high-resolution digital im-
+ages from user-uploaded sketches within a minute and
+virtual try-on simulations within 50 seconds of input.
+Marketing Content Generation module will generate
+content within 3-4 minutes.The system must handle
+up to 300 concurrent users without noticeable degra-
+dation in performance.The system must process and
+store data efficiently, ensuring that uploading and pro-
+cessing of images under 50MB happen in less than a
+minute.
+NFR Security The system must implement robust authentication and
+authorization mechanisms to ensure only registered
+users can access the design studio.
+NFR Compliance The system shall comply with GDPR, CCPA, and
+other relevant data protection regulations to ensure
+that user data is handled securely and lawfully. Com-
+pliance with copyright and intellectual property laws
+must be ensured to protect the original works of users
+and prevent any unauthorized use of copyrighted ma-
+terials within the system.
+External Require-
+ments
+External System
+Integration
+The system shall integrate with major cloud service
+providers (e.g., AWS, Azure) to utilize their compu-
+tational resources and storage solutions.
+2.4 Domain Model
+A domain model for the AI Fashion Design Studio captures the essential entities, their
+characteristics, and interactions that enable fashion design and marketing. It includes enti-
+11
+2. Project Requirements
+ties such as "User," "Hand-drawn Sketch," "Template," and "Design," as well as processes
+like "Sketch to Image Conversion," "Virtual Try-On," and "3D Visualization." These com-
+ponents are interconnected to allow users to upload sketches and images, select templates,
+and seamlessly transition through design creation, virtual fitting, and the generation of
+marketing materials. The model facilitates the conversion of initial designs into ready-
+to-market digital formats, leveraging AI to enhance creativity and efficiency in fashion
+design.
+Figure 2.2: Domain Model
+12
+Chapter 3
+System Overview
+The AI Fashion Design Studio leverages generative AI technologies for fashion design
+creation, visualization and marketing. It offers a wide range of modules such as, Tem-
+plate Management module where the user is able to obtain a list of existing readily de-
+signed templates, A GUI which involves the easy interaction between the front end and
+back end processes, Sketch to Image Conversion where sketches are easily converted to
+digital images. Also, the platform includes a Virtual Try-On and 3D Visualization mod-
+ule where designers can re-imagine clothing designs on avatars, and a Crossover Design
+Mechanism for generating unique garments by combining elements from two existing
+designs.The tool also automatically generates marketing materials, leveraging diffusion
+models to create visually appealing image and video ads.This platform not only stream-
+lines the design process but also enables rapid experimentation and customization, setting
+a new standard in digital fashion tools.
+3.1 Architectural Design
+An architectural diagram visually represents the structure and behavior of a system, show-
+ing its different components and how they interact. Our multi-layer architecture diagram
+details how user interactions, data processing, and storage are structured across different
+layers of the AI Fashion Design Studio. At the top, the User Interface layer captures user
+inputs like uploading sketches or selecting templates. The middle, Application Layer,
+processes these inputs through various mechanisms such as sketch to image conversion,
+virtual try-on, and ad generation. Finally, the Data Storage Layer manages the storage of
+all templates, images, videos, and other outputs, ensuring that all data is systematically
+organized and retrievable for future use and marketing efforts.
+13
+3. System Overview
+Figure 3.1: Architectural Diagram
+3.2 Design Models
+3.2.1 Activity Diagram
+This activity diagram represents the workflow of the AI Fashion Design Studio, it starts
+with user providing input through three different paths: uploading a sketch, choosing from
+pre-designed templates, or uploading two images of clothes for the crossover mechanism.
+The sketch is converted to 2D image, which, along with the new design from the crossover
+mechanism, converge at the virtual try-on stage. This pivotal step allows users to visualize
+clothing on avatars. From the virtual try-on stage, the process diverges into three branches
+according to user choice: 3D visualization, clothing image ad generation, and video ad
+generation, each of which produces specific marketing and visualization outputs tailored
+to showcase the designs in dynamic ways.
+14
+3.2 Design Models
+Figure 3.2: Activity Diagram
+15
+3. System Overview
+3.2.2 System Sequence Diagram
+The system sequence diagram for the AI Fashion Design Studio illustrates the sequence of
+interactions between the user and the system across multiple modules. It begins with the
+user’s input, which can be an uploaded sketch, a selected template, or multiple images for
+a crossover mechanism. These inputs are processed through distinct pathways: sketches
+are converted to 2D images, templates initiate virtual try-on, and multiple images lead
+to new garment designs via the crossover mechanism. All paths converge at the virtual
+try-on stage. Successful outputs from this stage flow into 3D visualization, and direct
+generation of clothing image ads and video ads. This structure ensures a clear and efficient
+progression from user input to the final visual output.
+Figure 3.3: System Sequence Diagram
+3.2.3 State Transition Diagram
+The state transition diagram for AI Fashion Design Studio maps out the user’s interaction
+path from initial input to final output across various design stages. It begins with three
+distinct starting points: uploading a sketch, selecting from pre-designed templates, or
+uploading multiple images for the crossover mechanism. Each path converges at the
+’Sketch to Image’ conversion, where sketches are transformed into 2D images, or the
+16
+3.2 Design Models
+’Cross-Over Mechanism’, creating new designs. These elements then feed into a central
+’Virtual Try-On’ process, which visualizes the designs on a digital avatar. From this
+pivotal point, the workflow diverges into three separate outputs: generating image ads,
+creating video ads, and producing 3D visualizations, each branching out to deliver specific
+visual content and promotional materials directly related to the initial user inputs.
+Figure 3.4: State Transition Diagram
+3.2.4 Data Flow Diagram Level(0)
+The AI Fashion Design Studio data flow diagram illustrates the primary interactions be-
+tween customers, the studio, and marketing teams. Customers upload sketches or model
+images, which the studio converts into 3D models or virtual try-on, storing all data in a
+central database. This processed data is then utilized by marketing teams to create pro-
+motional content, enhancing outreach and customer engagement
+17
+3. System Overview
+Figure 3.5: Data Flow Diagram Level(0)
+3.2.5 Data Flow Diagram Level(1)
+The Level 1 Data Flow Diagram for the AI Fashion Design Studio details the user’s in-
+teraction with the system, where users can upload sketches for conversion, select and
+use templates, or upload model images for virtual try-ons. The system processes these
+inputs through the Sketch to Image Conversion, Template Management, and Virtual Try-
+On modules before generating marketing materials like video ads and clothing image ads.
+The outputs are then stored in the Advertisement Database and used by the Marketing
+Team for promotional activities, all managed through the centralized User Info and Tem-
+plate Databases.
+18
+3.3 Data Design
+Figure 3.6: Data Flow Diagram Level(1)
+3.3 Data Design
+The data design for the AI Fashion Design Studio outlines how data flows through the
+system, detailing how it is processed, stored, and organized. The key entities include user
+inputs such as sketches and images, converted digital assets, virtual try-on, and marketing
+materials.
+19
+3. System Overview
+3.3.1 Major Data Entities and Structures
+1. User Inputs:
+(a) Data Structure: Inputs include sketches, images of clothes, or selections from
+templates. These are handled as image files or selections from a predefined
+database.
+(b) Storage: Uploaded sketches and images are temporarily stored on secure
+cloud storage during processing.
+(c) Processing: Inputs are processed to convert sketches to 2D images or selected
+templates to initiate virtual try-on.
+2. 2D Images and Designs:
+(a) Data Structure: Images are processed into 2D digital designs, stored as high-
+resolution image files.
+(b) Storage: These images are stored in a dedicated directory within the system
+until they are either discarded after use or downloaded by the user.
+(c) Processing: Images undergo enhancements and adjustments in design param-
+eters like color and style before entering the virtual try-on phase.
+3. Virtual Try-On Results:
+(a) Data Structure: The output from virtual try-on includes images showing gar-
+ments on avatars, stored as image files.
+(b) Storage: Results are temporarily held in a runtime environment to allow quick
+adjustments and previews.
+(c) Processing: These images are used to provide real-time visual feedback to
+users and for further refinement in 3D visualization.
+4. 3D Models:
+(a) Data Structure: Digital garments and avatars are rendered in 3D, managed as
+3D model files.
+(b) Storage: 3D models are cached during sessions to facilitate swift interactions
+and adjustments.
+(c) Processing: Models are rendered from 2D designs, allowing users to inspect
+garments from multiple angles.
+5. Marketing Materials (Images and Videos):
+20
+3.3 Data Design
+(a) Data Structure: Advertising content such as image ads and video ads gener-
+ated from the design data, stored as multimedia files.
+(b) Storage: Marketing materials are saved within the project’s marketing content
+directory on the server.
+(c) Processing: Content is generated using templates and customized settings to
+reflect the final product appearance in marketing campaigns.
+6. User Feedback and Adjustments:
+(a) Data Structure: Feedback from users regarding designs, stored as text data or
+form inputs.
+(b) Storage: Feedback data is stored temporarily to adjust designs accordingly or
+permanently as insights for future improvements.
+(c) Processing: Feedback is analyzed to make informed adjustments to designs or
+marketing strategies.
+3.3.2 Data Flow and Processing Stages
+1. User Uploads Inputs: Users start by uploading sketches or images. These files
+are stored temporarily on a secure server. The system then processes these files to
+convert sketches into digital images or selects templates for further actions.
+2. Image and Design Processing: Once the initial images are uploaded, they are
+converted into 2D digital designs or processed through a crossover mechanism to
+create new garment designs. These new designs are stored and queued for virtual
+try-on.
+3. Virtual Try-On: The 2D images are used in the virtual try-on module where they
+are digitally fitted onto avatars. This process provides users with a realistic depic-
+tion of how the clothes will look when worn. The results are temporarily stored for
+immediate review.
+4. 3D Visualization: Successful try-on are moved to 3D visualization, where they
+are rendered into detailed 3D models allowing users to view garments in a fully
+rotatable interface. This stage enhances the design’s details and realism, crucial for
+final adjustments.
+5. Generation of Marketing Materials: Concurrently, the design data flows into
+marketing material generation modules, where both image and video advertise-
+ments are created. These materials are crafted to showcase the garments in dy-
+namic, realistic settings, emphasizing their features.
+21
+3. System Overview
+6. Output Delivery: Finally, the processed images, 3D models, and marketing videos
+are compiled and presented to the user for approval. This comprehensive display
+helps users make informed decisions about final edits or confirmations before the
+designs go to market.
+3.3.3 Data Storage and Organization
+1. File System: All uploaded sketches and images are stored in the /uploads/ di-
+rectory on the server. As they are converted into 2D images or processed into new
+designs, these files are moved to a secure /processed/ directory.
+2. Generated Outputs: The final outputs, including 2D converted sketches, 3D mod-
+els, and marketing materials (image and video ads), are stored in structured for-
+mats. Images and videos are saved in respective media folders and linked within
+our database to maintain organization and ease of access.
+These storage and organization methods ensure that data is handled efficiently throughout
+the design process, providing a seamless and secure experience from sketch upload to
+final marketing output in the AI Fashion Design Studio.
+22
+Bibliography
+[1] Xuanpu Zhang, Dan Song, Pengxin Zhan, Qingguo Chen, Zhao Xu, Weihua
+Luo, Kaifu Zhang, Anan Liu, Boosting In-the-Wild Virtual Try-On via Mask-
+Free Pseudo Data Training , arXiv preprint arXiv:2408.06047, 2024. Available at:
+https://arxiv.org/pdf/2408.06047https://arxiv.org/pdf/2408.06047.
+[2] Fei Shen, Xin Jiang, Xin He, Hu Ye, Cong Wang, Xiaoyu Du,
+Zechao Li , Jinhui Tang , IMAGDressing-v1: Customizable Virtual
+Dressing , arXiv preprint arXiv:2407.12705v2, 2024. Available at:
+https://arxiv.org/pdf/2407.12705v2https://arxiv.org/pdf/2407.12705v2.
+[3] Papers with Code Team, Virtual Try-On Task , 2024. Available at:
+https://paperswithcode.com/task/virtual-try-onhttps://paperswithcode.com/task/virtual-try-on.
+[4] Yongming Zhang, Tianyu Zhang and Haoran Xie, TexControl: Sketch-Based
+Two-Stage Fashion Image Generation Using Diffusion Model , arXiv preprint
+arXiv:2405.04675, 2024. Available at: https://arxiv.org/pdf/2405.04675https://arxiv.org/pdf/2405.04675.
+[5] Nikolaos Sarafianos, Garment 3D Generation , 2024. Available at:
+https://nsarafianos.github.io/garment3dgenhttps://nsarafianos.github.io/garment3dgen.
+[6] Tong Zhao, Qingfu Li, Xiaoyi Wang Advancements in Three-Dimensional Virtual
+Try-On Technology, Proceedings of the International Conference on Intelligent Data
+Communication Technologies and Internet of Things (ICIDC 24), 2024. Available
+at: https://www.atlantis-press.com/proceedings/icidc-24/126002747https://www.atlantis-press.com/proceedings/icidc-24/126002747.
+[7] Zhenyu Xie,Haoye Dong, Yufei Gao, Zehua Ma, Xiaodan Liang DreamVTON: Cus-
+tomizing 3D Virtual Try-on with Personalized Diffusion Models , arXiv preprint
+arXiv:2407.16511, 2024. Available at: https://arxiv.org/pdf/2407.16511https://arxiv.org/pdf/2407.16511.
+[8] TAO HU,FANGZHOU HONG,ZHAOXI CHEN, ZIWEI LIU Fashio-
+nEngine: Interactive 3D Human Generation and Editing via Multi-
+modal Controls , arXiv preprint arXiv:2404.01655, 2024. Available at:
+https://arxiv.org/pdf/2404.01655https://arxiv.org/pdf/2404.01655.
+23
+BIBLIOGRAPHY
+[9] Zheng Chong, Xiao Dong, Haoxiang Li, Shiyue Zhang, Wenqing Zhang, Xujie
+Zhang, Hanqing Zhao, Xiaodan Liang, CatVTON: Concatenation Is All You Need
+for Virtual Try-On with Diffusion Model , arXiv preprint arXiv:2407.15886, 2024.
+Available at: https://arxiv.org/pdf/2407.15886https://arxiv.org/pdf/2407.15886.
+[10] Yujie Liang, Xiaobin Hu, Boyuan Jiang, Donghao Luo, Kai Wu, Wenhui Han,
+Taisong Jin, Chengjie Wang, VTON-HandFit: Virtual Try-on for Arbitrary Hand
+Pose Guided by Hand Priors Embedding , arXiv preprint arXiv:2408.12340, 2024.
+Available at: https://arxiv.org/pdf/2408.12340https://arxiv.org/pdf/2408.12340.
+24
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

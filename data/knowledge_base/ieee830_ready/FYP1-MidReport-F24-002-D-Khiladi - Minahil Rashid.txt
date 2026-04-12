@@ -1,0 +1,1742 @@
+# FYP1-MidReport-F24-002-D-Khiladi - Minahil Rashid
+
+## 1. Introduction
+
+1. Introduction ................................ ................................ ................................ ........................ 6 
+2. Project Vision ................................ ................................ ................................ ...................... 6 
+2.1. Problem Statement ................................ ................................ ................................ ... 6 
+2.2. Business Opportunity ................................ ................................ ............................... 6 
+2.3. Objectives ................................ ................................ ................................ ................. 6 
+2.4. Project Scope ................................ ................................ ................................ ........... 6 
+2.5. Constraints ................................ ................................ ................................ ............... 6 
+2.6. Stakeholder Description ................................ ................................ ............................ 7 
+2.6.1. Stakeholder Summary ................................ ................................ ........................... 7 
+2.6.2. Key High-Level Goals and Problems of Stakeholders ................................ ............ 7 
+3. SRS ................................ ................................ ................................ ................................ ..... 7 
+3.1. List of Features ................................ ................................ ................................ ......... 8 
+3.2. Functional Requirements ................................ ................................ .......................... 8 
+3.3. Quality Attributes ................................ ................................ ................................ ...... 8 
+3.4. Non-Functional Requirements ................................ ................................ .................. 9 
+4. Use Case Diagram ................................ ................................ ................................ ................10 
+5. High Level Use case ................................ ................................ ................................ .............11 
+5.1 Create Account ................................ ................................ ................................ ...............11 
+5.2 Customize Profile ................................ ................................ ................................ ............11 
+5.3 Input Video ................................ ................................ ................................ ....................11 
+5.4 Identify mistakes ................................ ................................ ................................ .............11 
+5.5 Generate Feedback ................................ ................................ ................................ ..........12 
+5.6 Create Personalized Plans ................................ ................................ ................................ 12 
+5.7 Track Progress Report ................................ ................................ ................................ .....12 
+5.8 Get Notifications ................................ ................................ ................................ .............12 
+5.9 Get Motivational Quotes ................................ ................................ ................................ ..13 
+5.10 Connect with coach ................................ ................................ ................................ .......13 
+5.11 Provide Incentives ................................ ................................ ................................ .........13 
+5.12 Create Events ................................ ................................ ................................ ................13 
+5.13 Connect with other users ................................ ................................ ................................ 14 
+3 
+5.14 Manage Portal ................................ ................................ ................................ ...............14 
+6.Extended Use Case ................................ ................................ ................................ ................14 
+6.1 Create Account ................................ ................................ ................................ ...............14 
+6.2 Customize Profile ................................ ................................ ................................ ............15 
+6.3 Input Video ................................ ................................ ................................ ....................16 
+6.4 Identify Mistakes ................................ ................................ ................................ ............17 
+6.5 Generate Feedback ................................ ................................ ................................ ..........18 
+6.6 Create Personalized Plans ................................ ................................ ................................ 19 
+6.7 Track Progress ................................ ................................ ................................ ................20 
+6.8 Get Notifications ................................ ................................ ................................ .............21 
+6.9 Get Motivational Quotes ................................ ................................ ................................ ..22 
+6.10 Connect with Coaches ................................ ................................ ................................ ....22 
+6.11 Provide Incentives ................................ ................................ ................................ .........23 
+6.12 Create Events ................................ ................................ ................................ ................24 
+6.13 Connect with users ................................ ................................ ................................ ........25 
+6.14 Manage Portal ................................ ................................ ................................ ...............26 
+7. Domain Model ................................ ................................ ................................ .....................28 
+8. System Sequence Diagram ................................ ................................ ................................ ....29 
+8.1 Create Account ................................ ................................ ................................ ...............29 
+8.2 Customize Profile ................................ ................................ ................................ ............29 
+8.3 Upload Video ................................ ................................ ................................ .................30 
+8.4 Identify Mistakes ................................ ................................ ................................ ............30 
+8.5 Generate Feedback ................................ ................................ ................................ ..........31 
+8.6 Personalized Training Plans ................................ ................................ .............................. 31 
+8.7 Connect With Coaches ................................ ................................ ................................ .....32 
+8.8 Create Events ................................ ................................ ................................ .................32 
+8.9 Connect with users ................................ ................................ ................................ ..........33 
+8.10 Provide Motivational Quotes ................................ ................................ ..........................33 
+8.11 Generate Progress Report ................................ ................................ ............................... 34 
+8.12 Provide Incentives ................................ ................................ ................................ .........34 
+9. Activity Diagram ................................ ................................ ................................ ..................35 
+9.1 Create Account ................................ ................................ ................................ ...............35 
+9.2 Customize Account ................................ ................................ ................................ .........36 
+4 
+9.3 Video Analysis ................................ ................................ ................................ ...............37 
+9.4 Connect with coaches ................................ ................................ ................................ ......38 
+9.5 Create Event ................................ ................................ ................................ ...................39 
+10. Operations Contracts ................................ ................................ ................................ ...........40 
+10.1 Create Account:- ................................ ................................ ................................ ...........40 
+10.2 Customize Profile:- ................................ ................................ ................................ .......40 
+10.3 Input Video ................................ ................................ ................................ ..................41 
+10.4 Identify Mistakes ................................ ................................ ................................ ...........41 
+10.5 Generate Feedback ................................ ................................ ................................ ........42 
+10.6 Create Personalized Plans ................................ ................................ ............................... 42 
+10.7 Track Progress Report ................................ ................................ ................................ ....42 
+10.8 Get Notifications ................................ ................................ ................................ ...........43 
+10.9 Get Motivational Quotes ................................ ................................ ................................ 44 
+10.10 Connect with Coach ................................ ................................ ................................ .....44 
+10.11 Provide Incentives ................................ ................................ ................................ .......45 
+10.12 Create Events ................................ ................................ ................................ ..............46 
+10.13 Connect with other users ................................ ................................ .............................. 46 
+11. Class Diagram ................................ ................................ ................................ ....................47 
+12. Sequence Diagram:- ................................ ................................ ................................ ............48 
+12.1 Create Account: ................................ ................................ ................................ ............48 
+12.2 Customize Profile ................................ ................................ ................................ .........49 
+12.3 Input Video ................................ ................................ ................................ ..................50 
+12.4 Identify Mistakes ................................ ................................ ................................ ...........52 
+12.5:Generate Feedback ................................ ................................ ................................ ........52 
+12.6 Create Personalized Plans ................................ ................................ ............................... 54 
+12.7 Track Progress Report ................................ ................................ ................................ ....55 
+12.8 Notifications ................................ ................................ ................................ .................55 
+12.9 Get Motivational Quotes ................................ ................................ ................................ 57 
+12.10 Connect With Coach ................................ ................................ ................................ ....58 
+12.11 Provide Incentives ................................ ................................ ................................ .......58 
+12.12 Create Events ................................ ................................ ................................ ..............59 
+12.13 Connect with other users ................................ ................................ .............................. 60 
+13. ER DIAGRAM................................ ................................ ................................ ..................61 
+5 
+14. Architecture Diagram ................................ ................................ ................................ ..........61 
+15. Implementation Details ................................ ................................ ................................ .......62 
+15.1 Front-End Implementation ................................ ................................ .............................. 62 
+15.2. Back-End Implementation ................................ ................................ .............................62 
+15.3. Model Training as well as Integration ................................ ................................ ..........63 
+16. Research: ................................ ................................ ................................ ..........................64 
+17. Conclusion: ................................ ................................ ................................ .......................67 
+ 
+ 
+ 
+6 
+1. Introduction 
+Our final year project revolves around an Android application designed to harness the power of artificial 
+intelligence (AI) and machine learning (ML) for analyzing cricket bowling videos recorded with a regular 
+camera. With the growing interest in cricket and the desire for players to enhance their skills, we aim to 
+create a platform that delivers valuable insights and constructive feedback based on their bowling 
+performances. This document will detail our project vision, software requirements, and include UML 
+designs and ER diagrams to facilitate the development process. 
+2. Project Vision 
+2.1. Problem Statement 
+Many amateur and semi-professional cricketers find it challenging to self-assess and improve their 
+techniques due to the absence of immediate, actionable feedback on their bowling styles. Conventional 
+coaching methods can be lengthy and often lack the detailed analysis players need. Our application seeks 
+to fill this void by leveraging AI and ML to analyze bowling videos, pinpoint errors, and generate 
+personalized feedback, ultimately enhancing training quality. 
+2.2. Business Opportunity 
+As the need for effective training solutions in cricket rises, particularly among players looking to refine 
+their skills independently, our user-friendly application can meet this demand by analyzing bowling 
+techniques. We also see potential partnerships with cricket academies and online coaching platforms, 
+which could create additional revenue through app sales and subscription models. 
+2.3. Objectives 
+Our main goal is to develop a platform that allows users to upload their bowling videos and receive 
+thorough analyses and feedback. By utilizing AI and ML technologies, we aim to provide insights that 
+empower players to improve their performance, particularly benefiting those in Pakistan where access to 
+professional coaching can be limited. 
+2.4. Project Scope 
+With cricket's increasing popularity, the demand for effective training tools is evident. Our application 
+will enable players to record their bowling videos, which will then be processed using sophisticated 
+algorithms to identify technical flaws and offer constructive feedback. This platform will serve as a 
+comprehensive training tool, helping users track their progress over time. 
+2.5. Constraints 
+Our project faces several constraints, including scope, timeline, and budget. We must adhere to defined 
+project goals and deliverables, with specific deadlines for both FYP 1 and FYP 2 that set a timeline for 
+7 
+our development. The team consists of only three developers, which may impact the speed of progress. 
+Additionally, access to video processing technology and the necessity for user-friendly interfaces will 
+inform our design choices. 
+2.6. Stakeholder Description 
+The primary stakeholders in this project include: 
+● Developers: Internal stakeholders tasked with the design and implementation of the application, 
+focused on delivering a functional and efficient product. 
+● Users: External stakeholders, mainly cricket players and coaches, who will use the application to 
+enhance their skills. Their satisfaction and experience will directly influence the application's 
+success. 
+2.6.1. Stakeholder Summary 
+● Stakeholder 1: Developers 
+○ Role: Ensure the application meets functional requirements and is user-friendly. 
+● Stakeholder 2: Users 
+○ Role: Seek an intuitive experience that enhances their training and performance. 
+2.6.2. Key High-Level Goals and Problems of Stakeholders 
+High-Level Goals: 
+1. Enhance user experience with actionable insights. 
+2. Ensure timely application deployment. 
+3. Provide accurate and valuable analyses. 
+4. Fulfill all specified product requirements. 
+5. Maintain ongoing system updates and maintenance. 
+Problems of Stakeholders: 
+1. Challenges in self-assessment and improvement. 
+2. Difficulties in effectively testing the application. 
+3. Ensuring accessibility across different devices. 
+4. Engaging users to consistently use the app for their training. 
+5. Adapting to AI-driven feedback. 
+3. SRS 
+The “Khiladi” app offers a platform for cricket players to upload their bowling videos, which are 
+analyzed using AI and machine learning. Users can create accounts, personalize their profiles, and submit 
+videos for analysis. After processing, the app generates feedback and identifies areas for improvement, 
+8 
+helping users enhance their bowling techniques. Users can also track their progress and receive 
+personalized training plans based on their analyses. 
+3.1. List of Features 
+● User account creation and management. 
+● Profile customization (age, bowling style, experience). 
+● Video upload functionality. 
+● AI-driven video analysis to identify mistakes. 
+● Personalized feedback generation. 
+● Progress tracking over time. 
+● Notification reminders for video submissions and feedback availability. 
+● Motivational quotes to encourage users. 
+● Incentives for consistent practice and improvement. 
+● Option to connect with coaches (paid feature). 
+● Event creation for training sessions or competitions. 
+● Community support through user connections. 
+3.2. Functional Requirements 
+● Each user may only create one account. 
+● The app allows users to log in using their correct credentials. 
+● Users can customize their profiles. 
+● The app enables users to upload their bowling videos. 
+● Uploaded videos will be analyzed using AI/ML algorithms. 
+● The app identifies mistakes and generates feedback. 
+● Personalized training plans based on the analysis will be provided. 
+● Users can track and view their progress reports. 
+● Notifications will remind users about video submissions and feedback. 
+● Users can connect with coaches for additional guidance. 
+● The app facilitates event creation for training sessions. 
+3.3. Quality Attributes 
+● Affordability: The application will be free to use, with optional paid features for coaching. 
+● Debuggability: Its modular structure makes it easy to identify and fix bugs. 
+● Efficiency: Optimized algorithms ensure quick video analysis. 
+● Evolvability: New features and improvements can be easily integrated based on user feedback. 
+● Failure Transparency: Users receive clear messages for any input errors during video upload. 
+● Flexibility: The system can adapt to changes in user requirements. 
+● Maintainability: The app will be built with tools that allow for easy updates. 
+● Reliability: Users will be notified of the success or failure of their actions. 
+● Compatibility: The app will be compatible with Android devices running version 6.0 or higher. 
+● Responsiveness: The app will respond effectively to user actions and device quality. 
+● Reusability: User interface components can be reused in future projects. 
+9 
+● Security: User data, including personal information and videos, will be securely stored. 
+3.4. Non-Functional Requirements 
+● Users should be able to log in within 5 seconds of entering the correct credentials. 
+● The system must verify credentials with the database before allowing login. 
+● Uploaded videos should be processed and analyzed promptly, providing feedback within 1-2 
+minutes. 
+● Users will receive notifications about new feedback within 10 seconds after analysis completion. 
+● The application must handle multiple users simultaneously without performance issues. 
+● Personal data must be encrypted and securely stored during transmission and storage. 
+10 
+4. Use Case Diagram 
+ 
+
+11 
+5. High Level Use case 
+ 5.1 Create Account 
+Use Case Create Account 
+Actor User/Player 
+Type Primary 
+Description User will create his account in our app.By adding necessary details 
+including Name, email and phone number. 
+5.2 Customize Profile 
+Use Case Customize profile 
+Actor User 
+Type Primary 
+Description Users can customize their profile by adding more details including their 
+age, experience , bowling style, injury if any etc. 
+ 
+5.3 Input Video 
+Use Case Input video 
+Actor User 
+Type Primary 
+Description User will input a video that has his bowling action so that it can further 
+proceed to video analysis. 
+5.4 Identify mistakes 
+Use Case Identify mistakes 
+Actor User, AI coach 
+Type Primary 
+Description After the video is uploaded , the coach will analyze the video and 
+identify the mistakes in the bowling technique or other mistakes the user 
+12 
+has made. 
+5.5 Generate Feedback 
+Use Case Generate FeedBack 
+Actor User, Ai coach 
+Type Primary 
+Description After identifying mistakes the Ai coach will give feedback i.e the 
+solution and the correction based on the mistakes it had identified. 
+5.6 Create Personalized Plans 
+Use Case Create Personalized plans 
+Actor User 
+Type Primary 
+Description The user can make their plans and progress goals based on their ease 
+and availability for example, next trial date and etc. 
+ 
+5.7 Track Progress Report 
+Use Case Track Progress 
+Actor User 
+Type Primary 
+Description Users can track their progress on the basis of what they performed 
+before and on the way of improving their bowling journey.This helps 
+them in improving more and stay motivated. 
+5.8 Get Notifications 
+Use Case Get Notifications 
+Actor User 
+Type Primary 
+Description The user can get notifications of any type for example, when they have 
+13 
+a deadline to re-input video for analysis , or a friend sent a chat, etc. 
+5.9 Get Motivational Quotes 
+Use Case Get Motivational Quotes 
+Actor User 
+Type Primary 
+Description Our app will provide users with motivational quotes so they will not 
+lose pace and stay motivated throughout their journey. This will help 
+them improve their game. 
+5.10 Connect with coach 
+Use Case Connect to Coach 
+Actor User 
+Type Primary 
+Description If the user wants to go one step further and needs some extra coaching 
+then they can connect to specialized coaches. This feature will be 
+provided by our app and it's paid. 
+ 
+5.11 Provide Incentives 
+Use Case Provide incentives 
+Actor Ai coach 
+Type Primary 
+Description The user will be incentivized by the admin based on their performance 
+and time to time progress. 
+5.12 Create Events 
+Use Case Create Events 
+Actor User 
+Type Primary 
+14 
+Description Users can create events with other users using the app. For example 
+they can set a match etc. 
+5.13 Connect with other users 
+Use Case Connect with users 
+Actor User 
+Type Primary 
+Description Users can chat with other users, talk with them, share their feedback. 
+5.14 Manage Portal 
+Use Case Manage Portal 
+Actor Admin 
+Type Primary 
+Description Admin will manage the portal , he will add and remove users, add 
+incentives, add coaches to the panel , etc. 
+6.Extended Use Case 
+6.1 Create Account 
+Use Case Create Account 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User: Who wants to create an account. 
+Admin: Who will enable the user so that he can create an account. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin must log in to validate the user. 
+Post-Conditions Account created successfully and the dashboard is visible. 
+Admin has an entry added with a new user. 
+Main Success Scenario 
+15 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Click on Signup and enter 
+credentials. 
+ 
+ 
+ 
+4- Account Created Successfully 
+and dashboard is visible for the 
+user. 
+ 
+ 
+ 
+ 
+ 
+3- System will record the user's 
+data and create his account. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user has to re-enter all the 
+data again. 
+The user didn’t enter the information right. 
+Admin has not logged in the portal. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.2 Customize Profile 
+Use Case Customize Profile 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User: Who wants to customize his profile. 
+Admin: Who will record the user data. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin must log in to validate the user. 
+The user must be validated and verified by the admin. 
+Post-Conditions Profile has been customized successfully and the dashboard is visible. 
+Admin has an updated version of user’s data. 
+Main Success Scenario 
+Actor Action System Response 
+16 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Click on the customized 
+profile option and add details. 
+ 
+ 
+ 
+4- Profile customized 
+Successfully and dashboard is 
+visible for the user. 
+ 
+ 
+ 
+ 
+ 
+3- System will record all the 
+user's data . 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user has to re-enter all the 
+data again. 
+Admin has not logged in the portal. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.3 Input Video 
+Use Case Input Video 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User: Who wants to input the video. 
+AI coach/System who will analyze that video. 
+Pre-Conditions Users must have a stable internet connection. 
+Video is uploaded successfully. 
+Post-Conditions Video is uploaded successfully. 
+System can detect the video for further processes. 
+Main Success Scenario 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Click on upload video and 
+upload the video from camera or 
+ 
+ 
+ 
+ 
+ 
+17 
+gallery. 
+ 
+ 
+ 
+4- Video uploaded successfully 
+and loaded for further processing 
+. 
+3- System will take the video and 
+store it in a database. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user has to re-input the data 
+video. 
+The video size is too big or too small. 
+System in not accepting the video. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.4 Identify Mistakes 
+Use Case Identify Mistakes 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor AI model 
+Stakeholders User: Who wants to identify his mistakes. 
+AI Model: Which will be analyzing the video and identifying mistakes. 
+Pre-Conditions Users must have a stable internet connection. 
+Video has been uploaded successfully. 
+Post-Conditions The AI model has identified all mistakes. 
+User is able to see his generated mistakes. 
+18 
+Main Success Scenario 
+Actor Action System Response/AI Model 
+1- After the video is uploaded , 
+the user is waiting for the model 
+to identify mistakes. 
+ 
+ 
+3- User is able to see the mistakes 
+identified by the model. 
+ 
+ 
+ 
+2- The Model has identified all 
+the mistakes based on the video 
+uploaded by user. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the model has to reload the video 
+again. 
+The user didn’t see any mistakes generated. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.5 Generate Feedback 
+Use Case Generate FeedBack 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor AI Model 
+Stakeholders User: Who wants to generate FeedBack. 
+AI Model: Generates the feedback based on the mistakes. 
+Pre-Conditions Users must have a stable internet connection. 
+Mistakes are identified. 
+User is able to see his mistakes. 
+Post-Conditions FeedBack generated successfully and the user is able to see the 
+feedback. 
+Main Success Scenario 
+Actor Action System Response 
+19 
+1- After the user is able to see his 
+mistakes. 
+ 
+2- He will click on the Generate 
+feedback option. 
+ 
+ 
+ 
+4-User is able to see the feedback 
+generated by the model. 
+ 
+ 
+ 
+ 
+ 
+3- Ai model will generate the 
+feedback based on the mistakes. 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user is not able to see the 
+feedback and now he will re-generate. 
+Ai model will re-generate the feedback. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.6 Create Personalized Plans 
+Use Case Create Account 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User: Who wants to create an account. 
+Admin: Who will enable the user so that he can create an account. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin must log in to validate the user. 
+Post-Conditions Account created successfully and the dashboard is visible. 
+Admin has an entry added with a new user. 
+Main Success Scenario 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Click on Signup and enter 
+credentials. 
+ 
+ 
+ 
+ 
+ 
+ 
+3- System will record the user's 
+20 
+ 
+ 
+4- Account Created Successfully 
+and dashboard is visible for the 
+user. 
+data and create his account. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user has to re-enter all the 
+data again. 
+The user didn’t enter the information right. 
+Admin has not logged in the portal. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+ 
+6.7 Track Progress 
+Use Case Track Progress 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User wants to track his progress. 
+Model will generate reports for his progress. 
+Pre-Conditions Users must have a stable internet connection. 
+All the progress of the user is recorded in the database. 
+Post-Conditions Progress report is generated by model and user is able to track his 
+progress. 
+Main Success Scenario 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- From the menu, select the 
+progress report. 
+ 
+ 
+ 
+4- User is able to track the 
+ 
+ 
+ 
+ 
+ 
+3- Report is generated by the 
+system/model. 
+ 
+21 
+progress over time. 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Data is not recorded due to some technical issues and the report is not 
+generated. 
+Report is not being loaded. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.8 Get Notifications 
+Use Case Get Notifications 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User wants to get notifications. 
+Admin will send notification to users about any event, from a friend`s 
+chat etc. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin can send notifications. 
+Post-Conditions The user has received the notification. 
+Main Success Scenario 
+Actor Action System Response 
+ 
+ 
+2-User has successfully received 
+the notifications. 
+1- System has sent the 
+notifications. 
+ 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+There is an issue in sending notifications due to a system technical 
+issue. 
+User is unable to receive notifications. 
+Special Requirements High speed internet connection. 
+22 
+Simple and easy UI. 
+ 
+6.9 Get Motivational Quotes 
+Use Case Get MotivationalQuotes 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User wants to get motivational quotes. 
+Admin will send motivational quotes to users. 
+Pre-Conditions Users must have a stable internet connection. 
+User is logged in. 
+Admin must log in. 
+Post-Conditions Motivational quotes are sent. 
+Users are able to get them. 
+Main Success Scenario 
+Actor Action System Response 
+ 
+ 
+2- User is able to get 
+motivational quotes. 
+1- System has sent motivational 
+quotes. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+There is an issue in sending motivational quotes due to a system 
+technical issue. 
+User is unable to receive quotes. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.10 Connect with Coaches 
+Use Case Connect with coaches. 
+Scope App-Khiladi 
+Level User Goal 
+23 
+Primary Actor User 
+Stakeholders Users want to connect with specialized coaches. 
+System will create setup and connect users with coaches. 
+Coaches for training. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin must log in to validate the user. 
+Coaches must be available for giving training. 
+Post-Conditions Users are connected with coaches and communication is ongoing. 
+Main Success Scenario 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Select the connect with 
+coaches option. 
+ 
+3-User will select the coach to 
+which they want to connect. 
+ 
+ 
+ 
+5- Connection is successful and 
+the user and coach are now 
+communicating with each other. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+4- System will notify the specific 
+coach and form a connection 
+between user and coach. 
+ 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Coach is not available. 
+Coach is unable to connect due to some technical issue. 
+User is not able to connect. 
+Disruption in communication. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+ 
+6.11 Provide Incentives 
+Use Case Provide Incentives 
+Scope App-Khiladi 
+24 
+Level User Goal 
+Primary Actor Admin 
+Stakeholders Users will get incentives based on their performance. 
+Admin will provide different incentives to users on the basis of their 
+performance. 
+Pre-Conditions Users must have timely completed his tasks and performed well. 
+Admin must log in to validate the user. 
+Admin has all the progress reports of users. 
+Post-Conditions Incentives are provided successfully by the admin and received by the 
+users. 
+Main Success Scenario 
+Actor Action System Response 
+ 
+ 
+ 
+2- User has received incentives. 
+1- System has provide incentives 
+based on the user's performance. 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Admin has not logged in the portal. 
+Admin does not have a record or a particular user. 
+User did not perform well. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.12 Create Events 
+Use Case Create Events 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User wants to create an event with other users. 
+Admin is responsible for setting up the event. 
+Pre-Conditions Users must have a stable internet connection. 
+Users must log in to their account. 
+Admin must log in to validate the user. 
+25 
+Post-Conditions Event is created successfully, Users are communicating with each other. 
+Main Success Scenario 
+Actor Action System Response 
+1- User will open the app and 
+navigate through it. 
+ 
+2- Creates an event by sending 
+requests to others. 
+ 
+ 
+ 
+5- Event dashboard is shown to 
+all users. 
+ 
+ 
+ 
+ 
+ 
+3- System will notify other users 
+about the event. 
+4- Create an event. 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Application lost its previous state, and the user has to re-create an event. 
+System has some technical issues. 
+Users are not available. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.13 Connect with users 
+Use Case Connect with users 
+Scope App-Khiladi 
+Level User Goal 
+Primary Actor User 
+Stakeholders User wants to connect with other users. 
+Admin will allow this communication by notifying other users. 
+Pre-Conditions Users must have a stable internet connection. 
+Admin must log in to validate the user. 
+All users get notified. 
+Post-Conditions Event created successfully and the dashboard is visible to all users. 
+Main Success Scenario 
+Actor Action System Response 
+26 
+1- User will open the app and 
+navigate through it. 
+ 
+2- User creates an event and adds 
+other users. 
+ 
+ 
+ 
+4-Event created successfully and 
+the same dashboard is shown to 
+all users.. 
+ 
+ 
+ 
+ 
+ 
+3-System will notify other users 
+and make an event. 
+ 
+Extensions The user didn’t have a stable internet connection. 
+Event not created due to some technical issues. 
+Other users are not available. 
+Admin has not logged in the portal. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+6.14 Manage Portal 
+Use Case Manage Portal 
+Scope App-Khiladi 
+Level Admin Goal 
+Primary Actor Admin 
+Stakeholders Admin wants to manage the app, add or remove users and incentives, 
+etc. 
+Pre-Conditions Admin must have a stable internet connection. 
+Admin must log in to the app. 
+Admin has all credentials. 
+Post-Conditions Admin is able to make any changes to the app or update the app.. 
+Main Success Scenario 
+Actor Action System Response 
+27 
+1- Admin will login to the account. 
+ 
+2- Admin can make any changes 
+or update the app. 
+ 
+ 
+ 
+4- Updates visible to admin. 
+ 
+ 
+ 
+ 
+ 
+3- System will record and 
+update any changes if made by 
+the admin. 
+ 
+ 
+Extensions The Admin didn’t have a stable internet connection. 
+Application lost its previous state, and the admin has to make changes 
+again. 
+Admin has not logged in the portal. 
+Special Requirements High speed internet connection. 
+Simple and easy UI. 
+ 
+ 
+ 
+28 
+7. Domain Model 
+ 
+
+29 
+8. System Sequence Diagram 
+8.1 Create Account 
+ 
+8.2 Customize Profile 
+ 
+ 
+
+30 
+8.3 Upload Video 
+ 
+8.4 Identify Mistakes 
+ 
+
+31 
+8.5 Generate Feedback 
+ 
+8.6 Personalized Training Plans 
+ 
+
+32 
+8.7 Connect With Coaches 
+ 
+8.8 Create Events 
+ 
+
+33 
+8.9 Connect with users 
+ 
+8.10 Provide Motivational Quotes 
+ 
+
+34 
+8.11 Generate Progress Report 
+ 
+8.12 Provide Incentives 
+ 
+
+35 
+9. Activity Diagram 
+9.1 Create Account 
+ 
+
+36 
+9.2 Customize Account 
+ 
+
+37 
+9.3 Video Analysis 
+ 
+
+38 
+9.4 Connect with coaches 
+ 
+
+39 
+9.5 Create Event 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+40 
+10. Operations Contracts 
+10.1 Create Account:- 
+ 
+ Operation: CreateAccount() 
+ 
+ Cross-references: Use Case – Create Account 
+ 
+Pre-conditions: 
+1. User needs an internet connection always on while using the application. 
+2. Users must not be already logged into an account, otherwise this should be the home page 
+only. 
+3. Users are expected to give personal details as regards to the account (e.g., name, email 
+address, password). 
+4. It should also be active and should be able to take new account creation requests. 
+Post-conditions: 
+1. Default the credit status in the new account created for the user in the system. 
+2. The name, e-mail and encrypted password are stored into the database to ensure the 
+user’s data’s confidentiality. 
+3. A new account is created, and a unique user ID is assigned to differentiate the new user 
+from the other users. 
+4. The user is notified or emailed about creation of the account. 
+5. The event of account creation is documented in the system thereby enabling future 
+reference. 
+10.2 Customize Profile:- 
+Operation: CustomizeProfile() 
+ 
+Cross-references: Use Case – Customize Profile 
+ 
+Pre-conditions: 
+1. User requires an internet connection for the application to work properly at all times. 
+2. A user should be logged into their account before using the MOB/Panel. 
+3. Here an important assumption is more stipulated – the user profile in the social network 
+must already be created. 
+Post-conditions: 
+1. Added new details and the profile of the user is current. 
+2. All the updated profile details are saved, and respectively, are retained in the database. 
+41 
+3. System informs user that his/her profile update is complete/confirmed. 
+ 
+10.3 Input Video 
+ 
+Operation: InputVideo() 
+ 
+Cross-references: Use Case – Upload Video 
+ 
+Pre-conditions: 
+1. Internet connection is required by the user. 
+2. On the web, it is required that the user must be logged into his account. 
+3. The some video file is in a supported format. 
+Post-conditions: 
+1. This video is uploaded in the system and remain as part of the system. 
+2. A record of the video is stored in the database. 
+3. The system congratulates the user for a successful upload of the video. 
+ 
+10.4 Identify Mistakes 
+ 
+Operation: IdentifyMistakes() 
+ 
+Cross-references: Use Case – Identify Mistakes 
+ 
+Pre-conditions: 
+1. User must have uploaded a Video. 
+2. The video must be uploaded and saved in order to be used in the system. 
+3. For AI Video Analysis it is mandatory to be processed. 
+Post-conditions: 
+1. The system of computer vision helps to evaluate the video for the possible mistakes. 
+2. It is possible to track down incorrect approaches which include but are not limited to; 
+posture and technique errors. 
+3. Feedback is created and then delivered to the user in the form of feedback. 
+In any case, a record is kept for further use. 
+ 
+ 
+42 
+10.5 Generate Feedback 
+ 
+Operation: GenerateFeedback() 
+ 
+Cross-references: Use Case – Generate Feedback 
+ 
+Pre-conditions: 
+1. User must have performance data, for instance in the form of video analysis and feedback results. 
+2. User must have an account created and logged in before they are enabled to use the application. 
+3. It is crucial that The AI Feedback Engine should be on. 
+Post-conditions: 
+1. The performance data is transferred to the AI Feedback Engine of the system. 
+2. Culturally-mediated feedback is obtained from the performance data needed for the generation of 
+personalized feedback. 
+3. Feedback is sent to the user. 
+4. The feedback received can be retrieved by the system at a later date if it is required. 
+ 
+ 
+10.6 Create Personalized Plans 
+ 
+Operation: CreatePersonalizedPlan() 
+ 
+Cross-references: Personalized Training Plans Use Case 
+ 
+Pre-conditions: 
+1. User must have an account and must sign in to it. 
+2. The user profile should contain the necessary data (for example, the skill level, the goals). 
+3. It means that the AI Training Plan Generator needs to be running. 
+Post-conditions: 
+1. User data is transferred to the AI Training Plan Generator. 
+2. The training plan for an individual employee is developed. 
+3. From here, the training plan is presented to the user. 
+4. Also, the plan is saved in the system in case of further modification or change of content. 
+ 
+ 
+10.7 Track Progress Report 
+ 
+ 
+Operation: TrackProgressReport() 
+43 
+ 
+Cross-references: Here is one of the Use Cases that the software developed, through the Object-Oriented 
+Analysis and Design to serve the Organization: 
+ 
+Pre-conditions: 
+1. User cannot be a guest, they must be logged into his or her account. 
+2. The system must also possess information regarding the performance of the same in the past 
+when it is accessible to the user. 
+3. The progress tracking module is a necessity and should be an up-and-running one. 
+Post-conditions: 
+1. The system pulls out data of performance of the user and uses this data to come up with another 
+set of data. 
+2. It is from this analysis that a progress report is produced. 
+3. The report is given to the user. 
+4. It is kept for future use so that one can get extra information and compare the new results with the 
+previous ones that were obtained from the report. 
+ 
+ 
+ 
+10.8 Get Notifications 
+ 
+Operation: GetNotifications() 
+ 
+Cross-references: 
+To this end, this operation contributes to the notification management use case designed to provide the 
+user with information about events and changes in the system, as required. 
+ 
+Pre-conditions: 
+ 
+1. To qualify for notifications, the user must be logged into their account as delivery of notifications 
+is personalized. 
+2. The system should have individually relevant notifications i.e. new messages, updates, events etc 
+should be available to the user. 
+3. The Notifications module should always be active and effectively working all the time. 
+ 
+Post-conditions: 
+ 
+1. User notifications he/she requires are obtained by the system from the database. 
+2. The notifications are provided to the user at the right time with the help of the interface provided 
+with more capabilities of delivering the notifications with the help of media like e-mail, push 
+notifications. 
+3. They are labeled as read and unread depending on the actions of the user of the site. 
+44 
+4. Notification status information is saved for future use, it also allows the user to look at the 
+notification’s appearance later. 
+ 
+ 
+10.9 Get Motivational Quotes 
+ 
+Operation: GetMotivationalQuotes() 
+ 
+Cross-references: 
+This operation aids the feature that gives quotes with an intention of inspiring users time and over again 
+whenever they are employing the system. 
+ 
+Pre-conditions: 
+1. It would require the users to be logged into their account to view such, motivational or relevant 
+quotes to them. 
+2. The system should have a list of motivational quotes on record so that it can make it available for 
+use. 
+3. The motivational quotes module has to be live and running as it opens and works at the start of 
+each day. 
+ 
+Post-conditions: 
+1. The system will access motivational quotes in the database or a repository. 
+2. The quote selected finally is presented to the user of the system through the terminal or through 
+the channel designated to the notification services. 
+3. The system follows a list of quotes it presents to the user to prevent redundancy and give a wide 
+variety. 
+4. The quote is saved to the session or history of the user, so the user can always return to it. 
+ 
+ 
+10.10 Connect with Coach 
+ 
+Operation: ConnectWithCoach() 
+ 
+Cross-references: 
+This operation facilitates the ‘with coach use case’ where a user is in touch with a coach probably for 
+some advice or training. 
+ 
+Pre-conditions: 
+ 
+45 
+1. The user must be on the application and signed into his/her account, the user must also have 
+permissions to connect with a coach or better yet must be on the premium subscription level. 
+2. The system has to provide available coaches that are willing to accept connection requests. 
+3. The communication channel that links users and coaches has to be open. 
+ 
+Post-conditions: 
+ 
+1. The system makes a request to the selected coach for the user. 
+2. With the connection request, the notification gets to the coach who can either accept or deny the 
+connection. 
+3. If accepted, the system creates communication between the user and the coach (for example, in 
+the chat or video session). 
+4. The connection status together with the interaction history are recorded for use in the future. 
+5. If the request is declined then the system informs the user and gives other options like giving 
+other available coaches or trainers. 
+ 
+ 
+ 
+10.11 Provide Incentives 
+ 
+Operation: ProvideIncentives() 
+ 
+Cross-references: 
+This operation enforces the use case used to provide incentives on top of achieved goals or activity within 
+the system. 
+ 
+Pre-conditions: 
+ 
+1. It will be only available for the user enrolled in an account, and the user will need to meet certain 
+achievement requirements during the usage of the app (e.g., the user has performed x amount of 
+tasks, achieved y milestones). 
+2. The reward articles must also undergo a logical, relevant, and present accomplishments and 
+possible rewards database. 
+3. The rewards calculation module needs to be running and set up properly to check for the 
+eligibility and then calculate for the right incentives. 
+Post-conditions: 
+ 
+1. It computes the type and quantity of incentive converging with the rules set by the system through 
+a user’s last activities and performance. 
+2. It also records every stage of the process of the calculation for audit and troubleshooting. This 
+comprises user's ID, criteria that is achieved, incentive arriving at; and date/time the operation is 
+completed. 
+46 
+3. It is credited to the user’s account, further, the user receives a notification that the incentive has 
+been added to his/her account through the selected communication method such as, system 
+notification and email. 
+4. The system modifies the user’s rewards history in its database by adding the new incentive for the 
+user to track in the future. 
+5. On this, the system captures the completion of the incentive provision and any possible errors to 
+the process. 
+ 
+10.12 Create Events 
+ 
+Operation: CreateEvent() 
+ 
+Cross-references: 
+This operation enables a user for instance admin or event creator to initiate and invite other users, events 
+that can be set at a certain time. 
+ 
+Pre-conditions: 
+ 
+1. The user must have an account and have authorisation to create events for the account. 
+2. The system must have a contemporary data base where all event details should be stored. 
+3. The event creation module has to be working, these are time slots and event categories have to be 
+available. 
+ 
+Post-conditions: 
+ 
+1. Information such as the event name, description, date, time and participants is then recorded and 
+stored in the event database of the system. 
+2. The system checks some required input data against the corresponding event data to check for the 
+correctness of the input data and against the real events to avoid scheduling conflict. 
+3. All the related users of the event creation are informed through notification or email alerts. 
+4. The system also records the event creation for audit purpose the event creator details, time and, 
+error if any occurred. 
+5. After being posted, the event is accessible to other users where they can observe, contribute to, or 
+subscribe to events according to their roles or subscriptions. 
+6. It keeps record of user activity and interaction level to the event. 
+10.13 Connect with other users 
+ 
+ 
+Operation: ConnectWithUsers() 
+ 
+Cross-references: 
+47 
+This operation allows the users to be able to communicate to and from other users in the system 
+enhancing the interaction. 
+ 
+Pre-conditions: 
+ 
+1. In the current interface, the user must be logged into his/her account. 
+2. The system will have to keep contact permissions of the users and ensure that privacies are well 
+observed. 
+3. The messaging/communication module must be initiated and set up to perform user to user 
+communications. 
+ 
+Post-conditions: 
+ 
+1. The system then checks the connection request to ensure that both users want the connection as 
+per their privacy or accounts preferences. 
+2. Recipient receives the connection request and can either accept it or deny the connection request. 
+3. On successful connection the system records the adjusted relationship status of both users in the 
+system upon acceptance of the request. 
+4. The system contains a communication platform where people can send messages or engage one 
+other. 
+5. Whenever a connection request is refused the system records the action and at the same time 
+alerts the concerned user. 
+6. Requests, acceptance and rejection of connection are recorded in the system for audit and 
+monitoring. 
+7. Both users can now interact and communicate with each other through messages embedded in the 
+system or through built-in collaboration tools. 
+ 
+ 
+ 
+ 
+ 
+11. Class Diagram 
+ 
+ 
+ 
+ 
+ 
+48 
+ 
+ 
+ 
+12. Sequence Diagram:- 
+ 
+ 
+12.1 Create Account: 
+ 
+ 
+
+49 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+‘ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.2 Customize Profile 
+ 
+
+50 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.3 Input Video 
+ 
+ 
+ 
+ 
+
+51 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+52 
+12.4 Identify Mistakes 
+ 
+ 
+ 
+ 
+12.5:Generate Feedback 
+ 
+ 
+
+53 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+54 
+12.6 Create Personalized Plans 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+55 
+12.7 Track Progress Report 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.8 Notifications 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+56 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+57 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.9 Get Motivational Quotes 
+ 
+ 
+
+58 
+ 
+ 
+12.10 Connect With Coach 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.11 Provide Incentives 
+ 
+
+59 
+ 
+ 
+12.12 Create Events 
+ 
+
+60 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12.13 Connect with other 
+users 
+ 
+ 
+ 
+
+61 
+13. ER DIAGRAM 
+ 
+ 
+ 
+ 
+14. Architecture Diagram 
+ 
+
+62 
+ 
+ 
+ 
+ 
+15. Implementation Details 
+ 
+15.1 Front-End Implementation 
+ 
+As for front-end development, we use Kotlin. Our concentration has been geared towards 
+excellent graphic design of the application thus we have concentrated on efficiency in speed, 
+usability and sleek nature. This website’s user interface also uses new materials for design and is 
+designed in a responsive manner. 
+ 
+15.2. Back-End Implementation 
+ 
+For back-end development, we are using Google Firebase for our required back-end 
+development. The database and back-end features are implemented as follows: 
+ 
+● We collect user information during the registration process. 
+
+63 
+● Firebase Authentication is used to allow users credentials to log in through email and 
+password or phone number.Every user has a sub-table based on their avatar and 
+characters attributes. 
+● A user also has a sub-table of created and attended meetings with all the details regarding 
+those meetings. 
+● The data stored in the different tables have been described in the ER diagram that is why 
+all of them are relevant. 
+Why Firebase? 
+We chose Firebase for the following reasons: 
+ 
+Real-Time Database: Firebase provides for real time data sharing which is crucial in the 
+case of many users. 
+Server Management: Firebase provides all the backend support, right from security and the like, 
+so as to free the developers. 
+ 
+Easy Integration: There are several SDKs and APIs available in Firebase that can be easily 
+implemented in the Kotlin-based application. 
+Authentication and Security: Firebase comes with authentication services to help deal with user 
+credentials and ensuring security of users information. 
+ 
+15.3. Model Training as well as Integration 
+ 
+We use Python in model training hence integrating TensorFlow Lite and PyTorch allowing us to 
+build and deploy systems such as recommender systems and analytics. 
+ 
+TensorFlow Lite: To improve the efficiency of the machine learning models, we employ 
+TensorFlow Lite in the deployment of models across portable devices. This enables real time 
+prediction and low latency out of necessity for on-device artificial intelligence applications. 
+ 
+PyTorch: Dynamic computation graphs are necessary for building and training more complex 
+models which is why PyTorch is employed. They are incorporated into the app to make the AI 
+capabilities better such as the functions for making user-specific predictions and analysis. 
+ 
+ 
+After training the models they are taken to the back end, firebase works as a mediator between 
+the kotlin based front end and python based back end. Firebase provides real-time data 
+management, and this will facilitate interaction between the models and the app. 
+64 
+16. Research: 
+16.1 Summary of article1: 
+This article introduces and consider the solution to human pose estimation. This is a computer 
+vision problem that may be the core component of tracking human motion and providing objective 
+feedback for physical activities. Nevertheless, estimation of human poses is very difficul t owing 
+to the diversity of the postures, masking of body parts and collecting a great number of images. 
+ 
+16.1.2 Critical Analysis 
+ 16.1.2.1 Strength 
+• Can be applied to determine and provide a critique of how a person performs from 
+the onset of a chore to the last stage 
+• Has room for enhancement for better planning of fitness application 
+ 
+ 16.1.2.2 Weaknesses 
+• This can be difficult because of the variety of poses and their occlusions as well 
+as the need of having large data base 
+ 
+16.1.3 Proposed Approach: 
+Our proposed approach is similar because it employs human pose estimation in examining human 
+movement. Whereas, our approach is aimed at investigation of cricket bowling videos, the research 
+item has a broader perspective and is focused on the videos of any exercises. 
+ 
+Our approach has potential benefits to cricketers by allowing them to be able to self - assess their 
+bowling skills when given constructive feedback. This feedback leads to improvement in the 
+precision and reproducibility of the players. 
+ 
+16.2 Summary of article2: 
+Deep Neural Networks and pose estimation techniques are employed in this research work to 
+evaluate left arm spin bowling in cricket. Its goal is to build a unique device for real -time 
+techniques analysis with use of Convolutional Neural Networks thus allowing players to correct 
+their mistakes personally rather than needing a coach present to guide them. The project has some 
+challenges regarding dataset acquisition and is currently limited by high noise videos and mult i 
+action videos. Other areas of development entail extending the current application to other types 
+of players and different sports as well and developing headroom for advanced situations. This new 
+approach is a technological breakthrough in the analysis of cricket amongst other sports. 
+ 
+16.2.2 Critical Analysis 
+ 16.2.2.1 Strength 
+65 
+• Innovation: The technology embeds advanced DNNs and pose estimation 
+approaches to a specific niche area of sports analysis (left-arm spin bowling in 
+cricket) that is still in the nascent stages of development. 
+• Self-improvement tool: It allows players to assess and enhance their skills even in 
+situations when professional coaching is not available, which is highly useful. 
+• Comprehensive analysis: The integration of pose estimation techniques with 
+CNNs creates room for the in-depth, detailed and multi-aspect analysis of the 
+studied techniques of bowling. 
+ 
+ 16.2.2.2 Weaknesses 
+• Limited dataset: There is a limited availability of existing literature and data on 
+left-arm spin bowling techniques that can affect the performance of the system to 
+some extent and particularly in the early stages. 
+• Video Quality Dependency: The given version can be deficient in handling any 
+footage of poor resolution making it useful to people with high-definition 
+recording gadgets only. 
+• Single player focus: Incorporating multi-player video footage, which in many 
+cases will be important especially for team training or during matches, is hard 
+because of the inability to use a single video to target different players. 
+ 
+16.2.3 Proposed Approach: 
+• The problem statement defined reflects the research motivation outlined in section 1.4. 
+Both understand there is a difference between theory and practice in cricket specially 
+when it comes to spin bowling. 
+• Our approach relies on AI and machine learning, and this is in tandem with another study 
+referred to earlier in the work “State-of-the-Art Deep Learning in Athletic Performance 
+Analysis”. The above explains why your project of analyzing sports performance should 
+fit in the present trends of analysis and evaluation. 
+• The plan proposed for analyzing bowling videos is well-supported by several references 
+cited in the current literature search, including Video Analysis of Cricket Bowling 
+Actions for Biomechanics and Performance Evaluation, as well as the Impact of Video-
+Based Training on Cricket Bowling Accuracy and Kinematics. 
+• Our goal to give them feedback instantly with certain actions tied up to the researched 
+problem stated in section 1.3 as the benefits of the suggested real time video analysis 
+system for the players and the coach. 
+• The choice made to work on an Android application is connected with the study 
+“Towards Real-Time Sports Motion Analysis on Mobile Device” which indicates that 
+current technological trends in sports analysis are being followed in the present work. 
+66 
+• Specifically, this objective of ours to find technical issues and be suggested correlates 
+with the general research motivation of enhancing bowling approaches with technology 
+aid. 
+• Paying particular attention to the presentation of the analysis meant for amateur and 
+semi-professional players, our respond to the limited bodily coaching in effect in world 
+regions such as Pakistan. Our research motivation generally addresses the interplay 
+between the theoretical and practical application of the information. 
+• The ideas of tracking the progress over the time correspond to the approach of analyzing 
+and developing the technique that was described in the research motivation part. 
+ 
+16.3 Summary of article3: 
+Thus, the methodology for predicting cricket strokes is presented in the paper “Enhancing Cricket 
+Performance Analysis with Human Pose Estimation and Machine Learning”. The authors 
+concentrate on eight types of movement in playing cricket, the cover drive, pull, flick and so on 
+and use Media Pipe for processing movement data from video data which includes human body 
+key points. Strokes recognition is completed with several machine learning algorithms: Random 
+Forest (RF), Support Vector Machines (SVM), k-Nearest Neighbors (KNN), and Long Short-Term 
+Memory (LSTM) networks; RF has 99.77% accuracy. Accordingly, this study targets actual 
+application of computer vision and ML in opportunity assessment which might be developmental 
+to players, especially when it comes to stroke prediction, although the study will be universal with 
+all kinds of players. 
+ 
+16.3.2 Critical Analysis 
+ 16.3.2.1 Strength 
+• High Accuracy: Another strength realized from the study is the use of the RF 
+model with 99.77% accuracy, an indication for a sound model for stroke 
+classification. 
+• Comprehensive Dataset: To get a large and diverse dataset the authors recorded 
+video from multiple sites to capture all kinds of strokes. 
+• Innovative Approach: The integration with computer vision with human pose 
+estimation along with ML models is perfect now for analyzing performance 
+especially in games like cricket. 
+• Real-Time Application: Describing how such a system can be used in real-time 
+coaching, the study clinically and practically demonstrates how this research can 
+be used to provide instant feedback to the cricketers. 
+ 
+ 
+16.3.2.2 Weaknesses: 
+67 
+• Limited Scope on Bowling: Though the study is precise with regard to the prediction 
+of stroke, it lacks other fundamental dimensions of cricket like bowling assessment. 
+The models and techniques applied are more of batting. 
+• Complexity of System Implementation: The essential mathematics make the approach 
+computationally intensive and video processing demands will also be high hence the 
+approach may not be easily accessible to an amateur player or team with limited 
+computational capital. 
+• Generalization: The study targets eight specific strokes to which it might be restricted 
+by these categories. There are definitely other techniques and strokes that the model 
+might not be able to identify if the training component was not programmed that way. 
+ 
+16.3.4 Proposed Approach: 
+Your project of contextual-band AI feedback for cricket bowling videos is grounded on the similar 
+ideas as the work of using video data analysis and machine learning. Nevertheless, it pertains only 
+to batting strokes and your project is aimed in assessing bowling performance. Your focus on 
+bowling is complementary to both approaches – the video-based human motion analysis using 
+computer vision, but it is an entirely different idea. In fact, the very same principles of human pose 
+estimation (for example usin g Media Pipe), or other machine learning models like RF or SVM 
+could be employed to estimate bowling form, trajectory, and any other important parameter in this 
+context. 
+ 
+The goal of your project of generating feedback for semi -professional players in line with the 
+practical application discussed in this paper that involves offering coaching points in real -time or 
+nearly real-time basis. You have the similar chances of usin g key point extracting and machine 
+learning classifier to analyze errors in bowling, which then can be personalized and used for the 
+skill progression. In the best case, the paper can help you to use similar technologies in your 
+project’s sphere.” 
+17. Conclusion: 
+Our goal is to ensure that no talent goes unnoticed and that every child in Pakistan receives the 
+guidance they need to enhance their skills and realize their full potential. We are committed to 
+nurturing young talent and helping them become stars in their own light.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

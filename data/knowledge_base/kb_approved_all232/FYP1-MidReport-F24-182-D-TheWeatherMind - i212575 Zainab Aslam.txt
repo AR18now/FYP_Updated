@@ -1,0 +1,810 @@
+# FYP1-MidReport-F24-182-D-TheWeatherMind - i212575 Zainab Aslam
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+We’re aiming to build an AI-driven Weather Forecasting System focusing primarily on the
+regions of Islamabad, Lahore, and Karachi. This will include providing hyper-localised
+weather predictions down to the regional level. The project is divided into 4 major phases.
+The first phase of the project will consist of developing the core AI-driven weather
+model, trained on 3 different data sources: weather stations, radar data, and satellite
+imagery. The data from the radar will need a significant amount of pre-processing and
+will need to be converted to a format that would be usable. The AI-model will employ
+advanced machine learning algorithms resulting in highly localised and accurate weather
+predictions for the aforementioned regions. The reason for targeting these major cities
+of Pakistan is because WeatherWalay has the highest concentration of weather stations
+deployed in these areas. The second phase involves developing a user-friendly front-end
+interface for both web and mobile devices. This will provide a seamless and interactive
+view of the system for the users where they will be able to access the modules of weather
+predictions, weather news, and the purchase of weather data. The third phase focuses
+on creating a content generating module that uses open source models for generating text,
+audio, and video forecasts. This will be tailored to use real time data to provide the users
+with a personalised experience. To achieve this we will do prompt engineering based on
+the raw weather predictions to produce forecasts that are easy for the users to understand.
+In the fourth phase we will develop a blockchain-based transaction feature to enable
+secure and transparent transactions for users interested in purchasing localised weather
+data. This will provide a revenue model to support and expand the forecasting services.
+1.3 Modules
+The modules of our project includes training of model for accurate weather predictions,
+front-end design for web and mobile devices, dynamic weather news report generation,
+and blockchain based smart contracts for purchase of weather data.
+1.3.1 Model training for Precise Weather Prediction
+The focus of this module is to develop a machine learning model combining data from
+various data sources to predict weather variables.
+1. Integration of data from three sources: weather station, radar, and satellite imagery
+2. Pre-processing the data from radar
+3. Model training for better weather prediction
+2
+1.3 Modules
+4. Performance evaluation and optimization
+1.3.2 Front-End Design for Mobile and Web
+The second module is to design a user interface for mobile and web app to ensure a smooth
+user experience.
+Client Web App
+1. User authentication and authorization (optional)
+2. User-friendly navigation
+3. Weather Forecasts
+4. Dynamic Weather News
+5. Blockchain based transaction of weather data
+Client Mobile App
+1. Mobile optimised design for ease of use
+2. Dynamic Weather Forecasts
+3. Weather News
+Admin Web App
+1. User authentication and authorization
+2. Payment verification
+3. Audit trail
+4. Dispute management
+1.3.3 Weather News Reporting
+Third module is to add on a feature to deliver dynamic weather news reports in multiple
+formats providing personalised experience to the users
+1. Prompt engineering based text generation from raw weather data
+3
+1. Introduction
+User class Description
+Weather Enthusiasts A weather enthusiast is a person who is interested in weather updates for
+personal use, like planning the daily activities or trips. The visuals of app
+will be simple and easy for all type of Weather Enthusiasts. An estimated
+70 percent of Weather Enthusiasts will use the mobile app an average of 3-5
+times per day.
+Agriculture Professionals Agriculture professionals are people who are either agriculture consultants
+or farmers. They rely on accurate weather predictions for decision making in
+agricultural operations like irrigation and harvesting schedules. Agricultural
+professionals are more interested in detailed weather predictions.
+City Planners and Government OfficialsCity Planners and Government Officials require weather predictions to take
+necessary steps for severe conditions like heavy rainfall or storms. This class
+of users are likely to access the weather forecast service through desktop
+web application
+Weather Data Purchasers Weather Data Purchasers are companies, organizations, or even individu-
+als who are interested in purchasing localized weather data for commercial
+purposes. Such users will use blockchain based transcation feature for the
+purchase of the data and they are likely to use web application.
+Weather Reporters Weather Reporters include people who prodcue weather related content for
+public. This class may include new reporters, influencers, or news organi-
+zations. These type of users will access the feature of dynamic news reports
+via mobile or web application both.
+2. Text-to-audio generation for weather updates in professional voice, adjusting tone
+and speed
+3. Audio-to-video generation where an avatar will be narrating new updates, with lip
+sync and synchronized captions
+1.3.4 Blockchain Based Transactions - Smart Contracts
+The last module is to integrate blockchain to ensure secure and transparent exchange of
+weather data.
+1. Implementation of smart contracts for purchase of weather data
+2. Payment verification feature to ensure verified payments before providing data ac-
+cess to the customer
+3. Automated data release will enable automatic access to the customer once the pay-
+ment is verified
+4. Audit trail to keep purchase and exchange of data transparent to both parties
+5. Dispute Management in case of failed transactions or refund scenarios
+1.4 User Classes and Characteristics
+4
+Chapter 2
+Project Requirements
+2.1 Event Response Table
+Event Trigger Response
+User requests weather fore-
+cast
+User selects the desired loca-
+tion
+System retrieves weather data
+from backend (AI predic-
+tions, weather station data)
+and displays results.
+New radar data received New radar data is appended in
+the database
+System pre-processes the
+radar data, and feeds it for the
+training of the AI model.
+User changes the location for
+the weather forecast
+User selects a new location
+from the drop down
+System fetches weather data
+for the selected location and
+displays updated forecast.
+User requests to view weather
+news
+User selects "View Weather
+News" feature
+System generates a video re-
+port based on real-time data
+through text and with syn-
+chronised captions.
+User selects location and
+weather variables for pur-
+chase
+User selects up to 5 variables
+(e.g., temperature, humidity,
+precipitation)
+System creates a data pack-
+age according to the selected
+variables and calculates the
+price for the user.
+Purchase process initiated User confirms a purchase of
+weather data
+System processes payment
+through blockchain and
+grants access to a download-
+able file containing the data.
+Table 2.1: Event-Response Table
+5
+2. Project Requirements
+Figure 2.1: Use Case Diagram
+Use Case Name Change Location
+Scope TheWeatherMind
+Level User level
+Primary Actors General and Registered User
+Stakeholders and Interests General User: General user wants real-time and accurate
+weather forecast for specific location.
+Weather Data Providers: Weather data providers provide
+the weather data required for weather forecasting.
+Preconditions 1. User has launched the app.
+2. App can access the user’s location.
+3. Weather data services are available and functional.
+4. User has access to a stable internet connection.
+Postconditions The user successfully views the nowcast and the forecast for
+the new location that they have selected.
+6
+2.1 Event Response Table
+Main Success Scenario
+Actor Action System Response
+1. User selects
+the "change loca-
+tion" option
+2. System provides a drop down to
+select the desired location.
+3. User selects
+the desired loca-
+tion in the input
+field.
+4. System fetches weather informa-
+tion for the specific location from
+the back-end.
+5. User views the
+weather forecast
+6. System provides a user-friendly
+display of weather forecast for new
+location.
+Alternative Flows
+Actor Action System Response
+1a. User inputs
+invalid location.
+2a. System displays error message
+that the entered location is not sup-
+ported or not recognized.
+Table 2.3: Change Location Use Case
+Use Case Name View Dynamic Weather News Reports
+Scope TheWeatherMind
+Level User level
+Primary Actors General and Registered User
+Stakeholders and Interests General User: General user wants real-time weather news
+with audio, video, and captions for a better experience.
+Weather Data Providers: Weather data providers provide
+the weather data required for weather forecasting.
+Preconditions 1. User has launched the app.
+2. App can access the user’s location.
+3. Weather data services are available and functional.
+4. User has access to a stable internet connection.
+Postconditions The user successfully views the dynamic weather news with
+a seamless experience.
+7
+2. Project Requirements
+Main Success Scenario
+Actor Action System Response
+1. User selects
+the "dynamic
+weather news
+report" option
+2. The system displays dynamic
+news report with seamless video,
+clear audio, and synchronized cap-
+tions.
+3. User views the
+dynamic news re-
+ports.
+4. System continues to provide un-
+interrupted video and quality audio
+and captions.
+Alternative Flows
+Actor Action System Response
+1a. User has slow
+or unstable inter-
+net connection.
+2a. System detects the slow connec-
+tivity and buffers the video.
+1b. User selects
+"dynamic news
+reports" option
+but news content
+is not available.
+2b. System displays that the video
+is currently not available and offers
+an alternative summary of the news
+report.
+Table 2.4: View Dynamic Weather News Report
+Use Case Name Purchase Weather Data
+Scope TheWeatherMind
+Level User level
+Primary Actors Registered User
+Stakeholders and Interests Registered User: Registered user wants to purchase the
+weather data using blockchain-based smart contracts.
+WeatherWalay: Weatherwalay want to sell the data of their
+weather stations on user’s request.
+Preconditions 1. User has registered for the premium web app features.
+2. User has logged into the account on the web app.
+3. Weather data is available to provide the customer when
+they make a request.
+4. Blockchain payment systems are operational for secure
+delivery and payment of data.
+Postconditions The user has successfully purchased the weather data and
+gets access to download it, while the payment and transac-
+tion history is successfully recorded and logged.
+8
+2.1 Event Response Table
+Main Success Scenario
+Actor Action System Response
+1. User navigates
+to "Purchase
+Weather Data"
+feature and se-
+lects the desired
+location.
+2. The system displays different
+weather parameters (e.g., tempera-
+ture, humidity, precipitation) to add
+to the downloadable file.
+3. User selects
+upto 5 weather
+parameters that
+they want.
+4. System creates and displays the
+data package’s details and pricing
+along with the prompt to continue
+to payment.
+5. User initiates
+the payment pro-
+cess.
+6. System prepares the smart con-
+tract for the transaction.
+7. User confirms
+the payment.
+8. System processes the payment
+via blockchain and confirms the
+successful transaction.
+9. User receives
+confirmation of
+payment and
+access to the
+weather data
+purchased.
+10. System confirms the com-
+pletion of the purchase made, and
+saves the records of the purchase
+and transaction.
+9
+2. Project Requirements
+Alternative Flows
+Actor Action System Response
+3a. User selected
+weather parame-
+ters which are not
+available for the
+specific location.
+4a. System displays an error mes-
+sage stating the selected parameter
+is not available at the moment, try
+again later or we will notify you
+when the data is available.
+5a. User tries to
+initiate the pay-
+ment process but
+the blockchain
+payment service
+is down.
+6a. System displays an error mes-
+sage stating the system is down or
+the service is currently not avail-
+able.
+7a. User decides
+to cancel the pur-
+chase in the mid-
+dle of the pay-
+ment process.
+8a. System cancels the transaction
+and returns the user to the weather
+data selection page.
+Table 2.5: Purchase Weather Data
+Use Case Name Refund Request
+Scope TheWeatherMind
+Level User level
+Primary Actors Registered User
+Stakeholders and Interests Registered User: Registered user wants to receive a refund
+for purchased weather data.
+Blockchain Gateway: Ensures that all refund transactions
+are processed securely and transparently.
+Preconditions 1. User has logged in to the web app.
+2. User has already purchased the weather data.
+3. The refund request they are trying to make is within the
+allowed time frame.
+Postconditions The user successfully receives the refund and the payment
+records are updated.
+10
+2.1 Event Response Table
+Main Success Scenario
+Actor Action System Response
+1. User navigates
+to the "Purchase
+History" and se-
+lects the purchase
+they want a re-
+fund for.
+2. System displays history of user’s
+purchases and displays the refund
+option where applicable.
+3. User clicks on
+the "Request Re-
+fund" button.
+4. System confirms that refund is
+valid and displays a refund form for
+user confirmation.
+5. User fills
+the form and sub-
+mits the refund
+request.
+6. The blockchain-based transac-
+tion system updates the purchase
+status to "Refund Pending".
+7. System processes the refund, and
+updates the purchase status to "Re-
+fund Completed".
+8. User receives
+the refund suc-
+cessfully.
+9. System records refund and up-
+dates the purchase history success-
+fully.
+Alternative Flows
+Actor Action System Response
+3a. User tries to
+request a refund
+but it falls outside
+the allowed time
+frame.
+4a. System displays an error mes-
+sage that "Refund is not applica-
+ble".
+3b. User starts
+the refund pro-
+cess but cancels it
+before successful
+submission.
+4b. System cancels the refund pro-
+cess and returns the user to the pur-
+chase history page.
+5a. User sub-
+mits the refund
+request but the
+transaction sys-
+tem is down or
+not working.
+6a. System displays an error mes-
+sage that "Service is down or cur-
+rently not available".
+Table 2.6: Refund Request
+11
+2. Project Requirements
+Use Case Name View Weather Forecast
+Scope TheWeatherMind
+Level User level
+Primary Actors General and Registered User
+Stakeholders and Interests General User: General user wants real-time and accurate
+weather forecast.
+Weather Data Providers: Weather data providers provide
+the weather data required for weather forecasting.
+Preconditions 1. User has launched the app.
+2. App can access the user’s location.
+3. Weather data services are available and functional.
+Postconditions The user successfully views the nowcast and the forecast of
+the following hours.
+Main Success Scenario
+Actor Action System Response
+1. User opens the
+app
+2. System detects user location.
+3. System fetches weather in-
+formation for the specific location
+from the back-end.
+4. User views the
+weather forecast
+5. System provides user-friendly
+display of weather forecast.
+Alternative Flows
+Actor Action System Response
+1a. User opens
+app with no inter-
+net connection.
+2a. System displays error mes-
+sage that weather information can
+not be fetched without internet con-
+nection.
+1b. User opens
+app with location
+services disabled.
+2b. System displays message to
+enable location services to fetch
+weather forecast.
+Table 2.2: View Weather Forecast
+Use Case Name Update User Profile Information
+Scope TheWeatherMind
+Level User level
+Primary Actors Registered User
+Stakeholders and Interests Registered User: Registered user wants to update their pro-
+file information and keep their information up to date.
+Preconditions 1. The user already has a profile.
+2. User has logged into the web app successfully.
+Postconditions User has successfully made the changes in the profile infor-
+mation and the system updates the user information.
+12
+2.1 Event Response Table
+Main Success Scenario
+Actor Action System Response
+1. User navigates
+to the "Account
+Settings" section.
+2. The system displays current pro-
+file information of the user.
+3. User clicks on
+the "Edit" button.
+4. System enables the editable
+fields of the profile.
+5. User up-
+dates the fields
+with new infor-
+mation.
+6. System validates the entered in-
+formation (e.g., syntax).
+7. User confirms
+the updates by
+clicking on the
+"Save Changes"
+button.
+8. System updates the user profile
+in the records.
+9. User gets
+an alert message
+"Profile updated
+Successfully".
+Alternative Flows
+Actor Action System Response
+5a. User inputs
+invalid data in the
+input fields (e.g.,
+incorrect syntax).
+6a. System displays an error mes-
+sage "Incorrect input" and prompts
+the user to enter correct informa-
+tion.
+7a. User de-
+cides to cancel
+the profile update
+before saving the
+changes.
+8a. System displays an error mes-
+sage "Your changes are not saved"
+and returns the user to the "Account
+Settings" page.
+7b. User clicks on
+"Save Changes"
+button, but a
+network issue
+prevents updat-
+ing the profile
+information.
+8b. System displays a message
+that "Changes not saved, try again
+later".
+Table 2.7: Update User Profile Information
+13
+2. Project Requirements
+2.2 Functional Requirements
+2.2.1 Weather Prediction Engine
+Following are the requirements for module 1:
+1. The system shall collect real-time data from weather stations and radar
+2. The AI model shall process and analyze the data to generate accurate localized
+weather forecasts
+3. The model shall provide predictions for specific geographical locations (e.g., Islam-
+abad, Lahore, Karachi)
+4. The system shall update weather forecasts at hourly intervals
+5. The model shall allow for continuous training and improvement as new data is
+collected
+2.2.2 Forecast Interface
+Following are the requirements for module 2:
+1. The front-end shall display real-time weather forecasts, including temperature, pre-
+cipitation, humidity, dew, and other relevant metrics
+2. Users shall be able to select specific locations to view localized weather predictions
+3. The design shall incorporate weather updates in textual, audio, and video formats
+4. The design shall integrate blockchain-based transactions for users who wish to pur-
+chase localized weather data
+2.2.3 Weather Content Generator
+Following are the requirements for module 3:
+1. The system shall generate weather forecasts in text, audio, and video formats using
+real-time data
+2. Text prompts shall be automatically generated based on weather data to create
+human-readable content
+14
+2.3 Non-Functional Requirements
+3. The audio and video generation shall provide accurate spoken forecasts using natu-
+ral language processing (NLP) techniques
+4. The module shall allow users to switch between different content formats (text,
+audio, video)
+2.2.4 Transaction System
+Following are the requirements for module 4:
+1. The system shall allow users to securely purchase localized weather data using
+blockchain technology
+2. The blockchain shall record every transaction for weather data purchases in an im-
+mutable ledger
+3. Users shall be able to verify the authenticity of weather data transactions through
+blockchain
+4. The system shall provide users with a seamless and transparent process for data
+transactions
+5. The transaction system shall support payments in local currency
+6. The system shall notify users once transactions are successfully completed
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+TheWeatherMind system shall be designed to minimise failures, aiming for a Mean Time
+Between Failures (MTBF) of at least 600 hours (25 days). A failure is defined as any
+instance where the system provides weather forecast but it is not accurate enough or fails
+to display information correctly. To protect against failures, the system shall implement
+monitoring and diagnostics for proactive issue identification. Error detection strategies
+will include logging and alerting mechanisms, while error correction strategies will in-
+volve automated recovery processes to restore functionality swiftly.
+15
+2. Project Requirements
+2.3.2 Usability
+USE-1: The system shall allow a user to access the localized weather forecast for their
+selected location within two clicks from the homepage.
+USE-2: The interface shall provide clear visual feedback on user actions, such as loading
+indicators when fetching weather data, to minimize uncertainty during interactions.
+USE-3: The system shall enable the users to seamlessly switch to weather news screen
+for weather reports and generate a video within a minute.
+USE-4: The application shall allow users to search for weather data for any specified
+location within 7 seconds.
+USE-5: Once the location is selected, users can choose up to5 specific weather param-
+eters (e.g., temperature, precipitation, wind speed) to include in a downloadable file, and
+finalize the selection within 3 clicks.
+USE-6: The application shall facilitate the purchase of weather data using a secure
+blockchain-based payment system, processing each transaction and providing a confirma-
+tion within 10 seconds of payment initiation, while ensuring transparent and immutable
+transaction records.
+2.3.3 Performance
+PER-1: 95% of weather forecast data shall be generated and displayed to the user within
+7 seconds of the user’s request, ensuring timely access to localized weather information.
+PER-2: The system shall support at least 100 concurrent users accessing weather data
+without degradation in performance, maintaining response time under 7 seconds per re-
+quest.
+PER-3: Real-time updates to weather forecasts shall be processed and delivered within
+1 minute of data collection from weather stations, ensuring users receive the latest infor-
+mation.
+PER-4: The system shall allow for weather data retrieval from the database with a maxi-
+16
+2.3 Non-Functional Requirements
+mum latency of 5 seconds under normal operating conditions.
+2.3.4 Security
+Robust security measures shall protect sensitive data and ensure user privacy in TheWeath-
+erMind system. Security requirements shall focus on preventing unauthorised access and
+safeguarding the integrity of weather data. The skill level and effort required to breach the
+system will be assessed, with regular security evaluations conducted to identify vulner-
+abilities and enhance protective measures without specifying particular solutions in this
+document.
+2.3.5 Scalability
+SCL-1: The system shall support up to 100 simultaneous users without degradation
+in performance (e.g., no significant delay in generating weather forecasts or processing
+transactions).
+SCL-2: The infrastructure shall allow for horizontal scaling by adding more servers to
+accommodate growing user traffic, ensuring response time for data requests remain under
+5 seconds.
+2.3.6 Portability
+PRT-1: The system shall be accessible from various platforms, including web browsers,
+mobile applications (iOS and Android), and desktop applications without requiring sig-
+nificant changes to the underlying code.
+PRT-2: The system’s weather forecasting and data purchase features shall work seam-
+lessly on all modern web browsers (Chrome, Firefox, Safari, and Edge) and mobile plat-
+forms with minimal differences in appearance or performance.
+2.3.7 Extensibility
+EXT-1: The system shall allow the integration of new weather data sources or third-party
+APIs with minimal modification to the existing architecture.
+17
+2. Project Requirements
+2.4 Domain Model
+Figure 2.2: Domain Model
+18
+Chapter 3
+System Overview
+The WeatherMind AI-based weather forecast model aims to deliver accurate, hyper-
+localized weather predictions for major urban areas in Pakistan, including Islamabad, La-
+hore, and Karachi. By leveraging advanced machine learning algorithms and integrating
+data from multiple sources—such as weather stations, radar, and satellite imagery—the
+system provides real-time weather forecasts that users can customize by changing their
+locations. In addition to forecasting, WeatherMind features dynamic news reporting in
+text, audio, and video formats, enhancing user engagement and information delivery.
+Furthermore, registered users can purchase specific weather data, with transactions se-
+cured through blockchain technology to ensure transparency and trust. This innovative
+approach addresses the increasing demand for precise weather information, ultimately
+improving decision-making in various sectors affected by climate conditions. Provide
+any background information if necessary.
+19
+3. System Overview
+3.1 Architectural Design
+3.1.1 Box and Line Diagram
+Figure 3.1: Box and Line Diagram
+20
+3.2 Design Models
+3.1.2 Architectural Diagram
+Figure 3.2: Architectural Diagram
+3.2 Design Models
+Object Oriented Development Approach
+21
+3. System Overview
+3.2.1 Activity Diagram
+Figure 3.3: View Weather Forecast
+22
+3.2 Design Models
+Figure 3.4: Change Location
+Figure 3.5: Dynamic Weather News Report
+23
+3. System Overview
+Figure 3.6: Purchase Weather Data
+24
+3.2 Design Models
+Figure 3.7: Refund Request
+25
+3. System Overview
+Figure 3.8: Update User Profile Information
+26
+3.2 Design Models
+3.2.2 Class Diagram
+Figure 3.9: Class Diagram
+3.2.3 Sequence Diagrams
+Figure 3.10: View Weather Forecast
+27
+3. System Overview
+Figure 3.11: Change Location
+Figure 3.12: Dynamic Weather News Report
+Figure 3.13: Purchase Weather Data
+28
+3.2 Design Models
+Figure 3.14: Refund Request
+Figure 3.15: Update User Profile Information
+29
+3. System Overview
+3.2.4 State Transition Diagram
+Figure 3.16: State Transition Diagram
+3.3 Data Design
+3.3.1 Introduction
+The data design of TheWeatherMind focuses on how the weather data, radar data, user
+information, and transaction logs are stored, processed, and retrieved. The system utilises
+MongoDB for the storage of non-relational data and structured data like JSON to repre-
+sent entities such as weather data, radar data, user information, and transaction logs.
+3.3.2 Data Structures
+The main data entities within TheWeatherMind are represented as collections in Mon-
+goDB. Each collection holds the data in the form of JSON that allows for easy and fast
+data retrieval. Key data structures used are the following:
+30
+3.3 Data Design
+• Collections: MongoDB stores data in collections. Each collection holds data rep-
+resenting different sources and different types of data. This includes data from the
+radar, data from the weather stations (Historic Weather data, Recent Stats), user
+information, and transaction logs.
+• Dictionaries: Within these collections, weather data, and user information are
+stored as dictionaries, with key-value pairs mapping attributes like temperature,
+humidity, and timestamps.
+An example of how our weather data is being stored is shown below:
+{
+"_id": "662b464a208393ef7d71f4f7",
+"stationID": "25591",
+"__v": 0,
+"location": {
+"long": 73.39999914
+},
+"nowcast": {
+"time": "2024-10-06T22:00:00+0500",
+"temperature": -0.4,
+"humidity": 77,
+"windSpeed": 6
+}
+}
+• Arrays: Arrays are used to store collections of related data, such as daily and
+hourly weather records. Each array contains multiple entries, each representing a
+specific time period or data point (eg., hourly weather reports, daily weather sum-
+mary).
+3.3.3 Data Storage and Organisation
+TheWeatherMind system organises its data into multiple MongoDB collections, each de-
+signed to handle specific entities within the system. The collections that are created are
+flexible, allowing for schema-less data storage, which is ideal for handling various forms
+of weather, radar, and user data.
+31
+3. System Overview
+• Weather Data Collection: Stores weather station data, including nowcast (real-
+time weather data), and hourly forecasts. Each document in this collection repre-
+sents a weather station and contains nested fields for parameters like temperature,
+humidity, wind speed, cloud cover, dew and more.
+Stored Information:
+• stationID: Identifies the weather station.
+• location: Contains latitude and longitude data for the station.
+• nowcast: Provides real-time data such as temperature, humidity, wind speed, and
+wind direction.
+• Radar Data Collection: Stores radar data, including surface rain measurements
+and timestamps. This data is used in conjunction with weather station data to pro-
+vide accurate real-time forecasts.
+Stored Information:
+• lat/long: Latitude and longitude for the radar location.
+• surface rain: Amount of surface rain detected by the radar.
+• timestamp: Time of data capture.
+• User Information: Stores user profiles and authentication information.
+Stored Information:
+• user id: Unique identifier for the user.
+• profile details: Name, email, and location.
+• Transaction Logs: Stores transaction history for user purchases, refunds, and smart
+contracts.
+Stored Information:
+32
+3.3 Data Design
+• transaction id: Unique identifier for each transaction.
+• user id: Identifier for the user making the purchase.
+• data purchased: Weather data details, including location, parameters, and date
+range.
+• status: Tracks whether the transaction is pending, completed, or refunded.
+• smartContracts: Stores the contract associated with each transaction.
+3.3.4 Data Preporcessing
+The system processes the data stored in the MongoDB collections based on user requests,
+such as weather data retrieval, profile updates, and transactions.
+3.3.4.1 Weather Data Retrieval
+When a user requests weather data, the system fetches the appropriate data from the
+Weather Data Collection based on the user’s selected parameters (e.g., temperature, wind
+speed, humidity) and location. Data is filtered by timestamp to meet the user’s specific
+time range.
+3.3.4.2 Radar Data Processing
+Radar data is retrieved from the Radar Data Collection and used to generate real-time
+precipitation forecasts. This data is combined with weather station data to improve the
+accuracy of nowcasts.
+3.3.4.3 User Profile Management
+User profiles, stored in the User Collection, can be updated when users change their pref-
+erences or personal details. The system processes profile updates and stores the changes
+back in the MongoDB collection.
+3.3.4.4 Transaction Handling
+The system logs all purchases in the Transaction Logs Collection. Each purchase is asso-
+ciated with a smart contract, which is also stored in the same collection. The status of each
+transaction (e.g., pending, completed, refunded) is tracked and updated as the purchase
+progresses.
+33
+
+Bibliography
+35
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

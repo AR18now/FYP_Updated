@@ -1,0 +1,601 @@
+# FYP1-MidReport-FYP24-030-R-SurgiGuide - i210689 Rana Ahmed Mustafa
+
+## 1. Introduction
+
+1. Introduction
+sponges are examples of “Never Events,” which again evidence that the safety of the
+operating room environment and the decision support systems used need to be enhanced.
+Stakeholders argue that surgeons need better tools and systems that would help control
+the surgery in real time, inform the surgeon of possible dangers, and contribute to the
+decision-making process.
+1.2 Research Problem Statement
+The potential for surgical decision-making and errors is intended to be solved by creating
+AI real-time surgical guidance named SurgiGuide. This system will:
+• Identify the current phase of surgery : By identifying the various phases of a
+surgical process from a live video stream, SurgiGuide can produce contextually
+relevant data for a surgeon during the surgery. Research shows that TEP hernia
+repair assessment is capable of automatic recognition of surgical steps with high
+accuracies.
+• Suggest the next step of surgery: Based on phase recognition, SurgiGuide will use
+artificial intelligence to predict the sequence of actions that should be taken next,
+supporting the surgical process and guiding surgeons to the right decision.
+• Point out mistakes made during the surgery or procedure: Real-time compari-
+son of actual surgical activities and instruments used against a database of required
+standards and a list of surgical mishaps will be the prime goals of SurgiGuide. This
+aligns with the emerging domain of surgical-data science, which seeks to identify
+how exactly AI can detect when a procedure deviates from the norm and warn sur-
+geons.
+• Provide a remedy to the mistake: If there is any indication of an error, SurgiGuide
+will give the surgeon recommendations for appropriate corrective adjustments to
+minimize the likelihood and extent of adverse events.
+By integrating these functionalities, SurgiGuide seeks to:
+• Improve the overall risk during surgery and the rate of avoidable mistakes.
+• Optimize timing and throughput within the operating theatre environment and pro-
+vide support to surgeons to enable efficient decision-making.
+• Serve as an educational tool for training surgeons by providing real-time feedback.
+2
+1.2 Research Problem Statement
+Addressing this research problem requires overcoming several challenges, including:
+• Creating highly dependable models with proven success in recognizing phases, ac-
+tions, and instruments in different surgeries and environments.
+• Implementing detailed databases to track surgical mistakes and develop superior
+techniques for the system’s mistake identifier and preventer.
+• Maintaining a natural user interface that integrates smoothly into the workflow of
+surgeons and nurses.
+• Validating SurgiGuide’s actual performance in live and complex surgical scenarios.
+In addressing these issues, SurgiGuide seeks to make a considerable impact in the area of
+AI-aided surgery, thus contributing to enhancing the quality of patient care.
+3
+
+Chapter 2
+Literature Review
+This chapter critically examines existing literature relevant to the research topic. It iden-
+tifies key studies, theories, and findings, providing a foundation for the proposed research
+and highlighting its relationship to prior work.
+2.1 Related Research
+• Surgical Phase Recognition in Laparoscopic Cholecystectomy[44]
+• A Vision Transformer for Decoding Surgeon Activity from Surgical Videos [33]
+• Factors Contributing to Preventing Operating Room ’Never Events’: A Machine
+Learning Analysis[11]
+• Automatic Surgical Skill Assessment System Based on Concordance of Standard-
+ized Surgical Field Development Using Artificial Intelligence[22]
+• A Novel High Accuracy Model for Automatic Surgical Workflow Recognition Us-
+ing Artificial Intelligence in Laparoscopic Totally Extraperitoneal Inguinal Hernia
+Repair (TEP)[55]
+• Comparative Validation of Machine Learning Algorithms for Surgical Workflow
+and Skill Analysis with the HeiChole Benchmark[66]
+2.1.1 Surgical Phase Recognition in Laparoscopic Cholecystectomy
+2.1.1.1 Summary of the research item
+This research paper presents a new approach for improving surgical phase identification
+in videos of laparoscopic cholecystectomy (LC). The authors address the limitations of
+5
+2. Literature Review
+existing computer vision methods in analyzing sequential processes and propose a dy-
+namic switching mechanism between two Transformer-based models: a baseline model
+and a binary classifier.
+The baseline model, Trans-SVNet, which has superior performance in surgical phase
+recognition, analyzes the entire surgical video and identifies various phases based on
+visual features. The binary classifier, on the other hand, focuses on unique phase tran-
+sitions in the LC procedure. The system relies on calibrated confidence scores produced
+by the baseline model. When the confidence of the baseline model is high, it is retained
+as the primary model. However, when confidence drops below a certain threshold, the
+system switches to the binary classifier, which is specifically trained for phase transitions
+to provide a better estimate during those segments.
+Although the paper does not provide experimental results, the authors suggest that this
+dynamic switching mechanism can enhance surgical phase identification and can be eas-
+ily integrated with existing phase recognition techniques to improve surgical workflow
+analysis.
+2.1.1.2 Critical analysis of the research item
+Strengths:
+• Addresses Sequential Nature of Surgery:The paper acknowledges the sequential
+nature of surgical procedures and leverages this characteristic to improve prediction
+accuracy, rather than analyzing each frame independently.
+• Dynamic Model Switching: The dynamic switching between models based on
+calibrated confidence scores utilizes the strengths of each model, offering a flexible
+and potentially more accurate approach to surgical phase recognition.
+• Applicability to Existing Methods: The dynamic switching mechanism proposed
+by the authors can be applied to any existing phase recognition model, making it
+versatile and potentially impactful across the field.
+Limitations:
+• Lack of Experimental Results: The paper introduces a theoretical approach with-
+out experimental validation, making it difficult to assess the practical improvements
+or limitations of the method.
+• Limited Information on Confidence Calibration: Although the paper discusses
+the use of calibrated confidence scores, it does not provide details on how the cali-
+bration process was conducted, which is crucial for evaluating the model-switching
+mechanism’s reliability.
+6
+2.1 Related Research
+• Focus on a Single Procedure: The paper focuses on LC, and it remains uncertain
+whether this approach can be generalized to other surgical procedures with varying
+complexities and structures.
+2.1.1.3 Relationship to the proposed research work
+This research aligns closely with the objectives of the SurgiGuide project, particularly in
+the areas of phase categorization and task direction.
+• Incorporating sequential modeling techniques: The use of Transformers and dy-
+namic switching based on confidence scores could improve SurgiGuide’s ability to
+recognize surgical phases more effectively than existing methods like HeiChole.
+• Predicting next surgical steps: Accurate phase identification is a key prerequisite
+for determining subsequent actions in surgery. The enhanced accuracy offered by
+this approach could help SurgiGuide generate more precise and timely recommen-
+dations for surgeons during operations.
+• Generalizing to diverse procedures: While the approach shows promise in chole-
+cystectomy, validating it on datasets from other surgical specialties could enhance
+SurgiGuide’s general usability across diverse procedures.
+• Addressing real-time performance: Further research into the time complexity of
+this algorithm and improvements for real-time application are crucial to integrating
+this method into SurgiGuide for live surgical support.
+2.1.2 A Vision Transformer for Decoding Surgeon Activity from Sur-
+gical Videos
+2.1.2.1 Summary of the research item
+This research article introduces a new AI system named SAIS, which can facilitate the
+analysis of tasks incorporated in surgical videos and decode distinct aspects of surgical
+movements. SAIS can tell when a particular subphase of the procedure is performed,
+categorize the motions by which a task is conducted, and determine how proficiently an
+operation is done.
+The researchers applied SAIS to videos of robot-assisted radical prostatectomy (RARP)
+performed by other hospitals, showing that the model performs well across various sur-
+geons, procedures, and locations. SAIS offered high accuracy in recognizing sub-phases,
+gestures, and differences in surgical techniques.
+7
+2. Literature Review
+Moreover, SAIS recognized the ability to distinguish between high and low skill actions,
+correlating well with expert opinion. It also provides explanations for skill ratings by
+identifying frames in the video.
+2.1.2.2 Critical analysis of the research item
+Strengths:
+• Unified architecture: SAIS uses a consistent architecture to parse multiple ele-
+ments of surgical activity, simplifying future modifications.
+• Explainability: The system provides reasons for skill ratings, increasing confi-
+dence in its assessments.
+• Generalisability: SAIS performs well across multiple hospitals and surgeons, sup-
+porting its scalability and potential for practical use.
+• Novel Insights: SAIS creates time-series profiles of surgeons’ skills, enabling per-
+sonalized performance reviews and deficiency identification.
+Limitations:
+• Focus on RARP: Primarily tested on RARP videos, the effectiveness of SAIS for
+other procedures is unknown.
+• Limited clinical validation: Larger studies are needed to examine the relationship
+between SAIS use and patient outcomes.
+2.1.2.3 Relationship to the proposed research work
+The research on SAIS directly aligns with several key goals of the SurgiGuide project:
+• Real-time surgical phase recognition: SAIS’s success in identifying subphases in
+real-time demonstrates that such functionality can be integrated into SurgiGuide.
+• Surgical error identification and correction: SAIS’s ability to identify and ex-
+plain low-skill actions could inform real-time error detection and correction in
+SurgiGuide.
+• Data-driven insights for surgical training: SAIS’s generation of skill profiles
+offers an important tool for surgical training, allowing trainees to track progress
+and identify areas for improvement.
+This research provides evidence that AI can be integrated into SurgiGuide, informing its
+design and implementation for safer and more efficient surgeries.
+8
+2.1 Related Research
+2.1.3 Factors Contributing to Preventing Operating Room ’Never
+Events’: A Machine Learning Analysis
+2.1.3.1 Summary of the research item
+This research article aims to identify and calculate risk factors contributing to surgical
+“Never Events,” which are preventable incidents occurring before, during, or after surgery.
+The authors used machine learning, specifically random forests, to analyze over 9,000
+safety observations and 101 Never Event root-cause analyses related to wrong-site surgery
+and retained foreign objects.
+The data came from 29 Israeli hospitals between 2016 and 2020, based on observations
+by trained medical practitioners and students. A comparison of these observations to root-
+cause analyses of Never Events led to the identification of 24 significant causal factors,
+including surgery duration, team members, zip code, region, and patient characteristics
+such as BMI and ASA score.
+2.1.3.2 Critical analysis of the research item
+Strengths:
+• Large, real-world dataset: The large dataset, containing observations and root-
+cause analyses, increases the generalization and practical use of the research.
+• Focus on quantifiable risk: The study identifies and quantifies the influence of
+risk factors, offering actionable insights for risk mitigation.
+• Machine learning approach: The use of random forests enables understanding of
+the relationships between variables and predicts the likelihood of Never Events.
+Limitations:
+• Limited scope of Never Events: The research focuses on only two types of Never
+Events, which limits its applicability to other preventable surgical errors.
+• Geographical context: The study is based on Israeli hospitals, so its findings may
+not be directly applicable to other healthcare systems.
+• Limited focus on prevention strategies: The research identifies causes but pro-
+vides few concrete recommendations for preventing Never Events.
+9
+2. Literature Review
+2.1.3.3 Relationship to the proposed research work
+This article’s findings hold significant relevance to the SurgiGuide project, particularly in
+the following areas:
+• Error identification and risk mitigation: The study complements SurgiGuide’s
+goal of identifying risks and preventing surgical errors by outlining potential risk
+factors for Never Events.
+• Data-driven insights for surgical training: The risks identified in this study can
+be used to enhance SurgiGuide’s training modules, helping surgical teams improve
+decision-making.
+• Real-time feedback and decision support: Incorporating these risk factors into
+SurgiGuide could enable real-time identification and correction of potential Never
+Events during surgery.
+By applying the study’s insights to SurgiGuide, the system could help reduce surgical
+risks and improve safety in the operating room.
+2.1.4 Comparative Validation of Machine Learning Algorithms for
+Surgical Workflow and Skill Analysis with the HeiChole Bench-
+mark
+2.1.4.1 Summary of the research item
+This research paper introduces the HeiChole benchmark, a new public dataset designed
+for assessing surgical performance and tasks in laparoscopic cholecystectomy (LC). The
+study uses this dataset to evaluate and compare the performance of various machine learn-
+ing (ML) algorithms in automatically recognizing key surgical elements from LC videos,
+specifically:
+• Surgical Phases: Subprocesses in the surgery (e.g., preoperative preparation, surgery).
+• Surgical Actions: Specific actions performed by the surgeon during the procedure,
+such as grabbing, incising, clasping, or pinching.
+• Surgical Instruments: Identification of surgical instruments like graspers or clip-
+pers used during the procedure.
+• Surgical Skill: Evaluation of the surgeon’s expertise based on video material.
+10
+2.1 Related Research
+The HeiChole dataset consists of 33 LC videos, collected from three surgical centers,
+amounting to 22 hours of operating time. These videos are meticulously annotated, frame
+by frame, for the four surgical aspects mentioned above, covering 250 phase transitions,
+5514 actions, 6980 instruments, and 495 skills. The annotation process involved multiple
+medical students following a well-defined protocol to minimize variability.
+This work provided the foundation for the EndoVis Challenge in 2019, with a sub-challenge
+focused on surgical workflow and skill assessment. Ten teams participated, applying their
+ML algorithms to the HeiChole dataset. The challenge evaluated the algorithms’ perfor-
+mance in identifying surgical phases, actions, tools, and skill levels.
+Key Findings:
+• Performance varied significantly across ML algorithms and recognition tasks.
+• Phase recognition achieved an accuracy of 23.9-67.7% (F1-score), while instrument
+recognition ranged from 38.5-63.8% (F1-score).
+• Action recognition proved more challenging, with F1-scores between 21.8 and 23.3.
+• Only one team completed the skill assessment task, with an average absolute error
+of 0.78.
+2.1.4.2 Critical analysis of the research item
+Strengths:
+• Open Dataset and Benchmark: The HeiChole benchmark, with highly detailed
+annotations, is a significant contribution to surgical data science. Its public avail-
+ability allows for algorithm comparisons and helps enhance surgical workflow eval-
+uation using ML.
+• Multi-Centre Data Collection: The dataset’s collection from three centers intro-
+duces diversity and captures variations in surgical practices and patient populations.
+• Focus on Challenging Tasks: By assessing surgical actions and skill, in addition
+to phases, the study addresses deeper issues in surgical workflow that go beyond
+simple phase recognition, pushing the limits of current ML approaches.
+• Detailed Annotation Protocol: The well-structured annotation process, involv-
+ing multiple coders, ensures high-quality, reliable labels, which is crucial for the
+dataset’s validity.
+Limitations:
+11
+2. Literature Review
+• Limited Number of Participants: Few teams participated, particularly in the ac-
+tion and skill assessment tasks, reducing the statistical power and generalizability
+of the findings.
+• Specificity of the Dataset: Despite LC being a common procedure, the results
+may not generalize to more complex surgeries. Creating benchmarks for other pro-
+cedures is vital for broader applicability.
+• Reliance on Visual Data Alone:The study focuses solely on video analysis, ignor-
+ing other valuable data sources like surgical instrument kinematics or physiological
+signals, which could enhance the analysis.
+• Subjectivity in Skill Assessment:Assessing surgical skill involves subjective judg-
+ment, even among human experts. The paper acknowledges the limitations of using
+a modified GOALS score and the potential bias in annotator ratings.
+2.1.4.3 Relationship to the proposed research work
+The findings of this research directly relate to the objectives of SurgiGuide, which aims
+to use AI to improve surgical performance by:
+• Pinpointing surgical phases: The study’s findings on phase recognition (up to
+67.7% F1-score) provide a foundation for SurgiGuide to accurately identify phases
+in real-time, enhancing surgical workflow understanding.
+• Suggesting next surgical steps: Accurate phase identification is a prerequisite for
+sequence anticipation, which will help SurgiGuide guide surgeons and potentially
+reduce errors during procedures.
+• Identifying mistakes: Although current ML models struggle with action and skill
+recognition, the HeiChole benchmark provides a resource for improving these ca-
+pabilities in SurgiGuide, enabling the system to detect surgical mistakes.
+• Providing remedies for mistakes:As action and skill recognition models improve,
+SurgiGuide could suggest corrective actions to surgeons in real time, improving
+patient safety.
+12
+2.1 Related Research
+2.1.5 Automatic Surgical Skill Assessment System Based on Concor-
+dance of Standardized Surgical Field Development Using Arti-
+ficial Intelligence
+2.1.5.1 Summary of the research item
+This research paper deals with the formulation and performance analysis of a deep learn-
+ing model for laparoscopic sigmoid colon resection (Lap-S) surgical skill assessment. The
+model centers on identifying the uniformity in creating the surgical field over the duration
+of the procedure by calculating a new parameter called the AI Confidence Score (AICS).
+The researchers used 650 intraoperative videos of Lap-S that were submitted to the JSES
+for the ESSQS between August 2016 and November 2017. ESSQS is an established
+system in Japan that assesses the surgical competence of endoscopic surgeons.
+For model training, 60 videos of surgeons with an ESSQS score greater than 75 were
+chosen to ensure that the model was trained using standardized surgeries. The model
+assesses how the surgical field is built in each phase of the Lap-S operation and compares
+this with the standardized approach. Based on this comparison, the model calculates an
+AICS for each video, representing the degree of correspondence between the development
+of the surgical field and the expert surgeons’ gold standard. A higher AICS indicates
+greater alignment with the standardized surgical field development.
+The research revealed a positive correlation between AICS and the ESSQS scores as-
+signed to the videos (Spearman rank correlation coefficient = 0.81, P <.001). This finding
+supports the idea that AICS can serve as an objective and automated substitute for human
+assessment of surgical skill in Lap-S. Furthermore, the model demonstrated high accu-
+racy in offline automatic screening for low- and high-score ESSQS groups, solidifying its
+potential for use in robotic surgical skill assessment models.
+2.1.5.2 Critical analysis of the research item
+Strengths:
+• Objective Skill Assessment: The AI-based model offers a more objective assess-
+ment compared to human experts, who may introduce substantial inter-subjective
+variations.
+• Focus on Surgical Field Development: The study emphasizes standardized sur-
+gical field development as an important aspect of skill assessment, alongside the
+instruments and tools used in the procedure.
+13
+2. Literature Review
+• Strong Correlation with Established System: The strong correlation between
+AICS and the widely-used ESSQS scores suggests the model’s validity and poten-
+tial clinical relevance.
+• Potential for Automated Screening: The model’s high specificity and sensitivity
+in differentiating between low and high ESSQS score groups indicate its potential
+for automating the initial screening of surgical skills.
+Limitations:
+• Limited Scope: The study focuses solely on Lap-S, and the model’s generaliz-
+ability to other laparoscopic procedures or surgical specialties remains to be deter-
+mined.
+• Single-Institution Data: The study used videos from only one institution (JSES),
+which may introduce bias and limit the model’s applicability in other regions.
+• Limited Sample Size: Although 650 videos were collected, only 60 were used for
+training and 60 for validation. Expanding the dataset with more diverse sources is
+needed to improve the model’s stability and usability.
+• Focus on Visual Cues Only: The model only analyzes the surgical field, without
+incorporating data such as surgical instrument kinematics or physiological signals,
+which could improve skill assessment.
+• Lack of Feedback Mechanism: While the model measures surgical skill, it does
+not provide feedback on specific areas of concern, which is essential for surgeon
+training.
+2.1.5.3 Relationship to the proposed research work
+This research aligns with several key objectives of the SurgiGuide project:
+• Provide feedback on surgical performance:The processes used by the AI system
+to evaluate surgical skills match SurgiGuide’s objective to offer real-time feedback
+to surgeons during surgery.
+• Identify mistakes and suggest corrections: Just as SurgiGuide aims to identify
+surgical mistakes, this research highlights AI’s ability to recognize deviations from
+standard practices, providing a foundation for suggesting corrective actions.
+• Assist in surgical training: The AI system’s capability for screening and evalu-
+ating surgical skills may prove useful in SurgiGuide’s mission to enhance surgical
+education and training by gathering more information on trainee performance.
+14
+2.1 Related Research
+2.1.6 A Novel High Accuracy Model for Automatic Surgical Work-
+flow Recognition Using Artificial Intelligence in Laparoscopic
+Totally Extraperitoneal Inguinal Hernia Repair (TEP)
+2.1.6.1 Summary of the research item
+This study focuses on the development and application of an AI model aimed at recogniz-
+ing surgical workflows during laparoscopic totally extraperitoneal inguinal hernia repair
+(TEP). The research evaluated the performance of the model using 619 TEP procedure
+videos, with 371 for training, 93 for internal validation, and 155 for testing.
+The AI model demonstrated an overall accuracy of 88.8% in recognizing the six critical
+steps of TEP, with individual step accuracies ranging from 72.2% to 94.3%. The model
+performed best in recognizing the hernia sac reduction step and faced more challenges
+during the preperitoneal dissection step.
+2.1.6.2 Critical analysis of the research item
+Strengths:
+• High accuracy: The model’s high accuracy in identifying different stages of TEP
+indicates the strong potential of AI in automating surgical workflow recognition.
+• Specificity to TEP repair: The model’s focus on a specific procedure enhances the
+precision of step recognition, making it more reliable for TEP surgeries.
+• Large and diverse dataset: The use of 619 videos from multiple surgeons with
+different techniques contributes to the model’s robustness and versatility.
+Limitations:
+• Limited generalizability: The dataset, though diverse, is primarily drawn from
+a single medical center, which limits the model’s applicability to other types of
+surgeries or different clinical environments.
+• Simplified step definition: The study uses standardized surgical steps, but these
+may oversimplify the variability present in real-world procedures, potentially re-
+ducing the model’s effectiveness in more complex cases.
+• Lack of external validation: The absence of external validation raises concerns
+about the model’s performance in varied clinical settings.
+15
+2. Literature Review
+2.1.6.3 Relationship to the proposed research work
+This study provides direct insights into how AI can enhance the objectives of the SurgiGu-
+ide project:
+• Real-time step recognition: The AI model’s ability to recognize the stages of TEP
+procedures with high accuracy could be applied to SurgiGuide’s aim of offering
+real-time surgical phase identification.
+• Surgical error reduction:The step-by-step recognition model could help SurgiGu-
+ide track deviations from standard procedures, enabling the system to identify po-
+tential errors and offer corrective feedback.
+• Data-driven insights and training: The dataset and AI’s step recognition could
+be utilized within SurgiGuide to provide automated feedback and training for sur-
+geons, helping improve performance and reduce mistakes.
+Incorporating these findings into SurgiGuide’s framework could strengthen its capacity to
+assist surgeons during TEP procedures and beyond, leading to improved surgical safety
+and efficiency. Comparative Validation of Machine Learning Algorithms for Surgical
+Workflow and Skill Analysis with the HeiChole Benchmark
+2.2 Analysis Summary of Research Items
+Table 2.1: Analysis of Related Research
+Research Item Key Findings Strengths Limitations
+Surgical Phase Recog-
+nition in Laparoscopic
+Cholecystectomy
+Dynamic switching
+mechanism between
+Transformer-based
+models enhances surgi-
+cal phase identification.
+• Addresses the se-
+quential nature of
+surgery.
+• Dynamic model
+switching.
+• Applicability to
+existing methods.
+• Lack of experi-
+mental results.
+• Limited in-
+formation on
+confidence
+calibration.
+• Focus on a single
+procedure.
+16
+2.2 Analysis Summary of Research Items
+Research Item Key Findings Strengths Limitations
+A Vision Transformer
+for Decoding Surgeon
+Activity from Surgical
+Videos
+SAIS effectively
+analyzes surgical
+movements and identi-
+fies skill levels across
+various procedures.
+• Unified architec-
+ture.
+• Explainability.
+• Generalizability.
+• Novel insights
+into surgical
+performance.
+• Primarily tested
+on RARP.
+• Limited clinical
+validation.
+Factors Contributing to
+Preventing Operating
+Room ’Never Events’:
+A Machine Learning
+Analysis
+Identifies risk fac-
+tors contributing to
+preventable surgical
+incidents using a large
+dataset.
+• Large dataset.
+• Focus on quan-
+tifiable risk.
+• Machine learn-
+ing approach
+enhances under-
+standing.
+• Limited scope of
+Never Events.
+• Geographical
+context.
+• Limited focus on
+prevention strate-
+gies.
+Comparative Validation
+of Machine Learning
+Algorithms for Surgi-
+cal Workflow and Skill
+Analysis with the Hei-
+Chole Benchmark
+HeiChole dataset pro-
+vides a benchmark
+for recognizing sur-
+gical elements from
+laparoscopic videos.
+• Open dataset.
+• Multi-centre data
+collection.
+• Focus on chal-
+lenging tasks.
+• Detailed annota-
+tion protocol.
+• Limited number
+of participants.
+• Specificity of the
+dataset.
+• Reliance on vi-
+sual data alone.
+• Subjectivity in
+skill assessment.
+17
+2. Literature Review
+Research Item Key Findings Strengths Limitations
+Automatic Surgical
+Skill Assessment
+System Based on
+Concordance of Stan-
+dardized Surgical Field
+Development Using
+Artificial Intelligence
+AI Confidence Score
+correlates with estab-
+lished surgical compe-
+tence metrics.
+• Objective skill
+assessment.
+• Focus on surgi-
+cal field develop-
+ment.
+• Potential for
+robotic skill
+assessment.
+• Requires further
+validation across
+diverse surgical
+contexts.
+• Reliance on his-
+torical data may
+limit applicabil-
+ity.
+18
+Chapter 3
+Proposed Approach
+Figure 3.1: Potential Architecture
+Description
+This diagram highlights a feasible structure of SurgiGuide, which contains Vision Trans-
+former (ViT), 3D Convolutional Neural Network (CNN), and Random Forest models
+which gain benefits from each one of them.
+1. Video Input Stream: SurgiGuide receives a continuous stream of video frames
+from cameras in the operating room.
+19
+3. Proposed Approach
+2. Video Preprocessing & De-identification:This stage involves preparing the video
+data for analysis by:
+• Noise reduction to improve image quality
+• Frame rate adjustment to optimize processing and maintain real-time perfor-
+mance
+• Surgical field isolation to focus on the relevant surgical area
+3. ViT Model: ViT would be the one responsible for frame by frame and sequence by
+sequence analysis of the frames in the surgical video. It does a good job of captur-
+ing what is spatial information, what is present in each frame as well as temporal
+relation, the changes of the scene over a period. This is accomplished through the
+input of both the RGB frames for detailed image characteristics and the optical flow
+frames for activity patterns. This model developed from a set of surgeries matched
+with surgical outcomes and complications; aims at identifying the possible risks of
+developing any adverse event during the current surgery.
+4. 3D CNN Model: Due to their ability to capture temporal sequences, 3D CNNs
+are appropriate for phase recognition in SurgiGuide. Herein, ViT would offer a
+general perspective of the scene typical for surgery, whereas the 3D CNN would
+offer instance-specific details tracing the temporal dynamics of the surgical process.
+5. Output/Alerts: The results of both models are combined to give real-time feedback
+to the surgeon.
+20
+Bibliography
+[1] D. Arad, A. Rosenfeld, and R. Magnezi. Factors contributing to preventing operating
+room “never events”: a machine learning analysis. Patient Safety in Surgery , 17:6,
+2023.
+[2] T. Igaki, D. Kitaguchi, and H. Matsuzaki. Automatic surgical skill assessment sys-
+tem based on concordance of standardized surgical field development using artificial
+intelligence. JAMA Surgery, 158(8):e231131, 2023.
+[3] D. Kiyasseh, R. Ma, and T. F. Haque. A vision transformer for decoding surgeon
+activity from surgical videos. Nature Biomedical Engineering, 7:780–796, 2023.
+[4] Yunfan Li, Himanshu Gupta, Prateek Prasanna, IV Ramakrishnan, and Haibin Ling.
+Surgical phase recognition in laparoscopic cholecystectomy.Procedia Computer Sci-
+ence, 239:2006–2012, 2024.
+[5] M. Ortenzi, J. Rapoport Ferman, and A. Antolin. A novel high accuracy model for
+automatic surgical workflow recognition using artificial intelligence in laparoscopic
+totally extraperitoneal inguinal hernia repair (tep). Surgical Endoscopy , 37:8818–
+8828, 2023.
+[6] M. Wagner, B. Müller-Stich, A. Kisilenko, D. Tran, P. Heger, L. Mündermann, D. M.
+Lubotsky, B. Müller, T. Davitashvili, M. Capek, A. Reinke, C. Reid, T. Yu, A. Var-
+dazaryan, C. I. Nwoye, N. Padoy, X. Liu, E. Lee, C. Disch, and S. Bodenstedt. Com-
+parative validation of machine learning algorithms for surgical workflow and skill
+analysis with the heichole benchmark. Medical Image Analysis, 86:102770, 2023.
+21
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

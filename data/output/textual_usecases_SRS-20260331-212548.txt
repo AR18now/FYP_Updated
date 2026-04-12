@@ -1,0 +1,180 @@
+Use Case Name: Browse Products
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Browse Products
+-' correctly and quickly.
+Preconditions: User searches for products using keywords or filters
+-
+Postconditions: List of products with images, descriptions, prices, and seller information
+Main Success Scenario: 1. Actor initiates 'Display relevant product listings based on search criteria -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Add to Cart
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Add to Cart
+-' correctly and quickly.
+Preconditions: User selects products and adds them to the cart
+-
+Postconditions: Updated cart summary displayed to the user
+Main Success Scenario: 1. Actor initiates 'Update the cart with selected items and calculate total cost -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Complete Payment
+-
+Primary Actor: Customer
+Stakeholders and Interests: Customer: wants the system to complete 'Complete Payment
+-' correctly and quickly.
+Preconditions: User provides payment details and confirms purchase
+-
+Postconditions: Confirmation message and order number provided to the user
+Main Success Scenario: 1. Actor initiates 'Process payment through a secure gateway and update order status -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Track Order
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Track Order
+-' correctly and quickly.
+Preconditions: User enters order number or email associated with the order
+-
+Postconditions: Order status and delivery information shown to the user
+Main Success Scenario: 1. Actor initiates 'Retrieve and display order details including shipping status -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Manage Account
+-
+Primary Actor: Admin
+Stakeholders and Interests: Admin: wants the system to complete 'Manage Account
+-' correctly and quickly.
+Preconditions: User logs into their account and selects options
+-
+Postconditions: Updated account details displayed to the user Non-functional Requirements:
+Performance:
+- Response time for browsing and searching products shall not exceed 3 seconds
+- Page load time shall not exceed 5 seconds Security:
+- Data encryption for sensitive information (e.g., credit card numbers)
+- Secure transmission of data using HTTPS Reliability:
+- System availability shall be at least 99.9%
+- Automatic backup of data every 24 hours Usability:
+- Intuitive and user-friendly interface
+- Clear error messages and help prompts Maintainability:
+- Easy to update and modify the system without affecting existing functionalities
+- Comprehensive documentation for developers and administrators Portability:
+- Cross-platform compatibility (Windows, macOS, Linux) System Features:
+Feature 1: User Registration and Login
+- Users can create an account and log in securely
+- Passwords shall be hashed and stored securely Feature 2: Product Listings
+- Sellers can upload product images, descriptions, and pricing
+- Customers can filter and sort products by category, price, etc. Feature 3: Shopping Cart Management
+- Users can add, remove, and modify items in their cart
+- Real-time updates to the cart total and item quantities Feature 4: Payment Gateway Integration
+- Secure integration with multiple payment gateways
+- Support for various payment methods (credit cards, PayPal, etc.) Feature 5: Order Tracking
+- Real-time tracking of order status
+- Notifications sent to customers about significant changes in order status Feature 6: Customer Support
+- In-app chat support for customer inquiries
+- FAQ section for common issues Feature 7: Seller Dashboard
+- Sellers can manage their products, view sales reports, and communicate with customers
+- Access control and permissions for different types of sellers Feature 8: Admin Dashboard
+- System administrators can monitor system performance, manage users, and handle support requests
+- Detailed analytics and reporting tools for business insights Feature 9: Mobile Responsiveness
+- The website shall be fully responsive and optimized for mobile devices
+- Touch-friendly navigation and form elements Feature 10: Legal Compliance
+- Adherence to data protection regulations (GDPR, CCPA, etc.)
+- Clear privacy policy and terms of service for users
+- Compliance with tax and shipping regulations for international transactions Feature 11: Multi-language Support
+- Ability to switch between multiple languages for a better user experience
+- Translation of all content and interface elements Feature 12: Marketing Tools
+- Integration with social media platforms for sharing products
+- Email marketing campaigns for promotions and newsletters Feature 13: Analytics and Reporting
+- Real-time analytics dashboard for sellers and administrators
+- Customizable reports on sales, traffic, and user behavior Feature 14: Security Measures
+- Two-factor authentication for user accounts
+- Regular security audits and penetration testing
+- Compliance with PCI DSS standards for payment processing Feature 15: Scalability
+- The system shall be designed to handle increasing traffic and user base
+- Load balancing and caching mechanisms to ensure optimal performance Feature 16: Backup and Recovery
+- Automated backups of critical data
+- Disaster recovery plan in place for unexpected events Feature 17: User Feedback
+- Mechanism for collecting user feedback and suggestions
+- Continuous improvement based on user input Feature 18: Accessibility
+- Compliance with WCAG 2.1 guidelines for web accessibility
+- Keyboard navigation and screen reader support Feature 19: Localization
+- Ability to localize the system for different regions and cultures
+- Support for regional currencies and payment methods Feature 20: Integration with Third-Party Services
+- Integration with shipping providers for automated order fulfillment
+- Integration with marketing automation tools for lead generation and nurturing Feature 21: Customer Reviews and Ratings
+- Feature allowing customers to leave reviews and ratings for products
+- Display of average ratings and top-rated products Feature 22: Wish Lists
+- Feature allowing customers to save items for later purchase
+- Notification when similar products become available Feature 23: Personalized Recommendations
+- Algorithm for suggesting products based on user browsing and purchase history Feature 24: Loyalty Programs
+- Implementation of loyalty programs to reward frequent buyers
+- Points system for discounts and free shipping Feature 25: Social Proof
+- Display of customer testimonials and case studies
+- Trust badges and security seals Feature 26: Dynamic Pricing
+- Feature allowing sellers to set dynamic prices based on demand and competition Feature 27: Customizable Themes
+- Option for sellers to customize the appearance of their product listings Feature 28: Multi-Vendor Support
+- Ability for multiple vendors to sell products on the same platform
+- Separate vendor dashboards and payment accounts Feature 29: Advanced Search Capabilities
+- Advanced filtering options for products
+- Faceted search to narrow down results based on specific criteria Feature 30: Push Notifications
+- Feature for sending push notifications to users about new products, promotions, and order updates Feature 31: Subscription-Based Models
+- Option for users to subscribe to newsletters and receive exclusive offers
+- Subscription management within the user account settings Feature 32: Chatbots and AI Assistants
+- Integration of chatbots for customer support and product recommendations
+- Use of AI assistants to enhance user experience Feature 33: Voice Commerce
+- Support for voice commands and voice-based interactions
+- Integration with popular voice assistants like Alexa and Google Assistant Feature 34: Augmented Reality (AR) Experiences
+- Feature allowing users to visualize products in real-world settings using AR technology
+- Integration with AR platforms for enhanced user engagement Feature 35: Virtual Try-On
+- Feature for customers to virtually try on clothing or accessories before purchasing
+- Integration with AR or VR technology Feature 36: Gamification Elements
+- Incorporation of gamification elements to increase user engagement
+- Leaderboards and badges for achievements Feature 37: Mobile App Development
+- Development of a native mobile app for iOS and Android platforms
+- Seamless integration with the web application Feature 38: Offline Mode
+- Support for offline browsing and purchasing
+- Syncing of data with the online platform upon reconnection Feature 39: Cloud Storage Solutions
+- Utilization of cloud storage for product images and other media
+- Ensuring high availability and scalability of storage resources Feature 40: API Documentation
+- Comprehensive API documentation for third-party integrations
+- Support for RESTful and SOAP-based APIs Feature 41: Continuous Integration/Continuous Deployment (CI/CD)
+- Implementation of CI/CD pipelines for automated testing and deployment
+- Ensuring rapid and reliable release cycles Feature 42: Performance Testing
+- Regular performance testing to ensure optimal system performance
+- Stress testing to handle peak loads and traffic spikes Feature 43: Security Audits
+- Conducting regular security audits and vulnerability assessments
+- Addressing identified vulnerabilities promptly Feature 44: User Onboarding
+- Implementation of a comprehensive onboarding process for new users
+- Providing tutorials and guides for using the platform effectively Feature 45: Data Privacy and Protection
+- Ensuring compliance with data protection regulations
+- Implementing strong data encryption and access controls Feature 46: User Analytics
+- Collection and analysis of user behavior data for improving the platform
+- Providing insights to sellers and administrators Feature 47: Customer Retention Strategies
+- Developing strategies to retain customers and reduce churn
+- Offering incentives and loyalty programs Feature 48: User Support and Training
+- Providing user support through multiple channels (email, chat, phone)
+- Offering training sessions and workshops for users Feature 49: Community Building
+- Encouraging community building among users and sellers
+- Hosting events and forums for interaction and collaboration Feature 50: Continuous Improvement
+- Regularly updating the platform based on user feedback and market trends
+- Incorporating new features and technologies to stay competitive
+Main Success Scenario: 1. Actor initiates 'Update account information such as address, payment methods, and preferences -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.

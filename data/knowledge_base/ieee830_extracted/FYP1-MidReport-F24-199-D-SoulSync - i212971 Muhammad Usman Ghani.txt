@@ -1,0 +1,250 @@
+# FYP1-MidReport-F24-199-D-SoulSync - i212971 Muhammad Usman Ghani
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The SoulSync project is about creating a state-of-the-art AI platform that will produce
+Artificial Personas based on the analysis of all of a person’s digital footprints– his posts
+on social media, emails, photos, and videos. Sophisticated NLP and CV techniques repro-
+duce the way in which the person communicates, depict emotions, and shares knowledge.
+One prominent feature is a user-friendly mobile app with which users can feed their data
+and within hours will be able to generate an interactive Persona, which will respond in
+text, voice, and visuals. To make it even more natural, the platform develops artificial
+persona. It will focus on keeping things private and data secure.
+1.3 Modules
+1.3.1 Legacy Data Aggregation
+This module will collect data provided by the user to scrape and categorize the data for
+further processing
+1. Data Organization: Uses artificial intelligence to analyze and store data into their
+relevant categories automatically.
+1.3.2 Data Analysis and Modeling
+This module will be used for processing and creation of person’s communication style,
+visual traits and emotional resonance .
+1. Textual and Audio Data: It will use textual and audio data for the creation of
+brain(will have memories in meaningful manner) and recognizing speech style and
+sentiments.
+2. Visual Data: Process Videos and Images for detecting visual context and also for
+face and speech style creation.
+1.3.3 Persona Creation
+This module will create dynamic persona.
+1. Persona Simulation:Provide user with simulated persona that can interact with user.
+2
+1.4 User Classes and Characteristics
+2. Communication Interface: Facilitates interaction with digital persona and it will
+support voice, text and video.
+1.3.4 Engagement Module
+This module will be responsible for the interaction with digital persona of individual.
+1. Interaction: Allows simulated conversation with persona.
+2. Emotions and Memory Sharing: Enables user to share personal and emotional
+memories with persona.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+3
+1. Introduction
+User class Description
+User The primary users of Soul Sync are the ones that need therapy or knowledge
+or want to connect with their deceased loved ones.
+Admin The purpose of admin is to control which models can be deployed for public
+as there can be some controversial models that our system can’t detect and
+also to have a look at Soul Sync users.
+Example: User Classes and Characteristics
+chapter 1 replace all kardai
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+Figure 2.1: Usecase Diagram
+5
+2. Project Requirements
+UC-01: Input the Data
+Use Case Input from User
+Actors User
+Type Primary
+Description The user will input the personal data as input for the model.
+It can be any raw text, image , video and audio.
+UC-02: Data Cleaning
+Use Case Data Cleaning
+Actors System
+Type Primary
+Description The data that is being uploaded to the model will be cleaned
+out, removing the special character and other non-useful in-
+formation.
+UC-03: Processing Data
+Use Case Processing Data
+Actors System
+Type Primary
+Description The data that is being cleaned will now be converted into
+the foam so that it will be given to the model for training,(in
+technical term embedding,etc.).
+UC-04: Fetching Videos
+Use Case Fetching Videos
+Actors System
+Type Primary
+Description The short video will be given input to the model which
+is processed frame by frame, image and audio will be ex-
+tracted.
+UC-05: Fetching Images
+Use Case Fetching Images
+Actors System
+Type Primary
+Description Images that are being feed to model will be used for extract-
+ing features like facial expression,etc.
+6
+2.1 Use-case/Event Response Table/Storyboarding
+UC-06: A vatar Creation
+Use Case Avatar Creation
+Actors System
+Type Primary
+Description By using the images data, an avatar will be made that will
+be an image of user.
+UC-07: Training Model
+Use Case Model Training
+Actors System
+Type Primary
+Description The model will be trained on the input data creating digital
+persona on the basis of input data.
+UC-08: Persona Generation
+Use Case Persona Generation
+Actors System
+Type Primary
+Description The trained model will now generate the data on its own,
+based on the pattern it learned in the training.
+UC-09: Audio Syncing
+Use Case Audio Syncing
+Actors System
+Type Primary
+Description By using the audios, the model will replicate the tone and
+style and will pronounce the new words by same tone.
+UC-10: Interaction Phase
+Use Case Interaction Phase
+Actors System & User
+Type Primary
+Description After the creation and generation of model, now model will
+be interacting with the user and will answer the questions
+on the pattern it learned.
+UC-11: Managing User
+Use Case Managing User
+Actors Admin
+Type Primary
+Description Admin will have ability to check on the users, information
+related to user,data privacy,etc.
+7
+2. Project Requirements
+UC-12: Managing Model
+Use Case Managing Model
+Actors Admin
+Type Primary
+Description Admin will have ability to run and execute the model and
+also restrict the model from generating bad speech and other
+such things.
+2.2 Functional Requirements
+2.2.1 Legacy Data Aggregation
+1. The system must allow users to add (text,media) type of data
+2. The system must categorize data using artificial intelligence
+2.2.2 Data Analysis and Modeling
+1. The system must process text in a meaningful manner to make the memory bank by
+storing meaningful data
+2. The system must process images and vedios to make persona feel like real by du-
+plicating real person style
+3. The system must process audio to store data in memory bank and also to make
+personas voice.
+2.2.3 Persona Creation
+1. The system must generate persona based on data processed and analyzed.
+2. The system must allow users to interact with artificial persona using userfriendly
+conversational interface.
+2.2.4 Engagement Module
+1. The system must allow users to initiate and interact with persona using text and
+voice
+2. The system must enable users to share personal memories for better interaction
+8
+2.3 Non-Functional Requirements
+2.3 Non-Functional Requirements
+2.3.1 Legacy Data Aggregation
+1. The aggregation process should be efficient
+2. The aggregation process can handle large data within few(1-4) hours
+2.3.2 Data Analysis and Modeling
+1. The system should support audio and visual media in different formats like MP4
+etc
+2. The system must ensure privacy for user models
+2.3.3 Persona Creation
+1. The artificial persona speech should be natural.
+2. The artificial persona should provide response in real time with lag time < 1 sec
+2.3.4 Engagement Module
+1. The artificial personas emotional response should be felt natural to users.
+2. The user interface should be user friendly and can be accessible on all mobile device
+have android version >=8.0
+2.4 Domain Model
+2.5 Class Diagram
+2.6 Sequence Diagrams
+9
+2. Project Requirements
+Figure 2.2: Domain Model
+Figure 2.3: Class Diagram
+10
+2.6 Sequence Diagrams
+Figure 2.4: Sequence Diagram 1
+11
+2. Project Requirements
+Figure 2.5: Sequence Diagram 2
+12
+2.6 Sequence Diagrams
+Figure 2.6: Sequence Diagram 3
+Figure 2.7: Sequence Diagram 4
+13
+
+Chapter 3
+System Overview
+Give a general description of the functionality, context, and design of your project. Pro-
+vide any background information if necessary.
+3.1 Architectural Design
+Develop a modular program structure and explain the relationships between the modules
+to achieve the complete functionality of the system. This is a high-level overview of
+how the system’s modules collaborate with each other in order to achieve the desired
+functionality.
+Don’t go into too much detail about the individual subsystems. The main purpose is to
+gain a general understanding of how and why the system was decomposed, and how the
+individual parts work together.
+Provide a diagram showing the major subsystems and their connections.
+• In initial design stage create Box and Line Diagram for simpler representation of the
+systems • After finalizing architecture style/pattern diagram (MVC, Client-Server, Lay-
+ered, Multi-tiered) create a detailed mapping modules/components to each part of the
+architecture
+3.2 Design Models
+Create design models as are applicable to your system. Provide detailed descriptions with
+each of the models that you add. Also ensure visibility of all diagrams.
+Design Models for Object Oriented Development Approach
+15
+3. System Overview
+The applicable models for the project using object oriented development approach may
+include:
+• Activity Diagram
+• Class Diagram
+• Class-level Sequence Diagram
+• State Transition Diagram (for the projects which include event handling and backend
+processes)
+Design Models for Procedural Approach
+The applicable models for the project using procedural approach may include:
+• Activity Diagram
+• Data Flow Diagram (data flow diagram should be extended to 2-3 levels. It should
+clearly list all processes, their sources/sinks and data stores.)
+• System-level Sequence Diagram
+• State Transition Diagram (for the projects which include event handling and backend
+processes)
+3.3 Data Design
+Explain how the information domain of your system is transformed into data structures.
+Describe how the major data or system entities are stored, processed, and organized.
+List any databases or data storage items.
+16
+Bibliography
+[1] A Kolyshkin and S Nazarovs. Stability of slowly diverging flows in shallow water.
+Mathematical Modeling and Analysis , 2007.
+17
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

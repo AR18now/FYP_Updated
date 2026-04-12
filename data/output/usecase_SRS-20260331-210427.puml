@@ -1,0 +1,11 @@
+@startuml
+rectangle "LMS" {
+  actor User as "User"
+}
+User --> (Use Case 1)
+User --> ((High Priority):Create a new course)
+User --> ((Medium Priority):Enroll a student in a course)
+User --> ((Low Priority):Submit an assignment)
+User --> ((High Priority):Grade an assignment)
+User --> ((Medium Priority):Send a message to a student or instructor)
+@enduml

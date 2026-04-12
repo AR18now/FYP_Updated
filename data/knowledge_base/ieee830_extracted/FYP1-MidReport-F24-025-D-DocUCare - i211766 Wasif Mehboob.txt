@@ -1,0 +1,687 @@
+# FYP1-MidReport-F24-025-D-DocUCare - i211766 Wasif Mehboob
+
+## 1. Introduction
+
+1. Introduction
+ually, increases the precision of the data gathered and minimizes the paperwork required
+from the physicians so that they can concentrate on giving care to their patients.
+1.2 Scope
+The scope of the project entails creating an AI system that enables accurate and efficient
+medical transcription generation through communication between a doctor and a patient
+either online or onsite. The main functionalities encompasses a speech to text system that
+captures and writes down all information that was captured in the medical dialogue and
+regardless of some challenges like background noise, medical words, etc. This solution
+will also incorporate speaker split to determine the talker as the doctor or the patient
+during recording for clear transcription later. Also an audio based chatbot will be added
+to assist in patient friendly session of collecting initial information or data from patients
+prior to the doctor attending to them. This decrease the necessity for doctors or assistants
+to ask questions manually and facilitates the completion of the consultation. The system
+will be integrated with telemedicine platform for online consultation. This will be a very
+convenient solution for patients that cannot travel or for those who live in rural areas
+where professional or relevant doctors are not available. For those patients who want to
+have consultation with the relevant doctors onsite, the system will also be integrated with
+Google Maps so that they can find the relevant doctors nearby for onsite consultation.
+The initial reports will be shared with the doctors for analysis before consultation. The
+system will incorporate speech recognition technology and natural language processing
+(NLP) to generate initial and accurate reports of patients through their interaction with
+the chatbot. The reports will then be shared with the relevant doctor for further analysis.
+During patient’s and doctor’s conversation, transcription will be generated. The errors
+will be rectified in both the initial reports and transcripts to avoid any misconception or
+discrepancies. The system will be designed and available as a service to patients and
+healthcare providers.
+1.3 Modules
+1.3.1 Module 1
+Module 1 is the development of chatbot which will be integrated with our system and
+UI/UX. The patient will first interact with it and share their relevant data by answering
+the questions asked by our bot. (Client Web/Mobile App)
+1. Patient login/registration and interface.
+2
+1.3 Modules
+2. Integration of chatbot.
+3. Interaction with the chatbot.
+4. Patient’s initial data collection.
+5. Accurate reports generation.
+1.3.2 Module 2
+Patient will decide whether to have consultation with relevant doctor online or onsite.
+(Client Web/Mobile App)
+1. Selection or recommendation of relevant doctor.
+2. Initial reports sharing with the doctor.
+3. Telemedicine platform integration for online meeting.
+4. Google Maps integration for searching relevant doctor for onsite meeting.
+1.3.3 Module 3
+Doctors registered on our system will have different interface where they can see and
+analyze patient’s initial reports and appointment request. (Admin Web/Mobile App)
+1. Doctor login/registration and interface.
+2. Patient’s initial reports analysis.
+3. Meeting schedule (online or onsite).
+1.3.4 Module 4
+During the conversation of patient and doctor, either online or onsite, transcription will
+be generated accordingly. (Admin and Client Web/Mobile App)
+1. Speech to text conversion.
+2. Speaker diarization.
+3. Filtering and rectifying noise and errors.
+4. Accurate transcript generation for both the patient and doctor.
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+Patients Patients will serve as the primary users who will require medical consulta-
+tions. They will interact with the system for online and onsite consultations
+with doctors. The integrated chatbot will be used for initial data collection.
+The system will then help them find relevant doctors or schedule consulta-
+tions via telemedicine platforms, or even locates nearby healthcare providers
+via Google Maps.
+Doctors Doctors will use the system for online or onsite consultations and rely on the
+transcription generated during their conversations with patients. They will
+also review preliminary reports prepared by the chatbot and verify or amend
+them as necessary.
+Admins Admins would manage and take care of the system to function the system
+effectively, securely, and according to the defined policies. They will play an
+important role of maintaining the integrity of the system and would support
+healthcare professionals and patients.
+System De-
+velopers and
+IT Support
+The systems developers and the IT support team will make sure that the
+system’s platform is up and safe. To that end, the IT support team shall
+troubleshoot, update the system, and integrate third-party tools such as
+telemedicine platforms and Google Maps.
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+Actors:
+• Patient: seeks consultation with the chatbot, views report, and submits an online or
+onsite consultation request to relevant doctor.
+• Doctor: attends to the patient’s details, medical comment, gives consultancy, and ac-
+cesses or modifies the transcription generated.
+• Telemedicine Platforms: Inclusions of Online Consultations.
+• Google Maps: Searching doctor nearby for on-site consultation.
+• Audio-based chatbot: Patient interacts with chatbot for initial reports generation before
+consultation.
+2.1.1 Use Case 1: Initial Data Collection by Chatbot
+Figure 2.1: UC 1
+5
+2. Project Requirements
+• Actor: Patient
+• Objectives: Audio-based chatbot for preliminary information gathering from the
+patient before consultancy.
+• Pre-Condition: Patient logged into the system.
+• Steps:
+1. Patients discuss with the chatbot.
+2. Chatbot questions the patient using a set of questions (name, age, symptoms,
+medical history, diet plan, routine, etc.).
+3. The patient will talk, and the system will record responses accordingly.
+4. The information is consequently stored in the system and later analyzed by the
+doctor.
+• Post-condition: The patient’s initial data is stored and retrievable for the doctor to
+view before or during consultation.
+• Exception: If the chatbot couldn’t understand the patient, it asks for clarification.
+2.1.2 Use Case 2: Online consultation
+Figure 2.2: UC 2
+• Actor: Patient, Doctor
+• System Actor: Telemedicine Platform
+6
+2.1 Use-case/Event Response Table/Storyboarding
+• Objectives: To prepare for an e-consultation between the patient and the physician.
+• Pre-condition: Both the patient and doctor should be logged in to the system using
+an integrated telemedicine platform.
+• Steps:
+1. The patient chose the online consultation and logged onto the telemedicine ser-
+vice.
+2. Doctor reviews the patient’s preliminary data.
+3. The system records the conversation and transcribes the recording.
+4. Doctor and patient discuss the case.
+5. Doctor then gives opinions or prescriptions.
+6. The transcription is processed and diarized, separating the contributions of doc-
+tors and patients.
+• Post-condition: The consultancy session has been closed and the transcription re-
+port generated afterwards. Transcription shared with the doctor and patient and
+saved for probable future reference.
+• Exception: The system will try to reconnect, or reschedule meeting if the attempt
+fails because of connectivity issues.
+2.1.3 Use Case 3: Schedule an On-Site Consultation
+Figure 2.3: UC 3
+• Actor: Patient
+• System Actor: Google Maps
+7
+2. Project Requirements
+• Objective: Enable the patient to find doctors around them who can be consulted
+onsite, hence leveraging Google Maps.
+• Precondition: The patient attempts to access the system and requests an on-site
+consultation.
+• Steps:
+1. The patient inputs the information into the system.
+2. The system connects to the Google Maps API/SDK to find nearby doctors.
+3. The system can show the number of doctors available along with the details.
+4. The patient then chooses a doctor and books an on-site appointment.
+5. The system confirms the appointment and forwards related data to the doctor.
+• Aftercare: Discussion is scheduled on-site, and the physician is notified.
+• Exception: In this case, it’s showing the future online appointment that can be
+scheduled if no physicians are found locally.
+2.1.4 Use Case 4: Transcription Generation and Review
+Figure 2.4: UC 4
+• Actor: Doctor
+• Objective: Doctor-Patient Conversation Transcription generation presenting the dis-
+cussion of the doctor and patient’s dialogue.
+• Pre-condition: The doctor has been holding follow-up consultations with the pa-
+tient.
+8
+2.2 Functional Requirements
+• Procedures:
+This system monitors conversations or dialogues between the doctor and patient and
+prescriptions given by the doctor. The system processes the conversation through
+speech-to-text technology. The transcription is diarized, separating the doctor’s
+contribution and the patient’s input. Transcription is then shared with the doctor
+and patient. The physician checks the transcription and adds any remarks or other
+medical remarks. That transcription is then stored within the system’s database for
+future reference.
+• Exception: If there are still some errors or missing information in transcription, the
+doctor can manually correct them.
+2.2 Functional Requirements
+FR 1: Speech-to-Text Transcription
+• This would enable the system to transcribe real-life conversations between physi-
+cians and patients in printed text with reasonable accuracy.
+• The system shall transcribe real-time audio conversations into text.
+• The system should remove background noises and other irrelevant sounds during
+transcription.
+• The system should also record the medical terms mentioned in the conversation.
+• Every speaking doctor and patient will be associated with their respective conver-
+sations when the system is translating.
+• It won’t err in transcription during pauses and breaks in conversation.
+FR 2: Speaker Identification and Diarization
+• It would basically help point out who was speaking, if it was a physician or a patient.
+• The system must identify speakers by their names or enroll them as the patient or
+doctor.
+• It will hence make an accurate diarization of a multi-speaker conversation.
+• There must also be provision for human override in case of misidentification of
+speakers.
+9
+2. Project Requirements
+FR 3: Audio-based pre-consultation Chatbot
+• The patient will feed preliminary medical information to the chatbot.
+• In the system, there should be a chatbot that interacts with patients and retrieves
+their history and symptoms.
+• The chatbot collates the information retrieved and the system makes a pre-sessional
+report for the doctor to present before the patient.
+• This chatbot shall be able to understand and respond in a normal language query.
+FR 4: Collaboration with Telemedicine platforms for Online Consultation
+• It will be designed to provide practical, online consultative capacity using telemedicine
+platforms.
+• It will thus be combined with telemedicine platforms to offer online consultations.
+• The system will keep online consultations for transcription purposes, which the
+patient agrees to.
+• It will record the interactions that occur during the online meetings and maintain a
+record.
+FR 5: Google Maps Integrated into the On-Site Consultation Scheduling Function
+• This will enable patients to make appointments for site visits and locate doctors
+who can treat them.
+• The system should allow the search of physicians based on specialty and location.
+• It will interact with Google Maps to show nearby doctors who can consult onsite.
+• It should also be possible to allow to book doctor-patient appointments on the sys-
+tem.
+FR 6: Report Generation and Review
+• The main feature shall generate and transfer health reports after the consultation.
+• It will give a healthy medical report based on the transcription of the conversation.
+• The findings shall be presented and analyzed with the doctor and communicated to
+the patient.
+• The system will deliver error correction so that the transcription becomes a very
+honest projection of the consultation.
+10
+2.3 Non-Functional Requirements
+2.2.1 Module 1
+Following are the requirements for module 1:
+1. FR 3
+2.2.2 Module 2
+Following are the requirements for module 2:
+1. FR 4
+2. FR 5
+2.2.3 Module 3
+Following are the requirements for module 3:
+1. FR 6
+2.2.4 Module 4
+Following are the requirements for module 4:
+1. FR 1
+2. FR 2
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+• NFR-R1: The system shall have a Mean Time Between Failures of not less than
+100-200 hours to minimize downtime during the critical operations that might be
+those of consultations or data transcriptions.
+• NFR-R2: The system shall maintain reliability in generating accurate transcriptions
+and reports, with minimal downtime.
+11
+2. Project Requirements
+• NFR-R3: It shall detect errors in key processes, such as transcription and speaker
+identification automatically, by catching at least 80 to 90 percent of transcription
+errors.
+• NFR-R4: Failure impact should be restricted through the storage of the conversa-
+tion history up and patient’s data to a failure point such that lost interactions are
+preserved.
+2.3.2 Usability
+• NFR-U1: The system shall allow a user interface through which a first-time user
+shall be able to interact with the chatbot and book consultancy through a user
+friendly interface.
+• NFR-U2: The system must integrate seamlessly with telemedicine platforms and
+Google Maps.
+• NFR-U3: The interfaces for both patients and doctors shall be user friendly, ensur-
+ing smooth interactions with the chatbot, meeting schedule, and easy report access.
+2.3.3 Performance
+• NFR-P1: The system shall handle transcription efficiently, even with background
+noise.
+• NFR-P2: The reply by the chatbot should be delivered back to the user in a short
+time to ensure user-friendly interaction.
+• NFR-P3: The system shall ensure high accuracy in speech-to-text transcription,
+particularly in medical terminology.
+• NFR-P4: The system shall be able to handle speaker diarization efficiently for tran-
+scription generation.
+2.3.4 Security
+• NFR-S1: The system shall implement strong user authentication mechanisms, for
+example multi-factor authentication, to ensure the identity of users when they ac-
+cess the system.
+• NFR-S2: The system shall define user roles and permissions which will limit the
+access to sensitive features and information only to doctors, admin, and patients.
+12
+2.3 Non-Functional Requirements
+• NFR-S4: The system must log all access and activity, retaining audit logs for 6
+months, to ensure traceability in case of security breaches or misuse.
+13
+2. Project Requirements
+2.4 Domain Model
+Figure 2.5: Domain Model
+14
+Chapter 3
+System Overview
+It is a patient-doctor interaction system powered by telemedicine capabilities and a chat-
+bot, mostly based on gathering and exchanging patient medical information for consul-
+tation and accurate transcription generation from consultation. The system will provide
+smooth interactions between patients and doctors, collect health information, generate
+accurate transcription, and enable online discussions through a telemedicine platform or
+onsite at a physical location.
+3.0.1 Functionality:
+1. User Authentication:
+It allows patients and doctors to log in securely through authentication. It has a
+feature of registering a new user by filling a form. Different dashboards are received
+by the patients or doctors on entering their credentials.
+2. Chatbot Interaction:
+It has a chatbot interacting with the patient to gather some of the initial medical
+information, such as symptoms, history, diet, and lifestyle information, right from
+the informal background of the patient. The natural language processing of the
+chatbot will gather this information accurately with its conversational interface.
+3. Report Generation:
+The data taken by it from patients would be processed by the system to result in a
+structured medical report. Such a report indicates the patient’s state of health and
+shall be presented to a doctor for further consultancy.
+4. Consultation Options:
+Two consultation options for the patients:
+15
+3. System Overview
+Online consultation: It is a telemedicine platform that enables consulting with a
+doctor using video/audio.
+On-site Consultation: Clinic visits to the doctor where the system shall be aligned
+with Google Maps in locating physicians nearby.
+5. Doctor Interaction:
+Doctor would have the reports of the patient, and they can analyze data collected
+and schedule a consultation with the patient either online or onsite. They can also
+view patient history for better analysis.
+6. Speech to Text and Transcription:
+The system captures all the conversations between the doctor and patient during
+onsite or online consultations. Speech is converted into text, and then the transcript
+of conversation is generated and shared with both the doctor and the patient and
+saved for their record keeping and follow up purposes.
+3.0.2 Context:
+It will exist in the health space, trying to improve communications between patients
+and doctors whose friction around data sharing and communication will be reduced. It
+will avail of the modern technologies of chatbots, NLP, speech-to-text transcription, and
+telemedicine platforms in an attempt to reach out to more patients with efficient consulta-
+tions.
+3.0.3 Design:
+Several interconnected modules make up the system’s design:
+1. Easy-to-use interface: Patients as well as doctors interact through a comfortable
+and intuitive interface, wherein login registration with dashboards managing reports
+and consultation with the patient are included.
+2. Backend Processing: This involves processing algorithms that power the chat-
+bot and report generation feature through the processing of structured medical data
+from the patient’s initial input.
+3. Telemedicine Link: Connects to integrated telemedicine platform which can offer
+a virtual consultation and Google Maps that can identify nearby doctors for in-
+person consultations.
+4. Transcription: Speech-to-texting technology captures conversation and transcribes
+their documents for the benefit of both parties to share.
+16
+3.1 Architectural Design
+3.0.4 Background Information:
+This project reflects the general trend of digital transformation in healthcare as telemedicine
+and AI-based health care systems have been taken to the center. Telemedicine creates
+some solutions that become inevitable by allowing a reduction of physical visits to hos-
+pitals and faster, more effective treatment of the patients. Second, the chatbot technology
+addresses the issue of AI-based patient intake, making doctors pay less attention to col-
+lecting initial data and more to treatment in a further stage. This solution also responds
+to the increasing need for telehealth services, especially in instances where onsite visits
+may not be possible-for example during a pandemic or by patients in quite far areas. This
+development underscores a necessity to integrate medical expertise with technology when
+developing new tools that are expected to improve health-process-related factors, upgrade
+the patient’s experience, and make doctors rely on time-to-date data in making accurate
+diagnoses.
+3.1 Architectural Design
+Figure 3.1: MVC Model
+17
+3. System Overview
+3.1.1 Description:
+Actually, the MVC architecture is used in this project to make the interaction between the
+different components involved here just so efficient.
+1. Model:
+Component The component is in charge of managing the application’s data and
+business logic. It consists of, among other functions including:
+HandlePatientRegistration(): Patient registration procedures are under control.
+HandleDoctorRegistration(): It takes charge of registering doctors.
+ManageChatbotInteraction(): Allow interaction with the chatbot.
+InitiateConsultation(): Initiates the consultation process.
+ControlTranscriptionProcess(): It controls the transcription of doctor-patient trans-
+actions.
+2. View:
+This relates to the user interface and how data should be graphically presented to
+the users.
+DisplayPatientForm(): It displays the patient registration form.
+ShowDoctorDashboard(): Shows the dashboard of the doctor with information con-
+cerning the patients and reports.
+PresentChatbotInteraction(): Draws the interaction interface for the chatbot.
+3. Controller:
+The controller acts as an intermediary between the model and the view. This con-
+troller receives user inputs and transforms those into consonsistent with the model.
+StorePatientInfo(): Store the pulled patient information.
+GenerateReport(): Generates medical reports from data gathered.
+Save Consultation(): Saves the consultation details.
+UpdateTranscriptions(): Updates transcriptions generated during the interview.
+3.2 Design Models
+3.2.1 Extended Use Cases:
+1. Patient and Doctor Login:
+18
+3.2 Design Models
+Login Page Appears: With the very opening of an application to a patient or doc-
+tor, the second login page appears. It has fields, username and password for the
+credentials.
+Input Credentials: The user enters their login credentials.
+Error and Retry on Failed Authentication: If the entered credentials are invalid then
+an error message is given saying "Invalid username or password" and further entry
+by the user is allowed to retry. There is also the sign up page where new users may
+even register if they are not yet found in the system. After clicking on that, users
+are redirected to the registration page to create account.
+Correct Authentication: Once the user has logged in, the system authenticates cre-
+dentials and takes the relevant person to their dashboard, that is, patient dashboard
+or doctor dashboard, respectively.
+2. Chatbot Interaction:
+Activation of Chatbot: After the patient login, the system begins activating a chatbot
+interaction.
+Data gathering: This is the start of the chatbot in welcoming the patient and asking
+a set of questions to obtain the prime data including the symptoms, dieting habits,
+medical history, lifestyle, etc.
+Interactive Conversation: The chatbot will converse in a natural language, which
+enables the patient to input data smoothly, since it can understand different varia-
+tions in the patient’s responses.
+3. Processing Initial Data and Report Generation:
+Data Processing: The chatbot will then process the information about the patient it
+has gathered and eventually produce a structured initial medical report.
+Report Sharing Option to Display: After the report has been generated, a share
+option will be displayed on the screen through which the patient can share the report
+with the doctor for analysis.
+4. Consultation Options (Online or Onsite):
+System will then provide the patient with two options to choose the type of con-
+sultation they prefer: it could be online, hence telemedicine, or onsite, meaning a
+physical visit.
+Report Sharing: After a patient has selected a type of consultation, he or she can
+thereafter share the report with any of the selected doctors for either online or onsite
+consultancy.
+19
+3. System Overview
+5. Doctor Accesses and Analyzes Report:
+Report to Doctor: The report submitted is forwarded by the system to the doctor.
+Analysis of Patient Data: The patient’s medical history and the symptoms described
+in the report analyzed by the doctor.
+Consultation Scheduling: The doctor will schedule an online or onsite consultation
+with the patient following the analysis.
+6. Online Consultation via Telemedicine Platform:
+Telemedicine Platform Connection: A secured connection in the telemedicine plat-
+form connects a patient remotely with a doctor, such as a video call or chat, for an
+online consultation.
+Consultation Interaction: The patient and the doctor are talking; the system captures
+the conversation.
+Consultation Closes: When the consultation is complete, the link is closed, and all
+post-consultation advice is documented.
+7. Onsite Consultation with Google Maps Integration:
+Doctor Search through Google Maps: The system will likely enable a patient with
+a need for onsite consultation to seek suitable doctors based on location.
+Appointment Scheduling: The patient selects a convenient doctor from the list,
+books an appointment, and sends the report to the doctor.
+Confirmation of Appointment: Confirmation occurs, with ways or reminders of the
+actual onsite visit with doctor.
+8. Consultation Transcript (Online and Onsite):
+Audio Recording of Doctor-Patient Conversation: The system records the audio of
+the consultation session either online or onsite.
+Speech to Text Converting: The conversation is automatically made in a text format
+through speech recognition.
+The system will also develop a comprehensive consultation transcript that it will
+make available to both the doctor and the patient.
+20
+3.2 Design Models
+3.2.2 Activity Diagram:
+Figure 3.2: UC 1: AD 1
+21
+3. System Overview
+Figure 3.3: UC 2: AD 2
+22
+3.2 Design Models
+Figure 3.4: UC 3: AD 3
+23
+3. System Overview
+Figure 3.5: UC 4: AD 4
+24
+3.2 Design Models
+Figure 3.6: UC 5: AD 5
+25
+3. System Overview
+Figure 3.7: UC 6: AD 6
+26
+3.2 Design Models
+Figure 3.8: UC 7: AD 7
+27
+3. System Overview
+Figure 3.9: UC 8: AD 8
+28
+3.2 Design Models
+3.2.3 Sequence Diagram:
+Figure 3.10: UC 1: SD: 1
+29
+3. System Overview
+Figure 3.11: UC 2: SD: 2
+Figure 3.12: UC 3: SD: 3
+30
+3.2 Design Models
+Figure 3.13: UC 4: SD: 4
+31
+3. System Overview
+Figure 3.14: UC 5: SD: 5
+32
+3.2 Design Models
+Figure 3.15: UC 6: SD: 6
+33
+3. System Overview
+Figure 3.16: UC 7: SD: 7
+Figure 3.17: UC 8: SD: 8
+34
+3.2 Design Models
+3.2.4 Class Diagram:
+Figure 3.18: Class Diagram
+35
+3. System Overview
+3.3 Data Design
+3.3.1 ERD:
+Figure 3.19: ERD
+3.3.2 Description:
+Entities and Relationships for ERD:
+1. Patient:
+36
+3.3 Data Design
+Attributes:
+Patient ID (Primary Key): A unique number of the patient. Name: The patient’s
+name. Contact Information: Contact number, email, etc. Address: Residential
+address. Login Information: Username and patient password to access a patient
+portal. Medical History: History of pre-existing diseases, treatments etc.
+Relationships:
+Has many Appointments: A patient can have multiple appointments scheduled,
+linked by Appointment ID.
+Chatbot Interaction: Any patient can interact with the chatbot for collection of pre-
+liminary data.
+Has many Reports. Report or multiple reports from a single patient during consul-
+tations or generated by the chatbot are managed, and each is linked by a Report
+ID.
+2. Doctor:
+Attributes:
+Doctor ID (Primary Key): A unique identifier for each doctor. Name: Name of the
+doctor.
+Speciality: Specialist area of medicine (e.g., cardiologist, neurologist).
+Contact Details: Phone number, email, etc.
+Location: Work address to visit the site.
+Login details: Username and password to the portal of the physician.
+Relationships:
+Multiple Appointments: A physician has multiple appointments: each appointment
+is matched to an Appointment ID.
+Reviews many Reports: Many Reports are reviewed by a doctor to decide on treat-
+ment, and each is keyed by Report ID.
+Receives First Report from Chatbot Interaction: The first report produced by the
+chatbot will then be referred to the relevant doctor for analysis.
+3. Appointments:
+Attributes:
+Appointment ID: A unique number to that specific appointment.
+Patient ID (Foreign key): It refers to the patient connected with the appointment.
+Doctor ID (Foreign Key): An appointed doctor to whom a patient is assigned.
+37
+3. System Overview
+Date of Appointment : Appointed date and time.
+Mode (Online/Onsite): This sets whether the consultancy process is online or on-
+site.
+Location (if Onsite): Address of the onsite interview.
+Relationships:
+Related to a Patient and a Doctor: Every contact is related to one doctor and to one
+patient.
+Has associated Conversation Record: The consultation generates at least one con-
+versation records in the process of doctor-patient interaction.
+4. Meeting Recording:
+Attribute:
+Record ID (Primary Key): Unique identifier for every record of conversation.
+Appointment ID (Foreign Key): Links the record to the specific appointment.
+Transcript (Text): Text transcript of conversation between the doctor and the patient.
+Speaker Identification (Doctor/Patient): Identifies who the speaker is for each sec-
+tion of the transcript.
+Timestamp: Date and time of conversation.
+Relationships:
+It Belongs to an Appointment: A given conversation record is related to a specific
+appointment.
+Generates AI Transcription: The AI system will transcribe the record of the con-
+versation for any future reference.
+5. AI Transcript:
+Attributes:
+Transcription ID (Primary Key): This uniquely refers to each transcription.
+Record ID (foreign key): Refers to the conversation record.
+Text Content: The text content transcribed into the conversation.
+Status (Initial/Rectified): It reveals whether the transcription is a fresh copy, or has
+already been corrected.
+Relationships:
+Linked to a Conversation Record: Every of the AI transcriptions is linked to a
+unique conversation record.
+38
+3.3 Data Design
+Accessible by both Patient and Doctor after completion: Once composed, it is ac-
+cessible to the doctor and to the patient. Then it is available to the doctor and the
+patient after it is completed.
+6. Chatbot Interaction:
+Attributes:
+Interaction ID (Primary Key): Unique ID for a specific chatbot interaction.
+Patient ID Foreign Key-ID: Referencing the patient who interacts with the chatbot.
+Questions Asked (Text): The questions asked by the chatbot during the conversa-
+tion.
+Response Patient: Responses elicited by the patient.
+Time: Time and date of the encounter.
+Relationships:
+Belongs to a Patient: Every message belongs to one patient.
+Generates an Initial Report for Doctor analysis: The chatbot interaction generates
+an initial report that gets sent to the doctor.
+7. Report:
+Attributes:
+Report ID (Primary Key): Unique number assigned to each report.
+Patient ID (Foreign Key): Relates a report to an assigned patient.
+Doctor ID Foreign Key: This will associate the report with the relevant doctor.
+Created Date: Date the report was generated.
+Report Content: The report content, including medical observations, recommenda-
+tions, precriptions, etc.
+Status (Initial/Updated): Whether the report is an original report or has been up-
+dated.
+Relationships:
+Belongs to Both Patient and Doctor: Every report is linked to the patient as well as
+to the doctor.
+Created post interaction: The report can be created post-interaction with the chatbot
+or doctor-patient interaction.
+Updated during the doctor’s analysis process: The doctor was able to update the
+report during his course of analysis.
+39
+3. System Overview
+8. Telemedicine Platform:
+Attributes:
+Platform ID: This is a unique number given to each telemedicine platform.
+Platform Name: Name of the Telemedicine Platform.
+Integration Status: Status of the integration, whether it’s complete and on the run.
+Relationships:
+Facilitates appointment between patient and doctor: An online appointment is pos-
+sible through the telemedicine platform between patients and doctors.
+9. Location Services Features:
+Attributes:
+Location ID (PK): Unique identifier of the location service.
+Doctor ID (Foreign Key): Corresponding to the doctor at the location.
+Google Map Link: A Google Maps link to find the doctor’s location.
+Relationships:
+Used for locating nearby Doctors for onsite appointments: The location service was
+useful for finding nearby Doctors for onsite appointments. This means patients may
+find doctors near them for onsite consultations.
+Relationships Summary:
+Patient - Appointment: That is, one patient can have multiple appointments but
+an appointment has association with only one patient. (Many-to-One) Doctor - Ap-
+pointment: An appointment may have several doctors where each of the doctors has
+an appointment. (One-to-Many) Appointment - Conversation Record: One or more
+conversation records may be attached to every appointment, representing doctor-
+patient communication. (Many-to-One) Appointment - Telemedicine Platform: An
+appointment may use a telemedicine platform to conduct a remote consultation.
+(Many-to-One) Patient-Chatbot Interaction: A patient will have multiple interac-
+tions with the Chatbot for gathering initial data. (One-to-Many) Chatbot Interaction
+- Report: Each chatbot interaction can generate a report that is later shared with the
+doctor. (One-to-One) Conversation Record - AI Transcription: Each conversation
+record has a corresponding transcription, rectified and stored for later reference.
+(One-to-One)
+40
+Chapter 4
+Appendix
+4.1 Multilingual (English and Urdu).
+4.2 Integration with Electronic Health Records (EHR)
+systems.
+41
+
+Bibliography
+[1] Zabir Al Nazi and Wei Peng. Large language models in healthcare and medical do-
+main: A review. Informatics, 11(3), 2024.
+[2] Srijith Radhakrishnan, Chao-Han Yang, Sumeer Khan, Rohit Kumar, Narsis Kiani,
+David Gomez-Cabrero, and Jesper Tegnér. Whispering LLaMA: A cross-modal gen-
+erative error correction framework for speech recognition. In Houda Bouamor, Juan
+Pino, and Kalika Bali, editors, Proceedings of the 2023 Conference on Empirical
+Methods in Natural Language Processing , Singapore, December 2023. Association
+for Computational Linguistics.
+[3] Jun Zhang, Jingyue Wu, Yiyi Qiu, Aiguo Song, Weifeng Li, Xin Li, and Yecheng
+Liu. Intelligent speech technologies for transcription, disease diagnosis, and medical
+equipment interactive control in smart hospitals: A review.Computers in Biology and
+Medicine, 153:106517, 2023.
+43
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

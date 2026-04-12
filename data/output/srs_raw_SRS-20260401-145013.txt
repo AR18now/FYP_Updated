@@ -1,0 +1,61 @@
+INTRODUCTION
+Purpose: To specify the requirements for a food delivery service that enables customers to order meals from nearby restaurants and have them delivered directly to their doorstep.
+Scope: This document outlines the functional and non-functional requirements necessary for developing a robust food delivery application.
+Definitions/Acronyms: UI
+- User Interface, API
+- Application Programming Interface, DBMS
+- Database Management System, SQL
+- Structured Query Language.
+References: IEEE Standard for Software Requirements Specifications, Version 830-1998.
+Overview: The document provides detailed specifications for a food delivery application, including how users interact with the system, what functionalities are required, and key constraints and assumptions. OVERALL DESCRIPTION
+Product Perspective: The application aims to serve individual consumers seeking convenience in ordering food from local restaurants via mobile devices.
+Product Functions: Users can browse menus, customize orders, schedule deliveries, track their orders, and manage payments. Restaurants can receive orders, prepare them, and notify when they're ready. Drivers can accept deliveries, navigate routes, and update order statuses.
+User Characteristics: Target audience consists of frequent diners preferring home delivery over dining in. They value ease of use and quick response times.
+Constraints: The system must function under typical network conditions and adhere to privacy laws regarding personal data handling.
+Assumptions/Dependencies: Relying on external APIs for location services, payment gateways, and notifications. Stable network connections expected for most users. SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Must offer easy-to-use screens for browsing menus, placing orders, managing account settings, viewing order history, and checking payment methods.
+- Hardware: Compatible with smartphones running iOS and Android operating systems.
+- Software: Integrates seamlessly with existing restaurant management systems if possible.
+- Communication: Supports real-time updates between users, restaurants, and drivers via push notifications and SMS.
+Functional Requirements:
+FR-1: Customer Registration and Login
+Input: Personal information, password.
+Processing: Validates credentials against the database.
+Output: Access granted or denied message.
+Priority: High
+FR-2: Menu Browsing and Customization
+Input: Search terms, filters.
+Processing: Retrieves menu items matching criteria.
+Output: List of recommended dishes.
+Priority: High
+FR-3: Order Placement
+Input: Selected items, quantity, special requests.
+Processing: Calculates total cost, stores order details in the database.
+Output: Confirmation message and estimated delivery time.
+Priority: High
+FR-4: Payment Processing
+Input: Credit card details, chosen payment method.
+Processing: Verifies transaction, sends confirmation to both parties.
+Output: Receipt and order summary.
+Priority: Medium
+FR-5: Order Tracking
+Input: Unique order ID.
+Processing: Queries the database for current status.
+Output: Real-time order status updates.
+Priority: High
+Non-functional Requirements:
+Performance: Responds to user inputs within 2 seconds.
+Security: Protects sensitive information using encryption techniques.
+Reliability: Ensures uninterrupted operation during peak usage periods.
+Usability: Maintains a consistent look and feel across different devices.
+Maintainability: Codebase is modular and well-documented for future enhancements.
+Portability: Works on multiple platforms including web browsers, tablets, and smart TVs.
+System Features:
+Feature 1: Real-Time Notification System
+Description: Sends alerts to customers about changes in order status via email and SMS.
+Feature 2: Multi-Language Support
+Description: Allows users to switch between supported languages dynamically.
+Feature 3: Geolocation Services Integration
+Description: Uses GPS coordinates to suggest nearest restaurants and optimize delivery routes.
+End of Document.

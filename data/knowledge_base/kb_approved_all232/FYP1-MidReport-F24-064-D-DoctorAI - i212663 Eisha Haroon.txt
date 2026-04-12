@@ -1,0 +1,629 @@
+# FYP1-MidReport-F24-064-D-DoctorAI - i212663 Eisha Haroon
+
+## 1. Introduction
+
+1. Introduction
+sentiment analysis. The chatbot’s role will be limited to providing therapy or counseling
+and will not extend to diagnosing other mental health conditions or medical issues.
+1.3 Modules
+The proposed solution is an AI integrated web platform that utilizes NLP and AI to diag-
+nose anxiety, depression, and stress. The key modules and their features include:
+1.3.1 Module 1 : Web Application
+This module provides the user interface for interacting with the system. It includes fea-
+tures such as user authentication (Login/Signup), emotional trends visualization, and 24/7
+access to the trained chatbot for support.
+1. User authentication (Login/Signup).
+2. Visualization of emotional trends.
+3. Intuitive, user-friendly interface.
+4. 24/7 availability of chatbot support.
+1.3.2 Module 2 : NLP Chatbot
+The NLP Chatbot engages users in conversations, assesses mental health, and offers sup-
+port. It records medical history and provides recommendations for self-help resources
+based on user input.
+1. Engages users in medically crafted conversations.
+2. Provides initial mental health assessments.
+3. Recording medical and family history.
+4. Answers questions and offers self-help resources.
+1.3.3 Module 3 : Sentiment Analysis
+This module analyzes user emotions in real-time during conversations. It adapts the sys-
+tem’s behavior based on the emotional state of the user, displaying motivational texts
+accordingly.
+1. Analyzes users’ emotional states in real-time.
+2. Adapts system behavior and displays inspirational texts according to emotional
+needs.
+2
+1.3 Modules
+1.3.4 Module 4 : Resource Recommendation Engine
+The recommendation engine offers tailored mental health resources (e.g., articles, exer-
+cises) based on the user’s condition.
+1. Recommends personalized mental health resources (articles, exercises).
+2. Uses user’s conversational analysis results to tailor suggestions.
+3. Provides relevant materials based on specific needs.
+1.3.5 Module 5 : Professionals Directory
+The professionals directory provides access to a list of mental health specialists in Islam-
+abad.
+1. Maintains a directory of psychologists from Islamabad.
+2. Provides contact information and consultation options.
+3. Facilitates connection with healthcare providers.
+1.3.6 Module 6 : Report generation and Visualisation
+This module generate reports summarizing user conversations, and visualizes it in a user-
+friendly format.
+1. Generate reports based on user conversations.
+2. Reports will represent results of sentiment analysis.
+3. Visualizes reports in an easy-to-understand format.
+4. Aids users and professionals in understanding mental health conditions.
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+General
+Users
+General users are individuals, aged 18 and above, who seek mental health
+support, particularly those experiencing anxiety, depression, or stress. They
+interact with the AI-powered chatbot for mental health assessments, receive
+personalized recommendations, and may use the professional directory to
+find psychologists. General users prioritize anonymity, ease of use, and
+quick access to mental health resources.
+System Ad-
+ministrators
+System administrators are responsible for managing the technical operations
+of Doctor AI, including ensuring user data security, performing system up-
+dates, and maintaining the professional directory. They ensure that the sys-
+tem runs smoothly by overseeing both the backend (e.g., database manage-
+ment) and the frontend (e.g., user interface, functionality), ensuring user
+data is handled securely.
+Project Man-
+agers and
+Stakeholders
+Project managers and stakeholders oversee the development and progress of
+Doctor AI, ensuring the platform aligns with the project’s objectives. They
+track key performance indicators such as user adoption rates, system per-
+formance, and overall platform impact. Project managers require access to
+system metrics, user reports, and progress dashboards to ensure the project
+stays on track.
+4
+Chapter 2
+Project Requirements
+2.1 Use-case
+Figure 2.1: Use case diagram
+2.1.1 Detailed Use Cases
+1. Register
+5
+2. Project Requirements
+• Actor: User
+• Purpose: To allow the user to create an account on the system.
+• Overview: The user provides details such as name, email, and password to
+register.
+• Precondition: The user is not logged in and does not already have an account.
+• Postcondition: The user is registered, and account details are saved in the
+system.
+• Main Flow:
+(a) User provides registration details.
+(b) System validates the details.
+(c) Account is created.
+(d) Confirmation message is sent to the user.
+• Alternative Flow:
+(a) If the email already exists, the system notifies the user and does not create
+an account.
+2. Login
+• Actor: User
+• Purpose: To allow the user to access their account.
+• Overview: User provides login credentials to access the system.
+• Precondition: The user has registered.
+• Postcondition: The user is authenticated and granted access to the system.
+• Main Flow:
+(a) User enters email and password.
+(b) System verifies credentials.
+(c) User is logged in and redirected to the dashboard.
+• Alternative Flow:
+(a) If credentials are invalid, the system displays an error message.
+3. Set Y our Mood
+• Actor: User
+• Purpose: To allow users to input their current emotional state and receive an
+inspirational message based on their mood.
+• Overview: Users can select a mood, and the system will display an inspira-
+tional message tailored to that mood.
+6
+2.1 Use-case
+• Precondition: User must be logged in.
+• Postcondition: If the user selects a mood, an inspirational message is dis-
+played.
+• Main Flow:
+(a) User is presented with the option to set their mood.
+(b) User selects their mood.
+(c) System displays an inspirational message based on the selected mood.
+• Alternative Flow:
+(a) If the user decides not to set their mood, the system proceeds without
+displaying a message.
+4. Interact with Chatbot
+• Actor: User
+• Purpose: To engage with the chatbot for conversation and for counselling.
+• Overview: The user starts a conversation with the chatbot, which asks ques-
+tions and provides assistance.
+• Precondition: User must be logged in, registered, and must have filled out
+the assessment form.
+• Postcondition: Sentiment analysis is performed only if requested
+• Main Flow:
+(a) User initiates the conversation.
+(b) Chatbot responds and engages in conversation.
+• Alternative Flow:
+(a) If the assessment form is not completed, the system prompts the user to
+fill it before initiating the conversation.
+5. Perform Assessment
+• Actor: User
+• Purpose: To collect user data through an assessment form for generating re-
+ports.
+• Overview: The user fills out an assessment form, which is then used to gen-
+erate reports based on their responses.
+• Precondition: User must be logged in.
+• Postcondition: After filling the form, the user can engage in a conversation
+with the chatbot.
+7
+2. Project Requirements
+• Main Flow:
+(a) User accesses the assessment form after logging in.
+(b) User fills out the assessment form.
+(c) System generates reports based on the user’s responses.
+• Alternative Flow:
+(a) If the user does not complete the form, the system prompts them to finish
+it before proceeding.
+6. View History
+• Actor: User
+• Purpose: To allow users to review reports.
+• Overview: Users can access a history of reports.
+• Precondition: User must be logged in and have prior conversations.
+• Postcondition: Report history is displayed.
+• Main Flow:
+(a) User navigates to the history section.
+(b) The system retrieves and displays past reports.
+• Alternative Flow:
+(a) If no history is available, the system displays a message.
+7. Generate Sentiment Analysis
+• Actor: User
+• Purpose: To analyze user conversations and assess their emotional sentiment.
+• Overview: The system processes user conversations to generate a sentiment
+analysis report.
+• Precondition: User must have engaged in conversations with the chatbot.
+• Postcondition: Sentiment analysis report is generated and displayed.
+• Main Flow:
+(a) User requests to generate sentiment analysis.
+(b) System analyzes the user conversations.
+(c) Sentiment analysis report is generated.
+(d) System displays the report to the user.
+• Alternative Flow:
+(a) User logs out.
+8
+2.1 Use-case
+8. View Recommended Professional
+• Actor: User
+• Purpose: To allow the user to view a list of available psychologists.
+• Overview: The system shows a list of professionals for consultation.
+• Precondition: User must be logged in.
+• Postcondition: A list of professionals is displayed.
+• Main Flow:
+(a) User selects the view professional option.
+(b) System fetches and displays professionals.
+• Alternative Flow:
+(a) If no professionals are available, the system shows a message of no pro-
+fessionals available.
+9. View Report
+• Actor: User
+• Purpose: To allow users to view reports based on sentiment analysis and
+conversations.
+• Overview: Users can access reports generated from their interactions with the
+system.
+• Precondition: User must be logged in, and user must have interacted with the
+chatbot.
+• Postcondition: The report is displayed.
+• Main Flow:
+(a) User selects the view report option.
+(b) System displays the report.
+• Alternative Flow:
+(a) If no report is available, the system shows an appropriate message.
+10. View Visualization
+• Actor: User
+• Purpose: To allow users to view data visualizations based on their emotional
+trends.
+• Overview: The system generates graphs or charts representing user emotional
+trends over time.
+9
+2. Project Requirements
+• Precondition: User must be logged in and have data available.
+• Postcondition: Data visualization is displayed.
+• Main Flow:
+(a) User selects the view visualization option.
+(b) System generates visualizations.
+(c) Visualizations are displayed to the user.
+• Alternative Flow:
+(a) If no data is available, the system shows an appropriate message.
+11. View Professional
+• Actor: Admin
+• Purpose: To view the list of psychologists.
+• Overview: Admin can view the list of professionals in the directory.
+• Precondition: Admin must have access to the database.
+• Postcondition: Professional is viewed.
+• Main Flow:
+(a) Admin views the list of professionals in the database.
+• Alternative Flow:
+(a) If the action fails, the system notifies the admin.
+12. Add Professional
+• Actor: Admin and webscrapper
+• Purpose: To add professionals in the directory
+• Overview: Admin can add professionals in the directory
+• Precondition: Admin must have access to the database
+• Postcondition: Professional is added in the list
+• Main Flow:
+(a) Admin adds the professional in the list
+(b) System processes the request
+(c) System updates the directory
+• Alternative Flow:
+(a) If the action fails, the system notifies the admin.
+13. Update Professional
+10
+2.1 Use-case
+• Actor: Admin
+• Purpose: To update the list of psychologists.
+• Overview: Admin can update professionals in the directory.
+• Precondition: Admin must have access to the database.
+• Postcondition: Professional is updated in the directory.
+• Main Flow:
+(a) Admin updates the list.
+(b) System processes the request.
+(c) System updates the directory.
+• Alternative Flow:
+(a) If the action fails, the system notifies the admin.
+14. Delete Professional
+• Actor: Admin
+• Purpose: To remove a professional from the list.
+• Overview: Admin can remove professionals in the directory.
+• Precondition: Admin must have access to the database.
+• Postcondition: Professional is removed from the list.
+• Main Flow:
+(a) Admin can delete any record.
+(b) System processes the request.
+(c) System updates the directory.
+• Alternative Flow:
+(a) If the action fails, the system notifies the admin.
+15. Add User
+• Actor: Admin
+• Purpose: To add a user account to the system.
+• Overview: Admin can add user accounts in the system.
+• Precondition: Admin must have access to the database.
+• Postcondition: User account is added.
+• Main Flow:
+(a) Admin adds the user to the system.
+11
+2. Project Requirements
+(b) System processes the request.
+(c) System confirms the action.
+• Alternative Flow:
+(a) If the action fails, the system shows an error message.
+16. Update User
+• Actor: Admin
+• Purpose: To update user accounts.
+• Overview: Admin can update user accounts in the system.
+• Precondition: Admin must have access to the database.
+• Postcondition: User account is updated.
+• Main Flow:
+(a) Admin updates the user account.
+(b) System processes the request.
+(c) System confirms the action.
+• Alternative Flow:
+(a) If the action fails, the system shows an error message.
+17. View User
+• Actor: Admin
+• Purpose: To view user accounts.
+• Overview: Admin can view user accounts in the system.
+• Precondition: Admin must have access to the database.
+• Postcondition: User account is viewed.
+• Main Flow:
+(a) Admin views the user account.
+• Alternative Flow:
+(a) If the action fails, the system shows an error message.
+18. Delete User
+• Actor: Admin
+• Purpose: To remove user accounts.
+• Overview: Admin can remove user accounts in the system.
+12
+2.1 Use-case
+• Precondition: Admin must have access to the database.
+• Postcondition: User account is removed.
+• Main Flow:
+(a) Admin removes the user account.
+(b) System processes the request.
+(c) System confirms the action.
+• Alternative Flow:
+(a) If the action fails, the system shows an error message.
+19. View Recommended Resources
+• Actor: User
+• Purpose: To recommend personalized resources based on the analysis of the
+user’s conversation.
+• Overview: After the conversation, the user is shown relevant resources based
+on the results of the analysis.
+• Precondition: User has clicked generate sentiment analysis button.
+• Postcondition: Links of resources are displayed.
+• Main Flow:
+(a) User selects the view resource option.
+(b) System displays personalized resources.
+• Alternative Flow:
+(a) If no resources are available, the system shows a message.
+20. Logout
+• Actor: User
+• Purpose: To end the session.
+• Overview: The user or admin logs out of the system.
+• Precondition: User or admin must be logged in.
+• Postcondition: Session ends, and user is logged out.
+• Main Flow:
+(a) User selects the logout option.
+(b) System logs the user out.
+(c) User is redirected to the login screen.
+• Alternative Flow:
+(a) User goes to main dashboard page.
+13
+2. Project Requirements
+2.2 Functional Requirements
+Following are the Functional Requirements of Doctor AI:
+2.2.1 Module 1: Web Application
+1. FR001: The user shall be able to register by providing personal information such
+as name, email and password etc.
+2. FR002: Upon successful registration, the system shall display a message: “You’ve
+been registered.”
+3. FR003: The user shall be able to log in with their registered credentials.
+4. FR004: Upon successful login, the system shall display a message: “Login suc-
+cessful.”
+5. FR005: The system shall provide an authentication mechanism for users to log in
+securely.
+6. FR006: The system shall redirect the user to the main dashboard after successful
+login.
+7. FR007: The user shall be presented with three options: “Set Your Mood,” “Interact
+with Chatbot,” and “View History.”
+8. FR008: The system shall display appropriate content based on the option selected
+by the user.
+9. FR009: The system shall allow the user to select their current emotion from a pre-
+defined list of emotions.
+10. FR010: Based on the user’s selected emotion, the system shall retrieve an inspira-
+tional message from the database.
+11. FR011: The inspirational message shall be displayed to the user after selecting their
+mood.
+12. FR012: If the user has interacted with the chatbot before, the system shall display
+past conversation’s sentiment analysis reports.
+13. FR013: If the user is new and has no history, the system shall display a message:
+“No history available.”
+14. FR014: The user shall be able to log out from the system at any time by clicking
+the “Logout” button.
+14
+2.2 Functional Requirements
+15. FR015: Upon logging out, the system shall end the session and redirect the user to
+the login page.
+2.2.2 Module 2: Interact with Chatbot
+1. FR016: Upon clicking “Interact with Chatbot,” the system shall display a form that
+the user must fill out before starting the conversation.
+2. FR017: The form shall collect user details and any necessary medical or mental
+health history.
+3. FR018: The user shall sign a liability form before being able to converse with the
+chatbot.
+4. FR019: Once the form is submitted, the system shall allow the user to start a con-
+versation with the chatbot.
+5. FR020: The chatbot shall provide mental health support by responding to user
+queries related to mental health issues.
+6. FR021: The chatbot shall engage users in a supportive conversation, offering guid-
+ance and suggestions based on their inputs.
+7. FR022: The chatbot shall provide a friendly and empathetic interaction, helping
+users feel less lonely or confused during the conversation.
+8. FR023: The user shall have the option to either log out or click “Generate Sentiment
+Analysis” after the conversation.
+2.2.3 Module 3: Sentiment Analysis
+1. FR024: Upon clicking “Generate Sentiment Analysis,” the system shall analyze the
+conversation data and form inputs to generate a sentiment report.
+2. FR025: The sentiment analysis shall evaluate emotions such as depression, anxiety,
+stress or normal based on the conversation.
+3. FR026: The system shall display an option for the user to “View Report” or “View
+Visualization” of the sentiment analysis results.
+2.2.4 Module 4: View Report and Visualization
+1. FR027: The user shall be able to view visualizations of their emotional trends based
+on the sentiment analysis.
+15
+2. Project Requirements
+2. FR028: The user shall be able to view a detailed report summarizing the sentiment
+analysis results.
+3. FR029: The system shall save user reports in the database along with the user’s
+profile.
+4. FR030: The system shall ensure that only the user can view their reports, preventing
+access by any other users.
+5. FR031: The system shall implement access control measures to guarantee that user
+reports remain confidential and secure.
+6. FR032: Users shall be able to view their saved reports at any time through their
+profile.
+2.2.5 Module 5: Recommendation Engine
+1. FR033: After sentiment analysis, users shall receive personalized recommendations
+for mental health resources.
+2. FR034: The user shall have the option to select “View Recommended Resources”
+or “View Recommended Professionals.”
+3. FR035: If the user selects “View Recommended Resources,” the system shall search
+for mental health resources (e.g., articles, exercises) in real-time and provide links
+to the user.
+4. FR036: If the user selects “View Recommended Professionals,” the system shall
+fetch a list of recommended mental health professionals from the database.
+5. FR037: The recommended professionals shall be displayed with their details.
+6. FR038: The system shall store professionals’ data in the database through web
+scraping of relevant websites.
+2.2.6 Module 6: Admin Management
+1. FR039: The admin shall be able to add new professionals to the database.
+2. FR040: The admin shall be able to update the information of existing professionals
+in the database.
+3. FR041: The admin shall be able to delete professionals from the database.
+4. FR042: The admin shall be able to view the list of all professionals stored in the
+database.
+16
+2.3 Non-Functional Requirements
+5. FR043: The admin shall be able to add new users to the system with relevant details
+like name, email etc.
+6. FR044: The admin shall be able to update user information.
+7. FR045: The admin shall be able to delete users from the system if needed.
+8. FR046: The admin shall be able to view a list of all users registered in the system.
+9. FR047: The admin shall be able to add new inspirational messages to the database.
+10. FR048: The admin shall be able to update existing inspirational messages in the
+database.
+11. FR049: The admin shall be able to delete inspirational messages from the database.
+12. FR050: The admin shall be able to view all inspirational messages stored in the
+database.
+2.3 Non-Functional Requirements
+Following are the Non-Functional Requirements of Doctor AI:
+2.3.1 Security
+Access to sensitive data (e.g., user reports, profiles) shall be restricted to the owner of the
+data and admins only.
+2.3.2 Usability
+The system shall provide a simple and intuitive interface, ensuring that users can interact
+with the platform without requiring technical knowledge. Users should be able to navigate
+key features such as interacting with the chatbot, viewing reports and recommendations
+etc.
+2.3.3 Maintainability
+The system code shall be well-documented to facilitate easy updates and improvements
+without affecting the overall functionality.
+17
+2. Project Requirements
+2.4 Domain Model
+Figure 2.2: Domain Model
+18
+Chapter 3
+System Overview
+Doctor AI is a web-based mental health support platform that utilizes AI and Natural Lan-
+guage Processing (NLP) to offer users personalized mental health assessments and guid-
+ance. The platform’s functionality revolves around three core features: an AI-powered
+chatbot, sentiment analysis, and personalized recommendations. Users can interact with
+the chatbot to express their emotions, ask questions, and receive mental health support.
+Through NLP, the chatbot evaluates the user’s emotional state in real time and generates
+sentiment analysis, which provides insights into their mental well-being. Based on this
+analysis, the platform offers tailored recommendations, such as mental health exercises,
+relevant articles, or connections to professional mental health providers, ensuring person-
+alized and actionable support.
+19
+3. System Overview
+3.1 Architectural Design
+Figure 3.1: Architecture design diagram
+3.1.1 User Interaction Module
+• Role: Users interact with the system by logging in, sending queries, and receiving
+responses.
+• Relation: The module forwards user queries to the text-processing module and
+displays the system’s responses back to the user.
+3.1.2 Text Processing and Fine-tuning (LLM)
+• Role: Pre-processes the user input using tokenization, lemmatization, and fine-
+tuning of the language model (LLM) with a mental health dataset.
+• Relation: Passes the processed text to the sentiment analysis module for further
+processing.
+20
+3.2 Design Models
+3.1.3 Sentiment Analysis Module
+• Role: Converts the processed text into embeddings and analyzes the user’s senti-
+ment.
+• Relation: Sends sentiment results to the recommendation engine to guide the next
+actions.
+3.1.4 NER and Recommendation Engine
+• Role: Extracts important entities (like medical terms) and compares them with a
+database of mental health resources to provide personalized recommendations.
+• Relation: Uses sentiment analysis and entity recognition to offer tailored guidance
+and exercises.
+3.1.5 Data Storage and Reporting Module
+• Role: Stores user data and reports.
+• Relation: Ensures user reports and data are securely saved and accessible for future
+retrieval of reports.
+3.2 Design Models
+3.2.1 Activity Diagram
+The activity diagram for Doctor AI starts with the user logging in. After a successful
+login, the user can choose to set their mood, interact with the chatbot, or view their history.
+Once they interact with the chatbot, they can perform an assessment and engage in further
+conversation. At a decision point, the user is asked whether they want to view an analysis
+of their conversation. If they agree, the system generates sentiment analysis.
+Following this, the user can view recommendations (either professionals or resources),
+their report, or a visualization of emotional trends. The diagram also shows that, after
+completing these tasks, the user can log out, ending their session.
+This flow effectively illustrates the primary actions a user can take, moving from login
+through various interaction points, decision-making, and ultimately to logout.
+21
+3. System Overview
+Figure 3.2: Activity Diagram
+22
+3.2 Design Models
+3.2.2 Data Flow Diagram
+Figure 3.3: Data Design: Level 0
+Figure 3.4: Data Design: Level 1
+Figure 3.5: Data Design: Level 2.1
+Figure 3.6: Data Design: Level 2.2
+23
+3. System Overview
+Figure 3.7: Data Design Level 2.3
+Figure 3.8: Data Design Level 2.4
+3.2.3 System Sequence Diagram
+Figure 3.9: System Sequence Diagram
+3.3 Data Design
+The information domain of the system is effectively organized into structured data entities
+that facilitate smooth processing, storage, and retrieval of user-related information and
+professional resources. Below is an overview of how these data entities are represented
+and managed:
+24
+3.3 Data Design
+3.3.1 Data Structures and Formats
+Dataset for Fine-Tuning Llama:
+For fine-tuning the Llama model, we utilized a dataset in JSON format. JSON (JavaScript
+Object Notation) was chosen due to its lightweight nature and ease of use in representing
+structured data. The dataset includes two columns of context and response.
+Figure 3.10: Dataset Preview
+3.3.2 Data Storage and Organization
+• User Registration Data:
+The system maintains a database to store user registration data, which includes user
+credentials. This database ensures secure access and allows users to log in and
+retrieve their information as needed.
+• User Reports:
+User-generated reports, including assessment results and sentiment analysis out-
+comes, are stored within the database. These reports can be accessed by users for
+self-reflection and to track their mental health progress over time. The organization
+of this data facilitates efficient querying and retrieval of historical assessments.
+• Inspirational Messages:
+The system includes a repository of inspirational messages tailored to users’ moods
+and situations. These messages are linked to specific emotional states and are re-
+trieved dynamically based on the user’s selection of mood.
+• Mental Health Professionals Data:
+The system collects data about mental health professionals through web scraping
+25
+3. System Overview
+techniques. This data is organized into a structured format within the database, al-
+lowing users to easily access information about psychologists located in Islamabad.
+The web-scraped data includes professional qualifications, contact details etc.
+26
+Chapter 4
+Conclusions
+This project is set to change the mental health landscape by connecting the technologies
+of AI and NLP. Our goal is to deliver a unified, secure, effective, and user-centric solution
+that bridges the mental health treatment gap, offering accessible support in a stigma-free
+environment. By successfully implementing this system, we aim to empower individu-
+als to manage their mental health with confidence and ease, making quality care more
+accessible in the digital age.
+4.1 Professionals Onboard
+1. Dr . Rizwan Taj
+MBBS, MRCPSYCH (UK), Diploma in Management Med. Doctor (Management
+for Medical Doctor), Diploma in Clinical Psychiatry (Psychiatry), Diploma in Psy-
+chological Medicine (Psychological Medicine)
+2. Ayesha Wajahat
+Mindfulness Meditation Therapist (USA), Cognitive Behavioral Therapist (UK)
+27
+Bibliography
+[1] American Psychiatric Association. Diagnostic and Statistical Manual of Mental Dis-
+orders: DSM-5-TR. American Psychiatric Association, 2021.
+[2] Philip Corr and Dino Krupi ´c. The Psychology of Individual Differences . Philip Corr
+and Dino Krupi´c, 2021.
+[3] Naomi Fisher. Psychology of Mental Health. Naomi Fisher, 2021.
+[4] Abid Hassan. The impact of mental health on social relationships. Wiley Online
+Library, 2021.
+[5] World Health Organization. Mental health atlas 2020 country profiles - pakistan,
+2020.
+[6] Gallup Pakistan. World survey 2024: Mental health concerns in pakistan, 2024.
+[7] British Asian Trust. Mental health in pakistan, 2021.
+[8] Ghurki Trust. 10 common mental health challenges in pakistan and the role of ghurki
+trust teaching hospital, 2021.
+28
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

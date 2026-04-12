@@ -1,0 +1,863 @@
+# FYP1-MidReport-F24-140-D-GenResume - i210388 Samama Taimoor
+
+## 1. Introduction
+
+Introduction 
+Both LinkedIn, indeed and Glassdoor are recruitment sites that provide job post/positions 
+and simple resume creation tools but do not have advanced and basic features, to enhance 
+the users, feed -back loop. Most platforms to date are limited in functionality – resume 
+builders are mainly concerned with design and minimal content, while the job boards 
+make their search based on keywords. That is why candidates are not always offered a 
+job they desire because their resumes may not be optimized or the matching has been 
+done improperly. 
+Numerous products, such as Jobscan and Rezi, make users more ATS-friendly but do not 
+connect job suggestions or career planning, leaving users trapped in a web of non -
+intersecting tools for a highly interconnected job world. This is most un -strategic in 
+terminals as it makes it hard for applicants in their job search to leverage on their 
+applications the best way possible as they seek the next career step. 
+To fill these gaps, GenResume covers resume enhancement, job search, skills assessment, 
+and career advice all in one. With features of artificial intelligence, GenResume seeks to 
+be an all-inclusive support service towards job searching. 
+ 
+ 
+1.1 Problem Statement 
+ 
+CV creation for the ATS specialists is a major hurdle for the job seekers, the process of 
+job search for the right fit is equally a problem and the need-to-know what skills one lacks 
+for the desired job is another challenge. Currently available tools cover only one or two 
+steps in the job application process for example formatting of resume or, job search but 
+lacks an over- arching solution. This disconnection results in job seekers being unable to 
+enhance application documents, match themselves with demand and manage career 
+transitions. 
+This way, GenResume provides the ability to create unique, ATS -friendly resumes for 
+the intended job title, recommend jobs from the external databases for the user, and 
+highlight possible gaps in the user’s skillset, within the same service.
+2 | P a g e 
+ 
+1.2 Scope 
+ 
+The areas of GenResume include several aspects of the job application process, and 
+its primary goal is to help job seekers find a job with tools that are not available on 
+other platforms. The platform includes: 
+User Profile Creation and Customization : Users can input all their experience, 
+education, skills, credentials, and projects in an effort to put together a 
+comprehensive profile. This information builds the foundation for creating resumes 
+and getting job recommendations. 
+ATS-Compliant Resume Generation: It is possible to create an individual resume 
+and, on its basis, develop an ATS -friendly version. Once the candidate picks a 
+particular job title from suggested job ad posting, the system then produces a resume 
+with the right keywords and structures to beat the ATS scans. The specialized 
+platform offers guidance on how well the resume fits the position – including 
+changes that may be made. 
+Job Search and Personalized Recommendations : The GenResume also links 
+candidates to external job boards such as Indeed and Glassdoor; the results are 
+filtered according to the user’s profile. These recommendations are not plain 
+keyword matches; instead, it aligns the user’s profile to the job by using AI as a tool 
+for comparison. 
+Skill Gap Analysis and Learning Resources: The above listed are unique features 
+and by analyzing job descriptions of various positions, the skills and qualifications 
+not matched with the user profile is brought out. It then offers concrete suggestions 
+to use these services such as Coursera and edX to bridge these gaps for users. 
+Career Path Guidance and Job Market Trends : GenResume is an application 
+that will assist users in mapping out their career progressions as it possesses various 
+real-time job market information. This feature makes user aware of the 
+expectations, emerging positions, and requirements that are valued in a particular 
+field. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+3 | P a g e 
+1.3 Modules 
+ 
+1.3.1 User Profile Creation & Data Management 
+ 
+The first unit focuses on the prerequisites of constructing and curating user profiles 
+and the data associated with it. This module is designed specially to collect user data 
+and structure it for the sake of other operation. 
+Features: 
+1. Manual Profile Creation: To provide information about the professional 
+background, users can enter their educational and workplace related data, 
+skills, certifications, and projects. 
+2. Data Management System: Well-organized and easily accessible system of 
+maintaining the data about users with the possibility of their profile updates. 
+3. GitHub Integration: It also supports users to link the GitHub account to 
+import the entire data automatically while creating the profile. 
+4. Profile Editing: Users can update their profiles with new skills, 
+certifications, or experience as they progress in their careers. 
+ 
+1.3.2 Basic Resume Generation & Job Aggregation 
+ 
+• This module builds upon the user profile to enable resume generation and job 
+aggregation functionalities. 
+ Features: 
+ 
+1. Basic Resume Generation: Users can generate resumes using predefined 
+templates. These resumes will pull data from the user’s profile to create tai - 
+lored documents. 
+2. Multiple ATS-Compliant Templates: Offering a variety of templates that 
+comply with ATS guidelines to improve the chances of resumes passing 
+through automated systems. 
+3. Job Aggregation: Integration with job boards (e.g., LinkedIn, Indeed, Glass- 
+door) to aggregate job listings relevant to the user’s profile. 
+4. Job Search Functionality: Basic search features that allow users to search 
+for jobs by role, location, or company. 
+ 
+4 | P a g e 
+1.3.3 Advanced Role-Based Insights & Skill Matching 
+ 
+• This module introduces advanced role -based insights and skill matching 
+features, enhancing the user’s ability to target specific roles and identify areas 
+for improvement. 
+ Features: 
+ 
+1. Role-Based Career Insights: Providing users with detailed analysis on the 
+skills, experience, and qualifications needed for specific roles, such as AI/ML 
+Engineer, Data Scientist, etc. 
+2. Skill Matching: Comparing user profiles with job descriptions to identify 
+matching skills and highlight areas where the user may need further develop- 
+ment. 
+3. Skill Insights: Providing more descriptive knowledge about a given skill, its 
+applicability, how it is used in the market and the occupations related to it. 
+4. Career Path Analysis: Proposing the actual and possible training and 
+development programs according to the user’s existing competencies and 
+target occupation. 
+1.3.4 Basic Resume Generation & Job Aggregation 
+ 
+• The last one is dedicated to the supplement to the platform and utilizes the integration 
+of AI and NLP to improve core functions of a platform. 
+ Features: 
+ 
+1. AI-Powered Resume Generation: Applying natural language processing 
+technology in order to read a job description and create an original resume 
+that corresponds to all the conditions. 
+2. NLP-Based Job Description Analysis: For instance, using NLP to 
+summarize and analyze job descriptions so that the user benefits by finding 
+out what the job really implies. 
+3. Advanced Skill Gap Analysis: An application of artificial intelligence for 
+the purpose of estimating the time and work experience necessary for training 
+according to the profile established by the user and his/her goals. 
+4. AI-Driven Job Recommendations: Matching users with job offers 
+according to the information provided by the users and their submitted 
+applications. 
+5 | P a g e 
+ 
+1.4 User Classes and Characteristics 
+ 
+Below are the various user classes that will use this product 
+ 
+User class Description 
+ 
+Job Seekers It targets individuals who will use the created GenResume in a 
+ search of jobs, get career advice and create their resume. 
+ 
+Recruiters/Employers Those hiring managers, or companies which will be the indirect 
+ beneficiaries receiving highly qualified candidates, whose resumes 
+ passed the ATS. 
+ 
+Educational Platforms Affiliates such as Coursera, edX and so on, that can provide courses that can fill 
+ the skill gaps which the system has already discovered. 
+ 
+Universities and Schools that could make use of this tool to enable students and graduates enhance 
+Career Centers their marketability. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+6 | P a g e 
+ 
+ 
+Chapter 2 
+ 
+Project Requirements 
+ 
+This chapter describes the functional and non-functional requirements of the project. 
+ 
+ 
+2.1 High Level Use Cases 
+ 
+Use Case ID UC-101 
+Use Case 
+Name User Registration and Authentication 
+Actors Job Seeker 
+Type Primary 
+Description 
+The user signs up on the GenResume platform using their email, or through a social 
+media account. Once the user goes through the registration process s/he will then log 
+in the system and find tools such as resume builder, job search, and career 
+suggestions. 
+ 
+Use Case ID UC-102 
+Use Case 
+Name User Profile Creation and Customization 
+Actors Job Seeker 
+Type Primary 
+Description 
+The user completes and adds to their professional account the basics such as personal 
+information, education, skills, work experience, certifications, and projects. It doubles 
+up as the foundation for job suggestions and creating resumes or updating an existing 
+one. 
+ 
+Use Case ID UC-103 
+Use Case 
+Name Job Search and Recommendation 
+Actors Job Seeker 
+7 | P a g e 
+Use Case ID UC-103 
+Type Primary 
+Description 
+External job boards are integrated into the platform where the user can find the list of 
+external job vacancies and receive tailored job suggestions. Job seekers can look for 
+job openings and put in search parameters like location, type of job and many more. 
+ 
+Use Case ID UC-104 
+Use Case 
+Name ATS-Compliant Resume Generation 
+Actors Job Seeker 
+Type Primary 
+Description 
+The users create the resumes which are compatible with the Applicant Tracking 
+Systems. The system scans through the descriptions of jobs, matches what the user is 
+seeking, and guarantees inclusion of the proper keywords. Applicant tracking system 
+friendly built resume. 
+ 
+Use Case ID UC-105 
+Use Case 
+Name Cover Letter Generation 
+Actors Job Seeker 
+Type Primary 
+Description Depending on the user’s characteristics and requested position, the software creates a 
+cover letter that may be used while posting resumes. 
+ 
+Use Case ID UC-106 
+Use Case 
+Name Skill Gap Analysis 
+Actors Job Seeker 
+Type Primary 
+Description 
+The platform looks at the user’s current profile to match it with job descriptions in 
+order to see possible gaps in their skills. It offers recommendations where income-
+earning opportunities, online courses or other pertinent resources can be found to 
+close these gaps. 
+ 
+Use Case ID UC-107 
+Use Case Career Path Guidance 
+8 | P a g e 
+Use Case ID UC-107 
+Name 
+Actors Job Seeker 
+Type Primary 
+Description 
+Candidates get advice about career opportunities in light of their profile, current job 
+and trends and categories of jobs. It offers guidance on the promotion in the chosen 
+field, for example, gain new knowledge or certification. 
+ 
+Use Case ID UC-108 
+Use Case 
+Name Job Market Trends Analysis 
+Actors Job Seeker 
+Type Primary 
+Description 
+It brings data from job sites and other sources to share information on the current 
+trends in job openings. There is sector, skill and role-based trends that help users in 
+making right career choices. 
+ 
+Use Case ID UC-109 
+Use Case 
+Name Resume and Cover Letter Preview and Download 
+Actors Job Seeker 
+Type Primary 
+Description 
+Possibilities of the Resume/Cover Letter Generator After creating resume and cover 
+letters, users are able to view the documents and may edit the details if needed, and 
+the documents can be downloaded in PDF format for employment purposes. 
+ 
+Use Case ID UC-110 
+Use Case 
+Name External API Integration for Job Listings 
+Actors System 
+Type Primary 
+Description 
+The platform, for example, can connect with other job websites (organizations such as 
+Indeed or Glassdoor) by using APIs and pull the most up-to-date jobs. The listings are 
+next presented to users based on a match between the users’ profiles. 
+ 
+9 | P a g e 
+Use Case ID UC-111 
+Use Case 
+Name Profile and Resume Updates 
+Actors Job Seeker 
+Type Primary 
+Description 
+Users can give fresh content every now and then by adding new encounters in the 
+work experience list, new skills or certifications acquired. The system recalculates job 
+recommendations and reforms the resume. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+10 | P a g e 
+Expanded Use Cases 
+Use Case ID: UC-101 
+Use Case Name: User Registration and Authentication 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has internet access and is on the GenResume platform. 
+Triggers: 
+• The user navigates to the registration page or tries to access restricted features that require login. 
+Main Flow: 
+1. The user clicks on the “Register” button. 
+2. The system presents a registration form. 
+3. The user provides their email address or selects a social media login (e.g., Google, LinkedIn). 
+4. The user creates a password (if email is used) and fills in any other required fields (e.g., name). 
+5. The system validates the provided information. 
+6. If validation is successful, the system creates a new account and sends a confirmation email (if email 
+registration is used). 
+7. The user receives the confirmation email and clicks on the activation link (email users only). 
+8. The user logs in and is redirected to the dashboard. 
+Alternative Flows: 
+• AF1: If the user opts for social media login, they are redirected to the provider’s authentication page 
+(e.g., Google) and after authentication, the system creates the account without further steps. 
+Exception Flows: 
+• EF1: If the user provides an invalid email or password format, the system displays an error and 
+prompts for correction. 
+• EF2: If social media authentication fails, the user is redirected back to the registration page with an 
+error message. 
+Postconditions: 
+• The user is successfully registered and authenticated, and can now access platform features. 
+ 
+ 
+ 
+11 | P a g e 
+Use Case ID: UC-102 
+Use Case Name: User Profile Creation and Customization 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user is logged into the platform. 
+Triggers: 
+• The user selects the "Create Profile" option from the dashboard. 
+Main Flow: 
+1. The system displays a form for entering personal information (e.g., name, contact info). 
+2. The user fills in education, skills, work experience, and certifications. 
+3. The user uploads any additional documents (e.g., certificates or project details). 
+4. The system validates the entered information. 
+5. The system saves the profile and confirms the profile creation. 
+Alternative Flows: 
+• AF1: The user skips some non-mandatory fields like uploading documents or adding extra skills. 
+• AF2: The user chooses to import information from their LinkedIn profile (API integration). 
+Exception Flows: 
+• EF1: If the user leaves mandatory fields empty (e.g., name, education), the system prompts for 
+completion. 
+• EF2: If document upload fails, the system displays an error and allows the user to retry. 
+Postconditions: 
+• The user’s profile is created and available for job matching and resume generation. 
+ 
+Use Case ID: UC-103 
+Use Case Name: Job Search and Recommendation 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has created a profile with relevant information (e.g., skills, work experience). 
+12 | P a g e 
+Triggers: 
+• The user navigates to the "Job Search" section of the platform or views recommendations on their 
+dashboard. 
+Main Flow: 
+1. The system compares the user’s profile data (e.g., skills, location) with job listings from external job 
+portals (Indeed, Glassdoor). 
+2. The system displays personalized job recommendations. 
+3. The user can manually search for jobs by applying filters like location, job type, and salary range. 
+4. The user clicks on a job listing to view its details. 
+5. The user applies for the job by clicking the "Apply" button, which redirects them to the respective job 
+portal. 
+Alternative Flows: 
+• AF1: The user bookmarks a job to apply for later. 
+• AF2: The user refines the search criteria (e.g., changes location or keyword) and gets updated results. 
+Exception Flows: 
+• EF1: If there are no matches, the system displays a message suggesting changes to the profile or 
+search criteria. 
+Postconditions: 
+• The user has viewed and/or applied to suitable job recommendations based on their profile. 
+ 
+Use Case ID: UC-104 
+Use Case Name: ATS-Compliant Resume Generation 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has created a profile with all relevant details. 
+Triggers: 
+• The user selects the "Generate Resume" option from the dashboard. 
+Main Flow: 
+1. The system analyzes the user’s profile information (e.g., skills, experience). 
+2. The user selects an ATS-compliant template. 
+13 | P a g e 
+3. The system optimizes the resume by matching keywords from the user’s profile with job descriptions 
+and ATS standards. 
+4. The system generates a preview of the resume. 
+5. The user reviews the preview and makes any necessary edits. 
+6. The system generates the final version of the resume in the chosen format (e.g., PDF). 
+Alternative Flows: 
+• AF1: The user chooses a different resume template after previewing the initial option. 
+Exception Flows: 
+• EF1: If the resume generation fails, the system displays an error and suggests trying again later. 
+Postconditions: 
+• The user has a fully generated, ATS-compliant resume ready for download or application submission. 
+ 
+Use Case ID: UC-105 
+Use Case Name: Cover Letter Generation 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has created a profile and selected a job to apply for. 
+Triggers: 
+• The user selects the "Generate Cover Letter" option for a specific job application. 
+Main Flow: 
+1. The system extracts relevant information from the user’s profile (e.g., name, skills, experience). 
+2. The system generates a cover letter tailored to the selected job, including job title, company name, and 
+specific requirements. 
+3. The user previews the cover letter and makes any necessary changes. 
+4. The system finalizes the cover letter and makes it available for download or submission. 
+Alternative Flows: 
+• AF1: The user edits the auto-generated cover letter to include personalized content. 
+Exception Flows: 
+• EF1: If the cover letter generation fails, the system prompts the user to retry later. 
+14 | P a g e 
+Postconditions: 
+• The user has a personalized cover letter ready to apply for the job. 
+ 
+Use Case ID: UC-106 
+Use Case Name: Skill Gap Analysis 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has created a profile and selected job preferences. 
+Triggers: 
+• The user initiates a skill gap analysis or views job recommendations. 
+Main Flow: 
+1. The system compares the user’s profile (skills and experience) with the requirements of the desired 
+job. 
+2. The system identifies any gaps between the user’s qualifications and the job requirements. 
+3. The system suggests online courses, certifications, or other resources to help the user fill these gaps. 
+4. The user is presented with a list of learning resources (e.g., Coursera, edX). 
+Alternative Flows: 
+• AF1: The user selects a resource and navigates to the provider's platform to begin a course. 
+Exception Flows: 
+• EF1: If no skill gaps are found, the system displays a message informing the user that they meet the 
+job requirements. 
+Postconditions: 
+• The user is informed about any skill gaps and provided with resources to bridge those gaps. 
+ 
+ 
+Use Case ID: UC-107 
+Use Case Name: Career Path Guidance 
+Actors: Job Seeker 
+15 | P a g e 
+Type: Primary 
+Preconditions: 
+• The user has created a complete profile and set career goals. 
+Triggers: 
+• The user accesses the "Career Guidance" section from the dashboard. 
+Main Flow: 
+1. The system evaluates the user’s profile, including current skills, experience, and career goals. 
+2. The system generates personalized career advice, suggesting next steps such as acquiring new skills or 
+switching industries. 
+3. The user views a list of suggested career paths, skills to develop, and certifications to pursue. 
+4. The user selects a recommended path to explore further resources. 
+Alternative Flows: 
+• AF1: The user adjusts career goals, and the system updates the recommendations. 
+Exception Flows: 
+• EF1: If no suitable career advice is available, the system suggests expanding or revising the user's 
+profile information. 
+Postconditions: 
+• The user has received personalized career guidance, with actionable steps to progress in their career. 
+ 
+Use Case ID: UC-108 
+Use Case Name: Job Market Trends Analysis 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The system has integrated external data sources for job market trends. 
+Triggers: 
+• The user accesses the "Job Market Trends" section from the dashboard. 
+Main Flow: 
+16 | P a g e 
+1. The system retrieves data from job portals and external sources regarding the latest market trends. 
+2. The system analyzes the data and identifies trends in specific sectors, skills, or roles. 
+3. The user is presented with visualizations and insights into market trends relevant to their career goals. 
+4. The user can filter trends by industry, region, or job type. 
+Alternative Flows: 
+• AF1: The user bookmarks certain trends for future reference. 
+Exception Flows: 
+• EF1: If there is no data available for the user’s selected industry, the system displays a message 
+suggesting the user try another industry or region. 
+Postconditions: 
+• The user is informed about current market trends and how they relate to their career. 
+ 
+Use Case ID: UC-109 
+Use Case Name: Resume and Cover Letter Preview and Download 
+Actors: Job Seeker 
+Type: Primary 
+Preconditions: 
+• The user has generated a resume or cover letter. 
+Triggers: 
+• The user clicks on the “Preview” or “Download” button for a generated document. 
+Main Flow: 
+1. The system presents a preview of the resume or cover letter. 
+2. The user reviews the document and makes edits if necessary. 
+3. The system regenerates the updated resume or cover letter. 
+4. The user clicks the “Download” button. 
+5. The system generates a PDF and initiates the download. 
+Alternative Flows: 
+• AF1: The user changes the template of the resume or cover letter and generates a new preview. 
+Exception Flows: 
+• EF1: If the download fails, the system retries and provides an error message if it continues to fail. 
+17 | P a g e 
+Postconditions: 
+• The user has successfully downloaded the final version of their resume or cover letter. 
+ 
+Use Case ID: UC-110 
+Use Case Name: External API Integration for Job Listings 
+Actors: System 
+Type: Primary 
+Preconditions: 
+• APIs for external job portals (e.g., Indeed, Glassdoor) are available. 
+Triggers: 
+• The system initiates a scheduled job to fetch external job listings. 
+Main Flow: 
+1. The system sends API requests to external job portals for job listings. 
+2. The external systems return job listings in a structured format. 
+3. The system parses the job listings and filters out irrelevant or duplicate entries. 
+4. The system updates the job listing database with new entries. 
+5. Job seekers can now view the updated listings. 
+Alternative Flows: 
+• AF1: The system refreshes listings periodically to ensure the latest job opportunities are available. 
+Exception Flows: 
+• EF1: If an API call fails, the system retries after a delay. If the error persists, the system logs the error 
+and notifies the administrator. 
+Postconditions: 
+• The job listings database is up-to-date with external jobs, ready for user searches. 
+ 
+Use Case ID: UC-111 
+Use Case Name: Profile and Resume Updates 
+Actors: Job Seeker 
+Type: Primary 
+18 | P a g e 
+Preconditions: 
+• The user has already created a profile and generated a resume. 
+Triggers: 
+• The user logs into the platform and selects the option to update their profile or resume. 
+Main Flow: 
+1. The system displays the user’s existing profile, with options to update sections such as work 
+experience, skills, and education. 
+2. The user modifies or adds new information (e.g., a new job position, recently completed certification). 
+3. The system validates the updated information and saves the changes. 
+4. The user chooses to regenerate their resume based on the updated profile. 
+5. The system regenerates the resume, ensuring that it remains ATS-compliant. 
+6. The user previews the updated resume and downloads it in the desired format (e.g., PDF). 
+Alternative Flows: 
+• AF1: The user updates only the profile without regenerating the resume. 
+• AF2: The user chooses to use a different template when regenerating the resume. 
+Exception Flows: 
+• EF1: If the update fails (e.g., due to incomplete information), the system prompts the user to correct 
+the missing or invalid fields. 
+• EF2: If resume generation fails, the system displays an error and suggests trying again later. 
+Postconditions: 
+• The user’s profile is successfully updated, and the resume has been regenerated and downloaded, if 
+requested. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+19 | P a g e 
+2.2 Functional Requirements 
+ 
+1. User Registration and Authentication: It enables users to record and sign 
+on with their email or social networking account details. 
+2. Profile Creation and Customization: The it allows users to create and edit 
+profiles personal information and education and work experience, 
+certifications and skills. 
+3. ATS-Compliant Resume Generation: Job seekers are able to write CVs that 
+are optimized to match the descriptions of jobs of interest and gain feedback 
+on the level of readmittance in the system. There are many templates to select 
+from and the users can change the appearance of the resume easily. 
+4. Cover Letter Generation: The cover letters are created automatically from 
+the profile and the description of the vacancy, which users can then modify. 
+5. Job Search and Personalized Recommendations: The jobs are sourced 
+from other job search engines like Indeed and Glassdoor to recommend to a 
+user based on skills and interests. Under the section of jobs, users can search 
+jobs through location, job type, and salary. 
+ 
+6. Skill Gap Analysis: Such users’ profiles are matched with the job 
+descriptions and the courses that can be useful for filling in the gaps are 
+proposed. 
+7. Career Path Guidance: From the information provided users are in a 
+position to be advised on how best to advance in their career based on the 
+existing job market. 
+8. Job Market Trends: It allows finding out what skills are relevant on the 
+market and in which positions, salary ranges for a certain occupation, and 
+promising sectors. 
+9. Resume and Job Matching Score: The set of features of the resume is 
+rated and an ATS rating and a matching score are returned for the given 
+resume with tips on how to increase them. 
+10. User Feedback and Suggestions: Instant feedback of Resume writing tips, 
+Profile building tips, Job application tips etc. 
+ 
+ 
+ 
+ 
+20 | P a g e 
+2.3 Non-Functional Requirements 
+ 
+ 
+1. Performance: The platform response time should be fast as far as three 
+seconds while for some actions like resume generation and employment 
+recommendation. 
+2. Security: This information contains profiles, resumes, and it has to be safe 
+with the help of the encryption and reliable login options such as 2FA. 
+3. Availability: There should be high platform availability, meaning which is 
+the contrary of downtime or the time when the platform is unavailable. 
+ 
+4. Usability: Graphic interface should be simple and the platform should be 
+easily accessible through a computer as well as the cell phone. 
+5. Maintainability: It should also be easy to update and repair based on 
+standard protocols of software construction. 
+6. Compliance: The platform has to adhere to laws such as GDPR on the 
+protection of user’s data and should be collected with the user’s permission. 
+ 
+2.3.1 Quality Attributes 
+ 
+1. User Satisfaction: U The audience should get value in using the platform to 
+create resumes, look for jobs and enhance their profiles. 
+2. Accuracy: Currently, job matching and resume feedback should be precise 
+and assist users with matching to job description. 
+3. Flexibility: It should be easy for users to make changes to the resumes and 
+cover letters depending on every job post. 
+4. Security: There are some specifics that are worth discussing: First, user 
+data have to be kept from the public, and there has to be strong privacy. 
+5. Portability: The platform should be readily navigable and retrievable from 
+any device – whether a desktop or a mobile one. 
+ 
+ 
+ 
+ 
+ 
+21 | P a g e 
+ 
+ 
+2.4 Domain Model 
+ 
+ 
+ 
+Figure 2.1: Domain Model Diagram
+Figure 2.1 Domain Model Diagram Figure 2.1 Domain Model Diagram 
+22 | P a g e 
+Chapter 3 System 
+Overview 
+Give a general description of the functionality, context, and design of your project. Pro- 
+vide any background information if necessary. 
+ 
+3.1 Architectural Design 
+ 
+ 
+ Figure 3.1: Data Flow Diagram 
+ 
+ 
+ 
+ 
+23 | P a g e 
+ 
+3.2 Design Models 
+ 
+Create design models as are applicable to your system. Provide detailed descriptions with 
+each of the models that you add. Also ensure visibility of all diagrams. 
+Design Models for Object Oriented Development Approach 
+The applicable models for the project using object-oriented development approach may 
+include: 
+ 
+ 
+ 
+ 
+ 
+ 
+Use Case Diagram: 
+ 
+Figure 3.2: Use Case Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+24 | P a g e 
+• Class Diagram 
+ 
+ Figure 3.3: Class Diagram 
+ 
+ 
+ 
+• Class-level Sequence Diagram 
+ 
+ 
+Figure 3.4: SQ-1 
+ 
+Figure 1 
+25 | P a g e 
+ 
+ 
+Figure 3.5: SQ-2 
+ 
+ 
+ 
+Figure 3.6: SQ-3 
+ 
+Figure 3.7: SQ-4 
+ 
+ 
+
+26 | P a g e 
+ 
+ 
+ 
+Figure 3.8: SQ-5 
+ 
+ 
+ 
+ 
+ 
+Figure 3.9: SQ-6 
+ 
+ 
+ 
+Figure 3.10: SQ-7 
+ 
+
+27 | P a g e 
+ 
+ 
+ 
+ 
+Figure 3.11: SQ-8 
+ 
+ 
+ 
+ 
+ 
+Figure 3.12: SQ-9 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+28 | P a g e 
+ 
+3.3 Data Design 
+ 
+Explain how the information domain of your system is transformed into data structures. 
+Describe how the major data or system entities are stored, processed, and organized. 
+List any databases or data storage items. 
+ 
+
+29 | P a g e 
+
+30 | P a g e 
+
+31 | P a g e 
+
+32 | P a g e
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements
+
+specific requirements. 
+3. The user previews the cover letter and makes any necessary changes.

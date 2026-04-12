@@ -1,0 +1,17 @@
+@startuml
+rectangle "Demo SRS" {
+  actor User as "User"
+  actor Admin as "Admin"
+}
+User --> (Use Case 1)
+User --> (Content Creation and Posting-)
+User --> (Reaction and Commenting on Content-)
+User --> (Sharing of Content-)
+User --> (Tagging Friends on Posts-)
+User --> (Reporting and Verification of Content-)
+Admin --> (Profile Management-)
+User --> (Monetization and Rewards-)
+User --> (Messaging and Synergy Requests-)
+Admin --> (Organization Profile Management-)
+User --> (Personalized Tournaments and Events Based on Interests-)
+@enduml

@@ -1,0 +1,1216 @@
+# FYP1-MidReport-F24-067-D-TerraVerse3D - i212502 Mansoor Ali
+
+## 1. Introduction
+
+1. Introduction .................................................................................................................. 5 
+Chapter 2 .............................................................................................................................. 6 
+2. Project Vision ................................................................................................................ 6 
+2.1 Problem Statement .................................................................................................. 6 
+2.2 Business Opportunity .............................................................................................. 7 
+2.3 Objectives ................................................................................................................ 8 
+2.4 Project Scope........................................................................................................... 9 
+2.4 Constraints ............................................................................................................ 12 
+Chapter 3 ............................................................................................................................ 14 
+3. Software Requirement Specifications ........................................................................ 14 
+3.1 List of features ....................................................................................................... 14 
+3.2. Functional Requirement ....................................................................................... 14 
+3.3. Quality Attributes ................................................................................................. 15 
+3.4. NON-FUNCTIONAL Requirements ........................................................................ 15 
+Chapter 4 ............................................................................................................................ 16 
+4. High Level Use Cases .................................................................................................. 16 
+4.1. Use Case Diagram ................................................................................................ 16 
+Chapter 5 ............................................................................................................................ 17 
+5. Iteration Plan ............................................................................................................... 17 
+5.1. Expanded Use Cases ............................................................................................ 17 
+5.2. Activity Diagram.................................................................................................... 26 
+5.3. Domain Diagram ................................................................................................... 27 
+5.4. System Sequence Diagram ................................................................................... 28 
+5.5. Operation Contracts ............................................................................................. 30 
+5.7. Architecture Diagram ........................................................................................... 34 
+5.8. Deployment Diagram ............................................................................................ 35 
+5.9. Package Diagram .................................................................................................. 35 
+Conclusion ..................................................................................................................... 36 
+ 
+ 
+ 
+ 
+ 
+Page 3 of 36 
+ 
+List of Figures 
+Figure 1: Use Case Diagram.................................................................................................. 16 
+Figure 2: Activity Diagram ..................................................................................................... 26 
+Figure 3: Domain Diagram .................................................................................................... 27 
+Figure 4: System Sequence Diagram 1 .................................................................................. 28 
+Figure 5: System Sequence Diagram 2 .................................................................................. 29 
+Figure 6: Class Diagram ....................................................................................................... 33 
+Figure 7: Architecture Diagram ............................................................................................. 34 
+Figure 8: Deployment Diagram ............................................................................................. 35 
+Figure 9: Package Diagram ................................................................................................... 35 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 4 of 36 
+ 
+List of Tables 
+Table 1: UC-1.1 .................................................................................................................... 17 
+Table 2: UC-1.2 .................................................................................................................... 18 
+Table 3: UC-1.3 .................................................................................................................... 19 
+Table 4: UC-1.4 .................................................................................................................... 20 
+Table 5:UC-1.5 ..................................................................................................................... 21 
+Table 6:UC-1.6 ..................................................................................................................... 22 
+Table 7: UC-1.7 .................................................................................................................... 23 
+Table 8:UC-1.8 ..................................................................................................................... 24 
+ 
+ 
+ 
+Page 5 of 36 
+ 
+Chapter 1 
+1. Introduction 
+The purpose of this project document is to outline a detailed plan for the development 
+of an interactive virtual reality (VR) application that will transform video drone -
+footages of residential housing society into a 3D model for a virtual tour. The 
+document will outline the project's problem we are going to address, what motivat ed 
+us, scope of our project, deliverables, and all the technical processes involved in 
+bringing an innovative solution to overcome the problem which we are going to 
+implement in our final year project. The detailed overview of the project would mainly 
+focus on creating a virtual environment of residential housing societies. This is a VR 
+based application, which will provide a platform for stakeholders such as real estate 
+builders associated with the society or society management to give a virtual tour of the 
+society environment to the customers who are interested in investing in the society. A 
+web application will be provided to the stakeholders, where they can upload video 
+drone footage which will be used to generate a 3D model of the environment. The 3D 
+model will be accessible through a VR based application using VR headset to virtually 
+tour the environment. This project will help bridge the gap in the industry by providing 
+an innovative solution to visualize and explore residential societies using modern-day 
+technologies. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 6 of 36 
+ 
+Chapter 2 
+2. Project Vision 
+2.1 Problem Statement 
+The real estate market in Pakistan is growing at an unprecedented pace, with investors 
+seeking safer, more Secure investments. Yet despite its rapid expansion, the industry 
+still relies heavily on Traditional methods of Property visualization —photos, 2D ma ps, 
+and occasional video tours. In traditional methods of exploring and assessing a new 
+Residential society, individuals must physically visit each street and corner to get a 
+comprehensive understanding of the area. This process is not only Time-consuming and 
+physically demanding, but also impractical for those with Mobility limitations or busy 
+schedules. The existing approaches to remotely visualize residential properties and 
+societies, for instance, 'Google Street View and static 2D maps,' are inadequate to 
+provide the required flexibility and interactivity for detailed exploration. Such models do 
+not get updated in real -time and are very expensive in their development and 
+maintenance; hence, not sufficient for the Customer, real estate developers, and 
+investors who base their decisions on engaging, instructive visualizations. This indeed 
+calls for a more efficient, interactive way of turning Drone footage into highly detailed, 
+immersive 3D models. Increasingly, TerraVerse 3D meets this challenge with Virtu al 
+Reality and AI-driven technology to power the generation of 3D models from drone video 
+footage. The system has been speeding up the whole process more economically and 
+much more attractively. 
+ 
+ 
+ 
+ 
+ 
+Page 7 of 36 
+ 
+2.2 Business Opportunity 
+Educational and Training Purposes: 
+• Architectural and Engineering Education: Various universities and training 
+institutes can use TerraVerse 3D to depict several real examples related to town 
+planning and architectural designs. 
+• Professional Training: VR tours can be used in training by real estate 
+professionals to understand the layout of the property and various sales 
+techniques. 
+Real Estate Marketing and Sales: 
+• Virtual Property Tours: Through virtual property tours, real estate agents and 
+developers allow potential buyers to take a personal tour of their properties 
+without having to go there physically. This ensures better and quicker decision -
+making and decreases the time a property spends on the market. 
+• Improved Customer Interaction: Meet customers in a more interactive manner, 
+attracting more buyers to view properties and result in higher sales 
+International Real Estate Investment: 
+• Cross-Border Viewings: TerraVerse 3D will be able to allow buyers and investors 
+from any part of the world to view properties located in other regions virtually 
+without having to physically visit the area. This will increase the market reach 
+manifold for developers and real estate agents. 
+• Enhanced Decision-Making: By providing detailed and immersive virtual tours of 
+properties, international investors can make more informed decisions about 
+purchasing properties abroad. This can reduce the risk associated with investing 
+in unfamiliar markets. 
+ 
+ 
+ 
+Page 8 of 36 
+ 
+2.3 Objectives 
+● Generate 3D models from drone footage using Neural Radiance Fields (NeRF) 
+● Develop a VR environment compatible with Oculus Rift 
+● Implement an AI -powered Q&A system to provide information about the 3D 
+society 
+● Optimize for real-time interaction and performance in VR 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 9 of 36 
+ 
+2.4 Project Scope 
+1. Data Collection and Preprocessing 
+● Stabilizing and Preprocessing the Video Footage: 
+o Video stabilization software will be used to remove unwanted movements 
+and jitters from footage. 
+o Footage will be preprocessed by correcting lens distortions, adjusting 
+lighting, and image quality will be enhanced for better 3D reconstruction. 
+2. 3D Model Reconstruction 
+● Neural Radiance Fields (NeRF): 
+o NeRF: We will use neural networks to illustrate the model in 3D 
+environment, allowing for highly detailed and realistic 3D reconstructions. 
+● Optimizing the 3D Model for VR Performance: 
+o Simplifying the 3D model by reducing the polygon count while important 
+details are being preserved. 
+o Optimizing lighting and applying texture maps so that to enhance realism 
+without compromising performance. 
+o Ensuring that the model meets VR performance standards and providing a 
+smooth and immersive experience. 
+3. VR Application Development 
+● Building the VR Environment in Unity: 
+o The 3d model will be imported into unity 
+o Setting the VR scene with lighting, textures, and interactive elements. 
+● Implementing Smooth Navigation Controls: 
+o Developing navigation controls for users so that they can move around the VR 
+environment. 
+o Compatibility with Oculus Rift will be ensured including mappings and input 
+handling. 
+Page 10 of 36 
+ 
+4. AI and NLP Integration 
+● Developing and training the AI Model: 
+o NLP technologies will be used to develop an Ai model which will be able to 
+understand and respond to queries. 
+o AI will answer questions like 
+▪ Range of prices for plots of different blocks. 
+▪ About where is commercial and residential area 
+▪ Rules of society 
+▪ Taxes by society 
+5. Testing and Feedback 
+● Conducting User Testing Sessions: 
+o Organize sessions with target users to test the VR experience and AI interactions. 
+o Gather qualitative and quantitative feedback on usability, performance, and 
+overall user satisfaction. 
+● Iterating on the Design and Functionality: 
+o Analyze user feedback to identify areas for improvement. 
+o Iterate on the VR environment, AI interactions, and navigation controls to 
+enhance the user experience. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 11 of 36 
+ 
+Out-of-Scope Activities 
+1. Real-time 3D Reconstruction 
+● Only pre -recorded footage will be used to generate the 3d model. No real -time video 
+processing and reconstruction. 
+2. Multi-Society Implementation 
+● The initial implementation will be limited to one society. Scaling the solution to multiple 
+societies is considered for future phases. 
+3. Extensive AI Training 
+● The AI model will only provide information about the society. Or the information shared 
+by society. 
+Model Updates: 
+● The project will not update the 3d model of society once the model is created. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 12 of 36 
+ 
+ 2.4 Constraints 
+Technical Constraints: 
+● Hardware Limitations : The VR application requires users to have access to 
+compatible VR headsets (e.g., Oculus Rift) and powerful enough hardware to run 
+the application smoothly. 
+User Constraints: 
+● Accessibility: Ensuring the VR application is easy-to-use and accessible to 
+everyone with varying levels of technical expertise and physical abilities. 
+Scalability Constraints: 
+● Multiple Societies: Initially, the project will focus on a single residential society, 
+and expanding to multiple societies will require significant additional resources 
+and planning. We will be covering 500 kanal of landmark. 
+Real-time 3D Reconstruction: 
+• Definition: The whole project is based only on pre-recorded footage from drones 
+to create the 3D model of the residential society. Real-time video processing and 
+reconstruction is not implemented. 
+• Explanation: This limitation allows the project to focus on the accuracy and 
+quality of the 3D models created from captured footage, instead of developing a 
+complex system for real-time processing. By relying on pre-recorded footage, the 
+project will create a more controlled environment for model generation, resulting 
+in better overall quality. However, it constrains the application's ability to react to 
+dynamic changes within the environment. 
+ 
+ 
+Page 13 of 36 
+ 
+Multi-Society Implementation: 
+We will be considering only one residential society for the initial phase of the project and 
+will expand to multiple societies in the pipeline for upcoming phases. 
+Extensive AI Training: 
+We will train NLP to provide information related to the specific residential society only, 
+using the data that is shared by that society. 
+Model Updates: 
+We will create only one version of the 3D model of the residential society and no further updates 
+or revisions over time. 
+ 2.6 Targeted Users 
+Property Managers and Real Estate Agents: 
+• Usage: It will enable users to virtually expose already existing properties to 
+potential renters or buyers. This will make multiple listings easier to handle. 
+• Benefits: Smoothens the process to view property without much need for 
+physical visits and expands the ability to reach a larger audience. 
+Potential Homebuyers and Investors: 
+• Usage: Browse properties and evaluate them from a distance with the best 
+possible realistic view of your future potential investment without having to travel 
+to it. 
+• Benefits: Offers convenience, efficiency, and better decision -making since 
+buyers can experience properties in a virtual environment. 
+ 
+ 
+ 
+ 
+Page 14 of 36 
+ 
+Chapter 3 
+3. Software Requirement Specifications 
+3.1 List of features 
+● 3D Model Generation 
+● Interactive Virtual Reality Experience 
+● User-Friendly Web Application 
+● AI-Powered Q/A Information System 
+● Detailed Property Visualization 
+3.2. Functional Requirement 
+• The system should provide utilities to stabilize and pre -process the captured 
+video output. 
+• It shall generate an accurate 3D model output from the uploaded drone footage. 
+• The system shall support the creation of a VR environment using Oculus. 
+• It shall be able to share related video drone footage with users via an intuitive web 
+interface. 
+• The AI model can process user queries regarding the residential society and 
+provide relevant answers, based on the data the model will receive. 
+• VR interaction shall include selecting points of interest and accessing further 
+information on specific areas or amenities within the society. 
+• It shall ensure optimization in performance for 3D models in VR, with high 
+navigability and low latency. 
+ 
+ 
+Page 15 of 36 
+ 
+3.3. Quality Attributes 
+Availability: 
+• The system will have to reach a minimum of 99.99% uptime to ensure that the web 
+application and VR features are always up and accessible for users and 
+stakeholders alike. 
+Reliability: 
+• The system shall ensure that the latency in authenticating a user and establishing 
+a network session is below 50 milliseconds to present a consistent response. 
+Usability: 
+• The interface shall be intuitive and self -descriptive so that users can easily learn 
+how to move in the VR space and understand the application features with 
+minimal training. 
+3.4. NON-FUNCTIONAL Requirements 
+ Compatibility: 
+• Besides being compatible with major browsers like Chrome, Firefox, it should 
+also be optimized to work on Edge, or desktop. 
+Performance: 
+• The system shall process uploaded drone footage and generate the 3D model 
+within a maximum time of 30 minutes for a typical residential society (up to 500 
+kanal). 
+• The VR application shall maintain a frame rate of at least 60 frames per second 
+(FPS) to ensure smooth navigation and an immersive experience. 
+User Support: 
+● The system shall provide a help and support feature, including FAQs, tutorials, 
+and a ticketing system for user inquiries. 
+Page 16 of 36 
+ 
+Chapter 4 
+4. High Level Use Cases 
+4.1. Use Case Diagram 
+ 
+ 
+FIGURE 1: USE CASE DIAGRAM 
+ 
+ 
+
+Page 17 of 36 
+ 
+Chapter 5 
+5. Iteration Plan 
+5.1. Expanded Use Cases 
+TABLE 1: UC-1.1 
+Use Case ID: 
+Use Case Name: 
+UC-1.1 
+Upload Footage 
+Actors: Real Estate Agents 
+Description: User will upload drone footage of society 
+Trigger: User wants to create a VR experience for society. 
+Preconditions: 1. Open web application on browser 
+2. System should be logged in. 
+3. The user should be on the upload dashboard. 
+Post conditions: The video will be uploaded on the system. 
+Normal Flow: Actor 
+The user will select the 
+upload option. 
+ 
+System 
+The web application will 
+present a dashboard with 
+options to upload. 
+Alternative Flows: N/A 
+Exceptions: ● Cannot upload footage due to unstable internet 
+connection. 
+● Cannot connect to the cloud. 
+Frequency of Use: Whenever a user wants to select a new society. 
+Specific Requirements: ● Stable internet connection. 
+● Video is in high quality graphics. 
+Technology and Data 
+Variations List 
+User Interface (UI) for inputting metadata. 
+Page 18 of 36 
+ 
+TABLE 2: UC-1.2 
+Use Case ID: 
+Use Case Name: 
+UC - 1.2 
+Provide Information 
+Actors: Real Estate Agent 
+Description: User provides additional information about the footage, 
+such as location and metadata. 
+Trigger: The user wants to add relevant details to the uploaded 
+footage for better accuracy during 3D model generation. 
+Preconditions: Footage must already be uploaded. 
+Post conditions: Information is successfully added and linked to the 
+footage 
+Normal Flow: Actor 
+● User selects the 
+“Provide Information” 
+option. 
+● User inputs relevant 
+metadata. 
+System 
+● System prompts for 
+the required 
+information. 
+● System validates and 
+stores the information. 
+Alternative Flows: User skips adding information. 
+Exceptions: Invalid or incomplete metadata 
+Frequency of Use: Once per footage uploaded. 
+Specific Requirements: Active internet connection. 
+Technology and Data 
+Variations List 
+User Interface (UI) for inputting metadata. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 19 of 36 
+ 
+ 
+TABLE 3: UC-1.3 
+Use Case ID: 
+Use Case Name: 
+UC 1.3 
+Monitor Model Generation 
+Actors: Real Estate Agents 
+Description: The user can see how much work is done on the 
+generation process. 
+Trigger: The user wants to know the time it will take to generate a 
+model. 
+Preconditions: The user has entered drone footage of society. 
+Post conditions: How much work is done, will be shown. 
+Normal Flow: Actor 
+Actor will open the 
+dashboard. 
+System 
+The system will show the 
+work done. 
+Alternative Flows: The system hasn’t started working on generation. 
+Exceptions: Couldn’t connect to the cloud or server. 
+Frequency of Use: When model generation is in progress. 
+Specific Requirements: ● Drone footage is uploaded. 
+● Cloud is connected. 
+Technology and Data 
+Variations List 
+● Unity 
+● Nerf model for training 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 20 of 36 
+ 
+ 
+TABLE 4: UC-1.4 
+Use Case ID: 
+Use Case Name: 
+UC - 1.4 
+Explore VR Environment 
+Actors: Customer 
+Description: Customer explores the 3D model in a virtual reality 
+environment. 
+Trigger: User wants to explore the generated 3D model using VR 
+Preconditions: A 3D model must be generated, and the VR environment 
+should be ready. 
+Post conditions: Customers successfully navigate through the virtual 
+society model. 
+Normal Flow: Actor 
+● User selects 
+“Explore VR 
+Environment.” 
+● User navigates and 
+interacts with the 3D 
+model using VR 
+controls. 
+System 
+● System loads the VR 
+environment. 
+● System allows the 
+user to interact with 
+various features. 
+Alternative Flows: N/A 
+Exceptions: System fails to load the VR environment. 
+Frequency of Use: Multiple times for exploring the 3D model. 
+Specific Requirements: VR headset (Oculus Rift) and compatible software. 
+Technology and Data 
+Variations List 
+Unity and Oculus Rift for VR integration. 
+ 
+ 
+ 
+ 
+Page 21 of 36 
+ 
+ 
+TABLE 5:UC-1.5 
+Use Case ID: 
+Use Case Name: 
+UC - 1.5 
+AI powered Q&A 
+Actors: Client, System 
+Description: The client can ask questions about society and the 
+system will answer the questions. 
+Trigger: Users are curious about society and want to know more. 
+Preconditions: The system should be trained using data. 
+Post conditions: The user asks a question, and the system answers its 
+question. 
+Normal Flow: Actor 
+The user asks different 
+questions about the 
+society. 
+System 
+The system answers those 
+questions. 
+Alternative Flows: The system couldn’t answer the questions. 
+Exceptions: The system gives wrong answers. 
+Frequency of Use: Every time a client experiences the VR. 
+Specific Requirements: ● Questions only related to society. 
+Technology and Data 
+Variations List ● GPT-4 (or similar) as the NLP model. 
+● AI training environment such as TensorFlow or 
+PyTorch. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 22 of 36 
+ 
+ 
+TABLE 6:UC-1.6 
+Use Case ID: 
+Use Case Name: 
+UC - 1.6 
+3D Model Generation 
+Actors: System (NeRF Engine) 
+Description: System generates a 3D model from the uploaded drone 
+footage. 
+Trigger: Footage has been uploaded, and the user wants to initiate 
+3D model generation. 
+Preconditions: Footage must be uploaded and validated. 
+Post conditions: A 3D model is generated and ready for VR integration. 
+Normal Flow: Actor 
+● User initiates the 
+model 
+generation 
+process. 
+System 
+● System processes the 
+footage using Neural 
+Radiance Fields (NeRF). 
+● System generates and 
+refines the 3D model. 
+Alternative Flows: N/A 
+Exceptions: System fails to generate a model due to insufficient data. 
+Frequency of Use: Once per footage set. 
+Specific Requirements: Sufficient footage and processing power. 
+Technology and Data 
+Variations List 
+NeRF model for 3D generation. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 23 of 36 
+ 
+ 
+TABLE 7: UC-1.7 
+Use Case ID: 
+Use Case Name: 
+UC 1.7 
+VR Integration 
+Actors: System 
+Description: The system takes a 3D model and integrates into VR 
+using an API. 
+Trigger: The client wants to experience the 3d model into VR. 
+Preconditions: 3D model generated. 
+Post conditions: A VR environment is created. 
+Normal Flow: System 
+The system tak 3d model and integrates the model into 
+the VR environment. 
+Alternative Flows: Non. 
+Exceptions: The system fails to integrate the model. 
+Frequency of Use: Whenever a user uploads data. 
+Specific Requirements: Generated 3d model. 
+Technology and Data 
+Variations List 
+● Python 
+● Unity 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 24 of 36 
+ 
+ 
+TABLE 8:UC-1.8 
+Use Case ID: 
+Use Case Name: 
+UC - 1.8 
+Training NLP Model 
+Actors: System (AI) 
+Description: The system trains the Natural Language Processing (NLP) 
+model using available data to enable the AI -powered Q&A 
+feature in the VR environment. 
+Trigger: The AI system is ready for training with the data provided 
+by the user. 
+Preconditions: Adequate training data must be available and labeled for 
+the NLP model to process. 
+Post conditions: The NLP model is trained and ready to provide answers to 
+user questions in the VR environment. 
+Normal Flow: Actor 
+● System 
+administrator 
+initiates the 
+NLP model 
+training. 
+System 
+● The system processes the 
+training data. 
+● The model is trained and 
+tested for accuracy. 
+● The trained model is 
+integrated into the AI -
+powered Q&A system. 
+Alternative Flows: The system fails to train the model due to inadequate data 
+or a processing error. 
+Exceptions: Insufficient training data or issues with model 
+convergence. 
+Frequency of Use: Once when training the initial AI model or for updates. 
+Specific Requirements: ● Adequate labeled data for model training. 
+● High processing power for AI training. 
+Page 25 of 36 
+ 
+Technology and Data 
+Variations List • GPT-4 (or similar) as the NLP model. 
+• AI training environment such as TensorFlow or 
+PyTorch. 
+ 
+ 
+Page 26 of 36 
+ 
+5.2. Activity Diagram 
+ 
+FIGURE 2: ACTIVITY DIAGRAM 
+
+Page 27 of 36 
+ 
+5.3. Domain Diagram 
+ 
+ 
+FIGURE 3: DOMAIN DIAGRAM 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Page 28 of 36 
+ 
+ 
+5.4. System Sequence Diagram 
+ 
+FIGURE 4: SYSTEM SEQUENCE DIAGRAM 1 
+ 
+ 
+ 
+ 
+
+Page 29 of 36 
+ 
+ 
+FIGURE 5: SYSTEM SEQUENCE DIAGRAM 2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Page 30 of 36 
+ 
+5.5. Operation Contracts 
+Contract CO1: 
+Operation: Upload Footage 
+Responsibility: User uploads drone footage of the society. 
+Type: System 
+Pre-Conditions: 
+● The web application is open in a browser. 
+● The user is logged in. 
+● The user is on the upload dashboard. 
+Post-Conditions: The video is successfully uploaded to the system. 
+Contract CO2: 
+Operation: Provide Information 
+Responsibility: User provides additional information about the footage, such as 
+location and metadata. 
+Type: System 
+Pre-Conditions: Footage must already be uploaded. 
+Post-Conditions: Information is successfully added and linked to the footage. 
+Contract CO3: 
+Operation: Monitor Model Generation 
+Responsibility: User monitors the progress of the 3D model generation process. 
+Type: System 
+Pre-Conditions: The user has entered drone footage of the society, and the model 
+generation process has started. 
+Post-Conditions: The system is going to display the progress of the model generation. 
+ 
+ 
+Page 31 of 36 
+ 
+Contract CO4: 
+Operation: Explore VR Environment 
+Responsibility: The user will explore and interact with the 3D model that is created in a 
+virtual reality environment. 
+Type: System 
+Pre-Conditions: A 3D model is generated, VR environment is prepared, and the user 
+should possess a VR headset (e.g., Oculus Rift) with the necessary software. 
+Post-Conditions: The customer can successfully navigate a 3D model of the virtual 
+society. 
+ 
+Contract CO5: 
+Operation: AI-Powered Q&A 
+Responsibility: The client can ask questions about the society, and the system will be 
+able to answer the question. 
+Type: System 
+Pre-Conditions: The system must be trained with data, and the 3D model and VR 
+environment should also be ready. 
+Post-Conditions: The user will be able to ask a question, and the system will provide a 
+correct answer. 
+ 
+Contract CO6: 
+Operation: 3D Model Generation 
+Responsibility: The system is going to generate a 3D model from an uploaded drone 
+footage. 
+Type: System 
+Pre-Conditions: Validated footage, and adequate processing power must be available. 
+Post-Conditions: A 3D model will be generated and ready to be integrated into the VR 
+environment. 
+ 
+Page 32 of 36 
+ 
+ 
+Contract CO7: 
+Operation: VR Integration 
+Responsibility: The system will take a 3D model and integrate the model into a Virtual 
+Reality environment using the API. 
+Type: System 
+Pre-Conditions: Generated 3D model and should be available. 
+Post-Conditions: A Virtual Reality environment is created with the integrated 3D model. 
+ 
+Contract CO8: 
+Operation: Training NLP Model 
+Responsibility: The system uses available data to train the NLP model, enabling the AI -
+powered Q&A feature in the Virtual Reality environment. 
+Type: System 
+Pre-Conditions: Adequate data must be available and labeled for the NLP model to 
+process. 
+Post-Conditions: The NLP model is trained and ready to provide answers to user 
+questions within the VR environment. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 33 of 36 
+ 
+ 
+5.6. Class Diagram 
+ 
+ 
+FIGURE 6: CLASS DIAGRAM 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Page 34 of 36 
+ 
+5.7. Architecture Diagram 
+ 
+ 
+FIGURE 7: ARCHITECTURE DIAGRAM 
+
+Page 35 of 36 
+ 
+5.8. Deployment Diagram 
+ 
+FIGURE 8: DEPLOYMENT DIAGRAM 
+5.9. Package Diagram 
+ 
+FIGURE 9: PACKAGE DIAGRAM 
+ 
+ 
+
+Page 36 of 36 
+ 
+Conclusion 
+The TerraVerse 3D project manages to effectively combine the most advanced 
+technologies, enabling a revolutionary change in residential property visualization. This 
+endeavor, with VR, AI, and cutting -edge 3D model generation techniques, allows 
+amazing levels of immersive -ness, interactivity, speed, and ultimately a better 
+experience for the real estate players in question. With this, it mitigates the drawbacks 
+presented by traditional visualization methods and presents a fresh approach. This way, 
+the user's experience and decision -making processes are extremely enriched. It forms, 
+in a way, a new standard for the industry -classic showcase of future dev elopments and 
+scalability. It is approached with clarity of objectives, heavy planning, and iterative 
+improvements based on user feedback. Indeed, this is really a big move toward 
+transforming real estate marketing and exploration.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements
+
+Specific Requirements: ● Stable internet connection. 
+● Video is in high quality graphics. 
+Technology and Data 
+Variations List 
+User Interface (UI) for inputting metadata. 
+Page 18 of 36 
+ 
+TABLE 2: UC-1.2 
+Use Case ID: 
+Use Case Name: 
+UC - 1.2 
+Provide Information 
+Actors: Real Estate Agent 
+Description: User provides additional information about the footage, 
+such as location and metadata. 
+Trigger: The user wants to add relevant details to the uploaded 
+footage for better accuracy during 3D model generation. 
+Preconditions: Footage must already be uploaded. 
+Post conditions: Information is successfully added and linked to the 
+footage 
+Normal Flow: Actor 
+● User selects the 
+“Provide Information” 
+option. 
+● User inputs relevant 
+metadata. 
+System 
+● System prompts for 
+the required 
+information. 
+● System validates and 
+stores the information. 
+Alternative Flows: User skips adding information. 
+Exceptions: Invalid or incomplete metadata 
+Frequency of Use: Once per footage uploaded. 
+Specific Requirements: Active internet connection. 
+Technology and Data 
+Variations List 
+User Interface (UI) for inputting metadata. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 19 of 36 
+ 
+ 
+TABLE 3: UC-1.3 
+Use Case ID: 
+Use Case Name: 
+UC 1.3 
+Monitor Model Generation 
+Actors: Real Estate Agents 
+Description: The user can see how much work is done on the 
+generation process. 
+Trigger: The user wants to know the time it will take to generate a 
+model. 
+Preconditions: The user has entered drone footage of society. 
+Post conditions: How much work is done, will be shown. 
+Normal Flow: Actor 
+Actor will open the 
+dashboard. 
+System 
+The system will show the 
+work done. 
+Alternative Flows: The system hasn’t started working on generation. 
+Exceptions: Couldn’t connect to the cloud or server. 
+Frequency of Use: When model generation is in progress. 
+Specific Requirements: ● Drone footage is uploaded. 
+● Cloud is connected. 
+Technology and Data 
+Variations List 
+● Unity 
+● Nerf model for training 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 20 of 36 
+ 
+ 
+TABLE 4: UC-1.4 
+Use Case ID: 
+Use Case Name: 
+UC - 1.4 
+Explore VR Environment 
+Actors: Customer 
+Description: Customer explores the 3D model in a virtual reality 
+environment. 
+Trigger: User wants to explore the generated 3D model using VR 
+Preconditions: A 3D model must be generated, and the VR environment 
+should be ready. 
+Post conditions: Customers successfully navigate through the virtual 
+society model. 
+Normal Flow: Actor 
+● User selects 
+“Explore VR 
+Environment.” 
+● User navigates and 
+interacts with the 3D 
+model using VR 
+controls. 
+System 
+● System loads the VR 
+environment. 
+● System allows the 
+user to interact with 
+various features. 
+Alternative Flows: N/A 
+Exceptions: System fails to load the VR environment. 
+Frequency of Use: Multiple times for exploring the 3D model. 
+Specific Requirements: VR headset (Oculus Rift) and compatible software. 
+Technology and Data 
+Variations List 
+Unity and Oculus Rift for VR integration. 
+ 
+ 
+ 
+ 
+Page 21 of 36 
+ 
+ 
+TABLE 5:UC-1.5 
+Use Case ID: 
+Use Case Name: 
+UC - 1.5 
+AI powered Q&A 
+Actors: Client, System 
+Description: The client can ask questions about society and the 
+system will answer the questions. 
+Trigger: Users are curious about society and want to know more. 
+Preconditions: The system should be trained using data. 
+Post conditions: The user asks a question, and the system answers its 
+question. 
+Normal Flow: Actor 
+The user asks different 
+questions about the 
+society. 
+System 
+The system answers those 
+questions. 
+Alternative Flows: The system couldn’t answer the questions. 
+Exceptions: The system gives wrong answers. 
+Frequency of Use: Every time a client experiences the VR. 
+Specific Requirements: ● Questions only related to society. 
+Technology and Data 
+Variations List ● GPT-4 (or similar) as the NLP model. 
+● AI training environment such as TensorFlow or 
+PyTorch. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 22 of 36 
+ 
+ 
+TABLE 6:UC-1.6 
+Use Case ID: 
+Use Case Name: 
+UC - 1.6 
+3D Model Generation 
+Actors: System (NeRF Engine) 
+Description: System generates a 3D model from the uploaded drone 
+footage. 
+Trigger: Footage has been uploaded, and the user wants to initiate 
+3D model generation. 
+Preconditions: Footage must be uploaded and validated. 
+Post conditions: A 3D model is generated and ready for VR integration. 
+Normal Flow: Actor 
+● User initiates the 
+model 
+generation 
+process. 
+System 
+● System processes the 
+footage using Neural 
+Radiance Fields (NeRF). 
+● System generates and 
+refines the 3D model. 
+Alternative Flows: N/A 
+Exceptions: System fails to generate a model due to insufficient data. 
+Frequency of Use: Once per footage set. 
+Specific Requirements: Sufficient footage and processing power. 
+Technology and Data 
+Variations List 
+NeRF model for 3D generation. 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 23 of 36 
+ 
+ 
+TABLE 7: UC-1.7 
+Use Case ID: 
+Use Case Name: 
+UC 1.7 
+VR Integration 
+Actors: System 
+Description: The system takes a 3D model and integrates into VR 
+using an API. 
+Trigger: The client wants to experience the 3d model into VR. 
+Preconditions: 3D model generated. 
+Post conditions: A VR environment is created. 
+Normal Flow: System 
+The system tak 3d model and integrates the model into 
+the VR environment. 
+Alternative Flows: Non. 
+Exceptions: The system fails to integrate the model. 
+Frequency of Use: Whenever a user uploads data. 
+Specific Requirements: Generated 3d model. 
+Technology and Data 
+Variations List 
+● Python 
+● Unity 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Page 24 of 36 
+ 
+ 
+TABLE 8:UC-1.8 
+Use Case ID: 
+Use Case Name: 
+UC - 1.8 
+Training NLP Model 
+Actors: System (AI) 
+Description: The system trains the Natural Language Processing (NLP) 
+model using available data to enable the AI -powered Q&A 
+feature in the VR environment. 
+Trigger: The AI system is ready for training with the data provided 
+by the user. 
+Preconditions: Adequate training data must be available and labeled for 
+the NLP model to process. 
+Post conditions: The NLP model is trained and ready to provide answers to 
+user questions in the VR environment. 
+Normal Flow: Actor 
+● System 
+administrator 
+initiates the 
+NLP model 
+training. 
+System 
+● The system processes the 
+training data. 
+● The model is trained and 
+tested for accuracy. 
+● The trained model is 
+integrated into the AI -
+powered Q&A system. 
+Alternative Flows: The system fails to train the model due to inadequate data 
+or a processing error. 
+Exceptions: Insufficient training data or issues with model 
+convergence. 
+Frequency of Use: Once when training the initial AI model or for updates. 
+Specific Requirements: ● Adequate labeled data for model training. 
+● High processing power for AI training. 
+Page 25 of 36 
+ 
+Technology and Data 
+Variations List • GPT-4 (or similar) as the NLP model. 
+• AI training environment such as TensorFlow or 
+PyTorch. 
+ 
+ 
+Page 26 of 36 
+ 
+5.2. Activity Diagram 
+ 
+FIGURE 2: ACTIVITY DIAGRAM 
+
+Page 27 of 36 
+ 
+5.3. Domain Diagram 
+ 
+ 
+FIGURE 3: DOMAIN DIAGRAM 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Page 28 of 36 
+ 
+ 
+5.

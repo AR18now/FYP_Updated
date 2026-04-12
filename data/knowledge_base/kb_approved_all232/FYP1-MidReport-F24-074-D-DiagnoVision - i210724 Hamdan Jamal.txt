@@ -1,0 +1,381 @@
+# FYP1-MidReport-F24-074-D-DiagnoVision - i210724 Hamdan Jamal
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The DiagnoVision project aims to develop a medical chatbot model for skin disease detec-
+tion for three diseases which are Acne, Eczema, and Psoriasis and takes text description
+and skin images as inputs. This model’s primary functionality is diagnosis and medical
+advice. The users are asked about their symptoms and even upload photos of skin condi-
+tions they might be suffering from so that the chatbot can help them determine the skin
+condition that they might have. Besides diagnosis, DiagnoVision has two secondary fea-
+tures: monitor the rapid spread of diseases within the user’s area and recommendation of
+skin care depending on the current weather. To a greater extent, the chatbot offers med-
+ical help to the users regarding specific skin diseases. The elements of this project are
+as follows: Data input system, skin diseases detection models, real-time disease spread
+information skincare advice based on the weather. The scope of this project is imple-
+mentation of Natural Language Processing (NLP) and Computer Vision (CV) models, to
+offer diagnosis and medical advice for three diseases. The project will concentrate on
+improving user experience because of the improved and easy layouts that can be accessed
+in the mobile phones. The system will be checked and validated against standard di-
+agnostic protocols with provisions for modifications depending on the feedback and the
+improvements in technology
+1.3 Modules
+DiagnoVision is structured into several key modules that perform as a medical chatbot.
+These modules are listed below:
+1.3.1 Module 1
+In this module, the user’s textual description of the symptoms is inputted into Natural
+Language models to determine if the user has a certain skin condition. The text module
+will look for the symptoms in the text and will match the symptoms for a specific disease.
+It serves as the diagnostic tool and works well with the image analysis module to come
+up with a better diagnosis.
+1. Extract and analyze key symptoms from user input
+2. Match text-based symptoms with known conditions (Acne, Eczema, Psoriasis).
+2
+1.3 Modules
+1.3.2 Module 2
+This module analyzes images of skin areas uploaded by users and classifies whether it
+is affected or not. If affected, it identifies visual indicators of the three targeted skin
+conditions using CV models.
+1. Process and enhance images for accurate analysis
+2. Detects visual patterns indicative of Acne, Eczema, or Psoriasis.
+1.3.3 Module 3
+This module combines the results from both the Textual model and Image Analysis mod-
+ules to provide an accurate diagnosis. It uses a decision-making algorithm to combine the
+results from both sources and offer the most accurate diagnosis possible.
+1. Use the findings elicited from text scan and image scan for diagnosing.
+2. Implement decision making algorithms which helps in assessment of the inputs
+from the two modules.
+3. Provide the final diagnosis and confidence score for the diagnosed condition
+1.3.4 Module 4
+This module keeps track of the rapid spread of diseases in the user’s area, helping them
+be aware of disease spread in their region and take precautionary measures. It uses data
+from public sources to identify and report disease spread
+1. Get Information from local data sources for rapid spread of diseases.
+2. Provide alerts and updates on rapidly spreading conditions in the user’s vicinity
+3. Adjust diagnostic recommendations based on localized data.
+1.3.5 Module 5
+This module delivers personalized skincare advice based on current weather conditions.
+It integrates weather data APIs to offer tips that help users take measures for their skin
+health.
+3
+1. Introduction
+1. Retrieve and analyze real-time weather data
+2. Provide tailored skincare recommendations for current weather conditions.
+3. Update advice dynamically as weather conditions change.
+1.3.6 Module 6
+This module provides the user interface and manages the overall user experience within
+the app
+1. User-friendly Interface: Easy to use, simple navigation and layout for easy access
+to all features.
+2. Data Input: Allows users to input symptoms as text and upload images of their skin.
+3. Feedback and Notifications: Delivers diagnostic results, recommendations, and
+alerts to users.
+1.4 User Classes and Characteristics
+The user classes and their description is given below:
+4
+1.4 User Classes and Characteristics
+User class Description
+General User A General User seeks to diagnose skin conditions like Acne, Eczema, or
+Psoriasis using the DiagnoVision app. Around 500 users are expected to in-
+put symptoms or images for AI analysis and receive medical advice, mostly
+through smartphones.
+Healthcare
+Institution
+Hospitals or clinics integrate DiagnoVision into their workflow to streamline
+patient triage for minor skin conditions, optimizing healthcare delivery with
+quick AI-based diagnoses.
+Developers Developers are responsible for building, maintaining, and enhancing the Di-
+agnoVision system. Their tasks include optimizing AI and machine learning
+models for better diagnostic accuracy, fixing bugs, and ensuring smooth in-
+tegration between the front-end mobile app and back-end services. They
+also monitor system performance and implement feature updates based on
+user feedback and advancements in AI technology.
+Medical
+Data
+Provider
+Medical Data Providers offer essential datasets for training and refining the
+AI models used in DiagnoVision. These datasets, often sourced from reli-
+able medical institutions, are critical for ensuring accurate diagnoses of skin
+conditions. Providers also collaborate with developers to ensure that the
+data remains up-to-date, secure, and compliant with healthcare standards,
+supporting the continuous improvement of diagnosis accuracy.
+5
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+The selection of the requirement gathering technique(s) will depend on the type of project.
+For instance, • Use case (use case diagram + detail use case) is an effective technique for
+interactive end-user applications. • Event- response table is for real-time system in which
+most of the functionalities are performed at backend. • Storyboarding for graphically
+intensive applications.
+Create the suitable representation here.
+2.2 Functional Requirements
+This section outlines the functional requirements of DiagnoVision. Each module’s func-
+tional requirements are expressed in natural language and organized by system feature.
+2.2.1 Module 1: Text-Based Symptom Analysis
+Following are the requirements for module 1:
+1. The system shall allow the user to input a description of their skin-related symptoms
+via a text field.
+2. The system shall analyze the text input using Natural Language Processing (NLP)
+to identify key symptoms.
+7
+2. Project Requirements
+3. The system shall match identified symptoms to known conditions (Acne, Eczema,
+Psoriasis) using a predefined symptom-disease mapping.
+4. The system shall provide the user with a preliminary diagnosis based on the text
+input.
+5. The system shall generate a confidence score for the diagnosis based on the accu-
+racy of symptom matching.
+6. The system shall suggest additional symptoms to the user for further clarification,
+if needed.
+2.2.2 Module 2: Image-Based Skin Analysis
+Following are the requirements for module 2:
+1. The system shall allow the user to upload images of affected skin areas.
+2. The system shall process and enhance the uploaded images for better feature ex-
+traction.
+3. The system shall analyze the images using a Computer Vision (CV) model trained
+to detect Acne, Eczema, and Psoriasis.
+4. The system shall classify the image as either affected or unaffected by any of the
+three skin conditions.
+5. The system shall provide a visual diagnosis along with a confidence score for each
+image.
+6. The system shall allow the user to upload multiple images for a more comprehen-
+sive diagnosis.
+2.2.3 Module 3: Decision-Making and Diagnosis Combination
+Following are the requirements for module 3:
+1. The system shall integrate the results from both the text-based analysis and the
+image-based analysis.
+2. The system shall use a decision-making algorithm to reconcile conflicting results
+from the two sources.
+8
+2.2 Functional Requirements
+3. The system shall calculate a final diagnosis based on the combined results from
+both analyses.
+4. The system shall provide a confidence score for the combined diagnosis.
+5. The system shall update the diagnosis dynamically if the user modifies their inputs
+or uploads additional images.
+2.2.4 Module 4: Disease Spread Monitoring
+Following are the requirements for module 4:
+1. The system shall retrieve local disease spread data from public sources, such as
+health agencies or open data APIs.
+2. The system shall alert users if a disease is spreading rapidly in their area.
+3. The system shall provide precautionary measures based on the diseases spreading
+in the user’s area.
+4. The system shall update diagnostic recommendations based on regional data about
+disease spread.
+2.2.5 Module 5: Personalized Skincare Advice Based on Weather
+Following are the requirements for module 5:
+1. The system shall retrieve and analyze real-time weather data using a weather API.
+2. The system shall provide personalized skincare advice based on the current weather
+conditions (e.g., UV index, humidity, temperature).
+3. The system shall update skincare advice dynamically as weather conditions change.
+4. The system shall allow users to input their skin type (oily, dry, sensitive, etc.) to
+tailor skincare recommendations.
+5. The system shall notify users about extreme weather conditions that could affect
+their skin (e.g., high UV levels or low humidity).
+9
+2. Project Requirements
+2.2.6 Module 6: User Interface and Experience Management
+Following are the requirements for module 6:
+1. The system shall provide a user-friendly interface that is accessible on both mobile
+and desktop platforms.
+2. The system shall allow users to input text-based symptoms and upload images of
+their skin in an easy-to-use format.
+3. The system shall provide clear, step-by-step feedback to guide users through the
+diagnostic process.
+4. The system shall deliver diagnostic results, confidence scores, and skincare recom-
+mendations to users in a clear and concise manner.
+5. The system shall send notifications to users when new alerts or diagnostic results
+are available.
+6. The system shall store user preferences and past diagnostic results for easy retrieval
+and ongoing management of skin conditions.
+2.3 Non-Functional Requirements
+This section defines the quality attributes of the software that are measurable, verifiable,
+and quantitative.
+2.3.1 Reliability
+The DiagnoVision system shall maintain a high level of reliability, that will ensure con-
+tinuous and uninterrupted service for the users seeking diagnoses and medical advice.
+The system must have a Mean Time Between Failures (MTBF) of at least 1,500 hours
+for all critical operations, including symptom analysis and image processing. Failures
+are defined as the inability to process user inputs, diagnose conditions, or display results
+within the specified performance parameters. The system will implement real-time er-
+ror detection mechanisms to identify and log failures, followed by automatic correction
+or prompt notifications to the technical team for resolution. Additionally, redundancy
+measures will be implemented to ensure minimal disruption in case of failure, providing
+seamless service continuity.
+10
+2.3 Non-Functional Requirements
+2.3.2 Usability
+Usability requirements focus on enhancing the user experience by ensuring ease of learn-
+ing, use, error avoidance, efficient interactions, and accessibility for all users. These
+requirements will guide the user interface designer in creating an optimal experience for
+the users of varying technical backgrounds.
+USE-1: Users shall be able to input symptoms and to upload images within 3 interactions
+to receive a diagnosis.
+USE-2: The system shall provide clear, step-by-step guidance during the diagnosis pro-
+cess to minimize user errors.
+USE-3: Users shall receive immediate feedback for any errors in input, allowing for quick
+corrections without restarting the process.
+USE-4: The application shall be navigable within 5 minutes by first-time users, ensuring
+an intuitive learning curve.
+USE-5: The system shall comply with accessibility standards, enabling users with visual
+impairments to navigate the interface effectively using screen readers.
+2.3.3 Performance
+Performance requirements for DiagnoVision define the expected operational speed and
+the efficiency for various system functionalities. Specific performance goals are outlined
+for critical operations to ensure a responsive user experience.
+PER-1: The system shall process an image upload and return a diagnosis within 8 seconds
+for 95% of the requests.
+PER-2: The symptom analysis module shall provide a textual diagnosis based on user
+input within 6 seconds for 90% of interactions.
+PER-4: The chatbot feature shall respond to user queries within 4-5 seconds for 90% of
+the interactions to facilitate efficient communication.
+11
+2. Project Requirements
+PER-5: Real-time data retrieval for disease spread notifications shall occur within 10
+seconds, providing users timely and relevant information.
+2.3.4 Security
+The security requirements for DiagnoVision focus on protecting the system and its data
+from unauthorized access and ensuring user privacy. These requirements are measurable
+in terms of the effort and skill level needed to breach the system.
+To handle security, DiagnoVision will implement the following measures:
+SEC-1: The system will be designed to withstand unauthorized access attempts, requiring
+a significant effort level to compromise user data.
+SEC-2: All user data, including personal health information, will be encrypted both at
+rest and in transit, ensuring that decryption requires advanced skills and substantial time
+investment.
+SEC-3: User accounts will be protected through 2-factor authentication, enhancing secu-
+rity against unauthorized access and ensuring that only verified users can access sensitive
+data.
+SEC-5: Regular security assessments and vulnerability scans will be conducted at least
+quarterly to identify and address potential security risks, ensuring the ongoing integrity
+of the system.
+2.4 Domain Model
+12
+2.4 Domain Model
+Figure 2.1: Domain Model
+13
+
+Chapter 3
+System Overview
+Give a general description of the functionality, context, and design of your project. Pro-
+vide any background information if necessary.
+3.1 Architectural Design
+Figure 3.1: Architectural Diagram
+The system is designed with a modular architecture to ensure efficient functionality and
+scalability. Each module has a specific role, from processing user inputs to providing
+accurate diagnoses and personalized advice. These modules work collaboratively, inte-
+grating text and image analysis to deliver reliable health insights. This approach enables
+the system to function cohesively while remaining adaptable for future enhancements.
+15
+3. System Overview
+3.1.1 Text Input and Analysis Module
+Processes user-entered symptoms using natural language processing (NLP) models to
+identify potential skin conditions based on text-based descriptions.
+3.1.2 Image Input and Analysis Module
+Analyzes images of skin areas provided by the user, detecting visual patterns indicative
+of specific skin diseases like Acne, Eczema, and Psoriasis.
+3.1.3 Combined Diagnosis Module
+Integrates the results from both the text and image modules to generate a more accurate
+and comprehensive diagnosis using decision-making algorithms.
+3.1.4 Disease Spread and Monitoring Module
+Tracks disease prevalence in the user’s region by analyzing publicly available data, pro-
+viding insights into local outbreaks and precautions.
+3.1.5 Personalized Advice and Dermatologist Recommendation Mod-
+ule
+Offers personalized skincare advice based on real-time data and recommends top derma-
+tologists based on the user’s condition and location.
+3.2 Design Models
+Create design models as are applicable to your system. Provide detailed descriptions with
+each of the models that you add. Also ensure visibility of all diagrams.
+Design Models for Procedural Approach
+The applicable models for the project using Procedural approach may include:
+• Activity Diagram
+• Class Diagram
+• Class-level Sequence Diagram
+16
+3.3 Data Design
+3.2.1 Activity Diagram
+3.2.2 Class Diagram
+3.2.3 System Sequence Diagram
+3.3 Data Design
+For the DiagnoVision project, an Entity Relationship Diagram (ERD) models the key
+entities and their relationships. Here’s a breakdown of the entities based on the report:
+Entities: 1.
+3.3.1
+User - Attributes: UserID, Name, Email, Location, Age, Gender - Relationships: Can
+input symptoms, upload images, and receive diagnosis.
+2.
+3.3.2 Symptom Input
+- Attributes: SymptomID, SymptomText, Timestamp - Relationships: Belongs to a User,
+linked to Disease Diagnosis.
+3.
+3.3.3 Image Input
+- Attributes: ImageID, ImageData, Timestamp - Relationships: Belongs to a User, linked
+to Disease Diagnosis.
+4.
+3.3.4 Disease Diagnosis
+- Attributes: DiagnosisID, DiseaseType (Acne, Eczema, Psoriasis), ConfidenceScore -
+Relationships: Linked to Symptom Input and Image Input, provides feedback to User.
+5.
+17
+3. System Overview
+3.3.5 Doctor
+- Attributes: DoctorID, Name, Specialization, Location, ContactInfo - Relationships: Can
+be recommended to a User based on Diagnosis and Location.
+6.
+3.3.6 Disease Outbreak
+- Attributes: OutbreakID, DiseaseType, Location, Severity, Timestamp - Relationships:
+Affects the User’s recommendations based on Location and Disease.
+7.
+3.3.7 Weather Condition
+- Attributes: WeatherID, Temperature, Humidity, Condition (Rainy, Sunny, etc.), Times-
+tamp - Relationships: Provides skincare advice to User.
+8.
+3.3.8 Skincare Advice
+- Attributes: AdviceID, AdviceText, WeatherID - Relationships: Linked to Weather Con-
+dition, tailored to User’s diagnosis and current weather.
+—
+Proposed ERD Structure: - User 1—< Symptom Input >—1 Disease Diagnosis - User
+1—< Image Input >—1 Disease Diagnosis - Disease Diagnosis >—1 Doctor (recommen-
+dation based on diagnosis and location) - User 1—< Weather Condition >—1 Skincare
+Advice - User >—1 Disease Outbreak (affected by outbreak data in the user’s region)
+—
+3.3.9 Relationships
+- One-to-Many (1—<) : A User can have multiple symptom inputs, image uploads, diag-
+noses, etc. - Many-to-One ( >—1) : Multiple Symptom or Image Inputs result in a single
+Disease Diagnosis. - One-to-One: Diagnosis corresponds to a single doctor recommen-
+dation and outbreak/ weather-based advice.
+18
+3.3 Data Design
+Figure 3.2: Activity Diagram
+19
+3. System Overview
+Figure 3.3: Activity Diagram
+20
+3.3 Data Design
+Figure 3.4: SSD
+21
+3. System Overview
+Figure 3.5: SSD
+22
+3.3 Data Design
+Figure 3.6: SSD
+23
+3. System Overview
+Figure 3.7: Entity Relationship Diagram
+24
+Bibliography
+[1] A Kolyshkin and S Nazarovs. Stability of slowly diverging flows in shallow water.
+Mathematical Modeling and Analysis , 2007.
+25
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

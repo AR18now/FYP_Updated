@@ -1,0 +1,529 @@
+# FYP1-MidReport-F24-037-D-ArchiVisionAI - i210321 Fatima Shahzad
+
+## 1. Introduction
+
+1. Introduction
+Figure 1.1: Architecture Design
+Figure 1.2: Interior Design Diagram
+accordance to location , ventilation and other factors which a real architect considers. The
+sole purpose of this application is to help users visualize and see their living spaces by
+giving them 3D visualizations of floorplans and interior design options. The user can get a
+floorplan, visualize it in 3D and decorate it according to his wishes. This application will
+make decision making more easy with Augmented Reality for visualizing a non existent
+object in a room or by visualizing an actual object in the picture of a room. The following
+diagrams show the scope and functionality of our project.
+1.3 Modules
+Write down the modules of the proposed project. Each module should highlight features,
+using bulleted/numbered notation. When developing both a mobile app and a web app,
+group the modules according to the system types, such as, Client Web App, Client Mobile
+App, Admin Web App etc.
+1.3.1 Module 1: Architecture Design Implementation
+This module covers all aspects of architectural design within the application, including
+front-end development.
+2
+1.3 Modules
+1. Data Collection and Model Exploration
+2. Model Training and Tuning
+3. Floor Plan Generation in 2D
+4. 3D Plan generation
+5. Front-End Design
+6. Save Progress
+7. Integration of All Features
+1.3.2 Module 2: Interior Design Implementation
+Interior Design Implementation This module covers all aspects of interior design within
+the application, including front-end development.
+1. Data Collection and Model Exploration
+2. Model Training and Tuning
+3. Image Capture/Upload Feature
+4. Augmented Reality for Viewing Objects in User’s Image
+5. Smart Purchase Preview (Adding real time objects to an image)
+6. Front-End Design
+7. V oice based interface inclusion
+8. Integration with the Architecture Design Module
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+Interior Designers The interior designers are the people who will renovate the houses of people
+based on the designs ArchiVisionAI will generate. They will also use this
+system to help the customers understand better about the end results of reni-
+vation process. This can also help interior designers to pick a good piece of
+furniture for users.
+Land Owners Land and owners are people who own a piece of land and want to see how
+their house will look based on the floorplan or generate a floor plan and
+visualize it.
+House Owners House owners are people who have their own houses and wish to renovate
+their rooms or entire house , they can use ArchiVisionAI to create the re-
+modelled version of their houses.
+Furniture Businesses These businesses sell furnitures to people, they can enhance their customers’
+decision making by using AR to see how a particular furniture i,e, sofas or
+chairs will look inside customers’ rooms.
+4
+Chapter 2
+Project Requirements
+2.1 Use-cases
+Figure 2.1: Use Case Diagram
+5
+2. Project Requirements
+2.1.1 Use Cases For Architecture Design Part
+2.1.1.1 User Authentication (Sign Up/Log In)
+Actor User
+Description The user can create a new account or sign in to an existing
+account.
+Preconditions The user needs to authenticate their identity.
+Main Flow
+1. User selects either "Sign Up" or "Log In."
+2. The system asks the user to enter the credentials i.e.
+Username and Password.
+3. User enters Username and Password which are then
+verified by the system.
+4. After successful verification, the user can access and
+use the application’s features.
+Postconditions User is authenticated and granted access to the application.
+2.1.1.2 Floor Plan Generation
+Actor User
+Description The user generates a new floor plan based on input that can
+be a text or voice prompt specifying parameters such as the
+number of rooms.
+Preconditions The user is logged in and has chosen architecture design
+followed by floor plan generation.
+Main Flow
+1. User inputs number of rooms and descriptions of floor
+plans.
+2. The system generates a 2D floor plan.
+3. User can review or generate it and convert it to a 3D
+model.
+Postconditions A 2D floor plan is created and saved for 3D rendering.
+6
+2.1 Use-cases
+2.1.1.3 Floor Plan 3D Model
+Actor User
+Description Converts the generated floor plan into a 3D model for visu-
+alization.
+Preconditions A 2D floor plan has been generated or uploaded.
+Main Flow
+1. User selects the option to visualize the floor plan in
+3D.
+2. The system renders the 3D model based on the floor
+plan’s specifications.
+3. User can design the interior.
+Postconditions A 3D version of the floor plan is generated and its interior
+can be designed.
+2.1.1.4 Interior Design of 3D Model
+Actor User
+Description The user furnishes and designs the interior of the 3D model
+with AI.
+Preconditions A 3D model of the floor plan exists.
+Main Flow
+1. User gives prompts for styling the interior.
+2. The system updates the 3D model with the design
+generated by AI.
+Postconditions The interior design of 3D model is saved.
+7
+2. Project Requirements
+2.1.2 Use Cases For Interior Design Part
+2.1.2.1 AR for Viewing Objects
+Actor User
+Description The user visualizes furniture items in real time using Aug-
+mented Reality (AR).
+Preconditions The user’s device is AR-enabled i.e a smartphone is re-
+quired.
+Main Flow
+1. User selects an item from the interior design catalog.
+2. The system activates the AR feature, overlaying the
+item in the real-world space.
+Postconditions The user can visualize and compare items in their own en-
+vironment.
+2.1.2.2 Remodeling Interior
+Actor User
+Description The user modifies the interior design by giving prompts for
+styling.
+Preconditions The images of the space are uploaded or a 3D model is cre-
+ated.
+Main Flow
+1. User gives prompts for styling the interior.
+2. The system, using AI, generates designs according to
+the prompts given by the user.
+3. User confirms the changes, and the model is updated.
+Postconditions The interior design is remodeled according to the user’s
+preferences.
+8
+2.1 Use-cases
+2.1.2.3 Visualizing Real-World Objects
+Actor User
+Description The user visualizes how existing real-world objects (e.g.,
+new furniture) will look in their space using this feature.
+Preconditions The user’s device ensures that the real-world object is
+scanned. The user’s space/environment must be saved in
+the application or uploaded.
+Main Flow
+1. User scans an object to visualize.
+2. The system overlays the object into the space already
+uploaded or saved in the application.
+Postconditions The object visualization in user’s space is completed, allow-
+ing the user to make decisions based on the preview.
+9
+2. Project Requirements
+2.2 Extended Use-cases
+2.2.1 Extended Use-cases for Architectural Design Part
+2.2.1.1 User Authentication (Sign Up/Log In)
+Use Case ID UC01
+Description The user either creates a new account or logs into an exist-
+ing account.
+Trigger The user either selects "Sign Up" or "Log In."
+Preconditions The user has the application installed and an internet con-
+nection.
+Postconditions The user is authenticated and granted access to the applica-
+tion’s features.
+Normal Flow
+1. The user clicks on either "Sign Up" or "Log In."
+2. The system prompts for credentials i.e. Username and
+Password.
+3. The user enters their username and password.
+4. The system validates the credentials.
+5. The user is logged in if credentials are correct.
+Alternative Flow If the user forgets their password, the system provides a
+"Forgot Password" link.
+Exception Incorrect credentials trigger an error message prompting the
+user to retry.
+Frequency of Use Frequently used when accessing the application.
+Special Requirement Secure password storage and encryption.
+Assumptions Users have valid unique usernames or emails.
+10
+2.2 Extended Use-cases
+2.2.1.2 Floor Plan Generation
+Use Case ID UC02
+Description The user generates a new floor plan based on input prompts
+with parameters.
+Trigger The user inputs room dimensions, number of rooms, and
+other specifications.
+Preconditions The user is logged in and ready to start the floor plan by
+choosing it under the architecture design part.
+Postconditions A 2D floor plan is generated and available for conversion to
+3D.
+Normal Flow
+1. The user inputs prompt having room size, number of
+rooms, and so on.
+2. The system processes these inputs to generate a 2D
+floor plan.
+3. The user reviews and converts it to 3D if needed.
+4. The system saves the floor plan.
+Alternative Flow If the user cancels the input process, the system will discard
+the plan.
+Exception Invalid entries for inputs trigger a warning for the user to
+correct the inputs.
+Frequency of Use Used whenever the user starts a new architecture design
+project.
+Special Requirement Precision in the generation of designs.
+Assumptions The user understands how to input prompts with parameters
+correctly.
+11
+2. Project Requirements
+2.2.1.3 Floor Plan 3D Model Generation
+Use Case ID UC03
+Description Converts a generated 2D floor plan into a 3D model.
+Trigger The user selects the option to visualize the floor plan in 3D.
+Preconditions A 2D floor plan has been created or uploaded.
+Postconditions The 3D floor plan is visualized.
+Normal Flow
+1. The user selects "Convert to 3D."
+2. The system renders the 3D model.
+3. The system saves the model.
+Alternative Flow If rendering fails, the system notifies the user and suggests
+retrying.
+Exception Complex plans might take longer to render, and the system
+notifies the user about the delay.
+Frequency of Use Used frequently after creating 2D floor plans.
+Special Requirement High graphical processing capability.
+Assumptions The user’s device has enough memory to support 3D ren-
+dering.
+12
+2.2 Extended Use-cases
+2.2.1.4 Interior Design of 3D Model
+Use Case ID UC04
+Description The user furnishes and designs the interior of the 3D model
+with AI.
+Trigger The user selects the option to begin interior design after the
+3D model is created.
+Preconditions A 3D model exists, and the user wants to design its interior.
+Postconditions The 3D model is updated with user-preferred designs.
+Normal Flow
+1. The user opens the 3D model in the interior design
+module.
+2. The user prompts the system for styling the space.
+3. The system updates and saves the model with the
+user’s preferred styles.
+Alternative Flow If the user doesn’t like the options, the system will regener-
+ate the designs.
+Exception None.
+Frequency of Use Frequently used after 3D model generation.
+Special Requirement AI model should be able to provide diversity in designs.
+Assumptions The user understands how to generate designs using
+prompts correctly.
+13
+2. Project Requirements
+2.2.2 Extended Use-cases for Interior Design Part
+2.2.2.1 AR for Viewing Objects
+Use Case ID UC05
+Description Users visualize furniture items using Augmented Reality
+(AR).
+Trigger The user selects an item to preview in AR.
+Preconditions The device supports AR functionality.
+Postconditions The selected item is visualized in the real-world environ-
+ment via AR.
+Normal Flow
+1. The user selects an item from the catalog.
+2. The system activates the device’s AR mode.
+3. The user points the device’s camera at their space.
+4. The system overlays the item into the space.
+Alternative Flow If AR is not supported, the system will suggest using a 3D
+preview instead.
+Exception Poor lighting or room conditions prevent the AR from func-
+tioning correctly.
+Frequency of Use Occasionally used during the interior design process.
+Special Requirement Good quality camera and AR capabilities like in a smart-
+phone.
+Assumptions The user’s space is well-lit and suitable for AR visualiza-
+tion.
+14
+2.2 Extended Use-cases
+2.2.2.2 Remodeling Interior Spaces
+Use Case ID UC06
+Description The user modifies the interior design by giving prompts for
+styling.
+Trigger The user selects an option to remodel an existing space after
+uploading its images or creating its 3D model.
+Preconditions The user must be logged in, and images or 3D model of the
+space must exist.
+Postconditions The updated model is saved with the remodeled design
+changes.
+Normal Flow
+1. The user gives prompts for styling the interior.
+2. The system, using AI, generates designs according to
+the user’s prompts.
+3. The user confirms the changes, and the model is up-
+dated.
+Alternative Flow If the user doesn’t like the designs, the system can regener-
+ate them.
+Exception If a space has not been created or uploaded, it prompts the
+user to upload an image or create a 3D model.
+Frequency of Use Frequently used when making design adjustments to an ex-
+isting space.
+Special Requirement The system should support high-resolution rendering and
+provide diversity in results.
+Assumptions The user is familiar with the correct way to give prompts to
+the model.
+15
+2. Project Requirements
+2.2.2.3 Visualizing Real-World Objects in Virtual Space
+Use Case ID UC07
+Description The user scans real-world objects (such as furniture) to vi-
+sualize them in a virtual environment, allowing comparison
+with other items or spaces.
+Trigger The user initiates the option to scan a real-world object for
+visualization.
+Preconditions The user’s device must have a camera and be capable of
+scanning objects. The 3D model or images of the user’s
+space where the object is to be visualized must exist.
+Postconditions The scanned object is accurately represented in the virtual
+space, allowing the user to decide if they want to purchase
+it.
+Normal Flow
+1. The user selects the "Scan Object" option.
+2. The system activates the camera and guides the user
+through the scanning process.
+3. The system processes the scan and adds the object to
+the user’s space.
+Alternative Flow If the scanning fails, the system prompts the user to retry or
+adjust lighting/environment conditions for better accuracy.
+Exception Poor scan quality due to low light or reflective surfaces may
+result in inaccurate models, and the system will notify the
+user to improve the scanning conditions.
+Frequency of Use Occasionally used when comparing new furniture or objects
+with existing spaces.
+Special Requirement The device must have a camera to scan the objects.
+Assumptions The user understands how to scan objects.
+16
+2.3 Functional Requirements
+2.3 Functional Requirements
+The functional requirements of ArchiVisionAI are listed below.
+2.3.1 Module 1: Architectural Design
+2.3.1.1 User Registration (Login and Signup)
+• Users can create an account and access it later with their username and password.
+2.3.1.2 2 Dimensional Floor Plan Generation
+• Users can generate a floor plan according to the prompts they enter.
+• Options to edit the floor plan would also be available.
+2.3.1.3 3D Model Generation
+• Users can make a 3D model of their 2D floor plan.
+• Users have the option to choose their desired layout.
+2.3.1.4 User Interface (UI/UX)
+• A user-friendly interface for architecture design is present to make full use of the
+application.
+• Navigation between different features is easily accessible.
+2.3.2 Module 2: Interior Design
+2.3.2.1 Interior Design Model
+• The users get interior designs on the basis of their selected themes.
+• The user can explore multiple interior design options.
+17
+2. Project Requirements
+2.3.2.2 Image Capture/Upload
+• The users capture and upload images of their spaces to see different design options.
+• The users can renovate their existing living spaces.
+2.3.2.3 AR for Viewing Limited Objects in Real Time
+• The user visualizes furniture items in their spaces through augmented reality in
+real-time to see the suitable place of an item.
+• The operation of AR is smooth for users.
+2.3.2.4 Smart Purchase Preview
+• The users can add the image of an item in the image of their existing space.
+• The users can compare multiple options.
+2.3.2.5 User Interface (UI/UX)
+• A user-friendly interface for interior designing is present to make full use of the
+application.
+• Navigation between different features is easily accessible.
+2.3.2.6 Voice-Based Prompts
+• The users have the option to operate the app using voice-based prompts along with
+text.
+• The voice recognition system accurately understands the user.
+18
+2.4 Non-Functional Requirements
+2.4 Non-Functional Requirements
+2.4.1 Reliability
+The application should have a mean time between failures (MTBF) of at least 500 hours.
+Failure is an event where users cannot use main functionalities like 3D modeling, AR
+visualization, or interior design options. The system will be able to recover from the
+failure in 15 minutes.
+2.4.2 Usability
+The application has easy to understand interface which allows users to effortlessly gener-
+ate floor plans, view furniture in AR, and receive design suggestions with minimal learn-
+ing time. Users would be able to learn how to use the application within 15 minutes. voice
+based prompt feature will make usability more easier even for non technical users. A user
+error rate of less than 10 percent is expected. Example:
+• USE-1: The user can change the interior design styling for the same model multiple
+times.
+• USE-2: The user can preview the furniture item using AR within 1 minute after
+selecting the item.
+• USE-3: The user can take a picture of their room . see how an item would look in
+their room.
+• USE-4: The user can see the different interior design styles.
+• USE-5: The user can use voice commands to request different design ideas to re-
+model a specific room (e.g., "Show me modern living room").
+2.4.3 Performance
+The application should have a maximum response time of 1 minute to get AR visual-
+ization and 10 seconds for user interactions like generating a floor plan. For larger and
+complex tasks like creating a 3D model or running interior design suggestions, the task
+should not take longer than 15 seconds. Example:
+• PER-1: 85 percent of user interactions should meet the 10 second response time.
+19
+2. Project Requirements
+• PER-2: 90 percent of complex tasks should meet the 15 seconds response time
+target.
+• PER-3: 90 percent of AR tasks should meet the 1 minute response time target.
+2.4.4 Security
+The system must ensure the protection of sensitive data, prevent unauthorized people from
+entering the system. The main aim will be safeguarding user information and overall
+integrity of the application.
+• SEC-1: The system will ensure that all user data, including personal details like
+passwords is kept safe from unauthorized access.
+• SEC-2: The application will protect from brute force attacks by limiting the number
+of login attempts to 5.
+20
+2.5 Domain Model
+2.5 Domain Model
+Figure 2.2: Domain Model
+21
+
+Chapter 3
+System Overview
+3.1 Architectural Design
+Figure 3.1: Architecture Diagram
+23
+3. System Overview
+3.2 Design Models
+3.2.1 Activity Diagram
+Figure 3.2: Activity Diagram
+24
+3.2 Design Models
+3.2.2 Data Flow Diagram
+Figure 3.3: Data Flow Diagram - Level 0
+25
+3. System Overview
+Figure 3.4: Data Flow Diagram - Level 1
+Figure 3.5: Data Flow Diagram - Level 2
+26
+3.2 Design Models
+3.2.3 State Level Sequence Diagram
+3.2.3.1 Floor Plan and 3D Model
+Figure 3.6: Floor plan and 3D model
+27
+3. System Overview
+3.2.3.2 Interior Design of 3D Model
+Figure 3.7: Interior Design of 3D Model
+28
+3.2 Design Models
+3.2.3.3 AR Feature
+Figure 3.8: AR Feature
+29
+3. System Overview
+3.2.3.4 Remodeling of an Existing Space
+Figure 3.9: Remodeling of an existing space
+30
+3.2 Design Models
+3.2.3.5 Smart Purchase Preview
+Figure 3.10: Smart Purchase Preview
+31
+3. System Overview
+3.2.4 State Transition Diagram
+Figure 3.11: State Transition Diagram
+3.3 Data Design
+The information domain of our system is transformed into structured data that is suitable
+for the implementation of different functionalities including architectural, interior design,
+augmented reality (AR) and so on.The data is stored and processed in a such a way that
+these features are implemented efficiently.
+3.3.1 Data Entities and Structures
+The major data entities as follows:
+1. User Data:
+• Storage:To be stored in a database with tables for users and authentication creden-
+tials.
+• Data Fields: UserID, Username, Email, Password and Project files.
+• Processing: User data is retrieved for authentication in login/sign-up part. Project
+files are stored for reuse and modifications.
+32
+3.3 Data Design
+2. Floor Plans Data:
+• Storage: Floor plans are stored as files (2D and 3D models).
+• Data Fields: FloorPlanID, FilePath.
+• Processing: The user inputs the prompts regarding the generation of floorplans.
+This is saved for future use such as conversion to 3D model, designing interior of
+3D model and so on.
+3. Interior Design Data:
+• Storage: Interior designs generated by AI are stored as files (2D and 3D),
+• Data Fields: DesignID, FilePath.
+• Processing: The users inputs the prompts regarding the styling of 2D or 3D spaces
+and can store it for future reference.
+4. AR Data:
+• Storage: Real-time data captured by AR devices is stored temporarily in memory
+or on-device storage.
+• Data Fields: ObjectID, ARPlacementData.
+• Processing: Real-time visualization allows users to overlay virtual furniture on
+their real-world space. This information is deleted when the session ends.
+3.3.2 Databases or Data Storage
+The key databases and data storage items used are:
+1. User Authentication Database: Stores all user credentials such as username ,pass-
+word and project files.
+2. Database for interior, architecture design and AR: Holds the 2D and 3D floor
+plans generated by users along with interior design files.AR information will be
+temporarily stored. Mostly cloud storage will be used.
+33
+
+Bibliography
+[1] Deepgram. Ai apps: Roomgpt. 2024. Accessed: 2024-09-11.
+[2] A Kolyshkin and S Nazarovs. Stability of slowly diverging flows in shallow water.
+Mathematical Modeling and Analysis , 2007.
+[3] TechRadar. Smartdraw review. 2024. Accessed: 2024-09-11.
+35
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

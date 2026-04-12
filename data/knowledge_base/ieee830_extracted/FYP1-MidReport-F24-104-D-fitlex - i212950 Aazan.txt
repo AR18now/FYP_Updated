@@ -1,0 +1,619 @@
+# FYP1-MidReport-F24-104-D-fitlex - i212950 Aazan
+
+## 1. Introduction
+
+Introduction 1 
+1.1 Problem Statement 1 
+1.2 Scope 1 
+1.3 Modules 2 
+1.3.1 Module 1 - Real Time Workout Analysis 2 
+1.3.2 Module 2 - Accessory Store 2 
+1.3.3 Module 3 - Community and Forums 2 
+1.3.4 Module 4 - Find Nearby Gyms 3 
+1.3.5 Module 5 - Fitness Chatbot 3 
+1.3.6 Module 6 - Personalized Workout 3 
+1.3.7 Module 7 - Mobile Application 3 
+1.3.8 Module 8 - Performance and Progress Reports 4 
+1.4 User Classes and Characteristics 4 
+Chapter 2 - Project Requirements 5 
+2.1 Use-case Diagram 5 
+2.2 Functional Requirements 7 
+2.3 Non-Functional Requirements 9 
+2.4 Domain Model 10 
+Chapter 3 - System Overview 11 
+3.1 Architectural Design 11 
+3.2 Design Models 12 
+Activity Diagram: 12 
+Class Diagram: 13 
+Class Level Sequence Diagrams: 13 
+State Transition Diagram 18 
+System Sequence Diagrams 19 
+3.3 Data Design 24 
+ERD 25 
+Bibliography 26 
+1 
+List of Figures 
+ 
+Figure 1 use case Diagram ................................................................................... 2 
+Figure 2 Domain model ........................................................................................ 9 
+Figure 3 Architecture diagram ......................................................................... 10 
+Figure 4 Activity Diagram ................................................................................. 12 
+Figure 5 Class Diagram ..................................................................................... 13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 6 Sequence Diagram : Chatbot ............................................................. 13
+Figure 7 Sequence Diagram : Create post ....................................................... 13
+Figure 8 Sequence Diagram : Real-time workout Analysis ........................ 13
+Figure 9 Sequence Diagram : Find nearby Gyms........................................ 13
+Figure 10 Sequence Diagram : Nearby Gyms ................................................. 13
+Figure 11 Sequence Diagram : View Posts ...................................................... 13
+Figure 12 Sequence Diagram : Gym Accessories ............................................ 13
+Figure 13 state transition diagram ................................................................... 13
+Figure 14 System Sequence Diagram : View accessories ............................... 13
+Figure 15 System Sequence Diagram : community forums........................... 13
+Figure 16 System Sequence Diagram : Personalised Workout ..................... 13
+Figure 17 System Sequence Diagram : Real time Workout Analysis ........... 13
+Figure 18 System Sequence Diagram : View Nearby Gyms .......................... 13
+Figure 19 Entity Relationship Diagram ........................................................... 13
+2 
+Chapter 1 - Introduction 
+1.1 Problem Statement 
+ 
+While being fit and staying in shape is the dream of many, achieving it might not 
+actually be as simple as it sounds. A core component of performing an exercise is its 
+correct form. A bad exercise form can not only impact fitness growth but can also result 
+in injuries. According to a recent survey, approximately 500,000 people get injured in 
+the gym annually only in the US. A big percentage of these injuries are due to improper 
+exercise form and lack of professional guidance. In current times, we see many different 
+fitness gurus and coaches who themselves are very less aware of the correct exercise 
+forms. With these local gym coaches and social media fitness mentors flooding the 
+fitness world, authenticating their credibility still remains a challenge. This is resulting 
+in a large majority of people getting injuries and not being able to reach their fitness 
+goals. Such people then become demotivated and then continue to neglect their fit ness 
+throughout their lives. 
+ 
+ 
+1.2 Scope 
+ 
+The project is an AI based fitness application which will function as a virtual Gym 
+trainer.. Below are the features we wish to implement: 
+ 
+● Provide users with real time audio feedback on their exercise form through the 
+phone camera 
+● Provide personalized workout plans tailored to the users requirement such as 
+losing weight,bulking,cardio etc. 
+● Show the user gyms near him along with their contact information. 
+● Present the user with the best deals on Gym equipment and fitness related 
+products
+3 
+● Count reps in real time . 
+● Chatbots for gym/workout have a Gym community and forums . 
+● Generate performance reports 
+ 
+Having implemented these features, our application will prove to be a one stop solution 
+for all fitness needs. 
+ 
+1.3 Modules 
+1.3.1 Module 1 - Real Time Workout Analysis 
+ 
+Fitflex will perform real time workout analysis through computer vision. The 
+application will analyze the user’s range of motion and posture of exercise in real time 
+and will help correct the form. Features of this module are: 
+ 
+1. Real time audio feedback 
+2. Real time rep counter 
+3. Generate performance reports 
+ 
+ 
+1.3.2 Module 2 - Accessory Store 
+ 
+The application will include an accessory store which will provide a collection of gym 
+accessories with their prices. Users will be provided with the best deals on Gym 
+accessories from major stores in Pakistan. Following are some of the features included 
+in this module: 
+ 
+1. Search filters based on type of accessories, brands etc. 
+2. Product comparison 
+ 
+ 
+1.3.3 Module 3 - Community and Forums 
+ 
+Application will have a community and forums module for enhanced user interaction. 
+Users will be able to interact with each other to share their experiences, ask questions 
+and provide feedback and recommendations. Following are some of the features of 
+this module: 
+ 
+1. Create posts 
+2. Like, reply and react to posts
+4 
+ 
+1.3.4 Module 4 - Find Nearby Gyms 
+ 
+This module will help users to find nearby gyms from their location. Users will be 
+able to find and search for gyms based on distance. Features of this module include 
+ 
+1. View contact information of nearby Gyms 
+2. Check timings 
+3. Like and save gyms 
+4. Get directions 
+ 
+ 
+1.3.5 Module 5 - Fitness Chatbot 
+ 
+A fitness chatbot will be available to answer user’s basic queries. The chatbot will 
+help the user with search for exercises, injury information, etc. The features include: 
+ 
+1. Search for exercises based on muscle groups, level of expertise and 
+equipment availability. 
+2. Offer injury prevention and treatment recommendations 
+3. Help the user with their diet goals 
+ 
+ 
+ 
+1.3.6 Module 6 - Personalized Workout 
+ 
+Different users have different workout goals. Our personalized workouts will help 
+the user achieve their unique fitness goals. Whether it is getting lean, increasing 
+muscle mass, enhancing endurance, or powerlifting, this module will have everything 
+covered. The main features of this module are: 
+ 
+1. Customized workout plans based on fitness goals 
+2. Updating plans based on user feedback 
+ 
+ 
+ 
+ 
+1.3.7 Module 7 - Mobile Application 
+ 
+This module covers the application development for the project. A versatile 
+application with user- friendly frontend and robust backend will be developed. 
+Key aspects of this module will include: 
+5 
+ 
+1. A seamless front-end for the users to make navigation easier 
+2. A robust and scalable backend for efficient data handling 
+and application functionality 
+3. A feedback mechanism will allow the users to report any bugs and 
+glitches in the app 
+4. Multiple theme options will be available 
+ 
+1.3.8 Module 8 - Performance and Progress Reports 
+ 
+In this module, performance reports will be generated by analyzing the 
+user’s workouts. These reports will then be used to identify the user’s 
+progress to generate recommendations. Key aspects of this module include: 
+ 
+1. Tracking records of recommendations generated. 
+2. Progress reports to identify progress made and weaknesses to be worked 
+on. 
+ 
+ 
+1.4 User Classes and Characteristics 
+ 
+ 
+ 
+User Class Description 
+Fitness Enthusiasts - 15-45 years This is the primary user class which will benefit from real time 
+workout monitoring, personalized workout plans and use the 
+chatbot for fitness related guidance. 
+Fitness Community Members These are the users who like to share their fitness experiences with 
+fellow members in a community or Forum. Members of this user 
+class will use the application to share their fitness journeys by 
+creating posts, and engaging with fellow forum members on their 
+posts. 
+Gym Accessory Purchasers This group of users will be looking for fitness related accessories. 
+Members of this user class can use the application to browse for 
+gym accessories and purchase them. 
+6 
+ 1.4 User Classes and Characteristics 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Chapter 2 - Project Requirements 
+2.1 Use-case Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 1 use case Diagram 
+7 
+ 
+2.2 Functional Requirements 
+ 
+Below mentioned are the functional requirements for each module: 
+ 
+ 
+2.2.1 Module 1 - Real Time Monitoring 
+ 
+● FR1 : System shall capture real time video of the user through the phone camera. 
+● FR2 : System shall analyze the user's video for form correction. 
+● FR3 : System shall provide audio feedback to the user in case of wrong exercise 
+form. 
+● FR4 : System shall count exercise repetitions in real time. 
+● FR5 : System shall generate performance reports for the exercise including 
+number of reps and form correctness. 
+ 
+2.2.2 Module 2 - Accessory Store 
+ 
+● FR1 : System shall display gym accessories with their prices. 
+● FR2 : System shall provide search filters to users. 
+ 
+2.2.3 Module 3 - Community and Forums 
+ 
+● FR1 : System shall allow users to create posts 
+● FR2 : System shall allow users to react and reply to other users’ posts 
+ 
+2.2.4 Module 4 - Find Nearby Gyms 
+● FR1 : System shall display nearby gyms to users based on their current location. 
+● FR2 : System shall display contact details for each gym 
+● FR3 : System shall allow the users to like and save gyms for future reference. 
+2.2.5 Module 5 - Fitness Chatbot 
+ 
+● FR1 : System shall allow the users to find exercises based on muscle groups 
+through chatbot interaction. 
+● FR2 : The chatbot shall offer fitness related guidance to users like correct 
+form and technique and injury prevention tips. 
+● FR3 : System shall provide nutritional advice to users and help them achieve their 
+diet goals.
+8 
+2.2.6 Module 6 - Personalized Workout 
+ 
+● FR1 : System shall allow users to add fitness goals and current fitness level. 
+● FR2 : System shall provide personalized fitness plans to users based on their 
+fitness goals. 
+2.2.7 Module 7- Mobile Application 
+ 
+● FR1 : The application shall allow the users to select different themes 
+for customization. 
+● FR2 : System shall provide a feedback mechanism to report for bugs and errors in 
+the application. 
+2.2.8 Module 8- Progress Reports 
+ 
+● FR1 : The system shall keep track of performance reports per exercise. 
+● FR2 : System shall indicate progress points and weak points through the report. 
+ 
+2.3 Non-Functional Requirements 
+ 
+This section specifies nonfunctional requirements. These quality requirements should be 
+specific, quantitative, and verifiable. The following are some examples of documenting 
+guidelines. 
+2.3.1. Reliability: 
+● The system shall have an MTBF (Mean Time Between Failures) of at least 1,000 
+hours for all major functionalities, including workout analysis, chatbot responses, 
+and personalized workout recommendations. 
+● In the event of a failure, the system shall be able to recover to a stable state within 
+5 minutes without data loss. 
+● The application shall have an uptime of at least 90% over any 30-day period, 
+excluding scheduled maintenance windows 
+● the application shall be able to handle at least 100 concurrent users without 
+degradation in performance or functionality. 
+ 
+2.3.2. Usability: 
+● The system shall have an intuitive user interface with a learning curve of no more 
+than 2 interactions for any given feature (e.g., searching for a gym, viewing 
+performance reports). 
+● The application shall support text scaling up to 200% without loss of content or 
+functionality to accommodate users with visual impairments. 
+● First-time users shall be able to set up their profile and start their first workout 
+within 5 minutes 
+2.3.3. Performance: 
+● The system shall process and provide real-time audio feedback for workout 
+9 
+corrections with a response time of less than 1 second. 
+● The system shall display real-time workout data (e.g., rep counts, form analysis) 
+within 2 seconds of receiving sensor input. 
+● The system shall retrieve and display personalized workout plans within 3 seconds 
+of a user request. 
+● Pose estimation and form evaluation shall process and provide feedback within 1 
+second of receiving a video frame. 
+● Find nearby Gyms shall return a list of nearby gyms within 2 seconds for any 
+given location. 
+2.3.4 Security 
+ 
+● The application shall enforce a password policy requiring at least 10 characters, 
+including uppercase and lowercase letters, numbers, and special characters. 
+● The system shall implement role-based access control (RBAC) to prevent 
+unauthorized access to user accounts 
+● All passwords and personal data shall be encrypted using hashing algorithms 
+● The system will use JWT tokens to handle user authentication 
+2.4 Domain Model 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 2 Domain model 
+10 
+ 
+Chapter 3 - System Overview 
+3.1 Architectural Design 
+ 
+ 
+ 
+ 
+ 
+Figure 3 Architecture diagram 
+11 
+3.2 Design Models 
+ 
+Create design models as are applicable to your system. Provide detailed descriptions 
+with each of the models that you add. Also ensure visibility of all diagrams. 
+ 
+Design Models for Object Oriented Development Approach 
+ 
+The applicable models for the project using object oriented development approach may 
+include: 
+3 Activity Diagram 
+4 Class Diagram 
+5 Class-level Sequence Diagram 
+6 State Transition Diagram (for the projects which include event handling 
+and backend processes) 
+ 
+Design Models for Procedural Approach 
+The applicable models for the project using procedural approach may include: 
+7 Activity Diagram 
+8 Data Flow Diagram (data flow diagram should be extended to 2-3 levels. It 
+should clearly list all processes, their sources/sinks and data stores.) 
+9 System-level Sequence Diagram 
+10 State Transition Diagram (for the projects which include event handling 
+and backend processes) 
+ 
+ 
+ 
+Approach : Object Oriented Development 
+ 
+Activity Diagram: 
+12 
+ 
+Figure 4 Activity Diagram 
+Class Diagram: 
+ 
+ 
+ 
+
+13 
+ 
+ 
+ 
+ 
+ 
+Class Level Sequence Diagrams: 
+ 
+1) Chatbot: 
+Figure 5 Class Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+14 
+ 
+ 
+ 
+2) Create Posts 
+ 
+Figure 6 Sequence Diagram : Chatbot 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 7 Sequence Diagram : Create post 
+ 
+ 
+ 
+ 
+ 
+ 
+15 
+3) Real-Time Workout Analysis 
+ 
+ 
+Figure 8 Sequence Diagram : Real-time workout Analysis 
+ 
+ 
+16 
+4) Find Nearby Gyms 
+ 
+5) Personalized Workout 
+Figure 9 Sequence Diagram : Find nearby Gyms 
+ 
+ 
+ 
+ 
+ 
+ 
+17 
+ 
+ 
+ 
+ 
+ 
+Figure 10 Sequence Diagram : Nearby Gyms 
+ 
+ 
+ 
+ 
+ 
+ 
+18 
+6) View Posts 
+ 
+7) Gym accessories 
+Figure 11 Sequence Diagram : View Posts 
+ 
+ 
+ 
+ 
+ 
+ 
+19 
+Figure 12 Sequence Diagram : Gym Accessories 
+ 
+ 
+ 
+ 
+ 
+ 
+20 
+State Transition Diagram 
+Figure 13 state transition diagram 
+ 
+ 
+ 
+ 
+21 
+System Sequence Diagrams 
+ 
+1) View Accessories : 
+ 
+Figure 14 System Sequence Diagram : View accessories 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+22 
+2) Community and Forums : 
+ 
+Figure 15 System Sequence Diagram : community forums 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+23 
+3) Personalized Workout : 
+ 
+ 
+Figure 16 System Sequence Diagram : Personalised Workout 
+ 
+ 
+ 
+24 
+4) Real-Time Workout Analysis : 
+ 
+ 
+Figure 17 System Sequence Diagram : Real time Workout Analysis 
+ 
+ 
+ 
+ 
+ 
+25 
+5) Search Gyms : 
+ 
+ 
+Figure 18 System Sequence Diagram : View Nearby Gyms 
+ 
+ 
+ 
+ 
+ 
+ 
+26 
+3.3 Data Design 
+ 
+Our application contains multiple modules, most of which work on different types of 
+data. The data stored by the application as a whole ranges all the way from user details to 
+their workout analysis reports. To store our data we have opted for a Non Relational 
+DBMS, MongoDB. This will help us store all data in key value pairs. 
+ 
+The main data sources of our application are: 
+1. User details 
+2. Workout Assessment reports 
+3. Accessory and store details 
+4. Nearby gym details 
+5. Workout plans 
+6. Community and posts 
+ 
+All of these will be stored in identifiable key-value pairs in separate mongoDB 
+collections. 
+ 
+Data processing of each data source is explained below: 
+1. User details processed for user record maintenance and authorization 
+2. Workout Assessment reports processed for workout feedback and progress 
+reports over time. 
+3. Accessory and store details for easy and efficient accessory search. 
+4. Nearby gym details for efficient gym search and selection. 
+5. Community and posts data stored and processed to manage post history and 
+interactions. 
+ 
+Databases created will be: 
+1. Users 
+2. Exercises 
+3. WorkoutAnalysis 
+4. Gyms 
+5. AccessoryStores 
+6. Accessories 
+7. Posts 
+8. Comments 
+9. PerformanceReports 
+10. Progress Reports 
+11. Chatbot History 
+12. Workout
+27 
+ 
+ 
+ERD 
+ 
+Figure 19 Entity Relationship Diagram 
+ 
+ 
+ 
+ 
+28 
+ 
+ 
+ 
+ 
+ 
+Bibliography 
+ 
+[1] A Kolyshkin and S Nazarovs. Stability of slowly diverging flows in shallow water. 
+Mathematical Modeling and Analysis, 2007.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

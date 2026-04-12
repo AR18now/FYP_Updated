@@ -1,0 +1,342 @@
+# FYP1_MidReport_F24_009_D_FearLESS - i211186 Anum Batool
+
+## 1. Introduction
+
+Introduction 4ProblemStatement 4ProblemSolution 4Modules 5TypesofUsersandtheirCharacteristics 6ProjectRequirements 7Functional Requirements 71. PhobiaSelection 72. SimulationLevels 73. Counseling 74. IntensityConfirmation 75. ProgressTracking 86. UsersProfileManagement 87. Payment 88. Feedback 8Non-Functional Requirements 81. Organizational requirements 82. Securityrequirements 83. Usabilityrequirements 94. PortabilityRequirements 9UseCaseDiagram 10DetailedUseCases 11TakeProgressTrackingQuestionnaire 11TakeFearIntensityQuestionnaire 12SubscribetoCounselingService 12SelectPaymentMethod 13ChangeCounselor 14Cancel CounselingService 15GiveFeedback 16PlaySimulation 17Login/SignUpIntoAccount 18ManageProfileAccount 19InitiateVideoCall 20Send/ReceiveTextMessages 21SetPaymentOptions 22ManageClientList 23DomainModel 25
+1
+SystemOverview 26SystemsArchitectural Design 26DesignModels 27ActivityDiagram 27DataFlowDiagram 30SystemLevel SequenceDiagram 32StateTransitionDiagram 35DataDesign 36FirstIterationImplementation 37ProfileManagementImplementation 37LoginPanel 37SignUp/RegistrationPanel 38ForgetPasswordPanel 38ViewProfilePanel 39EditProfilePanel 39AssetCollection 41Easylevel 41Mediumlevel 41HardLevel 41Conclusion 42References 0
+2
+ListofFigures
+Figure1: FearLESSUseCaseDiagram 10Figure2: FearLESSDomainModel 25Figure3: SystemArchitectureDiagram 26Figure4: ActivityDiagramforSignUp 27Figure5: ActivityDiagramforLogin 28Figure6: ActivityDiagramforEditProfile 29Figure7: DataFlowDiagram(Level 0) 30Figure8: DataFlowDiagram(Level 1) 31Figure9: DataFlowDiagram(Level 2) 31Figure10: SystemLevel SequenceDiagramforLogin 33Figure11: SystemLevel SequenceDiagramforSignup 34Figure12: SystemLevel SequenceDiagramforUpdateAccount 35Figure13: StateTransitionDiagramforUserManagement 35Figure14: ExtendedEntityRelationshipDiagramforFearLESS 36Figure15: FearLESSDevelopmentTimeline 37Figure16: LoginPage 38Figure17: Signup/RegistrationPanel 38Figure18: ForgetPasswordPanel 39Figure19: ViewProfilePanel 39Figure20: EditProfilePanel 40
+3
+IntroductionThe purpose of this mid evaluation report is to define the scope, systemlevel requirements, andfirstiteration deliverables for our VRbasedapplicationnamed“FearLESS”. FearLESS helps peopleovercometheirfearsofheights(Acrophobia)anddarkness(Nyctophobia)usingVR, gaugesaperson’sfearintensity,and connects its users to therapists/psychiatrists for counseling. This document is intended for theFearLESS team, our supervisor Mr. Bilal Khalid Dar, our co-supervisor Mr. Wasif Ali Wasif, andtheFYPpanel.
+ProblemStatementFear is a natural survival response to danger that becomes irrational, dysfunctional, and even phobicwhen the level of danger is insignificant compared to the reaction it caused [1]. Such irrational fearsand/or phobias vary in intensity amongst individuals. They oftendisturbthesuffering individual’s dailylife, making simple daily activities and pleasures difficult to achieve, as they go out of their way toovercometheirfear.
+For instance, anirrational fear of heightswouldinvolvethepersonhavingpanicattacksbystandingonaladder or walking up a flight of stairs. A person’s fear of darkness may cause them to miss sleep,depression, and they limit their life to the daytime since leaving the house after dark becomes anextremely stressful and difficult task. Avoidance strategies do help the person avoid their fears andtriggers, but it canalsolimit what a personcandointheirlife, andmayevenbecomedangerousfortheperson. An irrational fear of clowns may cause the person to miss their family’s birthday parties andcelebrations. Likewise, a person can miss medical appointments, and life saving drugs due to theirintensefearofneedles.
+According totheNational Comorbidity Survey, among theadults withphobias intheUnitedStates, “anestimated 21.9% had high fear intensity, 30.0% had moderate impairment, and 48.1% had mildimpairment” [3]. Treatment for such fears, and phobias include exposure therapy andcognitive-behavioral therapy (CBT), however, only about23%ofthepeoplewithphobiasseektreatment[2]. Taking therapyorevencheckingtheintensityofone’sfearrequiresfundsandaccesstoprofessionalswhich most people end up avoiding, either because of their geographic location, or social stigma thatcomes with seeking help frommental health professionals. Moreover, it is a challenge tocontrol andreplicatetheexposuretherapytreatmentinasafeenvironment.
+ProblemSolutionThe proposed solution to the above problemstatement is FearLESS, an application that uses VirtualReality ExposureTherapy (VRET)tohelpusersconfirmandovercometheirirrational fears/phobias. WiththehelpofFearLESS, userscanexposethemselvestotheirfears, usingsimulations, atvaryingintensities,until theycanconquerandcontrol theirreactionstotheirirrational fears/phobias.
+To confirmthe presence of irrational fear/phobia, and to determine theseverity of thefear, FearLESSallows users to take a questionnaire before they can view the simulations. The results of the
+4
+questionnaireareusedby FearLESS toeither adjust theintensity ofthefearshowninthesimulation, orto suggest psychiatrists and therapists, availableonFearLESS, toguide, andhelptheusers beforetheyviewthe simulations. This is done for the user’s mental safety. Furthermore, users canalsousethesequestionnairestotracktheirprogress, astheyfacetheirfearsinthesimulations.
+Thefears that areofferedby theapplicationincludeAcrophobia(fear of heights) [4], andNyctophobia(fear of darkness) [8]. Thesimulations for thesefears areprovidedtotheusers inthreedifferentlevels(increasing intensity). Thelevel users canview(as many times they need)isbasedonthequestionnairescore. Therapists canaccess thesimulations toprovideexposuretherapyfromthecomfortoftheirownoffice/clinic.
+ModulesOurprojectincludes8differentmodules, whichareasfollows:1. PhobiaSelection:This module allows users to view exposure therapy simulations for different fears/phobias.FearLESSwill offersimulationsfortwofears, namelyAcrophobiaandNyctophobia.
+2. SimulationLevels:This moduleislinkedtothePhobiaSimulationmodule. Foreachfear, userswill beprovidedwiththreesimulations, namelyeasy, mediumandhardlevel, torepresentincreasingfearintensity.
+3. Professional GuidanceThis moduleallows users torequest and/orbeassignedcounselingfromtherapists/psychiatristsfor their fears. Therapists can view users' questionnaire results, and can communicate withassignedusersusingtextmessaging, andvideochat.
+4. IntensityConfirmationThis module allows users to take a questionnairetoconfirmthepresenceof their fear, andtodeterminetheintensitylevel oftheirfear.
+5. ProgressTrackingThis moduleallows userstodeterminetheirprogressforexposuretherapyusingquestionnaires.This module is linked to the User Profile Management Module, as only users whohavemadetheirprofilescanaccessthismodule.
+6. PaymentModuleThismoduleprovidestherapists/psychiatristswiththeabilitytosetuptheirpaymentdetails, anditletsusersthatneedcounselingwiththeirexposuretherapytopayforthesessions.
+7. UserProfileManagement
+5
+This module provides Login, andSignupfacilities along withprofilepagemanagement tobothusers, andtherapists.
+8. FeedbackThis module allows users to give and viewfeedback for thesimulations availablefor exposuretherapy, andratethetherapist/psychiatristthatisassignedtotheuserforexposuretherapy.
+TypesofUsersandtheirCharacteristicsThefollowingtableelaboratesthedifferentuserclassesthatwill useFearLESS, andtheirdescription.
+TypeofUser Description
+Acrophobic(Heights)Users Acrophobic people are those that have been diagnosed withacrophobia (fear of heights), and will use FearLESS toget exposuretherapy for fear of heights. Such users, with the help of thesimulations, will expose themselves to increasing heights until theyhaveeither overcometheirfear, orfeel thesymptomsoftheirphobiatoalesserextent. TheycanalsouseFearLESStogetonlinecounselingfromtheapplication’scounselingmodule.
+Nyctophobic(Darkness)Users Nyctophobic people are those that have been diagnosed withnyctophobia (fear ofdarkness), andwill useFearLESStogetexposuretherapy for fear of darkness. Such users, with the help of thesimulations, will exposethemselves toincreasing darkness until theyhaveeither overcometheirfear, orfeel thesymptomsoftheirphobiatoalesserextent. TheycanalsouseFearLESStogetonlinecounselingfromtheapplication’scounselingmodule.
+InquisitiveUsers These are users that are curious about whether or not they haveafear of heights and/or darkness. Such users will rely on the resultsgiventothembytheapplication’squestionnaires, andtheirreactionstothesimulationsbeforetheyconfirmiftheyhavethefearornot.
+Counselors(Therapists/Psychiatrists)
+Therapists, psychiatrists or counseling professionals that areproviding exposuretherapy topeoplecanuseFearLESS’ssimulationsto provide their patients exposure therapy fromthe safety of theiroffices. They can also use the questionnaires to determine theirpatient’sfearintensitytowardsheightsand/ordarkness.
+VREnthusiasts Suchuserswill useFearLESSonlytoattaintheVRexperience.
+6
+ProjectRequirementsThe following section describes the functional, non-functional requirements and overall scope ofFearLESS.
+Functional RequirementsThefunctional requirementsforFearLESSincludes:1. PhobiaSelection● The system shall allow the user to access the simulation for nyctophobia (fear ofdarkness).● Thesystemshall allowtheusertoaccessthesimulationforacrophobia(fearofheights).● The systemshall allowthe therapist toaccess thesimulationfor thenyctophobia, andacrophobia.
+2. SimulationLevels● Thesystemshall allowtheusertoaccesstheeasylevel forthesimulationofacrophobia.● The system shall allow the user to access the medium level for the simulation ofacrophobia.● Thesystemshall allowtheusertoaccessthehardlevel forthesimulationofacrophobia.● The system shall allow the user to access the easy level for the simulation ofnyctophobia.● The system shall allow the user to access the medium level for the simulation ofnyctophobia.● The system shall allow the user to access the hard level for the simulation ofnyctophobia.
+3. Counseling● Thesystemshall allowtheusertochatwiththeappointedtherapist.● Thesystemshall allowtheusertodoavideocall withtheappointed therapist.● Thesystemshall assigntheuserstothetherapist.● The system shall allow the therapist to view the results of the client's intensityidentificationtest.● Thesystemshall allowthetherapisttoallow/denytheclient'saccesstothesimulationofitsphobia.● Thesystemshall allowtheusertorequestforchangingthetherapistassignedtoit.● Thesystemshall allowtheusertorequestfortheappointmentofthetherapist.
+4. IntensityConfirmation● Thesystemshall allowtheusertotakeaquestionnairebeforesimulation.● The system shall allow the user to view the result of the intensity confirmationquestionnaire.
+7
+5. ProgressTracking● Thesystemshall allowtheregisteredusertotakeaquestionnaireafterthesimulation.● The system shall update the fear intensity level of registered users according to theresultoftheprogressquestionnaire.● Thesystemshall changethesimulationlevel onthebasisoffearintensity.
+6. UsersProfileManagement● Thesystemshall allowtheusertocreateanaccount.● The system shall allow the user to login to its account using its email/username andpassword.● Thesystemshall allowtheusertologintoitsaccountusingitsgoogleaccount.● Thesystemshall allowtheusertoviewitsprofile.● Thesystemshall allowtheusertoupdateitsprofile.● If the user forgets its password, then the system shall allow the user to reset itspassword.
+7. Payment● Thesystemshall allowthetherapisttosetpaymentdetails.● Thesystemshall allowtheusertosetpaymentdetails.● Thesystemshall allowtheusertopayusingsubscription.
+8. Feedback● Thesystemshall allowtheusertogivefeedbackfortheapplication.● Thesystemshall allowtheusertoprovidefeedbacktochangethetherapist.● Thesystemshall allowtheusertoviewthefeedbackofthetherapist.● Thesystemshall allowtheusertoviewthefeedbackfortheapplication.
+Non-Functional RequirementsThenonfunctional requirementsforFearLESSareasfollows:1. Organizational requirements● Thesystemshall bedevelopedusingUnityversion 2023.2.7f1LTSversion.● Thesystemshall bedevelopedinC#.● The VR will be set up using XR Interaction Toolkit version 2.5.2 and XR PluginManagementversion4.4.02. Securityrequirements● The system shall provide user authentication and authorization to ensure authorizedaccess.● Thesystemshall providemechanismsforsecurepasswordrecoveryandmanagement.
+8
+3. Usabilityrequirements● The systemshall provide an intuitive interface that is easy to navigate in the desktopapplication.● Thesimulationsshall providetheuserswithguidanceduringthesimulationsforefficientinteractionsandexperience.4. PortabilityRequirements● Thesystemshall supportcompatibilitywithanOculusRiftHeadset.
+9
+UseCaseDiagramBased on FearLESS’s intended functionality, the target audience for our application are users seekingexposure therapy for their fears, andcounselors. Thesetwosets of users havethefollowing usecasesavailabletothem:
+Figure1: FearLESSUseCaseDiagram
+10
+
+DetailedUseCasesTakeProgressTrackingQuestionnaireThefollowingexplainsindetail theTakeProgressTrackingQuestionnaireusecase
+UseCaseName UC1: TakeProgressTrackingQuestionnaire
+Scope FearLESS
+Level User-Level
+PrimaryActor User
+StakeholdersandInterests - User: Wants to check if their fear intensity scoreimprovesafterwatchingsimulation
+Pre-conditions - FearLESSappisdownloadedandrunning- Userhasaprofileandisloggedin- Userhastakenfearintensityquestionnaire- Userhaswatchedalevel ofsimulation- Questionnaires and their scores are present in thedatabase
+SuccessGuarantee The user receives a score/result after taking the progresstrackingquestionnaire, andtheirfearscoreisupdated
+MainSuccessScenario 1. Usercompletes/exitsthesimulationlevel2. User requests system to view the progress trackingquestionnaire3. Userreadsthequestioninthequestionnaire4. Userselectsananswertothequestionnaire5. UsermovesontothenextquestionRepeat3, 4&5until all questionsareanswered6. Usersubmitstheiranswers7. Userviewstheirfearscoreafterwatchingasimulation
+Extensions 2a. Userdoesnotrequesttoseethequestionnaire1. Fear score for that particular simulation session ismarkedasempty3a. Userdoesnotanswerthequestioninthequestionnaire1. Theuserreadsthenextquestiononthequestionnaire2. UserselectsanswerorskipsRepeat1and2until theendofthequestionnaire3. Userispresentedwithall skippedquestions4. Userisinformedthattheyhavetoanswerall questionsinordertosubmittheform
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+11
+TakeFearIntensityQuestionnaireThefollowingexplainsindetail theTakeFearIntensityQuestionnaireusecase
+UseCaseName UC2: TakeFearIntensityQuestionnaire
+Scope FearLESS
+Level User-Level
+PrimaryActor User
+StakeholdersandInterests - User: Wants to check their fear intensity score for aparticularfear
+Pre-conditions - FearLESSappisdownloadedandrunning- User has selected a fear they want to take fearintensityfor- Questionnaires and their scores are present in thedatabase
+SuccessGuarantee Theuserreceivesafearscore
+MainSuccessScenario 1. User requests system to allow them to take thequestionnaireforthefear2. Userreadsthequestioninthequestionnaire3. Userselectsananswertothequestionnaire4. UsermovesontothenextquestionRepeat3, 4&5until all questionsareanswered5. Usersubmitstheiranswers6. Userviewstheirfearscore
+Extensions 3a. Userdoesnotanswerthequestioninthequestionnaire5. Theuserreadsthenextquestiononthequestionnaire6. UserselectsanswerorskipsRepeat1and2until theendofthequestionnaire7. Userispresentedwithall skippedquestions8. Userisinformedthattheyhavetoanswerall questionsinordertosubmittheform
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+SubscribetoCounselingServiceThefollowingexplainsindetail theSubscribetoCounselingServiceusecase
+UseCaseName UC3: SubscribetoCounselingService
+12
+Scope FearLESS
+Level User-Level
+PrimaryActor User, PaymentAPI
+StakeholdersandInterests - User: Theywanttogetguidedcounselingfortheirfear- Counselor: They want toassist user toovercometheirfearofheightsand/ordarkness- Payment System: They want toensurethatacompletetransactioniscarriedoutbetweenuserandcounselor
+Pre-conditions - FearLESSappisdownloadedandrunning- Userhasaprofile, andisloggedin- User completed UC2: Take Fear IntensityQuestionnaire- SystemisconnectedtoPaymentAPI
+SuccessGuarantee User is assigned toa counselor, andtheuser receives a proofoftransaction.
+MainSuccessScenario 1. Userrequestssystemtoassignthemtoacounselor2. User views the counselor profiles and their paymentoptions3. Userselectsacounselorandclickssubscribe4. Theuserselectsapaymentplan5. <<includes>>SelectPaymentMethod(UC4)6. Paymentsystemprocessesthepayment7. The subscription is confirmed and the user continueswiththeirsessions.
+Extensions 2a. Counselorisnotavailable/hasnomorespace1. Userisaskedtoselectanewcounselor5a. Thepaymentmethodisdeclined1. User is prompted to select and enter a differentpaymentmethod5b. Theuserabortsthetransaction1. Nopaymentismade
+Special Requirements - The system must support payment gateways likeStripe, andmust becompatiblewiththesethirdpartyAPIsandtheymustbesecure
+TechnologyandDataVariationsList - User must be presented with the different paymentgatewaysforsubscription
+SelectPaymentMethodThefollowingexplainsindetail theSelectPaymentMethodusecase
+13
+UseCaseName UC4: SelectPaymentMethod
+Scope FearLESS
+Level User-Level
+PrimaryActor User, PaymentAPI
+StakeholdersandInterests - User: Theywanttogetguidedcounselingfortheirfear- Counselor: They want toassist user toovercometheirfearofheightsand/ordarkness- Payment System: They want toensurethatacompletetransactioniscarriedoutbetweenuserandcounselor
+Pre-conditions - FearLESSappisdownloadedandrunning- Userhasaprofile, andisloggedin- User completed UC2: Take Fear IntensityQuestionnaire- Userhasselectedacounselor- Userhasselectedapaymentplan- SystemisconnectedtothePaymentAPI
+SuccessGuarantee User selects a payment methodandthesystemvalidatestheirpayment
+MainSuccessScenario 1. The user is presented with payment options forcounseling2. Userselectsapaymentmethodoption3. User inputs their payment details basedontheoptionselected4. Paymentprocesscontinues
+Extensions 3a. Paymentinformationisinvalid1. Theuser is informedthat theirpaymentinformationisinvalid2. Theuserisaskedtoreenterthepaymentdetails
+Special Requirements - The systemmust ensure that the payment process issecure- The system must support payment gateways likeStripe, andmust becompatiblewiththesethirdpartyAPIs
+TechnologyandDataVariationsList - User must be presented with the different paymentgatewaysforsubscription
+ChangeCounselorThefollowingexplainsindetail theChangeCounselorusecase
+14
+UseCaseName UC5: ChangeCounselor
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wantstostartsessionwithanewcounselor- Counselor: Wants toassist user toovercometheirfearofheightsand/ordarkness
+Pre-conditions - FearLESSappisdownloadedandrunning- Userhasaprofile, andisloggedin- Userisalreadyassignedtoacounselor
+SuccessGuarantee User is assignedtoa newcounselor, andis removedfromthelistofclientsfromthepreviouscounselor’slist.
+MainSuccessScenario 1. Userrequestssystemtochangecounselor2. Systemconfirmswithuseraboutthisdecision3. Systempresentsuserwiththecounselorlist4. System removes user from the previous counselor’sservices5. Counselor is informed that a user is removed fromtheirlist.6. Userselectsanewcounselor7. Usersubscribeswiththenewcounselor(UC3andUC4)
+Extensions 2a. Userdoesnotconfirm1. Userisstill subscribedtothepreviouscounselor4a. Systemisunabletoremoveuserfromthecounselor’slist1. Userisinformedandisaskedtorepeattheprocess5a. Counselorisnotavailable/hasnomorespace2. Userisaskedtoselectanewcounselor
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+Cancel CounselingServiceThefollowingexplainsindetail theCancel CounselingServiceusecase
+UseCaseName UC6: Cancel CounselingService
+Scope FearLESS
+Level User-Level
+15
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Nolongerwantsthecounselor’sservices- Counselor: Wants to be informed about no longerservicingaparticularuser
+Pre-conditions - FearLESSappisdownloadedandrunning- Userhasaprofileandisloggedin- Useriscurrentlysubscribedtoatherapist
+SuccessGuarantee Userisremovedfromthecounselor’slist
+MainSuccessScenario 1. Userrequeststhesystemtocancel counseling2. Userconfirmsdecisiontocancel counseling3. Userisremovedfromthecounselorlistofclients4. Userisinformedofremoval
+Extensions 2a. Userdoesnotconfirmcancellation1. Userisstill subscribedtothecounseling3a. Userisnotremovedfromthecounselor’sclientlist1. User is asked by the system to initiate cancelationagain
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+GiveFeedbackThefollowingexplainsindetail theGiveFeedbackusecase
+UseCaseName UC7: GiveFeedback
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wants to give feedback on simulations, appand/orcounselor- Counselor: Wants to gives suggestions about thesimulations, and/orapplication
+Pre-conditions - FearLESSapplicationisdownloadedandrunning
+SuccessGuarantee User/Counselorfeedbackissubmitted
+MainSuccessScenario 1. User/Counselorrequestsystemtogivefeedback2. User is asked what they want to give feedback on
+16
+(application, simulationorcounselor)3. User/Counselorselectstheirfeedbackoption4. Userwritesdowntheirsuggestionsand/oropinions5. Usersubmitsfeedbackafterreview6. Userisinformedabouttheirfeedbacksubmission
+Extensions 2a. The name of simulation level/counselor name is notupdatedinthefeedbacklist1. User is asked to manually write the name of thesimulationorcounselortheyarefeedbackingon
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+PlaySimulationThefollowingexplainsindetail thePlaySimulationusecase
+UseCaseName UC8: PlaySimulation
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wants towatchthesimulations toget exposuretherapyorexploretheVRexperience- Counselor: Wants toshowtheir clients simulationsforexposuretherapy
+Pre-conditions - FearLESSapplicationisdownloadedandrunning- If users, then they have taken a fear intensityquestionnaire.- Usershaveaheadsetthatispluggedintotheirsystem- System contains the relevant simulations and theirlevels
+SuccessGuarantee Userswatchthesimulations
+MainSuccessScenario 1. System presents the user with simulations based ontheuser’sfearscorefromUC22. User selects a simulationlevel thattheyareallowedtowatch(counselorscanwatchall sotheyselectone)3. Userputsontheirheadsetandwatchesthesimulation
+Extensions 1a. Due to their fear score, none of thesimulationlevels areavailabletotheuser
+17
+1. UserisrequestedtogetcounselingfromUC32. Counselorconductssessionswithuser3. Once counselor approves, the user watches thesimulations
+Special Requirements - UsersmusthaveasystemthatsupportsVRsimulations- VR headset must be connected to the systembeforewatchingthesimulations
+TechnologyandDataVariationsList - User’s VR equipment must include a headset (withmicrophonespreferably), andcontrollers
+Login/SignUpIntoAccountThefollowingexplainsindetail theLogin/SignUpintoAccountusecase
+UseCaseName UC9.1: LogintoAccount
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wants to Login so that they can access theirprofile, allowprogresstracking, andgetcounseling- Counselor: Wants to Login so that they can accessprofile, andguidetheirclientstoovercometheirfears
+Pre-conditions - FearLESSisdownloadedandrunning- Theuser/counselorhasalreadysignedin(UC9.2)
+SuccessGuarantee The user/counselor successfully logs in and can access theiraccount
+MainSuccessScenario 1. Userrequestssystemtologin2. Userinputstheiremail3. Userinputstheirpassword4. Usersubmitscredentialsandsystemconfirms5. Userisnowloggedin
+Extensions 4a. Userhassubmittedthewrongcredentials1. Userisaskedtologinagain2. Ifuserhasforgottenpassword, theyinformthesystema. Systemsends user anemail withoptiontosetnewpassword3. Userinputsemail, andpasswordagain
+Special Requirements N/A
+18
+TechnologyandDataVariationsList N/A
+UseCaseName UC9.2: SignintoAccount
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wants to Sign in so that they can access theirprofile, allowprogresstracking, andgetcounseling- Counselor: Wants to Sign in so that they can accessprofile, andguidetheirclientstoovercometheirfears
+Pre-conditions - FearLESSisdownloadedandrunning
+SuccessGuarantee The user/counselor successfully signs in and can access theiraccount
+MainSuccessScenario 1. User/Counselorrequestssystemtocreateanaccount2. User/Counselorinputstheiremail3. User/Counselorinputstheirpassword4. User/Counselorre-enterspasswordforreconfirmation5. If Counselor, they enter their medical identificationID,and maximumamount of clients they want toservice(iftheyhaveacap)6. User/Counselor submits credentials and systemconfirms7. User/Counselor now has an account/profile withFearLESS
+Extensions 6a. User/Counselorhassubmittedthewrongcredentials1. Userisaskedtologinagain2. Ifuserhasforgottenpassword, theyinformthesystema. Systemsends user anemail withoptiontosetnewpassword3. Userinputsemail, andpasswordagain
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+ManageProfileAccountThefollowingexplainsindetail theManageProfileAccountusecase
+UseCaseName UC10: ManageProfileAccount
+19
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor
+StakeholdersandInterests - User: Wants to view, and update their profileinformation- Counselor: Wants to view and update their profileinformation
+Pre-conditions - FearLESSapplicationisdownloadedandrunning- User/Counseloralreadyhasanprofile
+SuccessGuarantee User/Counselor havesuccessfully updates/viewedtheirprofiledetails
+MainSuccessScenario 1. The user/counselor logs intotheir profileusing email,andpassword2. User/Counselorrequestssystemtoviewtheirprofile3. User/Counselor requests system to update theirpassword4. User/Counselorinputsnewpassword5. The system informs the user/counselor that theirpasswordisupdated
+Extensions 1a. Theusercannotlogin1. System asks the user/counselor to input their emailandpasswordagain.
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+InitiateVideoCallThefollowingexplainsindetail theInitiateVideoCall usecase
+UseCaseName UC11: InitiateVideoCall
+Scope FearLESS
+Level User-Level
+PrimaryActor User, Counselor, CommunicationAPI
+StakeholdersandInterests - User/Counselor: Want tostartavideocall sessionwitheach other so that they can communicate with eachother about the user’s fears and how to overcome
+20
+them
+Pre-conditions - FearLESSappisdownloadedandrunning- User/Counselorhaveaprofileandareloggedin- Userhassubscribedtothecounselor’sservice- SystemisconnectedtoCommunicationAPI
+SuccessGuarantee User and Counselor conclude their videocall witheachothersuccessfully
+MainSuccessScenario 1. User/Counselor informs the other about starting avideocall2. User/Counselor requests the communication API tostartthevideocall3. UserandCounselorhavetheirsessionviavideocall4. When session is completed, user and counselor exitthecall
+Extensions 2a. Network Issues prevent user.counselor from starting thecall:1. System informs the user/counselor of the networkissuewiththemessage“Poornetwork. TryAgain”2b. User/Counselorareunavailable:1. Counselor/Usercanwaitfortheothertojointhecall2. Counselor/Usercanexitcall whenevertheyplease2c. User/Counselordeclinesthecall:1. System informs user/counselor of call decline, andendsthecall2d. API failure1. System informs user about the issue with thecommunicationAPI
+Special Requirements - SystemshouldensurecompatibilitywithAPI- Thereshouldbeanaudioonlyoptionifvideocall fails
+TechnologyandDataVariationsList - DifferentWifi bandwidthcanaffectvideocall quality- The PC used by the user/counselor shouldbeabletosupportvideooratleastanaudiocall.
+Send/ReceiveTextMessagesThefollowingexplainsindetail theSendandReceiveTextMessagesusecase
+UseCaseName UC12: Send/ReceiveTextMessages
+Scope FearLESS
+Level User-Level
+21
+PrimaryActor User, Counselor, CommunicationAPI
+StakeholdersandInterests - User/Counselor: Want to start a text messageconversationsothat they cancommunicatewitheachother about the user’s fears and how to overcomethem
+Pre-conditions - FearLESSappisdownloadedandrunning- User/Counselorhaveaprofileandareloggedin- Userhassubscribedtothecounselor’sservice- SystemisconnectedtocommunicationAPI
+SuccessGuarantee User and Counselor cansendandreceivetext messages fromeachothersuccessfully
+MainSuccessScenario 1. User/Counselor requests the systemtoopenthechatwith the other user. In case of counselor, they selecttheusertheywanttocommunicatewith2. User/Counselorsendsatexttotheother3. Counselor/UserreplytothetextRepeat steps 2 and 3 until User andCounselor havecompletedtheircommunication
+Extensions 2a. Message delivery totheother user fails sur tonetwork orAPI issues1. Thesysteminformstheuserofthefailure2. Thesystemretriestosendthemessage2b. Messagetakestoolongtodeliver1. Systeminformsuseroflatedelivery2. System shows user loading message to show thatmessageisbeingsent
+Special Requirements - SystemshouldensurecompatibilitywithAPI
+TechnologyandDataVariationsList - DifferentWifi bandwidthcanaffectdeliverytime
+SetPaymentOptionsThefollowingexplainsindetail theSetPaymentOptionsusecase
+UseCaseName UC13: SetPaymentOptions
+Scope FearLESS
+Level User-Level
+PrimaryActor Counselor, PaymentAPI
+StakeholdersandInterests - Counselor: Wants toset thepricerateforeachsession
+22
+oragroupofsessions.- Payment API: Wants to ensure that the paymentoptions set by the counselor arevalid, processedandstored
+Pre-conditions - FearLESSappisdownloadedandrunning- Counselorhasaprofileandisloggedin- SystemisconnectedtothepaymentAPI
+SuccessGuarantee The counselor’s payment options are successfully set andtheuserscanviewtheirpaymentoptionsaswell
+MainSuccessScenario 1. Counselor requests the system to view their profilepage2. Counselor views profilepageandselects“SetPaymentOption”button3. Systemdisplays relevant field to fill (for e.g. availabledates, price rate per session/week/month, paymentmethode.t.c)4. Counselor fills thedata for eachsectionespecially thepricerateandmethod5. Systemverifies thepayment optiondetails enteredbythecounselor6. Counselorverifiesdetail7. Systemsaves payment options andviews themonthecounselor’sprofilepageRepeat set 2, 3, 4, 5, 6and7toupdateany paymentoptioninformation
+Extensions 4a. Counselor fills in invalid (over the limit) rates or misses afieldofinput1. Systeminforms counselor of the error using an errormessage5a. Payment API does not support/discontinued a particularpaymentmethod1. Systeminforms counselor of thechange, andremindsthemtoupdatepaymentmethodinformation7a. System fails to save the counselor’s payment optioninformation1. Systemsendscounseloranerrormessage
+Special Requirements - PaymentAPI mustbecompatiblewiththesystem
+TechnologyandDataVariationsList N/A
+ManageClientListThefollowingexplainsindetail theManageClientListusecase
+23
+UseCaseName UC14: ManageClientList
+Scope FearLESS
+Level User-Level
+PrimaryActor Counselor
+StakeholdersandInterests - Counselor: Wants to know which users haverequested/endedserviceswiththem, andtheywanttokeep track of their current users. They may alsowanttocontrol howmanyuserstheywanttohelp
+Pre-conditions - FearLESSappisdownloadedandrunning- Counselorhasaprofileandisloggedin
+SuccessGuarantee Counselorcanview, andupdate(add/remove)theirclientlist
+MainSuccessScenario 1. Counselorrequeststhesystemtoviewtheclientlist2. Systemdisplaystheclientlisttothecounselor3. Counselor requestssystemtoviewthewaitlist/requestlistforusersaskingfortheirservice.4. Counselor requests system to view a user’s profile(containingfearscore)5. Counselorrequestssystemtoaddusertotheirlist6. Systemconfirmsandupdatesclientlist
+Extensions 2a. Particular user subscribes to the counselor haveleft theirservice1. System notifies the counselor that the client has lefttheirservice2. If they want, counselor canask systemtoremovethatuser’schatsandvideologswiththeuser5a. Counselorhasreachedtheirmaxnumberofclients1. Systemnotifies theclient that they havereachedmaxnumberofclientstheycanservice2. Counselor returns to client list or requests systemtoaddtheclienttotheirlistanyways3. Systemupdatesthecounselor’scapacity, andclientlist6a. Systemfailstoupdatetheclientlist1. Systemnotifiesthecounseloroftheerror
+Special Requirements N/A
+TechnologyandDataVariationsList N/A
+24
+DomainModelThefollowing domainmodel representshowexternal entities, suchastheplayer, andcounselor, interactwitheachother, andwithinternal entitiessuchasthesimulationsandquestionnaires, withinthecontextoftheFearLESSapplication.
+Figure2: FearLESSDomainModel
+25
+
+SystemOverviewThe following section contains design documentation and diagrams that best illustrate FearLESS’sfunctionality. The architectural design diagram, and data flows represents the architecture, and datasinks/sources of the entire system respectively. Meanwhile the design models including activitydiagrams, system level sequence diagrams, and state transition diagrams represent the profilemanagementmoduleoftheFearLESSapplication, asitwaspartofthefirstiterationdeliverables.
+SystemsArchitectural DesignThe architecture pattern that best describes our applicationFearLESS is microservices, as showninthediagrambelow, andthisisforseveral reasons. Firstly, FearLESSiscomposedofseveral modules/features,such as the therapist services, payment and simulation services, that can be developed andimplemented independently. Secondly, microservices gives us an opportunity toaddnewservices andscale existing services without affecting the current functionality and integrity of the application. Forexample, having a VR service, in the Player Session Microservice, gives us the flexibility to add morelevels or simulations for other phobias intoourapplication. Finally, FearLESSisalsointegratedwiththirdparty APIs suchasTwilo(forreal-timevideochattingandtextmessaging), andPlayFab(fordatastorage),whichcanbeeasilyintegrated, duetothemicroservicearchitecture.
+Figure3: SystemArchitectureDiagram
+26
+
+DesignModelsThefollowing designdiagrams vital forthesystem, andprofilemanagementmodule’sunderstandingareasfollows:ActivityDiagramThefollowingareactivitydiagramfortheprofilemanagementmodule:Signup/RegistrationActivityDiagramThefollowingisactivitydiagramforsignupintoFearLESS
+Figure4: ActivityDiagramforSignUp
+27
+
+LoginActivityDiagramThefollowingisactivitydiagramforloggingintoauser’sFearLESSprofile
+Figure5: ActivityDiagramforLogin
+28
+
+EditProfileActivityDiagramThefollowingisactivitydiagramforprofilingmanagement, specificallyeditingprofiledetails
+Figure6: ActivityDiagramforEditProfile
+29
+
+DataFlowDiagramDataFlowdiagramsprovideacomprehensive, understandableanddynamicviewofthesystem. Itshowstheprocessingofdatainthesystem. WemadetheDFDsuptolevel 1.Belowisthelevel 0dataflowdiagramrepresentingthehighlevel flowofdatawithoutdivingintodetailsofprocessesofthesystem.
+Figure7: DataFlowDiagram(Level 0)Belowisthelevel 1dataflowdiagramprovidingadetailedviewoftheprocessesanddatastoresoftheentiresystem.
+30
+
+Figure8: DataFlowDiagram(Level 1)
+Figure9: DataFlowDiagram(Level 2)
+31
+
+SystemLevelSequenceDiagramThesystemsequencediagramrepresentsaclearviewofhowtheuserandsysteminteractswitheachother. Belowisthesystemsequencediagramshowinginteractionoftheuserwiththesystemwhilelogin, signupandupdateaccount.
+32
+Figure10: SystemLevel SequenceDiagramforLogin
+33
+
+Figure11: SystemLevel SequenceDiagramforSignup
+34
+
+Figure12: SystemLevel SequenceDiagramforUpdateAccount
+StateTransitionDiagramBelowisthestatetransitiondiagramrepresentingthestatesinusermanagementandthetransitionsbetweenthestates.
+Figure13: StateTransitionDiagramforUserManagement
+35
+
+DataDesignThe following EERD (Extended Entity Relationship Diagram) represents how the different entities, inFearLESS, are related to and interact with eachother, andit alsoshows theforminwhichtheentity’sdata and the relationship’s data is stored. Notably, the ERD clearly identifies how a player receivesexposure therapy for their fears with help of sessions in the form of simulations or in the formofvideo/text messaging witha therapist theplayer is subscribedto. TheERDalsoindicates that nocreditcard/payment details arestoredsincesuchinformationis sensitive, andstoringitwouldposeasecurityissue. Furthermore, whena player attempts a questionnairetheirfearscoreiscalculatedonthebasisoftheir answers in the questionnaires. Note that the“TestPurpose” attributeattachedtothe“Attempts”relationship is indicative of the system's way of identifying whether an attempt was for fear intensityconfirmationorforprogresstracking.
+Figure14: ExtendedEntityRelationshipDiagramforFearLESS
+36
+
+FirstIterationImplementationAccording to our timeline, our first iterationincludes theimplementationof user profilemanagement,andoftheentiredesktopapplicationusingFigmabothofwhichhavebeenimplemented. Additionally, inpreparationofiteration2wehavecollectedcertainassetsfortheAcrophobiasimulationsalongwithfearintensity confirmation questionnaires for acrophobia which have been approved by psychiatrists. TheGame Design Document detailing simulations for all levels for Acrophobia and Nyctophobia was alsocompletedinthisiteration.
+Figure15: FearLESSDevelopmentTimeline
+ProfileManagementImplementationThis sectionis dedicatedtotheprofilemanagement panels that havebeenimplementedtocompletionin Unity. This includes signup/creation of profile, login,forgot password functionality during login, andview/updateprofile.
+LoginPanelWehaveimplementedtheloginpagethattakestheuser’semail andpasswordasinput. Theuserisinformedwhentheinputhasgiventhewrongcredentials. Clicking“Login”leadstothemainpage.
+37
+
+Figure16: LoginPageSignUp/RegistrationPanelWehaveimplementedthesignuppagethattakestheuser’semail andpasswordasinput, andmakestheuserre-confirmthepassword. Clicking“Signup”leadstothemainpage.
+Figure17: Signup/RegistrationPanel
+ForgetPasswordPanelFortheforgetpasswordfunctionality, aftertheuserrequeststochangepassword, theuserentersanemail addresswhichcontainstheirrecoveryemail address.
+38
+
+Figure18: ForgetPasswordPanel
+ViewProfilePanelThefollowingimageistheprofilepagethatcontainstheuser’sinformation.
+Figure19: ViewProfilePanel
+EditProfilePanelThefollowingpanel appearsoncetheuserclicksontheUpdateProfileButton. Thisallowstheusertochangetheirusername, passwordandemail address.
+39
+
+Figure20: EditProfilePanel
+40
+
+AssetCollectionForthethreelevelsofacrophobiawecollectedsomeonlineavailableassetsinadditiontoselfcreatedassets.Easylevel● Mountains/hills: Intheeasylevelsimulations,therewillbemountains.● Flowers:Therewillbeflowersinthemountainmeadowofeasylevelsimulations.● Shed:Ineasylevelsimulationstherewillbeawoodenshed.● Woodenfence:Ineasy levelsimulationsthere willbea woodenfenceontheedgeofthecrestofthemountain.● Trees: Thetreesinthemountainmeadows.● Grass: Inthemountainmeadows ofeasy leveltherewillbepatchesofgrasstoenhancethebeauty.
+Mediumlevel● Retainingwall: Inthemediumleveltheretainingwallonthebalcony.● Door:Inthemediumlevelsimulation,therewillbeadoorthatopenstothebalcony.● Benches:In themediumlevel,somebencheswillbeplacedontheroadthat canbeseenfromthebalconyofthebuilding.● Plants:Theplantsplacedonthebalconyofmediumlevel.● Road:Theroadthatcanbeseenfromthebalconyinthemediumlevelsimulation.● Street lights:Inthemediumleveltheroadthatplayerswillbeabletoseefromthehighbalconyofthebuildingwillhavestreetlights.● Cars:Multiplecarsontheroadthatcanbeseenfromthebalconyinmediumlevel.● Buildings:Inthemediumlevel,multiplebuildingsthatcanbeseenfromthebalcony.
+HardLevel● SkyBoxHDRP:Highqualityskiesthatareappropriateforthedesertcanyonsetting.● ShrubsandBushes:Thesewillbescatteredinthescenetoshowminimumvegetation.● Trees:Thesewillbescatteredinthedesertcanyonenvironment.● Rocks:Smallsizedrockswillberandomlyplacedintheuser’spath● SandTextures:Thesearetexturesforthegroundusertowalkon.
+41
+ConclusionIn conclusion, we have completed the implementation of the profile management module, and havecreated a working prototype for the entire desktop application. Additionally, we have prepared foriteration 2’s Acrophobia simulations, by collecting assets, and by researching and collectingquestionnairesrelatedtoacrophobia(fearofheights).
+42
+References[1] C. Foy, “Rational vs. Irrational Fears? How to Tell the Difference,” FHE Health, Oct. 14, 2023.https://fherehab.com/learning/rational-irrational-fears(accessedJul. 22, 2024).
+ [2] J. Olesen, “Phobia Statistics andSurprisingFactsAboutOurBiggestFears,”FearOf.net, Mar. 03, 2019.https://www.fearof.net/phobia-statistics-and-surprising-facts-about-our-biggest-fears/ (accessedJul. 22,2024).
+ [3]“Specific Phobia,” National Institute of Mental Health (NIMH).https://www.nimh.nih.gov/health/statistics/specific-phobia#part_2639 (accessedJul. 22, 2024).
+[4]“Acrophobia (Fear of Heights): Symptoms & Treatment,” Cleveland Clinic, Oct. 22, 2021.https://my.clevelandclinic.org/health/diseases/21956-acrophobia-fear-of-heights
+[5] Var š ová Kristína, Szitás Dagmar, J. Oto, Jurkovi č ová Lenka, Barto š ová Kate ř ina, and Ju ř ík Vojt ě ch,“Virtual reality exposure effect in acrophobia: psychological and physiological evidence froma singleexperimental session,” Virtual Reality, vol. 28, no. 3, Jul. 2024, doi:https://doi.org/10.1007/s10055-024-01037-5.
+[6]J. Levos andT. Lowery Zacchilli, “Nyctophobia: FromImaginedtoRealistic Fears of theDark,” Psi ChiJournal of Psychological Research, vol. 20, no. 2, pp. 102–110, 2015, doi:https://doi.org/10.24839/2164-8204.jn20.2.102.
+[7]B. J. Janani andR. Manoj, “ASTUDYONTHELEVELOFNYCTOPHOBIAANDITSIMPACTONINSOMNIAAMONG YOUNG ADULTS,” Zeichen Journa, vol. 8, no. 6, Aug. 2022, Accessed: Sep. 09, 2024. [Online].Available:https://www.researchgate.net/publication/362690889_A_STUDY_ON_THE_LEVEL_OF_NYCTOPHOBIA_AND_ITS_IMPACT_ON_INSOMNIA_AMONG_YOUNG_ADULTS
+[8]Cleveland Clinic, “Nyctophobia (Fear of the Dark): Symptoms & Causes,” Cleveland Clinic, Mar. 28,2022. https://my.clevelandclinic.org/health/diseases/22785-nyctophobia-fear-of-the-dark
+ 
+43
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

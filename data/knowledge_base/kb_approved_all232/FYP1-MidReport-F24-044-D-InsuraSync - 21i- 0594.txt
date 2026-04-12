@@ -1,0 +1,1113 @@
+# FYP1-MidReport-F24-044-D-InsuraSync - 21i- 0594
+
+## 1. Introduction
+
+1. Introduction
+policyholders’ prolonged wait for the claims decision stems from these procedural de-
+lays, thereby worsening frustration among the customers. In the event that fraudulent
+claims remain unreported and inaccurate repair estimates are produced in the lack of
+automated cost estimation and fraud detection systems, insurers may suffer additional
+financial losses. Despite the pressing need for modernization, there is currently no com-
+prehensive solution available on the market that can address these specific issues in the
+context of vehicle accident claims. This drawback reduces both the operational effective-
+ness of insurance companies and the trust that consumers have in the insurance sector.
+The development of InsuraSync aims to address these issues by integrating automation,
+data analytics, and predictive modeling into a user-friendly platform. The system will:
+• Suggest personalized insurance policies based on user inputs.
+• Automate the claims submission process with efficient document handling.
+• Detect discrepancies and potential fraud using machine learning models.
+• Provide real-time vehicle repair cost estimates to expedite claims settlement.
+Ultimately, InsuraSync will enhance operational efficiency, transparency, and customer
+satisfaction by reducing delays and increasing the accuracy of claim assessments.
+1.2 Scope of the Project
+The scope of the project for InsuraSync will be an overall insurance management appli-
+cation that will encompass core functionalities like:
+• User Registration and Login: This will be the method by which users create
+accounts and log into the system.
+• Personalized Policy Recommendations: The system will analyze user inputs to
+apply machine learning filtering techniques for advising the right insurance policies.
+• Payment Integration: An integrated payment gateway to allow users to pay their
+insurance premiums. [33]
+• Verification, and Storage of Documents:This includes proofs of identity, claims,
+and incident reports.
+• Direct Auto-Issue of Policy Documents: The system will automatically issue pol-
+icy documents to users based on their selections and payments.
+2
+1.3 Modules
+• Real-Time Incident Reporting: Users can directly register accidents or other in-
+sured events in real-time through the dashboard.
+• Fraud Detection: Real-time tracking of inconsistencies in claim submissions using
+machine learning as well as insurance company’s personal involvement such as
+accident site officer - resposnsible for verifying the accident.[11] [22] [44]
+• Real-Time Cost Estimation: Using industry-standard datasets and web-scraped
+data from trusted sources for real-time cost estimations. [55]
+• Claim Categorization and Review: Intelligent claim categorization to automati-
+cally direct cases to the appropriate department for further review and processing.
+The system’s scope will include automation, fraud detection, and an improved user expe-
+rience. InsuraSync will assist users in choosing the right policies and ensure timely claim
+processing, reducing the operational burden of manual work.
+1.3 Modules
+1.3.1 Personalized Policy Recommendation
+This module makes use of machine learning algorithms to suggest predetermined insur-
+ance policies based on user inputs, such as personal data, vehicle details, and insurance
+requirements. The system creates user profiles and identifies preferences, thus suggesting
+the best policies that match users’ needs for a personalized experience. The algorithm
+also considers policies purchased by similar users to make recommendations.
+1. Policy Recommendations based on user input
+2. Policy Recommendations based on similar types of users
+1.3.2 Automated Claims Processing
+This module uses the algorithm of machine learning and recommends insurance plans
+based on users’ configured data such as personal profiles, vehicle details, and require-
+ments of insurance. The module uses the system for creating user profiles that categorize
+preferences these users were searching for and suggests them the best policies based on
+what they are looking for. It also takes in consideration other similar users sought in
+making recommendations from policies bought by them.
+3
+1. Introduction
+1. Electronic Claims Submission & Document Upload
+2. Automated Data Processing & Preparation for Analysis
+1.3.3 Discrepancy and Fraud Detection
+This module detects inconsistencies in the user’s claim, profile, and supporting documents
+to point out potential fraud or human errors. Such suspicious claims or patterns that point
+toward fraud include multiclaims within a short space of time or breaches of the limits
+contained in the claim and the insurance policy limits. Claims like this will then be marked
+for further processing.
+1. Data Discrepancy Detection
+2. Fraud Detection
+1.3.4 Automated Repair Cost Estimation
+Users can add details of damaged vehicle parts after submitting a claim. Based on his-
+torical data, the system calculates the repair costs for those parts. It then compares this
+estimation with the requested claim amount to ensure fair claims and prevent overpay-
+ment.
+1. Damage Details Input and Cost Calculation
+2. Claim Validation and Overpayment Prevention
+1.3.5 Claim Categorization and Severity Prediction
+The system makes use of the NLP engine to sieve key information from the description
+provided by the user and categorizes the claim into a level: high, low, or mild. Severity
+categorization helps in making claims processing more efficient because severe claims are
+processed first. It can further assist with resource allocation and expedite high-priority
+cases or predict payouts using historical data.
+1. NLP-Based Claim Categorization
+2. Severity Prediction for Resource Allocation and Payout Estimation
+4
+1.3 Modules
+1.3.6 Customer Self-Service Portal
+Self-service portal helps users to manage their policies, lodge claims and track the same,
+upload all relevant documents, get real-time recommendations, and do the process without
+any contacts on customer support or any manual intervention.
+1. Policy Management & Real-Time Recommendations
+2. Claim Submission, Document Upload, and Tracking
+1.3.7 Automated Email Notifications
+This module automatically sends alert e-mails to users at the most appropriate times re-
+garding the proper submission of a claim, approval, or rejection, uploading major docu-
+ments, or reminding on policy renewals or customized recommendations for one’s policy.
+1. Claim Status Notifications
+2. Policy Renewal & Recommendation Alerts
+1.3.8 Document Management System
+A Document Management System provides a central, secure repository for storing docu-
+ments of insurance policies, agreements, and user-uploaded files. This saves users enough
+time to retrieve their files and handle them appropriately, which ensures efficient arrange-
+ment with easy access to the need-to-know information without resulting in increased
+complexity.
+1. Centralized Document Repository
+2. User Access to Policy and Uploaded Documents
+1.3.9 Accident Site Verification
+The module helps the Accident Site Officer in inputting the verification details, uploading
+pictures and submitting the verification form to process the claim. Following assignment,
+the officer utilizes this module to finalize the verification process through capturing of
+accident information and forwarding to the system.
+1. Access verification form.
+5
+1. Introduction
+2. Primary data about the input officer (his ID, his observations)
+3. Upload photos/documents.
+4. Provide the verification report
+1.4 User Classes and Characteristics
+6
+1.4 User Classes and Characteristics
+User class Description
+Insurance
+Policy Hold-
+ers
+These people purchase insurance policies from the web application. In terms
+of personal information, they may hold different insurance requirements, as
+per their family size, kind of vehicle, income level, etc. They file claims and
+track their status via the self-service portal.
+Insurance
+Company
+Officers
+Employees or agents of the insurance company whose core mandate is to
+administer claims, policies, and inquiries by customers. They have access to
+a variety of modules, including the document management system and fraud
+detection. They have the capability to intervene in major claims to manually
+review or approve them.
+Accident
+Site Officer
+For high level cases, these officers personally go to the site of accident to
+verify the details provided by the customer. This helps in averting frauds
+when it comes to high value cases.
+System Ad-
+ministrator
+All system maintenance, user management, and observation of data security
+and compliance performed. In charge of managing user roles/permissions,
+integrating machine learning models within the system, and updating the
+system.
+Example: User Classes and Characteristics
+7
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+9
+2. Project Requirements
+2.1 Use-case
+Figure 2.1: Use Case Diagram
+2.2 Expanded UseCases
+10
+2.2 Expanded UseCases
+2.2.0.1 Report an Accident
+Scope: InsuraSync
+Actor: Customer (Policyholder)
+Stakeholders and Interests: - Customer: Wants it to be fast and simple when reporting
+the accident - so no hassles, that is. - Insurance Company: Wants to get a fair report of
+the accident in order to begin claims processing at the earliest.
+Description: The system gives a policyholder the ability to report an accident using
+a user-friendly interface, providing important details such as accident location, vehicle
+damage, and supporting documents or pictures.
+Outcome: The accident report is duly submitted by the policyholder, and the claim pro-
+cessing kicks in.
+Steps:
+1. The policyholder logs on to the system.
+2. The policyholder selects report an accident.
+3. The policyholder enters accident details (e.g., date, time, location).
+4. The policyholder uploads the required documentation (e.g., photos of the accident,
+damage, etc.)
+5. The policyholder submits the report.
+6. The system confirms the submission and starts processing the claim.
+Alternate Flows: - Incomplete Information: If the policyholder has not provided all the
+necessary information, the system prompts the user to fill in the missing fields. - System
+Failure: If the system fails to submit the report, the policyholder gets notified and may
+either retry or contact customer support for help.
+Precondition:
+1. The policyholder must have an active account.
+2. The system must be operational and available for reporting.
+Postcondition:
+1. The system acknowledges the accident report and begins the claims process.
+2. The policyholder receives a confirmation along with the claim tracking information.
+11
+2. Project Requirements
+2.2.0.2 Automate Claims Processing
+Scope: InsuraSync
+Actor: InsuraSync Officer
+Stakeholders and Interest: - Insurance Company: Automation of claims processing
+would reduce manual effort and increase accuracy.
+Description: The system will process submitted claims by itself, be it accident details
+or any other relevant information regarding the call. It verifies the authenticity of claims
+and determines the next-step actions automatically and thus does not require any manual
+intervention.
+Outcome: Automatically generated quick claims will be passed for review to either the
+company or client stakeholders.
+Steps:
+1. The system will automatically receive a reported accident from the policyholder.
+2. The system will verify the authenticity of the claim using the internal fraud detec-
+tion mechanism.
+3. The system will analyze the claim and estimate repair costs.
+4. The system will categorize the claim based on urgency and complexity.
+5. The system will dispatch the claim to the appropriate team, or it will auto-approve
+or decide to reject it.
+Alternate Flows: - Manual Intervention: If, for any reason, the system cannot process the
+claim, an admin will be notified about the overview of the detail and will do the manual
+reviewing.
+Preconditions:
+1. The system must have received the accident report.
+2. The machine learning models of the system must be trained and active.
+Postconditions:
+1. The claim is either processed automatically or flagged for manual review.
+2. Status updates are sent to both the shaken party and the company.
+12
+2.2 Expanded UseCases
+2.2.0.3 Detect Discrepancies
+Scope: InsuraSync Actor: INsuraSync Officer
+Stakeholders and Interests: - Insurance Company: Needs the ability to confirm the
+legitimate status of a claim besides the detection of discrepancies that are potentially a
+source for fraud or error.
+Description: The system will check the claimed submitted information to determine any
+inconsistency or discrepancy between the information received from different sources,
+like an initial accident report versus historical records.
+Outcome: The system will flag suspected discrepancies for review or automatically re-
+solve discrepancies by itself.
+Steps:
+1. Claims submitted on the system will be analyzed with respect to historical data and
+other external sources.
+2. Any inconsistency in the reported information will be traced by the system through
+statistical analysis.
+3. Any flagged discrepancies will be put up for review by the system.
+4. If there are any discrepancies, the admin will be alerted until reviewed.
+5. Depending on user preference, minor discrepancies might be resolved by the sys-
+tem.
+Alternate Flows: - False Positive: If a flagged discrepancy is later determined to be
+incorrect, it has to be resolved manually by the admin.
+Preconditions:
+1. The claim should have been completed and must be in processing.
+2. The historical data and external sources for verification should be accessible by the
+system.
+Postconditions:
+1. Discrepancies should either be flagged for manual review or resolved automatically.
+2. The claim proceeds through the processing after review.
+13
+2. Project Requirements
+2.2.0.4 Repair Cost Estimation
+Scope: InsuraSync
+Actor: InsuraSync Officer
+Stakeholders and Interests: - Insurance Company: Sufficiently accurate in determining
+repair costs estimate to mitigate overpayment and equally compensate.
+Description: The system considers the observations of damages relating to an accident,
+assessing them with a reference to market data and previous claims in order to come up
+with a vehicle repair estimate.
+Outcome: The estimate will successfully compute repair costs for the policyholder’s
+vehicle.
+Steps:
+1. The system reads the accident report, including photos and descriptions of the dam-
+age.
+2. The system compares the damage against a database of market rates for parts and
+repairs.
+3. The system generates an adjusted repair cost estimate based upon current market
+conditions.
+4. The system forwards the estimate for approval to the insurance company.
+5. The policyholder is notified of the estimated costs.
+Alternative Flows: - Disputed Estimate: If the policyholder disputes the estimate, they
+may request a manual review or provide additional information.
+Preconditions:
+1. The system must have access to market data for parts and labor.
+2. The claim must be fully submitted and processed.
+Postconditions:
+1. The system provides the estimated repair cost.
+2. The estimate is sent on for approval and communicated to the policyholder.
+14
+2.2 Expanded UseCases
+2.2.0.5 Detect Fraud
+Scope: InsuraSync
+Actor: InsuraSync Officer
+Stakeholders and Interests: - Insurance Company: Wants to know whether claims are
+fraudulent or not so as to avoid incurring losses.
+Description: The system finds potential for fraudulent claims by assessing the claims in
+conformity with suspicious patterns, like strange details of accidents or the conduct which
+matches previous fraud schemes.
+Outcome: The system flags the potentially fraudulent insurance claims and advises the
+insurance company to take further action.
+Steps:
+1. The system examines the nature of claims and detects suspicious patterns or anoma-
+lies therein.
+2. The system runs a match of the claim by way of fraud detection models and histor-
+ical cases of fraud.
+3. The system flags suspected claims for further investigation.
+4. The admin is notified of the flagged claims.
+5. Rejection of fraudulent claims may be automatically processed by the AI.
+Alternate Flows: - False Positive:If a flagged claim is found legitimate, the admin resets
+it for further ordinary processing.
+Preconditions:
+1. The claim is filed under review.
+2. Required fraud detection models and historical data must be accessible to the sys-
+tem.
+Postconditions:
+1. The system flags claims for further analysis.
+2. Fraudulent claims are denied, while legitimate claims continue with processing.
+15
+2. Project Requirements
+2.2.0.6 Choose Personalized Policy
+Scope: InsuraSync
+Actor: Customer (Policyholder)
+Stakeholders and Interests: - Customer: Demands a policy of its choice and most pre-
+ferred. - Insurance Company: Wants to show that they care about their customers by
+providing relevant policies that will retain them and make them happier.
+Description : Based on the policyholder’s database information, the system offers a port-
+folio of policies that categorically adapts to his/ her profile.
+Outcome: Policyholder gets suitable policy recommendations and then chooses the most
+suitable one among all options.
+Steps:
+1. Login is done and/or entry of or changes to the policyholder’s personal details takes
+place.
+2. This it does through a machine learning approach to the data within the system.
+3. Insurers enter the information about the policyholder, and the system then considers
+insurance offers.
+4. Having input the data, the system provides the user with the policies relevant to him
+or her.
+5. Out of the recommended policies, the policyholder chooses one from the list.
+6. The system alters the policyholder’s information.
+Alternate Flows: - Incomplete Data: If the system requires extra information it will
+prompt the user to provide this. - Manual Review: The policyholder may require the
+manual cession or ask for a representative.
+Preconditions:
+1. The policyholder must first be alive and this account must be active.
+2. The machine learning models in the system need to be current.
+Postconditions:
+1. The policyholder avails a tailored policy to their needs.
+2. The system also refreshes the policyholder record and triggers further actions.
+16
+2.2 Expanded UseCases
+2.2.0.7 Use Self-Service Portal
+Scope: InsuraSync
+Actor: Customer (Policyholder)
+Stakeholders and Interests: - Customer: Wants to manage their claims and policies
+through an easy-to-use online portal. - Insurance Company: Designed to minimize ad-
+ministrative burdens by providing customers with facilities for managing their claims and
+policies themselves.
+Description : The system has the functionality of a Policyholder Service Portal, where
+the client can get information about the claims, manage the policies, and track the status
+of the existing claims online in real-time.
+Outcome: The customer interacts with the self service portal and the options include
+managing claims and policies for the policyholder.
+Steps:
+1. The policyholder opens the link, which he or she has received by email.
+2. Policyholder checks current claim status
+3. The policyholder administers or alters his insurance policy information.
+4. The policyholder assesses previous claims made by him/her.
+5. The system is built with the interface that gives real time information and alarm.
+Alternate Flows: - Incomplete Access: In case the policyholder cannot get to use some
+of the features it has access to support.
+Preconditions:
+1. The policyholder cannot be a dormant account, but must have an active account.
+2. The system has to be active; authorized and available to the public.
+Postconditions:
+1. The policyholder does a successful job in the management of claims and policies.
+2. The system has a feature of real time information availability.
+17
+2. Project Requirements
+2.2.0.8 Manage Documents
+Scope: InsuraSync
+Actor: InsuraSync Officer
+Stakeholders and Interests: Must manage various papers connected with claims effec-
+tively.
+Description : It deals with documents associated with claims by following their storage,
+classification and enabling easy access for both policyholders and the system’s adminis-
+trative staff.
+Outcome: Documents are organized and stored efficiently, with easy retrieval for future
+reference.
+Steps:
+1. This system is the one that let the uploaded documents be received and stored.
+2. Documents can be divided according to the claim number and its type belong to a
+certain category.
+3. It also gives the flexibility of admins and policyholders to access documents in case
+they are required.
+4. The system stores and retains old documents for future use.
+Alternate Flows: - Missing Documents: In case of a document that the system needs,
+the policyholder is asked to upload the document.
+Preconditions:
+1. The system must contain the storage facility and the access privilege and restriction
+issues.
+2. This policy requires that only policyholder or admin has the ability to upload any
+document.
+Postconditions:
+1. All documents are centralised and archived within the system.
+2. Documents are accessible only when they are required.
+18
+2.2 Expanded UseCases
+2.2.0.9 Send Email Notifications
+Scope: InsuraSync
+Actor: Email System
+Stakeholders and Interests: Customer: Wants information on their claims at the right
+time. InsuraSync: Wants to keep customers informed and reduce inquiry volume.
+Description : The system sends automated email notifications to policyholders and rele-
+vant stakeholders when important events occur in the claims process.
+Outcome: The policyholder is informed on time on the status of every single claim that
+is made.
+Steps:
+1. The system identifies a substantial activity such as claim approval, or change in
+policy.
+2. The system sends an email alert.
+3. The system makes the notification to go to the correct individuals.
+4. For record keeping, the system is able to track the notification logged.
+Alternate Flows: Failed Email Delivery: In other cases if an email will not be send, the
+system will try again and send an email to the admin informing of the failure.
+Preconditions:
+1. In addition, the policyholder must possess a valid email address.
+2. Again one needs to be connected to an email service for the system to function
+effectively.
+Postconditions:
+1. . Email notifications go to the policyholder.
+2. The system keeps record of all notifications that were sent out in the system.
+2.2.0.10 Verify Accident
+Scope: InsuraSync
+19
+2. Project Requirements
+Actor: Accident Site Officer
+Stakeholders and Interests: Customer: Desires for the claim to be resolved soon after
+an accident has happened. Accident Site Officer: Aids in the correct identification of an
+accident with an aim of eliminating fraud. Insurance Company: The main reason is the
+desire to reduce the number of bogus claims and check on the validity of claims before
+opening up a claim to more processing in order to approve the same.
+Description : When a customer has reported an accident, the system suspends the op-
+erations on the claim while searching for an Accident Site Officer’s confirmation. The
+officer gets an alert and goes to the accident scene and confirms accident facts and then
+photographs the scene and submits a confirmation form. After that, the processing of the
+claims goes on, once the form is completed and sent.
+Outcome: Subsequently, the officer authenticates the accident and the claim is taken off
+hold for other processing.
+Steps:
+1. An accident report is created by the customer and they make a claim to the system.
+2. The system suspends the claim and initiates a Verify Accident process.
+3. The system alerts the Accident Site Officer team.
+4. The system determines which Accident Site Officer is free to confirm the accident.
+5. The chosen ASO becomes the person who gets the assignment.
+6. The officer goes to the scene of the accident and gathers relevant data (photos,
+location coordinates).
+7. Accident officer sits down in front of the computer terminal and enters his/her cre-
+dentials to get access to the Verify Accident form.
+8. The officer enters information about the identification of an officer and what the
+officer observed in the accident.
+9. The officer submits other forms or photographs to support him/her.
+10. The officer also completes the verification form.
+11. The system initiates the verification procedures, which involved processing the
+claim to be released from hold for other purposes.
+Alternate Flows: No Officer Available:If there isn’t an Accident Site Officer, the system
+informs the customer of a delay in the verification process and the latter is rescheduled.
+20
+2.3 Functional Requirements
+Incomplete Form Submission: If the Accident Site Officer fills the form partially, the
+system does not allow him to continue without filling the remaining required fields.
+Preconditions:
+1. The customer must have declared an accident, that is, report an accident to the
+insurance company.
+2. An Accident Site Officer should be present in the scene to acknowledge the acci-
+dent.
+Postconditions:
+1. This is as claimed with independent confirmation from the Accident Site Officer.
+2. The system proceeds to claims processing after verification has been made in this
+case.
+2.3 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style. This section is typically organized by feature as a system feature name and
+specific functional requirements associated with this feature. It is just one possible way to
+arrange them. Other organizational options include arranging functional requirements by
+use case, process flow, mode of operation, user class, stimulus, and response depend on
+what kind of technique has been used to understand functional requirements. Hierarchical
+combinations of these elements are also possible, such as use cases within user classes.
+2.3.1 Personalized Policy Recommendations
+Following are the requirements for module 1:
+1. The system should provide users with a form to enter essential information for
+instance age, income size, the number of family members, and type of insurance.
+2. The system should go through user input using machine learning and filtering tech-
+niques to suggest relevant insurance policies.
+3. The system must provide various policy options according to the choices of users
+in their requirements.
+21
+2. Project Requirements
+2.3.2 Automated Claims Processing
+Following are the requirements for module 2:
+1. The system should be able to provide the facility of filing insurance claims over the
+web application.
+2. The system should allow users to upload supporting documents such as images,
+PDFs, scanned forms, or FIR reports if necessary.
+3. This system should make sure to show a confirmation message after successful
+submission of claims.
+2.3.3 Discrepancy and Fraud Detection
+Following are the requirements for module 3:
+1. The system must compare the claim details with the user profiles and historical data
+in an automatic process for detection of any inconsistencies.
+2. The system should flag claims having a mismatch between the claims and the sup-
+porting documents.
+3. The system should recognize and flag those claims with high frequency as possible
+cases of fraud.
+2.3.4 Automated Repair Cost Estimation
+Following are the requirements for module 4:
+1. The system should allow users to enter information about damaged parts of vehi-
+cles.
+2. The system should estimate the cost of the repairs for similar damages using histor-
+ical data.
+3. The system should compare the repair cost estimate with the user’s requested claim
+amount.
+22
+2.3 Functional Requirements
+2.3.5 Claim Categorization and Severity Prediction
+Following are the requirements for module 5:
+1. The system should extract relevant information from the descriptions of claims
+available through its natural language processing component.
+2. The system should classify claims into three severities namely high, low and also
+general damage.
+3. The system should rank claims to be handled as quickly as possible according to
+the level of severity.
+2.3.6 Customer Self-Service Portal
+Following are the requirements for module 6:
+1. The system must allow the users to manage their policies and submit claims and
+also provide the tracking status of claims through an online portal.
+2. The system should allow an access of user’s history of insurance and the latest
+details about their insurance coverage.
+3. The system should ensure that uploading of documents is easy and accessible, be-
+sides the claims.
+2.3.7 Automated Email Notifications
+Following are the requirements for module 7:
+1. The system should send an automatic email for each key event-like submission or
+approval of claims.
+2. The system should support customizable email triggers depending on the status of
+the claim or policy.
+2.3.8 Document Management System
+Following are the requirements for module 8:
+1. The system must store all claim-related documents in a central repository and these
+have to be kept secure.
+23
+2. Project Requirements
+2. The system should be able to do a search to grab documents based on metadata-that
+is, their claim number or date.
+3. The system should accept scanned documents related to the indicent/claim.
+2.4 Non-Functional Requirements
+This section specifies nonfunctional requirements. These quality requirements should be
+specific, quantitative, and verifiable. The following are some examples of documenting
+guidelines.
+2.4.1 Reliability
+• REL-1: The system should have at least an MTBF of 500 hours so that the down-
+time for the end users is virtually minimized.
+• REL-2: In case of system failure, an automatic error detection mechanism should
+produce alerts within 5 seconds after the failure to inform the administrator.
+• REL-3: The system must provide back-up and recovery capabilities that restore
+functionality within 15 minutes of a critical failure.
+2.4.2 Usability
+• USE-1: system should enable first-time users to be able to make submissions of
+their claims within a mere 5 minutes from the first use without any form of training.
+• USE-2: The system should make its user prompts clear and concise in order to
+avoid errors on the submission of the claim
+2.4.3 Performance
+• PER-1: The system should deal with at least 50% of the claims in less than 10-20
+seconds.
+• PER-2: NLP should complete the categorization of claims within 10-15 seconds if
+the description of the claim is 500 words.
+• PER-3: The estimated repair cost should be displayed within 10-15 seconds after
+the user inputs the damaged parts.
+24
+2.5 Domain Model
+2.4.4 Security
+• SEC-1: The system should enforce two-factor authentication for all users before
+they log in.
+• SEC-2: File storing is secure between user and the system, meaning no third party
+can access them.
+• SEC-3: The system shall record all actions performed with claims and policy up-
+dates, and logs shall be retained for at least 6 months for traceability.
+2.5 Domain Model
+The domain model for our project is as follows:
+Figure 2.2: Domain Model
+25
+
+Chapter 3
+System Overview
+The InsuraSync system is an AI-based management platform for the insurance business,
+where it brings simplicity to the complete processes involved in managing and processing
+insurance policies and claims in a simplified and automated manner. It offers users access
+to a secure portal that allows them to create accounts, log in, and manage their insurance
+policies.
+It applies machine learning algorithms to individualize policy recommendations using
+input from users. This, therefore, offers customized advice to customers on the most suit-
+able insurance products that could be applied in their particular instances. Payment gates
+integrated within the platform make premium payment transactions without necessarily
+requiring human intervention.
+It also automates the processing and validation of important documents, such as proof of
+identity, claims, and incident reports. After a user has submitted his or her selection and
+payment, it automatically issues and distributes corresponding policy documents. The
+service is assuredly quick and efficient.
+Such accidents or any other insured events are reported through the dashboard of the
+system; it directly integrates reports into the system for further processing. AI-enabled
+fraud detection enables the system to identify any discrepancies or aberrations in claims
+submitted to alert and rectify them. The system also provides an estimate of repair costs in
+real-time with industry-standard datasets and web-scraped data from established sources.
+Such parts such as intelligent claim categorization and routing are also integrated into the
+InsuraSync system, thereby ensuring that claims reach the right department for review and
+processing, and reduce the operation burden to a great deal for the insurance companies.
+The system enhances the user experience through automation and improved fraud detec-
+tion and on-time claims processing so that the insurance companies manage to conserve
+time on core operations by reducing manual workload and improving the services.
+27
+3. System Overview
+3.1 Architectural Design
+The simple box and line diagram of our system is as follow:
+Figure 3.1: Box and line.
+InsuraSync has a three tier architecture structure.The structure is divided into modules.
+This would allow maintainability and clear segregation of duties throughout the system
+as a module assigned a distinct task can easily be maintained and updated independently
+from other elements of the system. The system is divided into three levels, each of which
+is in charge of managing a distinct area of the system’s operation:
+Presentation Layer (User Interface) This layer is dedicated to user interaction through
+the web. It consists of:
+• Customer Portal: Through the customer web interface, a customer can submit his
+or her insurance claim, check on the status of a given claim, and upload documents.
+• Admin Dashboard: Through the admin interface, administrators receive informa-
+tion on claims awaiting approval or denial and manage customer profiles.
+Business Logic Layer (Application Server) This is the core layer where all the busi-
+ness logic is implemented. The prime modules in it are:
+• Claims Processing Module: This module deals with the insurance claim life cycle
+• Discrepancy Detection Module: This module deals with the discrepancies in the
+claims.
+• Fraud Detection Module: Claims data is checked for fraudulent activities. .
+• Repair Estimator Module: Repair costs against vehicles damaged are estimated.
+28
+3.1 Architectural Design
+• Document Management System : The system stores and manages claim-related
+documents.
+• Personalized Policy Recommendation Module: The module sends a customized
+policy recommendation to the customer based on the profile
+• Notification Module: It sends notifications to the customer of the updates on a
+claim.
+Data Access Layer (Database/Storage) This layer deals with the storage and retrieval
+of data. This includes:
+MongoDB (Database): It is a non relational type of database which holds structured
+information of users, claims, vehicles and policies. Cloud Storage (e.g., A WS S3): This
+is used to keep non structured files like loss reports, bills and receipts of repairs addressed.
+Figure 3.2: Architectural diagram.
+29
+3. System Overview
+3.1.0.1 Modular Program Structure
+The system is broken down into key modules representing various functionalities.
+1. User Management Module It is basically for managing the authentication and au-
+thorization of customers and admins while allowing users to login, register, and manage
+accounts. This module provides access to the system, both through the Customer Portal
+and the Admin Dashboard and also interfaces with the Business Logic Layer in order
+to manage claims and documents.
+2. Claims Processing Module It handles the whole cycle of a claim from submit to
+approval.This is a central hub of the system that communicates with other modules con-
+taining business logic.After detecting discrepancies, It calls data from the Fraud Detec-
+tion Module and Repair Estimator Module in order to retrieve data to present to the
+Insurance company officer for review and update. Additionally, it interacts with theDoc-
+ument Management Systemto update the status of user notifications and attach pertinent
+documents to claims.
+3. Discrepancy Detection Module It detects discrepancies in the filed claims and re-
+ports and informs the system about the discrepancies.
+4. Fraud Detection Module Analyse the claim files of potential fraudulent claims using
+machine learning algorithms or historical data. The module interacts with the Claims
+Processing Module by scanning the claim files and informing the system of the potential
+fraudulent claims. It is then investigated by the insurance company officer.
+5. Claim Categorization and Severity Prediction Because the system would leverage
+on its NLP component in automatically extracting relevant information from claim de-
+scriptions, claims will be ranked based on severity. It will take on the most serious cases
+first and process them faster.
+6. Repair Estimator Module It determines the automobile repair costs on claims au-
+tomatically using Ml algorithms. Upon receiving claim data from the Claims Processing
+Module, this module sends an estimated cost to repair, which is then used by the claims
+system to finalise decisions.
+7. Document Management System It is responsible for managing storage, retrieval
+and organisation of documents regarding claims. To store and retrieve documents, such
+30
+3.1 Architectural Design
+as insurance forms and accident reports, this module communicates with the claims pro-
+cessing module. When users upload a document, this system communicates with theUser
+Management Module.
+8. Personalized Policy Recommendation Module It provides consumers with rec-
+ommendations for insurance policies that are tailored to them based on their profile and
+claim history. It transmits policy recommendations to the Customer Portal and utilizes
+customer data from the User Management Module.
+9. Notification Module Alerts the users on matters such as status updates of claims.
+This module of Notification interacts with the Claims Processing Module and the Doc-
+ument Management System to trigger notifications once there have been changes in the
+statuses of the claims or documents upload.
+3.1.0.2 Inter Module Relationships
+The relationships between the modules in the three layers ensure functionality along with
+proper data flow:
+• User Management Module → Business Logic Modules: After a user has submit-
+ted a claim or logged in, the User Management Module checks the identity of the
+user and forwards the request to the Claims Processing Module.
+• Claims Processing Module → Other Business Modules: The Claims Processing
+Module serves as the system’s core, working in conjunction with other modules,
+such as the Discrepancy Detection Module, Fraud Detection Module in claim
+integrity validation, the Repair Estimator Module in terms of cost estimates of
+the repair, and, of course, theDocument Management System in pulling back and
+attaching relevant documents on the matter.
+• Document Management Module → Cloud Storage: Cloud Storage manages the
+unstructured type of data like claims-related documents such as accident reports in
+the Document Management System.
+• Claims Processing Module → Data Access Layer: Storing and retrieving struc-
+tured data regarding claims, customer profiles, and policies the Claims Processing
+Module is communicating with the MongoDB database is the function performed.
+• Notification Module → User Interface: The Notification Module triggers notifi-
+cations that informs the Customer about the status of the processing claim.
+31
+3. System Overview
+3.2 Design Models for Object Oriented Development Ap-
+proach
+Create design models as are applicable to your system. Provide detailed descriptions with
+each of the models that you add. Also ensure visibility of all diagrams.
+3.2.1 Activity Diagram
+The Insurance Claims Processing System by incorporating the features of artificial intel-
+ligence and machine learning is a project that focuses on automizing the insurance claims
+process. The goal of developing the activity diagrams in this project is to help people to
+understand what activities should be done and in what order, beginning with the registra-
+tion of an initial claim and ending with the approval and notification of customers. These
+diagrams describe how the activities are passed on from one entity (as the system and the
+insurance officers) to another and how the activities occur within the system.
+Objective: The activity diagrams are to model all the flow of insurance claims. These
+diagrams explain the detailed process of acknowledging various accidents, validating such
+reports, safeguarding data through the various process steps, documentation and final
+steps of reporting to the customers. Actors: SYSTEM: The core solution which includes
+AI to deal with several tasks of the claim work cycle, from acceptance to confirmation
+and resolution. OFFICER: Personnel who is an insurance officer or an agent who is to
+visit the scene of the accident, collect sufficient evidence, fill a verification form and/or
+do anything else that would complete the process of the claim.
+Flow and Purpose: Receiving the Claim : The system takes the initial accident claim;
+the claim is then placed on hold until it is verified.
+Officer Assignment: This leads to checking of availability of officers to work on the case
+and allocation of the officer. And if no officer is available it just notifies the customer
+and re-schedules for verification which shows an intelligent approach as well as customer
+friendly approach.
+Officer’s Role:To do this, the officer first of all goes to the scene of the accident collects
+evidence goes to the log-in and selects the verification form. The officer then enters
+further particulars of the accident, scan and upload relevant documents and photo, and
+forwarding the verification form to the supervising officer.
+System Verification:The system verifies if the form is fully filled up. If the form does not
+have any field it completes the missing data so that it reduces on the occurrence of other
+errors and inconsistencies.
+Claim Processing and Release: Once a form is submitted and approved, the system then
+32
+3.2 Design Models for Object Oriented Development Approach
+works to process the claim, and take it off hold. The communication process is made clear
+and effective because the customer is informed of the decision.
+Key Components and Relationships in the Diagram
+1. Control Flow (Arrows): There are arrow that joins different actions within the
+diagram and these arrows are used to indicate control flows. They point the way
+the process is likely to go, how one activity links to another. Functionality: In
+the claims processing system, control flows assist in showing the manner in which
+processes unfold from receiving a claim, verification, decision-making process to
+resolution. For instance, after receiving the claim it is on hold and then notifications
+to the officer team make a good flow of the process.
+2. Decisions (Diamonds): Decision items are shown as a diamond wherein the pro-
+cess may split depending on the condition. Impact: It is at decision points that
+the choice of options forms various channels within the process while providing an
+opportunity for a detailed review of the evaluation results and claims, as well as the
+possibility of the system’s operational adjustment.
+3. Swimlanes: Swimlanes split actions based on who performs them, System or Actor.
+Clarification of Responsibility: Making overlaid bureaucracies obvious, swimlanes
+offer understanding of who is responsible for each activity when it separates auto-
+mated system process from the officer work. For instance, Automatic notifications
+and Data processing come under System lane while manual reviews and decisions
+come under Actor lane. Efficiency: Such segregation enable other stakeholders to
+know who does what when it comes to the processing of claims which increases
+efficiency and is answerable to anyone involved.
+4. Parallel Processes: Interconnected activities are shown when two or more activi-
+ties happen concurrently in the diagram. Benefit: It is therefore efficient to perform
+a number of activities simultaneously hence enhancing the effective and efficient
+utilization of resources to enhance the rate of handling claims.
+5. Loops: Loops are used to depict the cyclic characteristics of some processes in the
+claims flow. Importance: looping guarantees that critical processes are not con-
+cluded prematurely and makes the process rigid while serving as a way of adding
+reliability to the claims processing system.
+Following are the activity diagrams of our use cases:
+33
+3. System Overview
+3.2.1.1 File an Accident
+Figure 3.3: File an Accident AD
+34
+3.2 Design Models for Object Oriented Development Approach
+3.2.1.2 Automate Claim Processing
+Figure 3.4: Automate Claim Processing AD
+35
+3. System Overview
+3.2.1.3 Estimate Repair Cost
+Figure 3.5: Estimate Repair Cost AD
+36
+3.2 Design Models for Object Oriented Development Approach
+3.2.1.4 Detect discrepancies
+Figure 3.6: Detect Discrepancy AD
+37
+3. System Overview
+3.2.1.5 Detect Fraud
+Figure 3.7: Detect Fraud AD
+38
+3.2 Design Models for Object Oriented Development Approach
+3.2.1.6 Choose Personalized Policy
+Figure 3.8: Choose Personalized Policy AD
+39
+3. System Overview
+3.2.1.7 Use Self-Service Portal
+Figure 3.9: Use Self-Service Portal AD
+40
+3.2 Design Models for Object Oriented Development Approach
+3.2.1.8 Verify Accident
+Figure 3.10: Verify Accident AD
+41
+3. System Overview
+3.2.1.9 Manage Documents
+Figure 3.11: Manage Documents AD
+42
+3.2 Design Models for Object Oriented Development Approach
+3.2.1.10 Send Email Notification
+Figure 3.12: Send Email Notification AD
+43
+3. System Overview
+3.2.2 Class Diagram
+Figure 3.13: Class Diagram
+The system’s class diagram represents various entities and their relationships in Insur-
+aSync. There is a super user class. Specific types of users inherit from this superclass:
+Admin, responsible for managing users and maintaining system; Customer, who files
+claims and owns an insurance policy and a car; Insurance Company Officer, who man-
+ages claims and manages the document system and fraud flags and Accident site Officer
+who verifies and approves claims. The Claim class holds claim-specific information, in-
+teracts with modules like Document Management System, Discrepancy Detector, and
+Fraud Detection, and is linked to the Accident Report, Repair Estimator, and Pay-
+ment classes for processing and settlement.
+Additionally, the Insurance Policy class is owned by the customer and includes person-
+alized policy recommendations. The car of the customer involved in accident is repre-
+sented by the Car class. The ClaimProcessing class handles the overall workflow of a
+claim, collaborating with the Repair Estimator for damage cost estimation and interact-
+ing with the Fraud Detection and Discrepancy Detector to ensure the claim’s validity.
+There are other classes as well, for example theDocument Management System to han-
+44
+3.2 Design Models for Object Oriented Development Approach
+dle the document, the Notification to notify the customer about the status of a claim,
+and the Personalized Policy Recommendation to recommend suitable policies based on
+customer profiling. The whole setup is completed with the Accident Site Officer who
+checks on the validity of accidents and streamlines the process of the claim approval. Stat
+3.2.3 Sequence Diagrams
+In connection with the utilization of the concept of sequence diagrams, the latter can assist
+in outlining the sequence of the messages and interactions of the object at the indicated
+period of time in the case of Insurance Claims Processing System implemented with the
+help of AI technologies. These diagrams based on the operational sequence, and the
+operations performed by various individuals involved in the process that is the system.
+Visualizing Interactions: Sequence diagrams depict how various typified participants
+(elements, actors, systems, and processes) communicate within the course of the claims
+processing activities. They outline the messaging part and the time table of these interac-
+tions.
+Clarifying Processes: Tasks such as claim submission verification and approval are made
+clearer by these diagrams which show the various steps involved sequentially. But, order-
+ing the operations, sequence diagrams help to describe the functioning of the system in
+real time.
+Facilitating Communication: As a form of communicating the interactions in a sys-
+tem, sequence diagrams help users such as developers, implicating analysts, and business
+managers. They assist in making sure all the people understand the processes involved
+concerning the operations of the system.
+Key Components of Sequence Diagram
+1. Objects/Components: These are the various components within the system that
+interact with each other, such as: Claims Database: This holds information con-
+cerning claims. Verification System: Is responsible for the validation process of
+claims. Notification Service: Sends messages to customers and officers.
+2. Lifelines: Lifelines are vertical lines drawn with a number of short, vertical parallel
+lines in the form of adding marks to indicate that an actor or an object is present in
+a system at different time points. They assist in showing when an entity is engaged
+during the interaction, and when it is not.
+3. Messages: Information transfer between lifelines are depicted as messages which
+are arrows that connect two lifelines. They can denote various types of interactions,
+such as: Synchronous Messages: A direct question-answer relation, that could be
+observed when the customer enters a claim into the system. Asynchronous Mes-
+45
+3. System Overview
+sages: Use to represent interactions that are not necessarily real-time, for example
+the system may notify the customer of something.
+4. Activation Boxes: These are rectangles put on lifelines to show that an object or
+actor is awake or involved in performing a message. You can easily understand how
+long each and every activity takes.
+How Sequence Diagrams Are Used
+• Modeling Workflows: Specific business processes within the insurance claims pro-
+cessing system are described through the use of sequence diagrams. For instance,
+sequence diagram could depict the processes that begin when a customer opens a
+claim and ends when the corresponding officer confirms or denies that claim to the
+customer.
+• Identifying Dependencies: Dependence among various component with different
+actors can be easily determined from sequence diagrams that enforce the visual-
+ization of interactions. This insight is important with regard to how the delay or a
+problem in one area would snowball to affect other areas.
+• Supporting System Design: In context of system design phase, sequence diagrams
+help developers as to how various part will have to behave or with implementation.
+This understanding is helpful in identifying boundaries or interfaces and messages
+being exchanged in solving a problem or in achieving a specific organizational goal
+to make the system run smoothly.
+• Testing and Validation: Sequence diagrams can be used as a kind of test scenario.
+It affords testers the ability to know how the system is meant to behave and then
+ensure that every interaction works as planned.
+Following are the sequence Diagrams of all the use cases:
+46
+3.2 Design Models for Object Oriented Development Approach
+3.2.3.1 File an accident
+Figure 3.14: File Accident SD
+3.2.3.2 Automate Claims Processing
+Figure 3.15: Automate Claims Processing SD
+47
+3. System Overview
+3.2.3.3 Estimate Repair Cost
+Figure 3.16: Estimate Repair Cost SD
+3.2.3.4 Detect Discrepancies
+Figure 3.17: Detect Discrepancies SD
+48
+3.2 Design Models for Object Oriented Development Approach
+3.2.3.5 Detect Fraud
+Figure 3.18: Detect Fraud SD
+3.2.3.6 Choose Personalized Policy
+Figure 3.19: Choose Personalized Policy SD
+49
+3. System Overview
+3.2.3.7 Use Self-Service Portal
+Figure 3.20: Use Self-Service Portal SD
+50
+3.2 Design Models for Object Oriented Development Approach
+3.2.3.8 Verify Accident
+Figure 3.21: Verify Accident SD
+51
+3. System Overview
+3.2.3.9 Manage Documents
+Figure 3.22: Manage Documents SD
+3.2.3.10 Send Email Notification
+Figure 3.23: Send Email Notification SD
+52
+3.2 Design Models for Object Oriented Development Approach
+3.2.4 State Diagram
+In the proposed AI-driven Insurance Claims Processing System, state diagrams capture
+the behavior of significant entities in the insurance claims process, such as claims and
+notifications, at different states. These diagrams illustrate actions taken by the system and
+the external events and inputs to the system such as claims filing, officer attestations, and
+approvals.
+Visualizing Lifecycle: The state diagrams explain the flow of claims through the vari-
+ous states with reference to when they are submitted or approved or rejected. System
+Behavior: They demonstrate how the system responds to some events such as verifica-
+tion, difference, or delay. Defining Transitions: Every state change (For instance: “On
+Hold”, “Under Verification”) is occasioned by an event such as assignment of an officer
+or approval of a claim respectively.
+Key Components:
+• States: Action Taken Codes which includes different conditions, for example; “Claim
+Received” “Claim Verified”.
+• Transitions: Links indicating how states become transformed due to occurrences.
+• Triggers: Occurrences that modify the state of objects and agents (e.g., customer
+submission, officer action).
+• Loops: To identify repeated actions, for example rechecking of the claims that have
+not been completed.
+• Final States: Stating at the end of the process (for example “Claim Approved/Rejected”).
+Following are the state diagrams of all the use cases:
+53
+3. System Overview
+3.2.4.1 File an accident
+Figure 3.24: File an accident State
+54
+3.2 Design Models for Object Oriented Development Approach
+3.2.4.2 Automate Claims Processing
+Figure 3.25: Automate Claims Processing state
+55
+3. System Overview
+3.2.4.3 Estimate Repair Cost
+Figure 3.26: Estimate Repair Cost state
+56
+3.2 Design Models for Object Oriented Development Approach
+3.2.4.4 Detect Discrepancies
+Figure 3.27: Detect Discrepancies state
+57
+3. System Overview
+3.2.4.5 Detect Fraud
+Figure 3.28: Detect Fraud state
+58
+3.2 Design Models for Object Oriented Development Approach
+3.2.4.6 Choose Personalized Policy
+Figure 3.29: Choose Personalized Policy state
+59
+3. System Overview
+3.2.4.7 Use Self-Service Portal
+Figure 3.30: Use Self-Service Portal state
+60
+3.2 Design Models for Object Oriented Development Approach
+3.2.4.8 Verify Accident
+Figure 3.31: Verify Accident state
+61
+3. System Overview
+3.2.4.9 Manage Documents
+Figure 3.32: Manage Documents state
+62
+3.2 Design Models for Object Oriented Development Approach
+3.2.4.10 Send Email Notification
+Figure 3.33: Send Email Notification state
+3.2.5 System Sequence Diagrams
+63
+3. System Overview
+3.2.5.1 Automated Claims Processing
+Figure 3.34: ssd1
+64
+3.2 Design Models for Object Oriented Development Approach
+3.2.5.2 Discrepancies Detection
+Figure 3.35: ssd2
+65
+3. System Overview
+3.2.5.3 Fraud Detection
+Figure 3.36: ssd3
+66
+3.2 Design Models for Object Oriented Development Approach
+3.2.5.4 Email Notifications
+Figure 3.37: ssd4
+67
+3. System Overview
+3.2.5.5 Filing a claim
+Figure 3.38: ssd5
+68
+3.2 Design Models for Object Oriented Development Approach
+3.2.5.6 Manage Documents
+Figure 3.39: ssd6
+3.2.5.7 Choosing Personalized Policy
+69
+3. System Overview
+Figure 3.40: ssd7
+70
+3.2 Design Models for Object Oriented Development Approach
+3.2.5.8 Repair Cost Estimation
+Figure 3.41: ssd8
+71
+3. System Overview
+3.2.5.9 User Self Service Portal
+Figure 3.42: Enter Caption
+72
+3.3 ERD (Entity Relationship Diagram)
+3.3 ERD (Entity Relationship Diagram)
+Figure 3.43: Entity Relationship Diagram of the InsuraSync System.
+3.4 Data Design
+The data design for the InsuraSync system focused on structuring and configuring infor-
+mation into data entities that may be efficiently stored, processed, and managed. The
+system involves a large dataset concerning users’ information and policy details, claims
+processing, payments received, and all the related documents.
+3.5 Key Entities as Data Structures
+The essence of the above-mentioned data entities is best represented in terms of their
+respective data structures.
+• User: This table contains information such as user ID, name, contact number, and
+login credentials. It also stores information related to the roles of the user, whether
+they are a customer or an admin.
+73
+3. System Overview
+• Insurance Policy: This table houses data related to the policies issued to customers.
+It stores the policy ID, type of policy, coverage details, start date, end date, and the
+premium amounts.
+• Claims: This table contains claim-related data such as claim ID, policy ID, user ID,
+claim amount, the date the claim was made, incident details, and the claim status
+(pending, approved, or rejected).
+• Payments: This table manages users’ transactions by including payment ID, user
+ID, policy ID, payment amount, date, and payment status.
+• Documents: This table stores user-uploaded or system-generated documents such
+as identity proofs and claim reports. It has attributes such as document ID, type,
+user ID, connected claim or policy ID, and the storage location of the document.
+3.6 Database Design
+The system utilizes a relational database to store and manage information about these
+entities. Below are the key tables:
+• Users Table: This table contains information about each user, including personal
+details, login credentials, and a list of user roles.
+• Policies Table: This table stores all policies purchased by users, including policy
+types, terms, and related payments.
+• Claims Table: This table captures data about claims made by users, including
+incident reports and claim processing statuses.
+• Payments Table: This table tracks every transaction related to user payments, pol-
+icy renewals, and claim settlements.
+• Documents Table: This table stores all documents submitted or generated by users,
+such as policy documents and claims-related files.
+3.7 Data Processing
+The system processes data through various functional modules:
+• Policy Recommendation Engine: Utilizes machine learning models to analyze
+user data and recommend the most pertinent policies.
+74
+3.7 Data Processing
+• Claims Processing: Automates verification and fraud detection by comparing sub-
+mitted claims with historical records and industry standards.
+• Document Management: Ensures secure upload, verification, and storage of im-
+portant documents.
+• Payment Integration: Facilitates policy premium payments and renewals through
+integrated payment gateways.
+Overall, the data is structured in a way that enables quick access and efficient processing,
+allowing for real-time operations and updates.
+75
+
+Bibliography
+[1] Adamjee Insurance. Adamjee insurance, 2024. Accessed: 2024-09-10.
+[2] Jubilee Life Insurance. Jubilee life insurance, 2024. Accessed: 2024-09-10.
+[3] TPL Insurance. Tpl insurance, 2024. Accessed: 2024-09-10.
+[4] Sapana Kolambe. Survey on insurance claim analysis using natural language process-
+ing and machine learning. ResearchGate, 2023. Accessed: 2024-09-10.
+[5] Pakwheels. Pakwheels - accessories and spare parts, 2024. Accessed: 2024-09-10.
+77
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

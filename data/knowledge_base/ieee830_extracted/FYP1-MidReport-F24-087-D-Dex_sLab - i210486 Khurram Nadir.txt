@@ -1,0 +1,257 @@
+# FYP1-MidReport-F24-087-D-Dex_sLab - i210486 Khurram Nadir
+
+## 1. Introduction
+
+Introduction......................................................................................................................................51.1ProblemStatement.......................................................................................................................61.2Scope............................................................................................................................................61.3Modules........................................................................................................................................81.3.1Module1: Asset Creation...................................................................................................81.3.2Module2:MechanicDesign................................................................................................81.3.3Module3:Level Design........................................................................................81.3.4Module4: Application Design..............................................................................81.3.5Module5: Testing.................................................................................................81.3.6Module6: Deployment andOptimization.............................................................91.4UserClassesandCharacteristics..............................................................................................9Chapter 2..........................................................................................................................112.1Use-case......................................................................................................................................112.1.1PickUpandRelocateLaboratoryEquipment intheVirtual Lab.....................................122.1.2Movearoundinthe3dspaceof thevirtual laboratory.....................................................122.1.3Conduct, ObserveandLearnfromtheSimulatedChemical ReactionsandProcesses....132.1.4Pause, start, andstopexperiments....................................................................................142.1.5Adjust SoundLevelsintheVirtual Lab........................................................................... 142.1.6OperateandInteract withEquipment intheVirtual Lab..................................................152.1.7AccessStep-by-StepTutorialsandGuidancefor ExperimentsintheVirtual Lab...........162.1.8Monitor Current ProgressinOngoingVirtual LabExperiments......................................172.1.9ViewHistoryof PerformedLabActivitiesandGrades/Scores........................................182.1.10Select Pre-Set Experimentsfor Self-DirectedLearningintheVirtual Lab....................182.2Functional Requirements............................................................................................................192.2.1Module1: Asset Creation.................................................................................................192.2.2Module2: MechanicDesign............................................................................................202.2.3Module3: Level Design...................................................................................................202.2.4Module4: ApplicationDesign..........................................................................................202.2.5Module5: Testing.............................................................................................................212.2.6Module6: Deployment andOptimization........................................................................212.3Non-Functional Requirements................................................................................................212.3.1Reliability......................................................................................................................... 212.3.2Usability............................................................................................................................222.3.3Performance......................................................................................................................222.3.4Security..............................................................................................................222.3.5Compatibility.......................................................................................................222.3.6Scalability...........................................................................................................222.4DomainModel............................................................................................................................23Chapter 3......................................................................................................................... 251
+3.1Architectural Design.................................................................................................................. 253.2DesignModels............................................................................................................................26DesignModelsfor Procedural Approach....................................................................263.2.1ActivityDiagram.................................................................................................273.2.2DataFlowDiagram............................................................................................ 283.2.3SystemLevel SequenceDiagram......................................................................293.2.3.1: Pickupandrelocate(pipettes, burettes, thermometers, etc.)..................293.2.3.2: Movearoundinthe3dspaceof thevirtual laboratory.............................303.2.3.3: Observeandlearnfromthesimulatedchemical reactionsandprocesses..313.2.3.4: Pause, start, andstopexperiments..........................................................323.2.3.5: Adjust soundlevels..................................................................................333.2.3.6: OperateBunsenburnersandother equipment........................................343.2.3.7: Accessstep-by-steptutorialsandguidancefor experiments...................353.2.3.8: Viewprogressandperformanceinthevirtual labactivities.....................363.2.3.9: ViewHistoryof performedlabandtheir grades/ scores......................... 373.2.3.10: Select pre-set experimentsfor self-directedlearning.............................383.2.4StateTransitionDiagram................................................................................... 393.3DataDesign...............................................................................................................................40Bibliography....................................................................................................................42
+2
+List of Figures1. Figure1: ActivityDiagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 292. Figure2: DataFlowDiagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 313. Figure3: SystemLevel SequenceDiagram- Pickupandrelocate(pipettes, burettes,thermometers, etc.) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 324. Figure4: SystemLevel SequenceDiagram- Movearoundinthe3dspaceof thevirtuallaboratory. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 335. Figure5: SystemLevel SequenceDiagram- Observeandlearnfromthesimulatedchemical reactionsandprocesses. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 346. Figure6: SystemLevel SequenceDiagram- Pause, start, andstopexperiments. . . . . . . .. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 357. Figure7: SystemLevel SequenceDiagram- Adjust soundlevels. . . . . . . . . . . . . . . . . 368. Figure8: SystemLevel SequenceDiagram- OperateBunsenburnersandother equipment. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 379. Figure9: SystemLevel SequenceDiagram- Accessstep-by-steptutorialsandguidancefor experiments. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3710. Figure10: SystemLevel SequenceDiagram- Viewprogressandperformanceinthevirtual labactivities. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3911. Figure11: SystemLevel SequenceDiagram- ViewHistoryof performedlabandtheirgrades/ scores. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4012. Figure12: SystemLevel SequenceDiagram- Select pre-set experimentsfor self-directedlearning. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4113. Figure13: StateTransitionDiagram. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+3
+List of Tables1. Table1: UseCase2.1.1- PickUpandRelocateLaboratoryEquipment intheVirtual Lab.. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132. Table2: UseCase2.1.2- Movearoundinthe3dspaceof thevirtual laboratory. . . . . . . . .. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133. Table3: UseCase2.1.3- Conduct, ObserveandLearnfromtheSimulatedChemicalReactionsandProcesses. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 144. Table4: UseCase2.1.4- Pause, start, andstopexperiments. . . . . . . . . . . . . . . . . . . . . 155. Table5: UseCase2.1.5- Adjust SoundLevelsintheVirtual Lab. . . . . . . . . . . . . . . . . 166. Table6: UseCase2.1.6- OperateandInteract withEquipment intheVirtual Lab. . . . . . .. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 167. Table7: UseCase2.1.7- AccessStep-by-StepTutorialsandGuidancefor ExperimentsintheVirtual Lab. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178. Table8: UseCase2.1.8- Monitor Current ProgressinOngoingVirtual LabExperiments.. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 189. Table9: UseCase2.1.9- ViewHistoryof PerformedLabActivitiesandGrades/Scores. .. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1910. Table10: UseCase2.1.10- Select Pre-Set Experimentsfor Self-DirectedLearningintheVirtual Lab. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+4
+Chapter1
+Introduction
+Thisproposalpaperdescribesthegoals,salientcharacteristics,potentialapplication,anddrivingforcebehindDexter'sLaboratory(Dex'sLab),a 3DvirtualchemistrylabintendedforO-leveland9–10pupils.Byofferinganimmersivevirtualreality(VR)environmentwherestudentsmaysafelyexperimentwithchemicalideasinasimulated,real-lifelaboratorysettingpriortoengaginginactuallaboratories,theplatformseekstoimprovestudents'learningexperiences.By describingthe program'stechnologicaldesignandcontrastingitsintellectualadvantageswiththoseofconventionallearningsettings,thisdocumentaimstodemonstratewhysuchanapplicationisnecessary.
+Keytopicsin chemistryare sometimesdifficultforstudentsto understandintraditionalclassroomsettingsbecauseof thingslikea lackof labequipment,shortlearningsessions,safetyhazards,andinsufficientdirectionwhilehandlingchemicalsandequipment.Inordertoovercometheseobstacles,Dex'sLabprovidesacompletelyrealisticvirtuallabthatreplicatesactuallaboratoryexperiencesina securesetting.Inordertogainconfidenceusinglabequipment,studentscanrepeatexperimentsandlearnfromthepracticaloutcomeswhilefollowingdetailedinstructionsandpracticingontheirown.
+Thisdocumentis primarilyaimedtowardsvariousstakeholders.Startingwith,thisdocumentintendstobriefthedeveloperswiththebasicunderstandingoftechnicalandarchitecturalaspectsof the project.ProjectManagerswouldbe responsibleforreviewingthetimelines,scopeandtheobjectivesof theproject.Thisdocumentalsoseekstoinformusers, studentsandeducatorsabouttheinnovativeadvancementsthisapplicationbringstothelearningprocess.Thetestersensuretheperformance,safetyand availabilityof the application.Additionally, this articlehelpsdocumentationwritersproducetechnicaldocumentation,end-userguides,andinstructionmanuals.
+Dex'sLab,whichusestechnologytoimprovestudents'comprehensionofchemistry,5
+marksa majorbreakthroughin educationalinnovationbybridgingthegapbetweentheoreticallearningandpracticalapplication.
+1.1 ProblemStatement
+WearedevelopingDexter’sLaboratory:AVRlaboratorySimulatortoaddressthegrowingconcernsabouthavingfewerlaboratoriesandresourcesavailableinmanyeducationalinstitutions,especiallytheonesthatarefacingbudgetconstraints.Manystudentsaredrivenbynotgettingactualhands-onexperience/knowledgeduetolackoffunding,andimproperorlimitedfacilitieswhichputstheminalimitationinlifeexperienceandhowtheyapplythistheoreticalknowledgeinpractice.Forthisreason,oursoftwareaddressestheuprisingissue,allowingstudentstoperformlaboratoryexperimentsinavirtualenvironment.Hence,thestudentisgiventheactualconditionsintroducedinthelaboratoryasanopportunitytoconductexperimentsthatcouldnototherwisebecarriedout.Inaddition,italignswiththeMatricandO-levelcurriculumthushelpingstudentstorevisetheconceptsentertainingly. Furthermore,thissystemisconvenientforschoolsandparentsastheywillbeprovidedwithanenvironmenttheyrequirewithouthavingtorestrictthemselvesfromenactingphysicallabs.
+1.2 Scope
+TheDexter’sLaboratorywillbedesignedspecificallyforchemistryeducationinOLevelsandPakistanMatricstandards,targetingstudentsinclasses9-11.Thescopeofthisprojectisconfinedtoexperimentsandconceptswithinthesecurricula,settingclearboundariesfordevelopmentandimplementation.
+Thesimulatorwillcoveressentialchemistryexperimentsandtechniques,including:
+● Cationandaniontests● Acid-basetitrations● pHtestingusingvariousindicators● Exothermicandendothermicreactions● Properhandlinganduseofcommonlaboratoryapparatusforexamplepipettes,burettes,andthermometers
+Theproject'sscopeisstrictlylimitedtothechemistrycurriculumforOLevelsandMatricgrades.It willnotextendto otherscientificdisciplinesor moreadvancedchemistryconceptsbeyondthiseducationallevel.Thesimulatorwillfocusonproviding
+6
+virtualhands-onexperienceforexperimentsthatarepartofthestandardcurriculum,ensuringrelevancetothetargetstudentgroup.
+Intermsoflanguage,theinterfaceandinstructionswillbeavailableinEnglishsincethe curriculumandmanualsare providedin English.Theprojectscopeincludescreatingaccurate3Dmodelsof laboratoryequipmentandchemicalsrelevantto thespecifiedexperiments,alongwith realisticsimulationsof chemicalreactions,interactions,andprocesses.
+TheVRLabSimulatorwillbedevelopedexclusivelyfortheMetaQuestplatform,limitingitshardwarecompatibilitybutensuringoptimalperformanceonthisspecificdevice.Whilethesystemwillbedesignedwiththepotentialforfutureexpansions,thecurrentscopedoesnotincludeexperimentsorconceptsoutsidethedefinedcurriculum.
+Safetyprotocolsand properlaboratorytechniqueswillbe integratedintothesimulations,teachingstudentscorrectprocedureswithouttherisksassociatedwithphysicallabs.However, thescopedoesnotextendtoreplacingphysicallabsentirelybutratherto supplementingtraditionalteachingmethodsandprovidingopportunitieswherephysicallabsarenotfeasible.
+7
+1.3 Modules1.3.1 Module1: Asset Creation
+1. LaboratoryRoom/environmentdesign2. EquipmentAssetCreation3. TextureandColoringofAssets4. VRplayermovement5. Virtualhandsandbasicobjectinteraction
+1.3.2 Module2:MechanicDesign1. Corechemicalreactionsimulationengine2. Basicequipmenthandling(pipettes,burettes,thermometers)3. Liquidpouringandmeasuringmechanics4. Simpleexperimentproceduremanagement
+1.3.3 Module3:Level Design1. Acid-basesandSalts2. pHtestingwithindicators3. Cationandaniontestimplementation4. Exothermicandendothermicreactions5. PhysicalStatesofMatter6. ChemicalReactivity7. OrganicChemistry
+1.3.4 Module4: Application Design1. Safetyprotocolsystem(virtualsafetyequipment,hazardwarnings)2. UIforinstructionsandfeedback3. Tutorialandguidancesystem4. Mainmenuandexperimentselectioninterface
+1.3.5 Module5: Testing1. Validatetheworkingoftoolsandequipmentandsmoothandmeasurablemechanicstoensureaccurateexperimentexecution.2. Testsforsmoothperformanceacrossplatforms,ensuringframeratesarestableandnosignificantperformancebottlenecksoccur.3. EnsurethattheplayermovementwithintheVRenvironmentissmooth,with
+8
+propercollisiondetection.4. Level-basedtestingtoensuretheexperimentsequenceisintegratedcorrectly
+1.3.6 Module6: Deployment andOptimization1. Performanceoptimization2. Graphicsenhancement3. MetaQuestintegrationusingMetaQuestSDK4. FinalUI/UXrefinements
+1.4 UserClassesandCharacteristics
+Students:
+● Theprimaryuserswhowillinteractwiththevirtuallabenvironment● Engageinexperiments,simulations,andlearningactivities● Requireguidanceandsupportthroughtutorials,progresstracking,andaccesstopre-setexperiments● Needtobeabletonavigatethe3Dlabspace,operateequipment,andadjustsettings● Benefitfromfeatureslikehistoricaldatareviewandself-directedlearningopportunities
+9
+10
+Chapter2Project Requirements2.1 Use-case
+2.1: Use-casediagram
+11
+
+2.1.1PickUpandRelocateLaboratoryEquipment intheVirtual Lab
+Description AsaStudent,I wanttobeabletopickupandrelocatelaboratoryequipmentsuchaspipettes,burettes,andthermometerswithinthevirtuallabenvironment,sothatI canarrangetheworkspacetomypreferenceandprepareformyexperiments.
+Actor: Student
+Goal: Thestudentwantstobeabletopickupandrelocatevariouslaboratoryequipment,suchaspipettes,burettes,andthermometers,withinthevirtuallabenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenu2. Thestudentistakentothevirtuallaboratoryenvironment,wheretheycanseethevariouslaboratoryequipmentonthelabbenchesandtables3. Onceinside,thestudentfindsafully-equippedlabandusesVRcontrollerstopickupandmoveequipmentlikepipettes,burettes,andthermometersaroundtheworkspace4. Thestudentcanrearrangetheequipmenttosetuptheiridealvirtualworkstation,placingitemswherevertheylikeandadjustingtheirorientation5. Whendonewithatool,thestudentsimplyputsitbackdownonthelabsurface,readytointeractwithothervirtuallabequipment
+AlternativeFlows
+If thestudent wantstoreset thevirtual labtoitsdefault layout, theycanusetheoptionsintheapplicationmenu
+2.1.2Movearoundinthe3dspaceof thevirtual laboratory
+Description Asastudent,I wanttofreelymovearoundthe3Dvirtuallabenvironment,soI canexplorethespaceandaccessthevariousequipmenttoperformmyexperiments.
+Actor: Student
+Goal: Thestudentwantstobeabletofreelymoveandnavigatewithinthe
+12
+3Dspaceofthevirtuallaboratoryenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenu2. Thestudentistransportedtothe3Dvirtuallaboratoryenvironment,wheretheycanseethelabspace,includingvariousequipment,workstations,andotherfeatures3. ThestudentusestheVRcontrollerstonavigateandfreelymovearoundthevirtuallabspace4. Thestudentcanwalkaroundthelab,suchasthechemicalstoragearea,workbenches,ordemonstrationstations.5. Thestudentcanlookaroundtheenvironment,totracktheirmovementorfocusonotherthingsintheexperiment
+2.1.3 Conduct, Observe and Learn from the Simulated ChemicalReactionsandProcesses
+Description Asastudent,I wanttheabilitytoperform,observe,andlearnfromsimulatedchemicalreactionsandprocessesinthevirtuallab,soIcandevelopadeeperunderstandingofchemistryconceptsandprinciples.
+Actor: Student
+Goal: Thestudentwantstoconductexperiments,observethesimulatedchemicalreactionsandprocesses,andlearnfromthevirtuallaboratoryenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenu2. Thestudentisthentransportedtothevirtuallaboratoryenvironmentandselectsanexperimenttoconduct.3. Thestudentinteractswiththevirtuallaboratoryequipment,suchaspipettes,burettes,andthermometers,tosetupand
+13
+performtheexperiment.4. Thestudentcanrepeattheexperimentorexploreotherpre-setdemonstrationstoexpandthestudent'sknowledge.5. Thestudentcanalsoaccessadditionallearningresources,suchastutorialsandexplanations,todeepenthestudent'sunderstandingofthechemistryconcepts.
+2.1.4Pause, start, andstopexperiments
+Description AsaStudent,I wanttobeabletopause,start,andstopexperimentsinthevirtuallabenvironment,sothatI canbettercontroltheflowoftheexperimentsandfocusonlearning.
+Actor: Student
+Goal: Thestudentwantstohavetheabilitytopause,start,andstopexperimentswithinthevirtuallabenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryappandjoinsthevirtuallabactivitybychoosingoneoftheexperimentsfromthemenuorusingtheprovidedaccesscode.2. Onceinthevirtuallabenvironment,thestudentselectsanexperimenttoperform.3. Thestudentsetsupthechosenexperimentandstartsthesimulation.4. Duringtheexperiment,thestudentcanpausethesimulationatanytimeusingthecontrolsinthevirtuallabinterface.5. Ifthestudentneedstocompletelystoptheexperiment,theycanusethestopbutton,whichwillendthesimulationandallowthestudenttoresetormoveontoadifferentexperiment.6. Thestudentcanrepeatthisprocessofpausing,starting,andstoppingexperimentsasneededtooptimizetheirlearningexperience.
+AlternativeFlow
+Ifthestudentwantstoresettheexperimenttoitsinitialstate,theycanusethebuttonintheexperimentmenu.
+2.1.5Adjust SoundLevelsintheVirtual Lab
+Description AsaStudent,I wanttobeabletoadjustthesoundlevelsinthe
+14
+virtuallabenvironment,sothatI cancustomizetheaudiotomypreferencesandoptimizemylearningexperience.
+Actor: Student
+Goal: Thestudentwantstohavetheabilitytoadjustthesoundlevelswithinthevirtuallabenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenuorusingtheprovidedaccesscode2. Thestudentistransportedtothevirtuallaboratoryenvironmentandselectsanexperimenttoperform.3. Studentcanusethebuttonsonthemetaquestheadsettoadjustthevolumeorlongpressthemetabuttononeithercontrollertobringupthemenu4. Studentcanthenselecttheaudiolevelthatsuitsthembest
+2.1.6OperateandInteract withEquipment intheVirtual Lab
+Description AsaStudent,I wanttobeabletooperateandinteractwiththevariousequipmentandinstrumentsinthevirtuallabenvironment,sothatI canperformexperiments,collectdata,anddeepenmyunderstandingoflaboratorytechniques.
+Actor: Student
+Goal: Thestudentwantstohavetheabilitytooperateandinteractwiththeequipmentandinstrumentsavailableinthevirtuallabenvironment.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenuorusingtheprovidedaccesscode.2. Thestudentistransportedtothevirtuallaboratory3. Thestudentapproachesaspecificpieceofequipment,suchasapipette,burette,balance,orthermometer, andusesthe
+15
+VRcontrollerstointeractwithit.4. Studentcanperformvariousoperationsontheequipmentsuchasa. Turnon/ offb. Adjustlevelsuchas(Gas,Heat,Liquidflow)etcc. Collectmeasurements5. Thestudentcanrepeatthisprocesswithmultiplepiecesofequipment,settinguptheirvirtuallabworkspaceandperformingexperiments.6. Asthestudentinteractswiththeequipment,theycanobservethesimulatedreactions,processes,anddataoutputsinreal-time.
+AlternativeFlow
+Ifthestudentwantstoresetorrecalibratetheequipment,theycanusethebuttoninthemenu.
+2.1.7 Access Step-by-Step Tutorials and Guidance for Experiments intheVirtual Lab
+Description AsaStudent,I wanttobeabletoaccessstep-by-steptutorialsandguidancefortheexperimentsinthevirtuallabenvironment,sothatI canlearntheproperproceduresandtechniquestoconducttheexperimentseffectively.
+Actor: Student
+Goal: Thestudentwantstohaveaccesstostep-by-steptutorialsandguidancetohelpthemperformexperimentsinthevirtuallab.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenuorusingtheprovidedaccesscode.2. Thestudentistransportedtothevirtuallaboratory3. Thestudentlocatesthe"TutorialsandGuidance"section,whichmaybeaccessiblethroughamenu,button,oriconwithinthevirtuallabinterface.4. Thestudentbrowsestheavailabletutorialsandselectstheonecorrespondingtotheexperimenttheywanttoperform.5. Thetutorialprovidesstep-by-stepinstructionsandguidanceonhowtosetupandconducttheexperiment,including:a. Identifyingtherequiredequipmentandmaterials16
+b. Explainingthepropertechniquesforusingtheequipmentc. Outliningthesequenceofstepstofollowduringtheexperimentd. Highlightingimportantsafetyconsiderationse. Providingtipsandbestpracticesforsuccessfulexperimentation6. Thestudentcanpausethetutorial,rewind,orreplayspecificstepsasneededtoensuretheyunderstandtheprocess.7. Asthestudentperformstheexperiment,theycanreferbacktothetutorialforongoingguidanceandsupport.8.
+AlternativeFlow
+1. Ifthestudentwantstoexit/ restartthetutorialtheycandosousingthebutton
+2.1.8MonitorCurrent ProgressinOngoingVirtual LabExperiments
+Description AsaStudent,I wanttobeabletomonitorthecurrentprogressoftheexperimentsI'mdoinginthevirtuallabenvironmentsothatIcantrackthestatusofmyexperiments,makeadjustmentsasneeded,andbetterunderstandtheexperimentalprocesses.
+Actor: Student
+Goal: Thestudentwantstohaveaccesstoreal-timeinformationabouttheprogressandstatusoftheexperimentstheyarecurrentlyconductinginthevirtuallab.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudentmusthavestartedalabsession,throughtheexperimentsmenu● Thestudentiscurrentlyperformingoneormoreexperimentsinthevirtuallabenvironment.
+MainFlow: 1. ThestudentlaunchestheDexter'sLaboratoryapplicationandjoinsthevirtuallabactivitybyselectingoneoftheexperimentsintheexperimentsmenuorusingtheprovidedaccesscode.2. Thestudentistransportedtothevirtuallaboratory3. Studentperformstaskrelevanttotheselectedexperiment(seeusecase2.1.3)4. Asthestudentisconductinganexperiment,theycanaccessthe"ExperimentProgress"interface,whichmaybedisplayedonadedicatedpaneloraccessedthroughamenuoption.
+17
+2.1.9ViewHistoryof PerformedLabActivitiesandGrades/Scores
+Description AsaStudent,I wanttobeabletoviewthehistoryofthelabactivitiesI haveperformedinthevirtuallabenvironment,alongwiththegradesorscoresI havereceived,sothatI cantrackmyprogress,identifyareasforimprovement,anddemonstratemyachievements.
+Actor: Student
+Goal: Thestudentwantstohaveaccesstotheirhistoricalrecordofcompletedlabactivitiesandtheassociatedgradesorperformancescores.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.● Thestudenthascompletedoneormorelabactivitieswithinthevirtuallabenvironment.
+MainFlow: 1. ThestudentopenstheDexter'sLaboratoryappandnavigatestothe"LabHistory"section,whichtheycanaccessthroughamenu,dashboard,ordedicatedinterface2. IntheLabHistorysection,thestudentcanviewthefollowinginformation:a. Achronologicalorcategorizedlistofthelabactivitiesthestudenthascompletedinthevirtualenvironmentb. Performancescoresorgrades:Thegradesorscoresthestudenthasreceivedforeachcompletedlabactivity, basedonfactorssuchas:i. Accuracyofmeasurementsandobservationsii. Adherencetoexperimentalproceduresandsafetyprotocolsiii. Interpretationandanalysisofresultsiv. Overallexperimentsuccessratec. Datesofcompletion:Thedateswhenthestudentcompletedeachlabactivity.3. Withthelabhistoryinformation,thestudentcanreflectontheirlearningprogressandidentifyareaswheretheycanimprove.
+2.1.10 Select Pre-Set Experiments for Self-Directed Learning in theVirtual Lab
+18
+Description AsaStudent,I wanttobeabletoselectandperformpre-setexperimentsinthevirtuallabenvironment,sothatI canengageinself-directedlearningandexplorechemistryconceptsatmyownpace.
+Actor: Student
+Goal: Thestudentwantstohavetheabilitytoselectandconductpre-setexperimentsinthevirtuallabtosupporttheirself-directedlearning.
+Pre-conditions: ● ThestudenthasaccesstotheDexter'sLaboratory:AVRLaboratorySimulatorapplication.
+MainFlow: 1. ThestudentopenstheDexter'sLaboratoryappandnavigatestothe"ExperimentSelection"sectionorinterface.2. IntheExperimentSelectionarea,thestudentcanviewacatalogormenuoftheavailablepre-setexperiments.3. Thestudentcanbrowsetheexperimentoptions,whichmaybeorganizedbytopic,difficultylevel,orspecificchemistryconcepts.4. Basedontheirinterests,learninggoals,orcurrentunderstandingofthesubjectmatter, thestudentselectsthepre-setexperimenttheywouldliketoperform.5. Thestudentthenlaunchestheselectedexperimentinthevirtuallabenvironmentandbeginstheself-directedlearningprocess.
+AlternativeFlow
+Ifthestudentwantstoaccessadditionalinformationorguidancerelatedtothepre-setexperiment,theycannavigatetothetutorialwithinthevirtuallabinterface.
+2.2 Functional Requirements
+2.2.1 Module1: Asset Creation
+Followingaretherequirementsformodule1:
+19
+2. Project Requirements
+1. FR1:Thesystemshalluseinteractive3Dmodelingforafullyimmersiveenvironment.2. FR2:Thesystemshallfullysupport3Dequipmentcreationwithprecisetexturesandcolorschemes.3. FR3:ThesystemshallprovidesmoothplayermovementtoalloweasynavigationforthestudentsintheVRenvironment.
+2.2.2 Module2: MechanicDesign
+Followingaretherequirementsformodule2:
+1. FR1:Thesystemshalluseareal-timeenginetostimulatethechemicalreactionssuchasthemixingofacidandbases.
+2. FR2:Thesystemshallprovidelaboratoryapparatushandlingallowingstudentstoworkonlabtoolslikeburettes,pipettes,andthermometersetc.
+3. FR3:Thesystemshallsupportpouringofliquidandmeasuremechanics,guaranteeingprecisevolumecalculationsforresearch.
+4. FR4:Thesystemshallmanagesampletutorialsandguidancewalkingstudentsthroughdifferentchemistryexperiments.
+2.2.3Module3: Level Design
+Followingaretherequirementsformodule3:1. FR1:Thesystemshallcovereducationalexperimentsonacids,basisandsaltsreactionsfortheunderstandingof9-10andOlevelsstudents.2. FR2:Thesystemshallteachstudentsof9-10andOlevelsaboutacidityandalkalinitybyenablingpHtestingusingmultipleindicators.3. FR3:Thesystemshallteachstudentsof9-10andOlevelsaboutconductionofcationandaniontestsforsubstanceanalysis.4. FR4:ThesystemshalldemonstrateheatexchangeexperimentsbysimulatingexothermicandendothermicreactionsintheVRenvironmentforenhancedunderstandingofthestudents.5. FR5:Thesystemshallconductexperimentsforthebetterunderstandingofthestudentsregardingthephysicalstatesofmatter( solid,liquidandgas).6. FR6:Thesystemshallperformexperimentsonchemicalreactivitybasedonthesetcurriculumof9,10andOlevelsforbetterunderstandingofthestudents.7. FR7:Thesystemshallwalkthroughthebasicorganicchemistryconceptsmakingiteasierforthestudentstounderstandandexploredifferentkindsofchemicalreactionsandcompounds.
+2.2.4Module4: ApplicationDesign
+Followingaretherequirementsformodule4:1. FR1:Thesystemmustoffera virtualsafetyprotocolthatincludesvirtualsafetyequipmentandhazardwarningsto makesurestudentsfollowcorrectsafety20
+
+measures.2. FR2:Thesystemshallhavea user-friendlyinteractiveUIthatdisplaysreal-timefeedbackontheexperimentperformanceandinstructionsfortheexperiment.3. FR3:Thesystemshallwalktheusersthroughtutorialandguidanceto ensurebetterunderstandingonhowtointeractwiththevirtualequipment,environmentandtools,thus,maintainingatutorialandguidancesystem.4. FR4:Themainmenuinterfaceofthesystemwillallowuserstochooseandlaunchvariousexperiments.2.2.5Module5: TestingFollowingaretherequirementsformodule5:1. FR1:Thesystemmustverifythatinstrumentsandequipmentareoperatingasintended,inorderto guaranteepreciseandquantifiablemechanicsthroughoutexperiments.2. FR2:Thesystemwillbetestedtomakesureit runswellonallplatforms,withconsistentframeratesandfewperformancebottlenecks.3. FR3:Thesystemshallguaranteesmoothmovementof a playerandaccuratecollisiondetectionintheVRbasedenvironment.4. FR4:To ensuretheexperiment’s sequenceis correct,thesystemshallperformlevel-basedtesting.2.2.6Module6: Deployment andOptimizationFollowingaretherequirementsformodule5:1. FR1:ThesystemshallundertakeperformanceoptimizationtoguaranteeefficientfunctionalityontheMetaQuestplatform.2. FR2:The systemwill haveimprovedvisualsand graphicsfor immersiveexperienceandrealisticstimulation.3. FR3:ThesystemwillsmoothlyintegratewithMetaQuestPlatformusingMetaQuestSDK.4. FR4:ThesystemwillgothroughfinalUX/UXtweakstoenhanceoveralluserexperienceanduserengagement.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+1. REL-1:Theapplicationshallensurethatit storestheuser’s progressandsavesthemainphasesofanexperimentaftertheircomplication.2. REL-2:Thesystemshouldbe ableto replicatethe reactionsof chemicalcompoundsofeachexperimentcarriedoutasclosetotherealworldaspossiblewithamaximumdifferenceof2%.3. REL-3:Thesystemshouldbeabletohandlea minimumof500userswithoutexperiencinganydelayintheexecutionorinaccuracyofthesimulationsthataregenerated.
+21
+2.3.2 Usability
+1. USE-1:Usersshouldbeabletobegina newexperimentfromthehomescreenwithnomorethanfiveclicksorinteractionsfromthehomemenu.2. USE-2:Allnewuserswillbeabletocompletethebasictutorialanda smallexperimentconductedwithinthefirstfifteenminutesofstartingthevirtuallab.3. USE-3:Theapplicationshouldprovidetheuserswitha facilitythatallowsthemtoswitchbetweencontrollerandhandsbyusingthesettingsicon.
+2.3.3 Performance
+1. PER-1:Thesystemshouldbeabletorespondtotheuser’sinteractionwiththeenvironmentwithin50millisecondstoprovideareal-timeexperience.2. PER-2:Experimentsconductedbytheusershallbecalculatedanddisplayedinreal-timewithoutanynoticeabledelayfromthesystem.
+2.3.4 Security
+1. SEC-1:Theapplicationshallhaveaccesstoadmincontrolthatallowstheadmintofullymanagetheexperimentssuchasadding,deleting,ormodifying.2. SEC-2:Thesystemshallnotsaveanyotherpersonalinformationoftheuserapartfrombasicrequirementsofthesystemandprogresstracking.
+2.3.5 Compatibility
+1. COM-1:ThesystemmustbefullycompatiblewithMetaQuest2,andutilizetheVR-basedfunctionalityacrossmultipleplatforms.
+2.3.6 Scalability
+1. SCA-1:Theapplicationmustbecapableofstoringandmanagingdataforatleast500individualusersandretrievingthedatawithoutcompromisingperformance.2. SCA-2:Thesystemmustbeabletoaccommodatefutureexpansions,allowingnewexperimentsandmodulestobeaddedwithoutanyrestructuringoftheapplication.
+22
+2.1 DomainModel
+2.4 DomainModel
+Createarepresentationofthedomainmodelforyourproject.
+2.4:DomainModel
+23
+
+24
+Chapter3
+3.1 Architectural Design
+3.1: ArchitectureDiagram25
+
+3.2 DesignModels
+DesignModelsforProcedural Approach“Theapplicablemodelsfortheprojectusingproceduralapproachmayinclude:• ActivityDiagram• DataFlowDiagram(dataflowdiagramshouldbeextendedto2-3levels.Itshouldclearlylistallprocesses,theirsources/sinksanddatastores.)• System-levelSequenceDiagram• StateTransitionDiagram(fortheprojectswhichincludeeventhandlingandbackendprocesses)”
+26
+3.2.1ActivityDiagram
+3.2.1: ActivityDiagram
+27
+
+3.2.2DataFlowDiagram
+3.2.2: DataFlowDiagramLevel 1,2and3
+28
+
+3.2.3SystemLevel SequenceDiagram
+3.2.3.1: Pickupandrelocate(pipettes, burettes, thermometers, etc.)
+3.2.3.1: Pickupandrelocation
+29
+
+3.2.3.2: Movearoundinthe3dspaceof thevirtual laboratory
+3.2.3.2: Movingaroundin3dspaceof Virtual Reality
+30
+
+3.2.3.3: Observeandlearnfromthesimulatedchemical reactionsandprocesses
+3.2.3.3: Observeandlearnfromthesimulatedchemical reactionsandprocesses
+31
+
+3.2.3.4: Pause, start, andstopexperiments
+3.2.3.4: Pause, start andstopreactions
+32
+
+3.2.3.5: Adjust soundlevels
+3.2.3.5: Adjust Soundlevels
+33
+
+3.2.3.6: OperateBunsenburnersandotherequipment
+3.2.3.6: OperateBunsenburnersandother equipment
+34
+
+3.2.3.7: Accessstep-by-steptutorialsandguidanceforexperiments
+3.2.3.7: Accessstep-by-steptutorialsandguidancefor experiments
+35
+
+3.2.3.8: Viewprogressandperformanceinthevirtual labactivities
+3.2.3.8: Viewprogressandperformanceinthevirtual labactivities
+36
+
+3.2.3.9: ViewHistoryof performedlabandtheirgrades/ scores
+3.2.3.9: ViewHistoryof performedlabandtheir grades/ scores
+37
+
+3.2.3.10: Select pre-set experimentsforself-directedlearning
+3.2.3.10: Select pre-set experimentsfor self-directedlearning
+38
+
+3.2.4StateTransitionDiagram
+3.2.4:StateTransitionDiagram39
+
+3.3 DataDesign
+Thedatadesignforthisvirtuallabapplicationshouldfocusonmaintainingthesessionstatusforeachplayer. Toachievethis,thestudent'scredentialsandalltheirprogressthroughouttheexperiencewillbestoredinthebackend.Thisincludesthescorestheyhaveachievedandthecompletionstatusoftheexperimentlevelstheyhavesuccessfullycompleted.
+Bystoringthisdata,thesystemwillbeabletoretrievethestudent'shistorywhenevertheylogintotheiraccount.Giventherelativelysimplenatureofthedata,theteamwouldlikelyfindthatanon-relationaldatabase,suchasMongoDB,wouldbeapreferredchoiceforstorageandmanagement.ThisNoSQLdatabasesolutioncanefficientlyhandlethestorageandretrievalofthestudent-relateddatawithouttheneedforacomplexrelationaldatabasestructure,providingastreamlinedandscalabledatamanagementsystemforthevirtuallabapplication.
+3.3: DataDesign
+40
+
+41
+Bibliography
+[1]Virtualrealityinanunrealengine.https://www.unrealengine.com/en-US/xr.
+Accessed:2024-10-06.
+[2]Metaquestdevelopment.https://developer.oculus.com/quest/. Accessed:
+2024-10-06.
+[3]Unrealengine5.3.2formetaquestvr| communitytutorial.
+https://dev.epicgames.com/community/learning/tutorials/3Vx6/unreal-engine-5-3-
+2-for-meta-quest-vr. Accessed:2024-10-06.
+[4]S.Jain,"Activitydiagrams| unifiedmodelinglanguage(uml),"
+https://www.geeksforgeeks.org/unified-modeling-language-uml-activity-diagrams/
+. Accessed:2024-10-06.
+[5]S.Jain,"Whatisdfd(dataflowdiagram)?,"
+https://www.geeksforgeeks.org/what-is-dfddata-flow-diagram/. Accessed:
+2024-10-06.
+42
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

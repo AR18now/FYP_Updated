@@ -1,0 +1,164 @@
+Use Case Name: Browse Restaurants
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Browse Restaurants
+-' correctly and quickly.
+Preconditions: None
+-
+Postconditions: List of restaurants with relevant details.
+-
+Main Success Scenario: 1. Actor initiates 'Display list of registered restaurants along with their cuisines and ratings. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Customize Orders
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Customize Orders
+-' correctly and quickly.
+Preconditions: Menu items selected by the customer.
+-
+Postconditions: Updated order summary reflecting changes made by the customer.
+-
+Main Success Scenario: 1. Actor initiates 'Allow modifications to quantities, add-ons, and special requests. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Schedule Deliveries
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Schedule Deliveries
+-' correctly and quickly.
+Preconditions: Customer's preferred delivery date and time.
+-
+Postconditions: Confirmation message indicating whether the requested slot is available.
+-
+Main Success Scenario: 1. Actor initiates 'Validate availability based on restaurant capacity and current rider workload. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Track Riders Live
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Track Riders Live
+-' correctly and quickly.
+Preconditions: Order ID provided by the customer.
+-
+Postconditions: Real-time map showing the driver's progress towards the destination.
+-
+Main Success Scenario: 1. Actor initiates 'Retrieve location updates from the assigned driver’s device. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Confirm Preparation Times
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Confirm Preparation Times
+-' correctly and quickly.
+Preconditions: Order ID sent to the restaurant.
+-
+Postconditions: Notification to the customer about when their order will be ready.
+-
+Main Success Scenario: 1. Actor initiates 'Receive estimated completion time from the restaurant kitchen. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Mark Orders Ready
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Mark Orders Ready
+-' correctly and quickly.
+Preconditions: Order ID communicated between the restaurant and the system.
+-
+Postconditions: Confirmation feedback displayed to the restaurant staff.
+-
+Main Success Scenario: 1. Actor initiates 'Update the status of the order to'ready'. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Accept Delivery Tasks
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Accept Delivery Tasks
+-' correctly and quickly.
+Preconditions: Delivery task assignment received from the system.
+-
+Postconditions: Route guidance information presented to the driver.
+-
+Main Success Scenario: 1. Actor initiates 'Verify vehicle readiness and start navigation. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Navigate Optimized Routes
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Navigate Optimized Routes
+-' correctly and quickly.
+Preconditions: Current location of the driver and final delivery address.
+-
+Postconditions: Detailed driving directions and estimated travel time.
+-
+Main Success Scenario: 1. Actor initiates 'Calculate shortest path considering traffic conditions and other active deliveries. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Report Incidents
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Report Incidents
+-' correctly and quickly.
+Preconditions: Incident type and description entered by the driver.
+-
+Postconditions: Acknowledgment message confirming receipt of the report.
+-
+Main Success Scenario: 1. Actor initiates 'Log incident details and notify relevant personnel. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Retry Failed Payments
+-
+Primary Actor: Customer
+Stakeholders and Interests: Customer: wants the system to complete 'Retry Failed Payments
+-' correctly and quickly.
+Preconditions: Payment failure indication from the payment gateway.
+-
+Postconditions: Success or failure result of the retry attempt.
+-
+Main Success Scenario: 1. Actor initiates 'Attempt reprocessing transaction after a predefined timeout period. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Handle Order Substitutions
+-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Handle Order Substitutions
+-' correctly and quickly.
+Preconditions: Requested substitution details from either party.
+-
+Postconditions: Updated order information reflected across all interfaces.
+-
+Main Success Scenario: 1. Actor initiates 'Modify existing order record according to new specifications. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.

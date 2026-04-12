@@ -1,0 +1,97 @@
+INTRODUCTION
+Purpose: To define the Software Requirements Specification for a food delivery application that allows customers to browse restaurants, customize orders, schedule deliveries, and track rider progress; enables restaurants to manage received orders, prepare them, and communicate with drivers; and provides real-time updates through notifications.
+Scope: This document covers all aspects necessary for developing the food delivery application including external interfaces, functional and non-functional requirements, and specific system features.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- UI: User Interface
+- DBMS: Database Management System
+References:
+[1] IEEE Standard for Software Requirements Specifications, ANSI/IEEE Std 830-1998
+[2] UML Diagrams provided by the project team
+Overview: The food delivery application will facilitate efficient order management from customer requests to restaurant fulfillment and driver delivery. It ensures timely and accurate service while providing users with transparency throughout the process. OVERALL DESCRIPTION
+Product Perspective: The product is a web-based and mobile application designed for both customers and restaurants. It includes functionalities for browsing, ordering, scheduling, tracking, and managing orders. The application aims to streamline the entire food delivery process.
+Product Functions:
+- Customer functions: Browsing restaurants, customizing orders, scheduling deliveries, tracking rider progress, receiving status notifications.
+- Restaurant functions: Receiving orders, confirming preparation times, marking orders as ready, pausing orders during peak periods or outages.
+- Driver functions: Accepting delivery tasks, navigating routes, reporting incidents.
+User Characteristics:
+- Customers: Individuals who place food orders via the app.
+- Restaurants: Establishments offering menu items for sale.
+- Drivers: Personnel responsible for delivering food to customers.
+Constraints:
+- Limited network connectivity may affect real-time tracking.
+- Payment processing systems have transaction limits which could lead to retries if payment fails initially.
+- Time constraints for order preparation and delivery.
+Assumptions/Dependencies:
+- Internet connectivity is available for most users.
+- Payment gateways support multiple payment methods.
+- GPS technology is reliable for route optimization. SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: A responsive design supporting various devices (smartphones, tablets) ensuring ease of use across different screen sizes.
+- Hardware Interfaces: Compatible with standard smartphones and tablets running iOS and Android operating systems.
+- Software Interfaces: Integrates with popular payment gateways (e.g., PayPal, Stripe), maps services (Google Maps), and database systems (MySQL).
+Functional Requirements:
+FR-1: Browse Restaurants
+Input: None
+Processing: Retrieve list of registered restaurants along with their menus.
+Output: Displayed in a scrollable list format within the application.
+Priority: High
+FR-2: Customize Orders
+Input: Menu items selected by the user.
+Processing: Allow modifications such as quantity changes, add-ons, and special instructions.
+Output: Updated order details displayed back to the user for confirmation.
+Priority: Medium
+FR-3: Schedule Deliveries
+Input: Delivery date and time chosen by the user.
+Processing: Validate the selection against current order volume and driver schedules.
+Output: Confirmation message indicating successful booking or alternative options if unavailable.
+Priority: High
+FR-4: Track Rider Progress
+Input: Order ID entered by the user.
+Processing: Fetch location updates sent periodically by the assigned driver.
+Output: Real-time map view showing the rider's position and estimated arrival time.
+Priority: High
+FR-5: Receive Status Notifications
+Input: Change in order status (e.g., prepared, en route, delivered).
+Processing: Send push notification to the user’s device.
+Output: Notification displayed to the user informing about the change in order status.
+Priority: High
+FR-6: Confirm Preparation Times
+Input: Order ID and preparation time estimate submitted by the restaurant.
+Processing: Update internal records and notify relevant parties.
+Output: Confirmation message shown to the restaurant staff.
+Priority: Medium
+FR-7: Mark Orders Ready
+Input: Order ID confirmed as ready by the restaurant.
+Processing: Update order status and inform the assigned driver.
+Output: Message acknowledged by the driver.
+Priority: Medium
+FR-8: Pause Orders During Peak Periods
+Input: Order ID and reason for pausing requested by the restaurant.
+Processing: Temporarily halt further actions on the order until resumed.
+Output: Notification sent to the user explaining the delay.
+Priority: Low
+FR-9: Handle Order Substitutions
+Input: New order information replacing the original order.
+Processing: Cancel the old order and create a new one based on the substitution request.
+Output: Confirmation messages sent to both the restaurant and the user.
+Priority: Medium
+Non-functional Requirements:
+Performance: The application shall respond to user inputs within 3 seconds under normal conditions.
+Security: All transactions must be encrypted using SSL/TLS protocols to protect sensitive data.
+Reliability: The system shall not experience downtime due to software issues more than twice a month.
+Usability: The interface shall follow established best practices for accessibility and simplicity.
+Maintainability: Codebase shall allow easy updates and bug fixes without affecting existing functionality.
+Portability: The application must run seamlessly on different platforms and devices.
+System Features:
+Feature 1: Real-time Tracking
+Description: Allows users to monitor the exact location of their delivery rider at any given moment.
+Feature 2: Push Notifications
+Description: Sends instant alerts regarding significant events related to an order such as pickup, delivery start, completion, etc.
+Feature 3: Route Optimization
+Description: Uses advanced algorithms to find the fastest path between two points considering traffic patterns and other variables.
+Feature 4: Order Management Dashboard
+Description: Provides detailed views of ongoing orders, enabling quick resolution of issues and improved efficiency.
+Feature 5: Multi-language Support
+Description: Supports multiple languages to cater to diverse user bases globally.
+End of Document.

@@ -1,0 +1,1468 @@
+# FYP1-MidReport-F24-168-D-BalleBaaz - i212512 Ibrahim Saqib
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+Our project is a development project, where we will be developing a cricket management
+and engagement system which will cater to the needs of local cricketers. Our system
+will have a scoring system, making scoring easy and smooth along with a stat tracker
+that will record stats of all the players. The ground booking feature will allow teams to
+book grounds easily and schedule matches. The match highlights feature will cover key
+moments of the entire game whereas the player highlights feature will provide player-
+based moments from the game. The drs system will enable fairness and justness in
+matches, enabling teams to review lbw decisions. The weather monitoring system will
+allow teams to check weather and schedule matches accordingly.
+Our application will also contain an ai kit generation feature allowing teams to generate
+shirt designs according to their style. The umpire booking system will allow umpires
+to register for matches they want to officiate in. Moreover, the application will include a
+coaching and drills section, providing different types of training sessions for the teams.
+The fitness section will allow players to browse different exercises according to their
+needs to optimise performance. Lastly, there will be a community section.Here teams
+and players can communicate with one another. They can talk about organizing tourna-
+ments, when the other teams are available for matches, or if a certain player wants to do a
+training session.
+1.3 Modules
+1.3.1 Module 1
+User management:This module will allow players, clubs, teams, coaches, umpires and
+administration to register, log in, and manage their profiles.Permissions and access to
+various features will depend on the user type.
+1. Registration and Authentication: Players, teams, clubs coaches, umpires, and ad-
+mins.
+2. Profile Management: Handle personal information, statistics of players.
+3. User Roles Permissions: Various functionalities tailored for each user type.
+2
+1.3 Modules
+1.3.2 Module 2
+Scoring and Stats Tracking: The Scoring feature will allow for an easy scoring system, re-
+moving the need for scoring pads. The stat tracking system will enable players to monitor
+their performances over matches.
+1. Real-time scoring: Users can input the score ball by ball.
+2. Stats Tracking: Stats of teams and Players will be recorded and shown post-match.
+A history will be kept of all the stats.
+3. Match History: Each player will have a stats section on their profile, where their
+scores, wickets and other stats will be kept.
+1.3.3 Module 3
+Ground Booking System: Users will be able to book venues easily using the create match
+feature which will provide an easy booking system removing the hassle of contacting
+ground-staff.
+1. Booking Management: Users will be able to choose ground, date and start time.
+They will be able to choose match type, if it will be Invite only(will be joined using
+link) or an open match. They can set match duration and pricing.
+2. Clash-Free Scheduling: Guarantee that grounds are not double-booked.
+1.3.4 Module 4
+Match/Player Highlights: Users can view the match or player based highlights post-match
+to check their performances and see where they can improve.
+1. Automated Highlight Generation: Key moments will be compiled from the match
+including wickets, boundaries and other key events.
+1.3.5 Module 5
+DRS System: Users can confirm controversial lbw decisions using the in-built drs system.
+1. Drs will applied on recordings.
+2. Will make use of ball tracking and hawk-eye.
+3
+1. Introduction
+1.3.6 Module 6
+Ai kit Generation: Users will be able to generate designs for their kits using the kit gen-
+eration feature.
+1. Users will be able to input the type of design, color that they want for their shirts
+and output images will be generated.
+1.3.7 Module 7
+Umpire Booking: There will be an option for umpires to officiate the matches they want.
+1. Users(Umpires) can check upcoming matches and decide that if they want to offi-
+ciate the match by joining it or not.
+1.3.8 Module 8
+Add player feature in Lineup: There will be an option for players to join matches accord-
+ing to their schedule by checking upcoming matches.
+1. The add+ box in the lineups will allow players to send a request to the team captain
+that will allow them to either confirm/decline the player according to their need.
+1.3.9 Module 9
+Coaching: Coaches can join the app and can provide training sessions to players.
+1. Coaches will have the option to add drills for certain players where they feel that
+player is lacking and schedule sessions for them.
+1.3.10 Module 10
+Fitness Section: Players can stay fit and by checking different exercises from the fitness
+section.
+1. Players will be able to search for specific exercises that they want to do and a list
+of videos will be provided from where they can follow the videos to perform the
+exercises.
+4
+1.4 User Classes and Characteristics
+1.3.11 Module 11
+Drills Section: Players can learn new techniques, skills according to their needs
+1. Players will be able to search for specific drills that they want to do and a list of
+videos will be provided from where they can follow the videos to perform the drills
+and improve their game..
+1.3.12 Module 12
+Community Section: A community section where players and teams can communicate
+with each other to schedule matches or training sessions.
+1. Discussion forms and groups: Players, coaches and teams can engage in discussion
+forms etc to keep up with different tournaments, matches and news and events.
+1.4 User Classes and Characteristics
+5
+1. Introduction
+User class Description
+Player A player is a user who wants to view and join upcoming matches. They
+can search for particular drills, keep track of their fitness/exercises and view
+highlights of their matches. Furthermore, they can view their stats which
+are updated after each match they play. Lastly, they can interact with other
+players by sending messages in the community section.
+Umpire The Umpire is a user who also wants to view upcoming matches and decide
+to officiate in them by joining the match. The umpire can view a list of
+upcoming matches(to join) and match history(Matches in which they have
+officiated in) to check ratings.
+Club Owner The Club owner is a user who wants to keep information about their venues.
+They can check recent bookings(Booking details like venue, Teams, Time,
+Date, Umpire and Match Fee) book an umpire for an upcoming match, check
+if payments have been made or not. Lastly, they can keep a track of monthly
+revenues generated.
+Team Owner Team Owner is a user who wants to make Ground Bookings for their teams
+to play in matches. They can view the stats of their team which are updated
+after every match, upcoming matches of the team. In the community section
+they can interact with other team owners and setup matches with them. They
+have the option to generate kit designs for their teams and can watch team
+highlights of matches. They can search for drills for their team.
+Coach The coach is a user who can check which players are assigned to them and
+can view information of assigned players(Batting-style, Bowling-style, in-
+juries, Batting Avg, Bowling economy etc). The coach can setup training
+sessions for the players and manage drills by check in duration, intensity,
+and notes.
+Example: User Classes and Characteristics
+6
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+Figure 2.1: Use Case Diagram
+2.1.1 Use-case 1
+7
+2. Project Requirements
+Use Case ID UC-1
+Name Analyze Performance
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player
+Stakeholders and In-
+terest
+The players will be able to view their match statistics, stats will
+be accumulated over matches .
+Pre-Condition The player must be logged into the system and have match data
+available.
+Post-Condition The system accumulates stats over matches which the player
+views and can now know which areas to improve in.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The player goes to
+the stats section of their
+profile.
+2. The system displays the player’s
+statistics, including runs, wickets,
+and other relevant stats.
+3. The player selects a
+particular match to an-
+alyze, by filtering using
+dates.
+4. The system shows detailed stats
+for the selected match, including
+runs, wickets, and other relevant
+stats of players.
+5. The player reviews
+the stats and match
+summary provided.
+6. The system offers improvements
+in areas where player is lacking and
+recommends drills.
+Alternate Scenario A. No match data available:
+1. The system informs the player that no match data is avail-
+able.
+2. A prompt is sent to tell the player to participate in matches
+to check your performances.
+B. The player wants to compare performance across multiple
+matches:
+1. The player selects a date range.
+2. The system displays aggregated stats for the dates that have
+been selected.
+2.1.2 Use-case 2
+8
+2.1 Use-case/Event Response Table/Storyboarding
+Use Case ID UC-2
+Name Join Match
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player
+Stakeholders and In-
+terest
+The player can browse available matches and request to join, help-
+ing fill team rosters and ensuring more opportunities to play.
+Pre-Condition The player must be logged into the system and have match data
+available.
+Post-Condition The player successfully joins a match, and the team captain con-
+firms their participation.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The player navi-
+gates to the upcoming
+matches section.
+2. The system shows a list of
+matches to be held in the near fu-
+ture, with dates, teams, and loca-
+tions for each match.
+3. The player selects
+a match that fits their
+schedule and clicks
+"Join Match".
+4. The system sends a request to the
+team captain for approval, to let the
+player join the team line-up.
+5. The team captain ap-
+proves the request.
+6. The system notifies the player
+of their successful addition to the
+match lineup.
+Alternate Scenario A. No available matches:
+1. The system informs the player that there are no upcoming
+matches to join.
+2. The player is prompted to check back later or create a
+match.
+B. The match is full:
+1. The system will inform the player that the match lineup is
+full and no more spots are available.
+2. The player is prompted to check other matches.
+2.1.3 Use-case 3
+9
+2. Project Requirements
+Use Case ID UC-3
+Name Modify Profile
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player
+Stakeholders and In-
+terest
+The player can update their personal information, ensuring that
+their profile is accurate and up-to-date
+Pre-Condition The player must be logged into the system.
+Post-Condition The player successfully updates their profile, and the changes are
+reflected in the system.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The player navigates
+to the "Profile" section.
+2. The system displays the player’s
+current profile information.
+3. The player edits
+fields such as contact
+info, profile picture, or
+bio.
+4. The system validates the entered
+data.
+5. The player clicks
+"Save".
+6. The system updates the player’s
+profile and confirms the changes.
+Alternate Scenario A. Invalid data is entered:
+1. The system detects invalid data (e.g., an improperly format-
+ted email).
+2. The system prompts the player to correct the errors and re-
+submit the form.
+2.1.4 Use-case 4
+Use Case ID UC-4
+Name Participate in Training Session
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player
+Stakeholders and In-
+terest
+The player can join training sessions scheduled by a coach, help-
+ing them improve their skills.
+Pre-Condition The player must be logged in and have access to scheduled train-
+ing sessions.
+10
+2.1 Use-case/Event Response Table/Storyboarding
+Post-Condition The player participates in a training session and completes as-
+signed drills.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The player navigates
+to the "Training" sec-
+tion.
+2. The system displays a list of
+available training sessions.
+3. The player selects
+a session and clicks
+"Join".
+4. The system confirms the player’s
+participation and adds the session to
+their schedule.
+5. The player com-
+pletes the training
+drills.
+6. The system tracks the player’s
+performance and updates their pro-
+file with session details.
+Alternate Scenario A. No available training sessions:
+1. The system informs the player that no sessions are avail-
+able.
+2. The player is prompted to check back later or request a ses-
+sion from the coach.
+2.1.5 Use-case 5
+Use Case ID UC-5
+Name Track Fitness Progress
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player
+Stakeholders and In-
+terest
+The player can log and track their fitness activities, monitoring
+improvements in key areas such as endurance and strength.
+Pre-Condition The player must have logged some fitness activities.
+Post-Condition The player successfully tracks their fitness progress, and the sys-
+tem updates their performance stats.
+11
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Response
+1. The player navigates
+to the "Fitness" section.
+2. The system displays the player’s
+fitness activity history.
+3. The player logs
+a new fitness activity
+(e.g., running, gym ses-
+sion).
+4. The system validates the entry
+and adds it to the player’s fitness
+log.
+5. The player views fit-
+ness progress over time.
+6. The system generates a re-
+port showing fitness improvements
+based on logged activities.
+Alternate Scenario A. The player enters incomplete activity data:
+1. The system prompts the player to complete all required
+fields (e.g., duration, intensity).
+2. The player fills in the missing information and resubmits
+the entry.
+2.1.6 Use-case 6
+Use Case ID UC-6
+Name Do Scoring
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Umpire
+Stakeholders and In-
+terest
+The Umpire can do scoring and keep track of runs, wickets, extras
+etc.
+Pre-Condition The umpire must be logged into the system.
+Post-Condition The umpire successfully tracks runs, wickets, extras etc using the
+scoring screen.
+12
+2.1 Use-case/Event Response Table/Storyboarding
+Main Success Sce-
+nario
+Actor Action System Response
+1. The Umpire navi-
+gates to the "Scoring"
+section.
+2. The system displays the scoring
+interface.
+3. The umpire logs
+a new action (e.g.runs,
+wickets, extras).
+4. The system validates the entry
+and updates the overall score.
+5. The umpire chooses
+to end scoring at the
+end of an innings.
+6. The system generates a summary
+showing total runs/wickets and tar-
+get required.
+Alternate Scenario A. The Umpire enters an incorrect entry:
+1. The system provides a redo/undo button.
+2. The umpire re corrects their entry and the score is updated
+accordingly.
+2.1.7 Use-case 7
+Use Case ID UC-7
+Name Officiate Match
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Umpire
+Stakeholders and In-
+terest
+The Umpire can browse available matches and request to join.
+Pre-Condition The umpire must be logged into the system and have match data
+available.
+Post-Condition The umpire successfully joins a match.
+13
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Response
+1. The umpire navi-
+gates to the upcoming
+matches section.
+2. The system displays a list of
+available matches, including dates,
+teams, and locations.
+3. The umpire se-
+lects a match and clicks
+"Join".
+4. The system verifies the match de-
+tails and checks if there is availabil-
+ity for an umpire.
+5. The system confirms the um-
+pire’s selection and automatically
+assigns them to the match. The sys-
+tem notifies the umpire of their suc-
+cessful addition and adds the match
+to the umpire’s schedule.
+Alternate Scenario A. Umpire Tries to Join a Match that Already Has an Umpire
+Assigned:
+1. The system detects that the selected match already has an
+assigned umpire.
+2. The system notifies the umpire that the match is fully
+booked and offers options to view other available matches.
+B. Umpire Cancels Their Assignment
+1. The umpire decides to withdraw from an upcoming match
+they have joined.
+2. The system prompts the umpire to confirm the cancellation.
+3. The system removes the umpire from the match and notifies
+the match organizer or team about the cancellation.
+2.1.8 Use-case 8
+Use Case ID UC-8
+Name Manage Venues and Bookings
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Club Owner
+14
+2.1 Use-case/Event Response Table/Storyboarding
+Stakeholders and In-
+terest
+The Club owner wants to manage bookings, book umpires, track
+payments, and monitor revenues.
+Pre-Condition The club owner must be logged into the system with appropriate
+permissions..
+Post-Condition The club owner has successfully managed venue bookings,
+booked umpires, verified payments, and tracked revenue.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The club owner
+selects a venue and
+checks recent bookings.
+2. The system displays the booking
+details (venue, teams, time, date,
+umpire, and match fee).
+3. The club owner de-
+cides to book an umpire
+for an upcoming match.
+4. The system shows a list of avail-
+able umpires for the selected match.
+5. The club owner con-
+firms the umpire book-
+ing.
+6. The system assigns the umpire to
+the match and notifies the umpire.
+7. The club owner
+checks if the payments
+for bookings have been
+made.
+8. The system shows payment
+statuses (paid/pending) for recent
+bookings.
+9. The club owner
+checks the monthly rev-
+enue report.
+10. The system generates and dis-
+plays a summary of monthly rev-
+enues from venue bookings.
+15
+2. Project Requirements
+Alternate Scenario A. Pending Payments:
+1. The club owner notices that a booking has a pending pay-
+ment.
+2. The system provides the option to send a payment reminder
+to the team that made the booking.
+3. The club owner sends the reminder, and the system notifies
+the team to complete the payment.
+B. No Umpires Available for a Match:
+1. The system detects that no umpires are available for the se-
+lected match.
+2. The system notifies the club owner and offers options to ei-
+ther proceed without an umpire or choose a different match
+time.
+2.1.9 Use-case 9
+Use Case ID UC-9
+Name Analyzing Collective Stats
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Team Captain
+Stakeholders and In-
+terest
+Team Captain can view team’s collective stats and overall perfor-
+mance and create different strategies.
+Pre-Conditions
+• The captain must be logged into the system and have match
+data available.
+• The team/players must have played one or more matches
+previously.
+16
+2.1 Use-case/Event Response Table/Storyboarding
+Post-Conditions
+• The captain successfully views team stats and overall per-
+formance.
+• The captain can use the stats to take data driven decisions.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The captain navi-
+gates to the Team Stats
+(HomePage) section.
+2. The system displays all the stats
+including matches played, matches
+won and lost and many more.
+3. The captain views
+the stats and gets to
+know the overall per-
+formance of the team.
+4. The captain navi-
+gates to players section.
+5. The system displays the stats of
+every individual part of the team.
+Alternate Scenario A. No stats available:
+1. The system informs the captain that there are no stats cur-
+rently available.
+2. The captain is prompted to check back later.
+2.1.10 Use-case 10
+Use Case ID UC-10
+Name Book, Check And View Grounds
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Team Captain, Groundsmen
+Stakeholders and In-
+terest • Team Captain needs to book a ground for upcoming
+matches.
+• Groundsmen are interested in renting grounds.
+• Players want to ensure that they have a proper venue to play.
+17
+2. Project Requirements
+Pre-Conditions
+• The captain must be logged into the system.
+• Teams must have a match planned.
+• The grounds should be available.
+Post-Conditions
+• The captain successfully books a ground and recieves the
+conformation.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The captain nav-
+igates to the grounds
+booking section.
+2. The system displays the list of
+available grounds.
+3. The captain applies
+filters on date, time and
+price range.
+4. The system updates after apply-
+ing the filters.
+5. The captain selects
+the ground and con-
+firms booking.
+5. The system sends a conformation
+message.
+Alternate Scenario A. No grounds available:
+1. The system informs the captain that there are no grounds
+currently available.
+2. The captain is prompted to check back later.
+2.1.11 Use-case 11
+Use Case ID UC-11
+Name Generate kits via AI
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Team Captain
+18
+2.1 Use-case/Event Response Table/Storyboarding
+Stakeholders and In-
+terest • Team Captain needs a design for the team kit.
+• Kit manufacturers who will produce these kits.
+• Players want to wear new kits and represent their team.
+Pre-Conditions
+• The captain must be logged into the system.
+• The captain must have the color combination and team logo
+in mind.
+Post-Conditions
+• The kit is successfully generated based on the captain’s in-
+put.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The captain navi-
+gates to the generate kit
+section.
+2. The system prompts the captain
+to enter details i.e color combina-
+tions and logo.
+3. The captain inputs
+design preferences.
+4. The system generates kit designs
+based on the preferences.
+5. The captain saves the
+design.
+Alternate Scenario A. Captain is not satisfied with the designs:
+1. The captain does not like the current designs and modifies
+the prompts for more designs.
+2. The system generates more designs to choose from.
+2.1.12 Use-case 12
+Use Case ID UC-12
+Name Accessing Player stats
+Scope Cricket Management System
+Level User Level Goal
+19
+2. Project Requirements
+Primary Actors Coach
+Stakeholders and In-
+terest • Coach wants to review player performance to create per-
+sonalized programs.
+• Players expect tailor made programs to enhance their per-
+formance.
+Pre-Conditions
+• The coach must be logged into the app.
+• Player stats and clips must be available.
+Post-Conditions
+• The coach successfully views the stats and clips.
+• The coach creates tailor made training plans.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The coach navigates
+to the Player stats sec-
+tion.
+2. The system displays all the stats
+and clips available.
+3. The coach reviews
+the clips and stats and
+takes notes.
+4. The system allows
+the coach to save the
+clips for further use
+Alternate Scenario A. No stats available:
+1. The system informs the coach that there are no stats cur-
+rently available.
+2. The coach is prompted to check back later.
+2.1.13 Use-case 13
+Use Case ID UC-13
+20
+2.1 Use-case/Event Response Table/Storyboarding
+Name Manage Training Sessions
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Coach
+Stakeholders and In-
+terest • Coach want to manage training session for individual play-
+ers.
+• Players want clarity in their practice sessions.
+Pre-Conditions
+• The coach must be logged into the system.
+• Players must be assigned to the coach.
+Post-Conditions
+• The coach successfully manages the training sessions.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The coach navigates
+to assigned players sec-
+tion.
+2. The system displays the list up-
+coming training sessions with play-
+ers..
+3. The coach creates a
+new session and enter
+the details.
+4. The system saves the new session
+details.
+5. The coach reviews
+the list of upcoming
+sessions and modifies
+or cancel sessions if
+needed.
+6. The system updates the schedule
+accordingly.
+Alternate Scenario A. Conflicting Sessions:
+1. If a session conflicts with another one, the coach looks for
+alternative times.
+2.1.14 Use-case 14
+21
+2. Project Requirements
+Use Case ID UC-14
+Name Community Interaction
+Scope Cricket Management System
+Level User Level Goal
+Primary Actors Player, Team Owner, Coach
+Stakeholders and In-
+terest
+The player, team members, and coaches can interact with each
+other through discussion forums, share updates, and schedule
+matches or training sessions. This feature will allow for com-
+munication and collaboration within the cricketing community
+Pre-Condition The user must be logged into the system and have access to the
+community section.
+Post-Condition The user successfully posts or interacts with discussions, and re-
+sponses or updates are reflected within the system.
+Main Success Sce-
+nario
+Actor Action System Response
+1. The user navigates to
+the "Community" sec-
+tion.
+2. The system displays active fo-
+rums, discussions, and groups re-
+lated to cricket topics (matches,
+training, events).
+3. The user selects a fo-
+rum or group to join or
+create a new discussion.
+4. The system allows the user to en-
+ter a post, comment, or discussion
+topic.
+5. The user posts a mes-
+sage or comment.
+6. The system displays the post
+in the selected forum and notifies
+other members of the new post or
+comment.
+22
+2.2 Functional Requirements
+Alternate Scenario A. The user wants to schedule a match or training session:
+1. The user selects the "Schedule Match" or "Schedule Train-
+ing" option within the community.
+2. The system displays a form for entering details (time, date,
+location, participants).
+3. The user enters the details and confirms the schedule.
+4. The system posts the match/training schedule in the com-
+munity, notifying other users.
+B. No active forums or discussions available:
+1. The system informs the user that there are no active discus-
+sions.
+2. The user is prompted to create a new discussion.
+2.2 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style.
+2.2.1 Module 1
+Following are the requirements for module 1:
+1. FR1: Registration and Authentication
+• User Registration
+– Players, teams, clubs, coaches, umpires, and administrators can register
+by providing their information (name, email, password, etc.).
+– Validate unique email addresses for registration.
+– Send email verification upon registration.
+• User Login
+– Users should be able to log in using their registered email and password.
+– Password is to be encrypted and securely stored.
+23
+2. Project Requirements
+• Forgot Password
+– Users can reset their password using email verification.
+• Other Login Methods(optional)
+– Users can login with google using their google accounts.
+2. FR2: Profile Management
+• View Profile
+– Users can view their profile details (e.g., personal information, data like
+statistics for players).
+• Edit Profile
+– Users should be able to edit their personal details, such as name, contact
+information, profile picture, etc. The system will apply necessary access
+controls so that only authorized users can make changes in their accounts.
+2.2.2 Module 2
+Following are the requirements for module 2:
+1. FR1: Real-Time Scoring
+• Ball-by-Ball Input
+– Users can input score of each ball, counting runs, wickets, and extras
+(wide balls, no balls, etc.).
+• Live Score Update
+– The system will update and display the total score, ball-by-ball, on the
+scoreboard.
+• Undo/Redo Functionality
+– Users can undo or redo previous scoring inputs if a mistake in scoring has
+been made.
+• Partnership Tracking
+– Runs scored by each batting partnership can be aggregated and viewed.
+• Scorer Role
+– Specific users will be designated (e.g., umpires or team owners) to have
+access to scoring during a match.
+2. FR2: Stats Tracking
+24
+2.2 Functional Requirements
+• Team Stats
+– For each match the stats of the teams will be tracked(total runs, wickets
+taken, strike rate, economy rate, etc.).
+• Player Stats
+– Performance for individual players will be tracked(runs, wickets, etc) and
+shown in match summary (post-match).
+• Stats Aggregation
+– Stats will be aggregated over matches to provide overall(career) perfor-
+mance (eg total runs scored by a player over a season)
+• Leaderboard
+– Team and players will be ranked over different metrics like highest run-
+scorers, most wins etc.
+• Post-Match Summary
+– After the match a summary will be generated showing performances of
+both the teams players.
+2.2.3 Module 3
+Following are the requirements for module 3:
+1. FR1: Booking Management
+• Ground Selection
+– Users will be able to check the grounds that are available based on loca-
+tions.
+• Date and Time Selection
+– Users will select the date and start time they want for the match.
+– The system should display if the ground is available for the selected date
+and time.
+• Match Type Configuration
+– Users will be given an option where they can decide:
+* Invite-Only: Match can be joined with a link sent by the organizer.
+* Open Match: Any registered user can join.
+• Match Duration and Pricing
+– Users can set the time-range for the match (in hours from when to when).
+25
+2. Project Requirements
+– Ground booking costs will be displayed according to the different grounds
+and prices set by groundsmen.
+2. FR2: Clash-Free Scheduling
+• Conflict Detection
+– The system will place checks for conflicts so that a ground is not double-
+booked at the same time.
+• Real-Time Availability Updates
+– Availability of grounds will be updated in real time as to not allow over-
+lapped bookings or booking errors.
+• Alternative Suggestions
+– If a selected ground is unavailable, the system will suggest alternative
+grounds, times, or dates that are available.
+2.2.4 Module 4
+Following are the requirements for module 4:
+1. FR1: Automated Highlight Generation
+• Key Moment Detection
+– The system will automatically detect and capture key events such as wick-
+ets, boundaries, sixes, milestones (e.g., 50s, 100s), and other significant
+match moments.
+• Event Categorization
+– Automatically classify the highlights into different categories (e.g., bat-
+ting highlights, bowling highlights, fielding moments).
+• Highlight Compilation
+– Compile these moments into a video that can be viewed post-match.
+– Provide the ability to generate highlights for specific players or the entire
+match.
+• Customization of Highlights
+– Users can choose specific types of highlights they want to focus on (e.g.,
+only batting or bowling).
+2. FR2: Post-Match Highlight Viewing
+• Player Highlights
+26
+2.2 Functional Requirements
+– Each player will have their individual performance highlights available
+on their profile.
+– Highlights will include important moments specific to the player (e.g.,
+boundaries they scored, wickets they took).
+• Match Highlights
+– A match highlight reel showing all key moments of the match.
+• Highlight Sharing
+– Provide the ability for users to share highlights via social media or down-
+load the videos.
+2.2.5 Module 5
+Following are the requirements for module 5:
+1. FR1: Application on Recordings
+• Video Review for LBW
+– The system should allow users to upload or select recordings of specific
+deliveries for LBW review.
+– Enable users to focus on LBW decisions.
+• Frame-by-Frame Playback
+– Allow frame-by-frame playback of the video to precisely analyze the
+ball’s trajectory and contact point with the batsman.
+2. FR2: Ball Tracking and Hawk-Eye Technology
+• Ball Tracking
+– Integrate ball tracking technology to analyze the ball’s path from the
+bowler’s hand to where it impacts the batsman or the ground.
+– Display the predicted trajectory of the ball after impact, indicating whether
+the ball would have hit the stumps.
+• Hawk-Eye Visualization
+– Use Hawk-Eye technology to generate a 3D simulation of the ball’s move-
+ment, showing whether the ball would have hit the stumps based on the
+angle, speed, and bounce.
+• Impact Zone and Pitching Detection
+– The system should be able to detect where the ball pitched, the point of
+impact with the batsman, and whether the ball was in line with the stumps.
+27
+2. Project Requirements
+2.2.6 Module 6
+Following are the requirements for module 6:
+1. FR1: Design Input Options
+• Design Type Selection
+– Users can select from predefined design templates (e.g., stripes, gradients,
+patterns) or create custom designs.
+• Color Customization
+– Users can choose primary and secondary colors for their kit (shirts), in-
+cluding options for custom color palettes.
+• Design Preview
+– As users input their preferences, provide a live preview of how the design
+will look on the shirt.
+2. FR2: AI-Based Design Generation
+• Automated Image Generation
+– The system will generate images of the kit designs based on user inputs
+using AI-powered image generation techniques.
+• Multiple Variations
+– Provide multiple design variations based on the initial user input, giving
+them a range of options to choose from.
+• Downloadable Designs
+– Users should be able to download the final kit design images for review
+and use.
+2.2.7 Module 7
+Following are the requirements for module 7:
+1. FR1: Upcoming Matches Overview
+• Match Listings
+– Umpires can view a list of upcoming matches that require officiating.
+– Matches should be filtered based on date, location, and match type(20/30
+overs).
+28
+2.2 Functional Requirements
+• Detailed Match Information
+– Each match listing should include details such as teams involved, venue,
+date, time, and any special rules or requirements.
+2. FR2: Umpire Decision to Officiate
+• Match Joining
+– Umpires can select a match and choose to join as the officiating umpire.
+– Once an umpire selects a match, the system should confirm their booking
+and mark the match as "assigned."
+• Booking Confirmation
+– Umpires should receive a confirmation notification (email or in-app) once
+they have been assigned to officiate a match.
+• Cancellation
+– Umpires should be able to cancel their booking if necessary, with enough
+notice for the system to find a replacement.
+2.2.8 Module 8
+Following are the requirements for module 8:
+1. FR1: Player Match Request
+• Match Listings
+– Players can view a list of upcoming matches where they can potentially
+join based on their schedule.
+• Add+ Box in Lineups
+– In the team lineup section, players can click the "Add+" button to send a
+request to the team captain, expressing their availability for the match.
+2. FR2: Captain’s Response
+• Request Management
+– Team captains will receive a notification or request in their lineup man-
+agement interface showing the players who want to join the match.
+• Confirm/Decline
+– Captains can either confirm or decline the player’s request to join the
+lineup based on their current team needs.
+29
+2. Project Requirements
+• Notification
+– Players should receive a notification (email or in-app) about whether their
+request has been accepted or declined.
+2.2.9 Module 9
+Following are the requirements for module 9:
+1. FR1: Drill Assignment
+• Player-Specific Drills
+– Coaches can assign personalized drills or training routines to specific
+players based on their performance or areas of improvement.
+• Drill Customization
+– Coaches can customize drills by specifying instructions, objectives, and
+expected outcomes for each player.
+• Performance Monitoring
+– Coaches can track the progress of players on the drills assigned to them.
+2. FR2: Training Session Scheduling
+• Session Scheduling
+– Coaches can schedule training sessions with individual players or groups,
+specifying the date, time, and type of session.
+• Session Notifications
+– Players will receive notifications for upcoming training sessions, includ-
+ing details on the drills to be covered.
+• Session Feedback
+– After each session, coaches can provide feedback on the player’s perfor-
+mance and suggest further improvement areas.
+2.2.10 Module 10
+Following are the requirements for module 10:
+1. FR1: Exercise Search Functionality
+• Search Bar
+30
+2.2 Functional Requirements
+– Players can input keywords related to specific exercises they want to per-
+form (e.g., "squats," "push-ups,")
+• Filtered Results
+– The system should display a list of relevant exercises based on the search
+query, including exercise names, descriptions, and target muscle groups.
+– Each exercise entry should link to instructional videos that demonstrate
+proper technique and form.
+– Provide categories for different types of exercises (e.g., strength training,
+flexibility, cardio) for easier navigation.
+2.2.11 Module 11
+Following are the requirements for module 11:
+1. FR1: Exercise Search Functionality
+• Search Bar
+– Players can input keywords related to specific drills they wish to practice
+(e.g., "in-swing," "out-swing," "cover drive").
+• Filtered Results
+– The system will display a list of relevant drills based on the search query,
+including drill names, descriptions, and the specific skills targeted.
+– Each drill entry should link to instructional videos that demonstrate the
+proper techniques and methods.
+– Provide categories for different types of drills (e.g., bowling, batting,
+keeping) for easier navigation.
+2.2.12 Module 12
+Following are the requirements for module 12:
+1. FR1: Discussion Forums and Groups
+• Forum Creation
+– Players, coaches, and teams can create forums dedicated to specific top-
+ics, tournaments, or teams.
+• Post and Comment Functionality
+31
+2. Project Requirements
+– Users can create posts, share updates, and respond to others’ posts through
+comments, aiding discussion and interaction.
+• Notification System
+– Users should receive notifications for replies to their posts, comments, or
+when they are mentioned in discussions.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements.
+2.3.1 Reliability
+• The system must have a minimum uptime of 99%, in order to make sure that the
+users can access the system consistently.
+• The system should incorporate regularly performed automated backups to prevent
+data loss and ensure data integrity.
+2.3.2 Usability
+• The system should have a user-friendly interface so that users can easily make use
+of and navigate through the application.
+• In order to enhance overall user efficiency, the system should minimize the number
+of clicks to perform tasks.
+2.3.3 Performance
+• The system should be capable enough to handle a minimum of 500 concurrent users
+when application usage is at its peak, ensuring optimal performance and responsive-
+ness.
+• The response time for various features such as searching, filtering and bookings
+must be less than 2-5 seconds.
+2.3.4 Security
+• The system should ensure data privacy by using industry standard encryption to
+encrypt user data such as personal information and communication.
+32
+2.4 Domain Model
+• The system should handle role based access by restricting access to information and
+features according to user roles (player, coach, umpire, etc.).
+• The system should prevent unauthorized access by making use of authentication
+mechanisms (two-factor authentication).
+2.4 Domain Model
+Create a representation of the domain model for your project.
+Figure 2.2: Domain Model of BalleBaaz
+33
+
+Chapter 3
+System Overview
+Give a general description of the functionality, context, and design of your project. Pro-
+vide any background information if necessary.
+35
+3. System Overview
+3.1 Architectural Design
+Figure 3.1: Architectural Diagram
+36
+3.1 Architectural Design
+3.1.1 Presentation Layer
+The presentation layer is the user interface, where different actors interact with the system.
+It includes mobile interfaces for various roles:
+• Players: Sign in, join matches, view and track personal stats, interact in community
+forums, and follow training programs.
+• Team Captains: Sign in, manage team stats, book grounds, schedule matches,
+generate kits, and interact with players and coaches.
+• Coaches: View and analyze player stats, manage training sessions, and customize
+training plans.
+• Club Owners: Manage venue bookings, track payments, and monitor monthly
+revenues.
+• Groundsmen: Manage and update ground availability for matches.
+• Community Interaction: Allow players, coaches, and team members to commu-
+nicate via forums and discussions.
+3.1.2 Application Layer
+The application layer handles business logic, processing user requests, and managing
+interactions between the presentation and data layers. The system includes several core
+modules:
+• User Management Module: Handles user authentication and authorization for
+players, captains, coaches, club owners, and groundsmen.
+• Ground Booking Module: Manages venue availability, booking confirmations,
+scheduling clashes, and communication with club owners and groundsmen.
+• Stats Management Module: Provides real-time and historical match stats, team
+and player performance analysis, and data visualization for players, coaches, and
+captains.
+• Training Management Module: Allows coaches to manage and schedule training
+sessions for individual players or groups based on performance data.
+• Kit Generation via AI Module: Uses AI to generate custom team kits based on
+input from captains (color preferences, logos).
+37
+3. System Overview
+• Community Interaction Module: Facilitates communication through forums, group
+discussions, and scheduling of matches or training.
+• Payment and Revenue Tracking Module: Tracks payments for ground bookings
+and manages revenue reports for club owners.
+3.1.3 Data Layer
+The data layer handles storage, retrieval, and management of all data required by the
+application. Key databases include:
+• User Database: Stores user profiles, roles, permissions, and session data.
+• Grounds Database: Stores information about venues, booking details, availability,
+and revenue reports.
+• Stats Database: Contains match stats, player performance data, team analytics,
+and historical records.
+• Training Database: Stores training schedules, player progress, and session details
+created by coaches.
+• Kit Design Database: Stores designs generated via the AI module, along with team
+logos and kit preferences.
+• Community Interaction Database: Manages discussion forums, group chats, and
+match/training schedules.
+38
+3.2 Design Models
+3.2 Design Models
+3.2.1 Sequence Diagrams
+3.2.1.1 Sequence Diagram 1: Player Sign In
+Figure 3.2: Sequence Diagram for Player Sign In
+39
+3. System Overview
+3.2.1.2 Sequence Diagram 2: Player Join Match
+Figure 3.3: Sequence Diagram for Player Join Match
+40
+3.2 Design Models
+3.2.1.3 Sequence Diagram 3: Player Track Fitness
+Figure 3.4: Sequence Diagram for Player Track Fitness
+41
+3. System Overview
+3.2.1.4 Sequence Diagram 4: Player Modify Profile
+Figure 3.5: Sequence Diagram for Player Modify Profile
+42
+3.2 Design Models
+3.2.1.5 Sequence Diagram 5: Player Search Highlights
+Figure 3.6: Sequence Diagram for Player Search Highlights
+3.2.1.6 Sequence Diagram 6: Player Search Drills
+Figure 3.7: Sequence Diagram for Player Search Drills
+43
+3. System Overview
+3.2.1.7 Sequence Diagram 7: Player Search Upcoming Matches
+Figure 3.8: Sequence Diagram for Player Search Upcoming Matches
+44
+3.2 Design Models
+3.2.1.8 Sequence Diagram 8: Umpire Officiate Match
+Figure 3.9: Sequence Diagram for Umpire Officiate Match
+45
+3. System Overview
+3.2.1.9 Sequence Diagram 9: Umpire Do Scoring
+Figure 3.10: Sequence Diagram for Umpire Do Scoring
+46
+3.2 Design Models
+3.2.1.10 Sequence Diagram 10: Umpire Do Scoring (Duplicate)
+Figure 3.11: Sequence Diagram for Umpire Do Scoring
+47
+3. System Overview
+3.2.1.11 Sequence Diagram 11: Club Owner Flow
+Figure 3.12: Sequence Diagram for Club Owner
+48
+3.2 Design Models
+3.2.1.12 Sequence Diagram 12: Team Owner Analyze Stats
+Figure 3.13: Sequence Diagram for Team Owner Analyze Stats
+49
+3. System Overview
+3.2.1.13 Sequence Diagram 13: Team Owner Book Ground
+Figure 3.14: Sequence Diagram for Team Owner Book Ground
+50
+3.2 Design Models
+3.2.1.14 Sequence Diagram 14: Team Owner Generate Kit Design
+Figure 3.15: Sequence Diagram for Team Owner Generate Kit Design
+51
+3. System Overview
+3.2.1.15 Sequence Diagram 15: Coach Review Stats
+Figure 3.16: Sequence Diagram for Coach Review Stats
+52
+3.2 Design Models
+3.2.1.16 Sequence Diagram 16: Coach Manage Sessions
+Figure 3.17: Sequence Diagram for Coach Manage Sessions
+53
+3. System Overview
+3.2.1.17 Sequence Diagram 17: Community Interactions
+Figure 3.18: Sequence Diagram for Community Interactions
+54
+3.2 Design Models
+55
+3. System Overview
+3.2.2 Activity Diagrams
+3.2.2.1 Activity Diagram 1: Player Analyze performance
+Figure 3.19: Activity diagram for Player Analyze performance
+56
+3.2 Design Models
+3.2.2.2 Activity Diagram 2: Join Match
+Figure 3.20: Activity diagram for Join Match
+57
+3. System Overview
+3.2.2.3 Activity Diagram 3: Manage profile
+Figure 3.21: Activity diagram for Manage profile
+58
+3.2 Design Models
+3.2.2.4 Activity Diagram 4: Training Sessions
+Figure 3.22: Activity diagram for Training Session
+59
+3. System Overview
+3.2.2.5 Activity Diagram 5: Scoring
+Figure 3.23: Activity diagram for Scoring
+60
+3.2 Design Models
+3.2.2.6 Activity Diagram 6: Upcoming Matches
+Figure 3.24: Activity diagram for Upcoming Matches
+61
+3. System Overview
+3.2.2.7 Activity Diagram 7: Groundsmen ground booking
+Figure 3.25: Activity diagram for Groundsmen ground booking
+62
+3.2 Design Models
+3.2.2.8 Activity Diagram 8: Analyze Stats
+Figure 3.26: Activity diagram for Analyze Stats
+63
+3. System Overview
+3.2.2.9 Activity Diagram 9: Captain ground booking
+Figure 3.27: Activity diagram for Captain ground booking
+64
+3.2 Design Models
+3.2.2.10 Activity Diagram 10: Kit Generation
+Figure 3.28: Activity diagram for Kit Generation
+65
+3. System Overview
+3.2.2.11 Activity Diagram 11: Coach review stats
+Figure 3.29: Activity diagram for Coach review stats
+66
+3.2 Design Models
+3.2.2.12 Activity Diagram 12: Coach assigned players
+Figure 3.30: Activity diagram for Coach assigned players
+67
+3. System Overview
+3.2.2.13 Activity Diagram 13: Community Section
+Figure 3.31: Activity diagram for Community Section
+68
+3.3 Data Design
+3.2.3 Data Flow Diagram
+Figure 3.32: Data Flow Diagram
+3.3 Data Design
+The data design of the BalleBaaz system is based on transforming the information domain
+into structured data entities. These entities represent the core components of the system,
+and their relationships are described below.
+1. Data Structure and Organization
+The system uses a JSON schema to define key entities. These include:
+- Player: Contains details such as player ID, name, contact information, role, preferred
+hand, team affiliation, and performance data.
+- Team: Stores team-related information, including team ID, name, ranking, players,
+coach, and owner details.
+- Coach: Represents data related to coaches, including their ID, contact information, ex-
+perience, and the players they manage.
+- Umpire: Tracks umpire information, including matches they have officiated.
+- GroundOwner: Stores details about ground owners or managers, tracking revenue and
+bookings related to the ground they manage.
+69
+3. System Overview
+- Ground: Captures ground data such as location, capacity, and availability for booking.
+- Match: Includes information about each match, such as participating teams, location,
+date, and result. Each match can also have associated highlights for later review.
+- Booking: Stores ground booking information, including team owner details and the
+booking date.
+- Highlights: Represents video highlights of specific matches, associated with the match
+they belong to.
+- TeamOwner: Links a team owner to their associated player, enabling management of
+the team.
+2. Database and Storage
+The system is designed to be stored in a NoSQL database such as firebase. Each major
+entity is stored in its respective collection, for example, a ‘Players‘ collection for storing
+player information, and a ‘Teams‘ collection for team data. The ‘id‘ fields ensure that
+relationships between entities are maintained and enable efficient querying.
+3. Data Processing
+Data is processed primarily through CRUD (Create, Read, Update, Delete) operations
+across the different user roles:
+- Players: Can view their performance stats, assigned drills, and match highlights. - Team
+Owners: Manage their teams, book grounds, and analyze match statistics. - Coaches:
+Oversee training sessions and performance tracking for their players. - Umpires: Manage
+match schedules and officiating history.
+4. Data Flow
+The system uses RESTful APIs to communicate between the front-end and back-end.
+Each user role has access to specific endpoints to manage data related to their respective
+entities, ensuring that data is organized and accessed securely based on permissions.
+5. Schema
+{
+" Player ": {
+" type ": " object " ,
+" properties ": {
+" player_id ": { " type ": " string " } ,
+" p l a y er _ n a me ": { " type ": " string " } ,
+" phone_no ": { " type ": " string " } ,
+" password ": { " type ": " string " } ,
+" role ": { " type ": " string " } ,
+" p r e f e r r e d _ h a n d ": { " type ": " string " } ,
+70
+3.3 Data Design
+" team_id ": { " type ": " string " } ,
+" f i t n e s s _ s t a t u s ": { " type ": " string " } ,
+" a s s i g n e d _ d r i l l s ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+} ,
+" t r a i n i n g _ s e s s i o n s ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+} ,
+" p e r f o r m a n c e _ s t a t s ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+} ,
+" highlights ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+}
+} ,
+" required ": [" player_id " , " p l a ye r _ n am e " , " phone_no " , "
+password "]
+} ,
+" Team ": {
+" type ": " object " ,
+" properties ": {
+" team_id ": { " type ": " string " } ,
+" team_name ": { " type ": " string " } ,
+" ranking ": { " type ": " number " } ,
+" players ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+} ,
+" t e a m O w n e r _ i d ": { " type ": " string " } ,
+" coach_id ": { " type ": " string " } ,
+" highlights ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+}
+} ,
+" required ": [" team_id " , " team_name " , " t e a m O w n e r _ i d "]
+} ,
+" Coach ": {
+" type ": " object " ,
+71
+3. System Overview
+" properties ": {
+" coach_id ": { " type ": " string " } ,
+" name ": { " type ": " string " } ,
+" phone_no ": { " type ": " string " } ,
+" password ": { " type ": " string " } ,
+" experience ": { " type ": " number " } ,
+" team_id ": { " type ": " string " } ,
+" a s s i g n e d _ p l a y e r s ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+}
+} ,
+" required ": [" coach_id " , " name " , " phone_no " , " password " , "
+team_id "]
+} ,
+" Umpire ": {
+" type ": " object " ,
+" properties ": {
+" umpire_id ": { " type ": " string " } ,
+" name ": { " type ": " string " } ,
+" phone_no ": { " type ": " string " } ,
+" password ": { " type ": " string " } ,
+" experience ": { " type ": " number " } ,
+" m a t c h e s _ o f f i c i a t e d ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+}
+} ,
+" required ": [" umpire_id " , " name " , " phone_no " , " password "]
+} ,
+" G r o u nd O w n er ": {
+" type ": " object " ,
+" properties ": {
+" g r o u n d s m a n _ i d ": { " type ": " string " } ,
+" name ": { " type ": " string " } ,
+" phone_no ": { " type ": " string " } ,
+" password ": { " type ": " string " } ,
+" ground_id ": { " type ": " string " } ,
+" revenue ": { " type ": " number " } ,
+" bookings ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+}
+72
+3.3 Data Design
+} ,
+" required ": [" g r o u n d s m a n _ i d " , " name " , " phone_no " , "
+password " , " ground_id "]
+} ,
+" Ground ": {
+" type ": " object " ,
+" properties ": {
+" ground_id ": { " type ": " string " } ,
+" name ": { " type ": " string " } ,
+" location ": { " type ": " string " } ,
+" capacity ": { " type ": " number " } ,
+" a v a i l a b i l i t y ": { " type ": " string " } ,
+" revenue ": { " type ": " number " }
+} ,
+" required ": [" ground_id " , " name " , " location " , " capacity "]
+} ,
+" Match ": {
+" type ": " object " ,
+" properties ": {
+" match_id ": { " type ": " string " } ,
+" team1_id ": { " type ": " string " } ,
+" team2_id ": { " type ": " string " } ,
+" date ": { " type ": " string " , " format ": " date - time " } ,
+" time ": { " type ": " string " } ,
+" ground_id ": { " type ": " string " } ,
+" result ": { " type ": " string " } ,
+" highlights ": {
+" type ": " array " ,
+" items ": { " type ": " string " }
+} ,
+" umpire_id ": { " type ": " string " }
+} ,
+" required ": [" match_id " , " team1_id " , " team2_id " , " date " , "
+ground_id "]
+} ,
+" Booking ": {
+" type ": " object " ,
+" properties ": {
+" booking_id ": { " type ": " string " } ,
+" ground_id ": { " type ": " string " } ,
+" t e a m O w n e r _ i d ": { " type ": " string " } ,
+" date ": { " type ": " string " , " format ": " date - time " } ,
+" price ": { " type ": " number " }
+73
+3. System Overview
+} ,
+" required ": [" booking_id " , " ground_id " , " t e a m O w n e r _ i d " , "
+date "]
+} ,
+" Highlights ": {
+" type ": " object " ,
+" properties ": {
+" h i g h l i g h t _ i d ": { " type ": " string " } ,
+" match_id ": { " type ": " string " } ,
+" video_link ": { " type ": " string " , " format ": " uri " }
+} ,
+" required ": [" h i g h l i g h t _ i d " , " match_id " , " video_link "]
+} ,
+" TeamOwner ": {
+" type ": " object " ,
+" properties ": {
+" t e a m O w n e r _ i d ": { " type ": " string " } ,
+" player_id ": { " type ": " string " }
+} ,
+" required ": [" t e a m O w n e r _ i d " , " player_id "]
+}
+}
+74
+Bibliography
+[1] A Kolyshkin and S Nazarovs. Stability of slowly diverging flows in shallow water.
+Mathematical Modeling and Analysis , 2007.
+75
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

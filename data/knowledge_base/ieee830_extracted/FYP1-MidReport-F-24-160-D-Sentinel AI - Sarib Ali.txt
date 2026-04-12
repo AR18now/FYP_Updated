@@ -1,0 +1,266 @@
+# FYP1-MidReport-F-24-160-D-Sentinel AI - Sarib Ali
+
+## 1. Introduction
+
+Introduction 11
+1.1 Problem Statement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.2 Scope . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.3 Modules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+1.3.1 Face Recognition . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+1.3.2 AI Caller . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+1.3.3 Web / App Development . . . . . . . . . . . . . . . . . . . . . . 22
+1.4 Tools and Technologies . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+1.5 User Classes and Characteristics . . . . . . . . . . . . . . . . . . . . . . 33
+2 Project Requirements 55
+2.1 Event-Response Table . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+2.2 Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+2.2.1 Face Recognition Module . . . . . . . . . . . . . . . . . . . . . . 66
+2.2.2 AI Caller Module . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+2.2.3 Web/App Development Module . . . . . . . . . . . . . . . . . . 66
+2.3 Non-Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . 77
+2.3.1 Reliability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.3.2 Usability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.3.3 Performance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.3.4 Security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+2.4 Domain Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 88
+3 System Overview 99
+3.1 Architectural Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+3.2 Design Models . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+3.3 Data Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+References 1313
+2
+List of Figures
+2.1 UML Model for Sentinel AI System . . . . . . . . . . . . . . . . . . . . 88
+3.1 Box and Line Diagram of Sentinel AI’s System Architecture . . . . . . . 1010
+3.2 Activity Diagram of Sentinel AI’s System Architecture . . . . . . . . . . 1111
+3
+List of Tables
+2.1 Event-Response Table for Sentinel AI System . . . . . . . . . . . . . . . 55
+0
+Chapter 1
+Introduction
+An AI system that can be deployed as a Software as a Service (SAAS) product on an
+already in-use CCTV camera network to provide the users with smart notifications along
+with an AI-enabled caller to contact emergency services or contacts on their behalf taking
+a step towards cost-efficient security. [11].
+1.1 Problem Statement
+Traditional CCTV systems provide only basic surveillance and lack advanced features
+such as intrusion detection. Upgrading to smart camera networks requires costly replace-
+ments, which is often not feasible for many users. This creates a gap in the market for
+affordable and scalable solutions that can enhance existing CCTV infrastructure without
+the need for full system overhauls.
+1.2 Scope
+This project aims to develop an AI-driven intruder detection system "Sentinel AI" that
+enhances existing CCTV infrastructure without costly hardware upgrades. Integrating
+advanced facial recognition capabilities to identify individuals from various angles and
+with different hairstyles ensures flexibility in real-world conditions, including a liveness
+detection model to prevent spoofing attempts using photos or videos. The project aims
+to categorize individuals into two groups: household members, who can move freely at
+any time and frequent visitors, who will trigger notifications if they arrive at unusual
+times. Real-time alerts will be generated for unfamiliar individuals or security breaches,
+immediately notifying the owner or even contacting emergency services through an AI-
+driven response system. Additionally, the solution will recognize faces even if partially
+1
+covered by masks, mufflers, or caps.
+1.3 Modules
+1.3.1 Face Recognition
+1. Liveliness Detection
+2. Face Detection from different angles
+3. Face Detection with different hairstyles
+4. Face Detection when the face is partially covered
+5. Face addition of known personnel with permission of users
+6. Intruder Detection
+1.3.2 AI Caller
+1. Emergency Notifications
+2. Automatic Calls to Owner/Authorities
+1.3.3 Web / App Development
+1. Client Web App
+2. Client Mobile App
+3. Admin Web App
+1.4 Tools and Technologies
+• Programming Languages
+– Python
+• Libraries Used
+– OpenCV
+2
+– Scikit-Learn
+– Pytorch
+– TensorFlow
+• Database/Framework
+– MongoDB
+– Flask
+– React.JS
+• UI
+– Flutter
+• Extras
+– GitHub
+1.5 User Classes and Characteristics
+This section identifies the various user classes that will utilize the Sentinel AI system and
+describes their pertinent characteristics.
+3
+User Class Description
+Homeowner The Homeowner is the primary user of the Sentinel AI system, responsible
+for setting up and managing the security features. They will interact with
+the system to configure settings, view alerts, and manage user permissions.
+Visitors Visitors are frequent guests of the household, such as friends or family mem-
+bers. With the Homeowner’s consent, the system will add Visitors to the
+database for easier recognition, improving convenience while ensuring se-
+curity.
+Emergency
+Services
+Emergency Services are external responders who receive alerts from the
+Sentinel AI system regarding potential security breaches. They will rely
+on accurate and timely notifications from the system to respond to incidents.
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Event-Response Table
+Below is an event-response table highlighting how the system reacts to various events:
+Event System Response
+Face detected from different
+angles
+Identify the individual using facial recognition and
+check if they match household members or frequent
+visitors. If unidentified, mark as a potential intruder.
+Intruder detection Trigger real-time notifications to the owner and ini-
+tiate the AI-enabled caller to contact emergency ser-
+vices if required.
+Face partially covered (mask,
+muffler, etc.)
+Use partial facial recognition algorithms to attempt
+identification and categorize as household member,
+frequent visitor, or intruder.
+Liveliness detection failure Trigger an alert that a potential spoofing attempt (e.g.,
+photo or video) was detected and log the attempt.
+Emergency situation detected Automatically initiate a call to emergency services
+with relevant details of the security breach.
+Visitor added by owner Add facial data for future detection with necessary
+permissions and update system database with user
+metadata.
+Table 2.1: Event-Response Table for Sentinel AI System
+5
+2.2 Functional Requirements
+The functional requirements describe what the system will do, grouped into three main
+modules: Face Recognition, AI Caller, and Web/App Development.
+2.2.1 Face Recognition Module
+1. The system shall detect faces from various angles, including front, left, and right
+views.
+2. The system shall perform facial recognition even if the individual has changed their
+hairstyle or is partially covering their face (e.g., with a mask/muffler).
+3. The system shall include liveliness detection to ensure that the face is real and not
+a photo.
+4. The system shall allow the owner to add known personnel’s faces to the database
+with the appropriate permissions.
+5. The system shall trigger an intruder alert for unfamiliar faces trying to enter the
+facility and log the event for further review.
+2.2.2 AI Caller Module
+1. The system shall automatically notify the owner via notifications when an intruder
+is detected.
+2. The system shall automatically contact emergency services or designated contacts
+in case of a confirmed intruder or emergency situation.
+2.2.3 Web/App Development Module
+1. The system shall provide a client web app for the owner to monitor real-time video
+feeds, and review past events.
+2. The system shall provide a client mobile app with similar functionality, enabling
+notifications and alerts on-the-go.
+6
+2.3 Non-Functional Requirements
+This section specifies non-functional requirements for the Sentinel AI system. These
+quality requirements are specific, quantitative, and verifiable.
+2.3.1 Reliability
+The Sentinel AI system shall maintain a high level of reliability, with a Mean Time Be-
+tween Failures (MTBF) of no less than 1000 hours. A failure is defined as any event that
+prevents the system from accurately detecting and notifying about intruders.
+2.3.2 Usability
+Usability requirements focus on providing an intuitive and efficient user experience. The
+system shall allow users to:
+• Retrieve previous incident alerts with a single interaction.
+• Access facial recognition settings and notifications without extensive training.
+2.3.3 Performance
+The Sentinel AI system shall meet the following performance requirements:
+• 95% intruder alerts shall be processed within 2 seconds of detection.
+• The system shall support a minimum of 100 concurrent users without degradation
+in performance.
+2.3.4 Security
+The system shall implement robust security measures to protect user data and system
+integrity. The security requirements include:
+• The effort required to compromise the system shall be sufficiently high to deter
+unauthorized access.
+• The system shall regularly audit user access and alert administrators of suspicious
+activity.
+7
+2.4 Domain Model
+Create a representation of the domain model for your project.
+Figure 2.1: UML Model for Sentinel AI System
+8
+Chapter 3
+System Overview
+Sentinel AI is an AI-driven intruder detection system designed to enhance existing CCTV
+infrastructure without the need for expensive hardware upgrades. The system integrates
+facial recognition, liveness detection, and categorizes individuals into known and un-
+known categories to trigger real-time alerts in case of security breaches or intrusions.
+It can also notify emergency services and the property owner via AI-driven response sys-
+tems. Sentinel AI is able to recognize faces even with masks, mufflers, or hats, and offers
+an efficient and scalable solution for residential and commercial security.
+3.1 Architectural Design
+The system architecture is modular, consisting of multiple subsystems that work together
+to achieve the complete functionality of Sentinel AI. Each subsystem has clearly defined
+responsibilities, and the system is decomposed into the following core modules:
+• Face Detection Module: Responsible for capturing live video feeds and detecting
+faces in real time from multiple angles (front, left, right).
+• Liveness Detection Module: Verifies whether the detected faces are real or fake,
+ensuring that spoofing attempts are caught.
+• Face Recognition Module: Compares the detected face embeddings with known
+faces and identifies individuals based on stored embeddings.
+• Intrusion Detection Module: Monitors sensitive areas within the camera feed for
+any unauthorized access or intrusions.
+• AI Caller & Notifier Module: Alerts the property owner and emergency contacts
+by making automated calls and sending notifications in case of intrusion detection.
+9
+The modules interact as follows: The Face Detection Module continuously captures the
+camera feed and detects faces, passing them to the Liveness Detection Module. If a live
+face is detected, it is then sent to theFace Recognition Modulefor identification. If an un-
+recognized or unauthorized person is detected in a sensitive area, the Intrusion Detection
+Module triggers the AI Caller & Notifier Module to alert the relevant personnel.
+The architectural style follows a layered approach, where each module operates inde-
+pendently but collaborates via well-defined interfaces. This modular approach allows
+flexibility and easy maintenance.
+Below is a simplified box and line diagram showing the system’s major subsystems and
+their connections:
+Figure 3.1: Box and Line Diagram of Sentinel AI’s System Architecture
+10
+3.2 Design Models
+The design of Sentinel AI follows an object-oriented approach, and the following models
+were created to represent different aspects of the system.
+Activity Diagram:
+The activity diagram shows the flow of activities within the system, starting from the
+camera feed capture to detecting an intrusion and sending out notifications. It represents
+how different modules interact to achieve system functionality.
+Figure 3.2: Activity Diagram of Sentinel AI’s System Architecture
+3.3 Data Design
+Sentinel AI leverages a structured approach to handle and process data. The system stores
+data in two main components:
+• Face Embeddings Database: This database stores the facial embeddings of known
+individuals, which are used for face recognition. The embeddings are extracted
+using deep learning techniques and stored as numerical vectors.
+11
+• Event Logs and Intrusion Records : Stores all detected intrusions, their times-
+tamps, and details regarding the individuals involved. This is used for system audits
+and to provide a historical overview of intrusions.
+The system uses MongoDB to store structured data (face embeddings, detected faces, and
+logs) in a highly scalable manner. The database is optimized for fast retrieval of face
+embeddings during the recognition process.
+Additionally, emergency contact information is stored securely to ensure timely notifica-
+tion in case of security breaches.
+12
+Bibliography
+[1] Web Advisor and Chirag Aggarwal. Real-time anomaly detection in cctv surveillance.
+Kaggle Datasets, 2024.
+13
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

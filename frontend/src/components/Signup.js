@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Sparkles, Rocket, ArrowRight } from 'lucide-react';
 import { signup, isAuthenticated } from '../utils/auth';
+import { useTheme } from '../context/ThemeContext';
 
-const Signup = ({ onSignup, theme = 'dark' }) => {
+const Signup = ({ onSignup }) => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
   
   // Redirect if already authenticated
@@ -88,22 +90,53 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
   const strength = passwordStrength();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
-      <div className="w-full max-w-md">
-        <div className={`rounded-2xl shadow-2xl overflow-hidden border ${isDark ? 'border-slate-800 bg-slate-900/90' : 'border-slate-200 bg-white/90'}`}>
-          {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 p-8 text-white text-center">
-            <div className="flex justify-center mb-4">
-              <div className="p-4 bg-white/20 rounded-full">
-                <UserPlus className="h-10 w-10" aria-hidden="true" />
+    <div className="min-h-screen relative overflow-x-hidden overflow-y-auto flex items-start md:items-center justify-center p-4 md:p-6 py-8" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
+      <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-r2d-accent/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-r2d-primary/20 blur-3xl" />
+      <button
+        type="button"
+        onClick={toggleTheme}
+        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        className="absolute top-4 right-4 z-10 inline-flex items-center gap-1.5 rounded-lg border border-r2d-border bg-r2d-surfaceElevated/95 px-3 py-2 text-sm text-r2d-primary shadow-sm hover:bg-r2d-surface dark:border-slate-600 dark:bg-slate-800/95 dark:text-slate-200 dark:hover:bg-slate-700"
+      >
+        {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
+        <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+      </button>
+      <div className="w-full max-w-5xl grid lg:grid-cols-2 rounded-3xl overflow-hidden border shadow-2xl backdrop-blur-xl bg-white/80 dark:bg-slate-900/75 border-slate-200/70 dark:border-slate-700/70">
+        <section className="hidden lg:flex flex-col justify-between p-10 bg-gradient-to-br from-r2d-primary via-r2d-primaryLight to-r2d-accent text-white">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+              <Sparkles className="h-3.5 w-3.5" />
+              Req2Design Platform
+            </div>
+            <h2 className="mt-6 text-3xl font-bold leading-tight">Create your engineering workspace</h2>
+            <p className="mt-3 text-blue-100/90 text-sm leading-relaxed">
+              Start transforming ambiguous requirements into structured SRS documents, use cases, and diagrams.
+            </p>
+          </div>
+          <div className="space-y-3 text-sm">
+            <div className="flex items-center gap-2">
+              <Rocket className="h-4 w-4 text-blue-100" />
+              Fast setup in under a minute
+            </div>
+            <div className="flex items-center gap-2">
+              <ArrowRight className="h-4 w-4 text-blue-100" />
+              Direct access to full SRS pipeline
+            </div>
+          </div>
+        </section>
+
+        <section className="p-6 sm:p-8 md:p-10">
+          <div className="max-w-md mx-auto">
+            <div className="flex justify-center mb-4 lg:hidden">
+              <div className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-r2d-primary to-r2d-accent p-4 text-white shadow-lg">
+                <UserPlus className="h-7 w-7" aria-hidden="true" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-            <p className="text-purple-100">Join Req2Design to get started</p>
-          </div>
-
-          {/* Form */}
-          <div className="p-8">
+            <h1 className="text-3xl font-bold mb-2 text-r2d-primary dark:text-slate-100 text-center lg:text-left">Create Account</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-7 text-center lg:text-left">
+              Set up your account and start working on your FYP requirements workflow.
+            </p>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-3 animate-slide-up">
@@ -119,7 +152,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   Username
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" aria-hidden="true" />
                   <input
                     id="username"
                     name="username"
@@ -128,7 +161,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                     onChange={handleChange}
                     required
                     minLength={3}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-white border-slate-200 text-slate-900'
@@ -144,7 +177,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" aria-hidden="true" />
                   <input
                     id="email"
                     name="email"
@@ -152,7 +185,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-white border-slate-200 text-slate-900'
@@ -168,7 +201,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" aria-hidden="true" />
                   <input
                     id="password"
                     name="password"
@@ -177,7 +210,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                     onChange={handleChange}
                     required
                     minLength={6}
-                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-white border-slate-200 text-slate-900'
@@ -188,7 +221,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -197,7 +230,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                 {formData.password && (
                   <div className="mt-2">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-500">Password strength:</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">Password strength:</span>
                       <span className={`text-xs font-medium ${
                         strength.color === 'red' ? 'text-red-600' :
                         strength.color === 'yellow' ? 'text-yellow-600' :
@@ -206,7 +239,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                         {strength.label}
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full transition-all duration-300 ${
                           strength.color === 'red' ? 'bg-red-500' :
@@ -225,7 +258,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" aria-hidden="true" />
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -234,7 +267,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                     onChange={handleChange}
                     required
                     minLength={6}
-                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-white border-slate-200 text-slate-900'
@@ -251,7 +284,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                     aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                   >
                     {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -277,7 +310,7 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
               <button
                 type="submit"
                 disabled={isLoading || formData.password !== formData.confirmPassword}
-                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="w-full bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
               >
                 {isLoading ? 'Creating account...' : 'Sign Up'}
               </button>
@@ -288,14 +321,14 @@ const Signup = ({ onSignup, theme = 'dark' }) => {
                 Already have an account?{' '}
                 <Link
                   to="/login"
-                  className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+                  className="text-r2d-accent hover:text-r2d-primaryLight font-semibold transition-colors"
                 >
                   Sign in
                 </Link>
               </p>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

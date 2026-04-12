@@ -1,0 +1,1084 @@
+# FYP1-MidReport-F24-069-D-VocaLink - i212689 Muhammad Huzaifa Khan
+
+## 1. Introduction
+
+1. Introduction
+This analysis provides insight into how V ocalinkdifferentiates itself through features like
+adaptive formatting, flexible language commands, and speaker recognition, which are not
+universally available in other tools.
+Feature VocalinkNuance DragonApple DictationGoogle Voice TypingChatGPT Voice (GPT-4o)Real-Time Dictation✓ ✓ ✓ ✓ ✓Adaptive Formatting✓ ✓Flexible Language Commands✓ ✓Context Awareness✓ ✓ ✓ ✓ ✓Intent Recognition ✓ ✓ ✓ ✓Speaker Recognition✓Text-Based Chat ✓
+Table 1.1: Feature Comparison of V ocalink and Leading V oice Recognition Tools
+6
+Chapter 2
+Project Vision
+2.1 Problem Statement
+The increasing prevalence of neurodivergent conditions such as dyslexia, Attention Deficit
+Hyperactivity Disorder (ADHD), and dysgraphia in both academic and professional en-
+vironments underscores the need for more inclusive tools that cater to diverse cognitive
+needs. Individuals with these conditions often face challenges with traditional methods of
+document creation, including typing and voice dictation technologies. Typing demands
+sustained cognitive and motor coordination, while current dictation technologies lack
+the contextual awareness, accuracy, and flexibility necessary to fully accommodate these
+users.
+Existing voice dictation systems, such as Google V oice Typingand Apple Dictation, are
+characterised by high word error rates and rigid command structures, resulting in the
+need for significant post-editing. This additional cognitive load undermines the intended
+benefits of voice dictation, particularly for individuals with conditions like dyslexia or
+ADHD, who may struggle with attention and task management. Despite advances in voice
+recognition technology, current systems do not provide an intuitive, seamless experience
+that reduces manual corrections and reliance on command-driven interactions.
+2.2 Proposed Solution
+V ocalinkis an AI-powered, voice-native text editor designed to address the limitations
+of traditional dictation systems, such as low accuracy, rigid command structures, and the
+need for extensive manual editing. By leveraging MoE models, near-real-time processing,
+and contextual awareness, V ocalinkreduces WER, enhances speech-to-text accuracy, and
+enables hands-free, natural document creation.
+7
+2. Project Vision
+• Mixture of Experts (MoE) Architecture: V ocalinkutilises MoE models, wherein
+specialised AI agents are selectively activated based on the characteristics of the
+input. This leads to more efficient processing, improving speech recognition and
+reducing WER. The system dynamically allocates appropriate experts to tasks such
+as phrase structuring and error correction, ensuring high accuracy while optimising
+computational resources.
+• Near-Real-Time Contextual Processing: V ocalinkprocesses speech with mini-
+mal latency, allowing for quick interpretation of user intent and continuous text
+refinement. It supports natural interactions by distinguishing between content, com-
+mands, and filler words. Spoken instructions such as "delete the last sentence" are
+executed seamlessly without the need for predefined commands, resulting in a fluid
+and efficient workflow.
+• Adaptive Error Correction: V ocalinkautomatically corrects common speech er-
+rors and adapts content based on context. By recognising and refining errors such
+as misstatements (e.g., correcting "Tuesday" to "Thursday" based on context), the
+system minimises the need for manual editing and supports natural voice-based
+correction commands.
+• Natural Command Execution: Users can navigate and format documents using
+natural speech commands such as "create a bullet list" or "start a new paragraph."
+V ocalinkefficiently manages these tasks, providing greater flexibility and control
+compared to conventional dictation systems.
+• Multilingual Support: V ocalinkfacilitates seamless language switching, particu-
+larly between English and Roman Urdu/Hinglish, allowing users to transcribe in
+multiple languages without compromising accuracy or needing additional assis-
+tance.
+• Accessibility for Neurodivergent Users: Designed with inclusivity in mind, V o-
+calink reduces cognitive load by automating task management, document format-
+ting, and error correction. This feature is especially beneficial for neurodivergent
+users, such as those with dyslexia or ADHD, who may find traditional text genera-
+tion methods challenging.
+2.3 Business Opportunity
+The market for assistive technologies, particularly in speech recognition and voice-to-text
+solutions, presents a significant opportunity for V ocalinkto capture value and meet the
+growing demand for inclusive and efficient text creation tools.
+8
+2.4 Objectives
+• Total Addressable Market (TAM): The global assistive technology market, in-
+cluding tools catering to various accessibility needs, is set to grow from$22.98 bil-
+lion in 2023 to $32.25 billion by 2030, at a compound annual growth rate (CAGR)
+of 4.7%.
+• Serviceable Available Market (SAM): The speech recognition segment within
+this market is expected to expand from $7.14 billion in 2024 to $15.87 billion by
+2030, at a 14.24% CAGR. This presents a large subset of the assistive technology
+market where V ocalinkcan target its voice-native text editor.
+• Serviceable Obtainable Market (SOM): The speech-to-text API market, a direct
+target for V ocalink’s offerings, is projected to grow from $2.4 billion in 2021 to
+$12.1 billion by 2031, achieving a CAGR of 17.8%. This high-growth submarket
+highlights the increasing reliance on voice technology solutions for diverse appli-
+cations.
+• Market Share Potential: With an estimated share capture of 1-2% of this obtain-
+able market, V ocalinkcould potentially achieve $76.8 million in revenue, demon-
+strating significant business scalability and opportunity within this growing sector.
+2.4 Objectives
+• Improve Accessibility: Provide an intuitive, easy-to-use tool that caters to neuro-
+divergent users (e.g., those with ADHD, dyslexia, or dysgraphia) and individuals
+with physical limitations that hinder traditional typing methods.
+• Improve Speech-to-Text Accuracy: Utilise MoE models to dynamically select
+relevant AI experts, enhancing voice recognition accuracy, reducing WER, and en-
+suring near-real-time processing of speech inputs.
+• Natural Command Formatting: Increase efficiency and accessibility by allowing
+users to format, navigate, and modify documents using intuitive voice commands,
+eliminating the need for specific keystrokes.
+• Contextual Understanding: Incorporate contextual awareness to better under-
+stand user intent, automatically correct common speech errors, and refine text based
+on the context of the conversation.
+• Multilingual Support: Ensure seamless support for multilingual input, particularly
+for smooth transitions between languages like Roman Urdu and Hinglish, catering
+to users who frequently switch between languages.
+9
+2. Project Vision
+2.5 Project Scope
+2.5.1 Deliverables
+V ocalinkwill be developed in four major iterations, each aimed at gradually adding new
+functionality and improving system performance. These phases will focus on the follow-
+ing key areas:
+• AI Integration: Implementation of MoE models for text organisation, error cor-
+rection, and speech-to-text conversion, enabling near-real-time interaction between
+the editor and the user.
+• Command Execution: Integration of natural speech commands for document for-
+matting, modification, and navigation, allowing users to interact with documents
+without relying on a keyboard.
+• Multilingual Capabilities: Seamless language switching between Hinglish, Ro-
+man Urdu, and English to accommodate diverse user groups.
+• Accessibility Features: Development of features that automate task management,
+formatting, and error correction to reduce cognitive load, particularly for neurodi-
+vergent individuals.
+• Advanced Document Structuring: In addition to basic transcription,V ocalinkwill
+support advanced text structuring through voice commands, enabling the creation
+of complex documents such as essays, reports, and presentations.
+• Privacy and Security: Implementation of robust user authentication and encrypted
+cloud storage to ensure secure handling of voice data.
+2.5.2 Project Acceptance Criteria
+• Functional Completion: The voice-native text editor must support all defined fea-
+tures, including near-real-time dictation, error correction, natural command execu-
+tion, and multilingual support.
+• Accuracy and Performance: The system must meet predefined accuracy thresh-
+olds (e.g., WER less than5%) and process voice inputs with near-real-time respon-
+siveness.
+• Accessibility and Inclusivity: The system must meet accessibility standards and
+demonstrate practical use for neurodivergent individuals and users with physical
+disabilities. User feedback from targeted test groups will be integral to acceptance.
+10
+2.6 Constraints
+• User and Technical Documentation: Complete, clear, and accurate documenta-
+tion must be provided for both end users and developers.
+• Stakeholder Sign-Off: All stakeholders, including product developers and univer-
+sity representatives, must approve the final deliverables.
+2.5.3 Exclusions
+• Hardware Requirements: The project will not include any hardware devices or
+accessories (e.g., microphones, headsets) for voice input.
+• Unsupported Languages: Apart from English, Roman Urdu, and Hinglish, no
+additional languages will be supported in the initial release.
+• Third-Party Integration: The project will not support any third-party integrations,
+including with word processing tools such as Google Docs and Microsoft Word.
+• Mobile Application Development: Development of mobile versions or applica-
+tions will not be part of the initial scope of this project.
+2.6 Constraints
+• Feature Limitations: The initial release of V ocalinkwill focus on core functional-
+ity, such as near-real-time dictation, voice-based text formatting, and limited natural
+language processing. Advanced features like integration with third-party tools (e.g.,
+Google Docs or Microsoft Word) or broader language support will be outside the
+project scope.
+• Platform Focus: V ocalinkwill be developed primarily for web and desktop plat-
+forms. Mobile applications or tablet-specific versions are not included in the current
+project scope and may be considered for future iterations.
+• Language Support: Multilingual support in the initial scope will be limited to En-
+glish, Roman Urdu, and Hinglish. Expanding language support to other languages
+is beyond the scope of this phase.
+• Limited Third-Party Integration: The project will not include any integrations
+with third-party applications, such as word processing tools, beyond the core func-
+tionalities of the text editor itself, although cloud storage will be supported.
+11
+2. Project Vision
+• Data Privacy and Security: While the project will include basic security and pri-
+vacy measures, advanced data encryption or compliance with specific privacy reg-
+ulations (e.g., GDPR) is not part of the initial scope. These may be addressed in
+future iterations.
+• Accessibility Features: Although inclusivity is a priority, the initial scope will
+focus on key accessibility features for neurodivergent individuals. Comprehensive
+support for all global accessibility standards may be deferred for future updates.
+• Time and Budget Constraints:The project scope is limited by a strict timeline and
+budget, which restricts the ability to implement non-essential features or extend the
+functionality beyond what is planned for the initial release.
+2.7 Stakeholders Description
+The primary stakeholders are the National University of Computer and Emerging Sci-
+ences, providing academic support, the Knowledge Discovery and Data Science (KDD)
+Lab, where students and faculty develop the project, and the end users, including neuro-
+divergent individuals and professionals, ensuring alignment with educational, technical,
+and user needs.
+2.7.1 Stakeholders Summary
+The project involves several key stakeholders, each with distinct goals and challenges that
+shape its development:
+• End Users (Neurodivergent Individuals and Professionals): These are the pri-
+mary beneficiaries of the software. Their feedback and needs drive functional re-
+quirements, such as ease of use, hands-free operation, and reducing cognitive load.
+Their challenges (e.g., accuracy and flexibility of existing tools) are crucial in defin-
+ing system requirements and constraints.
+• Students (Product Developers and Engineers):As the developers, we are respon-
+sible for implementing the system, adhering to technical specifications, and ensur-
+ing that it meets the project’s goals. Our challenges (e.g., balancing performance
+and system scalability) impact design decisions and non-functional requirements.
+• Knowledge Discovery and Data Science (KDD) Lab: As a research-driven en-
+tity, the Knowledge Discovery and Data Science (KDD) Lab facilitates technical
+research and student-faculty collaboration, emphasising the development of practi-
+cal and scalable solutions while coordinating efforts among contributors.
+12
+2.7 Stakeholders Description
+• National University of Computer and Emerging Sciences:The university serves
+as a resource provider and ensures the project is aligned with academic goals. Ad-
+ditionally, it helps meet educational objectives by supporting both research and
+development efforts.
+2.7.2 Key High-Level Goals and Problems of Stakeholders
+Stakeholder Key Goals Key Problems
+End Users (Neurodivergent Individuals and Professionals)
+• Seek an intuitive, hands-free textcreation tool.
+• Minimise cognitive load and en-hance productivity.
+• Seamless integration into work-flows.
+• Existing tools lack flexibility, accu-racy, and natural interaction.
+• Traditional dictation tools are inac-curate and command-driven.
+• Manual post-editing increases frus-tration and reduces efficiency.
+Students (Product Developers and Engineers)
+• Build a highly accurate, low-latency voice recognition system.
+• Reduce error rates while integratingcontextual awareness.
+• Optimise for Roman Urdu andHinglish support.
+• Balancing accuracy with low com-putational overhead.
+• Technical hurdles in integratingcomplex NLP features.
+• Ensuring scalability and languagediversity.
+Knowledge Discovery and Data Science (KDD) Lab
+• Develop the project with studentand faculty collaboration.
+• Ensure technical alignment withcutting-edge research.
+• Coordinating research and develop-ment efforts between students andfaculty.
+• Maintaining focus on practical,scalable solutions.
+National University of Computer and Emerging Sciences
+• Provide academic support and re-sources for the project.
+• Ensure alignment with educationalgoals.
+• Balancing academic objectiveswith the project’s technical require-ments.
+• Ensuring long-term sustainabilityof resources and support.
+Table 2.1: Primary Objectives and Challenges of Stakeholders
+13
+
+Chapter 3
+Software Requirement Specifications
+3.1 List of Features
+• Near-Real-Time Voice-to-Text Conversion: Convert spoken input into text with
+minimal latency, allowing for smooth and continuous dictation.
+• Natural Language Commands: Recognise and execute natural voice commands
+for text formatting and document navigation, such as "create a new paragraph,"
+"bold this text," or "move to the next section."
+• Multilingual Support: Seamless support for English, Roman Urdu, and Hinglish,
+allowing users to dictate and switch between these languages without manual changes.
+• Adaptive Formatting: Automatically format text based on voice commands, such
+as creating bullet points, numbered lists, and adjusting paragraph styles.
+• Contextual Error Correction: Leverage contextual understanding to automati-
+cally correct common speech recognition errors (e.g., homophones or mispronun-
+ciations) and suggest accurate alternatives.
+• Meeting Notes Transcription:Allow users to transcribe meeting notes by pressing
+"Start" to begin and "End" to stop, with the system automatically recording and
+saving the transcription with timestamps.
+• Speech Playback and Editing: Provide the option to play back transcribed speech,
+enabling users to listen to their dictated content and make corrections or revisions
+via voice commands.
+• Minimal User Interface: Feature a simple, clutter-free user interface with essential
+controls, allowing users to focus on dictation and voice commands without unnec-
+essary distractions.
+15
+3. Software Requirement Specifications
+3.2 Functional Requirements
+• Voice-to-Text Conversion:
+– The system must accurately convert speech into text in near-real-time.
+– Users should be able to dictate continuously without significant latency.
+– The system should support different accents and variations in speech, specifi-
+cally English, Roman Urdu, and Hinglish.
+• Natural Command Recognition:
+– The system must recognize and execute natural language commands for for-
+matting and document navigation (e.g., "create a bullet list," "start a new para-
+graph," "delete the last sentence").
+– Commands should be processed without predefined phrases, allowing for flex-
+ibility in user input.
+• Multilingual Support:
+– The system must allow seamless switching between supported languages (En-
+glish, Roman Urdu, and Hinglish) within the same document.
+– The system should accurately transcribe speech in multiple languages and
+maintain the formatting consistency.
+• Meeting Notes Transcription:
+– The system must allow users to start and stop transcription of meeting notes
+by pressing "Start" and "End" buttons.
+– The system must automatically format meeting notes with timestamps, speaker
+identification (if applicable), and key points in bullet or numbered lists.
+• Contextual Understanding:
+– The system must understand the context of spoken input and automatically
+correct common errors (e.g., correcting "Tuesday" to "Thursday" if the context
+suggests a different day).
+– Contextual understanding should enhance dictation accuracy by adapting to
+the content of the document.
+• Adaptive Error Correction:
+– The system should automatically identify and correct common speech-to-text
+errors (e.g., homophones, mispronunciations) without requiring user interven-
+tion.
+16
+3.2 Functional Requirements
+– The system should provide suggestions for corrections when errors cannot be
+resolved automatically.
+• Document Formatting:
+– Users should be able to format text using voice commands (e.g., bold, italic,
+underline, create bullet points, and numbered lists).
+– The system must allow users to navigate through the document using voice
+commands, such as moving to a specific section or page.
+• Minimal User Interface:
+– The system must provide a simple, intuitive interface with only essential con-
+trols, minimising cognitive load.
+– Users should primarily interact via voice commands, reducing the need for
+manual input.
+– Advanced options should remain hidden unless explicitly requested, maintain-
+ing a clutter-free environment.
+• Cloud Storage Integration:
+– The system must allow users to save and retrieve documents from cloud stor-
+age, ensuring access to files across devices.
+– Seamlessly sync documents across all devices via the cloud.
+• Speech Playback and Editing:
+– The system must allow users to play back dictated text, providing an option to
+listen to what has been transcribed.
+– Users should be able to select and edit specific sections of text using voice
+commands.
+• System Notifications and Feedback:
+– The system must provide real-time feedback on the status of dictation (e.g.,
+active listening, processing, or errors).
+– Users should receive notifications when errors occur or when corrections are
+applied automatically.
+17
+3. Software Requirement Specifications
+3.3 Non-Functional Requirements
+• Performance:
+– The system must provide near-real-time processing of speech inputs with a
+maximum latency of 5 seconds between input and text display (dependent on
+internet connectivity).
+– The system should handle up to 60 minutes of continuous dictation without
+significant performance degradation.
+– V oice recognition accuracy should maintain a WER of less than 5% under
+optimal conditions.
+• Scalability:
+– V ocalinkmust be able to scale to support multiple users simultaneously with-
+out affecting system performance.
+– The system should efficiently handle large document sizes (e.g., up to 5,000
+words) without a noticeable impact on response time or user experience.
+– Cloud storage integration must be scalable, allowing multiple documents to
+be stored and retrieved simultaneously across different devices.
+• Usability:
+– The user interface must be minimal and intuitive, with a clear and easy-to-
+navigate layout, ensuring that users with minimal technical experience can
+operate the system without extensive training.
+– The system must respond to user commands (e.g., voice commands, button
+presses) within 1 second to provide a smooth and responsive user experience.
+• Security:
+– All user data, including voice inputs and transcriptions, must be encrypted
+both in transit and at rest, adhering to industry-standard encryption protocols
+(e.g., AES-256).
+– User authentication must be secure, supporting OAuth 2.0 for single sign-on
+(SSO) and multi-factor authentication (MFA) to prevent unauthorised access.
+• Privacy:
+– The system must ensure that all voice data is processed securely and deleted
+after transcription, unless explicitly saved by the user.
+18
+3.4 Use Case
+– Users should have full control over their data, with the ability to delete stored
+transcriptions and associated metadata at any time.
+• Maintainability:
+– The system should be modular, allowing for easy updates and maintenance
+of individual components (e.g., voice recognition, UI) without impacting the
+entire system.
+– System documentation must be comprehensive and up to date, facilitating fu-
+ture maintenance and feature enhancements by developers.
+3.4 Use Case
+19
+3. Software Requirement Specifications
+Figure 3.1: Use Case Diagram of Admin, End User, and System Interactions
+20
+3.4 Use Case
+Use Case ID UC-01
+Use Case Name V oice-to-Text Conversion
+Description Converts the user’s spoken input into text in near-real-time.
+Primary Actor End User
+Preconditions
+• The application is open.
+• The microphone is functional.
+Postconditions
+• Spoken input is transcribed into text in the document editor.
+Main Flow
+1. User activates the "Start" button to begin dictation.
+2. The system listens for speech input.
+3. The system converts speech to text and displays it in the docu-
+ment.
+4. User presses "Stop" to end dictation.
+Alternate Flows
+• If the microphone is not working, the system shows an error
+message.
+• If background noise is detected, the system notifies the user
+and pauses transcription.
+Table 3.1: Use Case UC-01: V oice-to-Text Conversion
+21
+3. Software Requirement Specifications
+Use Case ID UC-02
+Use Case Name Natural Command Recognition
+Description Executes voice commands for document formatting and navigation.
+Primary Actor End User
+Preconditions
+• The system is actively listening.
+• A document is open.
+Postconditions
+• The voice command is executed (e.g., create a new paragraph,
+format text).
+Main Flow
+1. User issues a voice command (e.g., "create a new paragraph").
+2. The system processes the command and executes the requested
+action.
+3. The system provides real-time feedback on the action comple-
+tion.
+Alternate Flows
+• If the command is not recognised, the system prompts the user
+to try again.
+• If there are multiple actions for a command, the system asks
+for clarification.
+Table 3.2: Use Case UC-02: Natural Command Recognition
+22
+3.4 Use Case
+Use Case ID UC-03
+Use Case Name Multilingual Support
+Description Allows users to switch between languages (English, Roman Urdu,
+Hinglish) during dictation.
+Primary Actor End User
+Preconditions
+• The user is dictating or issuing commands.
+Postconditions
+• The text is transcribed in the correct language based on the
+input.
+Main Flow
+1. User starts dictating in one language.
+2. User switches to another language (e.g., from English to Ro-
+man Urdu).
+3. The system detects the language switch and continues tran-
+scription in the new language.
+Alternate Flows
+• If the system doesn’t detect the language switch, the user man-
+ually selects the new language.
+Table 3.3: Use Case UC-03: Multilingual Support
+23
+3. Software Requirement Specifications
+Use Case ID UC-04
+Use Case Name Adaptive Error Correction
+Description Automatically detects and corrects common speech-to-text errors in
+real-time.
+Primary Actor End User
+Preconditions
+• The user is dictating, and the system is actively transcribing.
+Postconditions
+• The text is transcribed with errors automatically corrected
+based on context.
+Main Flow
+1. The user dictates a sentence.
+2. The system detects an error in the transcription.
+3. The system automatically corrects the error based on context
+(e.g., correcting "their" to "there").
+4. The corrected text is displayed to the user.
+Alternate Flows
+• If the system cannot correct the error, it highlights the text and
+prompts the user for manual correction.
+Table 3.4: Use Case UC-04: Adaptive Error Correction
+24
+3.4 Use Case
+Use Case ID UC-05
+Use Case Name Speech Playback and Editing
+Description Allows users to play back transcribed speech and make corrections
+or edits using voice commands.
+Primary Actor End User
+Preconditions
+• A document with transcribed text is open.
+• The system is in active listening mode for voice commands.
+Postconditions
+• The user can listen to the transcribed speech and make correc-
+tions or edits.
+Main Flow
+1. The user selects a section of the document to play back.
+2. The system plays back the transcribed speech.
+3. The user issues voice commands to correct or edit the text (e.g.,
+"replace ’Tuesday’ with ’Thursday’").
+4. The system updates the text accordingly and confirms the
+change.
+Alternate Flows
+• If the system cannot identify the text to edit, it prompts the
+user to clarify the command.
+• If the playback fails, the system alerts the user and provides
+troubleshooting steps.
+Table 3.5: Use Case UC-05: Speech Playback and Editing
+25
+3. Software Requirement Specifications
+Use Case ID UC-06
+Use Case Name Cloud Storage Integration
+Description Saves and retrieves user documents from the cloud for access across
+devices.
+Primary Actor End User
+Preconditions
+• The user is logged in, and the system has access to cloud stor-
+age.
+Postconditions
+• The document is saved to or retrieved from cloud storage.
+Main Flow
+1. User selects the option to save or open a document.
+2. The system syncs the document with cloud storage.
+3. The document is saved to the cloud or retrieved and opened for
+editing.
+Alternate Flows
+• If cloud storage is unavailable, the system notifies the user and
+saves the document locally until syncing is possible.
+Table 3.6: Use Case UC-06: Cloud Storage Integration
+26
+3.4 Use Case
+Use Case ID UC-07
+Use Case Name User Interface
+Description Provides a minimal and intuitive interface that allows users to inter-
+act with the system primarily through voice commands, minimising
+manual interaction.
+Primary Actor End User
+Preconditions
+• The system is launched and ready for interaction.
+• The user has an active session and is logged in.
+Postconditions
+• The user can access the core system features via a minimal
+user interface with voice or manual commands.
+Main Flow
+1. User launches the application and views the minimal interface.
+2. The system displays essential controls, such as "Start Dicta-
+tion," "Stop Dictation," and document management.
+3. The user issues voice commands or interacts with basic con-
+trols to navigate the interface and perform tasks.
+4. The system responds to the user’s input, executing commands
+and updating the interface.
+Alternate Flows
+• If the user requests advanced options, the system expands the
+interface to show additional features.
+• If the system encounters an issue with voice commands, the
+user is prompted to use manual controls.
+Table 3.7: Use Case UC-07: User Interface
+27
+3. Software Requirement Specifications
+Use Case ID UC-08
+Use Case Name User Authentication
+Description Admin authenticates users and manages user access by controlling
+authentication settings through the Supabase dashboard.
+Primary Actor Admin
+Preconditions
+• The system is active and ready for user login.
+• The admin has valid credentials and access to the Supabase
+dashboard.
+Postconditions
+• The admin successfully logs into the Supabase dashboard and
+can manage user authentication settings (e.g., granting or re-
+voking access).
+• If authentication fails, access to the Supabase dashboard is de-
+nied.
+Main Flow
+1. Admin navigates to the Supabase dashboard.
+2. Admin enters their login credentials (username and password).
+3. The system validates the credentials against the stored user
+database.
+4. If credentials are valid, the admin is logged in and gains access
+to the Supabase dashboard.
+5. The admin can manage user roles and permissions, including
+granting or revoking access, through the Supabase authentica-
+tion settings.
+Alternate Flows
+• If the credentials are invalid, the system displays an error mes-
+sage, and the admin is prompted to retry login.
+• If the system detects suspicious login attempts, the admin is
+locked out temporarily, and a security notification is triggered.
+Table 3.8: Use Case UC-08: User Authentication
+28
+3.4 Use Case
+Use Case ID UC-09
+Use Case Name Meeting Notes Transcription
+Description Transcribes meeting notes when the user presses "Start" and stops
+transcribing when the user presses "End."
+Primary Actor End User
+Preconditions
+• The user has initiated a meeting transcription, and the micro-
+phone is functional.
+Postconditions
+• The meeting notes are saved with timestamps indicating the
+start and end times.
+Main Flow
+1. User presses the "Start" button to begin transcription.
+2. The system transcribes spoken content in near-real-time.
+3. User presses "End" to stop transcription.
+4. The system saves the notes with timestamps indicating start
+and end.
+Alternate Flows
+• If the microphone stops working, the system alerts the user and
+pauses transcription.
+Table 3.9: Use Case UC-09: Meeting Notes Transcription
+29
+3. Software Requirement Specifications
+Use Case ID UC-10
+Use Case Name Document Formatting and Navigation
+Description Allows users to format documents (e.g., bullet points, bold text) and
+navigate through sections using voice commands or minimal manual
+input.
+Primary Actor End User
+Preconditions
+• A document is open for editing.
+• The system is actively listening for voice commands or ready
+for manual input.
+Postconditions
+• The document is formatted or navigated as per the user’s input.
+Main Flow
+1. User issues a voice command to format the document (e.g.,
+"create a bullet list").
+2. The system applies the requested formatting (e.g., bullet points
+are inserted).
+3. User issues a navigation command (e.g., "go to the last sec-
+tion").
+4. The system moves to the specified section of the document.
+Alternate Flows
+• If the system does not recognise a command, it prompts the
+user to repeat or clarify the request.
+• If multiple sections match the user’s navigation command, the
+system asks for further clarification.
+Table 3.10: Use Case UC-10: Document Formatting and Navigation
+30
+3.5 Iteration Plan
+3.5 Iteration Plan
+The development of V ocalinkwill follow a structured iteration plan to ensure incremental
+progress and refinement of the system. Each iteration will focus on specific development
+goals, testing, and feature integration, laying the foundation for the final product. The
+following sections outline the key objectives and activities for each iteration.
+3.5.1 Iteration 1 (Q1/Fall-2024): Initial Development Phase
+3.5.1.1 Goals
+• Establish the core functionality of V ocalinkby integrating essential components,
+including Speech-to-Text (STT) and Automatic Speech Recognition (ASR) capa-
+bilities.
+• Develop a working prototype that demonstrates the basic features and serves as a
+foundation for future iterations.
+3.5.1.2 Key Activities
+• STT/ASR Integration: Integrate STT and ASR systems to enable basic transcrip-
+tion functionality within the application.
+• Voice Activity Detection (V AD) Integration:Implement V oice Activity Detection
+(V AD) to accurately detect when the user is speaking, ensuring smooth transitions
+between voice input and silence.
+• Prototype Development: Build an initial prototype of the system, allowing for
+basic user interactions such as voice input and text transcription.
+• Integration of MoE Model: Begin the integration of the MoE model to improve
+transcription accuracy and contextual understanding in the voice recognition sys-
+tem.
+3.5.1.3 Deliverables
+• Basic working prototype with functional STT, ASR, and V AD features.
+• Initial implementation of the MoE model for enhanced accuracy.
+31
+3. Software Requirement Specifications
+3.5.2 Iteration 2 (Q2/Fall-2024): Advanced Feature Development and
+Testing
+3.5.2.1 Goals
+• Build upon the initial prototype by adding advanced features and improving system
+performance through rigorous testing and refinement.
+• Develop the first full application prototype with additional user-facing features.
+3.5.2.2 Key Activities
+• Preliminary Testing Phase: Conduct initial tests to evaluate the performance and
+accuracy of the integrated STT/ASR systems and the MoE model. Identify any
+issues or areas for improvement.
+• Development of Advanced Features:Begin implementing advanced features such
+as natural language commands for document formatting, multilingual support, and
+error correction.
+• Initial Application Prototype: Create a more refined application prototype that
+includes the core functionality and advanced features, providing a more complete
+user experience.
+3.5.2.3 Deliverables
+• Preliminary test reports on STT/ASR accuracy and performance.
+• Initial application prototype with basic and advanced features (e.g., formatting com-
+mands, multilingual support).
+3.5.3 Iteration 3 (Q1/Spring-2025): Security, Deployment, and Final
+Testing
+3.5.3.1 Goals
+• Implement robust security measures, deploy the system to the cloud, and gather
+user feedback.
+• Ensure the system is secure, scalable, and ready for broader testing and evaluation.
+32
+3.5 Iteration Plan
+3.5.3.2 Key Activities
+• Security Integration (Guardrails): Implement security features to protect user
+data and ensure compliance with security standards. This will include guardrails
+and security protocols for both the web and mobile platforms.
+• Cloud Deployment (Web/Mobile): Deploy the system to the cloud, ensuring that
+it is accessible from both web and mobile platforms. This will involve setting up
+infrastructure for scalability and performance.
+• User Feedback Collection: Initiate user feedback sessions to gather insights on
+the system’s usability, performance, and features.
+• Final Testing: Conduct final rounds of testing across various platforms to ensure
+system stability, scalability, and performance.
+3.5.3.3 Deliverables
+• Full security implementation, including guardrails.
+• Deployed system accessible via web and mobile platforms.
+• User feedback reports for future improvements.
+• Final testing reports, ensuring readiness for the next phase.
+3.5.4 Iteration 4 (Q2/Spring-2025): Performance Optimisation and
+Launch Preparations
+3.5.4.1 Goals
+• Finalise the product through performance optimisation, refining existing features,
+and preparing for the official launch.
+• Continue to enhance the user interface and experience based on feedback.
+3.5.4.2 Key Activities
+• Performance Optimisation: Refine the system’s performance to ensure fast, re-
+sponsive interactions, focusing on areas such as transcription speed, accuracy, and
+scalability.
+33
+3. Software Requirement Specifications
+• Improving Existing Features: Make improvements to existing features, such as
+voice commands, document formatting, and multilingual support, based on testing
+and user feedback.
+• Finalising Launch Details: Prepare for the public launch by completing all re-
+quired documentation and launch-related tasks.
+• Iterative UI/UX Enhancements: Continuously improve the user interface and ex-
+perience based on iterative testing and feedback, ensuring an intuitive and user-
+friendly design for all platforms.
+3.5.4.3 Deliverables
+• Optimised system performance, ready for production.
+• Finalised feature set with improvements based on feedback.
+• Complete launch plan and documentation.
+• Refined UI/UX design across all platforms.
+34
+Chapter 4
+Software Design
+The software design of V ocalinkis centered around a modular and scalable architecture
+that leverages the MoE model to provide high-accuracy, low-latency voice-to-text con-
+version and natural language processing capabilities. The design emphasises procedural
+flow, ensuring that the system processes input data in a streamlined and efficient manner.
+35
+4. Software Design
+Figure 4.1: Sequence Diagram of V ocalink’s System Design
+36
+4.1 Modular Architecture
+4.1 Modular Architecture
+The architecture of V ocalinkis divided into several key modules, each responsible for a
+specific set of tasks. This modular approach ensures that each component can be devel-
+oped, tested, and optimised independently while still functioning cohesively as part of the
+overall system. The primary modules include:
+4.1.1 User Interface
+• The user interacts with the system through this interface, issuing voice commands
+or managing documents. The interface is minimal and intuitive, ensuring ease of
+use.
+• The user interface connects directly with the speech processing module to begin
+voice input and transcription.
+4.1.2 Speech Processing
+This module handles all audio processing, from detecting the user’s speech to converting
+it into text. The key components include:
+• Voice Activity Detection (V AD):Detects when the user begins speaking and when
+they stop, ensuring efficient speech processing.
+• Automatic Speech Recognition (ASR):Converts the detected voice input into text.
+• Speech-to-Text (STT): Finalises the transcription of speech into text that will be
+displayed in the user interface.
+4.1.3 Mixture of Experts (MoE) Model
+The heart of the system’s intelligence lies in the MoE model. It consists of a gating
+network (see Section 5.1.1 for details) that dynamically selects which experts to activate
+based on the user’s input. The experts include specialised submodules focused on:
+• STT Accuracy: Enhances the accuracy of the speech-to-text transcription.
+• Contextual Understanding: Ensures the system comprehends the context behind
+the spoken words, improving the accuracy of transcriptions.
+37
+4. Software Design
+• Natural Language Command Recognition: Processes commands embedded in
+speech (e.g., “bold this word,” “create a new paragraph”) and forwards them to the
+application logic.
+4.1.4 Application Logic
+• Error Correction Module: Automatically corrects common speech-to-text errors
+based on context, improving the overall accuracy of the transcribed document.
+• Command Processing Engine: Executes recognized commands for document for-
+matting, such as bolding text or navigating between sections.
+4.1.5 Data Storage
+The system integrates cloud storage to ensure all user profiles and documents are securely
+stored and easily accessible across devices.
+• User Profiles: Stores user-specific data, such as preferences, access permissions,
+and usage history.
+• Document Storage: Handles the saving and retrieval of documents that users inter-
+act with. All documents are synced to the cloud for access from multiple platforms.
+4.1.6 Security
+To ensure data safety, the system incorporates several security measures:
+• Authentication and Authorisation: Verifies the identity of users and ensures they
+have the correct permissions to access the system.
+• Data Encryption: Ensures all data (both in transit and at rest) is encrypted to
+protect sensitive information.
+4.1.7 Integration
+• Cloud Deployment: The entire system is deployed in the cloud, making it acces-
+sible from anywhere and ensuring scalability.
+• Cloud AI Inference: Utilises cloud-based AI inference (see Section 5.2.1 for de-
+tails) to process voice commands and execute transcription and command recogni-
+tion with minimal latency.
+38
+4.1 Modular Architecture
+Figure 4.2: System Architecture High-Level Overview
+39
+4. Software Design
+4.2 Procedural Flow
+V ocalinkuses a procedural flow model, where each task is executed in a step-by-step
+sequence, ensuring that the system processes inputs efficiently. The following outlines
+the typical procedural flow of the system:
+4.2.1 User Input Initiation
+• The user begins an interaction by accessing the interface on a web-based platform,
+either on a computer or mobile device. They press a button to start voice recording
+or use a voice command to begin.
+• The V AD module in the speech processing system detects the user’s voice, initiating
+the transcription process.
+4.2.2 Speech Processing
+• Once voice input is detected, the ASR module begins converting the audio signals
+into a structured text format.
+• The transcribed text is generated using the STT system, which relies on the MoE
+model for improved accuracy. The text is passed on to the gating network within
+the MoE.
+4.2.3 Dynamic Expert Selection
+The gating network selects the most appropriate experts to handle the incoming voice
+data. Based on the input, different experts are activated:
+• STT Accuracy Expert: Ensures the transcription is as accurate as possible, espe-
+cially for complex or nuanced speech.
+• Contextual Understanding Expert: Assesses the context of the input to improve
+the accuracy of the transcribed text in relation to its meaning and structure.
+• Natural Language Command Recognition Expert: Identifies specific commands
+within the input (e.g., “bold this,” “create a bullet list”) and forwards them to the
+application logic.
+40
+4.2 Procedural Flow
+4.2.4 Command Processing and Error Correction
+Once the transcription and command recognition are complete, the system enters the ap-
+plication logic phase.
+• The command processing engine interprets the voice commands and executes them
+within the document. For instance, if the user said, "bold this word," the command
+is processed, and the formatting is applied.
+Simultaneously, the error correction module automatically identifies and corrects
+any common errors in the transcription (e.g., homophones, misrecognised words),
+improving the quality of the final output.
+4.2.5 Document Update
+• After processing the input, the document is updated with the transcribed text and
+any associated formatting or command-driven changes (e.g., text formatting, navi-
+gation changes).
+• The updates are shown in the User Interface, providing the user with real-time feed-
+back on their input.
+4.2.6 Cloud Storage and Data Handling
+Once the document is updated, it is saved to the cloud storage module. This includes:
+• User Profiles: The system checks the user profile to ensure personalised settings
+(e.g., document preferences) are applied.
+Document Storage: The document is automatically saved and synced in the cloud,
+ensuring access across multiple devices.
+The cloud storage also facilitates version control and document sharing across platforms,
+allowing users to retrieve documents seamlessly from either a desktop or mobile interface.
+4.2.7 Real-Time Feedback and Notifications
+• Throughout the interaction, the system continuously provides feedback to the user
+via the user interface. Notifications such as "Listening," "Processing," and "Ready"
+are displayed to indicate the current status.
+41
+4. Software Design
+• If an error occurs (e.g., speech recognition failure, unclear commands), the system
+alerts the user to try again or clarifies the command input.
+4.2.8 Continuous Integration and Cloud AI Inference
+• As part of the system’s scalability and efficiency, the cloud AI inference module is
+used to continuously process user inputs with high speed and minimal latency. This
+ensures real-time interaction, even with complex commands or large-scale inputs.
+• The cloud deployment ensures that updates to the software or improvements in the
+MoE model are automatically integrated without disrupting the user experience.
+42
+4.2 Procedural Flow
+Figure 4.3: Procedural Flow Activity Diagram for System Design
+43
+4. Software Design
+4.3 Data Flow
+The data flow in V ocalinkbegins with the user’s voice input, leading to document genera-
+tion, formatting, and storage. V oice input is captured, pre-processed, and sent to the STT
+engine, with the MoE model dynamically selecting experts to ensure high transcription
+accuracy.
+The resulting text moves through the document formatting and navigation module, which
+interprets natural language commands for structuring (e.g., bullet points or section nav-
+igation). Once formatted, the document is saved locally or to cloud storage for future
+access and editing. User authentication and access control ensure that only authorised
+users can interact with the system.
+44
+4.3 Data Flow
+Figure 4.4: Data Flow Diagram for Input and Output Handling
+The following schema provides a conceptual representation of the data structure aligned
+with the outlined data flow:
+45
+4. Software Design
+Figure 4.5: Data Representation Diagram in JavaScript Object Notation (JSON) Schema
+Format
+46
+Chapter 5
+Implementation
+The implementation of V ocalinkleverages the MoE architecture to optimise voice-to-
+text conversion, natural command recognition, and other advanced features. The MoE
+model is an advanced neural network approach designed to enhance both efficiency and
+performance by dynamically activating specific experts tailored to handle different input
+tasks. In this section, we outline the mathematical models and key components of the
+implementation.
+47
+5. Implementation
+Figure 5.1: Sequence Diagram for Mixture of Experts (MoE) Architecture
+48
+5.1 Mathematical Model
+5.1 Mathematical Model
+The MoE architecture allowsV ocalinkto dynamically select which experts (sub-networks)
+should process a given input. This improves system performance by avoiding the need to
+activate all experts for every task. Instead, the gating mechanism selects only the most
+relevant experts for processing the input.
+Let x represent the input vector, and let E1, E2, . . . ,EN represent the N experts available
+in the system. The goal is to produce an output y based on the input, using only a subset
+of the experts for efficient processing. The selection of experts is handled by a gating
+network, which produces a probability distribution over the experts.
+The MoE model can be mathematically expressed as:
+y =
+N
+∑
+i=1
+gi(x)Ei(x)
+where:
+• gi(x) is the gating score for expert Ei, representing the probability assigned by the
+gating network for that expert to process input x.
+• Ei(x) is the output of expert Ei when given input x.
+• y is the final output, which is a weighted combination of the outputs from the se-
+lected experts.
+5.1.1 Gating Network
+The gating network is a critical component that decides which experts should be activated
+for a given input. It uses a probability distribution over the experts and is designed to
+minimise computational overhead by only activating the most relevant experts. The gating
+mechanism uses the Switched Gated Linear Unit (SwiGLU) activation function, which is
+defined as:
+SwiGLU(x) = x · σ (Wx + b)
+where:
+• x is the input to the gating network.
+• W and b are learned parameters (weights and biases).
+49
+5. Implementation
+• σ is the sigmoid function, which outputs values between 0 and 1.
+The SwiGLU activation function enhances the gating network’s ability to capture non-
+linear relationships, ensuring that only the most relevant experts are selected based on the
+input.
+5.1.2 Key Optimisations
+Several optimisations have been integrated into the MoE model to ensure that the system
+operates efficiently:
+5.1.2.1 Gate Skipping
+This optimisation allows certain inputs to bypass the gating mechanism when they can
+be directly mapped to a specific expert based on predefined conditions. This reduces the
+need for gating decisions, improving the overall processing speed.
+Expertdirect = Ek(x) ifx ∈ Ck
+where Ck is a predefined condition for expert Ek.
+5.1.2.2 Dynamic Routing
+Dynamic routing reduces the number of active experts by selecting only a subset based on
+the input characteristics. This approach minimises computational cost while maintaining
+performance.
+y = ∑
+i∈A
+gi(x)Ei(x)
+where A is the set of active experts selected by the gating mechanism.
+5.1.2.3 Weight Sharing
+Experts share certain network parameters, reducing memory consumption while main-
+taining high performance. This is expressed as:
+Ei(x) = fshared(x) + f i
+task-specific(x)
+50
+5.1 Mathematical Model
+where fshared represents shared parameters, and f i
+task-specific represents task-specific pro-
+cessing.
+5.1.2.4 Sparse Activation
+Only a small number of experts are activated during each forward pass. This sparse acti-
+vation pattern reduces the overall computational cost by activating only the most relevant
+experts for a given input.
+g(x) ≈ Sparse(g(x))
+where Sparse(g(x)) represents the gating function outputting mostly zero values for non-
+relevant experts.
+For example, the gating function may produce mostly zeros for several experts, leading
+to a sparse activation pattern:
+gi(x) = 0 for most i
+51
+5. Implementation
+5.2 Expert Parallelism
+Experts are highly effective in high-throughput scenarios involving many machines. Early
+MoE work introduced MoE layers as a branching design, which caused slowdowns since
+GPUs aren’t optimised for such operations, and network bandwidth became a bottleneck
+due to communication between devices. This highlights the need for a parallelism ap-
+proach to make MoE pretraining and inference more efficient.
+With expert parallelism, experts are distributed across different workers, each processing
+a distinct batch of training samples. In non-MoE layers, expert parallelism functions like
+data parallelism, while for MoE layers, tokens are routed to workers hosting the required
+experts.
+• Data Parallelism: The same model weights are copied across all cores, with the
+data split among the cores.
+• Model Parallelism: The model is split across cores, while the data is replicated
+across all cores.
+• Model and Data Parallelism:Both the model and data are partitioned across cores,
+with each core processing different data batches.
+• Expert Parallelism: Experts are distributed across different workers. When com-
+bined with data parallelism, each core hosts a different expert, and the data is di-
+vided across all cores.
+5.2.1 Cloud AI Inference Integration
+MoE systems can utilise cloud AI inference platforms, such as GroqCloud, to boost the
+model’s efficiency and scalability. These platforms provide APIs that support parallel pro-
+cessing across multiple experts, optimising resource allocation and ensuring low-latency
+inference.
+• Parallel Processing: Cloud AI inference platforms like GroqCloud enable multi-
+ple experts to process inputs concurrently, utilising high-performance hardware to
+deliver real-time performance.
+• Scalability: The system can easily scale by adding more experts without perfor-
+mance degradation, due to the efficient resource management inherent to cloud in-
+ference platforms like GroqCloud.
+52
+5.3 Application
+5.3 Application
+The MoE architecture is used to optimise performance, accuracy, and scalability in V o-
+calink, enhancing the following key features:
+• Speech-to-Text (STT) Accuracy: By dynamically selecting the most relevant ex-
+perts based on voice input characteristics, the system improves the accuracy of
+speech recognition, particularly in multilingual contexts.
+• Contextual Understanding: The gating mechanism ensures that inputs are routed
+to experts that can process contextual nuances, improving overall comprehension
+and transcription quality.
+• Natural Command Recognition: The system effectively identifies and processes
+natural language commands by routing inputs to specialised experts that handle
+specific tasks, such as document formatting or navigation.
+53
+
+Chapter 6
+Conclusions and Future Work
+The project seeks to create a voice-native document creation system leveraging the MoE
+architecture to enhance transcription accuracy and natural language command recogni-
+tion. Although the initial focus will be on paraphrasing and Roman Urdu/Hinglish trans-
+lation, there are several anticipated challenges and opportunities for future growth.
+• Expansion of Task Domains:Initially, the system will handle a limited set of tasks,
+but future development can expand to include sentiment analysis, machine transla-
+tion, and document summarisation. This expansion would require fine-tuning new
+experts on diverse datasets.
+• Collaborative Expert Processing: As the range of tasks grows, future versions
+could enable multiple experts to collaborate dynamically, improving accuracy for
+more complex tasks by sharing partial results.
+• Data and Training Scalability: The system’s effectiveness relies on high-quality,
+diverse training data. Ensuring scalability for tasks like Roman Urdu/Hinglish
+translation will require continuous improvements in dataset quality and coverage.
+V ocalinkwill begin with a solid focus on voice-driven tasks, but its true potential can be
+unlocked through future expansions. By tackling challenges such as task diversity, expert
+collaboration, and data scalability, the system could grow into a robust tool, capable of
+handling more complex voice interactions and supporting a broader range of use cases.
+55
+
+Chapter 7
+References
+1. Allied Market Research. (2023, August). Speech-to-Text API Market Statis-
+tics | Industry F orecast - 2031 . Allied Market Research. Retrieved from
+https://www.alliedmarketresearch.com/speech-to-text-api-market-A09527https://www.alliedmarketresearch.com/speech-to-text-api-market-A09527 .
+2. Coherent Market Insights. (2023, December). Assistive Technology Market
+Size, Trends and F orecast to 2030 . Coherent Market Insights. Retrieved from
+https://www.coherentmarketinsights.com/market-insight/assistive-technology-market-5911https://www.coherentmarketinsights.com/market-insight/assistive-technology-market-5911 .
+3. Doyle, N. (2020). Neurodiversity at work: a biopsychosocial model and
+the impact on working adults. British Medical Bulletin , 135(1), 108–125.
+https://doi.org/10.1093/bmb/ldaa021https://doi.org/10.1093/bmb/ldaa021.
+4. Jiang, A. Q., Sablayrolles, A., Roux, A., Mensch, A., Savary, B., Bamford, C.,
+Chaplot, D. S., Singh, D., Hanna, D., Bressand, F., Lengyel, G., Bour, G., Lample,
+G., Lavaud, L. R., Saulnier, L., Lachaux, M.-A., Stock, P., Subramanian, S., Yang,
+S., & Antoniak, S. (2024). Mixtral of Experts . ArXiv (Cornell University), 1.
+https://doi.org/10.48550/arxiv.2401.04088https://doi.org/10.48550/arxiv.2401.04088.
+5. Maenner, M. J. (2023). Prevalence and characteristics of autism spectrum disorder
+among children aged 8 years — Autism and Developmental Disabilities Monitoring
+Network, 11 Sites, United States, 2020. MMWR. Surveillance Summaries , 72(2),
+1–14. https://doi.org/10.15585/mmwr.ss7202a1https://doi.org/10.15585/mmwr.ss7202a1.
+6. Masterson, K. (2024, March 7). 58 Latest V oice Search Statis-
+tics and Trends for 2024 . 33rdSquare.com. Retrieved from
+https://www.33rdsquare.com/voice-search-statistics/https://www.33rdsquare.com/voice-search-statistics/.
+7. McGlauflin, P., & Burleigh, E. (2024, May 15). Neurodiver-
+gent employees aren’t disclosing their conditions at work because
+they worry it will hurt their career. F ortune. Retrieved from
+https://fortune.com/2024/05/15/neurodivergent-employees-arent-disclosing-their-conditions-at-work-because-they-worry-it-will-hurt-their-career/https://fortune.com/2024/05/15/neurodivergent-employees-arent-disclosing-their-conditions-at-work-because-they-worry-it-will-hurt-their-career/ .
+57
+7. References
+8. Punchcut. (2017, November 26). From Command to Conversa-
+tion: V oice User Experience Research . Punchcut. Retrieved from
+https://punchcut.com/perspectives/from-command-to-conversation-voice-user-experience-research/https://punchcut.com/perspectives/from-command-to-conversation-voice-user-experience-research/ .
+9. Sanseviero, O. et al. (2023). Mixture of Experts Explained . Hugging Face. Re-
+trieved from https://huggingface.co/blog/moehttps://huggingface.co/blog/moe (Accessed: 06 October 2024).
+10. Statista. (2024, March). Speech Recognition - World-
+wide | Statista Market F orecast . Statista. Retrieved from
+https://www.statista.com/outlook/tmo/artificial-intelligence/computer-vision/speech-recognition/worldwidehttps://www.statista.com/outlook/tmo/artificial-intelligence/computer-vision/speech-recognition/worldwide.
+58
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

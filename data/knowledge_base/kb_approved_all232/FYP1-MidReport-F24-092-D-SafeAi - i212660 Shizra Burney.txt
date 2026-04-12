@@ -1,0 +1,506 @@
+# FYP1-MidReport-F24-092-D-SafeAi - i212660 Shizra Burney
+
+## 1. Introduction
+
+1. Introduction
+tured by UA Vs operating at high altitudes. The current limitations of UA V-based surveil-
+lance include the inability to accurately detect and track small objects across multiple
+frames under varying conditions such as occlusions, low light, and weather changes.
+Moreover, the existing systems require significant computational resources and manual
+intervention, making them unsuitable for large-scale, continuous surveillance.
+The goal of this project is to design an AI-driven system using cutting-edge deep learn-
+ing techniques to enhance the accuracy and reliability of object detection and tracking.
+The system will incorporate advanced methodologies, such as the Slicing Aided Hyper
+Inference (SAHI) technique, to efficiently handle large-scale aerial images by focusing
+on small object detection and tracking in real time. Additionally, the system will focus on
+reducing the computational load while improving performance under complex real-world
+conditions.
+1.3 Software Requirements Specification
+The SAFEAi project involves the development of an AI-based software system for real-
+time object detection, tracking, and re-identification from high-altitude UA V footage. The
+system will leverage deep learning models and advanced computer vision techniques.
+The following outlines the functional and non-functional requirements necessary for its
+successful implementation:
+1.3.1 Functional Requirements:
+• Object Detection: The system must detect multiple objects (vehicles, people, etc.)
+in aerial images using YOLOv8 and Faster R-CNN algorithms, providing accurate
+bounding boxes around objects of interest.
+• Small Object Detection : Implement the SAHI (Slicing Aided Hyper Inference)
+technique to handle large images by dividing them into patches, improving the de-
+tection accuracy of small objects.
+• Object Tracking: Use DeepSORT for tracking multiple objects over time, main-
+taining object identity and tracking through frames.
+• Re-identification: The system must re-identify objects that leave and reappear in
+the field of view, using CNN-based feature extraction for reliable identification
+across different frames and cameras.
+• Real-time Processing: The system must provide real-time detection and tracking
+with minimal latency to ensure its applicability in dynamic surveillance environ-
+ments.
+2
+1.3 Software Requirements Specification
+1.3.2 Non-Functional Requirements:
+• Performance: The software must process video streams at a minimum of 30 frames
+per second (FPS) to maintain real-time surveillance.
+• Scalability: The system must scale efficiently to handle multiple UA V streams and
+high-resolution (up to 4K) footage.
+• Robustness: The system must be capable of functioning effectively under varying
+environmental conditions such as low lighting, weather changes, and occlusions.
+• Resource Efficiency: The software should be optimized to run on UA V-mounted
+hardware with limited computational resources, using lighter model versions like
+YOLOv4-tiny where necessary.
+3
+
+Chapter 2
+Literature Review
+This chapter critically examines existing literature relevant to the research topic. It iden-
+tifies key studies, theories, and findings, providing a foundation for the proposed research
+and highlighting its relationship to prior work.
+2.1 Related Research
+2.1.1 Research Item 1: The Unmanned Aerial Vehicle Benchmark:
+Object Detection and Tracking (Dawei Du et al., 2018) [11]
+2.1.1.1 Summary of the research item
+This research presents the UA VDT dataset, a comprehensive Unmanned Aerial Vehicle
+(UA V) benchmark designed to advance object detection, single-object tracking (SOT),
+and multi-object tracking (MOT) in complex, real-world scenarios. The dataset com-
+prises 100 video sequences, containing approximately 80,000 annotated frames selected
+from over 10 hours of footage captured from urban environments. The dataset is unique
+in its focus on unconstrained settings, which introduces challenging conditions such as
+varying weather, flying altitudes, camera views, and high-density traffic scenarios. A
+wide range of attributes—including vehicle categories, occlusions, and out-of-view con-
+ditions—are annotated to provide a detailed dataset for testing state-of-the-art computer
+vision algorithms. Through extensive experimentation with recent object detection and
+tracking algorithms, the study identifies gaps in current methods, particularly highlight-
+ing difficulties related to small object detection, real-time performance, and the challenges
+posed by camera motion.
+5
+2. Literature Review
+2.1.1.2 Critical analysis of the research item
+The UA VDT benchmark represents a significant contribution to the field of UA V-based
+vision systems by providing a well-annotated dataset for three fundamental tasks. The
+authors’ efforts in annotating 80,000 frames with over 840,000 bounding boxes demon-
+strate the rigor and scale necessary for benchmarking. One of the strengths of the study
+is its focus on real-world, unconstrained scenarios, which presents more practical chal-
+lenges compared to controlled datasets like those focusing on parking lots or fixed-angle
+cameras. The UA VDT dataset fills a gap in UA V datasets by introducing complex urban
+environments with multiple attributes, such as occlusions, varying altitudes, and lighting
+conditions, which are essential for developing robust algorithms. However, a limitation
+of this research is the performance of state-of-the-art algorithms on this dataset, as they
+struggle with small objects and high-density tracking, which suggests that existing models
+may need significant enhancements to handle UA V-specific challenges. Another limita-
+tion lies in the computational cost, as many accurate algorithms such as Faster R-CNN and
+MDP perform below real-time, making them unsuitable for UA V platforms with limited
+resources.
+2.1.1.3 Relationship to the proposed research work
+The insights gained from the UA VDT dataset are directly relevant to our proposed re-
+search, which aims to improve real-time multi-object tracking for UA V-based surveil-
+lance. The challenges identified in the UA VDT benchmark, particularly in tracking small
+objects and handling occlusions, align with the objectives of this study, as we aim to
+develop more efficient algorithms that can process complex visual data in real time. Ad-
+ditionally, the benchmark’s inclusion of multiple object tracking and real-time constraints
+offers a useful testing ground for the evaluation of our proposed methodologies. The
+detailed analysis of the UA VDT benchmark’s shortcomings also provides a clear direc-
+tion for addressing gaps in current models, such as improving detection in high-density
+scenarios and reducing computational overhead.
+2.1.2 Research Item 2: Object Detection, Recognition, and Re-identification
+in Video Footage (Martins E. Irhebhude, 2015) [22]
+2.1.2.1 Summary of the research item
+This research introduces multiple novel approaches for detecting and recognizing objects
+in military surveillance environments. The study focuses on recognizing military per-
+sonnel, vehicles, and pedestrians, particularly in challenging settings such as night-time
+6
+2.1 Related Research
+surveillance or situations involving occluded or camouflaged individuals. Techniques em-
+ployed in the paper include GrabCut for segmenting camouflaged personnel, Speeded Up
+Robust Features (SURF) for military badge recognition, and Gaussian Mixture Models
+(GMM) for vehicle detection. A key innovation in this work is the CENTROG descriptor,
+used for pedestrian and vehicle recognition in thermal images. Additionally, the study
+proposes methods for re-identifying personnel based on a combination of low-level and
+mid-level features, combining color histograms and clothing attributes to distinguish be-
+tween individuals in various settings.
+2.1.2.2 Critical analysis of the research item
+Irhebhude’s work is noteworthy for its comprehensive approach to object detection, recog-
+nition, and re-identification in military environments, tackling difficult cases such as cam-
+ouflage and low-light conditions. The use of the CENTROG descriptor, a novel alterna-
+tive to the widely used CENTRIST, is a key strength, particularly for improving detection
+in thermal imagery, which is crucial for night-time surveillance. The study’s focus on
+multi-view object recognition is highly relevant for scenarios involving multiple UA Vs
+or different camera angles, offering flexibility in practical applications. However, a limi-
+tation lies in the computational cost of some of the algorithms, such as the SURF-based
+badge recognition, which may hinder real-time performance in resource-constrained UA V
+systems. Furthermore, while the research effectively handles individual recognition and
+tracking, it does not explicitly address small object detection at high altitudes, a critical
+aspect for aerial surveillance that the SAFEAi project focuses on.
+2.1.2.3 Relationship to the proposed research work
+The methodologies explored in this research have direct relevance to the objectives of
+the SAFEAi project, particularly in the context of real-time object detection and re-
+identification in aerial surveillance. The CENTROG feature extraction method for night-
+time surveillance aligns with SAFEAi’s requirement for reliable performance in vary-
+ing lighting conditions. Additionally, the vehicle recognition techniques explored in this
+study can be adapted to SAFEAi’s focus on small object detection, though further opti-
+mization may be required to handle the challenges of high-altitude UA V imagery. The
+re-identification approach based on mid-level attributes could be particularly useful for
+enhancing SAFEAi’s tracking algorithms, enabling more precise re-identification across
+different frames or camera views.
+7
+2. Literature Review
+2.1.3 Research Item 3: Object Tracking and Counting in a Zone us-
+ing YOLOv4, DeepSORT, and TensorFlow (Kumar et al., 2021)
+[33]
+2.1.3.1 Summary of the research item
+This paper presents a system for tracking and counting objects within a specified zone us-
+ing YOLOv4 for object detection and DeepSORT for tracking. The model performs multi-
+object detection and tracking by first identifying objects in the frame and then continu-
+ously tracking them over multiple frames. Kalman filters are applied to improve motion
+prediction, while DeepSORT extends the Simple Online and Realtime Tracking (SORT)
+algorithm by incorporating a deep association metric to reduce identity switching during
+tracking. The proposed system also introduces zonal counting, where objects are moni-
+tored within a predefined area, raising alarms when the count exceeds a threshold. This
+system has wide-ranging applications, such as traffic monitoring, managing COVID-19
+restrictions, and crowd control, making it highly versatile for real-world scenarios.
+2.1.3.2 Critical analysis of the research item
+Kumar et al.’s work on object tracking and counting leverages state-of-the-art models
+to offer real-time solutions for zone-specific monitoring. The integration of YOLOv4
+with DeepSORT provides a powerful combination for accurate detection and tracking,
+and the use of Kalman filters enhances robustness against occlusion, a major challenge
+in crowded environments. The performance of the system on the MOT17 dataset shows
+strong results, with the system achieving competitive MOTA (Multiple Object Tracking
+Accuracy) scores. One limitation of the research is the computational intensity required
+by the DeepSORT model, particularly when dealing with high-density object tracking,
+which may impede scalability in UA V applications. Additionally, while YOLOv4 im-
+proves detection speed and accuracy, the paper acknowledges challenges in handling ad-
+verse weather conditions or low-light environments, which are critical for UA V-based
+surveillance.
+2.1.3.3 Relationship to the proposed research work
+The methodologies in this research are highly relevant to the goals of the SAFEAi project,
+particularly in enhancing real-time object tracking from aerial surveillance. The zonal
+counting feature, along with DeepSORT’s capability for persistent tracking, aligns with
+SAFEAi’s need to monitor and track multiple small objects in complex environments,
+such as disaster zones or border areas. The real-time nature of the system ensures that
+8
+2.1 Related Research
+it can be effectively applied in UA V footage, while the robustness to occlusion com-
+plements SAFEAi’s objective of overcoming environmental and situational challenges.
+However, the scalability concerns related to computational intensity will need to be ad-
+dressed, possibly by optimizing the model for UA V resource constraints or incorporating
+lighter detection models like YOLOv4-tiny.
+2.1.4 Research Item 4:Clustered Object Detection in Aerial Images
+(ICCV 2019)[55]
+2.1.4.1 Summary of the research item
+This paper presents the Clustered Detection (ClusDet) network, a novel approach to ob-
+ject detection in aerial images. The main challenge in aerial imagery is the small size
+and sparse distribution of objects. ClusDet addresses these challenges by using a Clus-
+ter Proposal Network (CPNet) to identify object clusters, a Scale Estimation Network
+(ScaleNet) to normalize object scales, and a Detection Network (DetecNet) to perform
+detection within these clusters. ClusDet improves detection accuracy and efficiency by
+focusing on clustered regions, reducing the number of regions that require detailed anal-
+ysis. The system achieves state-of-the-art results on datasets like VisDrone, UA VDT, and
+DOTA.
+2.1.4.2 Critical analysis of the research item
+The Clustered Object Detection in Aerial Images paper introduces an efficient method for
+detecting objects in clustered regions, which reduces computational costs and improves
+accuracy for small objects by utilizing the Cluster Proposal Network (CPNet) and Scale
+Estimation Network (ScaleNet). While this approach excels in scenarios with object clus-
+tering, its reliance on clustering limits its performance in non-clustered environments.
+Additionally, the integration of multiple sub-networks, such as CPNet and DetecNet,
+increases computational complexity, which could hinder real-time processing. Despite
+these limitations, the method demonstrates a significant advancement in small-object de-
+tection, although it might require further optimization for real-time applications.
+2.1.4.3 Relationship to the proposed research work
+Our project, SAFEAI, aims to enhance high-altitude aerial surveillance by improving ob-
+ject detection, tracking, and re-identification. Like ClusDet, our approach also tackles the
+challenge of small object detection. However, SAFEAI adds a new dimension by inte-
+grating tracking and re-identification across frames. Furthermore, our proposal leverages
+9
+2. Literature Review
+techniques like SAHI (Slicing Aided Hyper Inference) to efficiently handle large images,
+while ClusDet focuses on clustered detection. Both methods aim to improve detection
+performance in aerial imagery, but our approach expands this by ensuring real-time track-
+ing and re-identification in dynamic environments.
+2.1.5 Research Item 5:An Experimental Study of Vehicle Detection
+on Aerial Imagery Using Deep Learning-based Detection Ap-
+proaches (2020) [44]
+2.1.5.1 Summary of the research item
+This paper compares several state-of-the-art deep learning models, including Faster R-
+CNN, R-FCN, and SSD, for vehicle detection in aerial imagery. The experiments are
+conducted on the VEDAI dataset, with Faster R-CNN (ResNet101 backbone) achieving
+the highest mean Average Precision (mAP) score of 39.73 percent. The paper highlights
+the performance trade-offs between detection accuracy and computational efficiency, not-
+ing that two-stage detectors like Faster R-CNN tend to perform better than one-stage
+detectors like SSD in aerial imagery tasks, particularly when handling small objects like
+vehicles.
+2.1.5.2 Critical analysis of the research item
+The paper provides a valuable comparison of deep learning models for vehicle detection
+in aerial imagery, emphasizing the strengths of two-stage detectors like Faster R-CNN
+for handling small objects. Its practical analysis helps guide model selection for similar
+tasks, but its focus on vehicle detection limits the broader application to other object types
+or more complex aerial surveillance. SSD’s poor performance in small object detection
+highlights its limitations in low-resolution data. Despite this, the paper offers important
+insights that can inspire further optimization.
+2.1.5.3 Relationship to the proposed research work
+Our SAFEAI is directly related to the findings of this paper, as both involve aerial ob-
+ject detection, albeit our approach covers a broader scope. While this paper focuses on
+vehicle detection, SAFEAI aims to detect, track, and re-identify various objects in high-
+altitude surveillance, incorporating methods like SAHI to enhance small-object detection
+efficiency. Moreover, our approach extends beyond detection by addressing real-time
+tracking and re-identification, which is critical in security and surveillance operations.
+While the paper highlights Faster R-CNN’s strength, our proposal includes YOLOv8 for
+10
+2.2 Analysis Summary of Research Items
+optimized real-time performance, aligning with the need for fast and accurate surveillance
+solutions.
+2.2 Analysis Summary of Research Items
+Tabular representation with discussion of the critical analysis of the research items dis-
+cussed in the previous section of this chapter.
+Research Item Strengths Weaknesses
+The Unmanned Aerial Vehi-
+cle Benchmark: Object De-
+tection and Tracking (Dawei
+Du et al., 2018)
+- Comprehensive UA V dataset with
+80,000 annotated frames.
+- Focus on real-world, uncon-
+strained scenarios (varying weather,
+altitudes, camera views).
+- Struggles with small object detec-
+tion and real-time performance.
+- Computational cost of accurate
+models is high.
+Object Detection, Recogni-
+tion, and Re-identification in
+Video Footage (Martins E.
+Irhebhude, 2015)
+- CENTROG descriptor improves
+detection in thermal imagery.
+- Multi-view object recognition of-
+fers flexibility for UA Vs and differ-
+ent camera angles.
+- Computational cost for algorithms
+like SURF hinders real-time perfor-
+mance.
+- Does not address small object de-
+tection at altitude.
+Object Tracking and
+Counting in a Zone using
+YOLOv4, DeepSORT, and
+TensorFlow (Kumar et al.,
+2021)
+- Strong performance in real-time
+object tracking and zonal counting.
+- DeepSORT reduces identity
+switching.
+- High computational intensity for
+DeepSORT limits scalability.
+- Challenges in low-light or adverse
+weather conditions.
+Clustered Object Detection
+in Aerial Images (ICCV
+2019)
+- CPNet and ScaleNet reduce com-
+putational costs and improve small
+object detection accuracy.
+- Strong performance in clustered
+object detection.
+- Limited performance in non-
+clustered environments.
+- Computational complexity may
+hinder real-time processing.
+An Experimental Study
+of Vehicle Detection on
+Aerial Imagery Using Deep
+Learning-based Detection
+Approaches (2020)
+- Highlights performance trade-offs
+in different models for vehicle de-
+tection.
+- Faster R-CNN excels in small ob-
+ject detection.
+- Focus on vehicle detection limits
+generalization to other object types.
+- SSD performs poorly with small
+objects and low resolution.
+Table 2.1: Critical Analysis of Research Items
+11
+
+Chapter 3
+Proposed Approach
+3.0.0.1 3.1 Overview
+The SAFEAi project aims to enhance aerial surveillance by developing an advanced AI-
+driven system that provides accurate object detection, tracking, and re-identification in
+real-time. The system addresses the key challenges posed by high-altitude surveillance,
+such as the difficulty in detecting small objects, variations in appearance, and environ-
+mental conditions like lighting and occlusion. The solution leverages state-of-the-art deep
+learning models and computer vision techniques to process UA V (Unmanned Aerial Ve-
+hicle) data efficiently and robustly.
+The proposed system incorporates various AI and computer vision methodologies, in-
+cluding object detection algorithms, tracking models, and feature extraction techniques,
+to ensure reliable detection and tracking across multiple scenarios.
+3.0.0.2 3.2 Proposed Solution Workflow
+3.2.1 Step 1: High-Altitude Image Processing and Preprocessing The first step in
+our solution is capturing high-altitude aerial images and video streams from UA Vs. These
+images are large-scale and often contain a high level of complexity. To address this, we
+will apply the following methods:
+• Slicing Aided Hyper Inference (SAHI): Large-scale images are divided into smaller
+patches for more accurate small object detection. This method allows the system to
+focus on finer details in each patch, increasing detection accuracy for small objects
+that are difficult to identify from a distance.
+• Image Preprocessing: The system will preprocess images by normalizing lighting
+conditions, removing noise, and enhancing contrast to make objects more visible
+for detection algorithms.
+13
+3. Proposed Approach
+Figure 3.1: Object detection with SAHI
+3.2.2 Step 2: Object Detection Once the images are preprocessed, the next step is to
+detect objects within the UA V-captured footage. We will utilize deep learning models
+designed for real-time object detection:
+• YOLOv8 (You Only Look Once version 8) : This is a fast and accurate object
+detection model optimized for small objects. YOLOv8 will be used to detect objects
+in each frame and provide bounding boxes around the detected objects.
+• Faster R-CNN (Region-based Convolutional Neural Network) : For situations
+where high precision is needed, such as detecting objects in crowded or occluded
+environments, Faster R-CNN will be employed. This model excels at handling
+complex object structures and multi-class detection.
+Figure 3.2: Object Detection Models: YOLOv8 and Faster R-CNN
+14
+3.2.3 Step 3: Object Tracking After detecting objects in the UA V footage, the system
+needs to track their movement across multiple frames to ensure continuous monitoring.
+We will implement the following tracking algorithms:
+• DeepSORT (Simple Online and Realtime Tracking with a Deep Association
+Metric): DeepSORT will be used for real-time object tracking by assigning a
+unique ID to each detected object and maintaining the association of the object
+across frames. DeepSORT’s appearance descriptor reduces identity switching, a
+critical feature when tracking multiple small objects in high-density areas.
+• Kalman Filters: Kalman Filters will assist in motion prediction, helping to main-
+tain the tracking of objects even when they are temporarily occluded or move out
+of the camera’s field of view.
+Figure 3.3: Object Tracking with Deepsort
+3.2.4 Step 4: Object Re-identification Re-identification is an essential feature of the
+SAFEAi system, particularly for long-duration surveillance where objects may leave and
+re-enter the camera’s view or appear across different UA Vs. The following methods will
+be used for robust re-identification:
+• Convolutional Neural Networks (CNNs): CNNs will be used for extracting dis-
+tinctive features from objects (such as color, texture, and shape) to enable re-identification.
+Even when objects are viewed from different angles or under different lighting con-
+ditions, the CNN-based feature extractor will match them across frames.
+15
+3. Proposed Approach
+• Metric Learning: A distance metric will be used to compare objects across frames
+and re-identify them based on their appearance features. The system will learn
+to recognize similarities between objects using deep metric learning techniques,
+minimizing identity mismatches.
+3.2.5 Step 5: Real-time Processing and System Optimization Given the high de-
+mands for real-time surveillance, optimizing the system for speed and efficiency is crucial.
+The following strategies will be employed to achieve real-time processing:
+• Hardware Optimization: The system will run on edge devices and UA V hard-
+ware equipped with GPUs, ensuring low-latency processing. Lighter versions of
+the models, such as YOLOv4-tiny, will be considered for UA Vs with limited com-
+putational capacity.
+• Parallel Processing: We will implement parallel processing on GPU cores to han-
+dle multiple image streams simultaneously, allowing for real-time surveillance across
+multiple UA Vs.
+• Frame Skipping: To balance the load, the system will dynamically adjust frame
+rates by skipping non-essential frames during low-activity periods, ensuring re-
+sources are focused on high-activity scenarios.
+3.0.0.3 3.3 Challenges and Solutions
+3.3.1 Small Object Detection Small object detection is a significant challenge in aerial
+surveillance due to high altitudes and the resolution limits of cameras. Our solution:
+• Employs SAHI to process image patches separately, which increases detection ac-
+curacy for small objects.
+• Utilizes YOLOv8, which is optimized for small-object detection in complex envi-
+ronments.
+3.3.2 Real-Time Tracking Under Occlusions Objects may be occluded by buildings,
+trees, or other objects in the environment, making it difficult to track them consistently.
+To mitigate this:
+• DeepSORT ensures identity consistency across frames, even with occlusions.
+• Kalman Filters predict object movements during periods of occlusion, helping
+maintain accurate tracking.
+16
+3.3.3 Computational Resource Constraints High-altitude surveillance requires pro-
+cessing large images in real-time, which can be computationally expensive. To address
+this:
+• Efficient model architectures like YOLOv4-tiny will be considered for resource-
+constrained UA V platforms.
+• SAHI helps reduce the computational load by focusing processing efforts on critical
+areas of the image.
+Detection and Tracking 
+>Models: Faster R- CNN, custom etc
+>SAHI Inference
+Bounding boxes and tracking
+CNNs for feature 
+extraction
+Triplet networks for 
+re- identiﬁcation 
+Preprocessing 
+Resizing
+Normalisation
+Data 
+augmentation
+Patch creation
+Data Acquisition
+Exploring Datasets
+Collecting relevant 
+Data
+Data annotation 
+using YOLO Label & 
+LabelIMG
+annotated
+data
+Feature Extraction & 
+Re- Identiﬁcation
+Processed
+ data
+Compilation
+Feature Data & detection and 
+tracking information is 
+compiled Report 
+Generation
+Synthesised data converted to actionable insights
+Evaluation & 
+Optimization
+Performance measurement using key metricsSystem tuning based on evaluationUniﬁed Dataset
+compiled data is integrated 
+into a single dataset that 
+provides a complete picture
+Feature vectors & 
+Re- identiﬁcation 
+Data
+Integrated 
+Dataset
+Figure 3.4: High level workflow
+17
+
+Chapter 4
+Conclusions
+The proposed solution for the SAFEAi project integrates advanced deep learning models
+with state-of-the-art object detection, tracking, and re-identification techniques to solve
+the challenges of high-altitude aerial surveillance. By leveraging innovative methods such
+as SAHI for small-object detection, DeepSORT for persistent tracking, and CNN-based
+feature extraction for re-identification, the system is designed to function in real-time,
+providing accurate, reliable surveillance even under challenging environmental condi-
+tions. This AI-driven approach ensures enhanced security and monitoring capabilities for
+various applications, from border security to disaster management.
+19
+
+Bibliography
+[1] Dawei Du, Yuankai Qi, Hongyang Yu, Yifan Yang, Kaiwen Duan, Guorong Li,
+Weigang Zhang, Qingming Huang, and Qi Tian. The unmanned aerial vehicle bench-
+mark: Object detection and tracking. In Proceedings of the European conference on
+computer vision (ECCV), pages 370–386, 2018.
+[2] Martins E Irhebhude. Object detection, recognition and re-identification in video
+footage. PhD thesis, Loughborough University, 2015.
+[3] Shailender Kumar, Vishal, Pranav Sharma, and Nitin Pal. Object tracking and count-
+ing in a zone using yolov4, deepsort and tensorflow. In2021 International Conference
+on Artificial Intelligence and Smart Systems (ICAIS), pages 1017–1022, 2021.
+[4] Xuanzhi Liao, Shahnorbanun Sahran, and Syaimak Abdul Shukor. An experimental
+study of vehicle detection on aerial imagery using deep learning-based detection ap-
+proaches. In Journal of Physics: Conference Series, volume 1550, page 032005. IOP
+Publishing, 2020.
+[5] Fan Yang, Heng Fan, Peng Chu, Erik Blasch, and Haibin Ling. Clustered object
+detection in aerial images. In Proceedings of the IEEE/CVF international conference
+on computer vision, pages 8311–8320, 2019.
+21
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

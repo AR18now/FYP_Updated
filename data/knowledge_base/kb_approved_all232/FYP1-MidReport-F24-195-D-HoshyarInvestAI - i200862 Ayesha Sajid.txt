@@ -1,0 +1,878 @@
+# FYP1-MidReport-F24-195-D-HoshyarInvestAI - i200862 Ayesha Sajid
+
+## 1. Introduction
+
+1. Introduction 
+ 
+evant trends related to the tech industry within Pakistan-meaning to keep users abreast of 
+all changes recently made. Such a type of information is processed in the system with the 
+aid of deep learning algorithms and Natural Language Processing (NLP) techniques for 
+trend analysis and stock predictions as well as investment risk appraisal. Such adjustments are 
+made to suit the nature of the technology market in Pakistan. Individual users get buy, hold, 
+and sell investment signals regarding the level of risk they can tolerate and their choice. 
+The platform does comprise an analytics module that allows the users to analyze the 
+portfolios and the situation in the market in real time. Also, the platform includes tools for 
+back trading investing tools on a simulated environment within the functionalities of 
+historical data analysis. The aim of such a platform is to enable informed and intelligent 
+decision making focusing on investments in the technology industry in Pakistan. 
+ 
+ 
+1.3 Modules 
+ 
+Write down the modules of the proposed project. Each module should highlight features, 
+using bulleted/numbered notation. When developing both a mobile app and a web app, 
+group the modules according to the system types, such as, Client Web App, Client Mobile 
+App, Admin Web App etc. 
+ 
+1.3.1 Module 1: Data Collection and Integration 
+ 
+More specifically, this module targets the automation of collection and integration of live 
+financial data with country and world market trends, expectations of the actors in the mar- 
+ket, and important economic indicators. plenty of information from stakeholders like the 
+Pakistan Stock Exchange (PSX), published financials and the news etc. will be collected 
+in order to achieve full coverage. 
+ 
+1.3.1.1 Features: 
+ 
+1. Data acquiring in real-time through PSX and financial reports. 
+ 
+2. Data populating through news/journal sources and market sentiment analysis in- 
+struments. 
+ 
+1.3.2 Module 2: Feature Engineering 
+ 
+This module transforms the raw data into features so we can use it for model training. Its 
+main features are given below, 
+3 
+1.3 Modules 
+ 
+1.3.2.1 Features: 
+ 
+1. Data Preprocessing 
+ 
+2. Feature Extraction 
+ 
+3. Feature Selection 
+ 
+4. Encoding and Scaling 
+ 
+5. Feature Engineering for Personalization 
+ 
+6. Feature Validation and Testing 
+ 
+ 
+1.3.3 Module 3: Advanced Analysis and Modelling 
+ 
+This module terms the input data which has been accumulated through this internet inter- 
+face and advances the application of deep learning models and high level feature engineer - 
+ing. The emphasis is on processing and cleaning the raw information, creating features 
+and building models of stock prices and movements in the markets. 
+ 
+1.3.3.1 Features: 
+ 
+1. Detailing features to find critical financial features and their trends. 
+ 
+2. Utilization of statistical model EGARCH for risk assessment. 
+ 
+3. Use of reinforcement learning model for user behavior. 
+ 
+4. Use of Temporal fusion transformer model for stock prediction. 
+ 
+ 
+1.3.4 Module 4: Dashboard and User Interface 
+ 
+This module offers a graphical user interface (GUI) which exactly addresses the investor’s 
+needs. It contains a depiction of the data, the performance of the system over time, along 
+with a simple interface for handling investments as well as market conditions. 
+ 
+1.3.4.1 Features: 
+ 
+1. Visualization of dynamic information and monitoring of one’s investment portfolio. 
+ 
+4 
+2. Options of multiple tech companies to invest in, along with visualization of their 
+stocks. 
+5 
+1. Introduction 
+ 
+1.3.5 Module 5: Backtesting and Strategy Validation 
+ 
+This module offers the possibility to the users to review how their investment strategies 
+would have worked historically. It’s a module that explains how different strategies have 
+been used over time and their efficacy. 
+ 
+1.3.5.1 Features: 
+ 
+1. Strategy validation through historical data simulation. 
+ 
+2. Investment guide’s strategy performance review and suggestions for improvement. 
+ 
+ 
+1.4 User Classes and Characteristics 
+ 
+User classes are stated below
+6 
+1.4 User Classes and Characteristics 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+User class Description 
+ 
+Investor Tech investors in Pakistan who will use the platform to make data-driven 
+decisions. They will vary in experience, from novices to experts. 
+Admin Administrators managing system performance, data updates, and user ac- 
+cess. They require technical knowledge to ensure smooth operations. 
+ 
+Data Ana- 
+lysts 
+Analysts who will use the system to interpret data and refine investment 
+strategies. They will interact with the platform for in-depth analysis. 
+ 
+ 
+ 
+ 
+7 
+ 
+ 
+ 
+ 
+ 
+Chapter 2 
+ 
+Project Requirements 
+ 
+ 
+2.1 Use-case/Event Response Table/Storyboarding 
+ 
+ 
+ 
+ 
+ 
+Figure 2.1: UseCaseDiagram 
+ 
+ 
+2.2 Detailed UseCase 
+ 
+
+8 
+2.2 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1- View Real-Time Stock Data 
+ 
+Use Case View Real-Time Stock Data 
+Designation UC-001 
+Author Saim 
+Priority High 
+Actor Investor 
+Type Primary 
+Description Investors can view live stock data of tech companies from multiple sources. 
+Pre-Condition • The investor has an active account in the HoshyarInvestAI system. 
+• The investor is logged into their HoshyarInvestAI account. 
+Post-
+Condition 
+ The investor successfully views up-to-date stock data and financial details. 
+Normal Flow • The investor logs into their HoshyarInvestAI account. 
+• The system presents the investor’s dashboard. 
+• The investor selects the "Stock Data" option. 
+• The system fetches the latest stock data from multiple tech companies. 
+• The system displays live stock data, including price, volume, and 
+trends. 
+• The investor can filter or sort the stock data by company, price, or 
+date. 
+• The system updates the displayed data in real-time as the stock values 
+fluctuate. 
+Alternative 
+Flow 
+If stock data from a particular company is unavailable or an error occurs during 
+data fetching, the system will display an appropriate error message and 
+suggest trying again later or switching data sources. 
+Exception 
+Scenarios 
+None 
+9 
+2.2 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2-Receive Investment Recommendations 
+ 
+Use Case Receive Investment Recommendations 
+Designation UC-002 
+Author Ayesha 
+Priority High 
+Actor Investor 
+Type Primary 
+Description The system provides personalized investment recommendations based on 
+user preferences and market trends. 
+Pre-Condition • The investor has completed their investment profile. 
+• Market data is available. 
+Post-Condition The investor receives accurate and timely recommendations. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The system analyzes user preferences and market trends. 
+• The investor selects "Recommendations." 
+• The system generates personalized recommendations. 
+• The system displays recommendations for tech stocks. 
+• The investor views detailed insights and can save or act on 
+recommendations. 
+Alternative Flow If data for recommendations is missing, the system suggests alternative 
+companies or industries. 
+Exception 
+Scenarios 
+None 
+ 
+ 
+ 
+ 
+ 
+ 
+10 
+2. 2 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+3- Perform Backtesting on Investment Strategy 
+ 
+Use Case Perform Backtesting on Investment Strategy 
+Designation UC-003 
+Author Murtaza 
+Priority Medium 
+Actor Investor 
+Type Primary 
+Description Investors can test their investment strategies on historical data to see how they 
+would have performed. 
+Pre-Condition • The investor has selected a strategy. 
+• Historical data is available. 
+Post-Condition The investor receives results on the backtested strategy’s performance. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The system presents the backtesting feature. 
+• The investor selects a strategy to test. 
+• The system runs the backtest on historical data. 
+• The system displays performance metrics (e.g., returns, risk). 
+• The investor reviews the results and adjusts the strategy if needed. 
+Alternative Flow If data is missing or incomplete, the system will use default datasets. 
+Exception 
+Scenarios 
+None 
+ 
+ 
+11 
+2.2 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+4-Explore Interactive Visualizations 
+ 
+ 
+Use Case Explore Interactive Visualizations 
+Designation UC-004 
+Author Saim 
+Priority Medium 
+Actor Investor 
+Type Primary 
+Description Investors can explore data insights through interactive charts, graphs, and 
+heatmaps. 
+Pre-Condition • The investor has selected a dataset or strategy to visualize. 
+Post-Condition The investor can interact with and manipulate the visual data. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The system displays the dashboard with visualization options. 
+• The investor selects "Data Visualization." 
+• The system presents interactive charts/graphs based on their 
+portfolio or selected data. 
+• The investor can interact (zoom, filter, etc.) with the visualizations. 
+• The system updates the visualizations based on user input in real-
+time.fluctuate. 
+Alternative Flow If no data is available for visualization, the system will display a notification 
+and suggest another dataset. 
+Exception 
+Scenarios 
+None 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+12 
+22 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+5- Manage User Profile 
+ 
+Use Case Manage User Profile 
+Designation UC-005 
+Author Ayesha 
+Priority Medium 
+Actor Investor 
+Type Primary 
+Description Users can manage and update their profiles, including personal information 
+and investment preferences. 
+Pre-Condition • The investor is logged into their account. 
+Post-Condition The investor's profile is successfully updated. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The system presents the investor’s dashboard. 
+• The investor selects "Profile Management." 
+• The system displays the user’s profile details. 
+• The investor updates their information (e.g., name, contact, 
+preferences). 
+• The system validates and saves the updated information. 
+• The investor receives confirmation of a successful update. 
+Alternative Flow If validation fails (e.g., invalid data), the system requests correction. 
+Exception 
+Scenarios 
+None 
+ 
+ 
+ 
+13 
+2.2 Detailed UseCase 
+ 
+ 
+ 
+ 
+6- Analyze Market Trends 
+ 
+ 
+Use Case Analyze Market Trends 
+Designation UC-006 
+Author Murtaza 
+Priority High 
+Actor 
+Investor, Data Analyst 
+ 
+Type Primary 
+Description The system analyzes real-time market trends for tech companies, providing 
+insights for investors. 
+Pre-Condition • Market data is available. 
+Post-Condition Market trends are displayed to the user in real-time. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The system fetches real-time market data. 
+• The system analyzes the data using pre-trained models. 
+• The investor selects "Market Trends." 
+• The system displays trend analysis (e.g., growth, risk factors). 
+• The investor views trends and insights and can act on the data. 
+Alternative Flow If no market data is available, the system notifies the investor. 
+Exception 
+Scenarios 
+None 
+14 
+2.2 Detailed UseCase 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+7-Generate Risk Assessment Reports 
+ 
+ 
+ 
+ 
+Use Case Generate Risk Assessment Reports 
+Designation UC-007 
+Author Murtaza 
+Priority Medium 
+Actor 
+Investor, Data Analyst 
+ 
+Type Primary 
+Description The system generates detailed risk assessments for tech investments based 
+on historical and real-time data. 
+Pre-Condition • The investor has selected a company or portfolio to assess. 
+Post-Condition The risk report is generated and displayed. 
+Normal Flow • The investor logs into HoshyarInvestAI. 
+• The investor selects "Risk Assessment." 
+• The system analyzes the selected company or portfolio. 
+• The system generates a risk assessment report. 
+• The investor views detailed risk metrics (e.g., volatility, market 
+sensitivity). 
+• The investor can use the report to inform investment decisions. 
+Alternative 
+Flow 
+If insufficient data is available for analysis, the system will provide a partial 
+report or suggest alternative assessments. 
+Exception 
+Scenarios 
+None 
+15 
+ 
+2.3 Functional Requirements 
+2.3 Functional Requirements
+ 
+ 
+2.3.1 Module 1: Data Collection and Integration 
+ 
+This module handles the real-time data acquisition from multiple sources like PSX, finan- 
+cial reports, and sentiment analysis from news and journals. 
+ 
+1. The system shall gather real-time stock market data from Pakistan Stock Exchange 
+(PSX). 
+ 
+2. The system shall gather financial reports from publicly listed companies. 
+ 
+3. The system shall analyze market sentiment using news and journal sources. 
+ 
+4. The system shall integrate world market trends and economic indicators. 
+ 
+ 
+2.3.2 Module 2: Feature Engineering 
+ 
+This module transforms raw data into features that are used for model training and pre - 
+dictions. 
+ 
+1. The system shall preprocess raw stock market and financial data. 
+ 
+2. The system shall extract relevant features for machine learning models. 
+ 
+3. The system shall allow feature selection based on investment strategies. 
+ 
+4. The system shall encode and scale the data for model optimization. 
+ 
+5. The system shall validate features through backtesting and simulation. 
+16 
+2. Project Requirements 
+ 
+2.3.3 Module 3: Advanced Analysis and Modeling 
+ 
+This module applies machine learning and deep learning models to predict stock prices 
+and assess risks. 
+1. The system shall utilize deep learning models to predict stock price movements. 
+2. The system shall generate a detailed risk assessment report for each stock. 
+3. The system shall identify critical financial trends for tech companies. 
+4. The system shall provide recommendations based on the risk level. 
+ 
+2.3.4 Module 4: Dashboard and User Interface 
+ 
+This module provides a user-friendly interface with real-time data visualization and mon- 
+itoring tools. 
+1. The system shall visualize stock performance in a dynamic dashboard. 
+2. The system shall allow users to monitor their investment portfolio performance. 
+3. The system shall provide comparison options between different tech companies. 
+4. The system shall allow real-time interaction with market data through a graphical 
+interface. 
+ 
+2.3.5 Module 5: Backtesting and Strategy Validation 
+ 
+This module allows users to validate their investment strategies by simulating historical 
+data. 
+1. The system shall backtest historical stock data to validate investment strategies. 
+2. The system shall provide users with suggestions for strategy improvement. 
+3. The system shall simulate different market scenarios to assess strategy effective- 
+ness. 
+ 
+2.4 Non-Functional Requirements 
+ 
+17 
+2.5 Domain Model 
+ 
+2.4.1 Reliability 
+ 
+1. The system shall have a mean time between failures (MTBF) of at least 1000 hours. 
+ 
+2. The system shall have failover mechanisms to recover data within 1 hour of failure. 
+ 
+2.4.2 Usability 
+ 
+1. The system shall allow users to view stock data with a single click. 
+ 
+2. The user interface shall require less than 10 minutes of training for new users. 
+ 
+3. The system shall have built-in error recovery mechanisms for incorrect inputs. 
+ 
+2.4.3 Performance 
+ 
+1. The system shall respond to user queries (e.g., stock trend analysis) within 3 sec- 
+onds. 
+2. The system shall support up to 500 simultaneous user queries without performance 
+degradation. 
+ 
+2.4.4 Security 
+ 
+1. The system shall encrypt all financial data in transit and at rest using AES-256 
+encryption. 
+2. The system shall require multi-factor authentication for all user logins. 
+ 
+3. The system shall log all user activities and notify the admin of suspicious behavior. 
+ 
+ 
+2.5 Domain Model 
+18 
+2. Project Requirements 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 2.2: Domain Model 
+
+19 
+ 
+ 
+ 
+ 
+ 
+Chapter 3 
+System Overview 
+General Description 
+HoshyarInvestAI is an AI -driven investment bot with a prospect to invest in Pakistan’s 
+tech sector. It offers timely stock predictions, investment recommendations, and portfolio 
+management tools to serve the needs of investors. It makes use of the data feeding in from 
+multiple sources, such as financial reports and stock market data, and news articles with 
+their respective sentiment analysis to provide investors with data -driven insights. The 
+ultimate goal of the system is to assist individual and institutional investors in making 
+effective choices regarding optimal investment strategies by using sophisticated machine 
+learning models such as TFT and DRL. 
+Features: The system enables access to real -time data for stocks, one can analyze mar - 
+ket trends based on past trends, robust backtesting of various investment strategies, and 
+personalized recommendations tailored to specific market conditions and user needs. 
+Context: This is a system catering to fast -tech companies, which provides investment 
+tools to optimize portfolios with insights beyond traditional investment metrics. Users 
+may be on either the web application or mobile application, while administrators will be 
+handling the backend data and models of the system. 
+ 
+ 
+ 
+ 
+3.1 Architectural Design 
+ 
+3.2 Design Models 
+ 
+Design Models for Object Oriented Development Approach 
+20 
+3. System Overview 
+ 
+ 
+ 
+Figure 3.1: Activity Diagram 
+ 
+3.2.1 Activity Diagram 
+ 
+Description Activity Diagram for HoshyarInvestAI Major Activities: 
+User Start: A user begins his interaction with the system. User Login: The user logs into 
+his account of HoshyarInvestAI Choose Action: At this step, he specifies his action to be 
+executed-for example, to see data on a stock or get recommendations. Data Gathering: 
+The system acquires data from external sources, such as APIs. Data Preprocessing: The 
+system preprocesses the gathered data, cleaning and formatting it Train Models: The 
+system trains models on the data preprocessed Evaluate Models: The system eva luates 
+model performance. Decision: Is the model good enough? Yes: Deploy the model in the 
+application No: Back to training of the model. User Interaction: User interacts with the 
+system (looks at recommendations, visualizations). End: User logs out or closes the 
+session. 
+ 
+3.2.2 Class Diagram 
+ 
+Description Investor: The class is the user and has methods to set up an investment 
+strategy and to view the portfolio. 
+Associations: An investor has one portfolio An investor submits one or more investment 
+strategies. Portfolio: It is a class that contains the current value, historical performance, 
+as well as allocation details of the investor’s portfolio. 
+Associations: A portfolio has multiple stocks Stock: It represents individual stocks. Each 
+stock is subjected to the influence of a market trend. 
+MarketTrend: It depicts general market trend or trends (in both bullish and bearish modes) 
+
+21 
+3.2 Design Models 
+ 
+ 
+Figure 3.2: Class Diagram 
+ 
+that are acting upon multiple stocks. 
+InvestmentStrategy: These are the strategies that the investor follows with some strategy 
+to check over the strategy on historical data. 
+Associations: The investment strategies are checked through historical data. FeatureEngi- 
+neering: This module deals with data preprocessing and extraction of features which are 
+needed for training the model. AnalysisModel: It denotes those AI models that can be 
+used to predict stocks or those which can be trained to generate suggestions. 
+HistoricalData: This data includes historical prices and events, from stock prices and 
+market events to financial reports, all are fed into the system for backtesting investment 
+strategies and data feeding into feature engineering processes. 
+ 
+3.2.3 Class Level Sequence Diagram 
+ 
+Description 
+Investor login: The Investor logs in and the system authenticates the user Request Invest- 
+ment Recommendations: The Investor requests investment recommendations Preprocess 
+Data: The system invokes the FeatureEngineering class to preprocess data. Fetched His - 
+toricalData is passed to FeatureEngineering for preprocessing. Model Training and Pre - 
+dictions: TFT: If the TFT model is selected, the system trains the model and retrieves the 
+prediction. Reinforcement Learning: In case the RL model is chosen the system trains the 
+RL model and fetches the prediction. EGARCH: In case the EGARCH model is chosen 
+the system trains the model and fetches the prediction. Show Results: The system finally 
+shows investment recommendations to the Investor. Key Features: Alt blocks represent 
+all the different branches of the sequence in which different models may be used (TFT, 
+Reinforcement Learning or EGARCH). The investor interacts with the system to make 
+requests for prediction, which in turn train the appropriate models. 
+
+22 
+3. System Overview 
+ 
+ 
+Figure 3.3: ClassLevelSequenceDiagram 
+ 
+ 
+ 
+ 
+ 
+3.2.4 State Transition Diagram 
+ 
+ 
+Description 
+Here’s an example of tracking the Investor state transition while soliciting investment 
+advice and processing the same in the back -end data gathering, model training, and the 
+generation of output within the system. 
+Main States: Logged Out: This is the initiation state whereby the user is not logged into 
+the system. 
+Event: User logs in → Transition to "Logged In" state. Logged In: the states can log in 
+and interact with the system. 
+Event: User creates forecasts for shares → Enters the "Processing Request" state. Process- ing 
+Request: The system collects data and processes the data while training the models. 
+Event: Data and models are successfully processed with no errors → Transitioned to 
+"Recommendation Ready" state. Event: The processing of data fails → Transitioned to 
+"Error Handling" state. Recommendation Ready: The system has successfully generated 
+an investment recommendation through the models. 
+Event: The user has accessed their recommendations → Transitioned to "Displaying Rec - 
+ommendations" state. Error Handling: The error has been incurred in the context of data 
+retrieval or model training. 
+Event: Retry or correct error → Return back to "Processing Request" state. Rendering 
+Recommendations: The recommendations are rendered to the user. 
+Event: User logs out → Transition to "Logged Out" state. 
+
+23 
+3.3 Data Design 
+ 
+ 
+ 
+Figure 3.4: Enter Caption 
+ 
+3.3 Data Design 
+ 
+In the HoshyarInvestAI project, the information domain has information related to stock 
+data, financial reports, market trends, user profiles, and investment strategies. Here’s how 
+the system transforms this domain into data structures and how the major entities are 
+stored, processed, and organized as follows: 
+1. Data Sources 
+Stock Data: fetches real-time as well as past stock information, including share price, 
+ticker symbols, and company-specific financial data. This information can be done either 
+by fetching the APIs like PSX or through downloaded reports of the company’s financial 
+statements. Market Trends: All economic trends, world events, and other macroeconomic 
+indicators find their reflection in the security price. Financial Reports: PDFs, news arti - 
+cles, and journal sources that carry critical company financials, quarterly reports, and 
+investor sentiment. 
+2. Data Structures and Entities Major Data Entities: 
+Investor: It keeps personal data including name, e -mail, investment interest, and risk 
+capacity. Structures Organized in structured data and stored in the database called User 
+Data. Methods include setting investment strategies and viewing portfolios. 
+Portfolio: 
+It features live investments, historical performance, as well as information about invest - 
+ment allocation. There are a variety of stocks in every portfolio and every portfolio has an 
+investor behind it. It has been related that it is organized relational data in the User Data 
+
+24 
+3. System Overview 
+ 
+database. 
+Stock: 
+Stores attributes concerning the stock name, its Ticker Symbol, and current and historical 
+prices. Each share consists of a portfolio and is susceptible to market movements. This is 
+stored in the Stock Data database, which is optimized for fast lookups and updates. 
+MarketTrend: 
+Contains info about trends - bullish, bearish, economic indicators, historical events about 
+the market. It is employed in the extraction of stock price forecasts. They are stored in the 
+Market Trends database, making it possible to retrospectively perform historical trend 
+analysis during model training. 
+InvestmentStrategy: 
+Contains attributes including type of strategy -growth, value, level of risk and target re - 
+turns. Backtested and optimized strategies for the investor. Linked to historical data that 
+has been utilized for simulation and testing Stored within the database of User Data. 
+FeatureEngineering and AnalysisModel (TFT, RL, EGARCH): 
+Feature engineering performs the transformation of raw data: encoding and scaling. The 
+transformed data are used for models’ training with predictions in alterations of the stock 
+movement and measurements of the risk. All are processed in -memory at runtime, but 
+backed up with historical data and model configurations stored in Financial Reports and 
+Stock Data databases. 
+3-Data Processing and Storage 
+Data Collection: 
+Real-time or periodic calls to the actual stock data or financial reports from external 
+sources such as APIs or document feeds. These are stored in a structured format in a 
+database like Stock Data or Financial Reports. 
+Data Preprocessing: 
+The actual analysis mainly begins with preprocessed raw data. In most cases, this prepro- 
+cessing includes cleaning, normalization, and feature extraction through the FeatureEngi- 
+neering module. Preprocessed data is resident in -memory only but both backed by the 
+Stock Data and Financial Reports databases. 
+Model Training and Predictions: 
+Temporal Fusion Transformer (TFT), Reinforcement Learning (RL), and EGARCH mod- 
+els are trained on the historical stock prices and trends, stored in the Historical Data and 
+Market Trends databases. Predictions like how the stock prices will move and the amount 
+of risks can be sent live back to the investor when processed data is fed to these models for 
+25 
+3.3 Data Design 
+ 
+them to churn out the results back to the investor for the purposes of making a decision. 
+Data Storage Items (Databases) 1-Stock Data: 
+Stores the information of stocks in real time and historically in terms of prices of stocks, 
+ticker symbols, and information of a company. It is structurally designed for efficient 
+retrieval as well as updating. Both feature engineering and model training modules use it. 
+2- Market Trends: 
+Stores all the information related to the economic indicators, information about world - 
+wide events, and all its historical behavior with respect to the market. As it is a time-series 
+database, analysis over certain periods is enabled. 
+3- Financial Reports: It is a mix of structured and unstructured data through sources such 
+as company financial reports, news and journal sources. : PDF reports are stored in 
+the database with the use of document storage, but a relational model is used for parsed 
+financial metrics. 
+4- User Data: 
+Stores investor profiles, portfolios, and investment strategies. A relational database de- 
+signed with the goal of secure, personalized access and rapid retrieval. 
+4-Data Organization and Processing: 
+Normalization: 
+Data is normalized in such a way that there are no redundancies and consistency in the 
+entire database. The key relationships that are established include a relation between 
+investors to their portfolios, portfolios to stocks, and stocks to market trends. 
+Indexing: 
+Stock prices, market trends, financial reports are indexed by attributes which are used to 
+query fast during model training and real-time analysis. 
+Scaling and Encoding: 
+Data is scaled in case of numerical values and encoded in case of categorical variables 
+before the actual model training as part of feature engineering. 
+Backtesting and Simulations: 
+Using historical stock data and market trends, there is simulation and validation of the 
+investment strategy whereby it gives an insight to investors about how their strategies 
+would have performed in the past. 
+Conclusion: 
+In HoshyarInvestAI, multiple finance sources are fed into structured data entities such as 
+stocks, portfolios, and market trends, and those databases store them. The system prepro- 
+26 
+3. System Overview 
+ 
+cesses the data it has, feeds it into TFT, RL, EGARCH machine learning models, and pro- 
+vides the investor with real -time predictions and recommendations. The use of efficient 
+storage and retrieval proves that this system is supposed to make fast and personalized, 
+data-driven decisions for investors. 
+ 
+ 
+JSON SCHEMA 
+ 
+ 
+{ 
+ "type": "object", 
+ "properties": { 
+ "Investor": { 
+ "type": "object", 
+ "properties": { 
+ "InvestorID": { "type": "integer" }, 
+ "Name": { "type": "string" }, 
+ "Email": { "type": "string" }, 
+ "Password": { "type": "string" }, 
+ "ExperienceLevel": { "type": "string" }, 
+ "InvestmentPreferences": { "type": "string" } 
+ } 
+ }, 
+ "Admin": { 
+ "type": "object", 
+ "properties": { 
+ "AdminID": { "type": "integer" }, 
+ "Name": { "type": "string" }, 
+ "Email": { "type": "string" }, 
+ "Password": { "type": "string" } 
+ } 
+ }, 
+ "DataAnalyst": { 
+ "type": "object", 
+ "properties": { 
+ "AnalystID": { "type": "integer" }, 
+ "Name": { "type": "string" }, 
+ "Email": { "type": "string" }, 
+ "Password": { "type": "string" } 
+ } 
+ }, 
+ "Recommendation": { 
+ "type": "object", 
+ "properties": { 
+27 
+ "RecommendationID": { "type": "integer" }, 
+ "Date": { "type": "string", "format": "date" }, 
+ "RecommendationDetails": { "type": "string" } 
+ } 
+ } 
+ } 
+}
+28
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

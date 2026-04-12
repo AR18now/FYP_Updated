@@ -1,0 +1,1145 @@
+# FYP1-MidReport-F24-123-D-SkillSeeker - i211690 Ahmed Shayan Arsalan
+
+## 1. Introduction
+
+1. Introduction 
+The purpose of this report is to present a detailed plan on the entire development cycle for SkillSeeker. 
+Here we discuss constraint, process flows, delivery and all other aspects of our project. 
+ 
+Finding professional services can be a daunting task for layman users. The process often takes upwards 
+of 60 minutes, involving extensive searching to identify valid professionals. Users frequently face the 
+frustration of making countless calls to multiple service providers, only to be met with complex 
+decision-making processes that require more expertise than they possess. Moreover, the lack of specific 
+niche search options further complicates the task, leading to a significant amount of unnecessary 
+legwork. This inefficiency and the time -consuming nature of the search process hinder users from 
+quickly and easily accessing the professional services they need. 
+ 
+We propose a system for Layman users to find these professional services through the use of extremely 
+simple prompts. 
+ 
+1.1 Problem Statement 
+Let’s take a real-world example, Ahmed has been experiencing persistent back pain and needs to find 
+a doctor. However, as he searches online, he becomes overwhelmed by complex medical terms like 
+"orthopedic specialist" and "rheumatologist." Unsure of what he needs, John spends n early an hour 
+scrolling through websites and making calls to clinics. Each conversation adds to his confusion, as 
+receptionists use technical language he doesn't understand. What should have been a simple task turns 
+into a frustrating and time-consuming ordeal, leaving John no closer to finding the right doctor. 
+Layman users often struggle to locate the right professionals, particularly in specialized fields like law, 
+computer science, and medicine. For instance, someone needing legal advice for a business contract 
+may not know whether to consult a corporate lawyer or a contract attorney, while a person facing a 
+cybersecurity issue might be unsure if they need a cybersecurity expert or a network engineer. In the 
+medical field, a user with back pain might be confused about whether to see an orthopedic specialist, 
+rheumatologist, or chiropractor. This confusion leads to wasted time and resources, and often results in 
+users receiving help that isn't tailored to their specific needs, further complicating their situations. 
+ 
+1.2 Problem Solution 
+ 
+Introducing an all -in-one LLM application designed to bridge the gap between layman users and 
+professional services. This chatbot-driven solution allows users to input their needs in simple 
+terms, without requiring any prior knowledge of specific professions. The application then 
+generates a comprehensive list of tailored professio nals, complete with user customization 
+options and role management features. Additionally, it offers seamless booking functionalities, 
+ensuring that users can easily connect with the right service providers. 
+Users can provide specific directions or cases for their searches, such as requesting a lawyer 
+with experience in intellectual property who has experience in retail sector disputes or a doctor 
+Project Vision 
+ 
+specializing in pediatric neurology with a keen interest in psychotherapy and has dabbled in 
+surgeries. The ch atbot will process these criteria and generate a final output that showcases 
+professionals with the closest match to those needs. The results will highlight individuals' 
+expertise, proximity, and ability to address the specified problems, ensuring users connect with 
+the most qualified service providers for their unique situations. 
+ 
+ 
+1.3 Project Vision 
+1.3.1 Overview 
+ In summary, this project aims to revolutionize how users access professional services by 
+introducing an all-in-one LLM application that simplifies and personalizes the search process. 
+By leveraging a fully automated chatbot, users can easily input their needs and receive tailored 
+recommendations. The application includes comprehensive features such as multilingual 
+support, voice interactio n, and an integrated booking system. With additional functionalities 
+like a "Near Me" feature and a sophisticated history and personalization module, users will 
+benefit from a streamlined, efficient, and user-friendly experience, ensuring they find the right 
+professionals quickly and effectively. 
+ 
+1.3.2 Definition, Acronyms or Abbreviations 
+• LLM - Large Language Model 
+• Vector Embeddings – Database System for Retrieval 
+• AI - Artificial Intelligence 
+• MoE/MoA – Mixture of Experts/Mixture of Agents 
+• CrewAI – Agentic Approach 
+ 
+ 
+1.4 Positioning 
+ 
+ SkillSeeker targets layman users that have little or no understanding of professions, allowing 
+them to get paired up with individuals that are more suited to their needs as a whole 
+ Users can provide specific directions or cases for their searches, such as requesting a lawyer 
+with experience in intellectual property who has experience in retail sector disputes or a doctor 
+specializing in pediatric neurology with a keen inter est in psychotherapy and has dabbled in 
+surgeries 
+ 
+ 
+ 
+ 
+Project Vision 
+ 
+ 
+ 
+ 
+ 
+1.4.1 Problem Statement 
+ 
+The problem of Locating Professionals 
+affects All Layman users and some other agencies/users 
+the impact of which is Difficulty in conveying requirements 
+a successful solution would be An all-in-one LLM application designed to bridge 
+the gap between layman users and professional 
+services. This chatbot-driven solution allows users 
+to input their needs in simple terms, without 
+requiring any prior knowledge of specific 
+professions. 
+ 
+Table 2: Problem Statement 
+ 
+1.4.2 Product Position Statement 
+ 
+For Users of all types, mostly Layman 
+Who Cannot convey functionality and requirements 
+SkillSeeker Is a software product 
+That Runs on web browsers and allows users to locate 
+professionals that fit their criteria. 
+Unlike Available systems that are too complicated and do not 
+allow basic layman level inputs and specific criteria 
+checks 
+Our Product Enhances the soft skills of employees at organizations 
+of any scale. It quantifies their soft skills using different 
+metrics extracted from audio and video recordings of 
+them communicating in real life based settings, and then 
+provides recommendations for improvement based on 
+the results. 
+ 
+Table 3: Product Position Statement 
+ 
+ 
+1.5 Scope 
+1.5.1 Overview 
+ 
+Project Vision 
+ 
+1. User Login: Upon logging in, users are greeted with their personalized preferences if 
+they are returning users. This customization ensures a tailored experience right from the start. 
+2. Specify Needs : Users can either describe their problem and the desired solution or 
+provide extremely specific criteria for the services they need. The chatbot will use this 
+information to generate a list of relevant professionals. 
+3. List-Based Results: The application presents a list of professionals based on the user’s 
+criteria. Each entry provides details about how well they match the user’s needs. 
+4. Communication with Chatbot: Users can then interact with the chatbot to discuss the 
+professionals on their list. They can ask questions about each individual’s expertise, specific 
+details, and how they can address their problems. This step helps create a comprehensive 
+persona of the professional and assesses their suitability. 
+5. Final Decision : After evaluating the options and discussing them with the chatbot, 
+users can make a decision on which professional to contact. 
+6. Appointment Booking: Users can request the chatbot to send a reminder for booking 
+the appointment. The system will send an appointment confirmation via email or SMS, 
+ensuring users are notified and reminded of the ir upcoming engagement with the chosen 
+professional. 
+7. Professions: Currently, we plan to embed these professions: 
+• All Major CS Fields (Especially the ones present in FAST) 
+• Major Medical Fields 
+• Major Lawyer Fields 
+• Notable Marketing Fields 
+• SEO/Journalism Fields 
+• Many Service-Based Locations (Sports related, entertainment related) 
+ 
+1.5.2 Target Audiences 
+• Layman Users : Individuals with little understanding of professional categories who need 
+guidance in finding the right service. 
+• Newcomers: Users who are new to their surroundings or locationally challenged, requiring 
+assistance in navigating local professional services. 
+• Time-Sensitive Users: Those who need quick, efficient solutions due to time constraints or 
+urgent cases. 
+1.5.3 Goals 
+• Rapid Access: Provide a comprehensive list of reliable professional services in under a minute. 
+• Tailored Searches : Enable users to conduct highly specific criteria -based searches and 
+customizations. 
+• Informed Decision-Making: Facilitate further communication with the chatbot to discuss and 
+evaluate the proposed professionals. 
+Project Vision 
+ 
+• Seamless Booking : Offer a booking feature to directly connect and communicate with the 
+selected service providers. 
+1.6 Modules 
+ 
+1.6.1 Prompting Module 
+This module is responsible for understanding the user prompts and creating context for 
+classification and retrievals. It deconstructs the prompt and creates blocks of usable data 
+essentially 
+• Gets info from user for future querying 
+• Find the most suited profession for this task 
+• Responds with the correctly classified profession 
+1.6.2 Profession Response 
+This module is responsible for giving the answers to the user while maintaining the correct 
+flow and understanding of the initial queries. After a conversation chain with the assistant, the 
+bot will respond with the results 
+• Conversation Chain 
+• Response/Output 
+• Detailed Info on Users 
+1.6.3 Persona Module 
+This module is our most interesting one, we essentially create a module that works as a person, 
+this person can then give an interview to the user that wants to find a profession best suited to 
+their needs. 
+• Conversation Based Interview 
+• Full Q/A Session 
+• Persona Development 
+ 
+ 
+SkillSeeker 
+ 
+ 
+ 
+Chapter 2: Project Requirements 
+ 
+2.1 Product Features 
+A vast description of all major features and requirements of SkillSeeker as a whole. 
+2.1.1 Features 
+• A memory system that allows the assistant to remember details about the user and their 
+requirements. 
+• The model that will translate queries and give a more formal tone 
+• A list-based answer for all users 
+• Multi-language support 
+• Differentiation between niches and professionals 
+ 
+2.1.2 Usability 
+• Users can interact with SkillSeeker by communicating in a web-based platform. 
+• Users can input any requirements for any of the available professions 
+• Users can then interview the personas for more details 
+2.1.3 Reliability 
+Our system will provide accurate results as well as an interface that is simple and easy to use . 
+The model itself will be hosted via MERN stack and will contain fallback features that help 
+keep it hosted 
+2.1.4 Performance 
+Response time and results displayed will be quick, to compete against other forums like ours. 
+The model itself will be mostly API based, allowing for other users to not have to use GPU 
+resources, aiding their resource management and ours 
+ 
+2.1.5 Supportability 
+Extremely scalable system using vector embeddings and other systems . This system of 
+scalability allows us to keep adding professionals without the fear of overburdening our system 
+with unnecessary datasets. 
+ 
+ 
+ 
+2.2 Constraints 
+2.2.1 Implementation Constraints 
+ 
+• Training our own models and API usage 
+• A MERN system for UI 
+• MySQL as backend 
+2.2.2 Process Constraints 
+ 
+Number of professional types and how they differ from others of its niche, forcing us to adapt 
+the model to accommodate items further 
+2.2.3 Physical Constraints 
+None 
+2.2.4 Environmental Constraints 
+None (ATM) 
+ 
+2.3
+
+## 2. Overall Description
+
+Overall Description ...................................................................................................................................................12 
+ 2.3.1 Product Functions ............................................................................................................................. ...................12 
+ 2.3.2 Layman User ............................................................................................................................. ..........................12 
+ 2.3.3 Operating Environment ............................................................................................................................. ..........12 
+2.4 External Interface Requirements ............................................................................................................................. ..13 
+ 2.4.1 User Interfaces ....................................................................................................................................................13 
+ 2.4.2 Hardware Interfaces ............................................................................................................................................13 
+Chapter 3: The System ............................................................................................................................. ....................14 
+3.4 System Features ........................................................................................................................................................14 
+ 3.4.1 Login ................................................................................................................ ...................................................14 
+ Description and Priority 
+ Stimulus/Response Sequences 
+ Functional Requirements 
+ 3.4.2 Select Professional ............................................................................................................................................. 14 
+ Description and Priority 
+ 
+ Stimulus/Response Sequences 
+ 3.4.3 Conversation ............................................................................................................................. ..........................15 
+ Description and Priority 
+Introduction iv 
+ 
+Stimulus/Response Sequences 
+ 3.4.4 Manage Results ............................................................................................................................. ......................15 
+ Description and Priority 
+ Stimulus/Response Sequences 
+ 3.4.5 Booking ............................................................................................................................. ..................................15 
+ Description and Priority 
+ Stimulus/Response Sequences 
+3.5 Other Nonfunctional Requirements ..........................................................................................................................16 
+ 3.5.1 Performance Requirements ............................................................................................................................. ....15 
+ 3.5.2 Safety Requirements ............................................................................................................................. ..............16 
+ 3.5.3 Software Quality Attributes ................................................................................................................................16 
+ 3.5.3.1 Efficiency ......................................................................................................................................................16 
+ 3.5.3.2 Accessibility ............................................................................................................................. .....................16 
+3.6 Use Case Diagram ............................................................................................................................. ........................17 
+3.7 High-Level Use Cases ............................................................................................................................. ..................18 
+ 3.7.1 Login ...................................................................................................................................................................1 8 
+ 3.7.2 Select Professional ..............................................................................................................................................18 
+ 3.7.3 Conversation .................................................................................................................... ...................................18 
+ 3.7.4 Manage Results ............................................................................................................................. ......................19 
+ 3.7.5 Persona Interview ............................................................................................................................. ...................19 
+ 3.7.6 Booking ................................................................................................................................... ............................19 
+3.8 Expanded Use Cases ............................................................................................................................. ....................19 
+ 3.8.1 Select Professionals .............................................................................................................................................20 
+ 3.8.2 Conversation ........................................................................................................................................................20 
+ 3.8.3 Manage Results ............................................................................................................................. ......................21 
+ 3.8.4 Persona Interview ............................................................................................................................. ...................22 
+ 3.8.5 Booking ............................................................................................................................. ..................................22 
+3.9 Activity Diagram .................................................................................................................................................. ....24 
+3.10 System Sequence Diagrams ....................................................................................................................................25 
+ 3.10.1 Main Diagram ................................................................................................................... ................................25 
+ 3.10.2 Data Collection ............................................................................................................................. ....................26 
+ 3.10.3 Vector Embeddings ............................................................................................................................. .............27 
+ 3.10.4 UI Interaction ............................................................................................................................. .......................28 
+ 3.10.5 User Interaction with Professionals .................................................................................................................. 29 
+ 3.10.6 User Query Handling ........................................................................................................................................30 
+3.11 Class Diagram .........................................................................................................................................................31 
+3.12 Architecture Diagram ......................................................................................................................... .....................32 
+3.13 Data Flow Diagram ............................................................................................................................. ....................33 
+ 3.13.1 Level 0 DFD (Context Diagram) .....................................................................................................................33 
+ 3.13.2 Level 1 DFD (Overview of Key Processes) .....................................................................................................33 
+ 3.13.3.1 Level 2 DFD - Classifying Query .................................................................................................................3 4 
+ 3.13.3.2 Level 2 DFD – Processing Data ....................................................................................................................34 
+3.4 Conclusion and References 
+ 3.4.1 Conclusion .........................................................................................................................................................35 
+ 3.4.2 References .........................................................................................................................................................35 
+ 
+vii 
+ 
+ 
+ 
+List of Figures 
+Figure 1: Use Case Diagram ………………………………………………………………………….17 
+Figure 2: Activity Diagram …………………………………………………………………………...24 
+Figure 3: System Sequence Diagrams ................................................................................................... 25 
+Figure 4: Data Collection Diagram ....................................................................................................... 26 
+Figure 5: Vector Embeddings Diagram ..................................................................................................... 27 
+Figure 6: UI Interaction Diagram .......................................................................................................... 28 
+Figure 7: User Interaction Diagram ....................................................................................................... 29 
+Figure 8: User Query Handling Diagram ................................................................................................... 30 
+Figure 9: Class Diagram ........................................................................................................................ 31 
+Figure 10: Architecture Diagram ........................................................................................................... 32 
+Figure 11: Level 0 Data Flow Diagram ................................................................................................. 33 
+Figure 12: Level 1 Data Flow Diagram ................................................................................................. 33 
+Figure 13: Level 2 DFD - Classifying Query Diagram ......................................................................... 34 
+Figure 14: Level 2 DFD – Processing Data Diagram ............................................................................ 34
+Project Vision 
+ 
+ 
+ 
+Chapter 1: An Overview 
+ 
+1. Introduction 
+The purpose of this report is to present a detailed plan on the entire development cycle for SkillSeeker. 
+Here we discuss constraint, process flows, delivery and all other aspects of our project. 
+ 
+Finding professional services can be a daunting task for layman users. The process often takes upwards 
+of 60 minutes, involving extensive searching to identify valid professionals. Users frequently face the 
+frustration of making countless calls to multiple service providers, only to be met with complex 
+decision-making processes that require more expertise than they possess. Moreover, the lack of specific 
+niche search options further complicates the task, leading to a significant amount of unnecessary 
+legwork. This inefficiency and the time -consuming nature of the search process hinder users from 
+quickly and easily accessing the professional services they need. 
+ 
+We propose a system for Layman users to find these professional services through the use of extremely 
+simple prompts. 
+ 
+1.1 Problem Statement 
+Let’s take a real-world example, Ahmed has been experiencing persistent back pain and needs to find 
+a doctor. However, as he searches online, he becomes overwhelmed by complex medical terms like 
+"orthopedic specialist" and "rheumatologist." Unsure of what he needs, John spends n early an hour 
+scrolling through websites and making calls to clinics. Each conversation adds to his confusion, as 
+receptionists use technical language he doesn't understand. What should have been a simple task turns 
+into a frustrating and time-consuming ordeal, leaving John no closer to finding the right doctor. 
+Layman users often struggle to locate the right professionals, particularly in specialized fields like law, 
+computer science, and medicine. For instance, someone needing legal advice for a business contract 
+may not know whether to consult a corporate lawyer or a contract attorney, while a person facing a 
+cybersecurity issue might be unsure if they need a cybersecurity expert or a network engineer. In the 
+medical field, a user with back pain might be confused about whether to see an orthopedic specialist, 
+rheumatologist, or chiropractor. This confusion leads to wasted time and resources, and often results in 
+users receiving help that isn't tailored to their specific needs, further complicating their situations. 
+ 
+1.2 Problem Solution 
+ 
+Introducing an all -in-one LLM application designed to bridge the gap between layman users and 
+professional services. This chatbot-driven solution allows users to input their needs in simple 
+terms, without requiring any prior knowledge of specific professions. The application then 
+generates a comprehensive list of tailored professio nals, complete with user customization 
+options and role management features. Additionally, it offers seamless booking functionalities, 
+ensuring that users can easily connect with the right service providers. 
+Users can provide specific directions or cases for their searches, such as requesting a lawyer 
+with experience in intellectual property who has experience in retail sector disputes or a doctor 
+Project Vision 
+ 
+specializing in pediatric neurology with a keen interest in psychotherapy and has dabbled in 
+surgeries. The ch atbot will process these criteria and generate a final output that showcases 
+professionals with the closest match to those needs. The results will highlight individuals' 
+expertise, proximity, and ability to address the specified problems, ensuring users connect with 
+the most qualified service providers for their unique situations. 
+ 
+ 
+1.3 Project Vision 
+1.3.1 Overview 
+ In summary, this project aims to revolutionize how users access professional services by 
+introducing an all-in-one LLM application that simplifies and personalizes the search process. 
+By leveraging a fully automated chatbot, users can easily input their needs and receive tailored 
+recommendations. The application includes comprehensive features such as multilingual 
+support, voice interactio n, and an integrated booking system. With additional functionalities 
+like a "Near Me" feature and a sophisticated history and personalization module, users will 
+benefit from a streamlined, efficient, and user-friendly experience, ensuring they find the right 
+professionals quickly and effectively. 
+ 
+1.3.2 Definition, Acronyms or Abbreviations 
+• LLM - Large Language Model 
+• Vector Embeddings – Database System for Retrieval 
+• AI - Artificial Intelligence 
+• MoE/MoA – Mixture of Experts/Mixture of Agents 
+• CrewAI – Agentic Approach 
+ 
+ 
+1.4 Positioning 
+ 
+ SkillSeeker targets layman users that have little or no understanding of professions, allowing 
+them to get paired up with individuals that are more suited to their needs as a whole 
+ Users can provide specific directions or cases for their searches, such as requesting a lawyer 
+with experience in intellectual property who has experience in retail sector disputes or a doctor 
+specializing in pediatric neurology with a keen inter est in psychotherapy and has dabbled in 
+surgeries 
+ 
+ 
+ 
+ 
+Project Vision 
+ 
+ 
+ 
+ 
+ 
+1.4.1 Problem Statement 
+ 
+The problem of Locating Professionals 
+affects All Layman users and some other agencies/users 
+the impact of which is Difficulty in conveying requirements 
+a successful solution would be An all-in-one LLM application designed to bridge 
+the gap between layman users and professional 
+services. This chatbot-driven solution allows users 
+to input their needs in simple terms, without 
+requiring any prior knowledge of specific 
+professions. 
+ 
+Table 2: Problem Statement 
+ 
+1.4.2 Product Position Statement 
+ 
+For Users of all types, mostly Layman 
+Who Cannot convey functionality and requirements 
+SkillSeeker Is a software product 
+That Runs on web browsers and allows users to locate 
+professionals that fit their criteria. 
+Unlike Available systems that are too complicated and do not 
+allow basic layman level inputs and specific criteria 
+checks 
+Our Product Enhances the soft skills of employees at organizations 
+of any scale. It quantifies their soft skills using different 
+metrics extracted from audio and video recordings of 
+them communicating in real life based settings, and then 
+provides recommendations for improvement based on 
+the results. 
+ 
+Table 3: Product Position Statement 
+ 
+ 
+1.5 Scope 
+1.5.1 Overview 
+ 
+Project Vision 
+ 
+1. User Login: Upon logging in, users are greeted with their personalized preferences if 
+they are returning users. This customization ensures a tailored experience right from the start. 
+2. Specify Needs : Users can either describe their problem and the desired solution or 
+provide extremely specific criteria for the services they need. The chatbot will use this 
+information to generate a list of relevant professionals. 
+3. List-Based Results: The application presents a list of professionals based on the user’s 
+criteria. Each entry provides details about how well they match the user’s needs. 
+4. Communication with Chatbot: Users can then interact with the chatbot to discuss the 
+professionals on their list. They can ask questions about each individual’s expertise, specific 
+details, and how they can address their problems. This step helps create a comprehensive 
+persona of the professional and assesses their suitability. 
+5. Final Decision : After evaluating the options and discussing them with the chatbot, 
+users can make a decision on which professional to contact. 
+6. Appointment Booking: Users can request the chatbot to send a reminder for booking 
+the appointment. The system will send an appointment confirmation via email or SMS, 
+ensuring users are notified and reminded of the ir upcoming engagement with the chosen 
+professional. 
+7. Professions: Currently, we plan to embed these professions: 
+• All Major CS Fields (Especially the ones present in FAST) 
+• Major Medical Fields 
+• Major Lawyer Fields 
+• Notable Marketing Fields 
+• SEO/Journalism Fields 
+• Many Service-Based Locations (Sports related, entertainment related) 
+ 
+1.5.2 Target Audiences 
+• Layman Users : Individuals with little understanding of professional categories who need 
+guidance in finding the right service. 
+• Newcomers: Users who are new to their surroundings or locationally challenged, requiring 
+assistance in navigating local professional services. 
+• Time-Sensitive Users: Those who need quick, efficient solutions due to time constraints or 
+urgent cases. 
+1.5.3 Goals 
+• Rapid Access: Provide a comprehensive list of reliable professional services in under a minute. 
+• Tailored Searches : Enable users to conduct highly specific criteria -based searches and 
+customizations. 
+• Informed Decision-Making: Facilitate further communication with the chatbot to discuss and 
+evaluate the proposed professionals. 
+Project Vision 
+ 
+• Seamless Booking : Offer a booking feature to directly connect and communicate with the 
+selected service providers. 
+1.6 Modules 
+ 
+1.6.1 Prompting Module 
+This module is responsible for understanding the user prompts and creating context for 
+classification and retrievals. It deconstructs the prompt and creates blocks of usable data 
+essentially 
+• Gets info from user for future querying 
+• Find the most suited profession for this task 
+• Responds with the correctly classified profession 
+1.6.2 Profession Response 
+This module is responsible for giving the answers to the user while maintaining the correct 
+flow and understanding of the initial queries. After a conversation chain with the assistant, the 
+bot will respond with the results 
+• Conversation Chain 
+• Response/Output 
+• Detailed Info on Users 
+1.6.3 Persona Module 
+This module is our most interesting one, we essentially create a module that works as a person, 
+this person can then give an interview to the user that wants to find a profession best suited to 
+their needs. 
+• Conversation Based Interview 
+• Full Q/A Session 
+• Persona Development 
+ 
+ 
+SkillSeeker 
+ 
+ 
+ 
+Chapter 2: Project Requirements 
+ 
+2.1 Product Features 
+A vast description of all major features and requirements of SkillSeeker as a whole. 
+2.1.1 Features 
+• A memory system that allows the assistant to remember details about the user and their 
+requirements. 
+• The model that will translate queries and give a more formal tone 
+• A list-based answer for all users 
+• Multi-language support 
+• Differentiation between niches and professionals 
+ 
+2.1.2 Usability 
+• Users can interact with SkillSeeker by communicating in a web-based platform. 
+• Users can input any requirements for any of the available professions 
+• Users can then interview the personas for more details 
+2.1.3 Reliability 
+Our system will provide accurate results as well as an interface that is simple and easy to use . 
+The model itself will be hosted via MERN stack and will contain fallback features that help 
+keep it hosted 
+2.1.4 Performance 
+Response time and results displayed will be quick, to compete against other forums like ours. 
+The model itself will be mostly API based, allowing for other users to not have to use GPU 
+resources, aiding their resource management and ours 
+ 
+2.1.5 Supportability 
+Extremely scalable system using vector embeddings and other systems . This system of 
+scalability allows us to keep adding professionals without the fear of overburdening our system 
+with unnecessary datasets. 
+ 
+ 
+ 
+2.2 Constraints 
+2.2.1 Implementation Constraints 
+ 
+• Training our own models and API usage 
+• A MERN system for UI 
+• MySQL as backend 
+2.2.2 Process Constraints 
+ 
+Number of professional types and how they differ from others of its niche, forcing us to adapt 
+the model to accommodate items further 
+2.2.3 Physical Constraints 
+None 
+2.2.4 Environmental Constraints 
+None (ATM) 
+ 
+2.3 Overall Description 
+ 
+2.3.1 Product Functions 
+ 
+The main functionality of SkillSeeker will be 
+ 
+• Locating professionals 
+• Interviewing personas 
+• Bookings 
+• Input translations 
+ 
+2.3.2 Layman User 
+This section describes the characteristics of the Trainee. Trainee should have experience of 
+using desktop-based web browser applications. 
+• Experience of using a desktop-based web browser. 
+• Satisfactory level of understanding of distinctive interfacing. 
+• User should have a complete understanding of the features of product. 
+ 
+ 
+ 
+2.3.3 Operating Environment 
+ 
+For this project, the operating environment must have a stable connection to the internet to access 
+the application on the web. 
+2.4 External Interface Requirements 
+2.4.1 User Interfaces 
+ 
+User interface will be similar to other training applications, where user can first register their 
+account. After logging in, the user can add any requirements or criteria’s and based on that 
+receive their answer, and then they can go for interviewing personas. 
+ 
+2.4.2 Hardware Interfaces 
+ 
+SkillSeeker is not highly dependent on any hardware interface, it requires only a computer 
+and internet with web browser. However, the web browser should be accessed from a desktop 
+for the optimal user experience. 
+SkillSeeker 
+ 
+ 
+ 
+ 
+ 
+ 
+Chapter 3: The System 
+ 
+ 
+3.4 System Features 
+ 
+3.4.1 Login 
+Description and Priority 
+ 
+Users can login to the application through the UI interface and be greeted with the system. A 
+simple security check as well as DB retrieval will be used to check if the correct person has 
+logged in or not 
+ 
+Stimulus/Response Sequences 
+ 
+1. Get user ID. 
+ 
+2. Get user password. 
+ 
+3. Show previous conversations (If any) 
+ 
+Functional Requirements 
+ 
+REQ-1: The login ID must be valid. 
+REQ-2: The password must match to corresponding login ID. 
+ 
+3.4.2 Select Professional 
+The user gives a query and it is classified into a certain profession. The prompt may be 
+extremely simple allowing it to be dissected by our model for easier uses in future 
+manipulation 
+Stimulus/Response Sequences 
+ 
+1. Enter the assistant tab 
+ 
+2. Give requirements 
+ 
+SkillSeeker 
+ 
+ 
+3. Manage results 
+ 
+ 
+ 
+ 
+ 
+ 
+3.4.1 Conversation 
+Description and Priority 
+ 
+User chats with the chatbot about the initial query. A complete conversation chain where the 
+bot creates new questions dynamically based on the answers provided, these answers can help 
+the model find more people useful for the user. 
+Stimulus/Response Sequences 
+1. Users receives sends requirements 
+2. User receives new questions 
+3. Answers are provided 
+ 
+Functional Requirements 
+ 
+REQ-1: At least one initial prompt with some detail 
+3.4.2 Manage Results 
+Description and Priority 
+ 
+Users can see and manage all users that fit the profile and check who fits where. On a side tab, 
+there will be all the professionals best suited, the user can simply click on them and view what 
+works best. 
+Stimulus/Response Sequences 
+4. Users receives output 
+5. User chooses a person 
+6. User starts the interview 
+ 
+Functional Requirements 
+ 
+REQ-1: At least one full conversation 
+ 
+3.4.3 Booking 
+Description and Priority 
+ 
+Once decided, a user may book a professional through the app. After choosing a professional, 
+the user can click on his profile and ask the bot to send a booking to him through whatever 
+forum available 
+SkillSeeker 
+ 
+ 
+Stimulus/Response Sequences 
+ 
+1. User chooses a user 
+2. User enters his tab (Details) 
+3. User tells the bot to book details 
+ 
+Functional Requirements 
+ 
+REQ-1: At least 1 chosen user 
+ 
+ 
+ 
+3.5 Other Nonfunctional Requirements 
+3.5.1 Performance Requirements 
+ 
+ 
+• Internet Connection: The Computer/Laptop should be connected to internet. 
+ 
+ 
+3.5.2 Safety Requirements 
+The product is safe as no user data other than the initial convo is stored in the user preferences 
+in database 
+3.5.3 Software Quality Attributes 
+Following are the software quality attributes of our system. 
+ 
+3.5.3.1 Efficiency 
+The system analyzes the prompt in detail and gives best users 
+ 
+3.5.3.2 Accessibility 
+The product is designed for people who don’t understand complex criteria’s and details.
+Use Case Diagram 
+ 
+ 
+ 
+3.6 Use Case Diagram 
+ 
+ 
+ 
+ 
+Figure: Use Case Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+3.7 High Level Use Cases 
+ 
+3.7.1 Login 
+ 
+Use Case Login 
+Actor User 
+Type Primary 
+Description The system will check if the user has conversed with the bot before 
+and gives recommendations based on that. 
+ 
+3.7.2 Select Professional 
+ 
+Use Case Select Professional 
+Actor User 
+Type Primary 
+Description User gives an input based on their needs, this can be document, list, or 
+problem based. 
+ 
+3.7.3 Conversation 
+ 
+Use Case Conversation 
+Actor User 
+Type Primary 
+ 
+ 
+Description The assistant will ask follow-up questions to get a better idea of how 
+to understand the user problem. 
+ 
+ 
+ 
+3.7.4 Manage Results 
+ 
+Use Case Manage Results 
+Actor(s) User 
+Type Primary 
+Description The user can get individually see each professional, their pros, cons 
+and other details and decide who they want to discuss further 
+ 
+3.7.5 Persona Interview 
+ 
+Use Case Persona Interview 
+Actor(s) User 
+Type Primary 
+Description The user can get interview a sort of persona of the professional chosen 
+and see how well they align based on their prompts and such. 
+ 
+3.7.8 Booking 
+ 
+Use Case Booking 
+Actor(s) User 
+Type Primary 
+ 
+ 
+Description The user can ask the agent to book the user for him 
+ 
+3.8 Expanded Use Cases 
+ 
+ 
+ 
+3.8.1 Select Professionals 
+ 
+Use Case Select Professionals 
+Actor User 
+Level User Goal 
+Stakeholders and 
+Interests User: Wants to get some professionals 
+Preconditions • User has logged into the app 
+• He is somewhat clear on what he wants 
+Post Conditions • The prompt has been analyzed 
+• Results displayed 
+Main Success Scenario 
+This case begins when user logs in 
+ 
+1. The user will provide a prompt, very layman level 
+2. The prompt is deconstructed 
+3. The prompt is then classified which profession it belongs to 
+4. The prompt has been successfully analyzed and the user is then 
+notified through the next steps. 
+Alternate Scenario 
+This will ONLY occur if the prompt has not been classified into any 
+available area, meaning the prompt was severely lacking or it is not 
+one we offer 
+Frequency of Use High 
+Technology and Data 
+Variation Lists 
+ 
+The user must have a stable internet connection 
+ 
+3.8.2 Conversation 
+ 
+ 
+ 
+Use Case Conversation 
+Actor User 
+Level User Goal 
+Stakeholders and 
+Interests User wants to give more info on his problem 
+Preconditions • User has given initial prompt 
+Post Conditions • User gets the results 
+Main Success Scenario 
+1) The user gets a few questions based on his prompt 
+2) These questions are answered 
+3) These questions build up confidence in the entire prompt for 
+the retrieval chain 
+4) Results are displayed 
+Alternate Scenario User does not provide valuable info in the conversation, leading in 
+worse results 
+Frequency of Use High 
+Technology and Data 
+Variation Lists 
+User must have a stable internet connection; User must also 
+understand his problem to a small degree 
+ 
+3.8.3 Manage Results 
+Use Case Manage Results 
+Actor User 
+Level User Goal 
+Stakeholders and 
+Interests User wants to see details on each professional 
+Preconditions • User has participated in entire convo chain 
+Post Conditions • User gets the needed results 
+Main Success Scenario 
+1) The user looks at all the individuals 
+2) The user checks to see who he wants to interview 
+3) The user makes a choice 
+ 
+ 
+Alternate Scenario User does not choose anyone 
+Frequency of Use Normal 
+Technology and Data 
+Variation Lists User must know the kind of person he wants 
+ 
+ 
+ 
+ 
+ 
+ 
+3.8.4 Persona Interview 
+Use Case Persona Interview 
+Actor User 
+Level User Goal 
+Stakeholders and 
+Interests User interviews the persona of a user 
+Preconditions 
+1. User has chosen a person to interview 
+2. The assistant receives the new questions 
+3. The user makes a decision 
+ 
+Post Conditions The user can tell the bot what he wants to do after choosing the user 
+Main Success Scenario 
+1. The user gives his entire interview 
+2. The user analyzes result 
+3. The user makes a decision over who he wants 
+Alternate Scenario User does not take interview, either leaves or chooses someone 
+directly 
+Frequency of Use Normal 
+Technology and Data 
+Variation Lists - 
+ 
+ 
+ 
+3.8.5 Booking 
+Use Case Create Interview Session 
+Actor User 
+Level User Goal 
+Stakeholders and 
+Interests User wants to book a user for a certain time, physically or digitally 
+Preconditions • User has decided on a professional 
+Post Conditions • User gets confirmation on booking 
+Main Success Scenario 
+1. User decides on a user 
+2. User then books on a user 
+3. The chatbot gives confirmation 
+4. The booking info is sent to the professional 
+Alternate Scenario User does not book user 
+Frequency of Use 
+ 
+Low 
+ 
+Technology and Data 
+Variation Lists User must have decided on a user 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+3.9 Activity Diagram 
+ 
+ 
+Fig# 2
+
+Class Diagram 
+ 
+ 
+ 
+ 
+3.10 System Sequence Diagrams 3.10.1 Main Diagram 
+ 
+ 
+Fig# 3 
+Depicts the sequence flow of a query submission by a user within the Skillseeker system, including follow-up, 
+professional listing, chat initiation, and booking confirmation. 
+ 
+ 
+
+Class Diagram 
+ 
+ 
+ 
+ 
+3.10.2 Data Collection 
+ 
+ 
+ 
+Fig# 4 
+ 
+Illustrates the data collection process using a scraper, from initiating the scrape to storing and confirming data in 
+the database. 
+
+Class Diagram 
+ 
+ 
+ 
+3.10.3 Vector Embeddings 
+ 
+ 
+ 
+ 
+Fig# 5 
+ 
+Represents the sequence of generating vector embeddings, starting from data retrieval from the database to 
+the storage and confirmation of the embeddings. 
+ 
+
+Class Diagram 
+ 
+ 
+3.10.4 UI Interaction 
+ 
+ 
+Fig# 6 
+Showcases the interaction between the user and different UI components (ChatUI, ListUI, InfoUI) for viewing 
+professionals, chatting, and accessing additional information. 
+ 
+ 
+
+Class Diagram 
+ 
+ 
+ 
+3.10.5 User Interaction with Professionals 
+ 
+ 
+Fig# 7 
+ 
+Details the process of a user starting a conversation via PersonaChat, retrieving professional details, requesting a 
+booking, and confirming the time slot through the BookingSystem. 
+ 
+ 
+
+Class Diagram 
+ 
+ 
+3.10.6 User Query Handling 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Fig# 8 
+ 
+ 
+ 
+ 
+ 
+
+Class Diagram 
+ 
+ 
+3.11 Class Diagram 
+ 
+Figure # 9 Class Diagram
+
+ 
+3.12 Architecture Diagram 
+ 
+ 
+ 
+
+ 
+Figure# 10 Architecture Diagram 
+3.13 Data Flow Diagram 
+3.13.1 Level 0 DFD (Context Diagram) 
+ 
+ 
+ 
+ Fig # 11 
+The diagram represents a Level 0 Data Flow Diagram (DFD) or Context Diagram for the "Skillseeker 
+System." In this system, the "User" submits a query to the "Skillseeker System," which processes the 
+request and returns a response to the user. 
+ 
+3.13.2 Level 1 DFD (Overview of Key Processes) 
+ 
+Fig#12 
+
+ 
+This diagram depicts the interaction between the user, query classification, SQL database, vector database, and 
+data processing. It shows how the system retrieves and processes data to return a response to the user. 
+ 
+ 
+3.13.3 Level 2 DFD - Classifying Query 
+ 
+Fig #13 
+This diagram illustrates the detailed process of query classification, including retrieving relevant data from 
+SQL and vector databases, followed by generating an appropriate response for the user. 
+ 
+3.13.3 Level 2 DFD – Processing Data 
+ 
+ 
+
+ 
+Fig#14 
+This diagram focuses on how data is processed in the system, starting from scraping, preprocessing, storing 
+structured data in an SQL database, and generating vector embeddings for storage in a vector database. 
+ 
+ 
+ 
+4.1 Conclusion 
+ 
+In summary, this project aims to revolutionize how users access professional services by 
+introducing an all-in-one LLM application that simplifies and personalizes the search process. 
+By leveraging a fully automated chatbot, users can easily input their needs and receive tailored 
+recommendations. The application includes comprehensive features such as multilingual 
+support, voice interaction, and an integrated booking system. With additional functionalities like 
+a "Near Me" feature and a sophisticated history and personalization module, users will benefit 
+from a streamlined, efficient, and user-friendly experience, ensuring they find the right 
+professionals quickly and effectively. 
+ 
+This application will allow for a streamlined process, complete transparency, and up to date 
+results for any profession. 
+ 
+4.2 References 
+ 
+Following are the sites that will serve as a template to our project via user data 
+https://www.fiverr.com/ 
+https://oladoc.com/ 
+https://www.upwork.com/ 
+https://www.hg.org/ 
+https://clutch.co/ 
+ 
+To better understand our process flows and tools, these documentations can help: 
+ 
+https://www.crewai.com/ 
+https://github.com/meta-llama/llama3 
+https://huggingface.co/blog/mlabonne/agentic-datagen 
+https://nexla.com/ai-infrastructure/prompt-tuning-vs-fine-tuning/
+
+## 3. Specific Requirements

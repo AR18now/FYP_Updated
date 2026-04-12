@@ -1,0 +1,472 @@
+# FYP1-MidReport-F24-207-D-CitySentinel - i212495 Fahad Alam Awan
+
+## 1. Introduction
+
+Introduction 3
+2 Problem Statement 3
+3 Scope 3
+4 Modules 4
+4.1 Module 1: Citizen Web App . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.2 Module 2: Citizen Mobile App . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.3 Module 3: Professional User Web App . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.4 Module 4: Admin Web App . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+4.5 Module 5: AI-Driven Urban Planning . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+4.6 Module 6: Notifications & Reporting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+5 User Classes and Characteristics 6
+6 Use Case Diagram 7
+7 High-Level Use Cases 8
+8 Extended Use Cases 9
+9 Functional Requirements 12
+10 Non-Functional Requirements 13
+11 Domain Model 14
+12 Design Models (Procedural Methodology) 16
+12.1 Architecture Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+12.2 Activity Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+12.3 Class Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+12.4 System Sequence Diagram – SSD . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+12.5 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+12.6 ER Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+12.7 Workflow Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+13 Data Design 38
+14 Conclusions 39
+A Appendix 1 39
+A.1 Definitions and Acronyms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+A.2 References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+Page 2
+1 Introduction
+The purpose of this application is to monitor and analyze urban development through AI-driven technologies,
+utilizing satellite imagery to detect unauthorized constructions and assess urban planning needs. The system
+aims to ensure compliance with city regulations, protect public resources, and support long-term sustainable
+urban development.
+2 Problem Statement
+In Pakistan, lack of city planning results in a haphazard urban expansion which contributes in creating
+future accommodation challenges and unequal access to essential services.
+Unverified constructions further strain resources and disrupt sustainable development and hinder efficient
+city growth.
+Our application makes use of AI-driven urban planning for the underdeveloped areas of the city to help
+build a more long term city plan. Moreover, it will make sure that the public resources are protected by
+keeping track of all the unverified and illegal constructions.
+3 Scope
+CitySentinel aims to provide a comprehensive solution for the monitoring of urban development as well
+as environmental conservation in Islamabad. It’s core functionality is based on detection of illegal or unau-
+thorized constructions and deforestation monitoring. This is done using satellite imagery and geographic
+data from Google Earth Engine and Google Maps API. Government authorities/officers will be able to input
+areas that are not permitted for construction and the system will detect any changes in these areas over
+time. In addition to this, green cover can be monitored, as can green area trends. This will help in assessing
+deforestation over time to help in sustainable environmental protection efforts.
+The platform will include AI based urban planning, which will allow city planners to analyze and monitor
+land usage trends. This can in turn help them make informed decisions about future development projects.
+Users will have access to historical data about land usage, construction, and deforestation aiding them
+in identifying patterns and trends. The system will also provide notifications for illegal construction or
+environmental changes caused by deforestation, enhancing enforcement actions. This application will offer
+detailed data visualization tools and will display trends on the interactive map to simplify analysis.
+The mobile app version will enable users to report illegal construction activity and receive alerts. Gov-
+ernment officials will have access to a web based admin portal to manage areas of interest, analyze data,
+and then generate reports. There will also be integration of air quality and weather data to help assess the
+environmental impact the increasing urbanization has. The scope of CitySentinel focuses on sectors of
+Islamabad, helping authorities in better enforcing regulations while also helping preserve urban spaces.
+3
+4 Modules
+Write down the modules of the proposed project. Each module should highlight features, using bul-
+leted/numbered notation. When developing both a mobile app and a web app, group the modules according
+to the system types, such as, Client Web App, Client Mobile App, Admin Web App etc.
+4.1 Module 1: Citizen Web App
+The module lets users interact with the system using a web interface. It offers several features, including
+visualizing areas and reporting any illegal constructions.
+1. User login and authentication.
+2. Visualization of land usage and areas with greenery and deforestation.
+3. Can alert upon detection of any of illegal constructions.
+4.2 Module 2: Citizen Mobile App
+A mobile based interface for the user. It has the same functionality as the citizen web app, but is optimized
+for mobile devices.
+1. Login and authentication for users on a mobile device.
+2. Push notifications for environmental alerts.
+3. Visualization of land usage, deforestation and other key metrics.
+4. Reporting illegal construction directly from the application.
+4.3 Module 3: Professional User Web App
+The module lets users interact with the system using a web interface. It offers several features, including
+visualizing areas, viewing changes to the environment, and monitoring construction activities. Users can
+also generate AI-driven city plans.
+1. User login and authentication.
+2. Interactive map interface used to take input for the area of interest.
+3. City surveillance for the selected area.
+4. Illegal construction monitoring.
+5. Generate city plans using AI.
+6. Urban development historical data.
+7. Visualization of land use.
+8. Visualization of areas with greenery and deforestation.
+9. Alert upon detection of any of these illegal activities.
+4
+4.4 Module 4: Admin Web App
+This module is specifically for government officials or any other authority. It will be used to configure
+monitoring areas, analyze urban data and then generate reports.
+1. Admin login and verification/access control.
+2. Input specific areas where construction is not permitted.
+3. Monitor deforestation zones and green cover.
+4. Analyze AI based urban planning suggestions.
+5. Generate reports on illegal constructions and deforestation.
+4.5 Module 5: AI-Driven Urban Planning
+This backend module will be used for processing satellite images, detecting illegal construction and defor-
+estation. It will also be used in analyzing trends.
+1. Integrate Google Earth Engine for fetching and processing satellite images.
+2. Detection of illegal constructions and deforestation according to the rules defined.
+3. Storage and retrieval of satellite data for historical comparison.
+4. Process data to monitor ongoing constructions.
+5. AI based analysis for urban planning recommendations.
+4.6 Module 6: Notifications & Reporting
+The module is responsible for notifications and reports that will be generated for the users.
+1. Generate alerts for illegal construction and deforestation.
+2. Notifications for users (email, push notifications)
+3. Generation and exporting of detailed reports of construction, environmental trends and system perfor-
+mance.
+4. Scheduled reports for admins.
+5
+5 User Classes and Characteristics
+User class Description
+Admin Admin is the user with the most power over the system. This user can access all the
+functional features of the app such as AI-Driven urban planning, city surveillance, illegal
+construction detection, and check visualisations for land-use and plantation density. Apart
+from this, the admin will have access read and write to the database as well. Admin can
+create users, delete users and update user information. Moreover, the admin will receive
+notifications from the citizens as well. Moreover, admin can also generate reports that will
+include the latest information stored in the database regarding land usage and plantation
+density.
+Professional
+Users
+Professional users include the government officials and the city planners. These users will
+have access to the features: AI-Driven urban planning, city surveillance, illegal construction
+detection, and check visualisations for land-use and plantation density.
+Citizens Citizens will have access to the least features. They can simply just view land-use and
+plantation density visualisations. However, they can also report any illegal constructions
+spotted by them and send a notification to the admin.
+6
+6 Use Case Diagram
+Figure 1: Use Case Diagram
+7
+7 High-Level Use Cases
+Table 1: Manage Database
+Use Case Manage Database
+Actors Admin
+Type Primary
+Description The admin can perform CRUD operations on the database.
+Table 2: Detect Illegal Constructions
+Use Case Detect Illegal Constructions
+Actors Government Authorities
+Type Primary
+Description They can select an area and receive information regarding the illegal constructions.
+Table 3: Generate an AI-driven Urban Plan
+Use Case Generate an AI-driven Urban Plan
+Actors Government Authorities, AI System
+Type Primary, Secondary
+Description The user can select any underdeveloped area and get an AI-generated optimal city plan.
+Table 4: Request City Details
+Use Case Request City details
+Actors Government Authorities
+Type Primary
+Description The user can get area details such as no. of houses, roads, schools etc, for the selected area.
+Table 5: Access Plantation Density Visualisations
+Use Case Access Plantation Density Visualisations
+Actors Government Authorities
+Type Primary
+Description The user can get the plantation statistics of an area in forms of charts.
+Table 6: Access Land-Use Visualisations
+Use Case Access Land-Use visualisations
+Actors Government Authorities
+Type Primary
+Description The user can get the details regarding land usage of an area in forms of charts.
+8
+8 Extended Use Cases
+Table 7: Manage Database
+Scope The scope of database management operations.
+Level User Goal
+Primary Actor Admin
+Stakeholder and Interests Need to manage the database effectively.
+Preconditions Admin must be logged in.
+Success Guarantee (Post Conditions) Database operations are successfully performed.
+Main Success Scenario
+• Admin navigates to the database management page.
+• System displays database management options.
+• Admin selects a database operation.
+• System executes the operation and confirms success.
+Extensions System displays an error message for invalid input.
+Special Requirements Database operations must be secured.
+Table 8: Detect Illegal Constructions
+Scope Detection of illegal constructions in an area.
+Level User Goal
+Primary Actor Government Authorities
+Stakeholder and Interests Need to identify illegal constructions.
+Preconditions Authorities must be logged in.
+Must give area input.
+Success Guarantee (Post Conditions) Illegal constructions are identified.
+Main Success Scenario
+• Authorities enter an area name.
+• System analyzes the area for illegal constructions.
+• Authorities review the analysis results.
+• System displays detected illegal constructions.
+Extensions System alerts if data for the area is missing.
+Special Requirements Analysis must be accurate to detect illegal constructions.
+9
+Table 9: Generate an AI-driven Urban Plan
+Scope Generate an optimal urban plan using AI.
+Level User Goal
+Primary Actor Government Authorities, AI System
+Stakeholder and Interests Need an optimal plan for urban planning.
+Preconditions Authorities must provide input data for the system to un-
+derstand constraints.
+Success Guarantee (Post Conditions) An optimal urban plan is generated.
+Main Success Scenario
+• Authorities provide input data for planning.
+• AI system processes the data and generates a plan.
+• System displays the optimal urban plan.
+Extensions System alerts if input data quality is insufficient.
+Special Requirements The AI system must create an optimal plan.
+Table 10: Request City Details
+Scope Request details about a city or area.
+Level User Goal
+Primary Actor Government Authorities
+Stakeholder and Interests Need detailed city information in a few clicks.
+Preconditions Authorities must be logged into the system.
+Input must be in the correct format.
+Success Guarantee (Post Conditions) Requested city details are provided in a reasonable time.
+Main Success Scenario
+• Authorities request details for a specific city.
+• System fetches the information using google APIs.
+• System will process the images.
+• System will retrieve information from the processed
+images.
+• System will display the data to the authorities.
+Extensions System notifies if the requested data is not available.
+Special Requirements Information provided must be accurate and up-to-date.
+10
+Table 11: Access Plantation Density Visualisations
+Scope Access visualizations for plantation density.
+Level User Goal
+Primary Actor Government Authorities
+Stakeholder and Interests Need to review plantation density data for environmental
+planning.
+Preconditions Authorities must be logged in.
+Success Guarantee (Post Conditions) Plantation density visualizations are accessible and dis-
+played in forms of charts.
+Main Success Scenario
+• Authorities select the option ”plantation density vi-
+sualization”.
+• System generates and displays the information in a
+form of visualizations.
+Extensions System notifies if there is an error generating the visualiza-
+tions.
+Special Requirements Visualizations must be clear and informative.
+Table 12: Access Land-Use Visualisations
+Scope Access visualizations for land use data.
+Level User Goal
+Primary Actor Government Authorities
+Stakeholder and Interests Need to review land use data for planning.
+Preconditions Authorities must be logged in.
+Success Guarantee (Post Conditions) Land use visualizations are provided.
+Main Success Scenario
+• Authorities select the option ”land use visualization”.
+• System generates and displays the data in forms of
+charts and graphs.
+Extensions System alerts if no data is available for the selected options.
+Special Requirements Visualizations must be accurate and up-to-date.
+11
+9 Functional Requirements
+• User Registration and Login:
+– The system must allow users to register with their unique credentials.
+– Users must be able to log in using their credentials after registering successfully and then should
+be redirected to their role-specific dashboard.
+– Passwords must be encrypted for data security.
+• Role Based Access:
+– The system must assign role-based permission and access for different user types.
+– Admin users must have full access to manage areas, view analytics, and generate reports.
+• Satellite Data Processing:
+– The system must integrate Google Earth Engine and Google Maps API for retrieval and processing
+of satellite images.
+– The system must monitor designated sectors for changes and log these events.
+• Illegal Construction Detection:
+– The system should allow users to define restricted construction zones via map inputs.
+– The system must analyze satellite imagery to detect unauthorized constructions and notify when
+any violation is detected.
+– The system must generate a report for violations, including information about the site.
+• Deforestation Monitoring:
+– The system must track changes in green cover and identify areas with significant deforestation.
+– A visual representation of deforestation trends must be provided on the map, and reports must
+be generated for official use.
+• Push Notifications:
+– The system must send push notifications to mobile and web users regarding illegal constructions
+or environmental violations.
+• Interactive Map Input:
+– Govt official users must be able to specify regions on a map where construction or deforestation
+is prohibited.
+– The system must update these areas for future monitoring.
+• AI Driven Urban Planning:
+– The system must provide AI-based analysis for optimal urban planning, based on current land
+usage and predicted growth trends.
+– AI recommendations must be updated as new data is processed.
+• Report Generation:
+– The system must generate reports on illegal constructions and environmental changes.
+– Reports must be downloadable in PDF and CSV formats and accessible on web and mobile
+interfaces.
+• Mobile Application Access:
+– The system must provide a mobile app for users to access key functionalities such as reporting,
+receiving notifications, and map viewing.
+12
+10 Non-Functional Requirements
+Non-functional requirements include system performance metrics, security standards, and compliance with
+regulatory requirements.
+• Performance:
+– For majority operations, the system must respond to user actions in less than two seconds.
+– The system should also be able to process large datasets of satellite imagery within a reasonable
+amount of time, e.g., 5 minutes.
+• Scalability:
+– The system must be scalable in order to accommodate more users and wider monitoring areas.
+– It should be able to integrate of more datasets or APIs if needed.
+• Security:
+– Transmission of data must be secure, making use of encryption protocols.
+– In accordance with data protection laws, all user information and data must be handled securely.
+• Availability:
+– To ensure high availability, system up-time must be at least 99
+• Compliance:
+– The system must be in compliance with Pakistan’s construction and environmental regulations.
+– It must follow industry guidelines and standards for reporting and processing geographical data.
+• Maintainability:
+– In order to facilitate future updates and maintenance, the system’s code-base must be modular
+and well documented.
+– To maintain the system, and keep it current and secure, patches and updates must be installed
+on a regular basis.
+• Usability:
+– The system must be user-friendly, requiring little training for both citizens and government officer
+users.
+– The usability and responsiveness of a design must be ensures on various platforms, including
+desktop and mobile ones.
+13
+11 Domain Model
+Figure 2: DomainModel
+14
+15
+12 Design Models (Procedural Methodology)
+12.1 Architecture Diagram
+Figure 3: Architecture Diagram
+16
+12.2 Activity Diagram
+Figure 4: Use Case 1: Manage Database
+17
+Figure 5: Use Case 2: Detect Illegal Constructions
+18
+Figure 6: Use Case 3: Generate an AI-driven Urban Plan
+19
+Figure 7: Use Case 4: Request City Details
+20
+Figure 8: Use Case 5: Access Plantation Density Visualisations
+21
+Figure 9: Use Case 6: Access Land-Use Visualisations
+22
+12.3 Class Diagram
+Figure 10: ClassDiagram
+23
+12.4 System Sequence Diagram – SSD
+Figure 11: SSD for Use Case 1: Manage Database
+24
+Figure 12: SSD for Use Case 2: Detect Illegal Constructions
+25
+Figure 13: SSD for Use Case 3: Generate an AI-driven Urban Plan
+26
+Figure 14: SSD for Use Case 4: Request City Details
+27
+Figure 15: SSD for Use Case 5: Access Plantation Density Visualisations
+28
+Figure 16: SSD for Use Case 6: Access Land-Use Visualisations
+29
+12.5 Sequence Diagram
+Figure 17: SD for UseCase 1: Mange Database
+30
+Figure 18: SD for Use Case 2: Detect Illegal Constructions
+31
+Figure 19: SD for Use Case 3: Generate an AI-driven Urban Plan
+32
+Figure 20: SD for Use Case 4: Request City Details
+33
+Figure 21: SD for Use Case 5: Access Plantation Density Visualisations
+34
+Figure 22: SD for Use Case 6: Access Land-Use Visualisations
+35
+12.6 ER Diagram
+Figure 23: ERD - Entity Relationship Diagram
+36
+12.7 Workflow Diagram
+Figure 24: Workflow Diagram
+37
+13 Data Design
+Data Design Description
+Data Storage and Pro-
+cessing
+The back-end stores and processes user information, urban plan-
+ning data, CDA construction rules and the information obtained
+from city surveillance. Data will be in different forms such as
+real-time satellite imagery and historical data that may be used
+for comparison.
+Database We will be using MongoDB as the primary database to store our
+user information, data for urban planning, plantation statistics,
+land usage data, and construction rules. The schema will be man-
+aged by Mongoengine for a structured data access. Redis may also
+be used as a caching solution for frequently accessed data.
+Major Entities - Users: Both citizens and government official information will
+be stored along with the user type that will help distinguish user
+access. Apart from that admin data will also be stored.
+- Satellite Data: Satellite images will be stored for city surveil-
+lance.
+- Construction Data: Information about illegal constructions,
+flagged areas, and history for the illegal constructions flagged pre-
+viously.
+- Environmental Data : Plantation density and land usage
+statistics.
+Data Processing - Google Earth Engine API Will be used to fetch satellite
+images.
+- AI Models : AI algorithms process input data for generating
+urban plans and analyzing city patterns.
+- Satellite Image Processing: Satellite images will be processed
+to detect illegal constructions or environmental changes.
+Visualization Data - Chart.js Will be used for visualizing historical trends, such as
+deforestation rates and land use changes.
+- Map Data: Data related to geographical areas, constructions,
+and environmental analysis is visualized on Google Maps through
+the integration of the Google Maps API.
+Reports and Notifica-
+tions
+- Report Generation: The system will generate detailed reports
+in PDF or CSV format about illegal constructions, land usage, and
+plantation density.
+- Notifications: Real-time push notifications, emails, or SMS
+alerts will be triggered for reporting illegal activities or for in-
+forming deforestation statistics.
+Table 13: Data Design for the Urban Planning and Monitoring System
+38
+14 Conclusions
+In this project, we will be developing an Urban Planning and a Surveillance System that will use satellite
+images and AI-driven analysis to flag illegal constructions and help find statistics regarding land usage and
+plantation density.
+Key conclusions include:
+1. Integration of Technologies: Successfully combines AI and GIS for informed decision-making.
+2. User-Centric Design: Encourages active participation from citizens and officials by allowing them
+to send notifications and report any illegal constructions.
+3. Scalability: The system must be designed for future enhancements and flexibility.
+Future work will focus on improving AI models, incorporating user feedback, expanding data sets, devel-
+oping a mobile application, and implementing the functionality for predictive analytics.
+A Appendix 1
+A.1 Definitions and Acronyms
+CDA: Capital Development Authority - The agency responsible for approving city developments in Islam-
+abad.
+A.2 References
+1. Capital Development Authority. (n.d.). By-laws & Regulations. CDA. https://www.cda.gov.pk/
+by-laws-regulations
+2. Google Earth Engine. (n.d.). Google Research open buildings temporal v1 dataset. Google De-
+velopers. https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_
+open-buildings-temporal_v1
+3. Google Earth Engine. (n.d.). JAXA ALOS PALSAR yearly FNF4 dataset. Google Developers. https:
+//developers.google.com/earth-engine/datasets/catalog/JAXA_ALOS_PALSAR_YEARLY_FNF4
+39
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

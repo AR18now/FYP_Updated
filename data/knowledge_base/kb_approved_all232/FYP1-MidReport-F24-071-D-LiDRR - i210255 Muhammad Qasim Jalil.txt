@@ -1,0 +1,292 @@
+# FYP1-MidReport-F24-071-D-LiDRR - i210255 Muhammad Qasim Jalil
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The scope of our project is to develop a comprehensive road surface index calculation sys-
+tem that leverages lidar sensors and crowd sensing technology for efficient and accurate
+road condition monitoring. The primary functionality of the system includes detecting
+road surface irregularities such as ruts, cracks, and potholes, and calculating a detailed
+road surface index. This index will be used to prioritize repairs and schedule maintenance
+activities. The project will incorporate lidar sensors mounted on vehicles to gather real-
+time data on road surfaces, ensuring precise and continuous monitoring. In addition, we
+will integrate crowd sensing, allowing vehicles equipped with sensors to contribute in col-
+lections of road condition data, thereby increasing the system’s coverage and enhancing
+data integrity. All collected data will be geotagged to ensure location accuracy, enabling
+authorities to easily identify and access specific problem areas on a map. The system
+will feature a user-friendly interface for road management authorities to visualize road
+conditions, generate reports, and manage maintenance priorities. The project will focus
+on developing algorithms for data processing, road condition classification, and integra-
+tion of data collected through crowd-sensing to create a robust solution. The scope also
+includes testing and validating the system to ensure its reliability, scalability, and ease of
+deployment for large-scale road monitoring.
+1.3 Modules
+Below are the key modules we plan to develop in the first iteration of our project:
+1.3.1 Hardware Setup
+This involves setting up and calibrating the necessary hardware for data collection, ensur-
+ing the accuracy and efficiency of the system.
+1. Sensor Mounting: Mount lidar sensors on vehicles for road data collection.
+2. Sensor Calibration: Calibrate sensors to ensure accurate and consistent data col-
+lection across different terrains.
+1.3.2 Data Collection
+This module is responsible for gathering real-time road surface data using lidar sensors
+and crowd-sourced inputs. It ensures accurate and comprehensive coverage of road con-
+ditions.
+2
+1.3 Modules
+1. Lidar Integration: Collect real-time road surface data using lidar sensors mounted
+on vehicles.
+2. Geotagging: Automatically geotag all collected data to ensure precise location
+tracking of road conditions.
+3. Real-Time Data Transmission: Transmit data to the server for immediate process-
+ing and analysis.
+1.3.3 Data Processing
+This module focuses on pre-processing the collected data to prepare it for analysis by
+machine learning models, which will be used to calculate the road surface index and
+detect road defects.
+1. Data Filtering: Clean and filter the raw data to remove noise and irrelevant infor-
+mation. vehicles.
+2. Data Standardization: Standardize data formats to ensure consistency for further
+analysis.
+3. Data Transmission: Transmit the pre-processed data to the machine learning model
+for road surface index calculation and anomaly detection
+3
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+System Ad-
+ministrators
+System Administrators are responsible for managing and maintaining the
+system, ensuring that it operates efficiently. They handle data backups,
+monitor system health, and ensure data privacy and security protocols are
+followed.
+Characteristics:High level of technical expertise, including experience in
+managing server infrastructure.
+Primary Tasks:Monitor and manage server resources.Perform system up-
+dates, patches, and backups. Ensure data is securely stored and accessible.
+Manage user accounts and permissions.
+Interaction with System:Access to the back-end server and data process-
+ing pipelines. Can configure the LiDAR sensor and ESP32 microcontroller
+remotely. Regularly access the database for monitoring incoming road de-
+fect data and performing audits.
+Field Engi-
+neers
+Field Engineers install, calibrate, and maintain the hardware components,
+such as LiDAR sensors and ESP32 microcontrollers, that are deployed on
+vehicles or road infrastructure.
+Characteristics:Strong technical skills in electronics, sensor technology,
+and hardware calibration. Familiarity with mobile networks for data trans-
+mission and hardware-to-software integration.
+Primary Tasks:Deploy LiDAR sensors on vehicles or road infrastructure.
+Troubleshoot and calibrate sensor devices. Ensure real-time data transmis-
+sion from sensors to the server. Conduct on-site repairs and updates for
+hardware components.
+Interaction with System:Primarily interact with the hardware components
+(LiDAR and ESP32). Limited access to software components for calibra-
+tion and real-time data testing. Ability to run diagnostics on hardware and
+connectivity issues.
+Municipal
+Authorities
+Municipal authorities, such as city officials or road maintenance supervisors,
+use the system to monitor road conditions and schedule repairs based on the
+road defect data.
+Characteristics:Non-technical users, generally familiar with basic digital
+tools. Require easy-to-understand reports and visual representations of road
+defects. Responsible for decision-making regarding road repairs and main-
+tenance priorities.
+Primary Tasks:Review road defect data collected by the system. Prioritize
+road maintenance based on the severity of detected defects. Generate and
+analyze reports for resource allocation and repair scheduling.
+Interaction with System:Access the user interface to view road defect data
+in visual formats such as maps and charts. Receive notifications for critical
+road conditions. Ability to download and generate reports for meetings and
+decision-making.
+4
+1.4 User Classes and Characteristics
+User class Description
+Vehicle
+Owners
+(Crowd-
+Sensing
+Participants)
+These users own vehicles equipped with LiDAR sensors for crowd-sensing
+purposes. They contribute to data collection by driving on city roads, allow-
+ing the system to gather defect information passively.
+Characteristics:Typically non-technical users with limited interaction with
+the system. Interested in the health of the roads they drive on but do not need
+detailed technical reports. May receive incentives (e.g., discounts, coupons)
+for participating in the crowd-sensing initiative.
+Primary Tasks:Drive their vehicles as part of their normal routine while
+the system collects road defect data passively. Receive updates or incentives
+for their participation in the system. Report sensor malfunctions or issues
+with the system.
+Interaction with System:Minimal interaction; the system operates auto-
+matically in the background. Can receive notifications if a sensor needs
+calibration or repair. May access a simplified mobile app or dashboard to
+check their contributions (e.g., miles covered, areas scanned).
+5
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Functional Requirements
+This section describes the functional requirements of the system.
+2.1.1 Hardware setup
+Following are the functional requirements for the hardware setup module:
+1. Sensor Mounting: The system must mount lidar sensors securely on the vehicle to
+ensure stable data collection.
+2. Sensor Calibration: The system must calibrate the lidar sensors before data col-
+lection to account for terrain variations.
+3. Weatherproofing: The system must ensure that all hardware components are weath-
+erproof and capable of functioning in varying environmental conditions.
+2.1.2 Data Collection
+Following are the functional requirements for the data collection module:
+1. Real-Time Data Capture : The system must collect real-time road surface data
+using lidar sensors.
+2. Geotagging: The system must geotag all collected data to ensure precise location
+tracking of road conditions.
+6
+2.2 Non-Functional Requirements
+3. Data Transmission: The system must transmit data to the server in real time for
+immediate processing.
+2.1.3 Data Processing
+Following are the functional requirements for the data processing module:
+1. Data Filtering: The system must filter the collected data to remove noise and irrel-
+evant information before analysis.
+2. Data Standardization: The system must standardize data formats to ensure com-
+patibility with the machine learning model.
+3. Model Input Preparation: The system must transmit the pre-processed data to the
+machine learning model for further analysis and road surface index calculation.
+2.2 Non-Functional Requirements
+Following are the non-functional requirements for the system:
+2.2.1 Reliability
+The system must maintain a high level of reliability, with a target Mean Time Between
+Failures (MTBF) of 500 hours. A failure is defined as any instance where the system is
+unable to process or collect road surface data as intended. To protect against failures, the
+system will incorporate redundancy measures, such as backup sensors and data storage.
+An error detection strategy will involve real-time monitoring of system performance, and
+the correction strategy will include automated recovery procedures to restore functionality
+within 10 minutes of a failure.
+2.2.2 Usability
+The system shall be designed for ease of use, allowing users to complete primary tasks,
+such as data collection and analysis, with minimal training. For example, users should be
+able to retrieve previous road condition reports with a single interaction. Example:
+USE-1: the interface must provide clear instructions and feedback during user interactions
+to enhance the overall user experience and minimize errors.
+7
+2. Project Requirements
+2.2.3 Performance
+The system must prioritize accuracy in data processing and analysis over speed. The ma-
+chine learning model should be designed to achieve a minimum accuracy rate of 90%
+in road surface index calculations and anomaly detection. While the time taken for pro-
+cessing will be monitored, it is acceptable for the model to require up to 30 seconds
+for thorough analysis, ensuring that the results are reliable and precise. The system will
+provide periodic updates on performance metrics to ensure that accuracy standards are
+consistently met.
+2.2.4 Security
+The system must ensure the protection of collected data against unauthorized access and
+breaches. Security requirements include limiting access to authorized personnel only,
+ensuring data encryption during transmission, and maintaining an audit trail for all data
+access and modifications. The system must also be resilient against common cybersecu-
+rity threats, such as SQL injection and denial-of-service attacks.
+2.2.5 Scalability
+The system must be designed to handle increasing amounts of data without a decline
+in performance. It should support the addition of more lidar sensors and crowd-sensing
+devices seamlessly, accommodating up to 100 vehicles collecting data simultaneously.
+2.2.6 Maintainability
+The system must be designed for easy maintenance and updates, with a goal of reducing
+downtime for software updates to less than 1 hour per month. The architecture should
+support modular upgrades to specific components without affecting overall system func-
+tionality.
+2.3 Domain Model
+8
+2.3 Domain Model
+Figure 2.1: Domain Model - RSI Calculation
+9
+2. Project Requirements
+2.4 Event Response Table
+Event System Response
+Lidar sensor transmits
+real-time road data
+- Receive and preprocess the lidar data.
+- Update road condition database and calculate surface
+condition score.
+End client opens the app
+and requests map view
+- Fetch the latest heatmap data from the server.
+- Display the road surface condition scores for the user’s
+region or specified area on the map.
+Admin assigns a survey
+task
+- Notify the relevant survey team of the new task with all
+details (location, priority, etc.).
+- Create an entry in the task management system for tracking.
+Survey team updates
+task status
+- Update the task’s status in the database (e.g., "In Progress",
+"Completed").
+- Notify the admin of any changes.
+Survey team uploads
+task results
+- Store the uploaded data (photos, notes, measurements) in the
+task database.
+- Update the task as completed and notify the admin.
+Lidar sensor detects
+critical road condition
+- Automatically generate an alert in the system.
+- Notify the admin for potential repair task assignment.
+Admin assigns a repair
+task
+- Notify the repair team with task details (location, priority,
+required materials, etc.).
+- Track the progress of the task in real-time.
+Repair team updates
+task status
+- Log the repair progress in the system.
+- Mark the task as completed once done and notify the admin.
+User provides feedback
+on road conditions
+- Receive and log feedback in the database.
+- Notify the admin for review and potential action.
+System performs
+scheduled data
+aggregation
+- Aggregate and analyze data from all connected lidar devices.
+- Update the road condition heatmap and calculate trends
+based on historical data.
+System detects
+connection loss from a
+device
+- Notify the end client of the connection issue.
+- Log the event and attempt to reconnect or troubleshoot
+automatically.
+10
+Chapter 3
+System Overview
+3.1 Architectural Design
+Architecture
+Figure 3.1: Activity Diagram - RSI calculation
+3.2 Design Models
+The applicable models for the project includes:
+Activity Diagram
+11
+3. System Overview
+Figure 3.2: Activity Diagram - RSI calculation
+12
+3.3 Data Design
+3.3 Data Design
+ERD
+Figure 3.3: ERD - RSI calculation
+13
+3. System Overview
+Class Diagram
+Figure 3.4: Class Diagram - RSI calculation
+14
+Bibliography
+15
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

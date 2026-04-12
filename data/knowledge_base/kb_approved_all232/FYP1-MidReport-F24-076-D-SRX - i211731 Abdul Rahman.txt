@@ -1,0 +1,410 @@
+# FYP1-MidReport-F24-076-D-SRX - i211731 Abdul Rahman
+
+## 1. Introduction
+
+1. Introduction
+notify users of these hazards can lead to dangerous circumstances, traffic jams, and ac-
+cidents. Typical GPS systems do not account for unexpected changes in road safety,
+therefore the absence of real-time information might result in harmful scenarios. Another
+area where existing systems fail is the potential for user-generated data from social me-
+dia sites, which can provide relevant and timely information on local conditions. As a
+result, guests and visitors face unnecessary risks since they are unable to obtain reliable
+information to assess the safety of their travels.
+This research aims to bridge that gap by developing a \textbf{Real-Time Road Safety
+Alert System} that uses natural language processing (NLP) to filter social media postings
+for relevant dangers and update the safety index of different routes in real-time. By provid-
+ing these functions, the system seeks to increase user comfort and safety while commuting
+by enabling users to take preventative action and develop well-informed opinions.
+1.2 Scope
+The Real-Time Road Safety Alert System offers current information on road hazards re-
+sulting from natural catastrophes to improve travel safety. The main job of the system is to
+look for user-generated material about road conditions on different news sites and social
+media platforms.The system will employ natural language processing (NLP) to look for
+terms in postings that could be danger indicators. This will enable the system to assess
+these risks using a predetermined range that spans from safe to critical. Because the safety
+indices for different routes will be updated in real-time, users will always have access to
+the most recent information on their travel routes.
+Users will be able to view their routes and the associated safety index clearly using a
+map-based interface. The technology will provide users with alerts when major threats
+are detected, in addition to real-time updates, enabling them to plan their travel routes with
+the necessary information.The program will use Google Maps for areas with dependable
+internet access; offline users will get the most recent updates that are stored on their
+devices. The program will provide users with the last safe paths in the event that internet
+connectivity is not accessible, even if its main focus will be on external data sources.
+Another part of the project’s scope is the integration of an intuitive interface that al-
+lows passengers to customise their alerts and notifications to their preferences.The project
+scope does not presently include full danger checking, but the system will broadcast high-
+severity alarms to assure user safety. The objective is to offer a robust and workable
+solution that improves passenger experience while lowering the risks associated with un-
+foreseen road hazards. This comprehensive plan will let clients travel with confidence and
+steer clear of dangerous situations.
+2
+1.3 Modules
+1.3 Modules
+1.3.1 Client Mobile App
+The Client Mobile App allows access to information about safety routes, provides timely
+alerts, and even retrieves important information despite the fact that it is offline.
+1. User Interface (UI):
+(a) Mobile-friendly map with route safety information
+(b) Setting: Zooming and swiping inwards and outwards on the mobile to make
+easy navigation through it
+(c) An intuitive and simple UI that will help navigate to specific information or
+any road condition
+(d) A search bar to help locate specific routes or locations.
+2. Route Safety Index:
+(a) Mobile-friendly safety index display for chosen routes.
+(b) Dynamic updates of route safety on the mobile interface.
+(c) Simplified color-coded route indicators for quick decision-making.
+3. Real-time Alerts:
+(a) Push notifications that are delivered directly to the user’s mobile device.
+(b) Customized alert settings friendly for usage on the mobile phone.
+(c) Banners or pop-ups are displayed in the application as alerts.
+4. Offline Ability:
+(a) Caching of information of routes already viewed accessible to users who are
+disconnected from the internet
+(b) There are alerts which can be stored for viewing at later times when the app is
+offline.
+3
+1. Introduction
+1.3.2 Client Web App
+The Client Web App would enable users to see an interactive interface as well as an
+informative interface regarding the safety of the route and real-time alerts.
+1. User Interface (UI):
+(a) Interactive map to show information about the route safety.
+(b) Visual indications for identifying safe as well as unsafe routes.
+(c) Search option to find and get hold of exact routes or places
+(d) Real-time road condition updates for display.
+(e) A separate notification panel for alerts and warnings relating to safety
+2. Route Safety Index:
+(a) The real-time data can be used to provide a safety index of routes selected.
+(b) Change the safety index in real-time with incoming data.
+(c) Color-coded routes for indication of different safety levels.
+3. Real-time Alerts:
+(a) Push notifications with road hazards or safety alerts
+(b) Options to personalize the alerts preferences on customizations.
+(c) Alerts are shown as pop up on the user interface.
+4
+1.4 User Classes and Characteristics
+1.3.3 Admin Web App
+Admin Web App: A central point that manages the data in our system and how things
+are performing, with overseeing user interaction. This is where we would have system
+maintenance and content moderation tools
+1. Data Management:
+(a) Checking on the incoming social media and news data through the admin
+interface
+(b) Tools for manually adjusting route safety indexes if needed
+(c) Historical data trends and user activity on the Dashboard
+2. System Monitoring:
+(a) Benchmarking and data processing tracker of the real-time system perfor-
+mance.
+(b) System malfunction error messages, e.g. data inconsistency or API call fail-
+ure.
+(c) System activity audit-all actions recorded.
+3. User Management:
+(a) Account management for users with roles and permissions
+(b) User statistics and view of system activity
+(c) Tools that may be utilized to address some of the needs or concerns of the
+users-grandparents
+4. Content Moderation:
+(a) Filtering and regulation tool of the content fetched from other social media.
+(b) Highlight or delete feature of irrelevant or inappropriate content
+(c) Keywords as well as with sentiment analysis can enhance relevance of the
+content.
+1.4 User Classes and Characteristics
+This table structure clearly defines every user class, centered about their relation-
+ship. Individually with the system and focusing on how they interact with each core
+functionality. This will help developers and testers understand what users need and
+what users are expecting. It is designed and tested in these two phases.
+5
+1. Introduction
+User Class Description
+Traveler
+(Regular
+User)
+Travelers or tourists availing themselves of the system with the exact and
+real-time road safety update. They use GPS-based navigation to ensure
+safety while traveling and fetch Warnings on existence of dangers such as
+landslides, floods or road blockages. They may Access the system through
+mobile or web applications and are interested in Updated traffic and safety
+index data.
+Commuter Daily commuters for whom travel distance is not necessarily long, but for
+whom the system would be crucial for avoiding hazards or traffic problems
+during normal travels, say going to work. The service would mainly be used
+during peak hours, hence would be regularly updated.
+Road Safety
+Authorities
+Authorities with road safety portfolios would make use of the system to
+monitor the frequency and number of hazards and pinpointed areas. They
+will also apply it to send assistance or inform the public of progress made in
+the recovery process. Users need more comprehensive reports and analysis
+grounded on real-time and historical data.
+System Ad-
+ministrator
+These are system administrators ensuring the backend proper working,
+server health, and smooth processing of data, including API keys, user data,
+and logs. They manage inflow and outflow of data from external sources,
+like social media. They oversee system uptime and do a fair share of trou-
+bleshooting and maintenance activities.
+Data Analyst Such analysts make use of the system to collect insights about how hazards
+affect people’s travel behavior, analyzing both the volume and nature of the
+hazards at different locations. Analysts may even analyze patterns to en-
+hance system algorithms and road safety practices. They work closely with
+NLP data, such as keyword analysis, for evaluating system efficiency.
+6
+2. Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Functional Requirements
+2.1.1 Feature 1: Safe Route Planning
+Description: The first feature of SafeRouteExplorer will allow users to enter their
+destination and receive the safest route based on real-time social media data.
+(a) The system shall allow the user to enter their starting location and destination.
+(b) The system shall show the safest route based on the data received and process-
+ing done on it.
+(c) The system shall dynamically update the map if a road hazard occurs along
+the route.
+(d) The system shall display the estimated time to reach the destination.
+2.1.2 Feature 2: Real-time Social Media Monitoring for Poten-
+tial Hazards
+Description: This feature will monitor social media and news sources for potential
+road hazards like accidents, crimes, natural disasters, etc.
+(a) The system shall continuously fetch tweets, Facebook, and Instagram posts in
+real-time based on specific keywords.
+(b) The system shall process and filter the incoming data to extract relevant infor-
+mation.
+(c) The system shall identify the severity of the hazard detected.
+(d) The system shall identify the location where the potential road hazard oc-
+curred.
+(e) The system shall classify the severity of the hazard and update the map to
+show the safest route for the user’s destination.
+7
+2. Project Requirements
+2.1.3 Feature 3: Map Updating and Display
+Description: This feature will update the map and display the safest route after
+processing road hazard data.
+(a) The system shall update the routes if new hazards are dynamically detected.
+(b) The system shall remove or not display hazardous routes as the top route.
+2.1.4 Feature 4: User Notifications
+Description: This feature allows real-time notifications to be sent to users if any
+hazards are detected and subsequently updates the maps.
+(a) The system shall send notifications to the user whenever their route is updated.
+(b) The system shall send alerts when hazards are detected along the planned
+route.
+2.1.5 Feature 5: System Administration
+Description: This feature enables system administrators to manually manage maps
+and remove paths if necessary.
+(a) The system shall allow the administrator to manually remove paths if they are
+potentially dangerous.
+(b) The system shall allow the administrator to set severity levels and update the
+map.
+2.2 Non-Functional Requirements
+2.2.1 Reliability
+The system should be highly reliable, ensuring the safest route is always shown and
+any failure is quickly handled.
+2.2.2 Usability
+The system should be user-friendly, providing an interactive, visually appealing,
+and easy-to-navigate map for tourists.
+8
+2.3 Domain Model
+2.2.3 Performance
+The system shall ensure smooth functionality, especially when a hazardous activity
+occurs or during high data traffic. It should respond smoothly even during peak
+hours.
+2.2.4 Security
+The system shall maintain integrity by ensuring no unauthorized access to routes or
+data is allowed.
+2.2.5 Availability
+The system should be available at all times to detect any hazardous activity on roads
+and update routes accordingly.
+2.3 Domain Model
+The domain model for the Real-Time Safe Path Finder project is provided in below
+page
+2.4 Use-case/Event Response Table/Storyboarding
+2.4.1 Use Case Diagrams
+The use case diagram for the system is provided below. This diagram illustrates the
+key interactions between users and the system, along with the major processes.
+2.4.2 Detailed Use Cases
+Use Case #1: Enter Destination
+Use Case #2: Monitor Social Media and News for Road Hazards
+Use Case #3: Update Maps Based on Data
+2.4.3 Event-Response Table
+The Event-Response table is provided below
+9
+2. Project Requirements
+Figure 2.1: Domain Model for Real-Time Safe Path Finder
+10
+2.4 Use-case/Event Response Table/Storyboarding
+Figure 2.2: Use Case Diagram for Real-Time Safe Path Finder
+Actors: User
+Type: Primary
+Description: The User will enter their destination on the app, and the app
+will show the safest route, excluding any unsafe route based
+on social media monitoring.
+Table 2.1: Use Case #1: Enter Destination
+Actors: System
+Type: Primary
+Description: The system will search for any road hazards on social media
+and news sites based on specific keywords. It will check the
+location and the severity of the issue to help travelers avoid
+any danger.
+Table 2.2: Use Case #2: Monitor Social Media and News for Road Hazards
+11
+2. Project Requirements
+Actors: System
+Type: Primary
+Description: The system will update maps based on the data it fetched
+after processing. It will omit routes that are potentially dan-
+gerous based on posts, tweets, and news.
+Table 2.3: Use Case #3: Update Maps Based on Data
+Event Trigger Response System Component
+Responsible
+The user enters the start
+and destination
+The location is shown
+on the map
+The system fetches the
+initial route for the des-
+tination
+Route Calculation
+The system monitors
+social media for poten-
+tial road hazards
+Loop running in the
+background for poten-
+tial posts based on key-
+words
+The system processes
+and filters the incoming
+stream of data, identi-
+fying the location and
+severity
+Social Media Data Col-
+lection API
+Hazard detection in the
+news
+The system finds news
+related to road hazards
+based on keywords
+The system evaluates
+the severity and loca-
+tion of the news de-
+tected
+News Scraper
+The system updates the
+map with a safer route
+Potential hazards de-
+tected on the path
+The system’s algorithm
+assigns a safety index
+to paths and updates
+the paths with the safest
+route
+Algorithm to update
+routes
+Hazard no longer per-
+sistent in the area
+The system detects the
+route is safe again for
+travel
+The system updates the
+map, removing hazard-
+related information
+from the route
+Algorithm to update the
+routes once the path is
+deemed safe
+Table 2.4: Event-Response Table for SafeRouteXplorer
+12
+3. System Overview
+3.1 System Overview
+The "Real-Time Safe Path Finder" system is designed to increase travel safety by
+distributing real-time hazard notifications and route safety information. It uses data
+collected from social media platforms such as Twitter and Instagram, and news
+channels to inspect hazards; topics of potential blockage or natural disaster- in road.
+Using NLP, the system filters and processes the relevant posts to create an Safety
+index for various routes. Those services can be approached via web and mobile
+applications like alert, map interactive, and customized safety preferences.
+3.2 Architectural Design
+3.2.1 Box and Line Diagram
+The initial system architecture can be visualized using a simple box and line dia-
+gram. This diagram shows the different modules of the system and how they interact
+with each other.
+The modules include:
+• User Interface: Allows users to access the system in order to view routes and
+also receive alerts as well as safety preference settings.
+• Data Collection: Decide the external APIs like social media, news etc. in
+order to collect the information in real time.
+• NLP Processing: Filters relevant posts and data to extract hazard-related in-
+formation.
+• Safety Index Calculation: Dynamically calculates the safety index for vari-
+ous routes based on the processed data.
+• Notification System: Sends real-time alerts to users about hazards along their
+routes.
+• Database: Maintaining list of user profiles, route information, and hazard
+alerts.
+13
+3. System Overview
+Figure 3.1: Box and Line Diagram for Real-Time Safe Path Finder
+3.2.2 High-Level Architecture (Client-Server Style)
+The system uses a client-server approach with web and mobile applications on the
+client side. Interaction with the server-side (back-end services) happens via APIs.
+The server-side com- Each unit will be responsible for the computation, safety index
+values, and real-time alerts. The back- terminate services access and gather social
+media posts and news data from external APIs. and which can be processed and
+stored in a real-time database. The architecture can also be described As multi-
+layered, it distinguishes between the layers of presentation, logic, and data.
+3.3 Design Models
+The design models provide a detailed view of how the system operates at different
+levels, including object-oriented and procedural approaches. The following models
+are used for the "Real-Time Safe Path Finder" project:
+3.3.1 Activity Diagram
+An activity diagram shows the high-level flow of the system, including user inter-
+actions, data processing, and real-time hazard alerts.
+14
+3.4 Data Design
+3.3.2 Class Diagram
+The class diagram represents the structure of the system by showing its classes and
+the relationships between them.
+3.3.3 Class level Sequence Diagram
+For a Class-Level Sequence Diagram, we focus on the interaction between differ-
+ent classes or objects in the system.
+3.3.4 State Transition Diagram
+A state transition diagram indicates how a system transitions from one state to the
+next based on either user action or data processing events. Key States:
+• Normal State: The system is running with no critical alerts as of now.
+• Data Processing State: System is collecting and processing data from social
+media.
+• Alert State: Hazard detected, and system sends alerts to users.
+• Feedback State: Users provide feedback on route safety.
+3.4 Data Design
+The system utilizes a real-time database to store, process, and retrieve key data en-
+tities in the system. The following are major data structures currently being utilized
+below:
+• User Profiles: Maintains user-specific information, preferences, location, and
+their preferred custom alert settings.
+• Routes: Stores route information that includes start and end points, safety
+index, and other hazard information.
+• Alerts: Stores real-time hazard alerts along with time-stamped, location, and
+hazard type.
+• Social Media Posts : Stores social media posts that contain relevant hazard
+data.
+• Feedback: Store feedback from users on route safety and hazard accuracy.
+All data is processed using Firebase NoSQL database to ensure real-time synchro-
+nization and availability for users.
+15
+3. System Overview
+Figure 3.2: High-Level Architecture for Real-Time Safe Path Finder
+16
+3.4 Data Design
+Figure 3.3: Activity Diagram for Real-Time Safe Path Finder
+17
+3. System Overview
+Figure 3.4: Class Diagram for Real-Time Safe Path Finder
+Figure 3.5: Activity Diagram for Real-Time Safe Path Finder
+Figure 3.6: State Transition Diagram for Real-Time Safe Path Finder
+18
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

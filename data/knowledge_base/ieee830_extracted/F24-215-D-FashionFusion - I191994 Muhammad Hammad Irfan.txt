@@ -1,0 +1,232 @@
+# F24-215-D-FashionFusion - I191994 Muhammad Hammad Irfan
+
+## 1. Introduction
+
+Introduction1
+1.1ProblemStatement . . . . . . . . . . . . . . . . . . . . . .. . . . . . . 1
+1.2Scope. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . 2
+1.3Modules. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . 2
+1.3.1WebScraping. . . . . . . . . . . . . . . . . . . . . . . . .. . . 2
+1.3.2FrontendModule. . . . . . . . . . . . . . . . . . . . . . .. . . 2
+1.3.3BackendModule. . . . . . . . . . . . . . . . . . . . . . .. . . 3
+1.3.4Sentiment AnalysisModule. . . . . . . . . . . . . .. . . . . . 3
+1.3.5LLM. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .3
+1.3.6Report GenerationModule. . . . . . . . . . . . . . .. . . . . . 3
+1.4User ClassesandCharacteristics. . . . . . . . . .. . . . . . . . . . . . 4
+2Project Requirements5
+2.1Use-case. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . 5
+2.1.1SignUp. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .5
+2.1.2Login. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .5
+2.1.3SearchProducts. . . . . . . . . . . . . . . . . . . . . . .. . . . 5
+2.1.3.1CompareProducts. . . . . . . . . . . . . . . . . . . .6
+2.1.3.2GiveReview. . . . . . . . . . . . . . . . . . . . . . . 6
+2.1.3.3ReviewAnalysis. . . . . . . . . . . . . . . . . . . . .6
+2.1.3.4RankBrands. . . . . . . . . . . . . . . . . . . . . . . 6
+2.1.3.5Chatbot Interaction. . . . . . . . . . . . . . . . . . .. 6
+2.1.3.6AdvancedFiltering. . . . . . . . . . . . . . . . . . .. 7
+2.1.3.7ManageProfile. . . . . . . . . . . . . . . . . . . . . .7
+2.1.3.8Report Generation. . . . . . . . . . . . . . . . . . . .7
+2.1.3.9Real-TimePriceMonitoring. . . . . . . . . . . .. . . 7
+2.1.3.10ViewActivityLog. . . . . . . . . . . . . . . . . . . .7
+2.2Event ResponseTable. . . . . . . . . . . . . . . . . . . .. . . . . . . . 8
+2.3Functional Requirements. . . . . . . . . . . . . . . . .. . . . . . . . . 9
+2.3.1Module1. . . . . . . . . . . . . . . . . . . . . . . . . . . . .. 9
+2.3.2Module2. . . . . . . . . . . . . . . . . . . . . . . . . . . . .. 9
+2.4Non-Functional Requirements. . . . . . . . . . . . .. . . . . . . . . . 10
+2
+CONTENTS
+2.4.1Reliability. . . . . . . . . . . . . . . . . . . . . . . . . . . . .. 10
+2.4.2Usability. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .10
+2.4.3Performance. . . . . . . . . . . . . . . . . . . . . . . . . .. . . 10
+2.4.4Security. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. 11
+2.5DomainModel . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . 11
+3SystemOverview13
+3.1Architectural Design. . . . . . . . . . . . . . . . . . . . .. . . . . . . 13
+3.2DesignModels. . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . 13
+3.3DataDesign. . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . 14
+References15
+1Introduction
+1.1ProblemStatement
+Whenshoppingonline, customersfrequentlyfacethechallengeof browsingthroughmultiplewebsitestoexploreproductsfromdifferent brands. Thisprocessiscumbersome, especiallywhencomparingsimilar productsacrossdifferent platforms. Manybrandsdonot offercomparisonfeatures, makingit difficult toevaluateproductsside-by-side. Moreover, asignificantnumber of e-commerceplatformsinPakistanlackreviewsystems, whichresultsinalackofcredibilityandtransparency.
+Additionally, customersareoftenhesitant topurchaseproductsonlineduetotheuncertaintyofstoreauthenticityandproduct quality. Thelackof performanceevaluationandcustomerfeedbackonmanylocal platformsfurther aggravatestheissue. FashionFusionaimstosolvetheseproblemsbyaggregatingproductsfrommultipleclothingbrands, enablingproductcomparison, andintegratingauser reviewsystem. Theplatformwill alsoprovidebrandperformancescorestobuildtrust amongcustomersandenhancetheonlineshoppingexperience.
+1.2Scope
+Productsfromdifferent brandswill bescrapedandstoredinour database. Aresponsivewebsiteincludingmajor functionalitiesof anecommerceplatform(likesearchingandfiltering)will bebuilt andtheproductsstoredinthedatabasewill bedisplayedonthewebsite. Thiswebsitewill alsoincludeproduct comparisonfeaturesandareviewssystem. After creatingthebasicwebsitethescraper will beset tofetchproductsfortnightlytokeeptheplatformupdated.Campaignswill bemonitoredandsentiment analysiswill alsobedonetoanalyzebrands'performanceandcreateabrand’spicture. For campaignmonitoringpriceswill beregularlycheckedfor changewhether abrandprovidesayear longsaleor it providesoccasional saleanddothebrandshikepricesbeforesales. For sentiment analysisdataset will begatheredfromscrapingthebrands’ social mediacomments, thisdatawill thenbeusedtotrainthemodel. Themodel will thenbeintegratedinthewebsite. Apre-trainedLLMChatbot will thenbeintegratedtoenhancethecustomer'sshoppingexperience.
+1.3Modules
+TheModulesof thisProject areasfollows:
+1. WebScraping
+Tostart withthisproject, thefirst requirement istogather productsfromdifferent brands’websitesandstorethemonaunifieddatabase. For sentiment Analysiscommentsandreviewsfrombrands’ social mediapageswill bescrapedtocreateadataset.
+1. ProductsScraping2. CommentsandReviewsScraping
+2. FrontendModule
+ThisistheUsers’ interactioninterfacewheretheycanaccessall thefunctionalitiesofFashionFusion.
+1. ResponsiveUI / UX2. AdvancedSearchingandFilters3. ComparisonFeature4. ReviewsFeature
+3. BackendModule
+Thebrainsandnervoussystemof theFashionFusionisitssecurebackendwhichwill berespondingtotheuser’srequest sent throughthefrontend.
+1. Authentication2. RestAPI3. Database
+4. Sentiment AnalysisModule
+Fromthescrapeddata(reviewsandcomments), datawill berefined[33] andasentiment analysismodel will betrained[22] whichwill thenbeintegratedinthewebsite.Thismodel will bekept asself training[11] sothat it canupdatebrands’ score
+1. Datacleaning2. TrainingtheModel3. Integratingit withtheWebsite4. ContinuousModel Training
+5. LLM
+User will beabletocommunicatewithachatbot whowill giveinformationtotheuserregardingacertainbrand. It will alsohelpuserstoeasilysearchfor productsandtakerecommendations
+6. Report GenerationModule
+Onthebasisof campaigns/pricemonitoringandsentiment analysisbrandsscoringwillbecreatedandthebrandswill berankedaccordingly.
+1. BrandScoringandRanking2. Product Scoring
+1.4UserclassesandCharacteristics
+User Class Description
+Customers Regular customerswhoshopfor clothesacrossdifferent brands. Theyseekconvenienceincomparingproductsandvalueuser reviews.
+AdminTeam Teammembersresponsiblefor maintainingtheplatform, managingbranddata, andoverseeinguser interactions. Theyrequireaccesstoallfunctionalitiesof theplatform.
+2Project Requirements
+2.1UseCases
+UseCase1: Product Sraping
+● Actors: WebScraper● Description: Thesystemscrapesproduct datafromvariousbrandwebsitesandstoresit inthedatabase.● Preconditions: Thewebscraper isinitialized, andthetarget websitesareaccessible.● Postconditions: Newproduct dataissuccessfullyaddedtothedatabase.
+UseCase2: Comment andReviewScraping
+● Actors: WebScraper● Description: Thesystemgatherscommentsandreviewsfromsocial mediapagesof brandstocreateadataset for analysis.● Preconditions: Thewebscraper isset uptotarget specificsocial mediaplatforms.● Postconditions: Collectedcommentsandreviewsarestoredinthedatabaseforfutureanalysis.
+UseCase3: User Registration
+● Actors: User● Description: Auser registersfor anaccount ontheFashionFusionplatform.● Preconditions: Theuser hasaccesstotheinternet andavalidemail address.● Postconditions: Anewuser account iscreatedandaconfirmationemail issent.
+UseCase4: User Authentication
+● Actors: User● Description: Auser logsintotheir FashionFusionaccount usingtheir credentials.● Preconditions: Theuser must havearegisteredaccount.● Postconditions: Theuser isauthenticatedandgrantedaccesstotheplatform.
+UseCase5: SearchProducts
+● Actors: Customer● Description: Auser searchesfor productsusingkeywordsor filters.● Preconditions: Theuser isloggedintotheplatform.● Postconditions: Thesystemdisplaysalist of productsthat matchthesearchcriteria.
+UseCase6: CompareProducts
+● Actors: Customer● Description: Auser comparesmultipleproductssidebyside.● Preconditions: Theuser hasselectedproductsfor comparison.
+● Postconditions: Thesystemdisplaysacomparisonof theselectedproducts,highlightingdifferencesandsimilarities.
+UseCase7: GiveReview
+● Actors: Customer● Description: Auser submitsareviewfor aproduct theyhavepurchased.● Preconditions: Theuser haspurchasedtheproduct andisloggedintotheplatform.● Postconditions: Thesubmittedreviewisstoredinthedatabaseandassociatedwiththeproduct.
+UseCase8: ReviewAnalysis
+● Actors: System● Description: Thesystemanalyzescollectedcommentsandreviewstogeneratesentiment scoresfor brands.● Preconditions: Thereareenoughreviewsandcommentsinthedatabaseforanalysis.● Postconditions: Sentiment scoresareupdatedandavailablefor userstoview.
+UseCase9: RankBrands
+● Actors: System● Description: Thesystemgeneratesscoresfor brandsbasedonsentiment analysisandperformancemetrics.● Preconditions: Thesentiment analysismodel hasbeentrainedanddataisavailable.● Postconditions: Brandscoresarecalculatedandstoredinthedatabaseforretrieval byusers.
+UseCase10: Chatbot Interaction
+● Actors: Customer● Description: Auser interactswiththechatbot toreceiveinformationandrecommendationsregardingproductsandbrands.● Preconditions: Theuser isloggedintotheplatform.● Postconditions: Thechatbot providesrelevant informationbasedonuser queries.
+UseCase11: AdvancedFiltering
+● Actors: Customer● Description: Auser appliesfilterstonarrowdownproduct searchresultsbasedonspecificcriteria(e.g., price, category, brand).
+● Preconditions: Theuser isontheproduct searchpage.● Postconditions: Thesystemdisplaysfilteredresultsbasedonuser selections.
+UseCase12: ManageProfile
+● Actors: Customer , Admin● Description: Auser updatestheir profileinformation, includingpreferencesandsavedsearches.● Preconditions: Theuser isloggedintotheir account.● Postconditions: Theuser'sprofileisupdatedwithnewinformation.
+UseCase13: Report Generation
+● Actors: System● Description: Report isgeneratedbasedonbrandscoresandproductperformance.● Preconditions: Theuser hasaccesstothereport generationfeature.● Postconditions: Thesystemproducesadownloadablereport summarizingtherequesteddata.
+UseCase14: ContinuousModel Training
+● Actors: System● Description: Thesystemperiodicallyretrainsthesentiment analysismodel withnewdatatoimproveaccuracy.● Preconditions: Newdataisavailablefor training.● Postconditions: Thesentiment analysismodel isupdatedwithenhancedcapabilities.
+UseCase15: Real-TimePriceMonitoring
+● Actors: System● Description: Thesystemmonitorsproduct pricesinreal timeandalertsuserstochanges.● Preconditions: Theuser hasoptedinfor pricealerts.● Postconditions: Theuser receivesnotificationsabout pricechanges.
+UseCase16: ViewActivityLog
+● Actors: Customer● Description: Auser viewstheir activitylog, includingrecent searchesandinteractions.● Preconditions: Theuser isloggedintotheir account.● Postconditions: Theuser canseeasummaryof their activitiesontheplatform.
+2.2EventResponseTable
+Event SystemResponse
+WebScraper initiatesproduct scraping Thesystemscrapesproduct datafromtargetwebsitesandstoresit inthedatabase.
+WebScraper initiatescomment andreviewscraping
+Thesystemgatherscommentsandreviewsfromsocial mediaandstorestheminthedatabase.
+User submitsregistrationform Thesystemcreatesanewuser account andsendsaconfirmationemail.
+User submitslogincredentials Thesystemvalidatescredentialsandgrantsaccessif correct; otherwise, displaysanerrormessage.
+User performsaproduct search Thesystemdisplaysalist of productsmatchingthesearchcriteria.
+User selectsproductsfor comparison Thesystemdisplaysacomparisonof theselectedproducts, highlightingdifferencesandsimilarities.
+User submitsaproduct review Thesystemstoresthereviewinthedatabaseandassociatesit withtheproduct.
+Sentiment analysisistriggered Thesystemanalyzescommentsandreviewstogeneratesentiment scoresfor brands.
+Brandscoringistriggered Thesystemgeneratesscoresfor brandsbasedonsentiment analysisandperformancemetrics.
+User interactswiththechatbot Thechatbot respondswithrelevantinformationandrecommendationsbasedonuser queries.
+User appliesfilterstosearchresults Thesystemdisplaysfilteredproduct resultsbasedonuser selections.
+User updatesprofileinformation Thesystemupdatestheuser’sprofilewithnewinformation.
+User requestsareport Thesystemprocessestherequest andproducesadownloadablereport summarizingbrandscoresandproduct performance.
+Continuousmodel trainingisinitiated Thesystemretrainsthesentiment analysismodel withnewdatatoimproveaccuracy.
+User submitsfeedback Thesystemrecordsthefeedbackfor futureimprovementstotheplatform.
+User comparesproducts Thesystemshowsacomparisontableofselectedproducts.
+User requestsreal-timepricemonitoring Thesystemmonitorsproduct pricesandalertsuserstoanychanges.
+User viewsactivitylog Thesystemdisplaysasummaryof theuser'sactivitiesontheplatform.
+2.3FunctionalRequirements
+Module1: WebScraping
+Followingaretherequirementsfor theWebScrapingmodule:
+1. Thesystemshall scrapeproduct informationfromvariousclothingbrandwebsites,includingdetailssuchasproduct name, price, description, andimageURL.2. Thesystemshall scrapecommentsandreviewsfromthebrands’ social mediapagestocreateadataset for sentiment analysis.3. Thesystemshall storethescrapedproduct dataandreviewsinaunifieddatabaseforeasyaccessandretrieval.
+Module2: FrontendModule
+Followingaretherequirementsfor theFrontendmodule:
+1. Thesystemshall providearesponsiveUI/UXtoenhanceuser interactionandaccessibilityacrossdevices.2. Thesystemshall offer advancedsearchingandfilteringoptionsfor userstofindproductseasilybasedonvariouscriteria(e.g., price, brand, category).3. Thesystemshall allowuserstocomparemultipleproductsfromdifferent brandsonasinglescreen.4. Thesystemshall enableuserstopost andviewreviewsfor products, enhancinguserfeedbackandinteraction.
+Module3: BackendModule
+Followingaretherequirementsfor theBackendmodule:
+1. Thesystemshall implement user authenticationtoensuresecureaccesstotheplatform.2. Thesystemshall provideaRESTAPI tofacilitatecommunicationbetweenthefrontendandbackendcomponents.3. Thesystemshall ensureasecuredatabasetostoreuser information, product details,andreviews.
+Module4: Sentiment AnalysisModule
+Followingaretherequirementsfor theSentiment Analysismodule:
+1. Thesystemshall performdatacleaningonscrapedreviewsandcommentstopreparethemfor analysis.2. Thesystemshall trainasentiment analysismodel usingthecleaneddatatoassesscustomer sentiment towardsbrands.3. Thesystemshall integratethetrainedsentiment analysismodel withthewebsitetoprovidereal-timesentiment assessment.4. Thesystemshall implement continuousmodel trainingtokeepthesentiment analysisupdatedbasedonnewdata.
+Module5: LLM(Chatbot)
+Followingaretherequirementsfor theLLMmodule:
+1. Thesystemshall allowuserstocommunicatewithachatbot that providesinformationabout specificbrands.2. Thesystemshall enablethechatbot toassist usersinsearchingfor productsandprovidingrecommendationsbasedonuser queries.
+Module6: Report GenerationModule
+Followingaretherequirementsfor theReport Generationmodule:
+1. Thesystemshall generatebrandscoringbasedonpricemonitoringandsentimentanalysisresults.2. Thesystemshall rankbrandsaccordinglybasedontheir scores, allowinguserstoseethebest-performingbrands.3. Thesystemshall generatereportsdetailingproduct scoringandbrandperformancemetrics.
+2.4Non-FunctionalRequirements
+ReliabilityThefollowingshowhowreliablethesystemwouldbe:
+1. TheFashionFusionsystemshall maintainaMeanTimeBetweenFailures(MTBF) of atleast 30days, ensuringthat softwarefailuresoccur infrequently.2. Intheevent of asoftwarefailure, thesystemshall logthefailuredetailsandnotifythetechnical support teamwithin5minutesof detection.3. Thesystemshall implement error detectionmechanismstoidentifyanomaliesandprovideautomaticalertsfor systemadministrators.
+UsabilityThefollowingshowtheusabilityof thesystem:
+1. Thesystemshall allowuserstoretrievetheir previouslyviewedproductswithasingleinteraction, enhancingtheuser experience.2. Thesystemshall provideclear andconcisefeedbacktousersfor anyerrorsencountered, helpingthemrecover frommistakesefficiently.3. Theuser interfaceshall bedesignedtorequirenomorethanthreeclickstoreachanymainfeature, ensuringanefficient navigationexperience.
+PerformanceThefollowingstepswouldbetakentoensurebest performance:
+1. Thesystemshall ensurethat 95%of product pagesloadcompletelywithin3secondsover astandardbroadbandconnection(at least 20Mbps).2. Thesentiment analysismoduleshall processandupdatebrandscoreswithin10secondsafter newreviewsarescraped, maintainingup-to-dateinformationfor users.3. Thesystemshall handleat least 100concurrent userswithout performancedegradation,ensuringaseamlessexperienceduringpeakusage.
+SecurityThisishowsecuritywill beensured:
+1. TheFashionFusionsystemshall implement measurestoprotect user dataandpreventunauthorizedaccess, ensuringthat onlyauthenticateduserscanaccesssensitiveinformation.2. Thesystemshall encrypt all sensitivedataintransit andat rest tosafeguardagainstpotential databreaches.3. Thesystemshall maintainacomprehensiveloggingsystemtomonitor accessandchangestouser accountsandsensitivedata, allowingfor audit trailsincaseof securityincidents.
+2.5DomainModel
+3SystemOverview
+FashionFusionisareview-basedplatformdesignedtoprovideuserswithvaluableinsightsintofashionbrandsandproducts. It collectsdatafromvarioussources, performssentiment analysisonuser reviews, andpresentstheresultsinaninteractiveanduser-friendlyinterface.
+Theplatformallowsuserstosearchandfilter productsbasedoncategories, brands, andothercriteria, providingacomprehensivecomparisonandreviewsystem. It alsomonitorspricechangesandcampaignsover time, givingusersanin-depthviewof brandperformance.
+Withfeatureslikeachatbot for interaction, report generation, andsentiment analysis,FashionFusionaimstoenhanceusers' understandingof thefashionmarket andsupport betterdecision-making.
+3.1Architectural DesignThearchitectureof theFashionFusionplatformisbasedonaLayeredArchitecturePattern,whichdividesthesystemintomultiplelayers, eachresponsiblefor specifictypesoffunctionalities. Thislayeredapproachfacilitatesmaintainability, scalability, andmodulardevelopment, ensuringthat eachmodulecanbedeveloped, tested, andupdatedindependently.
+Overviewof Modules
+Theplatformisdividedintothefollowingprimarymodules:
+1. User Management Module:
+
+○ Managesuser-relatedoperationssuchasregistration, login, andprofilemanagement.○ Providesuser authenticationandauthorizationtoensuresecureaccesstosystemfunctionalities.2. Product Management Module:○ Handlesoperationsrelatedtoproduct data, suchasscrapingnewproductsandupdatingproduct prices.○ Managesthestorageandretrieval of product informationfromthedatabase.3. ReviewManagement Module:○ Managesall review-relatedfunctionalities, includingsubmission, editing, anddeletionof reviews.○ Storesuser reviewsandlinksthemtorespectiveproducts.4. AnalyticsModule:○ Processesuser reviewsandfeedbacktogeneratesentiment scoresandtracktrends.○ Analyzesproduct datatomonitor changesinproduct pricesanddetect salespatterns.5. Chatbot Module:○ Providesaninteractivemediumfor userstoaskquestionsandreceiveproductrecommendationsor information.○ Integratesdatafromother modulestoprovidereal-timeresponsestouserqueries.6. Report GenerationModule:○ Generatesdetailedreportsbasedonanalyticsresultsandproduct information.○ Producesvisualizationsandinsightsfor userstomakeinformeddecisions.
+ModuleInteractionsandRelationships
+Themodulesinteract witheachother asfollows:
+● TheUser Management ModuleprovidesauthenticatedaccesstotheplatformandcollaborateswiththeProduct Management andReviewManagement modulestostoreuser activities, suchasproduct viewsandreviewsubmissions.● TheProduct Management ModuleandReviewManagement Moduleserveasdatasourcesfor theAnalyticsModule, whichprocessesthisdatatogenerateinsightssuchassentiment scoresandtrends.● TheAnalyticsModulecommunicateswiththeReport GenerationModuletoproducecomprehensivereports, providinguserswithaneasy-to-understandsummaryoffindings.● TheChatbot Modulepullsdatafrommultiplemodulestodeliver accurateresponsestouser queries, ensuringseamlessinteraction.
+3.1.1Architectural StyleandModuleMapping
+TheFashionFusionplatformfollowsaLayeredArchitecturePatternconsistingof thefollowinglayers:
+1. PresentationLayer:○ Modules: User Management Module, Chatbot Module, Report GenerationModule.○ Purpose: Handlesall user interactionsandpresentsdatatotheuser.2. BusinessLogicLayer:○ Modules: Product Management Module, ReviewManagement Module, AnalyticsModule.○ Purpose: Containsthecorefunctionalityandbusinessrulesof theplatform.3. DataAccessLayer:○ Modules: Product Database, User ReviewsDatabase.○ Purpose: Managesstorageandretrieval of data, supportingthebusinesslogic.4. External InterfaceLayer:○ Module: Product Scraper.○ Purpose: Interactswithexternal sources, suchasbrandwebsites, toscrapeproduct data.
+Eachmoduleismappedtoaspecificlayer basedonitsroleandresponsibilitywithinthesystem, facilitatingaclear separationof concernsandeaseof modulemanagement.
+Diagramof Architectural Design
+
+3.2DesignModels
+3.2.1ActivityDiagram
+
+3.2.2DataFlowDiagram(DFD)
+Level 0DataFlowDiagram
+Diagram:
+Components
+Processes:
+● Process1: ScrapeProduct DataDescription: Thisprocessinvolvescollectingproduct informationfromvariousbrandwebsitesandstoringit inthedatabase.● Process2: StoreUser ReviewsDescription: Thisprocesscapturesuser feedbackandstoresit intheuser reviewsdatabase.
+Sources/Sinks:
+● Source: BrandWebsiteDescription: Theexternal websitesfromwhichproduct dataisscraped.● Sink: User DashboardDescription: Theinterfacewhereuserscanviewproducts, reviews, andtheir profileinformation.
+DataStores:
+
+● DataStore1: Product DatabaseDescription: Arepositoryfor all product informationscrapedfromvariouswebsites.● DataStore2: User ReviewsDatabaseDescription: Astoragelocationfor user-generatedreviewsandfeedback.■
+Level 1DataFlowDiagram
+Diagram:
+Components
+Processes
+● Process1: ScrapeProduct Data○ Description: Thisprocessencompassesactivitiesrelatedtoretrievingproductdatafrombrandwebsites, includingcheckingfor newproductsandupdatingexistingproduct prices.● Process2: Checkfor NewProducts○ Description: Thissubprocesschecksthebrandwebsitesfor anynewlyaddedproductsandstoresthemintheproduct informationcache.● Process3: UpdateProduct Prices○ Description: Thissubprocessverifieswhether thepricesof existingproductshavechangedandupdatestheproduct informationcacheaccordingly.● Process4: Extract Product Data○ Description: Thisprocessextractsdetailedproduct informationbasedonusersearchqueriesanddisplaysit intheuser dashboard.● Process5: SaveReviewtoDatabase
+
+○ Description: Thisprocesscapturesuser-submittedreviewsandstoresthemintheUser ReviewsDatabase.
+Sources/Sinks
+● Source: BrandWebsite○ Description: Theexternal websitesfromwhichproduct dataisscraped.● Source: User○ Description: Individualsinteractingwiththesystemtosubmit reviewsor searchfor products.● Sink: User Dashboard○ Description: Theinterfacewhereuserscanviewtheir submittedreviewsandsearchresults.
+DataStores
+● DataStore1: Product InformationCache○ Description: Temporarilyholdsscrapedproduct databeforeit isstoredpermanentlyinthemainproduct database.● DataStore2: User ReviewsDatabase○ Description: Storesuser-generatedreviewsandfeedback, allowingfor easyretrieval anddisplayintheuser dashboard.
+3.2.3SystemSequenceDiagram
+Description:TheSystem-Level SequenceDiagramillustratestheinteractionsbetweentheuser, platformcomponents, andexternal entitieswithintheFashionFusionsystem. Thisdiagramhighlightshowdataflowsbetweendifferent systemelementsduringtypical operations, suchasuserinteractionwiththeplatform, submissionof reviews, andautomatedproduct datascraping.
+Components:
+1. User:○ Representsanyindividual interactingwiththeFashionFusionplatform, searchingfor products, andsubmittingreviews.2. FashionFusionPlatform:○ Actsasthecentral hubthat managesuser interactions, retrievesproduct data,storesreviews, andcommunicateswithdatabases.3. Product Database:○ Storesdetailedproduct information, includingproduct attributes, prices, andavailability. Updatedperiodicallythroughthewebscraper.4. User ReviewsDatabase:○ Arepositoryfor user-generatedreviews, storingfeedbackandratingsfor eachproduct.
+5. WebScraper:○ Automaticallyscrapesproduct datafrombrandwebsites. It isinvokedbythescheduler at set intervalstoupdatetheplatformwithnewproductsor updatedprices.6. BrandWebsite:○ External sourcewherethewebscraper gathersproduct data, includingnewadditionsandupdatedinformation.7. Scheduler:○ Triggersthewebscraper at predeterminedintervals, ensuringthat theproductinformationontheplatformremainsup-to-date.
+Sequenceof Interactions:
+1. User InteractionwithPlatform:○ Theuser visitstheFashionFusionplatformtosearchfor products. TheplatformqueriestheProduct Databaseanddisplaystherequestedproduct datatotheuser.○ Whenauser submitsareviewfor aproduct, theplatformstoresthereviewintheUser ReviewsDatabaseandconfirmsthesubmissiontotheuser.2. AutomatedWebScraper Invocation:○ TheSchedulercomponent automaticallytriggerstheWeb Scraperatpredefinedintervals, without anyuser interaction.○ Thewebscraper requestsproduct datafromvariousBrand Websites, whichreturntherelevant product information.○ Thisdataisthenaddedor updatedintheProduct Database, ensuringthattheplatformalwaysdisplaysthelatest product informationtousers.
+Diagram:
+3.3 DataDesign
+Inthissection, wewill explainhowtheinformationdomainof theFashionFusionplatformistransformedintodatastructures, detailinghowthemajor dataentitiesarestored, processed,andorganized.
+InformationDomainTransformation
+Theinformationdomainof theFashionFusionsystemconsistsof variousentitiesthat representusers, products, reviews, andsystem-generatedinsights. Theseentitiesareorganizedintostructureddataformats, suchastablesinarelational database, tofacilitateefficient storage,retrieval, andprocessing.
+Major DataEntities
+1. User Entity:○ Attributes: User ID, Name, Email, Password, ProfileInformation, etc.○ Storage: StoredintheUserstableof thedatabase.2. Product Entity:○ Attributes: Product ID, Name, Description, Price, Availability, Brand, etc.○ Storage: StoredintheProductstable, updatedregularlythroughthescrapingprocesses.3. ReviewEntity:○ Attributes: ReviewID, User ID, Product ID, Rating(1-5), ReviewText,Timestamp, etc.○ Storage: StoredintheReviewstable, allowinguserstosubmit andmanagetheir reviews.
+
+4. AnalyticsData:○ Attributes: MetricID, Product ID, Sentiment Score, ReviewCount, etc.○ Storage: GeneratedandstoredinanAnalyticstablefor reportingpurposes.5. Chatbot InteractionLogs:○ Attributes: LogID, User ID, Query, Response, Timestamp, etc.○ Storage: StoredinaChatbotLogstabletoanalyzeuser interactionsandimprovetherecommendationsystem.
+DataStorage
+TheFashionFusionplatformutilizesarelational databasemanagement system(RDBMS) fordatastorage. Themajor datastorageitemsinclude:
+● User Database: Holdsuser credentialsandprofileinformation.● Product Database: Containsdetailedinformationabout productsscrapedfromvariouswebsites.● ReviewDatabase: Storesuser-generatedreviewslinkedtospecificproducts.● AnalyticsDatabase: Storescomputedmetricsandinsightsfromthereviewsandproduct data.
+Entity-RelationshipDiagram(ERD)
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

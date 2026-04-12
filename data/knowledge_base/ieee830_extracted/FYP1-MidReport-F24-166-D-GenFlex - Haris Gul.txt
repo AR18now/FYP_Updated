@@ -1,0 +1,692 @@
+# FYP1-MidReport-F24-166-D-GenFlex - Haris Gul
+
+## 1. Introduction
+
+1. Introduction
+5. It is more difficult to evaluate pupils successfully across disciplines when there isn’t
+a single system for managing various question formats, such as multiple-choice,
+essays, and coding related questions etc.
+6. Exam techniques that are out of date find it difficult to meet the demands of in
+creased speed and scalability as education becomes increasingly digitally integrated.
+7. Teachers would have less tasks to complete if there was an automated system that
+was more effective at designing, assessing, and marking tests.
+8. A greater variety of question forms, including text, multiple-choice, and diagram
+based questions, are made possible by digital solutions. Additionally, they guaran
+tee quicker, more equitable grading and quicker student feedback.
+1.2 Scope
+The goal of GenFlex is to give educational institutions a digital platform that completely
+automates the examination process. With the use of AI technology, the platform would
+enable teachers to easily create and assess exams. The features listed below will be sup-
+ported by GenFlex:
+1. Making of lecture notes and exam papers digitally.
+2. Digital exams that students can take via web interface.
+3. Text/Descriptive, multiple-choice, code, and math question’s grading that is auto
+mated utilizing sophisticated AI models like LLMs including coding libraries, math
+models.
+4. Multiple user access: Safe and scalable infrastructure that manages numerous ex-
+ams which at once will be available to teachers and students alike.
+The project’s main goal is to automate exams for educational institutions so that they can
+use a seamless digital platform devoid of the effect of human grading. Teachers may
+focus on teaching as GenFlex ensures fair, accurate, and consistent grading in addition to
+saving time.
+1.3 Problem Solution
+GenFlex offers a comprehensive solution to the problem by allowing teachers to easily
+generate exams and lecture notes.
+2
+1.4 Modules
+• Students can take tests/Exams digitally and the system automatically evaluates their
+submitted responses using some complex AI models such as LLMs along with Cod-
+ing, and math libraries.
+• This digitalization and automation lowers errors and subjectivity in grading and
+gives immediate feedback by enhancing the whole examination process.
+Key objectives include:
+1. Automating exam creation and evaluation: Give teachers the ability to swiftly pro-
+duce exams using a comprehensive question bank and customizable templates. Ex-
+ams are auto evaluated utilizing AI-driven algorithms, which deliver precise and
+rapid grading across a number of subjects.
+2. Providing a consistent, unbiased grading mechanism: Advanced machine learn ing
+algorithms evaluate responses consistently across multiple students, delivering fair
+outcomes regardless of student identification, background, or subjective teacher in-
+terpretation.
+3. Supporting several kinds of questions: In addition to text-based questions, the plat-
+form also handles coding and mathematical kind of questions.
+4. Easing the administrative load on instructors: Our system GenFlex drastically cuts
+down on the amount of time teachers spend on administrative work by au tomating
+exam creation, delivery, grading, and feedback.
+1.4 Modules
+The exam process is handled by a number of essential modules that make up the GenFlex
+platform. Every module will possess a unique set of capabilities that enhance the system’s
+overall performance.
+1.4.1 Module 1: Teacher Module
+This module allows teachers to create exams and lecture notes.
+Features:
+1. Generate multiple types of questions.
+Sub features
+3
+1. Introduction
+(a) MCQs
+(b) Essay-type
+(c) Coding related Feature
+2. Upload material like pdf, slides, web links etc to create
+(a) Course notes
+(b) Exam bank/paper
+1.4.2 Module 2: Student Module
+This module enables students to attempt exams digitally.
+Feature 1:
+• Take exams using a web interface.
+Feature 2:
+• Receive Quick grading/marks after attempting exams.
+1.4.3 Module 3: AI Evaluation Module
+This module automates the grading process using AI models.
+Feature 1:
+• Use LLMs for evaluating long-answer questions. Feature
+Feature 2:
+• Use Math/Coding libraries to deal with coding and math questions.
+1.4.4 Module 4: Security and Authentication Module
+This module handles the security aspects of the system.
+Feature 1:
+• User authentication through secure login.
+Feature 2:
+• Data encryption and protection during exam transmission.
+4
+1.5 User Classes and Characteristics
+1.5 User Classes and Characteristics
+User class Description
+Teacher Teachers have a tough job when it comes to creating exams, lecture notes
+from course materials like PDFs, slides, and te other texts. With the GenFlex
+platform, they can make things easier by automating how exams are made
+and graded. Most teachers won’t need much training to get the expertise of
+the AI features in our system. They can also take a look at the automated
+evaluations of the system and adjust the student’s grades accordingly if they
+feel it’s necessary to avoid biasness in system.
+Student Students will use the GenFlex platform to give their exams online. After they
+submit their answers, they’ll get their grades back quickly and accurately.
+Since many students might have the different levels of comfort with the tech-
+nology and it’s important that the platform is simple and easy to use for all
+of them. It should support various kinds of the questions like they can be
+multiple-choice questions (MCQ’s), descriptive/Essay type questions, cod-
+ing related or mathmatical questions.
+IT Staff The IT Support team helps keep GenFlex running smoothly through out
+the exam sessions. They take care of the system’s security and manage the
+database along with the fixing any technical issues and problems that come
+up while the exam hours of the students. During exam times, they make
+sure everything works very well and without the delays. They also update
+the platform when needed to improve how it works. Other key part of the IT
+Staff is to make sure that the users can log into the system securely and that
+all exam data is kept safe.
+5
+Chapter 2
+Project Requirements
+2.1 Use-cases
+Figure 2.1: Usecase Diagram
+6
+2.1 Use-cases
+2.1.1 Use-case 1
+ID: UC01
+Name: Login/Signup
+Actor: Teacher, Student
+Description: Users can log in or sign up to the application based on their roles (faculty
+or student)
+2.1.2 Use-case 2
+ID: UC02
+Name: Upload Course Materials
+Actor: Teacher
+Description: Teachers can upload course materials (slides, notes , pdfs etc) to the plat-
+form.
+2.1.3 Use-case 3
+ID: UC03
+Name: Generate Exam
+Actor: Teacher
+Description: System generates an exam based on the uploaded course materials, and the
+teacher can modify it using an editor.
+2.1.4 Use-case 4
+ID: UC04
+Name: Generate Exam Solution
+Actor: Teacher, System
+Description: System generates a solution for the exam, and the teacher can edit it before
+finalizing.
+7
+2. Project Requirements
+2.1.5 Use-case 5
+ID: UC05
+Name: Approve and Store Exam
+Actor: Teacher
+Description: Once the exam and solution are ready, the teacher approves them, and both
+are stored in the local database.
+2.1.6 Use-case 6
+ID: UC06
+Name: Attempt Exam
+Actor: Student
+Description: Students log in and attempt the exam. Their answers are stored in the local
+database.
+2.1.7 Use-case 7
+ID: UC07
+Name: Evaluate Exam
+Actor: System, Teacher
+Description: The system compares the student’s solution with the provided solution and
+generates marks, which the teacher can modify if necessary.
+2.1.8 Use-case 8
+ID: UC08
+Name: Show Evaluated Exam
+Actor: System, Student
+Description: The system displays the evaluated exam with detailed marks for each ques-
+tion to students.
+8
+2.2 Userstories
+2.1.9 Use-case 9
+ID: UC09
+Name: Submit Query
+Actor: Student
+Description: Students can submit queries about their marks, and teachers can review
+them.
+2.1.10 Use-case 10
+ID: UC10
+Name: Update Marks
+Actor: Teacher
+Description: After reviewing student queries, the teacher can update the marks if re-
+quired.
+2.2 Userstories
+1. As a Student, I want to log in/sign up, so I can take exams.
+2. As a Teacher, I want to upload course materials, so I can create lectures and exams
+based on them.
+3. As a Teacher, I want the system to generate an exam, so I can review and modify it.
+Sub-story:
+As a Teacher, I want to modify the exam, so I can make it better.
+4. As a Teacher, I want the system to generate a solution so that I can have a reference
+for evaluation after taking exams.
+Sub-story:
+As a Teacher, I want to edit the solution so that I can ensure the solution is correctly
+generated.
+5. As a Teacher, I want to approve and store the exam, so it is saved in the system for
+future use.
+6. As a Student, I want to attempt an exam, so I can complete the assigned exam.
+9
+2. Project Requirements
+7. As a System, I want to evaluate the student’s answers, so I can automatically provide
+marks
+Sub-story:
+As a Teacher, I want to modify the evaluations done by the system, so I can ensure
+it is correct.
+8. As a Teacher, I want to show the evaluated exam to the student, so they can see their
+marks.
+9. As a Student, I want to submit a query so that I can get clarification if my marks are
+correctly checked.
+10. As a Teacher, I want to review student queries, so I can address their concerns.
+Sub-story:
+As a Teacher, I want to update marks after reviewing the student queries so that I
+ensure fair evaluation among students.
+2.3 Functional Requirements
+2.3.1 Module 1: Teacher Module
+Following are the requirements for module 1:
+1. The system shall allow teachers to create multiple-choice questions (MCQs).
+2. The system shall enable teachers to create essay-type questions.
+3. The system shall provide functionality for teachers to make coding-related ques-
+tions.
+4. The system shall allow teachers to upload PDF documents for course materials.
+5. The system shall enable teachers to upload presentation slides for Lecture notes.
+6. The system shall allow teachers to create and manage an exam question bank.
+7. The system shall provide facilities for teachers to generate lecture notes from up-
+loaded materials.
+8. The system shall offer a user friendly interface for teachers to create exams.
+9. The system shall allow teachers to compile exam papers from the question bank.
+10
+2.3 Functional Requirements
+2.3.2 Module 2: Student Module
+Following are the requirements for module 2:
+1. The system shall provide a web interface for students to attempt exams digitally.
+2. The system shall support various question Displays Like MCQs, essay-type, and
+coding questions in Exam.
+3. The system shall provide quick grading/marks to students after they attempt exams.
+4. The system shall display detailed feedback for each question type to students.
+2.3.3 Module 3: AI Evaluation Module
+Following are the requirements for module 3:
+1. The system shall use Large Language Models (LLMs) to evaluate descriptive or
+essay-type questions after submission by students.
+2. The system shall utilize coding libraries to evaluate coding-related question anwers
+submitted by students.
+3. The system shall support programming languages for coding evaluations submitted
+by students.
+4. The system shall use math libraries to deal with mathematical questions.
+2.3.4 Module 4: Security and Authentication Module
+Following are the requirements for module 4:
+1. The system shall provide secure login functionality for user authentication to make
+sure that only right person have access.
+2. The system shall implement role-based access control to make sure to show teachers
+and students their corresponding screens.
+3. The system shall implement encryption for exam data during transmission when
+submitted by students.
+4. The system shall ensure the security of stored exam questions and student responses
+on database to avoid any kind of loss of data.
+11
+2. Project Requirements
+5. The system shall ensure and strengthen the database security as it contains sensi-
+tive information e.g exam questions, student personal information, and evaluation
+results of students.
+2.4 Non-Functional Requirements
+2.4.1 Reliability
+1. The GenFlex system shall have a Mean Time Between Failures (MTBF) of at least
+168 hours (7 days) of continuous operation during the initial prototype phase.
+2. A failure is defined as any unplanned system downtime or inability to access critical
+functionalities (exam creation, taking, or result viewing) for more than 10 minutes.
+3. In the failure case, the system will automatically save all user progress made in the
+last 2 minutes to ensure that current ongoing exams are not disturbed and reduce
+any data loss.
+4. The system will keep track of the errors and performance problems and then allow
+them to be manually reviewed and checked accordingly. Automated detection and
+alerts may be added in upcoming versions.
+5. If a failure occurs, the system will automatically recover and restore services within
+30 minutes. Manual intervention will only be needed when needed urgently.
+2.4.2 Usability
+1. The GenFlex system shall allow teachers to create a standard exam with at least 20
+questions within 60 minutes on their first use.
+2. Students shall be able to navigate and start an assigned exam within 5 clicks from
+the main dashboard on Student tab/window.
+3. The system shall provide basic error messages(error prompt messages) if user put
+wrong inputs.
+4. The system will let users easily undo their last action in form fields, either by us-
+ing familiar keyboard shortcuts (ctrl+z or a convenient "undo" button), wherever
+possible.
+12
+2.4 Non-Functional Requirements
+2.4.3 Performance
+1. The system shall support up to 100 concurrent users simultaneously during the
+initial phase, with a goal of expanding its limit upto 1000 users as the system is
+optimized.
+2. 80 percent of all database queries, including those for retrieving exam questions
+and saving responses, shall complete in less than 1 second.
+3. The AI evaluation module shall complete the grading of a standard 50 questions
+with mixedup format exam (MCQs and short answers only) within 5 minutes.
+4. The system shall render the user interface for exam-taking within 5 seconds of a
+page request under normal load conditions.
+5. Auto-saving of responses during exams shall occur every 60 seconds, ensuring user
+interaction is not interrupted if any kind of failures occur like electricity outage etc.
+2.4.4 Security
+1. The system shall use TLS 1.2 or might be a higher one to keep all data secure
+and safe during transmission, and sensitive data stored in the system shall be pro-
+tected by AES-128 encryption at first, with plans to upgrade to AES-256 in future
+versions.
+2. Teachers and administrators shall use single-factor authentication (like a password)
+in initial release, and multi-factor authentication shall be added later in later up-
+dates.
+3. The system shall be designed to handle common security issues, following the
+OW ASP Top 10 instructions,.
+4. All user actions shall be held for the audits and the checkups to keep the track of
+activities done while interacting with the system throughout the session.
+5. The system shall lock accounts of the user if 10 failed login attempts occur within
+the 30 minutes time frame, along with the option for the users to recover their
+account through some email-based process.
+6. The system shall make sure the password policies make strong passwords, with
+a requirement of having the minimum of 12 characters, including uppercase Al-
+phabets, lowercase Alphabets, numerics, and special characters, with mandatory
+changes every 90 days.
+13
+2. Project Requirements
+2.5 Domain Model
+Figure 2.2: Domain Model Diagram
+14
+2.6 Context Diagram
+2.6 Context Diagram
+Figure 2.3: Context Diagram
+15
+Chapter 3
+System Overview
+Give a general description of the functionality, context, and design of your project. Pro-
+vide any background information if necessary.
+3.1 Architectural Design
+GenFlex uses a layered architecture with five main layers:
+1. Presentation Layer: Web and mobile interfaces
+2. Application Layer: Teacher, Student, and Admin modules
+3. Service Layer: AI Evaluation
+4. Data Access Layer: Database and file system operations
+5. Data Layer: MongoDB and file storage
+Key modules include:
+• Teacher Module: Exam creation and management
+• Student Module: Exam taking and result viewing
+• AI Evaluation Module: Automated grading using LLMs and specialized libraries
+• Exam Management: Handles exam lifecycle
+• Security and Authentication: Ensures system-wide data protection
+16
+3.2 Design Models
+Figure 3.1: Architecture Diagram
+The architecture allows for separation of concerns, scalability, and easy integration of
+new features. Modules collaborate through defined interfaces, with data flowing from the
+presentation layer through the application and service layers to the data layer and back,
+enabling the full exam automation process.
+3.2 Design Models
+Design model applicable our system is Object Oriented Development Approach.
+Design Models for Object Oriented Development Approach
+The applicable models for the project using object oriented development approach may
+include:
+• Activity Diagram
+• Class Diagram
+• Class-level Sequence Diagram
+• State Transition Diagram (for the projects which include event handling and backend
+processes)
+3.2.1 Teacher Activity Diagram
+Description:
+This activity diagram outlines the workflow for a teacher using the GenFlex system. It
+starts with the teacher logging in and progresses through course material upload, exam
+17
+3. System Overview
+generation, and evaluation processes. The diagram includes decision points for editing
+exams and solutions, as well as for modifying AI-generated evaluations. It concludes
+with handling student queries.
+Usage:
+This diagram guides the development of the teacher interface and workflow in GenFlex.
+It ensures that all necessary steps are included, from login to query resolution.
+• Secure login system
+• Course material upload and lecture generation
+• Exam creation and editing tools
+• AI-driven exam evaluation
+• Manual evaluation adjustment
+• Student result publication
+• Query handling system
+18
+3.2 Design Models
+Figure 3.2: Teacher Activity Diagram
+19
+3. System Overview
+3.2.2 Student Activity Diagram
+Description:
+This activity diagram illustrates the student’s journey in the GenFlex system. It begins
+with the student logging in and proceeds through viewing available exams, attempting
+an exam, and submitting it. The diagram also covers the evaluation viewing process and
+includes a query submission feature with a validation step.
+Usage:
+This diagram serves as a blueprint for developing the student interface and experience in
+GenFlex. It ensures a logical flow from exam access to result viewing. Developers can
+use this to implement:
+• Secure student authentication
+• Exam viewing and attempt interface
+• Exam submission and storage system
+• Result viewing mechanism
+• Query submission and handling process
+20
+3.2 Design Models
+Figure 3.3: Students Activity Diagram
+21
+3. System Overview
+3.2.3 Class Diagram
+Teacher
+ 
++ 
+teacherID: 
+int
+ 
++ 
+name: 
+string
+ 
++ 
+email: 
+string
+ 
+# 
+createExam(): 
+text
+ 
++ 
+uploadMaterial():void
+ 
+- 
+viewExamResults():text
+Student
+ 
++ 
+StudentID: 
+int
+ 
++ 
+name: 
+string
+ 
++ 
+email: 
+string
+ 
++ 
+AttemptExam(): 
+text
+ 
++ 
+ViewResults():text
+Exam
+ 
+- 
+examID: 
+int
+ 
++ 
+examType: 
+string
+ 
++ 
+questions: 
+string
+ 
++ 
+dueDate: 
+date
+ 
+- 
+GenerateExam(): 
+text
+ 
++ 
+SubmitExam():void
+Question
+ 
+- 
+questionID: 
+int
+ 
+- 
+questionText:string
+ 
++ 
+questionType: 
+string
+ 
+- 
+marks: 
+int
+ 
+- 
+addQuestion(): 
+void
+ 
+- 
+editQuestion():void
+ 
+- 
+deleteQuestion():void
+AI 
+Evaluation
+ 
+- 
+evaluationID: 
+int
+- 
+examID: 
+int
+- 
+studentID: 
+int
+ 
++ 
+evaluateExam(): 
+void
+ 
+- 
+generateGrade(): 
+string
+Security
+ 
++ 
+UserId: 
+int
+ 
++ 
+AuthenticationToken: 
+bool
+ 
++ 
+Login(): 
+void
+ 
+- 
+EncryptData():void
+ 
+- 
+AuthorizeAccess():bool
+Exam 
+Result
+ 
+- 
+ResultID: 
+int
+ 
+- 
+StudentID: 
+int
+ 
+- 
+ExamID: 
+int
+ 
+- 
+Marks: 
+int
+ 
++ 
+calculateResult(): 
+void
+ 
++ 
+DisplayResult():void
+Lecture 
+Notes
+ 
+- 
+NotesID: 
+int
+ 
++ 
+LectureNO: 
+int
+ 
++ 
+Notes: 
+text
+ 
++ 
+GenerateNotes(): 
+text
+User
+ 
++ 
+userID: 
+int
+ 
++ 
+username: 
+string
+ 
+- 
+password: 
+string
+ 
++ 
+role: 
+string
+ 
++ 
+email: 
+string 
+ 
++ 
+Register(): 
+void
+ 
++ 
+Login(): 
+void
+ 
++Logout(): 
+void
+ 
++validateCreditentials():void
++Authorize(): 
+void
+Figure 3.4: Class Diagram
+3.2.4 Teacher Exam Creation Sequence Diagram
+Description:
+This outlines the process of a teacher creating an exam in GenFlex. It illustrates the
+sequence from the teacher initiating exam creation through the User Interface, to the Exam
+Controller managing the creation process. The diagram shows how the system generates
+questions using a Question Generator, saves the exam data in the Database, and confirms
+the creation to the teacher. This process demonstrates the automated exam creation feature
+of GenFlex.
+22
+3.2 Design Models
+Figure 3.5: Exam Creation Sequence Diagram
+3.2.5 Student Exam-Taking Sequence Diagram
+Description:
+This diagram depicts the sequence of interactions when a student takes an exam in Gen-
+Flex. It shows the flow from the student initiating the exam through the User Interface, to
+the Exam Controller fetching exam details from the Database, rendering the exam, pro-
+cessing the student’s submitted answers, and finally using the AI Evaluator to grade the
+exam. The process concludes with saving the results and displaying them to the student.
+23
+3. System Overview
+Figure 3.6: Student Exam-Taking Sequence Diagram
+3.2.6 AI Evaluation Sequence Diagram
+Description:
+This diagram illustrates the AI-powered evaluation process in GenFlex. It shows how
+the Exam Controller initiates the evaluation, and how the AI Evaluator processes differ-
+ent types of questions (essay, coding, and math) using specialized components like the
+Language Model, Coding Library, and Math Library. The process includes categorizing
+questions, evaluating each type separately, and aggregating results before returning the
+final evaluation to the Exam Controller.
+24
+3.3 Data Design
+Figure 3.7: AI Evaluation Sequence Diagram
+3.3 Data Design
+Entities:
+• User: Stores user information (teachers and students)
+• Course: Represents courses offered
+• Exam: Contains exam details
+• Question: Stores individual exam questions
+• Response: Records student answers to questions
+• Result: Stores overall exam results for students
+Key Relationships:
+• Users create and take exams
+• Courses contain exams
+• Exams include questions
+• Users submit responses to questions
+25
+3. System Overview
+• Exams generate results for users
+Storage:
+• Relational database (e.g., PostgreSQL or MySQL)
+• Each entity corresponds to a database table
+• Foreign keys implement relationships between tables
+26
+3.3 Data Design
+Figure 3.8: ERD
+27
+Bibliography
+1. Asha T. and K. Kuma. Design and development of an online examination system.
+2014.
+2. Prashant S., Deepak J., and Neeraj G. "An Automated Online Examination Sys-
+tem." International Journal of Computer Applications, vol. 79, no. 13, 2013.
+3. Kumar, S. and Gupta, R. "A Study on the Security Challenges in Online Exami-
+nation Systems." International Journal of Advanced Research in Computer Science
+and Software Engineering, vol. 6, no. 10, 2016.
+28
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

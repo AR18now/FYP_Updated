@@ -1,0 +1,127 @@
+# F24-188
+
+## 1. Introduction
+
+Introduction
+Problem Statement
+Accessible solutions that offer prompt and trustworthy investment recommendations based on real-time data are currently lacking in the real estate investment industry. A plethora of disorganised information makes it difficult for potential investors to find high-growth regions, comprehend market trends, and make well-informed judgements. Conventional means of getting investing advice are sometimes expensive, time-consuming, and need specialised knowledge. To enable consumers to make knowledgeable decisions with confidence and speed, an intelligent system that provides individualised, data-driven insights into real estate investments is required.
+1.2 Scope
+The project's objectives have been rearranged to centre on creating a chatbot that helps consumers choose wisely when making investments in real estate. Based on customer preferences and market data, the chatbot will evaluate market trends, spot expanding real estate prospects, and make recommendations. The project will guarantee the highest levels of security, user experience, and compliance with data privacy rules while incorporating features like market statistics, financial advice, and user identification.
+
+1.3 User Classes
+Real Estate Investors
+Characteristics:
+Seeking personalized investment guidance and insights into market trends.
+Interested in detailed property analytics, neighbourhood comparisons, and potential growth areas.
+Values data-driven decision-making, utilizing market reports and insights to identify high-return investments.
+Likely to engage with interactive tools and seek continuous updates on market changes and opportunities.
+Property Buyers and Renters
+Characteristics:
+Individuals looking for properties to buy or rent based on specific criteria (e.g., location, price range, amenities).
+Likely to use the chatbot for personalized recommendations and to find properties that match their preferences.
+May explore market insights to compare neighbourhoods before finalizing a purchase or rental decision.
+Property Sellers and Agents
+Characteristics:
+Interested in market analytics to understand property value trends and set competitive pricing.
+Engages with neighbourhood comparison tools to market properties effectively.
+Uses the platform’s insights to highlight high-demand areas and features that appeal to buyers.
+Likely to submit feedback or feature requests based on their experience using the platform for their listings.
+Market Analysts and Data Enthusiasts
+Characteristics:
+Users who focus on analysing real estate market trends and predicting future developments.
+Heavy users of analytics reports, historical data, and predictive models.
+Engages with interactive charts, graphs, and real-time data to explore economic indicators and property trends.
+Likely to use alert features to stay updated on critical market shifts or opportunities for analysis.
+Platform Administrators and Developers
+Characteristics:
+Responsible for maintaining and enhancing platform features.
+Uses feedback data and bug reports submitted by users to make continuous improvements.
+Monitors user engagement data to adjust algorithms and refine market insights.
+Implements user suggestions and ensures the platform adapts to changing market dynamics.
+Chapter 2
+Project Requirements
+2.1 Use Cases
+ 2.1.1 Extended Use Cases
+User Management:
+Registration
+Login
+Chatbot for Investment Guidance
+ Neighborhood Comparison Tools
+Market Trends Visualization
+Custom Analytics Report Generation
+ Feedback and Continuous Improvement
+Use Case Diagram
+2.2 Modules
+2.2.1 User Authentication and Registration
+FR: Allows users to register with phone numbers, social media accounts, or email addresses.
+FR: Uses multi-factor authentication (MFA) and encryption to provide safe password storage.
+FR: Offers varying user categories (such as inexperienced and seasoned investors) role-based access control.
+FR: Facilitates account recovery functions, such as email verification and safe password resets.
+FR: Logs user activity to detect and prevent unauthorized access.
+2.2.2 Chatbot for Investment Guidance
+FR: Based on customer preferences and market data, this service offers real-time recommendations for real estate investments.
+FR: Uses machine learning algorithms to analyse patterns in the real estate market in order to identify growth areas and the best places to invest.
+FR: Answers questions and offers assistance to users using an interactive natural language processing (NLP) interface.
+FR: Provides individualized investment recommendations according to the user's budget, desired location, and risk tolerance.
+FR: Monitors user comments and interactions to continuously enhance the precision of recommendations.
+2.2.3 Market Analytics and Insights Module
+FR: Generates custom analytics reports based on user-defined criteria, such as location, property type, and investment horizon
+FR: Provides neighbourhood comparison tools to help users identify high-growth areas.
+FR: Presents historical and predictive market trends related to property values using interactive charts and graphs.
+FR: Integrates with external APIs to pull real-time data on market trends, property prices, and economic indicators; 
+FR: Supports alerts and notifications for significant market changes or investment opportunities.
+2.2.4 Security and Compliance Module
+FR: Uses data encryption to protect user privacy and security for all user data, including conversations.
+FR: Ensures that users from other countries are in compliance with data privacy laws (such as the CCPA and GDPR).
+FR: Comes with monitoring tools and audit records to find and stop possible security breaches.
+FR: Encourages frequent vulnerability analyses and security upgrades to keep an environment safe.
+FR: Gives consumers control over their privacy settings and transparency tools that demonstrate how their data is used and preserved.
+2.2.5 Feedback and Continuous Improvement Module
+FR: Gathers feedback from users via surveys, ratings, and direct interaction in order to assess how well the chatbot's suggestions work.
+FR: Makes use of machine learning to examine user input and modify the chatbot's algorithms over time for enhanced functionality.
+FR: Enables users to submit direct feature requests or bug reports via the platform.
+FR: Consistently modifies and enhances functionality and content in response to shifts in the market and user engagement data.
+FR: Offers analytics dashboards for monitoring user satisfaction and key performance indicators.
+2.3 Non-Functional Requirements
+Reliability
+System Availability: "Realconnect" should achieve a target uptime of 99.9 percent outside of planned maintenance windows, ensuring users have consistent access to learning materials and assessments.
+Data Integrity and Backup: Regular backups of user data, learning progress, and content should be conducted to prevent data loss. Recovery procedures must be tested and in place to handle system failures.
+Usability
+Intuitive User Interface (UI): The UI should be designed with clarity and simplicity in mind, making navigation intuitive for users of all proficiency levels in technology.
+Performance
+Response Time: The application should respond to user inputs and requests within 2 seconds under typical usage conditions, ensuring a smooth and efficient user experience.
+Scalability: The system should be scalable to support an increasing number of users, courses, and data load, with the capability to maintain performance levels without degradation.
+Security
+Data Encryption: All user data transmitted over the internet and stored on servers must be encrypted using industry-standard protocols to protect against unauthorized access and data breaches.
+Authentication and Authorization: Implement robust authentication mechanisms and ensure users have access only to their data and the functions that are relevant to their user role within the application.
+Regular Security Assessments: Conduct regular security audits and penetration testing to identify and remediate vulnerabilities, ensuring the ongoing security of the platform and its users.
+Domain Model
+Chapter 3
+System Overview
+Architectural Design
+Design Models
+3.2.1 Activity Diagram
+3.2.2 System Sequence Diagram
+Use Case 03
+Use Case 04:
+Use Case 05
+Use Case 06:
+Use Case 07:
+3.2.3 Sequence Diagrams
+Registration
+Login
+User Interaction with chatbot
+Neighborhood Comparison
+User Interaction for Market Trends
+Custom Analytics Report
+Feedback
+Data Design
+Bibliography
+[1] Moradi, A., and A. Chalvatzis. "Machine Learning in Property Investment: Predictive Models for Growth and Risk Assessment." Real Estate Economics, vol. 48, no. 3.
+[2] Zhao, L., et al. "Market Trend Analysis Using AI: A Tool for Property Investors." Computational Intelligence in Real Estate, vol. 12.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

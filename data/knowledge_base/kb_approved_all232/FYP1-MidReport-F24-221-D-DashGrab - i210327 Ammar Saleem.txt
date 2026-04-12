@@ -1,0 +1,152 @@
+# FYP1-MidReport-F24-221-D-DashGrab - i210327 Ammar Saleem
+
+## 1. Introduction
+
+Introduction 2
+1.1 Problem Statement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2 Scope . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.3 Solution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+2 Software Requirements Specification (SRS) 3
+2.1 Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+2.2 Non-Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . . 3
+2.3 User Classes and Characteristics . . . . . . . . . . . . . . . . . . . . . . . 3
+3 Software Design 5
+3.1 Design Methodology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+3.2 Architectural Style . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+4 UML Diagrams 6
+4.1 Architectural Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+4.2 Activity Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+4.3 Entity-Relationship Diagram (ERD) . . . . . . . . . . . . . . . . . . . . 8
+5 Validation and Testing 9
+5.1 Testing Approach . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+5.2 Results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+6 Conclusion 10
+1
+Chapter 1
+Introduction
+DashGrab is an innovative project designed to automate the shopping experience in retail
+clothing stores by combining Computer Vision, RFID technology, and automated billing.
+The goal is to streamline the shopping process, making it more efficient and secure.
+1.1 Problem Statement
+Traditional retail systems require manual checkout processes or expensive infrastructure
+upgrades to automate purchasing, leading to inefficiencies and long wait times. These
+methods often fail to ensure real-time tracking of customer activities or detect unautho-
+rized actions, resulting in potential security risks. Additionally, implementing automated
+systems with dedicated smart cameras can be costly. There is a need for a system that
+can use existing CCTV setups to ensure seamless purchasing, real-time activity tracking,
+and automated billing
+1.2 Scope
+This project aims to develop a system that integrates with current CCTV infrastructure to
+track customers’ shopping behavior in a retail environment, specifically targeting clothing
+stores. The system will recognize individuals, track their activities (like picking up or
+returning clothing items), and automatically update their accounts with purchases. The
+solution will include real-time detection and monitoring to ensure accurate billing and
+security checks, offering a balance between convenience and operational efficiency.
+1.3 Solution
+DashGrab uses Computer Vision to monitor customer behavior, tracking their actions in
+real-time, such as picking up or returning items. It integrates RFID tags for seamless
+item tracking, eliminating manual checkouts by associating products with the customer
+automatically. The system also features automated billing, charging customers as they
+exit the store for a frictionless experience. Additionally, DashGrab includes security mea-
+sures to detect shoplifting and fraud, identifying suspicious activities like unauthorized
+item removal. This combination of technology improves both shopping convenience and
+security, streamlining retail operations efficiently.
+2
+Chapter 2
+Software Requirements Specification
+(SRS)
+2.1 Functional Requirements
+The following are the core functionalities of the DashGrab system:
+• User Identification: The system identifies customers upon entry using camera
+surveillance and registered profiles.
+• Item Detection: RFID tags attached to clothing items are detected automatically
+as the customer moves within the store.
+• Automated Checkout: Once the customer exits the store, the system automati-
+cally processes payment through the registered payment method.
+• Security Monitoring: Continuous monitoring for suspicious activity, such as
+shoplifting or insufficient balance during checkout.
+2.2 Non-Functional Requirements
+Non-functional aspects include:
+• Real-Time Processing: The system must process transactions and monitor se-
+curity in real-time to ensure smooth shopping.
+• Security: The system should detect and prevent fraud, including monitoring for
+attempts to steal items or checkout with insufficient funds.
+• Availability: The system should have high availability and minimal downtime to
+support continuous operations.
+2.3 User Classes and Characteristics
+This section identifies the various user roles that will interact with the Dashgrab system.
+3
+Users Description
+Customer The main users of the system. Customers are identified
+upon entering the store, and their actions, such as pick-
+ing or returning items, are tracked. Each customer has
+an account that will be billed based on their shopping.
+Staff Responsible for managing the Dashgrab system, ensur-
+ing accurate detection of customers and items. They
+can also review and resolve billing or detection issues.
+Admin Administrators oversee the system’s operation, monitor-
+ing performance, and security. They manage user per-
+missions and ensure data integrity.
+Table 2.1: User Classes and Characteristics for DashGrab
+4
+Chapter 3
+Software Design
+3.1 Design Methodology
+DashGrab employs an Object-Oriented Programming (OOP) methodology to handle the
+modular nature of the system. This design approach allows for easy scalability, code
+reusability, and efficient management of different modules such as customer identification,
+item detection, and billing automation.
+3.2 Architectural Style
+The architectural style chosen for DashGrab is Microservices Architecture. Each module,
+including item detection, billing, and security monitoring, functions independently but
+communicates with the overall system for real-time synchronization.
+5
+6
+Chapter 4
+UML Diagrams
+4.1 Architectural Diagram
+Figure 4.1: Architectural Diagram of DashGrab
+7
+4.2 Activity Diagram
+Event Response
+Customer enters the store Detect the customer using CCTV footage and begin
+tracking their activity.
+Customer picks an item Recognize the clothing item and add it to the virtual
+cart.
+Customer returns an item Remove the item from the virtual cart if returned.
+Checkout process initiated Automatically generate a bill and deduct the amount
+from the customer’s account.
+Table 4.1: Event-Response Table for the DashGrab System
+4.3 Entity-Relationship Diagram (ERD)
+Figure 4.2: Entity-Relationship Diagram for DashGrab’s Data Storage
+8
+Chapter 5
+Validation and Testing
+5.1 Testing Approach
+DashGrab uses both manual and automated testing methods to ensure the system func-
+tions properly. Automated testing is conducted for individual modules such as item de-
+tection and billing. Manual testing involves simulating real-world shopping experiences
+in a controlled environment to validate the system’s accuracy and performance.
+5.2 Results
+The initial tests have shown that DashGrab’s automated detection and billing system
+works with 95% accuracy. Further improvements are expected as the system continues
+to be refined.
+9
+Chapter 6
+Conclusion
+DashGrab is set to revolutionize the shopping experience by automating processes that
+traditionally require manual labor. With a focus on efficiency, security, and customer
+satisfaction, the system provides a fully integrated shopping solution that could serve as
+a model for future retail developments.
+10
+References
+• FYP Handbook, [Link to FYP Handbook].
+• Ammar Saleem, Mudassar Manzoor, Noor-ul-Hudda, DashGrab - Automated Shop-
+ping System Documentation , 2024.
+11
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,584 @@
+# FYP1-MidReport-F24-212-D-DG - Hammad Qaiser
+
+## 1. Introduction
+
+1. Introduction 
+ 
+tem will use a Stable Diffusion model to generate very realistic synthetic representations 
+of fabric defects depending on user input. These images will be used for training data for 
+deep learning algorithms, allowing them to spot flaws more precisely. The system will 
+also include a real-time flaw detection method based on the YOLO model, which will be 
+implemented on a user-friendly web application. Users can input fabric images, and the 
+model detects and highlights flaws in real time, allowing manufacturers to enhance their 
+quality control operations.[1] 
+ 
+ 
+1.3 Problem Statement 
+ 
+Traditional QA methods rely heavily on real world data, which can be difficult to obtain, 
+expensive to acquire, and often contains sensitive information that cannot be shared freely. 
+Moreover, real data sets may not always represent the full range of potential defects that 
+need to be tested, leading to inaccurate results and overlooked defects. The lack of suf - 
+ficient and representative data can severely hinder the effectiveness of quality assurance 
+processes, leading to delays, increased costs, and compromised product quality.[2] 
+ 
+ 
+1.4 Scope 
+ 
+The DataGenie project aims to create a reliable system for detecting fabric defects and 
+producing synthetic data for the textile industry. This solution is intended for AI engi - 
+neers working in quality assurance. It includes an application that uses a Stable Diffusion 
+model to generate realistic synthetic images of fabric defects. To address the issue of 
+limited datasets for training defect detection models, the generated synthetic data will 
+train a YOLO-based model for real-time detection of fabric defects. A verification model 
+will also be developed to compare synthetic defect datasets to real-world data in specific 
+defect categories. This model ensures the accuracy of synthetic data by demonstrating 
+that any difficulty distinguishing between real and synthetic defects reflects the generated 
+data’s precision. Furthermore, the system will accept natural language prompts, allow - 
+ing users to specify defect types and orientations. These inputs will be processed by a 
+large language model (LLM) trained on textile specific data which will result in synthetic 
+datasets. To streamline the quality assurance process, all functionalities will be integrated 
+into a user- friendly web application. The system will also include predictive analytics, 
+which will use prediction analysis algorithm to predict fabric defects based on past data or 
+production conditions like temperature and humidity. This analysis capability will aid in 
+defect prevention by predicting when and where they are most likely to occur, providing 
+an additional layer of quality assurance to the workflow. 
+3 
+ 
+1.5 Modules 
+1.5 Modules 
+ 
+1.5.1 Module 1: Dataset Annotation and Stable Diffusion Model De- 
+velopment 
+In this module, the focus is on manually annotating and connecting fabric defect datasets. 
+The annotated data will be used to train the Stable Diffusion model, which generates 
+synthetic data. A basic web app user interface will also be developed. 
+ 
+• Manual Data Annotation: Annotate and label fabric defect images for model 
+training. 
+ 
+• Stable Diffusion Model: Train a Stable Diffusion model to generate synthetic fab- 
+ric defect images. 
+ 
+ 
+1.5.2 Module 2: NLP Model Training and Database Setup 
+ 
+This module involves training an NLP model for processing text -based user inputs and 
+organizing the annotated and synthetic datasets into a database. 
+ 
+• NLP Model Training: Train the model to interpret and process user input for fabric 
+defect generation. 
+ 
+• Database Setup: Store the dataset efficiently for retrieval and processing. 
+ 
+ 
+1.5.3 Module 3: YOLO Model Integration and Web App Develop- 
+ment 
+The primary objective of this module is to implement the YOLO model for detecting 
+fabric defects and optimizing it for accuracy. Additional features of the web app will also 
+be developed in this phase. 
+ 
+• YOLO Model Implementation: Integrate and train the YOLO model to detect 
+fabric defects. 
+ 
+• Web App Optimization: Enhance the web app for better user interaction and per- 
+formance. 
+4 
+1. Introduction 
+ 
+1.5.4 Module 4: Verification Model and Predictive Analytics 
+ 
+This module introduces a verification model to cross-check the accuracy of the synthetic 
+data generated. It also focuses on building predictive analytics for fabric defect trends. 
+ 
+• Verification Model: Develop a model to validate the GANs and YOLO model’s 
+results against real and synthetic data. 
+• Predictive Analytics: Implement analytics for predicting future fabric defects based 
+on historical data. 
+ 
+ 
+1.6 User Classes and Characteristics 
+5 
+1.6 User Classes and Characteristics 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+User class Description 
+AI Devel- 
+oper 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Quality 
+Assurance 
+Manager 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Textile Man- 
+ufacturer 
+As the AI Developer, the candidate needs to build and deploy the machine 
+learning that supports the DataGenie project. The primary objectives of the 
+AI Developer will be the Stable Diffusion model for the generation of syn- 
+thetic data and the YOLO model for defects. It will also involve applying 
+techniques to LLM’s with respect to the interpretation of user prompts in 
+order to generate data to suit textile industry requirements. Again, the AI 
+Developer will be coordinating with other team members so that these mod - 
+els can fit well into the overall framework of the application; in addition, 
+the AI Developer will frequently be responsible for performance tuning on 
+these models as well as redesigning them given fresh data or feedback. 
+It’s the responsibility of the Quality Assurance Manager to confirm that the 
+synthetic datasets and the defect detection models are operational as ex - 
+pected and up to the benchmark standard. This person will be responsible 
+for evaluating the Quality of synthetic images, which is produced by Stable 
+Diffusion model and the results of the YOLO model that is used for detecting 
+defects. It will be their duty to create test cases, assess the model’s fitness for 
+use and ensuring quality of the model at different stages of model creation. 
+The Quality Assurance Manager will offer feedback to the AI Developers 
+to improve model performance and hence will be of great significance. Fur - 
+thermore, this work entails consultation and collaboration with stakeholders 
+in order to satisfy the quality assurance requirements of the textile manufac - 
+turing industries as to the application. 
+The Textile manufacturer is the main user of the DataGenie application with 
+purpose to introduce improvement to the quality control of their production 
+lines. A power user class embraces such a user who is in charge of fabric 
+production and quality of the end products. Through this web application 
+manufacturer view the results of the defect detection. Their contribution 
+will be important in the fine-tuning of the application since they will identify 
+which defects are prevalent in their manufacturing processes. This user class 
+will seek to use the aspects of the application that enables a prediction of 
+possible quality problems and which can be prevented. 
+ 
+ 
+ 
+7 
+ 
+ 
+ 
+ 
+ 
+Chapter 2 
+ 
+Project Requirements 
+ 
+2.1 Event Response Table 
+ 
+ 
+EVENT SYSTEM STATE RESPONSE 
+User adds image to the up - 
+load tab and clicks upload 
+image 
+Image is saved in database 
+and fed to Stable Diffu - 
+sion model 
+"Image uploaded" screen 
+displayed 
+User enters prompt in text 
+box and clicks generate 
+button 
+The input is processed, 
+and label and amount of 
+images are extracted 
+User navigated to a load- 
+ing screen 
+User clicks 
+ages" button 
+"show im- Generated images are 
+loaded to the screen 
+Generated images 
+played on a screen 
+dis- 
+User clicks on an image Image enlarged to full 
+screen with annotation 
+display 
+Image displayed on full 
+screen 
+User clicks "delete image" 
+button 
+Screen displays warning 
+message 
+Image deleted 
+database 
+from 
+User clicks "download 
+dataset" 
+Screen displays size and 
+information of dataset 
+Images and annotations 
+downloaded locally to de- 
+vice 
+User clicks "train model" 
+button 
+Images and annotations 
+fed to YOLO model, and 
+training starts 
+Navigated to training 
+screen 
+User clicks "download 
+model" button 
+System exports PyTorch 
+model 
+PyTorch model is saved to 
+device 
+Table 2.1: System Events and Responses 
+ 
+8 
+ 
+2.2 Functional Requirements 
+ 
+1. Synthetic Data Generation 
+• The system must be able to generate synthetic fabric defect datasets using a Stable 
+Diffusion model. 
+• Users must be able to provide input through prompts to generate specific types of 
+fabric defects. 
+ 
+2. Defect Detection 
+• The system must integrate defect detection model to perform real-time fabric defect 
+detection according to the given images. 
+• The system must allow users to upload fabric images and receive detection results 
+having the detected defects. 
+ 
+3. Prompt-Based Defect Generation 
+• Users must be able to specify defect types and orientations through natural language 
+prompts. 
+ 
+4. Model Verification 
+• The system must include a verification model to compare the generated synthetic 
+datasets against real world data to ensure the accuracy. 
+• The system must validate synthetic data accuracy by determining if the synthetic 
+images resemble to actual defects. 
+ 
+5. Predictive Analytics 
+• The system must provide predictive analytics based on historical fabric defect data or 
+production conditions like humidity and temperature. 
+• Predictive analysis should help identify when and where defects are most likely to 
+occur to assist QA in precautionary measures. 
+ 
+6. Database Management 
+• The system must store annotated and synthetic datasets in a database for the easy 
+retrieval and use. 
+• The system must support the storage of real-time detection results and user given 
+inputs. 
+ 
+7. Web Application Interface 
+• The system must offer a user-friendly web interface for interacting with all 
+functionalities, which are: uploading images, entering prompts, and viewing defect 
+detection results. 
+ 
+8. Support for Multiple Defect Types 
+• The system must allow generating and detecting a variety of fabric defects to cover 
+comprehensive quality assurance needs. 
+ 
+9 
+9. Training and Optimization 
+• The system must allow for the training and optimization of AI models (Stable 
+Diffusion, YOLO) to improve accuracy and efficiency over time. 
+• The system should enable model retraining based on new data or feedback. 
+ 
+10. Data Collection and Pre-processing 
+• The system must support data collection and pre-processing functionalities to 
+properly annotate and label fabric defect images for model training.
+10 
+2. Project Requirements 
+ 
+ 
+ 
+2.3 Non-Functional Requirements 
+ 
+2.3.1 Reliability 
+ 
+• NFR-1: In order to carefully avoid time losses while identifying defects, as well 
+as enriching data, the entire system it is required that the mean time between 
+failures is at least 500 hours.. 
+• NFR-2: Any subsequent failures and errors that are executed by the system 
+should be managed in such a way that they spring back up, without disturbing the 
+flow of process which should preferably not take more than 5 minutes. 
+11 
+2.3 Non-Functional Requirements 
+ 
+• NFR-3 The system should have a capability to return to the previous successful 
+configuration in the case of an error in synthesizing the data or during the 
+identification of defects. 
+• NFR-4:The system should have a backup mechanism which guarantee all the datasets 
+are quite often backed up in the cloud so that they do not get lost. 
+ 
+2.3.2 Usability 
+ 
+• NFR-5: The web application will have an easy to use interface which helps the 
+user to first time users to complete the synthetic datasets generation within 10 
+minutes of interaction with the application. 
+• NFR-6: Feedback to given prompts shall be within the next 2 seconds for the user 
+acknowledgement including submitting prompts, beginning defect detection, or 
+loading datasets as a couple of examples. 
+• NFR-7: The system should also have recognizable error messages, and a supplied 
+recovery concerning errors to allow users to handle them within 3 interactions. 
+ 
+ 
+2.3.3 Performance 
+ 
+• NFR-8: The Stable Diffusion model used in the system shall produce synthetic 
+fabric defect data set within 5 minutes for up to several of these images. 
+ 
+• NFR-9: System should be to perform defect detection in the time frame of 5ms per 
+image on a high performance GPU. 
+ 
+ 
+• NFR-10:The Large Language Model (LLM) shall be able to reply to the user prompt 
+in the following manners: 
+ Number of images suggested per defect type within 5 seconds of submission. 
+ 
+• NFR-11: The system should be able to support up to 500 concurrent users that does 
+not decrease efficiency. 
+2.3.4 Security 
+ 
+• NFR-13: System should perform all data transmissions between the client and server 
+must be encrypted using TLS 1.2 or higher. 
+ 
+ 2.3.5 Project Requirements 
+ 
+12 
+• NFR-14: User sessions should be authenticated using JWT (JSON Web Tokens) and 
+support OAuth 2.0 for third-party integrations. 
+ 
+• NFR-15: The system shall enforce strong password policies by requiring at least 8 
+characters, one uppercase letter, one lowercase letter, one number, and one special 
+character. 
+ 
+ 
+• NFR-16: The system should automatically log out users after 15 minutes of 
+inactivity to protect against unauthorized access. 
+ 
+• NFR-17: The system should ensure that only authorized user can access the 
+application i.e the user with authorized account and correct credentials. 
+ 
+2.4 Domain Model 
+ 
+ 
+ 
+ 
+ 
+Figure 2.1: Domain model diagram. 
+
+13 
+ 
+ 
+ 
+ 
+ 
+Chapter 3 
+System Overview 
+Give a general description of the functionality, context, and design of your project. Pro- 
+vide any background information if necessary. 
+ 
+ 
+3.1 Architectural Design 
+ 
+ 
+Figure 3.1: Architectural diagram. 
+ 
+ 
+ 
+3.2 Design Models 
+ 
+3.2.1 Data Flow Diagram 
+ 
+ 
+
+14 
+ 
+ 
+ 
+Figure 3.2: Data Flow Diagram 
+ 
+ 
+ 
+3.2.2 System Sequence Diagram 
+ 
+
+15 
+ 
+Figure 3.3: System Sequence Diagram. 
+
+16 
+2. System Overview 
+ 
+ 
+ 
+3.2.3 Activity Diagram 
+17 
+ 
+
+18 
+Figure 3.4: Activity Diagram. 
+ 
+ 
+3.2.4 State Transition Diagram
+19 
+ 
+
+20 
+ 
+ 
+ 
+3.3 Data Design 
+ 
+The DataGenie project includes multiple entities, which are required for the realization 
+of fabric defect detection and synthetic data generation. The information domain is trans- 
+lated into several structures, through which the information data can be most effectively 
+stored and processed. The storage, process and organization of the major data entities in 
+the framework Is briefly described below. 
+ 
+3.3.1 User 
+ 
+Attributes: 
+ 
+• name: The name of the user. 
+• id: An identification number for the user. 
+• email: The user’s email address. 
+• pass: The password the user uses for the purpose of identification. 
+ 
+Storage: Holding users’ information, the User entity resides in the database in a table 
+called User and performs authentication with a role -based access control mechanism at 
+the application level. 
+ 
+3.3.2 Dataset 
+ 
+Attributes: 
+ 
+• image_id: This is a tag that every image in the dataset should have. 
+• annotation: Information on any changes that may have been made to the images, 
+specifically, annotations. 
+ 
+Storage: The Dataset entity is contained within a Dataset table, with rows correlating to 
+specific images and their annotations. The structure allows easy location and manipula - 
+tion of image data. 
+21 
+3.3 Data Design 
+ 
+3.3.3 Notification 
+ 
+Attributes: 
+ 
+• id: A unique media identifier assigned to the notification. 
+ 
+• notification_data: The information to be delivered in the notification. 
+ 
+• user_id: The identification of the User who receives the notification. 
+ 
+Storage: Notification updates are logged in a Notification table to provide communication 
+and updates to the users regarding their activities or system events. 
+ 
+ 
+3.3.4 Prompt 
+ 
+Attributes: 
+ 
+• id: A unique identifier for the prompt. 
+ 
+• prompt_text: Text input that the user provides as the prompt for the program to 
+analyze. 
+ 
+• user_id: A unique identifier for the user creating the prompt. 
+ 
+Storage: Prompts are stored in a Prompt table where users input data needed to fulfill 
+their synthetic data generation requests. 
+ 
+ 
+3.3.5 Defect 
+ 
+Attributes: 
+ 
+• id: A unique identification number assigned to the defect as it is reported to the 
+management. 
+ 
+• type: The specific type of defect. 
+ 
+Storage: A Defect table is used to store defects and categorize different types of defects 
+that might occur in the fabric. 
+22 
+3. System Overview 
+ 
+3.3.6 Fabric 
+ 
+Attributes: 
+ 
+• id: A unique number that identifies the fabric. 
+• details: Additional information about the fabric. 
+• type: The category of the fabric. 
+ 
+Storage: Fabric details are recorded in a Fabric table, allowing the system to differentiate 
+between different types of fabrics and their respective details. 
+ 
+3.3.7 Data Storage and Organization 
+ 
+The entities are stored in Nosql collections, ensuring that any data is well -organized and 
+easily retrieved. Many of these entities interface with each other; for example, Users 
+create Prompts, and Defects are linked to Datasets. These relationships are managed 
+through foreign keys. This structured approach enables efficient querying and manipula- 
+tion of the data to support the general functioning of the DataGenie application. 
+ 
+3.3.8 Databases and Data Storage Items 
+ 
+Database Management System: The project utilizes a MongoDB database management 
+system, to manage the data. 
+Image Storage: The images associated with the Dataset entity can either be stored in 
+cloud storage services such as S3 or Blob storage or in the database itself. The decision 
+regarding where to store images depends on the volume of data and the frequency of 
+access required. 
+23 
+3.3 Data Design 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 3.5: Entity Relationship Diagram
+
+ 
+17 
+Bibliography 
+ 
+[1] Amazon. What is synthetic data. Synthetic data generation, 2024. 
+ 
+[2] Microsoft. Synthetic data generation. Synthetic data generation, 2024. 
+ 
+[3] Turing. Synthetic data generation: Tools and techniques. Synthetic data generation, 
+2024.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,606 @@
+# FYP1-MidReport-F24-129-R-Soccerix - i210307 Syeda Areeba Nadeem
+
+## 1. Introduction
+
+1. Introduction
+1.2 Research Problem Statement
+The lack of an automated, impartial, and effective system for tactical football analysis
+is the research challenge. Conventional approaches, which rely on physical labour and
+human interpretation, are not consistent enough to provide a complete picture of team
+performance. Soccer’s increasing focus on analytics has made an AI-driven solution more
+urgently necessary. Coaches and analysts could be able to make more educated tactical
+decisions with the help of such a system, which could offer precise, comprehensive post-
+match analysis. By examining how AI can provide more dependable, comprehensive, and
+timely insights on the tactical intricacies of the game, this research seeks to close the gap.
+1.3 Software Requirements Specification
+This section lays out the essential features and functions of Soccerix. The details are
+mentioned below.
+1.3.1 Functional Requirements
+1. Video Upload and Processing
+The system shall allow users to upload a video file. This input video will be pro-
+cessed at the back-end to extract relevant frames for object, event, and field key-
+points detection, as well as for object tracking and other modules.
+2. Dashboard Data Visualization
+When the user navigates to the dash-board, then system shall show dynamic visu-
+alizations like ball trajectory, team pitch control diagrams and heatmaps.
+3. Report Generation and Download
+When the user clicks the "Process/Generate Report" button the system shall gener-
+ate a comprehensive report summarizing the teams’ tactical analysis. This report
+will be available for download as well.
+1.3.2 Non-Functional Requirements
+1. Usability
+The system should have a easy to use interface with clear instructions for uploading
+video files.
+2
+1.3 Software Requirements Specification
+2. Reliability and Availability
+The system should work well all the time and be available for users to use without
+any problems.
+3. Scalability
+The system should be able to scale and expand easily in future, so that new features
+can be added to it later on.
+3
+Chapter 2
+Literature Review
+2.1 Related Research
+2.1.1 Video Analysis and Data-driven Tactical Optimization of Sports
+Football Matches: Visual Recognition and Strategy Analysis
+Algorithm
+2.1.1.1 Summary
+Football paper [11], which describes an algorithmic method to evaluate football tactics by
+using realtime video analysis of the played games and an advanced mathematical model.
+For Object Detection YOLOv5 is used which able to provide a greater than 92% level of
+accuracy by using sophisticated motion-based interpolation models and integrated with
+Strategic Analysis (SA) with Markov Chain Models (MCM) . The system monitors
+players and the ball, evaluates its trajectory and eventually determines tactical conclu-
+sions via a Steady-State Analysis (SSA) that forecasts long-term strategies. The dataset
+used is a football dataset from 6 top European leagues between 2014 and 2017 from
+SoccerNet — this provides a high quality streaming dynamic-view. This model scored
+98.6% detection accuracy for player and ball tracking enabling use real time during match
+or post-match decision strategically.
+2.1.1.2 Critical Analysis
+While the paper introduces a sophisticated methodology for real-time tactical analysis, it
+presents several limitations. The approach depends heavily on the accuracy of YOLOv5,
+which, though advanced, may still struggle with occlusions leading to occasional inac-
+curacies in object detection. The reliance on predefined zones and a simplified Markov
+4
+2.1 Related Research
+model might oversimplify the complexity of dynamic football strategies. Furthermore,
+the evaluation is limited to certain European leagues, raising concerns about the general-
+izability of the findings across different playing styles or leagues. Future improvements
+could focus on incorporating more diverse datasets and refining the models to account for
+more detailed tactical behaviors.
+2.1.1.3 Relationship to Soccerix
+This research aligns with Soccerix’s goal of utilizing AI for precise ball and player detec-
+tion and generating tactical insights. By applying similar advanced algorithms like YOLO
+and using SoccerNet dataset, our system may enhance its system’s ability to deliver ac-
+tionable, data driven insights that improve team tactics and performance.
+2.1.2 Tracking of Multi-Athlete and Action Recognition in Soccer
+Sports Video Using Deep Learning Techniques
+2.1.2.1 Summary
+The paper [55] focuses on automating the detection and recognition of key events in soc-
+cer games using deep learning models. The methodology includes pre-processing soc-
+cer video frames, extracting features using deep learning models like ResNet152, Naive
+Bayes, and SVM, and classifying events such as goals, tackles, and fouls. TheSoccerNet-
+v2 dataset, consisting of 550 soccer videos from top European leagues, was used to
+train and test the models. The proposed system is structured into data collection, pre-
+processing, feature extraction, and event prediction, achieving an accuracy of 88% with
+the ResNet152 model. The paper aims to reduce the time-consuming manual annotation
+process by automating event detection.
+2.1.2.2 Critical Analysis
+The paper’s strengths include the successful integration of multiple deep learning models,
+which improved action recognition accuracy, especially using concatenated pre-computed
+features. This approach enhanced performance, as seen in the ResNet152 model’s 88%
+accuracy. However, the reliance on precomputed features rather than raw video data lim-
+its flexibility and scalability. Additionally, the system’s dependence on a single dataset
+(SoccerNet-v2) could lead to overfitting, and the lack of real-time implementation testing
+raises concerns about its practical applicability.
+5
+2. Literature Review
+2.1.2.3 Relationship to Soccerix
+The research aligns with Soccerix as it uses deep learning models like ResNet152 to auto-
+mate event detection, such as goals and fouls. This approach can be helpful for Soccerix’s
+goal of using AI to track and analyze game events, providing accurate insights and en-
+hancing tactical analysis.
+2.1.3 Soccer Video Event Detection Using Metric Learning
+2.1.3.1 Summary
+The paper [ 33] proposes a solution for detecting events in soccer videos using convolu-
+tional neural networks (CNNs) and gated recurrent units (GRUs). This makes use of
+Siamese networks that uses contrastive loss in detecting different soccer events such as
+goals, fouls, penalty and corner kicks. In this work we take as reference the SoccerEvent
+and SoccerNet datasets. The approach attains 64.9% mAP on SoccerNet and 93.76%
+mAP in the SoccerEvent data set. The best-fit architecture in our case was EfficientNetB0
+and GRU.This paper demonstrates the effectiveness of metric learning for event detec-
+tion, showing that model trained by pair-wise ranking can learn a more general feature
+and perform cross-match generalization over diverse soccer game data.
+2.1.3.2 Critical Analysis
+This paper is to fully utilize the spatial and temporal information from soccer videos by
+using Siamese networks within a deep learning architecture for CNN and GRU. More-
+over, by applying contrastive loss, the event detection accuracy can be further boosted to
+93.76% mAP on SoccerEvent dataset. In addition, collecting a diverse dataset also helps
+the model to generalize better across different conditions such as stadiums, teams etc. De-
+spite this, the model records a relatively lower performance (64.9%) on SoccerNet dataset
+that could be an indication of shortfalls in dealing with certain events or datasets with less
+diversity. Furthermore, the system’s reliance on computationally intensive architectures
+like EfficientNetB0 may limit its scalability and real-time application. Expanding the
+evaluation across more diverse soccer datasets or exploring lightweight architectures for
+real-time analysis could address these gaps.
+2.1.3.3 Relationship to Soccerix
+The paper is relevant to Soccerix as it combines CNNs and GRUs to accurately detect
+events like goals and corner kicks. Use of these advanced techniques might enhance Soc-
+6
+2.1 Related Research
+cerix’s system by improving event detection and providing detailed, data-driven insights
+into game dynamics.
+2.1.4 RMS-Net: Regression and Masking for Soccer Event Spotting
+2.1.4.1 Summary
+The paper [88] introduces a lightweight network for action spotting in soccer videos, fo-
+cusing on detecting key events such as goals, substitutions, and cards. The methodology
+involves predicting both the event class and its temporal offset using 2D convolutional
+features with a masking strategy to handle ambiguous frames. The system is tested
+on the SoccerNet dataset , containing 500 full soccer matches, and achieves a 65.5%
+Average-mAP on the test set, surpassing prior methods. The model integrates temporal
+convolutions and regression strategies to improve temporal precision. Two techniques,
+data balancing and masking of irrelevant frames, are incorporated to mitigate class im-
+balance and enhance feature extraction.
+2.1.4.2 Critical Analysis
+RMS-Net excels in its lightweight design and modularity, allowing for easy integration
+with existing models while addressing event sparsity in soccer videos. Its innovative use
+of temporal regression improves the precision of event spotting, outperforming prior base-
+lines. However, the model struggles with detecting subtle events like cards due to limited
+visual cues, and the masking strategy, while effective, may reduce context, leading to mis-
+classifications in complex scenarios. Moreover, the system heavily relies on pre-extracted
+features, limiting its adaptability to more dynamic contexts like player interactions. Fur-
+ther improvements could focus on enhancing recognition of minor events and reducing
+reliance on specific pre-trained models.
+2.1.4.3 Relationship to Soccerix
+The paper’s approach to detecting key soccer events using temporal features and mask-
+ing aligns with Soccerix’s aim to capture and analyze events like goals and free kicks.
+The method’s emphasis on accuracy and event detection efficiency directly supports our
+system’s goal of providing data-driven insights to improve team tactics and gameplay
+decisions.
+7
+2. Literature Review
+2.1.5 Extraction of Positional Player Data from Broadcast Soccer
+Videos
+2.1.5.1 Summary
+The paper [ 77] presents a modular pipeline for fully-automated extraction of positional
+player data from broadcast soccer videos. The system includes several key components:
+sports field registration, player detection, team assignment, and position estimation. The
+approach leverages homography matrices to transform player positions from image to
+field coordinates. The system was evaluated on multiple datasets, including broadcast
+videos from the German Bundesliga, and achieved promising results, with the mean po-
+sition error being less than 2 meters for most frames. Models like Faster R-CNN and
+CenterTrack are employed for player detection. The pipeline’s modularity enables indi-
+vidual evaluation of each sub-task, with the ultimate goal of assisting in tactical analysis
+and player performance evaluation. Player detection achieved average precision of 92.8%
+on the Soccer Player dataset and 90.1% on the ISSIA-CNR dataset.
+2.1.5.2 Critical Analysis
+The pipeline’s strengths include its generalizability to new datasets, modular design, and
+robust evaluation across different camera settings. The use of homography matrices al-
+lows accurate mapping of player positions from video frames to field coordinates. How-
+ever, the system’s modular approach, while beneficial for flexibility, may compound errors
+between sub-tasks, reducing overall accuracy. Additionally, the system’s reliance on vi-
+sual input makes it vulnerable to inaccuracies caused by poor video resolution or lighting.
+Future work could focus on improving player tracking and addressing occlusion issues
+for more consistent results.
+2.1.5.3 Relationship to Soccerix
+The paper’s pipeline for extracting player positions from broadcast videos, using models
+like Faster R-CNN and homography matrices, aligns with Soccerix’s AI-based player and
+ball tracking. It also supports key Soccerix goals like event detection and tactical analysis,
+offering a solid foundation for data-driven insights in soccer.
+2.2 Analysis Summary of research items
+8
+2.2 Analysis Summary of research items
+ID Title Methodology Dataset Evaluation Limitation
+1 Video analysis
+and data-driven
+tactical opti-
+mization of
+sports football
+matches: Visual
+recognition and
+strategy analysis
+algorithm (2024)
+[11]
+YOLOv5,
+Markov Chain
+Models (MCM)
+SoccerNet Detection
+accuracy of
+98.6%
+Reliance on
+YOLOv5, and
+predefined zone
+and simplified
+Markov Model
+2 Tracking of
+Multi-Athlete
+and Action
+Recognition in
+Soccer Sports
+Video Using
+Deep Learn-
+ing Techniques
+(2024) [55]
+ResNet152,
+Naive Bayes, and
+SVM
+SoccerNet-
+v2
+Event
+recognition
+accuracy of
+88%
+Reliance on
+pre-computed
+features rather
+than raw data
+3 Soccer Video
+Event Detection
+Using Metric
+Learning (2022)
+[33]
+convolutional
+neural networks
+(CNNs), gated
+recurrent units
+(GRUs), Siamese
+networks and
+contrastive loss
+SoccerEvent
+and Soccer-
+Net
+64.9%
+mAP on
+Soccer-
+Net and
+93.76%
+mAP in
+the Soc-
+cerEvent
+dataset
+Computationally
+intensive archi-
+tectures (Effi-
+cientNetB0) limit
+its scalability
+and lower perfor-
+mance (64.9%)
+on SoccerNet
+dataset
+4 RMS-Net: Re-
+gression and
+Masking for
+Soccer Event
+Spotting (2021)
+[88]
+2D convolutional
+features with a
+masking strat-
+egy, temporal
+convolutions
+and regression,
+data balancing
+and masking of
+irrelevant frames
+SoccerNet Average
+mAP of
+65.5%
+Detecting subtle
+events like cards,
+heavily relies
+on pre-extracted
+features, limiting
+its adaptability
+to more dynamic
+contexts
+9
+2. Literature Review
+ID Title Methodology Dataset Evaluation Limitation
+5 Extraction of
+Positional Player
+Data from Broad-
+cast Soccer
+Videos (2022) [77]
+Homography
+matrices, Faster
+R-CNN, Center-
+Track
+Multiple
+datasets,
+including
+broadcast
+videos
+from the
+German
+Bundesliga
+and ISSIA-
+CNR
+Average
+precision
+of 92.8%
+for player
+detection
+on the Soc-
+cer Player
+dataset and
+90.1% on
+the ISSIA-
+CNR
+dataset
+Modular ap-
+proach may
+compound errors
+between sub-
+tasks reducing
+overall accuracy
+Table 2.1: Literature Review Table
+Table 2.12.1 presents the comprehensive literature review.
+10
+Chapter 3
+Proposed Approach
+The dataset used for Soccerix is sourced from SoccerNet [66]. For event detection, the
+SoccerNet Action Spotting dataset includes 500 soccer broadcast videos and covers 17
+event categories: Penalty, Kick-off, Goal, Substitution, Offside, Shots on target, Shots
+off target, Clearance, Ball out of play, Throw-in, Foul, Indirect free-kick, Direct free-
+kick, Corner, Yellow card, Red card, and Yellow->red card. For object detection and
+tracking, the SoccerNet Tracking dataset includes classes such as player team left, player
+team right, goalkeeper team left, goalkeeper team right, main referee, side referee, staff,
+and ball, based on 100 video clips of 30 seconds each at 1080p resolution.
+The Soccerix system begins by analyzing video footage, detecting key events like goals,
+free kicks, and corner kicks while using object detection to identify players, ball, goal-
+keepers and referees on the field. It tracks object movements, assigns players to teams,
+and analyzes team formations. Soccer field key points are detected for creating a bird’s-
+eye view of the field using perspective transformation, highlighting player positions. The
+detected events are linked to specific teams, providing contextual insights. Finally, this
+data is transformed into detailed analysis, automated reports, and visualizations, offering
+coaches and analysts a comprehensive understanding of the match through dashboards
+that present actionable metrics and performance evaluations.
+Below is a detailed outline of the tentative proposed approach for each feature in Soccerix.
+This includes various potential models and techniques that may be employed throughout
+the project. We will explore these options while also considering additional alternatives
+as needed to adapt to any challenges that may arise.
+3.0.1 Video Input Processing
+The system breaks down the raw input video into individual frames to analyze specific
+moments in the game. Each subsequent module applies preprocessing for its task, such as
+11
+3. Proposed Approach
+Figure 3.1: Our proposed architecture for soccer tactical analysis. We process video data
+to detect events, track players, and generate team insights, leading to automated report
+generation and visualizations for post-match review.
+resizing images to enhance the visibility of the ball and players for object detection and
+tracking.
+3.0.2 Object Detection
+In the Soccerix system, object detection models like YOLO or Fast R-CNN may be used
+to identify players, goalkeepers, referees and the ball on the field, recognizing and local-
+izing them within a frame. YOLO’s loss function, for example, includes several compo-
+nents, such as the localization error, confidence score error, and classification error, and
+is represented as:
+3.0.2.1 Yolo Loss Function:
+The YOLO loss function consists of three main components:
+1. Localization loss
+2. Confidence loss
+3. Classification loss
+L = λcoord
+S2
+∑
+i=0
+B
+∑
+j=0
+⊮obj
+i j
+
+(xi − ˆxi)2 + (yi − ˆyi)2 + (√wi −
+p
+ˆwi)2 + (
+p
+hi −
+q
+ˆhi)2
+
+(3.1)
+12
++
+S2
+∑
+i=0
+B
+∑
+j=0
+⊮obj
+i j (Ci − ˆCi)2 + λnoobj
+S2
+∑
+i=0
+B
+∑
+j=0
+⊮noobj
+i j (Ci − ˆCi)2 (3.2)
++
+S2
+∑
+i=0
+⊮obj
+i ∑
+c∈classes
+(pi(c) − ˆpi(c))2 (3.3)
+Explanation:
+• S2: Number of grid cells.
+• B: Number of bounding boxes per grid cell.
+• λcoord: Weight for the localization (coordination) loss.
+• λnoobj: Weight for the no-object confidence loss.
+• xi, yi, wi, hi: The predicted bounding box parameters (center coordinates, width,
+height).
+• ˆxi, ˆyi, ˆwi, ˆhi: The ground truth bounding box parameters.
+• Ci: Confidence score for the predicted bounding box.
+• ˆCi: Ground truth confidence score.
+• pi(c): Predicted probability of class c.
+• ˆpi(c): Ground truth class probability.
+3.0.3 Object Tracking
+To track the object movements throughout the match, algorithms such as ByteTrack, Fair-
+MOT, or DeepSORT might be used to associate detected objects across frames. The
+combined process of object detection and tracking enables the system to gather positional
+and movement data, which is essential for the analysis of gameplay dynamics and team
+performance. High level architecture of ByteTrack is shown in figure 3.23.2.
+3.0.4 Event Detection
+Event detection in Soccerix is inspired by this paper [ 22], which focuses on recognizing
+key events like goals, free kicks, and corner kicks. The process begins by taking video
+input and converting it into individual frames, which are then passed through a Variational
+13
+3. Proposed Approach
+Figure 3.2: ByteTrack: A multi-object tracking framework [44] utilizing a two-stage asso-
+ciation to handle all detection boxes, including low-confidence ones.
+Autoencoder (V AE) for initial filtering to identify potential event frames and remove non-
+highlight frames. The filtered event frames are subsequently fed into a classifier network
+comprising architectures like ResNet, VGG16, InceptionResNetV2, and EfficientNetB0,
+which are responsible for accurately categorizing the events. This pipeline ensures that
+only relevant event frames are processed further, significantly enhancing the precision of
+event detection while reducing computational overhead by discarding irrelevant frames
+early in the pipeline.
+Other models for temporal action detection can also be employed. Approaches like Tem-
+poral Convolutional Networks (TCN) or Recurrent Neural Networks (RNN), particularly
+Long Short-Term Memory (LSTM), are commonly used for this task. These models ana-
+lyze sequences of frames over time to detect specific events such as goals, free kicks, or
+free-kicks.
+3.0.5 Bird’s Eye View
+This module or feature can be divided into the following four sub-tasks:
+1. Soccer pitch Keypoints and lines detection:
+Detect key pitch elements such as goalposts, center circle, penalty spots, sidelines,
+and pitch lines using techniques like Hough Transform and semantic segmentation,
+possibly employing models like HRNet and YOLO for key point detection.
+2. Homography & perspective transformation:
+Apply homography transformation to map the detected key points from the 2D
+camera view to a top-down (bird’s-eye) view, correcting for camera perspective.
+14
+3. Bird’s eye view:
+Create a top-down view of the soccer field using the homography transformation,
+enabling precise tracking of player positions and movements for tactical analysis.
+3.0.6 Team Classification
+Team classification refers to the process of grouping individuals into distinct teams based
+on visual data. Various models can be used to generate embedding vectors for players
+using contrastive learning, allowing the model to create meaningful representations of
+players based on their visual features. If the learned representations are of significantly
+higher dimensions, dimensionality reduction techniques can be employed. Models like
+autoencoders combine these two steps into one. Afterwards, clustering can be performed
+to classify the players into their respective teams.
+3.0.6.1 Models for Representation Learning:
+• Sigmoid Loss for Image and Language Pre-training (SigLIP): This model gen-
+erates image embeddings using a contrastive learning framework. The vision model
+from SigLIP, without any head or projection on top, generates image embeddings.
+It focuses on learning robust representations from visual data without any text input.
+• Siamese Networks: Used to learn embeddings for images by comparing pairs of
+images and training the network to minimize the distance between similar images
+and maximize the distance between dissimilar images.
+The contrastive loss function used in Siamese Networks can be represented as:
+L(y,f(x1),f(x2)) = (1 − y) · 1
+2 ∥f(x1) − f(x2)∥2
++ y · 1
+2 max(0, m − ∥f(x1) − f(x2)∥)2
+(3.4)
+Where:
+– y is a binary label indicating whether the pair(x1, x2) are similar (1) or dissim-
+ilar (0).
+– f (x) is the embedding function output by the Siamese network.
+– ∥·∥ denotes the Euclidean distance between the embeddings.
+– m is the margin that defines the minimum distance between dissimilar pairs.
+15
+3. Proposed Approach
+3.0.6.2 Techniques for Dimensionality Reduction:
+• Uniform Manifold Approximation and Projection (UMAP): A popular tech-
+nique for dimensionality reduction that preserves the local structure of the data.
+• Principal Component Analysis (PCA): A statistical technique that transforms
+high-dimensional data into a lower-dimensional form while preserving as much
+variance as possible.
+3.0.6.3 Clustering Algorithms For Team Classification:
+• K-Means Clustering: A technique that is used to reduce the dimensionality of data
+while preserving the variance of the data.
+The K-Means algorithm minimizes the following objective function:
+J =
+K
+∑
+k=1
+∑
+xi∈Ck
+||xi − µk||2 (3.5)
+Where:
+– K is the number of clusters.
+– Ck is the set of points in cluster k.
+– µk is the centroid of cluster k.
+• Density-Based Spatial Clustering of Applications with Noise (DBSCAN): A
+clustering algorithm that groups data points into clusters based on density. It identi-
+fies dense regions of data points and assigns points within these regions to the same
+cluster.
+3.0.7 Event Association
+Event association links detected events to specific teams. This process typically relies on
+custom algorithms that analyze player positions and ball trajectories. Rule-based systems,
+using domain-specific rules, are combined with machine learning techniques for events
+like goals, free-kicks and corner kicks.
+3.0.8 Team Tactical Analysis
+This module may be done by writing custom algorithms to analyze video data. This
+allows us to analyze things like how the teams were positioned at certain event like goals
+and how many goals happened in the game,indicating how well each team did overall.
+16
+3.0.9 Report Generation
+The system creates clear and concise reports that highlight important information like
+team composition, event frequency, and how well each team performed. These reports
+are generated automatically using advanced technology that can transform data into easy-
+to-understand language. Natural Language Processing (NLP) models like T5, GPT-2, or
+BERT are used to convert the data into human-readable text.
+3.0.10 Visualizations
+Once the data has been processed, visualizations like team pitch control diagrams and
+ball trajectory maps will be created to bring the game to life. Interactive dashboards will
+present this tactical analysis in an easy-to-understand format, giving coaches and analysts
+a clear picture of team performance and match dynamics.
+17
+Chapter 4
+Conclusions and Future Work
+4.1 Conclusion
+Our AI-driven football analysis tool,Soccerix, has the potential to transform tactical anal-
+ysis after a match. Utilising modern data-driven methods, we’re turning unprocessed
+video into insightful knowledge. Soccerix keeps tabs on player movements, identifies
+important events, and produces comprehensive tactical reports. To effectively analyse
+gameplay dynamics, generate a birds-eye view of player positions, and accurately classify
+team performance, our team has experimented with a variety of models, methodologies,
+and strategies. The interactive dashboards of the application provide coaches and analysts
+with significant performance indicators and insights, enabling them to make informed
+decisions based on data and improve their team’s tactics.
+4.2 Future Work
+Future developments for Soccerix will focus on enhancing event detection and analy-
+sis through advanced algorithms and incorporating 3D reconstruction of games for more
+detailed spatial insights. We aim to integrate predictive analytics to forecast optimal per-
+formance strategies and implement real-time inferencing to provide immediate feedback
+during matches. These advancements will further refine tactical analysis, offering teams
+a cutting-edge tool for continuous performance optimization.
+18
+Bibliography
+[1] Biao Jin. Original research article video analysis and data-driven tactical optimiza-
+tion of sports football matches: Visual recognition and strategy analysis algorithm.
+Journal of Autonomous Intelligence, 7(5), 2024.
+[2] Ali Karimi, Ramin Toosi, and Mohammad Ali Akhaee. Soccer event detection using
+deep learning. arXiv preprint arXiv:2102.04331, 2021.
+[3] Ali Karimi, Ramin Toosi, and Mohammad Ali Akhaee. Soccer video event detec-
+tion using metric learning. In 2022 12th International Conference on Computer and
+Knowledge Engineering (ICCKE), pages 048–052. IEEE, 2022.
+[4] Luffca. Multiple object tracking with bytetrack, 2023. Accessed: 2024-10-06.
+[5] S Raja, K Kausalya, B Sandhiya, K Nihaal W, A Mary, and J Afra Thahseen. Tracking
+of multi athlete and action recognition in soccer sports video using deep learning
+techniques. In AIP Conference Proceedings, volume 2802. AIP Publishing, 2024.
+[6] Soccer-Net. Soccer data, 2023. Accessed: 2024-10-06.
+[7] Jonas Theiner, Wolfgang Gritz, Eric Müller-Budack, Robert Rein, Daniel Memmert,
+and Ralph Ewerth. Extraction of positional player data from broadcast soccer videos.
+In Proceedings of the IEEE/CVF winter conference on applications of computer vi-
+sion, pages 823–833, 2022.
+[8] Matteo Tomei, Lorenzo Baraldi, Simone Calderara, Simone Bronzin, and Rita Cuc-
+chiara. Rms-net: Regression and masking for soccer event spotting. In 2020 25th
+International Conference on Pattern Recognition (ICPR) , pages 7699–7706. IEEE,
+2021.
+19
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,1542 @@
+# FYP1-MidReport-161-D-VirtuLectra
+
+## 1. Introduction
+
+1. Introduction .......................................................................................................................................... 5 
+1.1. Problem Statement ........................................................................................................................ 5 
+1.2. Scope ............................................................................................................................................. 6 
+1.3. Modules ......................................................................................................................................... 8 
+1.3.1. Real-Time Interaction ............................................................................................................... 8 
+1.3.2. Automated Content Creation .................................................................................................... 8 
+1.3.3. Student Monitoring ................................................................................................................... 8 
+1.3.4. Web Portal ................................................................................................................................ 9 
+1.4. User Classes and Characteristics ................................................................................................... 9 
+2. Project Requirements ......................................................................................................................... 10 
+2.1. Use-case ...................................................................................................................................... 10 
+2.2. Functional Requirements ............................................................................................................ 33 
+2.2.1. Real-Time Interaction Module ............................................................................................... 33 
+2.2.2. Automated Content Creation Module .................................................................................... 34 
+2.2.3. Student Monitoring Module ................................................................................................... 35 
+2.2.4. Web Portal Module ................................................................................................................. 35 
+2.3. Non-Functional Requirements .................................................................................................... 37 
+2.3.1. Reliability ............................................................................................................................... 37 
+2.3.2. Usability ................................................................................................................................. 37 
+2.3.3. Performance ........................................................................................................................... 38 
+2.3.4. Security .................................................................................................................................. 38 
+2.4. Domain Model ............................................................................................................................ 39 
+3. System Overview ................................................................................................................................. 40 
+3.1. Architecture Design .................................................................................................................... 40 
+3.2. Design Models ............................................................................................................................ 42 
+3.3. Data Design ................................................................................................................................. 61 
+ 
+ 
+ 
+3 
+ 
+List of Figures 
+ 
+Figure 1 Use Case Diagram .......................................................................................................................... 10 
+Figure 2 Domain Model ............................................................................................................................... 39 
+Figure 3 Architecture Diagram ..................................................................................................................... 41 
+Figure 4 Act-01 Session Management .......................................................................................................... 42 
+Figure 5 Act-02 Manage Classroom ............................................................................................................. 43 
+Figure 6 Act-03 Generate Lecture ................................................................................................................ 44 
+Figure 7 Act-04 Generate Quizzes ............................................................................................................... 45 
+Figure 8 Act-05 Attend Lecture .................................................................................................................... 46 
+Figure 9 ACt-06 Q&A in Lecture ................................................................................................................. 47 
+Figure 10 Act-07 Answer Popup Questions ................................................................................................. 48 
+Figure 11 Act-08 Attend Quiz ...................................................................................................................... 49 
+Figure 12 Act-09 Handle Quiz Grades ......................................................................................................... 50 
+Figure 13 Seq-01 Session Management ....................................................................................................... 51 
+Figure 14 Seq-02 Manage Classroom........................................................................................................... 52 
+Figure 15 Seq-03 Generate Lecture .............................................................................................................. 53 
+Figure 16 Seq-04 Generate Quizzes ............................................................................................................. 54 
+Figure 17 Seq-05 Attend Lecture ................................................................................................................. 55 
+Figure 18 Seq-06 Lecture Q&A ................................................................................................................... 56 
+Figure 19 Seq07 - Answer Pop-up Questions ............................................................................................... 57 
+Figure 20 Seq-08 Attempt Quiz .................................................................................................................... 58 
+Figure 21 Seq-09 Handle Quiz Grades ......................................................................................................... 59 
+Figure 22 Data Flow Diagram ...................................................................................................................... 60 
+Figure 23 JSON Schema ............................................................................................................................... 62 
+ 
+ 
+ 
+4 
+ 
+List of Tables 
+ 
+Table 1 Problem Statement ............................................................................................................................. 6 
+Table 2 UC-01 Session Management ........................................................................................................... 11 
+Table 3 UC-02 Manage Classroom .............................................................................................................. 14 
+Table 4 UC-03 Generate Lecture .................................................................................................................. 17 
+Table 5 UC-04 Generate Quizzes ................................................................................................................. 19 
+Table 6 UC-05 Attend Lecture ..................................................................................................................... 22 
+Table 7 UC-06 Q&A in Lecture ................................................................................................................... 24 
+Table 8 UC-07 Answer Pop-up Questions ................................................................................................... 26 
+Table 9 UC-08 Attempt Quiz ....................................................................................................................... 29 
+Table 10 UC-09 Handle Quiz Grades ........................................................................................................... 31 
+ 
+ 
+ 
+5 
+ 
+Chapter 1 
+1. Introduction 
+The purpose of this project proposal document is to collect, analyze, and define high-level needs 
+and features of our proposed app, "VirtuLectra". 
+This web-based application is geared towards teachers who want to lessen their burden and 
+students who would benefit greatly from interactive lectures. 
+ 
+1.1. Problem Statement 
+Current online tutoring platforms often fall short of providing a truly interactive learning 
+experience. Teachers face the challenge of managing diverse student needs, creating customized 
+content, and maintaining student engagement, all while managing their existing workload. Due to 
+this, students struggle with the lack of personalized feedback, and real-time interaction. 
+ 
+6 
+ 
+Table 1 Problem Statement 
+ 
+ 
+1.2. Scope 
+ 
+The scope of VirtuLectra focuses on delivering a comprehensive AI-powered educational platform 
+designed to enhance both teaching and learning experiences. The platform supports real -time 
+interaction between the system and students, automated content generation, and student monitoring 
+features. By leveraging artificial intelligence, VirtuLectra aims to lessen the heavy workload on 
+teachers by automating repetitive tasks like content creation and grading. At the same time, it 
+enhances student engagement by enabling real -time feedback. The platform is built to adapt to 
+diverse educational needs, offering a dynamic solution. However, the effectiveness of most of these 
+features depends on certain limitations, such as the availability of high-quality internet connectivity. 
+The problem of Lack of interactive and efficient teaching tools for teachers, leading 
+to increased workload and lack of student engagement. 
+Affects ●Teachers 
+● Students 
+The result of which Teachers: 
+● Cannot effectively respond to students in real time, causing 
+disengagement. 
+● Lack of standardized tools to automate content generation, 
+increasing preparation time. 
+Students: 
+● Receive limited real-time feedback, which hampers their ability to 
+stay engaged and improve on their learning path. 
+Benefits of ● Automated Content Creation : Teachers benefit from AI -driven 
+lecture notes and tailored quizzes, saving time on preparation and 
+grading. 
+● Real-Time Interaction : Students enjoy dynamic interaction, 
+ensuring real-time feedback and engagement during live sessions. 
+ 
+7 
+ 
+Limitations 
+Dependence on Internet Connectivity : Requires stable internet for real -time interaction and 
+content updates. 
+Scalability of AI Systems : Handling large numbers of students may require significant 
+computational resources, potentially limiting performance in large-scale deployments. 
+Subject: Programming Fundamentals (For proof of concept) 
+Language: English only 
+Content Generation: Mcq-based quizzes only. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+8 
+ 
+1.3. Modules 
+ 
+1.3.1. Real-Time Interaction 
+This module facilitates dynamic, real-time engagement between the 
+system and students during live lectures through text-to-speech models. Key features 
+include: 
+a. Conversational Voice Exchanges: Enables natural, interactive 
+voice conversations between the system and students, creating a realistic and 
+immersive classroom environment. This interaction mimics a live classroom setting. 
+b. Real-time Q&A Sessions: Utilizes LLM to address student 
+questions when they are asked. This proactive approach helps ensure that students' 
+queries are resolved promptly. 
+ 
+1.3.2. Automated Content Creation 
+This module streamlines the creation of educational materials using 
+LLMs, significantly reducing the teacher’s workload: 
+a. Lecture Script and Notes Generation: Automatically generates 
+comprehensive lecture script and notes from the course content. These notes include 
+key points, summaries, and important details. 
+b. Tailored Assessments: Creates customized quizzes aligned with the 
+course material. These are designed to evaluate students’ understanding of the 
+content. Also automated grading of quizzes for quick feedback. 
+ 
+1.3.3. Student Monitoring 
+This module monitors and analyzes student engagement and 
+understanding during lectures: 
+a. Engagement Tracking: Uses LLM and scheduled pop-up questions 
+to track student attention levels and participation during live sessions. This includes 
+monitoring student responses, and overall involvement in the lecture. 
+ 
+ 
+9 
+ 
+1.3.4. Web Portal 
+The web portal serves as the user interface for both teachers and students. 
+It offers easy navigation and a seamless experience, allowing access to all the features of 
+the platform: 
+a. Teacher Dashboard: Provides teachers with tools to manage 
+lectures, review student progress, and generate content. 
+b. Student Interface: Students can access their learning materials, 
+quizzes, and real-time lectures via the portal. 
+c. Integration with Modules: The portal integrates the Real- Time 
+Interaction, Automated Content Creation, and Student Monitoring modules, 
+allowing both teachers and students to interact with the AI- powered features 
+effectively. 
+ 
+1.4. User Classes and Characteristics 
+Demographic: The platform is designed for teachers and students from a wide range of educational 
+institutions, including schools, universities, and private tutoring programs. 
+User Classes: 
+Teachers who want to decrease their burden. 
+Students who want more interactive and engaging learning. 
+ 
+ 
+ 
+10 
+ 
+Chapter 2 
+ 
+2.Project Requirements 
+ 
+This chapter describes the functional and non-functional requirements of the project. 
+ 
+2.1. Use-case 
+ 
+2.1.1. Use Case Diagram 
+ 
+Figure 1 Use Case Diagram 
+ 
+
+ 
+11 
+ 
+2.1.2. UC-01 Session Management 
+ 
+Table 2 UC-01 Session Management 
+Use Case Name: Session Management 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Teacher, Student 
+Stakeholders: ● Teacher: Needs secure and efficient access to manage classrooms, 
+upload materials, and monitor student performance and engagement. 
+● Student: Requires reliable access to join classrooms, participate in 
+lectures, and access learning materials. 
+Description: Teachers and students can register using their details or OAuth providers 
+(e.g., Google) to create accounts. Once registered, they can securely log in to 
+access their dashboards. The system implements role-based access control, 
+ensuring users can only access features relevant to their roles. Users can also 
+reset forgotten passwords and log out securely. 
+Pre-conditions: ● The user has accessed the login/signup page. 
+Post-conditions ● The user is successfully authenticated and redirected to their 
+respective dashboard. 
+● The system enforces role-based access control based on the user type 
+(teacher or student). 
+Main Scenario: 
+User Action System Response 
+1. The user navigates to 
+the VirtuLectra login 
+page. 
+ 
+2. The user enters their 
+username and 
+password into the 
+login form. 
+ 
+3. The user clicks the 
+Login button to 
+submit their 
+credentials. 
+ 
+ 
+12 
+ 
+ 4. The system validates the entered 
+credentials against the registered 
+user database. 
+ 5. If the credentials are valid, the 
+system authenticates the user. 
+ 6. The system redirects the user to 
+their respective dashboard 
+(Teacher Dashboard or Student 
+Interface) based on their role. 
+ 7. The system enforces role-based 
+access control, ensuring users can 
+only access features pertinent to 
+their roles. 
+ 
+Alternate flows: 1. Forgot Password: 
+○ Trigger: The user clicks on the "Forgot 
+Password" link. 
+○ User Action: The user provides their 
+registered email address to receive a password reset link. 
+○ System Response: Sends a password reset 
+email and notifies the user to check their inbox. 
+2. Signup: 
+○ Trigger: The user selects the signup option. 
+3. OAuth: 
+○ Trigger: The user selects the signup option 
+using an OAuth provider (e.g., Google). 
+○ User Action: The user authenticates via the 
+chosen OAuth provider. 
+○ System Response: Grants access and 
+navigates the user to their dashboard upon successful 
+verification through the OAuth provider. 
+4. Logout 
+○ Trigger: The user decides to end their 
+session. 
+○ User Action: The user clicks the "Logout" 
+button on their dashboard. 
+○ System Response: Ends the user session, 
+clears any session data, and redirects the user to the login 
+page with a successful logout confirmation message. 
+ 
+ 
+13 
+ 
+Exceptions: 1. Invalid Credentials - Login: 
+○ Trigger: The user enters an incorrect 
+username or password. 
+○ System Response: Displays an error 
+message such as "Invalid username or password. Please try 
+again.". 
+○ User Action: The user re-enters their 
+credentials or uses the "Forgot Password" feature to reset 
+their password. 
+2. Invalid Credentials - Signup: 
+○ Trigger: The user enters invalid information 
+during the signup process (e.g., email already in use, weak 
+password). 
+○ System Response: Displays an error 
+message such as "Email is already registered" or "Password 
+does not meet the required criteria.". 
+○ User Action: The user corrects the 
+information (e.g., uses a different email, chooses a stronger 
+password) and attempts to sign up again. 
+3. Session Timeout: 
+○ Trigger: The user is inactive for a 
+predefined period. 
+○ System Response: Logs the user out 
+automatically and displays a session timeout message. 
+○ User Action: The user must log in again to 
+continue using the platform. 
+ 
+ 
+14 
+ 
+2.1.3. UC-02 Manage Classroom 
+ 
+Table 3 UC-02 Manage Classroom 
+Use Case Name: Manage Classroom 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Teacher 
+Stakeholders: ● Teacher: Needs to efficiently create and manage virtual classrooms, 
+upload course materials, and monitor student performance and 
+engagement. 
+● Student: Benefits from organized classroom environments and 
+accessible course materials. 
+Description: Teachers can create and manage virtual classrooms by uploading course 
+materials and configuring classroom settings. Teachers can invite students 
+using unique codes, edit or delete classrooms, and update classroom 
+information as needed. 
+Pre-conditions: ● The teacher is logged into VirtuLectra. 
+● The teacher has course materials ready in supported formats (PDF, 
+DOCX). 
+Post-conditions ● A new virtual classroom is created and accessible to students. 
+● Course materials are uploaded and linked to the classroom. 
+Main Scenario: 
+User Action System Response 
+1. The teacher navigates to 
+the Create Classroom 
+section in the portal. 
+ 
+ 2. The system displays a form 
+prompting the teacher to 
+enter classroom details, such 
+as name, description, etc. 
+3. The teacher fills in the 
+required details. 
+. 
+ 4. The system presents an 
+upload interface for course 
+ 
+15 
+ 
+materials, with the option to 
+specify which portion(s) to 
+focus on. 
+5. The teacher uploads 
+course materials to the 
+system. 
+ 
+ 6. The system verifies the file 
+formats and checks for any 
+corruption or unsupported 
+formats. 
+ 7. Upon successful upload, the 
+system processes the material 
+and stores it linking it to the 
+classroom. 
+8. The teacher publishes the 
+classroom, which 
+generates a unique 
+classroom code for 
+student enrollment. 
+ 
+9. The teacher shares the 
+classroom code with 
+students to invite them to 
+join the classroom. 
+ 
+ 
+Alternate Flows: 1. Edit Classroom Details: 
+○ Trigger: The teacher wants to update 
+classroom information after creation. 
+○ User Action: The teacher navigates to the 
+Manage Classroom section and selects the option to Edit 
+Classroom. 
+○ System Response: The system displays the 
+current classroom details for editing. 
+○ User Action: The teacher modifies details 
+such as the classroom name, and description and saves the 
+changes. 
+○ System Response: The system updates the 
+classroom information and notifies the teacher of the 
+successful update. 
+ 
+ 
+ 
+16 
+ 
+2. Invite Students: 
+○ Trigger: The teacher wants to add students 
+to the classroom. 
+○ User Action: The teacher shares the unique 
+classroom code with the students. 
+○ System Response: The system allows 
+students to join using the provided code, updating the 
+classroom enrollment list accordingly. 
+3. Delete Classroom: 
+○ Trigger: The teacher decides to remove an 
+existing classroom. 
+○ User Action: The teacher selects the option 
+to delete the classroom and confirms the action. 
+○ System Response: The system permanently 
+deletes the classroom and all associated data, notifying the 
+teacher of the successful deletion. 
+Exceptions: 1. Duplicate Classroom Name: 
+○ Trigger: The teacher attempts to create a 
+classroom with a name that already exists. 
+○ System Response: Displays an error 
+message like "Classroom name already in use. Please choose 
+a different name.". 
+○ User Action: The teacher selects a unique 
+name and retries creating the classroom. 
+2. Unsupported File Format Upload: 
+○ Trigger: The teacher uploads a course 
+material file in an unsupported format. 
+○ System Response: Notifies the teacher with 
+"Unsupported file format. Please upload PDF or DOCX 
+files.". 
+○ User Action: The teacher converts the file to 
+a supported format and uploads it again. 
+3. Failed Content Processing: 
+○ Trigger: The system encounters an error 
+while processing uploaded course materials. 
+○ System Response: Alerts the teacher with 
+"Failed to process uploaded content. Please try again later.". 
+○ User Action: The teacher attempts to re-
+upload the content or contacts support for assistance. 
+ 
+ 
+17 
+ 
+2.1.4. UC-03 Generate Lecture 
+ 
+Table 4 UC-03 Generate Lecture 
+Use Case Name: Generate Lecture 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Teacher 
+Stakeholders: ● Teacher: Wants to efficiently create comprehensive lecture scripts 
+and notes tailored to specific topics and durations. 
+● Student: Benefits from well-structured and informative lectures that 
+enhance understanding and learning. 
+Description: Teachers can generate lectures, including scripts and corresponding notes, by 
+specifying the lecture topic and duration. The system creates the lecture 
+based on these inputs. 
+Pre-conditions: ● The student is logged into VirtuLectra. 
+● A classroom has been created and is active. 
+● Relevant course materials have been uploaded and processed by the 
+system. 
+Post-conditions ● The lecture is generated and available for publishing. 
+● Scheduled lectures are accessible to students within the classroom. 
+Main Scenario: 
+User Action System Response 
+1. The teacher initiates the 
+process of generating a 
+lecture. 
+ 
+ 2. The system prompts the teacher 
+to enter the lecture topic, 
+specify the duration, and 
+upload the date and time 
+3. The teacher provides the 
+lecture details. 
+. 
+ 4. The system generates the 
+lecture script and 
+corresponding notes based on 
+the provided inputs. 
+ 
+18 
+ 
+5. The teacher publishes 
+the lecture, making it 
+available to students 
+within the classroom. 
+ 
+ 
+Alternate Flows: 
+Exceptions: 1. Generation Failure: 
+○ Trigger: The system fails to generate the 
+lecture script and notes due to insufficient content or 
+processing errors. 
+○ System Response: Notifies the teacher with 
+an error message such as "Unable to generate lecture. Please 
+try again later." 
+○ User Action: The teacher can retry the 
+generation process or contact support for assistance. 
+2. Generation Delay: 
+○ Trigger: The system takes longer than 
+expected to generate the lecture script and notes due to large 
+inputs or server issues. 
+○ System Response: Displays a progress 
+indicator and notifies the teacher once the generation process 
+is complete. 
+○ User Action: The teacher waits for the 
+notification or chooses to cancel the process if necessary. 
+3. Partial Upload Failure: 
+○ Trigger: Some course materials fail to 
+process correctly, affecting content generation. 
+○ System Response: Indicates which specific 
+materials caused the issue and provides options to retry 
+uploading or replace them. 
+○ User Action: The teacher retries uploading 
+the problematic materials. 
+ 
+ 
+ 
+19 
+ 
+2.1.5. UC-04 Generate Quizzes 
+ 
+Table 5 UC-04 Generate Quizzes 
+Use Case Name: Generate Quizzes 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Teacher 
+Stakeholders: ● Teacher: Wants to efficiently create, review, and manage quizzes to 
+assess student understanding. 
+● Student: Benefits from receiving well-structured quizzes that 
+reinforce learning and provide feedback. 
+Description: Teachers can generate quizzes based on lecture topics, preview and edit the 
+quizzes, and manage their publication. The system automates the creation of 
+quiz questions and allows teachers to customize and finalize quizzes before 
+making them available to students. 
+Pre-conditions: ● The teacher is logged into their VirtuLectra account. 
+● A classroom has been created and is active. 
+● Relevant course materials have been uploaded and processed by the 
+system. 
+Post-conditions ● The quiz is generated and available for publishing. 
+● The finalized quiz is accessible to students with a specified deadline 
+for attempting. 
+Main Scenario: 
+User Action System Response 
+1. The teacher selects the 
+option to generate a quiz 
+within the classroom 
+management interface. 
+ 
+ 2. The system prompts the 
+teacher to specify the lecture 
+topic, time limit, and number 
+of questions for which the quiz 
+should be generated. 
+3. The teacher inputs the 
+required details. 
+ 
+ 
+20 
+ 
+ 4. The system analyzes the 
+relevant course materials and 
+generates a set of multiple-
+choice questions (MCQs) 
+aligned with the specified 
+topic. 
+ 5. The system provides a preview 
+of the generated quiz, 
+including questions and 
+answer options. 
+6. The teacher finalizes the 
+quiz and publishes it, 
+making it available to 
+students for completion. 
+ 
+ 
+Alternate flows: 1. Edit Quiz Content: 
+○ Trigger: The teacher wants to modify 
+specific quiz questions or answer options. 
+○ User Action: The teacher selects a question 
+within the preview and edits its content or the associated 
+answer choices. 
+○ System Response: The system saves the 
+changes and updates the quiz accordingly. 
+2. Customize Quiz Settings: 
+○ Trigger: The teacher wants to adjust quiz 
+parameters such as the number of questions. 
+○ User Action: The teacher modifies the quiz 
+settings before finalizing. 
+○ System Response: The system regenerates 
+the quiz based on the updated settings, providing a new 
+preview for review. 
+3. Preview Quiz: 
+○ Trigger: The teacher wants to review the 
+entire quiz before making it available to students. 
+○ User Action: The teacher selects the option 
+to preview the full quiz. 
+○ System Response: The system displays the 
+complete quiz for a comprehensive review. 
+4. Delete Generated Quiz: 
+○ Trigger: The teacher decides to remove a 
+generated quiz before publishing. 
+ 
+21 
+ 
+○ User Action: The teacher selects the option 
+to delete the quiz. 
+○ System Response: The system removes the 
+quiz from the generation queue and notifies the teacher of 
+the successful deletion. 
+Exceptions: 1. Generation Failure: 
+○ Trigger: The system fails to generate a quiz 
+due to processing errors. 
+○ System Response: Displays an error 
+message such as "Unable to generate quiz at this time. Please 
+try again later.". 
+○ User Action: The teacher can attempt to 
+regenerate the quiz after addressing the issues or contact 
+support for assistance. 
+2. Partial Quiz Generation: 
+○ Trigger: Some quiz questions fail to 
+generate due to content gaps. 
+○ System Response: Informs the teacher 
+which specific questions cannot be generated and provides 
+options to manually create those questions. 
+○ User Action: The teacher manually adds the 
+missing questions or adjusts the lecture topic parameters to 
+facilitate complete quiz generation. 
+3. System Timeout: 
+○ Trigger: The system takes longer than 
+expected to generate the quiz due to large content size or 
+server issues. 
+○ System Response: Displays a timeout 
+notification and offers the teacher the option to retry or 
+cancel the quiz generation process. 
+○ User Action: The teacher can choose to 
+retry the generation process or cancel and address any 
+underlying issues. 
+ 
+ 
+ 
+22 
+ 
+2.1.6. UC-05 Attend Lecture 
+ 
+Table 6 UC-05 Attend Lecture 
+Use Case Name: Attend Lecture 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Student 
+Stakeholders: ● Student: Wants to navigate to and participate in lectures effectively. 
+Description: Students attend scheduled lectures by accessing their classrooms and joining 
+the lecture sessions. The system delivers lecture content based on predefined 
+scripts and displays accompanying lecture notes, ensuring a personalized and 
+focused learning experience. 
+Pre-conditions: ● The student is enrolled in the classroom. 
+● A lecture session is active. 
+● Lecture materials have been generated and are available. 
+Post-conditions ● The student has attended the lecture. 
+● Lecture notes are accessible. 
+Main Scenario: 
+User Action System Response 
+1. The student accesses 
+their enrolled 
+classroom. 
+ 
+ 2. The system displays the list of 
+scheduled lectures. 
+3. The student selects 
+and joins the 
+scheduled lecture 
+session. 
+ 
+ 4. The system initiates the lecture, 
+delivering content based on the 
+generated script and displaying 
+lecture notes in the background. 
+ 5. The system manages the flow of 
+the lecture, ensuring content is 
+delivered clearly. 
+ 
+23 
+ 
+6. The student listens to 
+the lecture content and 
+follows along with the 
+notes. 
+ 
+ 
+Alternate Flows: 
+Exceptions: 1. Network Issues: 
+○ Trigger: The student loses internet 
+connectivity during the lecture. 
+○ System Response: Alerts the student of the 
+connectivity issue and attempts to reconnect automatically. 
+2. System Error During Lecture Delivery: 
+○ Trigger: The system encounters an error 
+while delivering the lecture content. 
+○ System Response: Notifies the student of 
+the issue and offers options to retry joining or contact 
+support. 
+ 
+ 
+ 
+24 
+ 
+2.1.7. UC-06 Q&A in Lecture 
+ 
+Table 7 UC-06 Q&A in Lecture 
+Use Case Name: Q&A in Lecture 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Student 
+Stakeholders: ● Student: Wants to ask questions during lectures to clarify doubts and 
+enhance understanding. 
+● Teacher: Seeks to facilitate interactive sessions and address student 
+queries effectively. 
+Description: During a lecture, students can submit questions to seek clarification or further 
+information. The system processes these queries and provides timely 
+responses, enhancing engagement and understanding. 
+Pre-conditions: ● The student is enrolled in the classroom. 
+● A lecture session is active. 
+● Lecture materials have been generated and are available. 
+Post-conditions ● The student's query is addressed with an appropriate response. 
+Main Scenario: 
+User Action System Response 
+1. The student signals to ask a 
+question during the lecture. 
+ 
+ 2. The system acknowledges 
+the student's signal to ask a 
+question. (Stops script after 
+finishing sentence) 
+3. The student submits their 
+question either verbally by 
+toggling their microphone 
+or by typing it as text. 
+ 
+ 4. If the question is verbal, the 
+system converts the voice 
+input to text. 
+ 
+ 
+25 
+ 
+The system processes the question to 
+understand its context and intent. 
+ 5. The system generates an 
+appropriate answer based on 
+the lecture content and 
+available resources. 
+ 6. The system delivers the 
+response audibly to the 
+student, ensuring clarity and 
+relevance. 
+ 
+Alternate Flows: 1. Clarification Needed: 
+○ Trigger: The system determines that the 
+submitted question is unclear or ambiguous. 
+○ User Action: The system prompts the 
+student to provide more details or rephrase the question. 
+○ System Response: Waits for the student to 
+clarify and then processes the revised question accordingly. 
+Exceptions: 1. Unrecognized Question: 
+○ Trigger: The system fails to generate a 
+response to the student’s question. 
+○ System Response: Informs the student that 
+the question could not be understood and suggests rephrasing 
+or trying again later. 
+○ User Action: The student rephrases the 
+question. 
+2. System Downtime: 
+○ Trigger: The system is unavailable or 
+experiencing technical difficulties during the lecture. 
+○ System Response: Notifies the student that 
+the Q&A feature is currently unavailable and advises to ask 
+questions once the system is back online. 
+○ User Action: The student notes down the 
+question to ask later or waits until the system is operational 
+again. 
+ 
+ 
+ 
+26 
+ 
+2.1.8. UC-07 Answer Pop-up Questions 
+ 
+Table 8 UC-07 Answer Pop-up Questions 
+Use Case Name: Answer Pop-up Questions 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Student 
+Stakeholders: ● Teacher: Wants to monitor student engagement to identify 
+participation levels of students. 
+● Student: Benefits from being actively engaged during lectures, 
+which enhances learning. 
+Description: Throughout the lecture, the system presents scheduled pop-up questions to 
+assess student engagement. Students respond to these questions, and the 
+system records their participation and accuracy to calculate engagement 
+scores. 
+Pre-conditions: ● The student is enrolled in the classroom. 
+● A lecture session is active. 
+● Lecture materials have been generated and are available. 
+Post-conditions ● The student's responses to pop-up questions are recorded within the 
+lecture. 
+● Engagement scores are updated based on the student's participation 
+and accuracy. 
+Main Scenario: 
+User Action System Response 
+1. The student is 
+attending an active 
+lecture session. 
+ 
+ 2. At predefined intervals, the 
+system presents a pop-up 
+engagement question to the 
+student. 
+3. The student reads the 
+pop-up question. 
+ 
+ 
+27 
+ 
+4. The student selects an 
+answer or provides 
+input in response to 
+the question. 
+ 
+ 5. The system records the student's 
+response, including the time 
+taken to answer and the accuracy 
+of the response. 
+ 6. The system updates the student's 
+engagement score based on their 
+participation and correctness. 
+ 7. The system logs the interaction 
+for further analytics and 
+reporting. 
+ 
+Alternate Flows: 1. Skipping a Question: 
+○ Trigger: The student chooses not to answer 
+a pop-up question. 
+○ User Action: The student skips the question. 
+○ System Response: Records the skipped 
+status and adjusts the engagement score accordingly. 
+Exceptions: 1. No Response Within Time Limit: 
+○ Trigger: The student does not respond to the 
+pop-up question within the allocated time. 
+○ System Response: Marks the response as 
+unanswered and updates the engagement score to reflect the 
+lack of participation. 
+○ User Action: The student can attempt to 
+answer the remaining questions during the lecture. 
+2. System Error During Question Delivery: 
+○ Trigger: The system encounters an error 
+while presenting the pop-up question. 
+○ System Response: Notifies the student that 
+the engagement question could not be delivered and 
+continues the lecture. 
+○ User Action: The student continues to 
+participate in the lecture without interruption. 
+3. Network Issues: 
+○ Trigger: The student loses internet 
+connectivity while responding to a pop-up question. 
+ 
+28 
+ 
+○ System Response: Alerts the student of the 
+connectivity issue and records the response as incomplete. 
+○ User Action: The student regains 
+connectivity and participates in remaining engagement 
+activities once restored. 
+ 
+ 
+29 
+ 
+2.1.9. UC-08 Attempt Quiz 
+ 
+Table 9 UC-08 Attempt Quiz 
+Use Case Name: Attempt Quiz 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Student 
+Stakeholders: ● Student: Needs to complete quizzes within the allocated time to 
+receive timely feedback. 
+● Teacher: Seeks to assess student understanding and provide 
+immediate feedback through automated grading. 
+Description: A multiple-choice quiz is added to the student's quiz tab with a deadline. 
+When the student opens the quiz, a timer starts to indicate the remaining 
+time. If the quiz isn't submitted before time expires, the system automatically 
+submits the current answers. 
+Pre-conditions: ● The student is enrolled in the classroom. 
+● A quiz has been generated and added to the student's quiz tab. 
+● The quiz deadline is active and has not yet passed. 
+Post-conditions ● The quiz is submitted, either manually by the student or 
+automatically by the system. 
+Main Scenario: 
+User Action System Response 
+1. The student Navigates to 
+the Quiz tab. 
+ 
+2. Selects active Quiz. 
+ 3. The system displays the quiz 
+questions and starts the timer 
+indicating the remaining time. 
+4. The student answers the 
+multiple-choice questions 
+within the allocated time. 
+ 
+ 
+30 
+ 
+5. The student submits the 
+quiz before the timer 
+expires. 
+ 
+ 6. The system records the 
+submitted answers and stops 
+the timer. 
+ 
+Alternate Flows: 1. Auto-Submission Due to Time Expiry: 
+○ Trigger: The student does not submit the 
+quiz before the timer expires. 
+○ System Response: Automatically submits 
+the current answers. 
+○ User Action: The student receives a 
+notification that the quiz has been auto submitted. 
+Exceptions: 1. Quiz Access Denied: 
+○ Trigger: The student attempts to access the 
+quiz after the deadline has passed. 
+○ System Response: Displays a message 
+indicating that the quiz is no longer available for submission. 
+○ User Action: The student cannot attempt the 
+quiz and may contact the teacher for further assistance. 
+2. Network Issues During Quiz: 
+○ Trigger: The student loses internet 
+connectivity while taking the quiz. 
+○ System Response: Alerts the student of the 
+connectivity issue and attempts to save progress locally. 
+○ User Action: The student regains 
+connectivity and continues the quiz, with the system 
+updating the timer accordingly. 
+ 
+ 
+31 
+ 
+2.1.10. UC-09 Handle Quiz Grades 
+ 
+Table 10 UC-09 Handle Quiz Grades 
+Use Case Name: Handle Quiz Grades 
+Scope: VirtuLectra 
+Level: User Goal 
+Primary Actor: Student, Teacher 
+Stakeholders: ● Teacher: Wants to efficiently evaluate student performance and 
+monitor progress through automated grading. 
+● Student: Seeks timely feedback on quiz performance to understand 
+their learning progress. 
+Description: The system automatically grades submitted quizzes based on the correct 
+answers and provides graded reports to the students. Teachers can view and 
+edit quiz reports to ensure accuracy, while students can view their own quiz 
+performance to track their learning progress. 
+Pre-conditions: ● Quizzes have been submitted by students. 
+Post-conditions ● Students have access to their graded quiz reports. 
+● Teachers have access to the marks and can edit them if necessary. 
+ 
+32 
+ 
+Main Scenario: 
+User Action System Response 
+1. The student submits an 
+attempted quiz. 
+ 
+ 2. The system checks the 
+quiz based on the 
+predetermined correct 
+answers. 
+ 3. The system displays the 
+student's quiz scores along 
+with any provided 
+feedback. 
+4. The student reviews their 
+quiz performance to identify 
+strengths and areas for 
+improvement. 
+ 
+ 
+Alternate flows: 1. Manual Grade Override: 
+○ Trigger: The teacher identifies an error in 
+the automated grading. 
+○ User Action: The teacher selects the 
+specific quiz score and adjusts it manually. 
+○ System Response: The system updates the 
+score and logs the manual override. 
+Exceptions: 1. System Error While Viewing Reports: 
+○ Trigger: The system fails to load quiz 
+reports. 
+○ System Response: Displays an error 
+message and advises to try again later. 
+○ User Action: The user tries accessing the 
+reports. 
+ 
+ 
+33 
+ 
+2.2. Functional Requirements 
+ 
+2.2.1. Real-Time Interaction Module 
+ 
+Conversational Voice Exchanges 
+A) Voice Input 
+2.2.1.1. Upon detecting voice input during the lecture, the system shall process the voice data and 
+then convert it into text. 
+2.2.1.2. The system shall implement a time-out mechanism to stop listening for voice input after a 
+defined period of inactivity. 
+2.2.1.3. If voice input is not detected or cannot be processed due to technical issues, the system 
+shall notify the student accordingly. 
+2.2.1.4. The system shall provide visual feedback on the student interface when the microphone is 
+activated to indicate that it is listening. 
+ 
+B) Voice Output 
+2.2.1.5. The system shall convert the lecture script into synthesized speech. 
+2.2.1.6. The system shall deliver the synthesized speech of the lecture script verbally to students. 
+2.2.1.7. During live lectures, the system shall convert all generated text-based responses to student 
+queries into synthesized speech. 
+2.2.1.8. The system shall ensure that the conversion occurs in real time, with minimal delay in 
+delivering verbal responses to students. 
+2.2.1.9. The system shall provide visual feedback when synthesized speech is being delivered. 
+2.2.1.10. The system shall ensure that all synthesized speech outputs are clear. 
+ 
+Live Q&A Sessions 
+A) Question Analysis and Response 
+2.2.1.11. When the student asks a question, the system shall detect and identify the main subject or 
+topic of the question. 
+2.2.1.12. When a student asks a complex or multi-part question, the system shall break it down into 
+separate, smaller components. 
+2.2.1.13. The system shall recognize key terms or phrases within the student’s question that relate to 
+the ongoing lecture or previously covered material. 
+2.2.1.14. Based on the identified topics, the system shall generate an appropriate and contextually 
+relevant answer to the student’s question using LLM. 
+ 
+ 
+ 
+ 
+ 
+ 
+34 
+ 
+B) Clarification and Follow-Up 
+2.2.1.15. If the LLM determines a question to be vague, the system shall prompt the student to 
+provide clarification. 
+2.2.1.16. When the system cannot generate a valid response to a question, the system shall prompt 
+the student to rephrase their question. 
+2.2.1.17. The system shall maintain a history of all questions asked during the lecture to ensure a 
+continuous flow of conversation. 
+2.2.1.18. If the student’s question pertains to the lecture notes, the system shall direct the student to 
+the relevant section of the notes in the response. 
+ 
+2.2.2. Automated Content Creation Module 
+ 
+Lecture Script and Notes Generation 
+2.2.2.1. The system shall extract key points and summaries for the topics provided using the LLM. 
+ 
+A) Lecture Notes 
+2.2.2.2. The system shall structure the extracted content into organized lecture notes. 
+2.2.2.3. The system shall automatically create headings for major sections based on topic 
+divisions. 
+2.2.2.4. The system shall use bullet points to list key points under each heading. 
+2.2.2.5. The system shall include numbering where appropriate to indicate a sequence of points or 
+steps. 
+ 
+B) Lecture Script 
+2.2.2.6. Based on the extracted content, the system shall generate a script using LLM. 
+2.2.2.7. The system shall provide smooth transitions between different sections or topics in the 
+script. 
+2.2.2.8. The system shall format the script in a step-by-step manner, ensuring clear guidance for 
+delivering the lecture. 
+2.2.2.9. The system shall ensure the script follows a logical flow from introduction to conclusion. 
+2.2.2.10. The system shall adjust the length and content of the script based on the specified time 
+duration of the lecture. 
+ 
+Tailored Quiz Generation 
+2.2.2.11. Based on the provided topics, the system shall create relevant multiple-choice questions 
+(MCQs) using LLM. 
+2.2.2.12. The system shall ensure the generated quiz covers a balanced mix of topics, and key points 
+for these topics are covered. 
+2.2.2.13. For each MCQ, the system shall generate at least three incorrect but plausible answers 
+(distractors). 
+2.2.2.14. The system shall ensure distractors are conceptually similar to the correct answer but 
+incorrect. 
+ 
+35 
+ 
+2.2.2.15. The system shall avoid overly obvious incorrect answers to maintain the quiz's 
+effectiveness. 
+ 
+Automated Grading of Quizzes 
+2.2.2.16. After quiz submission, the system shall compare the student’s answers with the correct 
+answers stored in the system. 
+2.2.2.17. Based on the number of correct answers, the system shall calculate the total score of the 
+quiz. 
+2.2.2.18. If necessary, the system shall allow teachers to manually override the automated grades of 
+the quizzes. 
+ 
+2.2.3. Student Monitoring Module 
+ 
+Engagement Tracking 
+2.2.3.1. The system shall present pop-up questions to students periodically during live lectures. 
+2.2.3.2. The system shall allow the student to respond to the pop-up questions. 
+2.2.3.3. The system shall log the student’s response to the pop-up questions. 
+2.2.3.4. The system shall calculate the student’s engagement score based on how quickly and 
+accurately they respond to the pop-up questions. 
+ 
+2.2.4. Web Portal Module 
+User Management 
+2.2.4.1. The system shall allow users (teachers and students) to register for an account by 
+providing personal details such as name, email, and password. 
+2.2.4.2. When registering the user account, the system shall verify the provided email address to 
+complete registration. 
+2.2.4.3. The system shall allow users to log in using their registered email and password. 
+2.2.4.4. The system shall provide users with the ability to reset their password via a password reset 
+link sent to their registered email. 
+2.2.4.5. The system shall provide users with the ability to log in using OAuth services, such as 
+Google. 
+2.2.4.6. The system shall allow users to update personal information on their profile. 
+2.2.4.7. The system shall allow users to delete their accounts permanently, with confirmation to 
+prevent accidental deletion. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+36 
+ 
+Teacher Dashboard 
+A) Classroom Management 
+2.2.4.8. The system shall allow the teacher to create a new classroom with a unique code for 
+students to join. 
+2.2.4.9. The system shall allow the teacher to update the classroom name, description, and related 
+information. 
+2.2.4.10. The system shall provide the teacher with the ability to upload course material for AI 
+processing. 
+2.2.4.11. The system shall accept multiple formats for course materials, including PDF, and DOCX. 
+2.2.4.12. The system shall provide the teacher with the ability to specify the topics or chapters 
+within the course material to focus on. 
+2.2.4.13. When uploading the course material, the system shall provide confirmation of successful 
+upload or error messages for failed attempts. 
+2.2.4.14. The system shall provide the teacher with the ability to delete classrooms that are no 
+longer required. 
+ 
+B) Quiz Management 
+2.2.4.15. The system shall give teachers the option to generate quizzes. 
+2.2.4.16. The system shall allow teachers to customize settings for quiz generation, such as the 
+number of questions, topics to be covered, and time limit. 
+2.2.4.17. The system shall allow teachers to access, edit, and delete quizzes generated. 
+2.2.4.18. The system shall allow the teacher to access student records, including quiz scores and 
+participation statistics. 
+ 
+C) Lecture Management 
+2.2.4.19. The system shall provide the teacher with the ability to schedule a lecture by selecting a 
+date, time, and duration. 
+2.2.4.20. The system shall provide the teacher with the ability to set the lecture topics for the 
+scheduled lecture. 
+2.2.4.21. The system shall notify all enrolled students about the scheduled lecture. 
+2.2.4.22. The system shall allow the teacher to reschedule or cancel lectures, with notifications sent 
+to students accordingly. 
+2.2.4.23. The system shall allow the teacher to access lecture notes generated by the LLM. 
+ 
+Student Interface 
+A) Classroom Management 
+2.2.4.24. The system shall allow students to join classrooms by entering a valid classroom code 
+provided by the teacher. 
+2.2.4.25. The system shall provide the student with the ability to leave the classroom they have 
+joined. 
+ 
+B) Lecture Management 
+2.2.4.26. The system shall provide the student with the ability to attend scheduled lectures through a 
+virtual classroom interface. 
+ 
+37 
+ 
+2.2.4.27. The system shall present lecture notes during the lecture. 
+2.2.4.28. The system shall allow the student with the ability to leave the lecture. 
+2.2.4.29. During the lecture, the system shall allow students to request permission to speak. 
+2.2.4.30. When a student requests to speak, the system shall complete the current sentence before 
+prompting the student to proceed with their query. 
+2.2.4.31. Before the student proceeds with their query, the system shall offer the student to proceed 
+with text or voice. 
+2.2.4.32. If the student chooses the text option, the system shall provide the student with the ability 
+to type and submit their query. 
+2.2.4.33. If the student chooses the voice option, the system shall provide students with the ability 
+to initiate voice input. 
+2.2.4.34. The system shall allow the student to view, and download lecture notes. 
+ 
+C) Quiz Management 
+2.2.4.35. The system shall provide the student with the ability to take a quiz for a specific period of 
+time, after which the quiz shall be closed. 
+2.2.4.36. The system shall provide the student with feedback on their performance, including scores 
+and correct answers. 
+2.2.4.37. The system shall provide the student with access to past quizzes and their corresponding 
+scores and feedback. 
+2.2.4.38. The system shall notify students when a quiz is available. 
+ 
+ 
+2.3. Non-Functional Requirements 
+ 
+2.3.1. Reliability 
+2.3.1.1. The system shall provide a notification to administrators in case of downtime. 
+2.3.1.2. The system shall ensure that all critical data remains consistent and is not lost or corrupted 
+during data transfers. 
+2.3.1.3. The system shall perform daily backups of all critical data. 
+ 
+2.3.2. Usability 
+2.3.2.1. The system shall provide a simple, intuitive user interface where labels, buttons, and 
+options should be self-explanatory and clear. 
+2.3.2.2. The user interface shall be fully responsive, ensuring optimal usability across various 
+devices and screen sizes. 
+2.3.2.3. The system shall acknowledge the user's action promptly with visual or auditory 
+confirmation. 
+2.3.2.4. The system shall provide access to a help section that explains key features and guides 
+users on performing common tasks. 
+ 
+38 
+ 
+2.3.2.5. The system shall communicate errors to users, providing actionable suggestions to resolve 
+issues. 
+ 
+2.3.3. Performance 
+2.3.3.1. The system shall ensure that user inputs, such as voice or text, are processed with minimal 
+latency. 
+2.3.3.2. The system shall ensure that any page within the teacher or student dashboard loads in less 
+than 3 seconds under normal network conditions. 
+2.3.3.3. The system shall allow course materials of up to 100 MB in size to be uploaded. 
+ 
+2.3.4. Security 
+2.3.4.1. The system shall require users to create strong passwords that meet security standards. 
+2.3.4.2. The system shall encrypt all sensitive data using industry-standard encryption protocols. 
+2.3.4.3. The system shall enforce role-based access control (RBAC) to ensure that only authorized 
+users can access certain features. 
+2.3.4.4. The system shall implement automatic account lockout after multiple failed login attempts 
+to prevent brute-force attacks. 
+2.3.4.5. The system shall implement protection against common security threats, including SQL 
+injection, cross-site scripting (XSS), and cross-site request forgery (CSRF). 
+ 
+ 
+ 
+ 
+ 
+39 
+ 
+2.4. Domain Model 
+ 
+Figure 2 Domain Model 
+
+ 
+40 
+ 
+Chapter 3 
+3. System Overview 
+3.1. Architecture Design 
+Description: 
+The system uses a microservices architecture, where different services are responsible for specific 
+tasks like user management, engagement tracking, grading, quiz generation, and lecture notes 
+creation. These services communicate through an API Gateway, which directs client requests to 
+the appropriate service. Core functions like authentication, logging, and notifications are handled 
+separately in a common services layer, making it easier to maintain and scale the system. The 
+architecture also integrates with external systems through third-party APIs and OAuth, allowing 
+for additional functionality. Data is managed using MongoDB and VectorDB, ensuring efficient 
+storage and processing. Each service operates independently, making the system flexible and 
+scalable. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+41 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 3 Architecture Diagram 
+ 
+42 
+ 
+3.2. Design Models 
+ 
+Activity Diagrams 
+ 
+Figure 4 Act-01 Session Management 
+
+ 
+43 
+ 
+ 
+Figure 5 Act-02 Manage Classroom 
+
+ 
+44 
+ 
+ 
+Figure 6 Act-03 Generate Lecture 
+ 
+
+ 
+45 
+ 
+ 
+Figure 7 Act-04 Generate Quizzes 
+
+ 
+46 
+ 
+ 
+Figure 8 Act-05 Attend Lecture 
+ 
+
+ 
+47 
+ 
+ 
+Figure 9 ACt-06 Q&A in Lecture 
+
+ 
+48 
+ 
+ 
+Figure 10 Act-07 Answer Popup Questions 
+ 
+
+ 
+49 
+ 
+ 
+Figure 11 Act-08 Attend Quiz 
+ 
+
+ 
+50 
+ 
+ 
+Figure 12 Act-09 Handle Quiz Grades 
+ 
+
+ 
+51 
+ 
+System Sequence Diagrams 
+ 
+ 
+ 
+Figure 13 Seq-01 Session Management 
+ 
+
+ 
+52 
+ 
+ 
+Figure 14 Seq-02 Manage Classroom 
+ 
+
+ 
+53 
+ 
+ 
+Figure 15 Seq-03 Generate Lecture 
+ 
+
+ 
+54 
+ 
+ 
+ 
+Figure 16 Seq-04 Generate Quizzes 
+
+ 
+55 
+ 
+ 
+Figure 17 Seq-05 Attend Lecture 
+
+ 
+56 
+ 
+ 
+Figure 18 Seq-06 Lecture Q&A 
+ 
+
+ 
+57 
+ 
+ 
+Figure 19 Seq07 - Answer Pop-up Questions 
+ 
+
+ 
+58 
+ 
+ 
+Figure 20 Seq-08 Attempt Quiz 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+59 
+ 
+ 
+ 
+ 
+Figure 21 Seq-09 Handle Quiz Grades 
+ 
+60 
+ 
+Data Flow Diagram 
+ 
+Figure 22 Data Flow Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+61 
+ 
+3.3. Data Design 
+ 
+Description: 
+The information domain is transformed into data structures that reflect the key entities and 
+relationships in an educational platform, such as users (teachers and students), classrooms, 
+lectures, quizzes, and course materials. Each entity is represented as a distinct object with unique 
+identifiers (UUIDs), ensuring that they can be efficiently stored and retrieved in a database. 
+Relationships between entities, such as teachers managing classrooms or students attending 
+lectures, are represented using references between these objects, preserving the one-to-many and 
+many-to-many relationships inherent in the domain. 
+ 
+Complex data like course materials and lecture notes are stored as vectors (arrays of numbers), 
+making them suitable for use in AI-driven applications, such as machine learning models for 
+content recommendation or similarity analysis. This vectorization allows for sophisticated 
+processing and analysis of course content. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+62 
+ 
+JSON Schema 
+ 
+Figure 23 JSON Schema 
+
+ 
+63
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

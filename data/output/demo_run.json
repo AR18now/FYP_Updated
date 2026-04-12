@@ -1,0 +1,411 @@
+{
+  "step1_input": "The system should allow users to register, login, manage profiles, and admins to manage content.",
+  "step2_cleaned_text": "The system should allow users to register, login, manage profiles, and admins to manage content.",
+  "step3_ambiguity": {
+    "ambiguous_words": [
+      "should"
+    ],
+    "highlighted_text": "The system [[should]] allow users to register, login, manage profiles, and admins to manage content.",
+    "suggestion": "The system must allow users to register, login, manage profiles, and admins to manage content."
+  },
+  "step4_structured_requirements": {
+    "functional_requirements": [],
+    "non_functional_requirements": [],
+    "user_requirements": [
+      {
+        "id": "UR-1",
+        "source_text": "The system should allow users to register, login, manage profiles, and admins to manage content",
+        "refined_text": "The system shall must allow users to register, login, manage profiles, and admins to manage content"
+      }
+    ],
+    "system_requirements": []
+  },
+  "text_for_generation": "The system must allow users to register, login, manage profiles, and admins to manage content.",
+  "step5_retrieved_context": [
+    {
+      "score": 0.5450149596784684,
+      "document": {
+        "id": "FYP1-MidReport-F24-127-D-Decentrum - i210556 Muhammad Usman Nazeer.txt#chunk-9",
+        "text": "nagement:\n1. The system shall allow content creation and posting in various forms from text to\nvideo, images, links to articles, as well as links to blogs.\n2. The system shall be able to allow users to give reaction on content that is posted\nthrough likes or comments.\n3. The system shall enable users to share content posted on the platform with their\nfamily & friends.\n4. The system shall allow users to tag their friends on any post.\n8\n2.2 Functional Requirements\n5. The system shall send the reported content to 13 random users to verify whether it\nis explicit or not.\n2.2.2 Profile Management\nFollowing are the requirements for Profile Management:\n1. The system shall allow users to make changes in their personal information, includ-\ning profile or cover photos.\n2. The system shall enable users to manage and customize their timeline.\n3. The system shall allow users to change their passwords.\n4. The system shall enable users to manage their visibility setting for posts.\n5. The system shall enable users to customize notifications preferences.\n6. The system shall implement KYC-mechanism to cater the boots.\n2.2.3 Monetization and Rewards\nFollowing are the requirements for Monetization and",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-F24-127-D-Decentrum - i210556 Muhammad Usman Nazeer.txt",
+        "source_type": "knowledge_base"
+      }
+    },
+    {
+      "score": 0.5307071433661312,
+      "document": {
+        "id": "FYP1-MidReport-F24-119-D-SAR - i210886 Syed Ahmad Mustafa Jalal.txt#chunk-32",
+        "text": "ns based on similar gaming inter-\nests and region.\n4. The system shall allow users to send, accept or reject a synergy request.\n5. The system shall allow users to view their synergy list.\n6. The system shall allow users to start conversations with their connections.\n7. The system shall allow users to send text, photos or videos in a message.\n8. The system shall allow users to delete a conversation.\n9. The system shall allow real-time messaging between users.\n2.2.4 Module 4: Power Play (Mobile App)\nThis module includes Organization profile management, Battlegrounds (Tournaments/event\nlistings)and TalentXchange (Staff recruitment). Following are the requirements for this\nmodule.\n1. The system shall allow users to register organization, create and edit organizational\nprofile.\n2. The system shall allow an organization’s admin to manage staff including adding,\nremoving and roles assignment.\n3. The system shall allow an organization’s admin to post content including text, pho-\ntos or videos.\n4. The system shall allow organizations to create, list and manage tournaments.\n5. The system shall display a personalized list of tournaments and events for each user\nbased on their gaming interests",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-F24-119-D-SAR - i210886 Syed Ahmad Mustafa Jalal.txt",
+        "source_type": "knowledge_base"
+      }
+    },
+    {
+      "score": 0.5118740456128187,
+      "document": {
+        "id": "FYP1-MidReport-161-D-VirtuLectra - i211104 Moiz Akhtar.txt#chunk-46",
+        "text": "y respond to the pop-up questions. \n \n2.2.4. Web Portal Module \nUser Management \n2.2.4.1. The system shall allow users (teachers and students) to register for an account by \nproviding personal details such as name, email, and password. \n2.2.4.2. When registering the user account, the system shall verify the provided email address to \ncomplete registration. \n2.2.4.3. The system shall allow users to log in using their registered email and password. \n2.2.4.4. The system shall provide users with the ability to reset their password via a password reset \nlink sent to their registered email. \n2.2.4.5. The system shall provide users with the ability to log in using OAuth services, such as \nGoogle. \n2.2.4.6. The system shall allow users to update personal information on their profile. \n2.2.4.7. The system shall allow users to delete their accounts permanently, with confirmation to \nprevent accidental deletion. \n \n \n \n \n \n36 \n \nTeacher Dashboard \nA) Classroom Management \n2.2.4.8. The system shall allow the teacher to create a new classroom with a unique code for \nstudents to join. \n2.2.4.9. The system shall allow the teacher to update the classroom name, description, and related \ninformation",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-161-D-VirtuLectra - i211104 Moiz Akhtar.txt",
+        "source_type": "knowledge_base"
+      }
+    },
+    {
+      "score": 0.5065362218314916,
+      "document": {
+        "id": "FYP1-MidReport-F24-052-D-ReThinkVC - i211356 Muhammad Sohail Shahbaz.txt#chunk-13",
+        "text": "e system shall allow the user to view the list of active collaborators in the\nproject.\nFR-5: The system shall allow the user to follow selected user’s edits in real-time during\ncollaboration.\nFR-6: The system shall allow the user to undo/redo only their own changes during col-\nlaboration.\nFR-7: The system shall allow the project creator, admin and editor to be able to enable a\nlock feature where their real-time changes can not be edited by another user.\nFR-8: The system shall allow the project creator, admin, editor and commenter to com-\nment on the project files.\nFR-9: The system shall track the changes made by all of the editors in a session and sync\nit with all the participants.\n2.4.2 Module 2: Role-Based Access and Permissions\nFR-1: The system shall allow the user to create, rename, delete projects.\nFR-2: The system shall allow the project creator and admin to manage roles (Admin,\nEditor, Commenter, Viewer) to collaborators.\nFR-3: The system shall allow the project creator to invite others users via email and\nassign them roles (Admin, Editor, Commenter, Viewer).\nFR-4: The system shall allow the project creator and admin to invite other users (guests)\nby generating and sharing a",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-F24-052-D-ReThinkVC - i211356 Muhammad Sohail Shahbaz.txt",
+        "source_type": "knowledge_base"
+      }
+    },
+    {
+      "score": 0.4941326866268303,
+      "document": {
+        "id": "FYP1-MidReport-F24-098-D-BidBot - i211205 Basit Nazir Memon.txt#chunk-9",
+        "text": "de an error message or redirect users if they attempt to access \nunauthorized pages or features. \n• The system shall allow users to log in from multiple devices (e.g., mobile app, web browser) \nsimultaneously, while securely managing sessions. \nFreelancer Profile Management Module \n• The system shall allow users to add, edit, and delete entries in their project history, including \nproject names, descriptions, and associated features. \n• The system shall enable users to manage project features, including: \no Feature name. \no Feature description. \no Feature cost (price) for each feature provided in the project. \n• The system shall provide users the ability to upload attachments (e.g., images, PDFs) related to \nproject deliverables or documentation. \n• The system shall display the total project cost, calculated by aggregating the prices of the \nindividual project features. \n• The system shall allow users to filter and search for specific projects based on name, feature, or \ndate. \n• The system shall allow users to view past project details, including features and associated \npricing, in a user-friendly layout. \n• The system shall allow users to view and update their personal informati",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-F24-098-D-BidBot - i211205 Basit Nazir Memon.txt",
+        "source_type": "knowledge_base"
+      }
+    },
+    {
+      "score": 0.4939829408428378,
+      "document": {
+        "id": "FYP1-MidReport-F24-012-D-SprintCraft - i211786 Muhammad Shamil Umar.txt#chunk-77",
+        "text": "r authentication and login, ensuring\nthat only authorized personnel can access the system.\nDetails:\n• The system must require users to provide valid credentials (username and\npassword) for login.\n• The module should support multi-factor authentication (MFA) to enhance se-\ncurity.\n26\n2. Project Requirements\n• Users must be notified of successful login or authentication failure with ap-\npropriate error messages.\n• The system should log all login attempts, including successful and failed at-\ntempts, for auditing purposes.\n2. The module shall implement role-based access control (RBAC) to manage user per-\nmissions and ensure that users only have access to the resources they are authorized\nto access.\nDetails:\n• The system must allow administrators to define and manage user roles.\n• Each role should have specific permissions associated with it, controlling ac-\ncess to different parts of the system.\n• Users should be assigned roles based on their responsibilities and level of\naccess required.\n• The system must enforce role-based permissions at all times, preventing unau-\nthorized access.\n2.3 Non-Functional Requirements\nThe non-functional requirements for this system define the critical qua",
+        "source_file": "data\\knowledge_base\\kb_approved_all232\\FYP1-MidReport-F24-012-D-SprintCraft - i211786 Muhammad Shamil Umar.txt",
+        "source_type": "knowledge_base"
+      }
+    }
+  ],
+  "step6_srs": {
+    "document_id": "SRS-20260331-165241",
+    "title": "Demo SRS",
+    "version": "1.0",
+    "date": "2026-03-31",
+    "author": "Hamal",
+    "sections": {
+      "introduction": {
+        "purpose": "To specify the requirements for a social media platform that supports content creation, sharing, and interaction among users.",
+        "scope": "This document defines the requirements for a social media platform that includes functionalities for content creation, posting, reactions, sharing, and profile management.",
+        "definitions": [],
+        "acronyms": [],
+        "references": [],
+        "overview": "This SRS document provides a comprehensive overview of system requirements."
+      },
+      "overall_description": {
+        "product_perspective": "The product is a social media platform designed to facilitate content creation, sharing, and interaction among users.",
+        "product_functions": [
+          "Core system functionality",
+          "User interface"
+        ],
+        "user_characteristics": [
+          "End users",
+          "System administrators"
+        ],
+        "constraints": [
+          "Performance requirements",
+          "Security requirements"
+        ],
+        "assumptions": [
+          "Users have basic technical knowledge"
+        ],
+        "dependencies": [
+          "External systems and APIs"
+        ]
+      },
+      "specific_requirements": {
+        "external_interface_requirements": {
+          "user_interfaces": [],
+          "hardware_interfaces": [],
+          "software_interfaces": [],
+          "communication_interfaces": []
+        },
+        "functional_requirements": [
+          {
+            "id": "FR-1",
+            "description": ".4 References\n- IEEE 830-1998 Standard for Software Requirements Specifications\n1.5 Overview\nThis document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.",
+            "priority": "High",
+            "input": "",
+            "processing": "",
+            "output": ""
+          },
+          {
+            "id": "FR-1",
+            "description": "Content Creation and Posting-",
+            "priority": "High",
+            "input": "Text, images, videos, links to articles, blog links\n  -",
+            "processing": "Validation of content type and format\n  -",
+            "output": "Display of posted content\n  -"
+          },
+          {
+            "id": "FR-2",
+            "description": "Reaction and Commenting on Content-",
+            "priority": "High",
+            "input": "Likes, comments\n  -",
+            "processing": "Validation and storage of reactions and comments\n  -",
+            "output": "Display of reactions and comments\n  -"
+          },
+          {
+            "id": "FR-3",
+            "description": "Sharing of Content-",
+            "priority": "Medium",
+            "input": "User selection of content to share\n  -",
+            "processing": "Sharing through various channels (email, social media, messaging apps)\n  -",
+            "output": "Confirmation of successful sharing\n  -"
+          },
+          {
+            "id": "FR-4",
+            "description": "Tagging Friends on Posts-",
+            "priority": "Medium",
+            "input": "User selection of friends to tag\n  -",
+            "processing": "Tagging and notification to tagged friends\n  -",
+            "output": "Display of tagged friends in the post\n  -"
+          },
+          {
+            "id": "FR-5",
+            "description": "Reporting and Verification of Content-",
+            "priority": "Low",
+            "input": "User report of content\n  -",
+            "processing": "Sending content to 13 random users for verification\n  -",
+            "output": "Confirmation of verification process\n  -"
+          },
+          {
+            "id": "FR-6",
+            "description": "Profile Management-",
+            "priority": "High",
+            "input": "User updates to personal information, profile photos, cover photos, timeline customization, password changes, visibility settings, and notification preferences\n  -",
+            "processing": "Updating user profiles\n  -",
+            "output": "Updated profile display\n  -"
+          },
+          {
+            "id": "FR-7",
+            "description": "Monetization and Rewards-",
+            "priority": "Medium",
+            "input": "User actions leading to rewards\n  -",
+            "processing": "Calculation and distribution of rewards\n  -",
+            "output": "Display of rewards and balance\n  -"
+          },
+          {
+            "id": "FR-8",
+            "description": "Messaging and Synergy Requests-",
+            "priority": "Medium",
+            "input": "User messages and synergy requests\n  -",
+            "processing": "Sending, accepting, or rejecting synergy requests\n  -",
+            "output": "Display of conversations and synergy lists\n  -"
+          },
+          {
+            "id": "FR-9",
+            "description": "Organization Profile Management-",
+            "priority": "Medium",
+            "input": "Organization registration, profile creation, editing, and management\n  -",
+            "processing": "Managing staff, posting content, creating and managing tournaments\n  -",
+            "output": "Display of organization profiles and tournament listings\n  -"
+          },
+          {
+            "id": "FR-10",
+            "description": "Personalized Tournaments and Events Based on Interests-",
+            "priority": "Medium",
+            "input": "User gaming interests\n  -",
+            "processing": "Displaying personalized tournament and event listings\n  -",
+            "output": "List of relevant tournaments and events\n  -"
+          }
+        ],
+        "performance_requirements": {},
+        "design_constraints": {},
+        "software_system_attributes": {
+          "reliability": "Uptime: 99.9%",
+          "availability": "- Error handling: Robust error handling and logging mechanisms\n- Availability- Backup and recovery: Regular backups with disaster recovery plan\n-",
+          "security": "Data encryption: Use of AES-256 for data at rest and in transit\n  - Authentication: Multi-factor authentication (MFA) for all users\n-",
+          "maintainability": "Code quality: Adherence to coding standards and best practices\n  - Documentation: Comprehensive documentation for developers and testers\n-",
+          "portability": "Cross-platform compatibility: Support for multiple operating systems and devices",
+          "usability": "User interface: Intuitive and easy to navigate\n  - Accessibility: Compliance with WCAG 2.1 guidelines\n-"
+        },
+        "other_requirements": {
+          "database_requirements": "",
+          "operations": "",
+          "site_adaptation": "",
+          "legal": "",
+          "documentation": ""
+        }
+      },
+      "_hallucination_analysis": {
+        "has_hallucinations": true,
+        "flagged_sections": [
+          {
+            "type": "unspecified_technical_details",
+            "message": "Technical terms found in output not in input: encryption, authentication",
+            "severity": "low",
+            "terms": [
+              "encryption",
+              "authentication"
+            ]
+          }
+        ],
+        "confidence_score": 0.37,
+        "term_overlap": 86,
+        "total_original_terms": 182
+      },
+      "_raw_text": "=== PROJECT INFORMATION START ===\nTitle: Demo SRS\nAuthor: Hamal\nDate: 2023-10-01\nVersion: 1.0\n=== PROJECT INFORMATION END ===\nPurpose: To specify the requirements for a social media platform.\nScope: This document defines the requirements for a social media platform that allows content creation, sharing, and interaction among users.\nDefinitions/Acronyms:\n- SRS: Software Requirements Specification\n- FR: Functional Requirement\n- NFR: Non-functional Requirement\nReferences:\n- IEEE 830-1998 Standard for Software Requirements Specifications\nOverview: This document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.\n\n---\nSoftware Requirements Specification (SRS)\n\nTitle:Demo SRS\nAuthor:Hamal\nDate:2023-10-01\nVersion:1.0\n\n---\n1. INTRODUCTION\n1.1 Purpose\nTo specify the requirements for a social media platform that supports content creation, sharing, and interaction among users.\n1.2 Scope\nThis document defines the requirements for a social media platform that includes functionalities for content creation, posting, reactions, sharing, and profile management.\n1.3 Definitions/Acronyms\n- SRS: Software Requirements Specification\n- FR: Functional Requirement\n- NFR: Non-functional Requirement\n1.4 References\n- IEEE 830-1998 Standard for Software Requirements Specifications\n1.5 Overview\nThis document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.\n\n---\n2. OVERALL DESCRIPTION\n2.1 Product Perspective\nThe product is a social media platform designed to facilitate content creation, sharing, and interaction among users.\n2.2 Product Functions\n- Content Creation and Posting\n- Reaction and Commenting on Content\n- Sharing of Content\n- Tagging Friends on Posts\n- Reporting and Verification of Content\n- Profile Management\n- Monetization and Rewards\n- Messaging and Synergy Requests\n- Organization Profile Management\n- Tournament and Event Listings\n- Personalized Tournaments and Events Based on Interests\n2.3 User Characteristics\n- General public\n- Registered users\n- Organization administrators\n2.4 Constraints\n- Platform must be accessible on multiple devices (web, mobile)\n- Platform must support multiple languages\n- Platform must comply with local and international privacy laws\n2.5 Assumptions/Dependencies\n- Users have internet access\n- Users have basic computer literacy\n- Platform will use third-party services for authentication and messaging\n\n---\n3. SPECIFIC REQUIREMENTS\n3.1 External Interface Requirements\n- User Interface- Web-based interface\n  - Mobile application interface\n- Hardware Interface- Compatible with standard desktop computers and mobile devices\n- Software Interface- Integration with popular web browsers (Chrome, Firefox, Safari, Edge)\n  - Integration with popular messaging applications (WhatsApp, Telegram)\n- Communication Interface- Real-time messaging capabilities\n  - Support for file uploads and downloads\n3.2 Functional Requirements\n- FR-1: Content Creation and Posting- Input: Text, images, videos, links to articles, blog links\n  - Processing: Validation of content type and format\n  - Output: Display of posted content\n  - Priority: High\n\n- FR-2: Reaction and Commenting on Content- Input: Likes, comments\n  - Processing: Validation and storage of reactions and comments\n  - Output: Display of reactions and comments\n  - Priority: High\n\n- FR-3: Sharing of Content- Input: User selection of content to share\n  - Processing: Sharing through various channels (email, social media, messaging apps)\n  - Output: Confirmation of successful sharing\n  - Priority: Medium\n\n- FR-4: Tagging Friends on Posts- Input: User selection of friends to tag\n  - Processing: Tagging and notification to tagged friends\n  - Output: Display of tagged friends in the post\n  - Priority: Medium\n\n- FR-5: Reporting and Verification of Content- Input: User report of content\n  - Processing: Sending content to 13 random users for verification\n  - Output: Confirmation of verification process\n  - Priority: Low\n\n- FR-6: Profile Management- Input: User updates to personal information, profile photos, cover photos, timeline customization, password changes, visibility settings, and notification preferences\n  - Processing: Updating user profiles\n  - Output: Updated profile display\n  - Priority: High\n\n- FR-7: Monetization and Rewards- Input: User actions leading to rewards\n  - Processing: Calculation and distribution of rewards\n  - Output: Display of rewards and balance\n  - Priority: Medium\n\n- FR-8: Messaging and Synergy Requests- Input: User messages and synergy requests\n  - Processing: Sending, accepting, or rejecting synergy requests\n  - Output: Display of conversations and synergy lists\n  - Priority: Medium\n\n- FR-9: Organization Profile Management- Input: Organization registration, profile creation, editing, and management\n  - Processing: Managing staff, posting content, creating and managing tournaments\n  - Output: Display of organization profiles and tournament listings\n  - Priority: Medium\n\n- FR-10: Personalized Tournaments and Events Based on Interests- Input: User gaming interests\n  - Processing: Displaying personalized tournament and event listings\n  - Output: List of relevant tournaments and events\n  - Priority: Medium\n3.3 Non-functional Requirements\n- Performance- Response time: Less than 2 seconds for most operations\n  - Throughput: At least 100 concurrent users without significant performance degradation\n- Security- Data encryption: Use of AES-256 for data at rest and in transit\n  - Authentication: Multi-factor authentication (MFA) for all users\n- Reliability- Uptime: 99.9% availability\n  - Error handling: Robust error handling and logging mechanisms\n- Availability- Backup and recovery: Regular backups with disaster recovery plan\n- Usability- User interface: Intuitive and easy to navigate\n  - Accessibility: Compliance with WCAG 2.1 guidelines\n- Maintainability- Code quality: Adherence to coding standards and best practices\n  - Documentation: Comprehensive documentation for developers and testers\n- Portability- Cross-platform compatibility: Support for multiple operating systems and devices\n\n---\n4. SYSTEM FEATURES\n4.1 Content Creation and Posting\n- Users can create and post content in various formats (text, images, videos, links).\n- Users can validate and format content before posting.\n- Content is displayed in a user-friendly manner.\n4.2 Reaction and Commenting on Content\n- Users can like and comment on posted content.\n- Comments are validated and stored securely.\n- Reactions and comments are displayed alongside the content.\n4.3 Sharing of Content\n- Users can share content with family and friends through various channels.\n- Sharing is confirmed upon completion.\n- Sharing options include email, social media, and messaging apps.\n4.4 Tagging Friends on Posts\n- Users can tag friends on their posts.\n- Tags notify tagged friends and display them in the post.\n- Tagging is secure and verified.\n4.5 Reporting and Verification of Content\n- Users can report content for verification.\n- Reported content is sent to 13 random users for verification.\n- Verification process is transparent and secure.\n4.6 Profile Management\n- Users can manage their personal information, profile photos, cover photos, timelines, and notification preferences.\n- Passwords can be changed securely.\n- Visibility settings can be customized.\n- KYC mechanism is implemented for user verification.\n4.7 Monetization and Rewards\n- Users can earn rewards based on their activities.\n- Rewards are calculated and distributed securely.\n- Balance is displayed to users.\n4.8 Messaging and Synergy Requests\n- Users can send, accept, or reject synergy requests.\n- Conversations can be started and managed.\n- Messages can be sent in text, photos, or videos.\n- Conversations can be deleted.\n4.9 Organization Profile Management\n- Organizations can register, create, and edit profiles.\n- Staff can be managed by organization admins.\n- Content can be posted and managed.\n- Tournaments and events can be created and listed.\n4.10 Personalized Tournaments and Events Based on Interests\n- Users can view personalized tournament and event listings based on their gaming interests.\n- Listings are dynamic and updated regularly.\n- Relevant tournaments and events are displayed to users.\n\n---\n\nEnd of Document.Hamal2023-10-01Version 1.0---\n\nThis SRS is generated based on the provided user requirements and adheres to the IEEE 830-1998 standard. All requirements are clearly defined and prioritized. Please review and confirm the accuracy of the requirements. If any modifications are needed, please provide feedback.\n\n---\n\nNote: The content is generated based on the provided user requirements and may need further refinement.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01"
+    },
+    "raw_text": "=== PROJECT INFORMATION START ===\nTitle: Demo SRS\nAuthor: Hamal\nDate: 2023-10-01\nVersion: 1.0\n=== PROJECT INFORMATION END ===\nPurpose: To specify the requirements for a social media platform.\nScope: This document defines the requirements for a social media platform that allows content creation, sharing, and interaction among users.\nDefinitions/Acronyms:\n- SRS: Software Requirements Specification\n- FR: Functional Requirement\n- NFR: Non-functional Requirement\nReferences:\n- IEEE 830-1998 Standard for Software Requirements Specifications\nOverview: This document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.\n\n---\nSoftware Requirements Specification (SRS)\n\nTitle:Demo SRS\nAuthor:Hamal\nDate:2023-10-01\nVersion:1.0\n\n---\n1. INTRODUCTION\n1.1 Purpose\nTo specify the requirements for a social media platform that supports content creation, sharing, and interaction among users.\n1.2 Scope\nThis document defines the requirements for a social media platform that includes functionalities for content creation, posting, reactions, sharing, and profile management.\n1.3 Definitions/Acronyms\n- SRS: Software Requirements Specification\n- FR: Functional Requirement\n- NFR: Non-functional Requirement\n1.4 References\n- IEEE 830-1998 Standard for Software Requirements Specifications\n1.5 Overview\nThis document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.\n\n---\n2. OVERALL DESCRIPTION\n2.1 Product Perspective\nThe product is a social media platform designed to facilitate content creation, sharing, and interaction among users.\n2.2 Product Functions\n- Content Creation and Posting\n- Reaction and Commenting on Content\n- Sharing of Content\n- Tagging Friends on Posts\n- Reporting and Verification of Content\n- Profile Management\n- Monetization and Rewards\n- Messaging and Synergy Requests\n- Organization Profile Management\n- Tournament and Event Listings\n- Personalized Tournaments and Events Based on Interests\n2.3 User Characteristics\n- General public\n- Registered users\n- Organization administrators\n2.4 Constraints\n- Platform must be accessible on multiple devices (web, mobile)\n- Platform must support multiple languages\n- Platform must comply with local and international privacy laws\n2.5 Assumptions/Dependencies\n- Users have internet access\n- Users have basic computer literacy\n- Platform will use third-party services for authentication and messaging\n\n---\n3. SPECIFIC REQUIREMENTS\n3.1 External Interface Requirements\n- User Interface- Web-based interface\n  - Mobile application interface\n- Hardware Interface- Compatible with standard desktop computers and mobile devices\n- Software Interface- Integration with popular web browsers (Chrome, Firefox, Safari, Edge)\n  - Integration with popular messaging applications (WhatsApp, Telegram)\n- Communication Interface- Real-time messaging capabilities\n  - Support for file uploads and downloads\n3.2 Functional Requirements\n- FR-1: Content Creation and Posting- Input: Text, images, videos, links to articles, blog links\n  - Processing: Validation of content type and format\n  - Output: Display of posted content\n  - Priority: High\n\n- FR-2: Reaction and Commenting on Content- Input: Likes, comments\n  - Processing: Validation and storage of reactions and comments\n  - Output: Display of reactions and comments\n  - Priority: High\n\n- FR-3: Sharing of Content- Input: User selection of content to share\n  - Processing: Sharing through various channels (email, social media, messaging apps)\n  - Output: Confirmation of successful sharing\n  - Priority: Medium\n\n- FR-4: Tagging Friends on Posts- Input: User selection of friends to tag\n  - Processing: Tagging and notification to tagged friends\n  - Output: Display of tagged friends in the post\n  - Priority: Medium\n\n- FR-5: Reporting and Verification of Content- Input: User report of content\n  - Processing: Sending content to 13 random users for verification\n  - Output: Confirmation of verification process\n  - Priority: Low\n\n- FR-6: Profile Management- Input: User updates to personal information, profile photos, cover photos, timeline customization, password changes, visibility settings, and notification preferences\n  - Processing: Updating user profiles\n  - Output: Updated profile display\n  - Priority: High\n\n- FR-7: Monetization and Rewards- Input: User actions leading to rewards\n  - Processing: Calculation and distribution of rewards\n  - Output: Display of rewards and balance\n  - Priority: Medium\n\n- FR-8: Messaging and Synergy Requests- Input: User messages and synergy requests\n  - Processing: Sending, accepting, or rejecting synergy requests\n  - Output: Display of conversations and synergy lists\n  - Priority: Medium\n\n- FR-9: Organization Profile Management- Input: Organization registration, profile creation, editing, and management\n  - Processing: Managing staff, posting content, creating and managing tournaments\n  - Output: Display of organization profiles and tournament listings\n  - Priority: Medium\n\n- FR-10: Personalized Tournaments and Events Based on Interests- Input: User gaming interests\n  - Processing: Displaying personalized tournament and event listings\n  - Output: List of relevant tournaments and events\n  - Priority: Medium\n3.3 Non-functional Requirements\n- Performance- Response time: Less than 2 seconds for most operations\n  - Throughput: At least 100 concurrent users without significant performance degradation\n- Security- Data encryption: Use of AES-256 for data at rest and in transit\n  - Authentication: Multi-factor authentication (MFA) for all users\n- Reliability- Uptime: 99.9% availability\n  - Error handling: Robust error handling and logging mechanisms\n- Availability- Backup and recovery: Regular backups with disaster recovery plan\n- Usability- User interface: Intuitive and easy to navigate\n  - Accessibility: Compliance with WCAG 2.1 guidelines\n- Maintainability- Code quality: Adherence to coding standards and best practices\n  - Documentation: Comprehensive documentation for developers and testers\n- Portability- Cross-platform compatibility: Support for multiple operating systems and devices\n\n---\n4. SYSTEM FEATURES\n4.1 Content Creation and Posting\n- Users can create and post content in various formats (text, images, videos, links).\n- Users can validate and format content before posting.\n- Content is displayed in a user-friendly manner.\n4.2 Reaction and Commenting on Content\n- Users can like and comment on posted content.\n- Comments are validated and stored securely.\n- Reactions and comments are displayed alongside the content.\n4.3 Sharing of Content\n- Users can share content with family and friends through various channels.\n- Sharing is confirmed upon completion.\n- Sharing options include email, social media, and messaging apps.\n4.4 Tagging Friends on Posts\n- Users can tag friends on their posts.\n- Tags notify tagged friends and display them in the post.\n- Tagging is secure and verified.\n4.5 Reporting and Verification of Content\n- Users can report content for verification.\n- Reported content is sent to 13 random users for verification.\n- Verification process is transparent and secure.\n4.6 Profile Management\n- Users can manage their personal information, profile photos, cover photos, timelines, and notification preferences.\n- Passwords can be changed securely.\n- Visibility settings can be customized.\n- KYC mechanism is implemented for user verification.\n4.7 Monetization and Rewards\n- Users can earn rewards based on their activities.\n- Rewards are calculated and distributed securely.\n- Balance is displayed to users.\n4.8 Messaging and Synergy Requests\n- Users can send, accept, or reject synergy requests.\n- Conversations can be started and managed.\n- Messages can be sent in text, photos, or videos.\n- Conversations can be deleted.\n4.9 Organization Profile Management\n- Organizations can register, create, and edit profiles.\n- Staff can be managed by organization admins.\n- Content can be posted and managed.\n- Tournaments and events can be created and listed.\n4.10 Personalized Tournaments and Events Based on Interests\n- Users can view personalized tournament and event listings based on their gaming interests.\n- Listings are dynamic and updated regularly.\n- Relevant tournaments and events are displayed to users.\n\n---\n\nEnd of Document.Hamal2023-10-01Version 1.0---\n\nThis SRS is generated based on the provided user requirements and adheres to the IEEE 830-1998 standard. All requirements are clearly defined and prioritized. Please review and confirm the accuracy of the requirements. If any modifications are needed, please provide feedback.\n\n---\n\nNote: The content is generated based on the provided user requirements and may need further refinement.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01Version 1.0---\n\nEnd of Document.---\n\nHamal2023-10-01"
+  },
+  "step7_evaluation": {
+    "ieee_metrics": {
+      "completeness": 0.909,
+      "clarity": 0.996,
+      "structure": 1.0,
+      "relevance": 0.551
+    },
+    "manual_metrics": {
+      "clarity": 0.585,
+      "ambiguity": 0.996,
+      "testability": 0.5,
+      "completeness": 0.0,
+      "consistency": 0.0,
+      "relevance": 0.714
+    }
+  },
+  "step8_textual_use_cases": "Use Case Name: Use Case 1\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Use Case 1' correctly and quickly.\nPreconditions: User is authenticated and required system components are available.\nPostconditions: System stores results and confirms successful completion.\nMain Success Scenario: 1. Actor initiates '.4 References - IEEE 830-1998 Standard for Software Requirements Specifications 1.5 Overview This document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Content Creation and Posting-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Content Creation and Posting-' correctly and quickly.\nPreconditions: Text, images, videos, links to articles, blog links\n  -\nPostconditions: Display of posted content\n  -\nMain Success Scenario: 1. Actor initiates 'Validation of content type and format -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Reaction and Commenting on Content-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Reaction and Commenting on Content-' correctly and quickly.\nPreconditions: Likes, comments\n  -\nPostconditions: Display of reactions and comments\n  -\nMain Success Scenario: 1. Actor initiates 'Validation and storage of reactions and comments -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Sharing of Content-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Sharing of Content-' correctly and quickly.\nPreconditions: User selection of content to share\n  -\nPostconditions: Confirmation of successful sharing\n  -\nMain Success Scenario: 1. Actor initiates 'Sharing through various channels (email, social media, messaging apps) -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Tagging Friends on Posts-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Tagging Friends on Posts-' correctly and quickly.\nPreconditions: User selection of friends to tag\n  -\nPostconditions: Display of tagged friends in the post\n  -\nMain Success Scenario: 1. Actor initiates 'Tagging and notification to tagged friends -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Reporting and Verification of Content-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Reporting and Verification of Content-' correctly and quickly.\nPreconditions: User report of content\n  -\nPostconditions: Confirmation of verification process\n  -\nMain Success Scenario: 1. Actor initiates 'Sending content to 13 random users for verification -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Profile Management-\nPrimary Actor: Admin\nStakeholders and Interests: Admin: wants the system to complete 'Profile Management-' correctly and quickly.\nPreconditions: User updates to personal information, profile photos, cover photos, timeline customization, password changes, visibility settings, and notification preferences\n  -\nPostconditions: Updated profile display\n  -\nMain Success Scenario: 1. Actor initiates 'Updating user profiles -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Monetization and Rewards-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Monetization and Rewards-' correctly and quickly.\nPreconditions: User actions leading to rewards\n  -\nPostconditions: Display of rewards and balance\n  -\nMain Success Scenario: 1. Actor initiates 'Calculation and distribution of rewards -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Messaging and Synergy Requests-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Messaging and Synergy Requests-' correctly and quickly.\nPreconditions: User messages and synergy requests\n  -\nPostconditions: Display of conversations and synergy lists\n  -\nMain Success Scenario: 1. Actor initiates 'Sending, accepting, or rejecting synergy requests -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Organization Profile Management-\nPrimary Actor: Admin\nStakeholders and Interests: Admin: wants the system to complete 'Organization Profile Management-' correctly and quickly.\nPreconditions: Organization registration, profile creation, editing, and management\n  -\nPostconditions: Display of organization profiles and tournament listings\n  -\nMain Success Scenario: 1. Actor initiates 'Managing staff, posting content, creating and managing tournaments -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.\n\nUse Case Name: Personalized Tournaments and Events Based on Interests-\nPrimary Actor: User\nStakeholders and Interests: User: wants the system to complete 'Personalized Tournaments and Events Based on Interests-' correctly and quickly.\nPreconditions: User gaming interests\n  -\nPostconditions: List of relevant tournaments and events\n  -\nMain Success Scenario: 1. Actor initiates 'Displaying personalized tournament and event listings -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.\nExtensions: If validation fails, the system displays a clear error and asks for correction.\nSpecial Requirements: Response must meet defined performance and security constraints.\nFrequency of Occurrence: Multiple times per day during normal system usage.\nAssumptions: Users have valid access rights and network connectivity is available.",
+  "step8_usecase_file": "C:\\Users\\hamal\\Music\\FYP\\outputs\\textual_usecases.txt",
+  "step8_structured_usecases": [
+    {
+      "use_case_name": "Use Case 1",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Use Case 1' correctly and quickly.",
+      "preconditions": "User is authenticated and required system components are available.",
+      "postconditions": "System stores results and confirms successful completion.",
+      "main_success_scenario": "1. Actor initiates '.4 References - IEEE 830-1998 Standard for Software Requirements Specifications 1.5 Overview This document outlines the requirements for a social media platform that supports content creation, sharing, and interaction among users. It includes functional and non-functional requirements, as well as external and internal interface requirements.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Content Creation and Posting-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Content Creation and Posting-' correctly and quickly.",
+      "preconditions": "Text, images, videos, links to articles, blog links\n  -",
+      "postconditions": "Display of posted content\n  -",
+      "main_success_scenario": "1. Actor initiates 'Validation of content type and format -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Reaction and Commenting on Content-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Reaction and Commenting on Content-' correctly and quickly.",
+      "preconditions": "Likes, comments\n  -",
+      "postconditions": "Display of reactions and comments\n  -",
+      "main_success_scenario": "1. Actor initiates 'Validation and storage of reactions and comments -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Sharing of Content-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Sharing of Content-' correctly and quickly.",
+      "preconditions": "User selection of content to share\n  -",
+      "postconditions": "Confirmation of successful sharing\n  -",
+      "main_success_scenario": "1. Actor initiates 'Sharing through various channels (email, social media, messaging apps) -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Tagging Friends on Posts-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Tagging Friends on Posts-' correctly and quickly.",
+      "preconditions": "User selection of friends to tag\n  -",
+      "postconditions": "Display of tagged friends in the post\n  -",
+      "main_success_scenario": "1. Actor initiates 'Tagging and notification to tagged friends -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Reporting and Verification of Content-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Reporting and Verification of Content-' correctly and quickly.",
+      "preconditions": "User report of content\n  -",
+      "postconditions": "Confirmation of verification process\n  -",
+      "main_success_scenario": "1. Actor initiates 'Sending content to 13 random users for verification -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Profile Management-",
+      "primary_actor": "Admin",
+      "stakeholders_and_interests": "Admin: wants the system to complete 'Profile Management-' correctly and quickly.",
+      "preconditions": "User updates to personal information, profile photos, cover photos, timeline customization, password changes, visibility settings, and notification preferences\n  -",
+      "postconditions": "Updated profile display\n  -",
+      "main_success_scenario": "1. Actor initiates 'Updating user profiles -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Monetization and Rewards-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Monetization and Rewards-' correctly and quickly.",
+      "preconditions": "User actions leading to rewards\n  -",
+      "postconditions": "Display of rewards and balance\n  -",
+      "main_success_scenario": "1. Actor initiates 'Calculation and distribution of rewards -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Messaging and Synergy Requests-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Messaging and Synergy Requests-' correctly and quickly.",
+      "preconditions": "User messages and synergy requests\n  -",
+      "postconditions": "Display of conversations and synergy lists\n  -",
+      "main_success_scenario": "1. Actor initiates 'Sending, accepting, or rejecting synergy requests -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Organization Profile Management-",
+      "primary_actor": "Admin",
+      "stakeholders_and_interests": "Admin: wants the system to complete 'Organization Profile Management-' correctly and quickly.",
+      "preconditions": "Organization registration, profile creation, editing, and management\n  -",
+      "postconditions": "Display of organization profiles and tournament listings\n  -",
+      "main_success_scenario": "1. Actor initiates 'Managing staff, posting content, creating and managing tournaments -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    },
+    {
+      "use_case_name": "Personalized Tournaments and Events Based on Interests-",
+      "primary_actor": "User",
+      "stakeholders_and_interests": "User: wants the system to complete 'Personalized Tournaments and Events Based on Interests-' correctly and quickly.",
+      "preconditions": "User gaming interests\n  -",
+      "postconditions": "List of relevant tournaments and events\n  -",
+      "main_success_scenario": "1. Actor initiates 'Displaying personalized tournament and event listings -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.",
+      "extensions": "If validation fails, the system displays a clear error and asks for correction.",
+      "special_requirements": "Response must meet defined performance and security constraints.",
+      "frequency_of_occurrence": "Multiple times per day during normal system usage.",
+      "assumptions": "Users have valid access rights and network connectivity is available."
+    }
+  ],
+  "step9_diagram": {
+    "status": "saved_only",
+    "puml_file": "C:\\Users\\hamal\\Music\\FYP\\data\\output\\usecase_SRS_20260331_165241.puml",
+    "diagram_file": "",
+    "message": "PlantUML CLI not found. Install PlantUML to render PNG automatically."
+  },
+  "step9_plantuml_code": "@startuml\nrectangle \"Demo SRS\" {\n  actor User as \"User\"\n  actor Admin as \"Admin\"\n}\nUser --> (Use Case 1)\nUser --> (Content Creation and Posting-)\nUser --> (Reaction and Commenting on Content-)\nUser --> (Sharing of Content-)\nUser --> (Tagging Friends on Posts-)\nUser --> (Reporting and Verification of Content-)\nAdmin --> (Profile Management-)\nUser --> (Monetization and Rewards-)\nUser --> (Messaging and Synergy Requests-)\nAdmin --> (Organization Profile Management-)\nUser --> (Personalized Tournaments and Events Based on Interests-)\n@enduml\n"
+}

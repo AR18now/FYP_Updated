@@ -1,0 +1,300 @@
+# FYP1-MidReport-F24-224-D-IlmMate - Isaam Ansari
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+With IlmMate, we aim to develop a platform-independent educational chatbot that will
+uplift the learning experience of Pakistani grade 9 & 10 students. The chatbot’s core
+purpose is to provide educational content with detailed explanations on various topics
+based on the curriculum from textbooks of Pakistani science subjects of grades 9 & 10.
+In this lieu, IlmMate will use an automated agent to provide users various e-learning
+resources, such as video links. It will also be able to generate questions based on topics
+selected by users, helping them practice these topics and reinforce their learning. IlmMate
+will generate reports on each student’s performance. Lastly, for ease of use, the medium
+of communication will be WhatsApp.
+1.3 Modules
+Our product consists of three feature-oriented modules. Each module highlights specific
+features of IlmMate.
+1.3.1 Backend Module: Content Management and Retrieval
+In this module we handle the processing, storage and retrieval of content from vector
+database(s).
+1. Digitization and Storage: We will use Optical Character Recognition (OCR) to
+digitize textbooks and store the data in vector databases for efficient retrieval.
+2. Query Context Extraction & Similarly Matching: We will first shorten the user’s
+prompt to just its core semantic meaning using context extraction techniques and
+then we will utilize algorithms to find and retrieve the most relevant content with
+respect to the shortened query from vector database(s).
+3. Chatbot Response Generation: We will use a Large Language Model (LLM) to
+generate accurate and contextually correct responses using the previously received
+content from our vector database(s) as context.
+4. Progress Reporting: IlmMate will track each student’s performance through assess-
+ments and generate reports.
+1.3.2 Client Module: WhatsApp Chatbot
+This module deals with delivering specific features to users via WhatsApp.
+2
+1.4 User Classes and Characteristics
+1. Automated Assessment: IlmMate will generate questions by utilizing prompt en-
+gineering and a choice of a user selected topic to help them practice and enhance
+their learning.
+2. e-Learning Resource Agent: IlmMate will deliver e-learning resources, such as
+video links, by using an agent to retrieve resources further aiding learning on a
+specific topic.
+3. WhatsApp API: IlmMate will establish communication with users solely through
+the WhatsApp API.
+1.3.3 Development Module: System Integration and Testing
+This module focuses on integrating all components and ensure their proper functioning.
+1. System Testing: We will conduct thorough testing to validate the system’s function-
+ality, performance and user experience.
+2. Guardrails: We aim to set up safeguards to avoid responses for out of context
+queries and possibly inaccurate responses to user queries.
+1.4 User Classes and Characteristics
+This section outlines the user classes for IlmMate and how the project will affect them.
+3
+1. Introduction
+Table 1.1: User Classes and Their Descriptions
+User class Description
+Student Students are the main target users of IlmMate, specifically those in grades
+9 and 10. They will converse with IlmMate to access curriculum-specific
+content, quizzes, and e-learning resources per their needs, allowing them to
+learn at their own pace & convenience.
+Parent Parents will receive regular reports on their child’s performance. This will
+help them figure out areas where their child may need extra support, encour-
+aging active involvement of parents.
+Teacher Teachers can be included to allow them to track progress of students enrolled
+in their classrooms through IlmMate. IlmMate could provide insights into
+student performance, helping teachers identify topics where students may
+be struggling and tailor their classroom lessons accordingly.
+Educational
+Institution
+Educational institutions can integrate IlmMate into their existing curricula
+to better the learning experience for pupils. Through IlmMate, institutions
+can provide supplementary support without needing additional resources for
+upskilling or upscaling faculty.
+Example User Classes and Characteristics
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-Case Diagram
+The use case diagram below describes the way that a user would interact with an use
+IlmMate.
+Figure 2.1: Activity Diagram for IlmMate System
+5
+2. Project Requirements
+2.2 Functional Requirements
+The following are the functional requirements for IlmMate.
+2.2.1 Backend Module: Content Management and Retrieval
+Following are the Functional requirements for module 1:
+1. The system should use OCR to convert textbooks into digital text and store it in a
+vector database.
+2. The system must shorten user queries to focus on their main meaning.
+3. The system should find and retrieve relevant content from the vector database
+4. The system should track student performance and generate progress reports
+2.2.2 WhatsApp Chatbot
+Following are the requirements for module 2:
+1. The system should communicate with users through the WhatsApp API.
+2. The system should automatically generate practice questions based on topics chosen
+by users.
+3. The system must provide e-learning resources, such as video links, based on user
+requests.
+2.2.3 System Integration and Testing
+Following are the requirements for module 3:
+1. The system must integrate all parts of IlmMate
+2. The system must have safeguards to manage off-topic queries and reduce incorrect
+responses.
+3. The system must perform testing to ensure everything works correctly.
+6
+2.3 Non-Functional Requirements
+2.3 Non-Functional Requirements
+This section outlines the non-functional requirements essential to the successful operation
+of IlmMate. These requirements focus on quality attributes, including reliability, usability,
+performance, and security, ensuring that the system meets user expectations and operates
+within defined parameters.
+2.3.1 Reliability
+IlmMate is designed with high reliability in mind to ensure minimal downtime and con-
+sistent operation. The system must achieve a Mean Time Between Failures (MTBF) of at
+least 48 hours, reflecting its ability to run continuously for extended periods without fail-
+ure. In case of a failure, the system should implement automatic recovery mechanisms,
+sending alerts to developers and in turn minimizing user disruption. Regular maintenance
+and system monitoring will be employed to further enhance reliability and preemptively
+address potential issues.
+2.3.2 Usability
+Usability is a top priority for us, ensuring that all users can easily interact with the system,
+regardless of their technical proficiency. The chatbot interface, which is already extremely
+accessible through WhatsApp, will be intuitive and simple to navigate. Users should be
+able to send queries, request explanations, and receive responses without complex steps.
+To enhance the user experience, the interface will provide clear feedback during the re-
+sponse generation process. This includes the use of filler sentences, which reassure users
+that their queries are being processed. Examples of these filler sentences include:
+"Let me get the answer to that for you."
+"Hold on a second while I think."
+"Just a moment while I look that up."
+"I’m fetching the information you need."
+"Give me a second to find the best answer."
+These prompts will not only keep users engaged but also reduce the perceived waiting
+time, making interactions feel more seamless and conversational.
+7
+2. Project Requirements
+2.3.3 Performance
+The performance of IlmMate is crucial to maintaining user satisfaction, especially during
+peak usage times. The system must respond to user queries within 20 seconds, even during
+high traffic, ensuring no significant delay in providing feedback. To maintain efficiency,
+the system will be optimized to support up to 50 concurrent users without experiencing
+performance degradation, such as slower response times or system crashes. While we aim
+for a 90% accuracy rate in LLM-generated responses, continuous model fine-tuning and
+updates in the RAG pipeline will be conducted to further improve this accuracy over time.
+2.3.4 Security & Privacy
+Given the sensitive nature of educational data and that children are target users for the
+application, security is paramount for IlmMate. Only authenticated users will have access
+to the system’s features, with secure authentication mechanisms in place to prevent unau-
+thorized access. Furthermore, if possible the system could keep parents in sync with their
+child’s performances, usage and chat logs.
+2.4 Domain Model
+The domain model captures the key entities, relationships, and interactions within Ilm-
+Mate. This model serves as a blueprint for the system, illustrating how data is structured
+and managed throughout the application. Entities such as Users, Queries, Course Ma-
+terial, and LLM Responses are represented to show the logical structure of the data and
+their relationships.
+This model not only provides clarity on the system’s internal workings but also forms
+the foundation for database design, ensuring that the system’s data flow aligns with user
+needs and system functionality.
+8
+2.4 Domain Model
+Figure 2.2: Domain Model Diagram for IlmMate
+9
+
+Chapter 3
+System Overview
+IlmMate is a platform-independent educational chatbot designed to enhance the learning
+experience for Pakistani grade 9 and 10 students. Its core functionality revolves around
+delivering curriculum-based educational content with detailed explanations, drawn from
+science textbooks. The chatbot leverages an automated agent to provide users with e-
+learning resources, such as video links, and generates topic-specific questions to help
+students practice and strengthen their understanding. Additionally, IlmMate tracks stu-
+dent progress and generates performance reports. The chatbot is designed to be easily
+accessible via WhatsApp for a seamless user experience.
+3.1 Architectural Design
+The architecture of IlmMate is designed with simplicity and effectiveness in mind. We’ve
+broken down the system into key components that work together to deliver the core func-
+tionalities. This high-level design allows us to focus on each part without getting overly
+complex, ensuring that the system remains scalable and adaptable as needed.
+The structure enables us to handle tasks like processing user inputs, accessing and orga-
+nizing learning materials, and generating assessments.
+The initial design stage focuses on ensuring smooth data flow and system operations, with
+the potential to evolve into a more refined structure as the project progresses.
+11
+3. System Overview
+Figure 3.1: Architecture Diagram for IlmMate System
+3.2 Design Models
+The design models provide a structured representation of IlmMate’s key processes, fo-
+cusing on the system’s interaction with data and users, and the sequence of events as
+the chatbot responds to user queries. This section includes activity, sequence, and data
+flow diagrams, illustrating how information flows through the system and how different
+components interact.
+3.2.1 Activity Diagram
+The activity diagram offers a high-level view of the operational flow within IlmMate,
+from when a user sends a query to when the chatbot processes the request and generates
+a response. It depicts how different processes are activated sequentially or in parallel to
+ensure smooth operation. The diagram visually outlines steps like message receipt, query
+processing, LLM interaction, and response generation, offering an easy-to-understand
+flow of the system’s functionality.
+12
+3.2 Design Models
+Figure 3.2: Activity Diagram for IlmMate
+13
+3. System Overview
+3.2.2 System-Level Sequence Diagram
+The sequence diagram demonstrates the order in which interactions occur within IlmMate,
+particularly how components such as the user interface, WhatsApp API, and the LLM
+work together to handle queries. This diagram is crucial for understanding how requests
+flow through the system—from the user input to processing and response delivery. By
+focusing on the sequence of method calls and interactions, this model highlights how
+modules exchange information in real time to generate educational content for users.
+Figure 3.3: System-level Sequence Diagram for IlmMate
+3.2.3 Data Flow Diagram
+The data flow diagram (DFD) presents an overview of how data moves within IlmMate.
+It identifies key data sources (like user input via WhatsApp), data processing elements
+(LLM, database), and data sinks (response sent back to users). This diagram helps visual-
+ize the path that data follows as it travels through the system, beginning with the student’s
+message, leading to the extraction of relevant information from textbooks or other learn-
+ing resources, and concluding with a personalized response. The DFD emphasizes how
+data is structured, processed, and stored.
+14
+3.3 Data Design
+Figure 3.4: Data Flow Diagram for IlmMate
+Design Models for Procedural Approach
+The procedural approach in IlmMate’s design simplifies each process into sequential steps
+that are easier to understand and implement. The key models for this approach include:
+• Activity Diagram: Outlines the major operational steps, showing the flow from
+user interaction to LLM-based query handling.
+• Data Flow Diagram: Breaks down the flow of information across multiple levels,
+detailing where data is coming from, how it’s processed, and where it’s sent.
+• System-level Sequence Diagram: Describes the communication order between
+different parts of the system during its execution.
+• State Transition Diagram: Highlights how IlmMate responds to various user
+queries and system events, tracking the states the system moves through from query
+receipt to response.
+3.3 Data Design
+IlmMate’s data design revolves around efficiently processing and managing the educa-
+tional content and student data required to deliver tailored learning experiences. The
+15
+3. System Overview
+system’s architecture ensures that data flows seamlessly between components, optimizing
+the chatbot’s response accuracy and relevance.
+3.3.1 Information Transformation
+The information domain of IlmMate is structured around three main types of data: edu-
+cational content, user inputs (student queries), and progress reports. These information
+types are processed through various stages in the system:
+• Educational Content: IlmMate relies on textbooks and learning resources to pro-
+vide detailed explanations and e-learning resources. These resources are initially
+scanned using Optical Character Recognition (OCR) and then transformed into dig-
+ital text that can be structured and stored in vector databases as embeddings.
+• User Inputs: The data from students (questions and requests) are processed through
+the WhatsApp API. These inputs are sent to the LLM (Large Language Model),
+which uses natural language processing and contextual understanding of the ques-
+tion - with reference to coursebooks - to generate a relevant response.
+• Progress Reports: After generating AI-based assessments, student performance
+data is stored in a structured format and can be used to create personalized progress
+reports. These reports are generated by analyzing assessment results based on the
+curriculum topics the student has interacted with.
+3.3.2 Data Storage and Organization
+Data storage in IlmMate is designed to handle various types of information, with the
+following key components:
+• Vector Databases: After the OCR process, embeddings of chunked textbook con-
+tent is stored in a vector database. This database allows for efficient querying and
+similarity matching between the student’s question and the stored content. Each
+textbook section or e-learning resource is embedded as a vector, facilitating faster
+retrieval of relevant information.
+• JSON Structure: The system organizes input and output data (user queries and
+LLM responses) in JSON. This structure enables smooth communication between
+the model and the user. For example, when a student asks a question, their query
+is sent to the system as a JSON object, which then triggers the appropriate content
+retrieval and response generation.
+16
+3.3 Data Design
+• User Data: Information related to student performance, such as quiz scores and
+learning progress, is stored in a conventional database. This data is used to generate
+personalized progress reports that guide the student’s learning journey. The system
+ensures that this data is securely stored and organized to maintain privacy.
+IlmMate’s data design is focused on ensuring that the right information is easily accessi-
+ble, processed efficiently, and organized in a manner that supports smooth system func-
+tionality. By structuring the educational content, user inputs, and student performance
+data within the system, IlmMate is able to offer a personalized and adaptive learning
+experience for each student.
+17
+
+Bibliography
+[1] Ministry of Federal Education and Professional Training. Ministry of federal ed-
+ucation and professional training. https://mofept.gov.pk/ProjectDetail/
+NjQ4ZTg2NjItOWM2NC00Y2IxLTkzMDgtMjU2OTFhMjA4NzNh. Accessed: 2024-09-
+13.
+[2] UNICEF. United nations international children’s emergency fund (unicef). https:
+//www.unicef.org. Accessed: 2024-09-13.
+19
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,800 @@
+# FYP1-MidReport-F24-102-D-HealthMate - i210609 Muhammad Anas Mohsin
+
+## 1. Introduction
+
+Introduction 3 
+1.1 Problem Statement .............................................................................................. 3 
+1.2 Scope ................................................................................................................... 4 
+1.3 Modules ............................................................................................................... 5 
+1.3.1 Module 1 ................................................................................................. 5 
+1.3.2 Module 2 ................................................................................................. 5 
+1.4 User Classes and Characteristics ......................................................................... 6 
+2 Project Requirements 7 
+2.1 Use-case Diagram ............................................................................................... 7 
+2.2 Functional Requirements ..................................................................................... 7 
+2.2.1 Module 1 ................................................................................................. 7 
+2.2.2 Module 2-9 .............................................................................................. 8 
+2.3 Non-Functional Requirements ............................................................................ 9 
+2.3.1 Reliability ............................................................................................... 9 
+2.3.2 Usability ............................................................................................... 10 
+2.3.3 Performance .......................................................................................... 10 
+2.3.4 Security ................................................................................................. 11 
+2.4 Domain Model .................................................................................................. 13 
+3 System Overview 15 
+3.1 Architectural Design ......................................................................................... 16 
+3.2 Design Models ............................................................................................. 17-25 
+3.3 Data Design ....................................................................................................... 30 
+3.4 ERD Diagram…………………………………………………………………...31 
+4 References 32 
+ 
+ 
+ 
+ 
+2 
+ 
+List of Figure 
+1 Use Case Diagram ............................................................................................... 7 
+2 Domain Model…………………………………………………………………13 
+3 Architectural Design…………………………………………………………...16 
+4 Activity Diagram…………………………………………………………...17-25 
+5 Class Diagram…………………………………………………………………26 
+6 Sequence Diagram…………………………………………………………….28 
+7 State-Transition Diagram……………………………………………………...30 
+8 Data Design Model…………………………………………………………….30 
+List of Tables 
+1 User Classes and Characteristics Table .................................................................. 6 
+ 
+ 
+ 
+ 
+ 
+ 
+3 
+ 
+Chapter 1 
+Introduction 
+This document outlines the requirements for HealthMate, a comprehensive health 
+management application that leverages cutting -edge technologies like Optical Character 
+Recognition (OCR), and Generative AI to provide users with personalized health insights. 
+The application integrates real-time data from IoT-enabled devices such as smartwatches to 
+monitor vital sig ns and daily activities, offering users a holistic view of their health. 
+HealthMate is designed to simplify the management of complex health data, from medical 
+reports and medical tests to daily food intake, enabling users to make informed decisions 
+about their health. 
+ 
+The intended audience for this document includes: 
+ 
+• Developers: To understand the technical requirements for building and maintaining 
+the system. 
+• Project Managers: To oversee the project timeline, resources, and deliverables. 
+• End Users: To pr ovide insights into how the product will function from a user’s 
+perspective. 
+• Testers: To ensure the system operates as intended and meets user requirements. 
+ 
+1.1 Problem Statement 
+ 
+In today’s digital health landscape, individuals are inundated with health data from a variety 
+of sources such as medical reports, prescriptions, and IoT -enabled devices like 
+smartwatches. Despite the availability of this information, users often struggle to understand 
+and derive actionable insights from it due to the comp lexity and lack of integration across 
+different data sources. This challenge becomes particularly acute for individuals managing 
+chronic conditions like diabetes, heart disease and issues related to sleep disorders, where 
+timely and informed decisions can significantly affect health outcomes. 
+ 
+HealthMate aims to bridge this gap by simplifying the interpretation and management of 
+health data. The application uses advanced technologies like Optical Character Recognition 
+(OCR) to extract and digitize medical records, and then analyzes complex health data, and 
+4 
+uses Generative AI to provide personalized health advice. Furthermore, it integrates real -
+time data from IoT devices to monitor key health metrics such as heart rate, blood pressure, 
+and physical activity. By adding features like food recognition for calorie tracking, 
+HealthMate offers a holistic solution that encompasses both physiological and dietary 
+factors. 
+This system is being developed to empower users to take control of their health by providing 
+them with a unified platform that simplifies health data, delivers personalized insights, and 
+encourages proactive health management. 
+ 
+1.2 Scope 
+ 
+The scope of HealthMate is to provide a comprehensive, user -friendly platform that 
+simplifies the management and interpretation of complex health data, aiming to improve 
+personal health outcomes. The application will primarily focus on integrating various health 
+data sources such as medical reports, prescriptions, and real-time metrics from IoT devices 
+like smartwatches. Core functionalities include Optical Character Recognition (OCR) for 
+extracting information from medical documents and continues on to analyzing this data to 
+generate user -friendly insights. Additionally, generative AI will be used to offer 
+personalized health advice tailored to the user’s current condition, medical history, and real-
+time health metrics. 
+ 
+HealthMate will also feature a calorie-tracking system by allowing users to upload images 
+of their meals, where food recognition algorithms will esti mate the caloric content. The 
+system will monitor key health metrics like heart rate, blood pressure, steps taken, and 
+calories burned, targeting chronic conditions such as diabetes and cardiovascular diseases. 
+Alerts will be triggered for any abnormal rea dings, ensuring users are promptly informed. 
+The platform will also enable users to set health goals and track their progress over time. 
+ 
+The project boundaries include the development of both mobile and web-based applications 
+with a focus on ensuring user privacy and data security. The solution will be designed to 
+provide an intuitive interface for users of all technological proficiencies, while ensuring the 
+system is scalable to accommodate additional health metrics and functionalities in future 
+versions. HealthMate does not replace professional medical advice but complements it by 
+empowering users to manage their day-to-day health more effectively. 
+ 
+ 
+ 
+ 
+ 
+1.3 Modules
+5 
+ 
+1.3.1 Client Mobile App Module 
+ 
+This module is focused on the HealthMate mobile application, providing users with an 
+accessible platform to monitor their health on-the-go. The mobile app allows users to upload 
+health data, receive real-time insights, and interact with IoT devices like smartwatches for 
+continuous monitoring. 
+ 
+• OCR for Medical Document Uploads: Users can upload medical records and test 
+reports using the mobile app, where OCR technology extracts and processes the 
+information. 
+• Food Image Recognition: Users can take pictures of their meals, and the app uses 
+image recognition to estimate calories and other information for more effective 
+dietary tracking. 
+• Real-Time Health Monitoring: The app integrates with IoT devices to display real-
+time data such as heart rate, steps, and calories burned as well as sleep cycles. 
+• Personalized Health Recommendations : Users receive tailored health advice 
+based on their data, with real-time alerts for any abnormal health metrics as well. 
+ 
+ 
+1.3.2 Client Web App Module 
+ 
+This module caters to the web application, providing users with a larger interface to view 
+and analyze their health data, upload reports, and receive insights. The web app focuses 
+more on data visualization and in-depth reporting. 
+ 
+• Medical Data Visualization: Users can view their health data over time in charts 
+and graphs, allowing for easy trend analysis and tracking of health goals. 
+• Comprehensive Health Reports : The web app generates detailed health reports 
+based on user data and insights from our AI-driven system. 
+• IoT Device Integration : Syncs with wearable devices for real -time monitoring, 
+similar to the mobile app but with extended data analysis features. 
+• Health Goal Management: Users can set and track health goals (e.g., weight loss, 
+calorie targets), and the app provides progress reports. 
+ 
+ 
+ 
+ 
+ 
+6 
+1.4 User Classes and Characteristics 
+ 
+ 
+User Classes Description 
+General Users General users are individuals who use HealthMate to track 
+their health data, upload medical reports, receive personalized 
+health insights, and monitor their daily activities via the mobile 
+and web apps. These users may include people managing 
+chronic conditions, fitness enthusiasts, or individuals seeking 
+proactive health management. 
+Medical Professionals Medical professionals can use the platform to analyze their 
+patients’ data for better decision -making. They may use 
+HealthMate to track patient progress or access patient -
+submitted reports. Their use is primarily observational and 
+consultative. 
+Administrators Administrators manage the overall system, including user 
+accounts, data security, and system updates. They ensure 
+smooth functioning and handle user issues or technical 
+problems related to the system. 
+Fitness Enthusiasts Fitness enthusiasts use the platform to monitor their physical 
+activities, caloric intake, and track progress toward fitness 
+goals. They actively use features like real -time health 
+monitoring, calorie tracking, and goal management. 
+Chronic Disease 
+Patients 
+Users managing chronic dis eases like diabetes or heart 
+conditions use HealthMate to monitor health metrics such as 
+blood pressure, heart rate, and blood glucose levels. They rely 
+on alerts and real -time data to manage their conditions 
+effectively. 
+Dietitians/Nutritionists Dietitians or nutritionists may use the app to track the dietary 
+habits of their clients and provide meal recommendations. 
+They may rely on the food recognition and calorie tracking 
+features to assist users in managing their diet effectively. 
+7 
+Chapter 2 
+ 
+Project Requirements 
+ 
+ 
+2.1 Use-case Diagram 
+ 
+ 
+2.2 Functional Requirements 
+ 
+2.2.1 User Management Module 
+• Handles user registration, login, profile management, and user authentication. 
+• Manages personal information updates and account security settings. 
+
+8 
+ 
+ 
+ 
+ 
+2.2.2 Medical Data Processing Module 
+• Allows users to upload medical reports and prescriptions. 
+• Uses OCR to extract data from medical documents and store relevant health 
+information. 
+ 
+ 
+2.2.3 Dietary Intake Analysis Module 
+• Allows users to upload images of food items for calorie and nutrient analysis. 
+• Uses OCR to detect and identify food details from labels or images. 
+• Tracks daily nutrient intake and provides calorie information. 
+ 
+ 
+2.2.4 Real-Time Chatbot Module 
+• Provides a conversational interface for health-related queries. 
+• Offers responses, suggestions, and guidance based on user input. 
+• Escalates complex queries to human professionals when necessary. 
+ 
+ 
+2.2.5 Real-Time Health Monitoring Module 
+• Integrates with IoT devices (e.g., smartwatches) to monitor real-time health metrics 
+such as heart rate, blood pressure, and physical as well as sleep activity. 
+• Continuously tracks health metrics and generates alerts if abnormalities are 
+detected. 
+• Displays real-time health data on the user’s dashboard. 
+ 
+ 
+2.2.6 Health Recommendation Module 
+• Uses AI to analyze health and dietary data and generate personalized health 
+recommendations. 
+• Provides suggestions for lifestyle adjustments, physical activity, and dietary 
+changes. 
+• Monitors ongoing health trends to offer actionable insights. 
+ 
+2.2.7 Health Reporting Module 
+• Compiles user health data and generates periodic health reports. 
+• Allows users to download reports in PDF format and review historical data. 
+• Includes summaries of health trends and risk assessments for chronic conditions. 
+ 
+9 
+ 
+2.2.8 Emergency Alert Module 
+• Sends emergency notifications to pre -configured contacts when critical health 
+conditions are detected. 
+• Allows manual triggering of alerts by users in emergency situations. 
+• Supports notifications through in-app alerts. 
+ 
+ 
+ 
+ 
+2.3 Non-Functional Requirements 
+ 
+2.3.1 Reliability 
+ 
+The reliability of the HealthMate application is a crucial non -functional requirement, as it 
+directly impacts user trust and overall satisfaction. The software must maintain a high level 
+of reliability, defined as the ability to operate without failure under specified conditions for 
+a defined period. 
+ 
+Error Detection Strategy : The system will implement automated monitoring tools to 
+continuously assess pe rformance and detect anomalies. This includes logging errors and 
+monitoring key performance metrics, such as response times and system load. 
+Error Correction Strategy : Upon detection of a failure, the system will initiate an 
+automatic recovery process where applicable, such as restarting failed services or rolling 
+back to the last stable state. Additionally, users will receive real-time notifications regarding 
+any service interruptions or data inconsistencies, along with guidance on actions to t ake if 
+needed. 
+Testing and Validation: Prior to deployment, the application will undergo rigorous testing, 
+including unit testing, integration testing, and stress testing, to ensure that it meets reliability 
+standards. Post-deployment, regular maintenance and updates will be conducted to address 
+any identified issues and enhance overall system reliability. 
+Backup and Recovery : The application will include a robust data backup and recovery 
+plan to ensure that user data is preserved and can be restored within 24 hours in case of 
+system failure or data loss. 
+ 
+ 
+ 
+10 
+2.3.2 Usability 
+ 
+Usability is a critical non-functional requirement for the HealthMate application, ensuring 
+that users can easily navigate, learn, and interact with the system to achieve their health 
+management goals. The following usability requirements are specified to enhance the user 
+experience: 
+ 
+US-1: The application shall provide a simple and intuitive onboarding process that allows 
+users to create an account and set up their health profile within 5 minutes of first use. 
+ 
+US-2: Users shall be able to upload medical documents via OCR by taking a photo, 
+requiring no more than two interactions to complete the process. 
+ 
+US-3: The system shall provide users with a dashboard that displays their key health 
+metrics, such as heart rate, calories burned, and daily activity, in a clear and easily 
+interpretable format. 
+ 
+US-4: The application shall offer contextual help and tooltips for each feature, enabling 
+users to understand functionality and prevent errors, with help readily accessible through 
+a single tap or click. 
+ 
+US-5: Users shall be able to set dietary and fitness goals, with the system providing 
+personalized recommendations based on their input, all within three interactions. 
+ 
+US-6: The application shall enable users to recover from errors (e.g., incorrect data entry) 
+by allowing them to easily edit or delete entries with a maximum of two clicks. 
+ 
+US-7: The application shall be designed to comply with accessibility standards (e.g., 
+WCAG 2.1) to ensure it is usable by individuals with disabilities, including features like 
+text-to-speech and high-contrast modes. 
+ 
+US-8: The application shall load and respond to user interactions within 2 seconds to 
+ensure a smooth and efficient user experience. 
+ 
+ 
+ 
+2.3.3 Performance 
+ 
+1. User Management 
+• The system shall allow users to register and log in within 3 seconds under normal 
+conditions. 
+11 
+• Profile updates should be reflected within 2 seconds after submission. 
+2. Medical Data Processing 
+• The system shall process and ana lyze medical report images within 5 seconds of 
+upload, extracting text with at least 95% accuracy. 
+• The OCR process shall handle up to 50 concurrent uploads without degradation in 
+processing speed. 
+3. Dietary Intake Analysis 
+• The system shall identify food i tems and estimate calories within 3 seconds of 
+image upload. 
+• The OCR should accurately identify food labels and nutritional content with at least 
+90% accuracy for printed labels. 
+4. Real-Time Chatbot 
+• The chatbot shall respond to user queries within 1 second, with a maximum 
+response time of 3 seconds during peak loads. 
+• The system should handle up to 100 simultaneous chatbot sessions without 
+affecting response time. 
+5. Real-Time Health Monitoring 
+• The system shall update health metrics from IoT devices every 5 seconds for real-
+time data accuracy. 
+• Alerts for critical health conditions shall be generated within 1 second after 
+abnormal data detection. 
+6. Health Recommendation Generation 
+• The AI model shall analyze user data and generate personalized recommendations 
+within 10 seconds. 
+7. Health Report Generation 
+• The system shall compile and generate health reports within 5 seconds after user 
+request. 
+• Reports should be downloadable in PDF format within 2 seconds after generation. 
+8. Emergency Alerts 
+• Emergency alerts shall be sent to designated contacts within 1 second after a critical 
+condition is detected or the panic button is pressed. 
+• The system should ensure a delivery success rate of at least 99% for emergency 
+alerts via in-app notifications. 
+ 
+ 
+ 
+ 
+2.3.4 Security 
+ 
+Security is a paramount non -functional requirement for the HealthMate application, as it 
+deals with the protection of sensitive health data and user privacy. The following security 
+requirements are specified to ensure the integrity and confident iality of the system and its 
+data: 
+ 
+12 
+SEC-1: The system shall enforce role -based access control to ensure that users can only 
+access data and functionalities relevant to their roles, limiting unauthorized access to 
+sensitive information. 
+ 
+SEC-2: The application shall maintain data encryption for all sensitive information, both at 
+rest and in transit, to prevent unauthorized access and data breaches. 
+ 
+SEC-3: The system shall implement comprehensive logging and monitoring to detect and 
+respond to suspicious act ivities or unauthorized access attempts, with an emphasis on 
+identifying breaches. 
+ 
+SEC-4: The application shall ensure that user data is anonymized when processed for 
+analytics or reporting purposes, to protect individual identities and comply with data 
+protection regulations. 
+ 
+SEC-5: The system shall have a defined incident response plan to address potential security 
+breaches, including timelines for detection, reporting, and remediation, ensuring that any 
+breach is managed effectively. 
+ 
+SEC-6: The applic ation shall require multi -factor authentication (MFA) for all users, 
+enhancing the security of user accounts against unauthorized access attempts. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+13 
+2.4 Domain Model 
+ 
+ 
+ 
+ 
+User: Represents an individual using the application, containing attributes such as userID, 
+name, age, gender, email, password, and role. Users have associated health conditions and 
+profile pictures. 
+ 
+MedicalData: Contains user health data from medical reports, including attributes like 
+reportType, reportDate, and doctorName. Users can have multiple medical data entries. 
+ 
+HealthMetric: Represents real -time health metrics collected via IoT devices, tracking 
+details like heart rate, blood pressure, steps, and sleep quality. Each user has associated 
+health metrics. 
+ 
+HealthRecommendation: Provides personalized health advice based on user data. 
+Includes attributes like recommendationType, description, and status, and is generated 
+based on medical data and health metrics. 
+ 
+Feedback: Allows users to give feedback on the application or services, with details like 
+rating, review, and role. Medical professionals can also provide feedback. 
+ 
+ChronicDisease: Represents chronic health conditions monitored by the system, including 
+
+14 
+attributes like disease name, time span, and monitoring parameters. It is associated with 
+both users and health recommendations. 
+ 
+FoodItem: Tracks dietary intake by storing details such as foodID, calories, fats, 
+imagePath, and quantity. It helps in analyzing user diet for calorie tracking and 
+recommendations. 
+ 
+IoTDevice: Represents devices connected to the user for health monitoring, with attributes 
+like deviceType, deviceName, and connectionStatus. IoT devices collect real -time health 
+metrics for each user. 
+ 
+MedicalProfessional: Represents healthcare professionals who can access and provide 
+insights into user data. Contains attributes like professionalID, name, email, and 
+accessFunction. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+15 
+ 
+Chapter 3 
+System Overview 
+HealthMate is a comprehensive health management platform designed to empower users 
+by offering a holistic approach to health and wellness. The platform integrates advanced 
+technologies such as AI, IoT, and OCR to simplify the interpretation and management of 
+complex health data. Users can upload medical reports, input dietary information, and 
+connect IoT -enabled devices like smartwatches to monitor real -time health metrics, 
+including heart rate, blood pressure, and daily activity. The application processes this data 
+to provide personalized health recommendations, track chronic conditions, and manage 
+dietary intake. 
+HealthMate operates across multiple platf orms, offering a mobile app for users who want 
+health information on the go and a web app for those who prefer a larger interface. It 
+combines various modules, including real-time health monitoring, food detail analysis, and 
+emergency alerts, to offer users a complete health management solution. 
+The platform also includes a real-time AI chatbot for answering health-related queries and 
+generating actionable insights. By compiling health data over time, HealthMate generates 
+detailed health reports that allow users to review their health trends, track progress, and take 
+preventive measures. This platform is particularly beneficial for individuals managing 
+chronic conditions related to diabetes, cardiovascular health, and other lifestyle -related 
+diseases. Through its user-friendly interface and robust functionality, HealthMate aims to 
+improve health outcomes by empowering users to make informed health decisions. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+16 
+ 
+ 
+3.1 Architectural Design 
+ 
+ 
+ 
+The Architectural Design Diagram illustrates the overall system structure of HealthMate, 
+highlighting the interactions between the client applications (web and mobile) and backend 
+components. It shows how the OCR service, AI engine, IoT data integration, and databases 
+are connected through Flask or Node.js APIs, ensuring smooth communication between the 
+user interface, health data processing, and data storage layers. This diagram provides a clear 
+picture of the system’s architecture and the role of each component. 
+ 
+ 
+ 
+ 
+ 
+
+17 
+ 
+3.2 Design Model 
+ 
+Activity Diagram: 
+• User Management: 
+ 
+This diagram shows the user login and registration processes within the HealthMate app. It 
+starts with the user choosing to log in or register, taking in their credentials or personal 
+information. The flow includes validations checks and feedback for both actions, leading to 
+either successful access to the dashboard or prompting for retries. 
+
+18 
+ 
+• Upload Medical Data: 
+ 
+ 
+This diagram outlines the following. It begins with the selection of a file, followed by 
+validation check for acceptable formats. Successful uploads lead to a confirmation message 
+while invalid formats prompt the user to retry the selection process. 
+
+19 
+ 
+ 
+• Upload Diet Images: 
+ 
+ 
+This activity diagram for uploading diet images details how users can capture or select food 
+for analysis. The system employs OCR to extract information from the uploaded images, 
+checking for the success of this analysis. If successful, it stores the data otherwise it prompts 
+the user to try again. 
+
+20 
+ 
+ 
+• Real time chatbot: 
+ 
+ 
+This activity diagram starts with the user sending a query, which the system processes to 
+generate a response. The flow includes a check for query recognition, allowing the user to 
+rephrase if not recognized, and concludes when the user is satisfied with the response. 
+
+21 
+ 
+• Real time Health Monitoring: 
+ 
+ 
+This diagram depicts the continuous monitoring of the user’s health parameters via IoT 
+devices. The system collects health data, followed by analysis to check for normality. The 
+flow includes decision points for critical statuses that trigger alerts while allowing ongoing 
+monitoring in normal situations. 
+
+22 
+ 
+• Food Details Analysis: 
+ 
+ 
+This activity diagram describes the process of analyzing food images uploaded by users. It 
+starts with the upload of an image, followed by OCR and AI analysis to extract nutritional 
+information. If successful, the system displays the data, if not, it shows an error and prompts 
+the user to reupload. 
+
+23 
+ 
+ 
+• Generate Health Recommendations: 
+ 
+ 
+ 
+The systems collect health data which is then analyzed by the AI engine to prod uce 
+recommendations. A validation check ensures the recommendations are actionable, leading 
+to either their display or an error message. 
+
+24 
+ 
+ 
+• Generate Health Reports: 
+ 
+ 
+Begins with the collection and compilation of relevant health data before generating the 
+report. A final check determines if the report generation is successful, leading to sending it 
+to the user or displaying an error message. 
+
+25 
+ 
+ 
+• Emergency Alerts: 
+ 
+This activity diagram shows how the system responds to critical health parameters detected 
+by IoT devices. It starts with checking the user’s health parameters, followed by a decision 
+point assessing their criticality. If critical, the system triggers alerts. If not, it continues 
+monitoring the health data. 
+ 
+
+26 
+ 
+Class Diagram: 
+ 
+ 
+ 
+ 
+User Class: 
+• Contains personal details like userID, name, age, gender, etc. 
+• Functions for user -related actions such as registration, login, updating profile, 
+connecting to devices, and viewing metrics or recommendations. 
+ 
+MedicalData Class: 
+• Stores medical report detail s, including reportID, reportType, doctorName, and 
+various health parameters. 
+• Functions for uploading report images, processing data, and extracting key health 
+parameters. 
+ 
+
+27 
+HealthMetric Class: 
+• Tracks real -time health metrics like heartRate, bloodPressure, stepsTaken, and 
+sleepQuality. 
+• Functions to monitor and retrieve real-time health metrics. 
+ 
+HealthRecommendation Class: 
+• Stores information on personalized health recommendations, including 
+recommendationID, recommendationType, and levelOfRecommendation. 
+• Functions for generating, updating, and viewing recommendations. 
+ 
+Feedback Class: 
+• Contains attributes for user feedback, such as feedbackID, rating, review, and 
+feedbackDate. 
+• Functions to submit and view feedback. 
+ 
+MedicalProfessional Class: 
+• Stores details for professionals, including professionalID, name, email, and 
+accessFunction. 
+• Functions for professionals to review medical reports, provide feedback, and 
+register as users. 
+ 
+IoTDevice Class: 
+• Attributes include deviceID, deviceType, deviceName, and connectionStatus. 
+• Functions to connect/disconnect devices and synchronize health metrics with IoT 
+devices. 
+ 
+ChronicDisease Class: 
+• Contains attributes like diseaseID, name, currentStatus, and monitoringParameters. 
+• Functions for monitoring chronic disease status and tracking vulnerabilities. 
+ 
+FoodItem Class: 
+• Holds information about food items, including foodID, name, calories, fats, and 
+dateConsumed. 
+• Functions to process food information, upload images, and estimate nutritional 
+values. 
+28 
+ 
+Sequence Diagram: 
+ 
+ 
+ 
+The Sequence Diagram shows the step -by-step interactions between different classes in 
+HealthMate, such as the user, HealthDataController, OCRService, 
+AIRecommendationService, and NotificationService. It traces the flow of data from when 
+a user uploads a medical document or real -time health metrics, through the process of 
+extracting and analyzing data, to delivering personalized recommendations and alerts. This 
+diagram captures the temporal sequence of operations, illustrating how HealthMate 
+responds to user actions and processes data. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+29 
+State Transition Diagram: 
+ 
+ 
+ 
+The State Transition Diagram represents the various states HealthMate can be in as users 
+interact with the system. It outlines transitions between key states such as uploading medical 
+documents, processing health data, monitoring real -time IoT data, generating 
+recommendations, and sending proactive alerts. This diagram visually maps out how the 
+system moves from one state to another based on user actions and internal processes. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+30 
+3.3 Data Design Model: 
+ 
+ 
+ 
+The Data Design Diagram outlines the structure of the databases and data storage used in 
+HealthMate. It details how health data, medical reports, IoT metrics, user profiles, and AI -
+generated recommendations are organized and stored. This diagram highlights the 
+relationships between data entities, ensuring the efficient retrieval, processing, and security 
+of user health information. 
+ 
+
+31 
+3.4 ERD Diagram: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+32 
+ 
+Chapter 4 
+References 
+ 
+Topol, E. J. Deep medicine: How artificial intelligence can make healthcare human again. 
+Basic Books. 
+Available at: Deep Medicine: How Artificial Intelligence Can Make Healthcare Human 
+Again | Guide books | ACM Digital Library 
+Deep Medicine: How Artificial Intelligence Can Make Healthcare Human Again | Guide 
+books | ACM Digital Library 
+ 
+Jiang, F., Jiang, Y., Zhi, H., Dong, Y., Li, H., Ma, S., Wang, Y., et al. Artificial 
+intelligence in healthcare: Past, present and future. Stroke and Vascular Neurology, 2(4), 
+e000101. 
+Available at: Artificial intelligence in healthcare: past, present and future – PubMed 
+Artificial intelligence in healthcare: past, present and future - PubMed (nih.gov) 
+ 
+Wang, Y., Wang, L., Rastegar -Mojarad, M., & Liu, S. Clinical information extraction 
+applications: A literature review. Journal of Biomedical Informatics, 77, 34-49. 
+Available at: Clin ical Information Extraction Applications: A Literature Review – 
+PubMed 
+Clinical information extraction applications: A literature review - ScienceDirect 
+ 
+Rajkomar, A., Dean, J., & Kohane, I. (2019). Machine learning in medicine. New England 
+Journal of Medicine, 380(14), 1347-1358. 
+Available at: Machine Learning in Medicine - PubMed 
+Machine Learning in Medicine - PubMed (nih.gov) 
+ 
+McKinsey & Company. (2023). Tackling healthcare’s biggest burdens with generative AI. 
+McKinsey & Company. 
+Available at: McKinsey & Company 
+Generative AI in healthcare: Emerging use for care | McKinsey 
+ 
+ 
+ 
+34
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

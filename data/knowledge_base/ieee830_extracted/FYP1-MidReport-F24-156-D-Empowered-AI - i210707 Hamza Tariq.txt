@@ -1,0 +1,376 @@
+# FYP1-MidReport-F24-156-D-Empowered-AI - i210707 Hamza Tariq
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The "Empowered-AI" project is an application designed to enhance the independence of
+visually impaired individuals by providing essential tools for daily tasks. The app utilizes
+advanced AI technologies to deliver key functionalities such as real-time object detection,
+enabling users to identify and locate objects in their surroundings. It also produces scene
+descriptions through computer vision, which helps users comprehend their surroundings.
+Another significant aspect of this design is facial emotion recognition, indicating the def-
+initeness of emotions and allowing the user to understand social signals. Furthermore,
+it has the OCR feature for the identification and scanning of printed or handwritten text
+within the app. Specifically, voice feedback is utilized to convey this information to users
+in order to create a seamless auditory experience.
+This app is designed and located so that it is downloadable without cost to the users espe-
+cially those in the low-income regions. In so doing, the project provides functionalities in
+one platform hence differing from the use of separate devices or costly assistive technolo-
+gies. The Empowered-AI application needs to be created so that the visually impaired
+person is confident and independent with the help of the application.
+Our project will not function effectively in night conditions. Although our model can de-
+tect objects similarly to the human eye at night, for clear detection and scene understand-
+ing, a night vision camera will be required, which is beyond the scope of this project.
+1.3 Modules
+1.3.1 Module 1: Vision Insights
+This module involves working with the datasets and enhancing the ability to detect and
+quantify objects in different situations. It also entails perceiving different scene contexts
+appropriately for interaction.
+1. Data Set Analysis
+2. Object Detection Model Training
+3. Scene Understanding
+1.3.2 Module 2: Smart Interface
+This module entails creating the UI and UX with Figma in addition to adding scene de-
+scriptions and text-to-speech features to improve efficiency and usability.
+1. UI Figma Design
+2
+1.4 User Classes and Characteristics
+2. Scene Description
+3. Text-to-Speech Integration
+1.3.3 Module 3: Live Assist
+This module focuses on the real action of building the application, with additional sec-
+tions like text recognition or voice feedback so the user has real-time information and
+assistance.
+1. App Development
+2. Text Recognition
+3. V oice Feedback
+1.3.4 Module 4: Emotion Sense
+This module is concerned with adding facial emotion detection technology and further
+testing all the functionalities of the application to ensure it runs and delivers correct out-
+comes.
+1. Facial Emotion Detection
+2. Testing and Quality Assurance
+1.4 User Classes and Characteristics
+User class Description
+Visually Im-
+paired Indi-
+viduals
+This is the primary user group for the Empowered-AI app. These individuals
+rely on assistive technologies to navigate their daily lives. Users in this class
+may have varying degrees of vision impairment, from partial to complete
+blindness. They will interact with the app through voice feedback, receiv-
+ing immediate audio confirmation upon selecting an option, which enhances
+their confidence in navigation.
+Table 1.1: User Classes and Characteristics
+3
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+4
+2.1 Event Response Table
+2.1 Event Response Table
+Event System State Response
+User opens the app The welcome screen
+is displayed, indicating
+readiness for interac-
+tion.
+The app reads
+aloud, "Welcome
+to Empowered-AI."
+User issues voice com-
+mand for Object Detec-
+tion
+The app transitions to
+Object Detection mode.
+The app reads aloud,
+"Object Detection ac-
+tivated. The app is
+now detecting objects
+through the camera."
+User activates Scene
+Description
+The app prepares to
+provide a description of
+the current scene.
+The app reads aloud,
+"Scene Description ac-
+tivated. Please capture
+an image."
+User issues command
+for Text Recognition
+The app prepares to rec-
+ognize printed or hand-
+written text.
+The app reads aloud,
+"Text Recognition acti-
+vated. The app will
+now read the text in
+front of you."
+User points camera at a
+person
+The app processes the
+camera input to detect
+the person’s emotional
+expression.
+The app reads aloud,
+"Emotion Detection ac-
+tivated. The app is
+analyzing the person’s
+emotional expression."
+User interacts with an
+object through voice
+command
+The app receives and
+processes the voice
+command for interac-
+tion.
+The app vibrates to in-
+dicate a successful in-
+teraction.
+User closes the app The app prepares to exit
+and complete the ses-
+sion.
+The app reads aloud,
+"Thank you for using
+Empowered-AI. Good-
+bye!"
+Table 2.1: User Interaction Events with System Responses
+2.2 Functional Requirements
+This section describes the functional requirements of the system, organized by each mod-
+ule and its respective features.
+2.2.1 Module 1: Vision Insights
+Following are the requirements for module 1:
+5
+2. Project Requirements
+1. FR1: The system shall be able to detect and identify objects in real-time within the
+user’s environment.
+2. FR2: The system shall provide scene descriptions based on object detection and
+contextual understanding.
+2.2.2 Module 2: Smart Interface
+Following are the requirements for module 2:
+1. FR1: The system shall describe scenes in a way that visually impaired users can
+understand via voice feedback.
+2. FR2: The system shall integrate text-to-speech technology to facilitate easy inter-
+action.
+2.2.3 Module 3: Live Assist
+Following are the requirements for module 3:
+1. FR1: The system shall provide real-time assistance by recognizing printed and
+handwritten text using OCR.
+2. FR2: The system shall provide voice feedback to users based on the text detected
+by the app.
+2.2.4 Module 4: Emotion Sense
+Following are the requirements for module 4:
+1. FR1: The system shall detect facial emotions in real-time using AI-based emotion
+recognition technology.
+2. FR2: The system shall test all functionalities to ensure they provide accurate and
+reliable outputs.
+3. FR3: The system shall conduct thorough quality assurance to ensure robustness
+across different environments.
+2.3 Non-Functional Requirements
+This section specifies non-functional requirements. These quality requirements should be
+specific, quantitative, and verifiable.
+6
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+• RELIABILITY-1: The system shall maintain a mean time between failures (MTBF)
+of at least 168 hours of continuous operation, with a failure defined as any un-
+planned interruption of service or functionality that prevents the user from com-
+pleting a primary task.
+• RELIABILITY-2: The application shall have a maximum allowable downtime of no
+more than 1 day per month for maintenance and updates, ensuring high availability
+for users.
+2.3.2 Usability
+• USABILITY-1: The application shall allow users to access the main features (object
+detection, scene description, text recognition, etc.) within three taps, ensuring a
+streamlined user experience.
+• USABILITY-2: New users shall be able to learn how to use the core functionalities
+of the app within 30 minutes of initial use.
+• USABILITY-3: The application shall provide clear and concise audio instructions
+for all features, minimizing the potential for user errors and ensuring effective re-
+covery from any mistakes made during interactions.
+2.3.3 Performance
+• PERFORMANCE-1: 90% of scene descriptions generated by the application shall
+be processed and relayed to the user within 15 seconds of user input.
+• PERFORMANCE-2: V oice feedback responses shall have a latency of no more
+than 3 seconds from the time the user requests information.
+2.3.4 Security
+• SECURITY-1: The system shall ensure all data is processed securely in-memory
+and discarded immediately after use, preventing any unauthorized access or data
+leaks.
+• SECURITY-2: The application shall not store any personal or sensitive information
+locally or on external servers to maintain user privacy.
+7
+2. Project Requirements
+2.4 Domain Model
+Figure 2.1: Domain Model
+8
+Chapter 3
+System Overview
+3.1 Architectural Design:
+A client-server architecture fits well as it allows for the seamless delivery of complex AI
+functionalities while ensuring scalability and performance. The app (client) installed on
+users’ devices can communicate with powerful servers to process intensive tasks like ob-
+ject detection, facial emotion recognition, and scene understanding using machine learn-
+ing models. By offloading these computations to the server, The server handles the AI
+processing and returns real-time results, while the client provides immediate audio feed-
+back, creating an efficient, responsive, and scalable solution for all users.
+Explanation of Architecture Diagram:
+In the architecture diagram, mobile clients send data from the environment, such as im-
+ages or real-time streams, to a server through a network interface. The server performs
+tasks like object detection, text recognition, scene description, and facial emotion detec-
+tion using various AI models. Once the server processes the data, the results are sent back
+to the mobile client. Through voice feedback represented by the ‘ loudspeaker ’ symbol,
+the user receives the processed data which can be scenes description, text recognition or
+feelings analysis. This architecture can distribute the computing burden across the server
+in an efficient but real time manner required for mobile applications accessibility to the
+visually impaired.
+9
+3. System Overview
+Figure 3.1: Architecture Diagram
+3.2 Design Models
+For this purpose, in our project, We proposed to follow Object-Oriented Development Ap-
+proach (OOP) as to advantages in complexity management We identified that our system
+is highly complex and comprises a number of elements, including object detection, scene
+description, text recognition, and emotional recognition. The use of OOP we can format
+these components as distinct objects. This modularity helps in code accountability that
+is, developing, testing and experiencing each part of the system free from the influence
+of the other. To the credit of this concept it supports our goals of designing an extensible
+and sustainable application – factors that make the total development more manageable
+and the final product stronger.
+10
+3.2 Design Models
+3.2.1 Activity Diagram
+3.2.1.1 Activity Diagram 1: Object Detection
+The Visually impaired user launches the EmpoweredAI app and uses voice to make the
+application perform an object detection. It launches the camera and uses it to record a
+video of the environment, the video is then streamed to the server for the objects to be
+recognized before converting it to an audio format. It also narrates descriptions of the
+detected objects so that the user can have a basic idea about the environment.
+Figure 3.2: Activity Diagram 1 - Object Detection
+11
+3. System Overview
+3.2.1.2 Activity Diagram 2: Scene Description
+The user launches EmpoweredAI application and utters a voice command to start the
+so-called “Scene Description” which asks the user to take a picture. The described image
+is transferred to the server, processed there by special algorithms and converted into an
+audio signal; the application gives an instant voiced commentary to the image for the user
+to listen.
+Figure 3.3: Activity Diagram 2 - Scene Description
+12
+3.2 Design Models
+3.2.1.3 Activity Diagram 3: Text Recognition
+The user launches the Empowered AI application, and the user turns on the Text Recog-
+nition mode with a voice command as the application launches the camera. In real time,
+the server performs OCR to identify the text an translates it to audio so that the app can
+immediately provide the user with voice feedback on the pointed text.
+Figure 3.4: Activity Diagram 3 - Text Recognition
+13
+3. System Overview
+3.2.1.4 Activity Diagram 4: Facial Emotion Detection
+The user launches the EmpoweredAI app on the device and provides the voice instruction
+for “Emotion Detection, which then causes the app to launch the camera. It continuously
+analyses the user’s face and the significance of the emotions detected by the server are
+converted into audio output and the app gives an immediate voice response to the user.
+Figure 3.5: Activity Diagram 4 - Facial Emotion Detection
+14
+3.2 Design Models
+3.2.2 Class Diagram
+Figure 3.6: Class Diagram
+The class diagram illustrates the main components of the Empowered AI App and how
+they interact to deliver functionalities like object detection, scene description, emotion
+recognition, text recognition, and voice feedback.
+Empowered AI App Class: A master component of the system, the task of which is to
+receive users’ demands and distribute them among individual subsystems.
+Object Detection Class: Implements an object detection method based on a transferred
+model and provides textual descriptions of the objects detected in the scene.
+Scene Description Class: Stores a list of the detected objects and creates an overall de-
+scription of the scene based on certain context.
+Emotion Recognition Class: Uses the particular scene to identify feelings and describe
+them using the facial expressions found.
+Text Recognition Class: Takes a frame from a video and transcrites it into identifying the
+text contained in that particular frame.
+V oice Feedback Class: Transforms generated description from different subsystems into
+voice for user to provide feedback.
+Summary: The Empowered AI App is an object, scene, text and emotion recognition
+application with voice over for the user.
+15
+3. System Overview
+3.2.3 Class-Level Sequence Diagram
+The sequence diagram illustrates the interaction between the user and various modules
+of the "Empowered-AI" app, from opening the app to processing different AI-powered
+functionalities.
+Sequence Diagram Steps:
+Figure 3.7: Class-Level Sequence Diagram
+• Open App: The user opens the Empowered-AI app, which displays the home
+screen.
+• Request Object Detection: The user requests object detection via a voice com-
+mand, prompting the app to activate the ObjectDetection module to analyze the
+environment.
+• Provide Object Detection Result: The app provides audio feedback, describing
+the detected objects.
+• Request Scene Description: The user requests a scene description; the SceneDescrip-
+tion module processes and generates a description of the scene.
+• Provide Scene Description: The app delivers the scene description as audio feed-
+back to the user.
+• Request Text Recognition: The user requests text recognition, triggering the Tex-
+tRecognition module to scan and identify the text in the environment.
+16
+3.2 Design Models
+• Provide Text Recognition Result: The app reads the recognized text aloud to the
+user.
+• Request Emotion Detection: The user requests facial emotion detection, and the
+EmotionDetection module identifies the emotions of individuals in the scene.
+• Provide Emotion Detection Feedback: The app provides feedback on detected
+emotions via audio.
+• Close App: The user closes the app, and a closing message is either displayed or
+spoken.
+3.2.4 State Transition Diagram
+Figure 3.8: State Transition Diagram
+The State Transition Diagram (Figure 3.83.8) illustrates the various states within the Em-
+poweredAI application and the transitions between them. The application begins at the
+"Home Page" state, from which the user can initiate various functionalities through cor-
+responding voice commands. These include:
+• Object Detection: Transition to this state occurs when the user activates object de-
+tection. Once object detection is completed, the user can either exit the application
+or activate another feature.
+17
+3. System Overview
+• Emotion Detection: This state is entered upon activating the emotion recognition
+feature. Similarly, the user can switch to other functionalities like object detection
+or scene description.
+• Text Recognition: Upon activating text recognition, the system transitions to this
+state, allowing the app to recognize and process text from video frames.
+• Scene Description: The user can also activate scene description from the home
+page or from other states, generating a description of the captured scene.
+From each of these functional states (Object Detection, Emotion Detection, Text Recog-
+nition, Scene Description), the user can transition to other features or exit the application.
+Additionally, there is a direct transition to theClose App state from every functional state,
+allowing the user to exit the application at any point.
+This diagram highlights the user’s ability to seamlessly navigate between the various fea-
+tures of the EmpoweredAI app and the overall flow of interactions.
+3.3 Data Design
+The "Empowered-AI" app does not require any persistent storage or databases, as it fo-
+cuses entirely on real-time processing. All data is processed temporarily in-memory and
+discarded after being used. Here’s how the system handles data:
+1. Input Capture:
+• Visual Inputs: Images or video frames are captured through the camera for
+object detection, scene descriptions, or emotion recognition.
+• Text Inputs: Optical Character Recognition (OCR) captures printed text.
+• User Inputs: V oice commands or taps trigger specific app functionalities.
+2. Processing:
+• Data is processed in-memory using AI models for object detection, scene de-
+scriptions, and emotion recognition. Temporary data structures, such as lists
+or arrays, store intermediate results.
+3. Output Generation:
+• Processed data is converted into voice feedback and immediately relayed to
+the user. The data is then discarded after use.
+No databases are involved, as all data is managed in-memory for quick, real-time re-
+sponses.
+18
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

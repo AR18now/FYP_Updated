@@ -1,0 +1,845 @@
+# FYP1-MidReport-F24-145-D-V-OR - i210681 Maham Khurrm
+
+## 1. Introduction
+
+Introduction ................................................................................................................................................................................... 5 
+1.1 Problem Statement ............................................................................................................................................................ 5 
+1.2 Scope ............................................................................................................................................................................. 6 
+1.3 Modules ........................................................................................................................................................................ 6 
+2.2.1 Module 1: Surgical Simulation Engine ............................................................................................................. 6 
+2.2.2 Module 2: Virtual Training Mode ....................................................................................................................... 7 
+2.2.3 Module 3: Real-time Feedback and Performance Evaluation .................................................................. 7 
+2.2.4 Module 4: User Management System ................................................................................................................ 7 
+1.4 User Classes and Characteristics .................................................................................................................... 8 
+Project Requirements ................................................................................................................................................................ 9 
+2.1 Use-case Diagram ........................................................................................................................................................ 9 
+Extended Uses Cases: .......................................................................................................................................................... 10 
+Use Case 1 - Perform Surgery................................................................................................................................... 10 
+Use Case 2 - Access Training Resources .............................................................................................................. 11 
+Use Case 3 -Receive Guidance .................................................................................................................................. 12 
+Use Case 3 - Access 3D Anatomical Models ....................................................................................................... 13 
+Use case 5 - Choose Surgery ...................................................................................................................................... 15 
+2.2 Functional Requirements ................................................................................................................................ 16 
+USER MANAGEMENT SYSTEM: ................................................................................................................................... 16 
+SURGICAL SIMULATION ENGINE: ............................................................................................................................. 16 
+VIRTUAL TRAINING MODE: ........................................................................................................................................ 16 
+REAL-TIME FEEDBACK & PERFORMANCE EVALUATION: .............................................................................. 17 
+USER INTERFACE: ........................................................................................................................................................... 17 
+REPORTING AND ANALYTICS: ..................................................................................................................................... 17 
+REPORTING AND ANALYTICS: ..................................................................................................................................... 17 
+2.3 Non-Functional Requirements ...................................................................................................................... 17 
+SCALABILITY : ..................................................................................................................................................................... 17 
+COMPLIANCE : ..................................................................................................................................................................... 17 
+DATA INTEGRITY : ............................................................................................................................................................. 17 
+MAINTAINABILITY : .......................................................................................................................................................... 17 
+2.4 Domain Model ............................................................................................................................................................... 19 
+System Overview ...................................................................................................................................................................... 20 
+3.1 Architectural Design ..................................................................................................................................... 20 
+3.2 Design Models ....................................................................................................................................................... 20 
+● Class Diagram ....................................................................................................................................................... 21 
+● Class level Sequence Diagram ........................................................................................................................ 22 
+● Activity Diagrams ................................................................................................................................................ 27 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+3 | Page 
+ 
+● State- Transition Diagram ............................................................................................................................... 32 
+3.3 Data Design ..................................................................................................................................................................... 33 
+Databases and Data Storage: ......................................................................................................................................... 33 
+ERD Diagram: ................................................................................................................................................................. 33 
+References ..................................................................................................................................................................................... 34 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+4 | Page 
+ 
+List of Figures 
+ 
+Figure 1 Source: Forum-Institut, White Paper 01/2020: Sebastian (2020) 6 
+Figure 2: Use case Diagram 10 
+Figure 3:Domain Model 20 
+Figure 4:Activity Diagram 22 
+Figure 5:Class Diagram 23 
+Figure 6: SD Perform Surgery 24 
+Figure 7: SD Access Training Resources 25 
+Figure 8: SD Receive Guidance 26 
+Figure 9: SD Access 3D Models 27 
+Figure 10: SD Surgery Selection 28 
+Figure 11: ERD Diagram 29 
+ 
+List of Tables 
+Table 1: User Classes and Characteristics 8 
+ 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+5 | Page 
+ 
+Introduction 
+The purpose of this document is to outline the requirements for the Virtual Operating Room 
+(V-OR), an advanced, highly interactive and immersive platform, in which users can sight 
+and practice complex surgeries in a fully virtual environment. By utilizing the finest virtual 
+reality, this V-OR platform has developed an extremely realistic and interactive medical 
+domain in which the surgeries like pacemakers implant as well as many other sorts of 
+operations can be performed with infinite repetitions. VOR is on a mission to change the way 
+medical training is conducted by providing learners with access to a practice environment 
+that not only can be practiced anytime and anywhere, but also without real danger. This 
+document is intended for a diverse group of stakeholders, each of whom will benefit from the 
+detailed requirements and specifications presented herein. The main target audiences are: 
+Developers, Project Managers, Users, Testers k and Documentation Writers. 
+ 
+1.1 Problem Statement 
+In today’s era it's hard for students in medicine to become skilled professionals due to lack of 
+precision and accuracy in surgical training. Firstly, the biggest challenge they face is not 
+having enough opportunities for hands-on practice, thus this leads to errors and inaccuracies 
+during the real surgery. Additionally, the high cost of training tools such as physical 
+simulators and other surgical training equipment makes it difficult for many schools, 
+especially in areas with fewer resources, to afford them. Not only this, ethical concerns limit 
+the use of cadavers (dead bodies), reducing opportunities for students to perform actual 
+surgeries. As a result, students strive to build the confidence and skills necessary to perform 
+the surgeries perfectly. This makes it hard for students to learn the procedures in depth as 
+they are living in a controlled environment. It is important to address these issues so that 
+future surgeons can perform procedures accurately and safely. The graph below illustrates 
+the challenges that students face during medical training V-OR is a platform that aims to 
+solve this by offering an affordable and ethical alternative for surgical training tools. 
+ 
+Figure 1 
+Source: Forum-Institut, White Paper 01/2020: Sebastian (2020) 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+6 | Page 
+ 
+1.2 Scope 
+Our V-OR aims to provide a highly interactive environment for surgeons to practice complex 
+cardiac surgeries. By imitating real-life operating room conditions, it offers detailed 3D 
+models, step-by-step guidance, and real-time feedback/suggestions to sweeten surgical skills 
+without threat to patients. 
+The surgeries we will focus on include: 
+1. Atrial Septal Defect (ASD) Closure: 
+This procedure involves repairing a hole in the septum that separates the heart's two upper 
+chambers (atria). Via our V-OR, surgeons will practice closing this genetic heart defect, 
+which can cause blood to flow abnormally between the chambers, leading to difficulties 
+like heart failure or stroke. 
+2. Pacemaker Implantation: 
+ Pacemaker implantation is a life-saving strategy that concerns positioning a little 
+electronic gadget under the skin to help restrain irregular heartbeats. Our V-OR will 
+imitate the insertion of the pacemaker and its leads, linking them to the heart tissue. 
+Surgeons will be trained to confirm the correct positioning of the pacemaker under the 
+skin. 
+3. Coronary Artery Bypass Grafting (CABG): 
+CABG is one of the most typical and crucial surgeries for ministering coronary artery illness. 
+This approach involves bypassing clogged or constricted arteries to fix normal blood flow to 
+the heart. Our V-OR will provide instructions for graft harvesting (from the leg, arm, or 
+chest), creating the bypass. 
+1.3 Modules 
+ 
+The V-OR platform consists of several modules, each designed to provide specific 
+functionalities for medical training. 
+2.2.1 Module 1: Surgical Simulation Engine 
+This module involves creating a virtual environment for surgical training, which provides a 
+realistic and interactive experience for users to fully utilize. This allows users to perform 
+cardiac surgeries in a completely safe environment. 
+● Feature 1: Interactive 3D models of organs, tissues, and surgical tools. 
+● Feature 2: Step-by-step guidance to help users perform surgeries.. 
+● Feature 3: Dynamic surgical scenarios to introduce real-world complexities. 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+7 | Page 
+ 
+2.2.2 Module 2: Virtual Training Mode 
+This module enables medical students and professionals to safely practice surgeries in a 
+controlled environment. The users can either follow step-by-step guidance or practice without 
+it. While practicing without guidance users will be evaluated based on how accurately they 
+perform surgery on their own. 
+● Feature 1: Virtual training mode for practicing surgeries with or without step by-step 
+guidance. 
+● Feature 2: Independent practice mode, where users can perform surgeries without 
+any guidance and are evaluated on their accuracy and skills. 
+ 
+2.2.3 Module 3: Real-time Feedback and Performance Evaluation 
+This module provides immediate feedback to users while performing surgeries, helping them 
+identify their mistakes in real-time. Furthermore, it also evaluates the user's performance 
+throughout the surgery. 
+● Feature 1: Real-time error detection and then notifying users about the mistake. 
+● Feature 2: A performance evaluation system that will track the user's actions and 
+gives a detailed feedback on their overall performance. 
+ 
+2.2.4 Module 4: User Management System 
+This module manages user profiles, tracks their progress, and gives access to training 
+simulations. It also allows doctors or instructors to check student records and monitor their 
+progress through detailed reports. 
+● Feature 1: User authentication and profile management. 
+● Feature 2: Tracks and saves each user's progress and performance. 
+● Feature 3: 3: Enables doctors or instructors to access student records and follow their 
+training progress. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+8 | Page 
+ 
+1.4 User Classes and Characteristics 
+ 
+Table 1: User Classes and Characteristics 
+User class Description 
+Trainee A medical student/first year surgeon performing high risk cardiac 
+surgeries in the V-OR platform. Trainees physically engage through 
+activities inside the virtual environment, with physical 3D anatomical 
+models, surgical tools as well as guidance systems. They get feedback 
+in terms of corrections on the performance they display and they 
+make corrections on the errors. Trainees may perform surgeries that 
+may include Atrial Septal Defect (ASD) closure, Pacemaker 
+Implantation, or Coronary Artery Bypass Grafting (CABG). It is 
+taken to monitor progress in order to aid the trainee in the 
+improvement process. Estimated user base: 200-500 trainees. 
+Doctor A supervisor of mid-level trainees, who is also an instructor and who 
+assesses the performance of trainees and gives remarks. Doctors can 
+see the training of trainees as well as their progress and the surgical 
+outcomes that have been achieved. They can change scenarios of 
+training so as to create new challenges for the students or help them to 
+concentrate on certain skills. This platform is expected to be utilized 
+by around fifty-one hundred doctors. 
+Simulation 
+Admin 
+A technical staff member in charge of the management of the 
+platform, software installation, and overseeing the virtual 
+environments A 3D anatomical model is set up, and the operational 
+capacity of the V-OR platform is Implementation of 3D anatomical 
+models. Simulation Admins perform the maintenance of technical 
+issues and explain to the users of the systems how to work with their 
+systems. 
+3D Model 
+Designer 
+A technical artist or developer focuses on developing and maintaining 
+high definition and fidelity 3D anatomical models for the V-OR 
+platform. They create accurate images of organs, tissues, and surgical 
+instruments that will help in simulating real surgeries. Changes in the 
+models may also be introduced by the designers, after receiving 
+comments from the physicians or professionals in training 
+System 
+Manager 
+A system administrator is a person who is closely related to the whole 
+system in aspects of functions like user verification, data organization 
+among others, and management of access over different users and 
+resources. They assist in data management, tracking learning progress 
+of the trainees and roles-based access to modules including the 
+Surgical Simulation Engine, Virtual Training Mode as well as the 
+Real Time Feedback System. 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+9 | Page 
+ 
+Project Requirements 
+This chapter describes the functional and non-functional requirements of the project. 
+2.1 Use-case Diagram 
+ 
+ 
+Figure 2: Use case Diagram 
+ 
+ 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+10 | Page 
+ 
+Extended Uses Cases: 
+ 
+Use Case 1 - Perform Surgery 
+Use Case 01 
+Name Perform Surgery 
+Scope V-OR Platform 
+Level User level goal 
+Primary Actors Trainee 
+Stakeholders and 
+interest 
+ 
+Trainee: Who wants to gain hands-on practice and improve skills. 
+Doctor: Who want to further enhance their skills. 
+ 
+Pre-Condition ● All required tools and resources are available 
+● Trainee has selected mood and type of surgery 
+Post-Condition ● The surgery has been completed 
+● The trainee has gained feedback on it 
+Main Success 
+Scenario 
+ 
+User Action System Response 
+1.Trainee picks up the tools. 
+ 2.The system provide tools and 
+3D anatomical models. 
+3.Trainee starts to perform 
+surgery. 
+ 
+ 4.The system provides step by 
+step guidance and real time 
+error detection (if guidance is 
+enabled). 
+5.Trainee completes the 
+surgery 
+ 
+ 6.The system saves progress 
+and outputs performance. 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+11 | Page 
+ 
+Extensions 
+Special 
+Requirements 
+ 
+● VR headset to run the application 
+● High-fidelity 3D models. 
+● Feedback and Error Detection mechanism 
+Technology and 
+Data Variation List 
+The VR headset needs to be Oculus or Quest. 
+Frequency of 
+Occurrence 
+Frequently 
+Miscellaneous N/A 
+ 
+ Use Case 2 - Access Training Resources 
+Use Case 02 
+Name Access Training Resources 
+Scope V-OR Platform 
+Level User level goal 
+Primary Actors Trainee, Doctor 
+Stakeholders and 
+interest 
+ 
+Trainee: Who wants to learn about resources and equipment. 
+Doctor: Who wants to guide trainees during training sessions. 
+ 
+Pre-Condition ● Trainee has logged into the system. 
+● Training resources are available and updated. 
+Post-Condition The trainee has gained access to all the resources. 
+Main Success 
+Scenario 
+ 
+User Action System Response 
+1.Trainee selects option for 
+training resources. 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+12 | Page 
+ 
+ 2.The system shows a list of all 
+available resources. 
+3.Trainee selects a specific and 
+reviews it. 
+ 
+ 4.The system loads the 
+specified resource. 
+ 
+Extensions 
+Special 
+Requirements 
+ 
+VR headset to run the application. 
+Technology and 
+Data Variation List 
+The VR headset needs to be Oculus or Quest. 
+Frequency of 
+Occurrence 
+Frequently 
+Miscellaneous N/A 
+ 
+Use Case 3 -Receive Guidance 
+Use Case 03 
+Name Receive Guidance 
+Scope V-OR Platform 
+Level User level goal 
+Primary Actors Trainee 
+Stakeholders and 
+interest 
+ 
+Trainee: Who wants to perform surgery with guidance. real time 
+error detection and feedback. 
+Doctor: Who wants to gain precision and improve skills. 
+ 
+Pre-Condition Trainee has selected the guidance mood 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+13 | Page 
+ 
+Post-Condition ● Trainee completes the surgery with step by step guidance. 
+● The trainee was notified on error throughout. 
+Main Success 
+Scenario 
+ 
+User Action System Response 
+1.Trainee selects the guidance 
+mood. 
+ 
+ 2.The system provides 
+instructions and step by step 
+guidance of the chosen surgery 
+3.Trainee starts to perform 
+surgery accordingly as guided. 
+ 
+ 4. The system provides in 
+alerts for mistakes, and real-
+time error detection. 
+5.Trainee completes the 
+surgery successfully. 
+ 
+ 
+Extensions If the trainee makes the same wrong move all the time, the system 
+can stop for the trainee to be taught the correct way to do it. 
+Special 
+Requirements 
+ 
+● VR headset to run the application 
+● High quality guidance (visual or speech) system to provide 
+step by step instructions. 
+● Feedback and Error Detection mechanism 
+Technology and 
+Data Variation List 
+The VR headset needs to be Oculus or Quest. 
+Frequency of 
+Occurrence 
+Frequently 
+Miscellaneous N/A 
+ 
+Use Case 3 - Access 3D Anatomical Models 
+Use Case 04 
+Name Access 3D Anatomical Models 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+14 | Page 
+ 
+Scope V-OR Platform 
+Level User level goal 
+Primary Actors Trainee, Doctor 
+Stakeholders and 
+interest 
+ 
+Trainee: Who learns about these models and performs surgeries on 
+them. 
+Doctor: Who want perform further experiments. 
+Pre-Condition 3D anatomical models are available in the system with correct 
+textures and sizes 
+Post-Condition ● The surgery has been performed on that models 
+● The trainee has viewed them carefully. 
+Main Success 
+Scenario 
+ 
+User Action System Response 
+1.Trainee views the anatomical 
+models. 
+ 
+ 2.The system shows 3D 
+anatomical models. 
+3.Trainee interacts with the 
+model before performing 
+surgery. 
+ 
+ 4.The system allows 
+interaction. 
+ 
+Extensions 
+Special 
+Requirements 
+ 
+VR headset to run the application 
+High-fidelity 3D models. 
+Feedback and Error Detection mechanism 
+Technology and 
+Data Variation List 
+The VR headset needs to be Oculus or Quest. 
+Frequency of 
+Occurrence 
+Frequently 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+15 | Page 
+ 
+Miscellaneous N/A 
+ 
+Use case 5 - Choose Surgery 
+Use Case 05 
+Name Choose Surgery 
+Scope V-OR Platform 
+Level User level goal 
+Primary Actors Trainee 
+Stakeholders and 
+interest 
+ 
+Trainee: Who wants to select surgery that they want to perform. 
+Pre-Condition ● The trainee has logged into the system. 
+● The V-OR platform offers the list of available surgeries. 
+Post-Condition The trainee has selected surgery and mode. 
+Main Success 
+Scenario 
+ 
+User Action System Response 
+1.Trainee select the “choose 
+surgery” option. 
+ 
+ 2.The system shows a list of 
+available surgeries (ASD 
+Closure, Pacemaker 
+Implantation, CABG). 
+3.Trainee selects a surgery 
+from the list. 
+ 
+ 4.The system confirms the 
+selection and asks for mode. 
+5.Trainee chooses the desired 
+mode. 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+16 | Page 
+ 
+ 6.The system sets up surgery 
+environment. 
+ 
+Extensions 
+Special 
+Requirements 
+ 
+When selecting the types of surgery and modes, clear graphic of 
+what is ongoing is established. 
+Technology and 
+Data Variation List 
+● The VR headset needs to be Oculus or Quest. 
+● A desktop or VR application. 
+Frequency of 
+Occurrence 
+Frequently 
+Miscellaneous N/A 
+ 
+2.2 Functional Requirements 
+This section describes the functional requirements of the system expressed in the natural 
+language style. 
+ 
+USER MANAGEMENT SYSTEM: 
+● The system should allow users to login and manage their accounts. 
+● User roles should include students, surgeons and administrators. 
+● Users should be able to update their profiles, view their training process and feedback 
+reports. 
+● The system should track and securely save the user's progress in different training 
+modules. 
+ 
+SURGICAL SIMULATION ENGINE: 
+● The platform should include interactive 3D models of organs, tissues and surgical 
+tools. 
+● The system should provide step by step guidance during the training surgeries. 
+● The dynamic scenarios generated by the system should be like real- world 
+complexities. 
+ 
+VIRTUAL TRAINING MODE: 
+● Users should be able to take an assessment surgery where no help will be provided 
+and at the end they will be evaluated on their performance. 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+17 | Page 
+ 
+● Users should be able to choose the surgery they want to perform from the 3 options 
+we are currently providing; ASD, pacemaker and CABG. 
+ 
+REAL-TIME FEEDBACK & PERFORMANCE EVALUATION: 
+● The system should be able to detect real-time errors during the surgery and notify the 
+user. 
+● The system should be able to provide detailed feedback and by using a predefined 
+criterion, evaluate the user performance. 
+ 
+USER INTERFACE: 
+● The system should provide an intuitive dashboard for users to navigate to the 
+selection of surgeries, type of surgeries and track their progress. 
+ 
+REPORTING AND ANALYTICS: 
+● The instructors should be able to review the feedback report of the students and their 
+assessment reports. 
+● Instructors should be able to provide feedback to those students' reports. 
+ 
+REPORTING AND ANALYTICS: 
+● The system should be compatible with Oculus VR headset and hand sensors. 
+ 
+2.3 Non-Functional Requirements 
+This section specifies non-functional requirements. 
+SCALABILITY : 
+- The system will be scalable enough so that in future it can accommodate additional 
+complex surgeries. 
+ 
+COMPLIANCE : 
+- The system will comply with medical training standards. 
+- The system should comply with data protection regulations such as GDPR for user 
+data privacy. 
+ 
+DATA INTEGRITY : 
+- The system should ensure that all performance data is captured and stored without 
+loss. 
+ 
+MAINTAINABILITY : 
+- The code should be modular and well documented, allowing future developers to 
+easily add features. 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+18 | Page 
+ 
+- The system should include detailed documentation covering all major components 
+and functionalities. 
+ 
+COMPATIBILITY : 
+- The VR environment should be compatible with multiple VR headsets, including 
+Oculus Quest 2. 
+- The system should be compatible with major operating systems like Windows and 
+Linux. 
+ 
+SECURITY : 
+- User authentication will be required for all access to the system, with role-based 
+access control implemented for different user types (students, instructors, 
+administrators). 
+- Sensitive data will only be accessible to authorised users. 
+RELIABILITY : 
+- The system will be highly reliable, with minimal downtime to ensure uninterrupted 
+training. 
+AVAILABILITY: 
+- It will be available 24/7 to allow medical professionals to practise at any time. 
+USABILITY : 
+- The interface should be user-friendly and intuitive for medical students and 
+professionals to navigate and use the virtual environment. 
+- The VR experience should be immersive and realistic, making the virtual surgeries as 
+close to real-world scenarios as possible. 
+PERFORMANCE : 
+- The system should provide real-time feedback during surgeries without any noticeable 
+delay. 
+ 
+ 
+ 
+ 
+ 
+ 
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+19 | Page 
+ 
+2.4 Domain Model 
+ 
+ 
+Figure 3: Domain Model 
+ 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+20 | Page 
+ 
+System Overview 
+3.1 Architectural Design 
+The Virtual Operating Room system lets medical trainees and surgeons practice surgeries in a VR 
+environment using VR headsets and hand controllers. An API Gateway connects the user’s device to the 
+system's backend services. The Surgical Simulation Engine creates 3D models and offers step-by-step 
+instructions. Users can choose to practice with or without these instructions, and the Real-Time Feedback 
+system gives instant error detection and tracks performance. The User Management System takes care of 
+logging in and tracking progress, while all information is stored in a central database. The project uses Git 
+and GitHub to manage changes and help the team work together. 
+ 
+ 
+Architecture Diagram 1 
+ 
+ 
+3.2 Design Models 
+During the V-OR development, we are using the Object-Oriented Programming (OOP) 
+approach. This methodology provides for the development of clear tangible classes and 
+objects within the system in a more endearing approach. 
+ 
+ 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+21 | Page 
+ 
+● Class Diagram 
+ 
+Figure 5: Class Diagram 
+ 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+22 | Page 
+ 
+● Class level Sequence Diagram 
+ 
+ 
+Figure 6: SD Perform Surgery 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+23 | Page 
+ 
+ 
+Figure 7: SD Access Training Resources 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+24 | Page 
+ 
+ 
+Figure 8: SD Receive Guidance 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+25 | Page 
+ 
+ 
+Figure 9: SD Access 3D Models 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+26 | Page 
+ 
+ 
+Figure 10: SD Surgery Selection 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+27 | Page 
+ 
+● Activity Diagrams 
+ 
+Activity Diagram 1 
+ 
+ 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+28 | Page 
+ 
+ 
+ 
+Activity Diagram 2 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+29 | Page 
+ 
+ 
+Activity Diagram 3 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+30 | Page 
+ 
+ 
+Activity Diagram 4 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+31 | Page 
+ 
+ 
+Activity Diagram 5 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+32 | Page 
+ 
+● State- Transition Diagram 
+ 
+ 
+State-Transition Diagram 1 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+33 | Page 
+ 
+ 
+3.3 Data Design 
+The information domain of the V-OR system is then converted to a form of structured data 
+entitles stored in a MySQL data base. These tables contain significant entities like User, 
+Surgery, Progress, Feedback ,etc. Like many other resources, the 3D anatomical models used 
+during surgeries in operations plans are file-based and their paths are stored in the database 
+for ease of access to the specific files at the time of simulations. This architecture must 
+maintain data consistency and will perform data processing without inefficiency. 
+Databases and Data Storage: 
+MySQL Database: Database preserves tables such as users, surgeries, progress and feedback 
+and etc. 
+File System on Server: Saves the actual 3D anatomical models. 
+ERD Diagram: 
+ 
+Figure 11: ERD Diagram 
+
+FYP-Mid-Term Report 
+S24-145-D-V-OR 
+ 
+34 | Page 
+ 
+ 
+References 
+ 
+Database, L. S. (n.d.). BioDigital Human 3D Anatomy Models. Retrieved from Life Science 
+Database Project: https://lifesciencedb.jp/bp3d/?lng=en 
+Forum-Institut. (2019). White Paper 01/2020: Sebastian. Forum-Institut. 
+ERDPlus. (n.d.). ERDPlus: An online ERD tool. Retrieved October 6, 2024, from 
+https://erdplus.com/standalone
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,60 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+top to bottom direction
+
+title UML 2.x Use Case Diagram\n<size:12><i>e commerce</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject) ---
+actor "User" as act_0
+actor "Customer" as act_1
+actor "Admin" as act_2
+
+' --- Subject (system boundary) & use cases ---
+rectangle "e commerce" {
+  usecase "Browse Products" as uc_0
+  usecase "Add to Cart" as uc_1
+  usecase "Complete Payment" as uc_2
+  usecase "Track Order" as uc_3
+  usecase "Manage Account" as uc_4
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_1 -- uc_2
+act_0 -- uc_3
+act_2 -- uc_4
+
+note bottom
+  **UML 2.x use case diagram**: subject (boundary), actors, use cases, associations.
+end note
+
+@enduml

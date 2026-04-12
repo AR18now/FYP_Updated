@@ -1,0 +1,93 @@
+INTRODUCTION
+The purpose of this Software Requirements Specification (SRS) is to define the requirements for a Ticket Generating System that enables users to search, book, and manage their travel itineraries online. This document outlines the scope, definitions, references, and overview necessary for developing the system.
+Scope: The Ticket Generating System will support multi-city travel itineraries, enabling users to search, compare prices, and make reservations through an intuitive web interface.
+Definitions/Acronyms:
+- ITINERARY: A planned route taken by passengers from one location to another via various modes of transportation.
+- E-TICKET: An electronic version of a traditional paper ticket used for boarding flights, trains, buses, etc.
+- VOUCHER: A payment instrument issued by airlines or other carriers allowing customers to purchase tickets at a discounted rate.
+References:
+[1] IEEE Standard for Software Requirements Specifications (IEEE Std 830-1998).
+Overview: The Ticket Generating System aims to provide travelers with a seamless experience in planning and managing their trips. It integrates functionalities for searching, comparing, reserving, and managing travel-related services. OVERALL DESCRIPTION
+Product Perspective: The product perspective focuses on providing a comprehensive solution for travelers looking to plan and manage their multi-city journeys efficiently. The system will cater to both individual travelers and groups seeking flexible booking options.
+Product Functions:
+- Search multi-city itineraries based on origin, destination, date, time, and preferred mode of transport.
+- Compare different flight/train/bus combinations including total cost, duration, layovers, and seat types.
+- Filter results according to specific criteria such as baggage allowance and refund policies.
+- Reserve selected seats and add optional insurance coverage.
+- Generate and deliver e-tickets directly to users' email addresses.
+- Handle voucher redemptions, fare adjustments, and alternative offerings if inventory runs out during reservation process.
+- Provide automated trip reminders before departure dates.
+- Allow users to easily modify or cancel existing reservations within certain limits.
+- Store passenger information securely for future reference and quicker rebooking processes.
+User Characteristics: Users range from frequent flyers to occasional travelers who need assistance navigating complex schedules and pricing structures associated with multi-leg journeys involving multiple operators.
+Constraints:
+- Must comply with industry standards for secure transactions and data protection.
+- Limited processing capacity due to server limitations; therefore, concurrent user sessions may be restricted.
+- No offline functionality available since all interactions require internet connectivity.
+Assumptions/Dependencies:
+- Assumes existence of backend databases storing relevant information about routes, schedules, fares, and customer details.
+- Dependent upon third-party APIs for real-time price updates and availability checks across different transportation providers. SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Web-based application accessible via standard browsers supporting HTML5, CSS3, JavaScript frameworks like React.js or AngularJS.
+- Hardware Interface: Compatible with common desktop/laptop computers running Windows, macOS, Linux operating systems.
+- Software Interface: Integrates with popular payment gateways (e.g., PayPal, Stripe), email service providers (e.g., SendGrid), and calendar applications (e.g., Google Calendar).
+- Communication Interface: Supports HTTPS protocol for secure transmission of sensitive data between client and server components.
+Functional Requirements:
+FR-1: Search Multi-City Itinerary
+Input: Origin city, destination city, departure date, return date, number of passengers, preferred mode(s) of transport.
+Processing: Query database for matching itineraries considering specified parameters along with real-time pricing info from external sources.
+Output: List of available itineraries sorted by lowest cost first, displaying key details like total price, duration, stops, and seat classes.
+Priority: High
+FR-2: Compare Fares
+Input: Selected itineraries from previous step.
+Processing: Retrieve current fare quotes for chosen routes and display them side-by-side highlighting differences in costs, durations, and amenities offered.
+Output: Side-by-side comparison table showing detailed breakdown of each option's pros and cons.
+Priority: Medium
+FR-3: Filter Results
+Input: Criteria related to baggage allowances, refund policies, seat preferences, etc.
+Processing: Apply filters to narrow down list of suitable itineraries while maintaining relevance to initial query parameters.
+Output: Updated itinerary suggestions tailored to user’s specific needs.
+Priority: Low
+FR-4: Reserve Seats
+Input: Chosen itinerary and additional options like added insurance.
+Processing: Confirm availability, charge appropriate fees, update reservation status in database, generate unique confirmation codes.
+Output: Confirmation message containing reserved seat numbers, total amount paid, and instructions for accessing digital ticket.
+Priority: High
+FR-5: Generate E-Ticket
+Input: Reservation ID provided after successful seat reservation.
+Processing: Create PDF file containing traveler information, itinerary details, and barcode representing physical ticket.
+Output: Email attachment sent to user containing downloadable PDF copy of generated e-ticket.
+Priority: High
+FR-6: Handle Vouchers
+Input: Valid promotional code entered by user.
+Processing: Validate code against internal records, apply discount percentage to selected fare, notify user of updated price.
+Output: Adjusted fare displayed alongside original quote with indication of applied savings.
+Priority: Medium
+FR-7: Fare Changes
+Input: Current reservation record and new pricing structure applicable post-change request.
+Processing: Recalculate charges reflecting any alterations made to booked journey, communicate changes to affected parties.
+Output: New invoice showing revised total payable, indicating how much has changed compared to old bill.
+Priority: Medium
+FR-8: Alternative Options
+Input: Request to switch to alternate provider due to unavailability of desired service.
+Processing: Identify closest viable alternatives meeting original constraints, present these choices to user for selection.
+Output: Comparison chart listing substitute options complete with comparative analysis of benefits vs drawbacks.
+Priority: Low
+Non-functional Requirements:
+Performance: Ensure response times do not exceed 5 seconds under normal load conditions.
+Security: Implement encryption protocols to protect personal and financial data throughout transaction lifecycle.
+Reliability: Maintain uptime above 99% despite potential failures in network infrastructure or component malfunctions.
+Usability: Design interfaces intuitively so novice users can navigate without difficulty.
+Maintainability: Codebase shall remain modularized and well-documented facilitating easier maintenance over time.
+Portability: Application must function consistently across diverse platforms and configurations.
+System Features:
+Feature 1: Real-Time Pricing Updates
+Description: Continuously fetch latest rates from partner carriers ensuring accuracy of displayed figures.
+Feature 2: Automated Booking Engine
+Description: Streamline entire reservation workflow from start to finish reducing manual intervention needed.
+Feature 3: Secure Payment Gateway Integration
+Description: Facilitate safe handling of credit card details through trusted third-party solutions.
+Feature 4: Customer Support Chatbot
+Description: Offer instant assistance through AI-driven conversational agents addressing common queries promptly.
+Feature 5: Personalization Module
+Description: Learn from past behavior patterns to suggest optimal deals and upgrades tailored specifically towards individual preferences. End of Document.

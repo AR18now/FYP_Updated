@@ -1,0 +1,288 @@
+# FYP1-MidReport-206-R-AgentialChitChat - i210316 Hakim Ali
+
+## 1. Introduction
+
+1. Introduction
+guage be developed among independent agents without changing to the agent’s underly-
+ing policies?
+The study will explore how agents can develop a transferable and generalizable commu-
+nication system. The proposed approach focuses on language emergence and transfer-
+ability, ensuring that new agents can adopt the common language without altering their
+policy structure, promoting both scalability and interoperability in multi agent systems.
+2
+Chapter 2
+Literature Review
+2.1 Related Research
+Following researches focused on either generalizing policy to communicate or collabo-
+rate in zero shot settings or better focus on emergence of communication in multi agent
+systems.
+2.1.1 Quasi-Equivalence Discovery [ 11]
+In Quasi-Equivalence Discovery (QED) for zero-shot communication (ZSC), quasi-equivalence
+refers to the identification of symmetries in communication protocols. Symmetries refer
+to situations where different actions, messages, or sequences of actions lead to the same
+outcome or result. These symmetries allow agents to generalize their learned communi-
+cation strategies to independently trained agents, even in zero-shot scenarios where the
+agents have not been trained together.
+2.1.1.1 Summary of the research item
+Quasi-Equivalence Discovery (QED), iteratively discovers equivalence mappings between
+optimal policies in multi-agent systems. Unlike traditional self-play , where agents co-
+adapt during training, QED focuses on finding policies that generalizes on different agents.
+The algorithm first identify symmetries by training agents with different policies and ob-
+serving how different action or message sequences can achieve the same result. It does
+this by comparing the behavior of multiple agents and finding equivalent policies that lead
+to the same goal. After identifying these equivalences, QED trains new sets of policies
+based on these symmetry mappings. This allows the agents to communicate success-
+fully with novel agents, because they can recognize the symmetries and generalize their
+3
+2. Literature Review
+communication.
+2.1.1.2 Critical analysis of the research item
+The task and environment selected in paper is creating a message and predicting the goal
+based of that message. They are using equivalence mapping and training new joint op-
+timal policies and then using new optimal policy, updating set of equivalence mappings.
+After iteratively training, they select one unique policy which is capable of zero shot com-
+munication. Training continues until cross play score is almost equivalent to self play.
+2.1.1.3 Relationship to the proposed research work
+While QED focuses training multiple different policies and then finding a joint policy
+that generalizes for zero shot communication with independent agents, our work focuses
+on emerging a language in agents and transfer of that language to new incoming agents
+without changing or creating bias in their policy.
+2.1.2 Multi-lingual agents through multi-headed neural networks [ 44]
+In the paper, the authors maintained multiple heads in the neural network architecture for
+each agent, where each head corresponds to a distinct communication language that the
+agent learns with different partners.
+2.1.2.1 Summary of the research item
+Both the speaker and listener agents are modeled using deep neural networks. The core
+idea is to assign a separate output head for each possible conversational partner. The
+shared layers of the neural network are used for feature extraction. It is assumed that each
+agent when communicating with other agent have full knowledge about their identity.
+The heads are isolated from each other, meaning when training occurs with one partner,
+only the corresponding head is updated, preventing other heads from being affected from
+catastrophic forgetting.
+2.1.2.2 Critical analysis of the research item
+A key limitation noted by the authors is that the number of languages grows quadratically
+with the number of agents. If many agents are involved, maintaining separate heads for
+each one may lead to memory and computational overhead, not allowing scalability. Fur-
+thermore, the method assumes that agents know who their conversational partner is, which
+4
+2.1 Related Research
+allows them to select the correct output head. In more realistic or dynamic environments,
+agents may not have this information reducing the scalability even more.
+2.1.2.3 Relationship to the proposed research work
+The objectives of both researches are same i.e mitigating the problem of different lan-
+guages emerging for every independent agent and thus preventing zero short coordination.
+However, our work focuses more on making language common for every agent rather than
+training agents to learn multiple language thus allowing scalability and further research
+on topic.
+2.1.3 Towards Human-Agent Communication via the Information
+Bottleneck Principle [66]
+In traditional emergent communication, which focuses on optimizing task-specific util-
+ity, can lead to communication that is either too complex for humans to understand or
+inefficient in terms of convergence rates. To address this, they explore how a trade off be-
+tween utility, informativeness, and complexity can help agents develop more human-like
+communication.
+2.1.3.1 Summary of the research item
+The goal of paper is to create an emergent communication system where agents not only
+maximize task performance but also optimize the informativeness and complexity of their
+communication signals.
+They are using information bottleneck framework to balance the trade off between in-
+formation and complexity of messages. For this they are using VQ-VIB, that combines
+elements from vector quantized variational autoencoders (VQ-V AE) and B-variational
+autoencoders,to compress and discretize communication signals. The overall loss func-
+tion includes terms for utility, informativeness, and complexity. The agents are trained to
+maximize this objective function.
+2.1.3.2 Critical analysis of the research item
+Paper explores another dimension in emergence of communication between multi agent
+systems where the emergence is inspired by human like communication for effective and
+better convergence. Experiments of these papers indeed show better convergence than
+vanilla methods for emergence of communication.
+5
+2. Literature Review
+2.1.3.3 Relationship to the proposed research work
+While our work focuses on emergence and transfer of language in multi agent systems,
+this paper focuses on the former module i.e efficient emergence of language in multi agent
+systems using VQ-VIB.
+2.1.4 Emergent Discrete Communication in Semantic Spaces [ 55]
+This paper explores how agents can develop discrete communication tokens embedded in
+a continuous semantic space, which improves both task performance and flexibility while
+also supporting human understanding.
+2.1.4.1 Summary of the Research Item
+The paper trains agents to develop discrete communication tokens within a continuous
+semantic space to communicate effectively in multi-agent tasks. The sender uses a fixed
+set of tokens learned during training, but these tokens capture semantic relationships,
+allowing the agents to generalize and achieve zero-shot communication.
+2.1.4.2 Critical Analysis of the Research Item
+without ground truth labels or shared pre trained embedding, agents lack a common se-
+mantic framework to understand each other’s tokens. They might create their own unique
+latent space based on their training, which can be vastly different from what other agents
+might interpret. If two agents develop distinct interpretations of similar concepts they
+cannot effectively communicate about that concept.
+2.1.4.3 Relationship to the Proposed Research Work
+While our proposed work focuses on the emergence and transfer of communication in
+multi-agent systems, this paper contributes to the efficient emergence of discrete com-
+munication by using prototype-based learning with semantically structured tokens. Our
+goals aligns with the paper’s goals of developing generalizable communication protocols,
+but differs by placing greater emphasis on language transfer between agents.
+2.1.5 Collaborating with Humans without Human Data [ 33]
+paper proposes Fictitious Co-Play(FCP) where agents are capable of zero shot coordina-
+tion with humans without need of humans behavioural data for training.
+6
+2.1 Related Research
+2.1.5.1 Summary of the research item
+this papers address the problem of training Agents to collaborate with humans without
+any training on behavioural data by human with zero shot coordination. tradition methods
+either use data of human behaviour or self play techniques but they do not generalize to
+new humans. this technique of Fictitious Co-Play(FCP) allow agent to play different self
+play agent with different behaviours and skill level to develop a generalized policy to
+coordinate with new partners(humans) even they interacted for the first time.
+2.1.5.2 Critical analysis of the research item
+this paper is a cost efficient way for zero shot coordination with new agents or we can say
+humans without being trained on humans behavioural data. Its generalization increases
+with how many agents we interacted during training thus reducing scalability to large
+problem.
+2.1.5.3 Relationship to the proposed research work
+This paper focuses on zero shot coordination but it is behavioural dependent and ignores
+communication aspect. Our goal aligns zero-shot coordination but our assumption adds
+zero shot coordination can be achieved through common language also allowing better
+scalability and interoperability.
+2.1.6 Compositionality and Capacity in Emergent Languages [ 22]
+In this Paper, author tried to investigate how capacity of neural network and bandwidth of
+communication affect the emergence of compositional languages in multi-agent systems.
+2.1.6.1 Summary of the research item
+Authors found that low capacity networks can avoid over fitting and hence develop more
+composed structure of language and same is the case with bandwidth of message as more
+composed the message is less bandwidth it requires. Their results suggest that right bal-
+ance between bandwidth and capacity helps us get more human-like composed structures
+in language.
+7
+2. Literature Review
+2.1.6.2 Critical analysis of the research item
+This paper is good for much composed language this composed language can help us
+build a better language but this this language can have restriction of evolution as message
+size is just to facilitate our correct information. but we want more information to store in
+this amount of message vector which is not possible.
+2.1.6.3 Relationship to the proposed research work
+This paper is good for much composed language this composed language can help us
+build a better language and transfer it to other agents which will be much more organized.
+2.2 Analysis Summary of Research Items
+8
+2.2 Analysis Summary of Research Items
+Research Item Critical Analysis Relation to Proposed Work
+Quasi-Equivalence Discovery
+(QED)
+Focuses on policy symmetry map-
+pings for zero-shot communication.
+Limited exploration of language
+emergence.
+Useful for policy generaliza-
+tion; our work extends to
+emergent language transfer.
+Multi-lingual agents through
+multi-headed neural networks
+Scalability issues due to the
+quadratic growth of language
+heads, assumes agents know their
+communication partner.
+Our work aims to create a
+common language, avoiding
+multiple heads and ensuring
+scalability.
+Towards Human-Agent Com-
+munication via Information
+Bottleneck
+Focuses on optimizing communica-
+tion for human understanding but is
+constrained by task-specific utility.
+Offers insights into optimiz-
+ing informativeness and com-
+plexity of language, aligning
+with our work on emergent
+language.
+Emergent Communication
+in Multi-Agent Systems: A
+Prototype-Based Approach
+Lacks a shared semantic frame-
+work, potentially creating divergent
+interpretations among agents.
+We focus on the transfer of
+a shared language between
+agents, addressing the prob-
+lem of divergent communica-
+tion tokens.
+Collaborating with Humans
+without Human Data
+Uses fictitious co-play for zero-shot
+coordination with humans, but ne-
+glects the role of communication.
+Our work includes communi-
+cation as a key aspect of zero-
+shot coordination, ensuring
+better scalability.
+Compositionality and Capac-
+ity in Emergent Languages
+Trade-off between bandwidth and
+language compositionality may re-
+strict information capacity in com-
+munication.
+We aim to find a balance be-
+tween compositionality and
+transferability of the language
+in a scalable way.
+Table 2.1: Analysis Summary of Research Items
+9
+
+Chapter 3
+Proposed Approach
+There has been significant progress in the field of agents learning to develop languages for
+communication to accomplish tasks. However, the challenge of zero-shot communication
+remains largely unaddressed. While some studies have attempted to solve this problem,
+the majority focus on policy learning rather than actual language transfer. One notable pa-
+per utilized quasi-equivalence to tackle this issue, but a direct method for teaching agents
+a shared language for zero-shot communication is still lacking, as quasi-equivalence needs
+to be clearly defined before enabling effective agent interaction.
+Objective
+Our proposed approach focuses on developing a common language that allows agents to
+first create their own language and then transfer this language to other agents. This will be
+achieved by analyzing how agents communicate their ideas and send messages to convey
+their plans effectively.
+Methodology
+To implement this, we will introduce a penalty term in the loss function, leveraging a
+trained agent to guide the learning process. This penalty will encourage agents to adhere
+to a communication protocol, ensuring they convey their ideas in a consistent language
+rather than random messages.
+11
+3. Proposed Approach
+Policy Independence
+The goal is to maintain policy independence while establishing a shared communication
+protocol. Our algorithm will enable a teacher agent to critique a child agent based on the
+policy the new agent is following, rather than solely relying on the original policy it was
+trained on.
+Significance
+This approach aims to facilitate meaningful communication among agents in zero-shot
+scenarios, enhancing their collaborative capabilities while preserving their individual learn-
+ing processes. By developing a robust framework for language transfer, we hope to bridge
+the gap between policy learning and effective communication, thereby advancing multi-
+agent systems.
+12
+Bibliography
+[1] Kyle Bullard, Douwe Kiela, Franziska Meier, Joelle Pineau, and Jakob Foerster.
+Quasi-equivalence discovery for zero-shot emergent communication. arXiv preprint
+arXiv:2103.08067, 2021.
+[2] A. Gupta, C. Resnick, J. Foerster, A. Dai, and K. Cho. Compositionality and capacity
+in emergent languages. pages 34–38, July 2020.
+[3] D. J. Strouse, K. McKee, M. Botvinick, E. Hughes, and R. Everett. Collaborating
+with humans without human data. 34:14502–14515, 2021.
+[4] Jack D Thomas, Raul Santos-Rodriguez, Robert Piechocki, and Mihaela Anca.
+Multi-lingual agents through multi-headed neural networks. arXiv preprint
+arXiv:2111.11129, 2021.
+[5] M. Tucker, H. Li, S. Agrawal, D. Hughes, K. Sycara, M. Lewis, and J. A. Shah.
+Emergent discrete communication in semantic spaces. 34:10574–10586, 2021.
+[6] M. Tucker, J. Shah, R. Levy, and N. Zaslavsky. Towards human-agent communication
+via the information bottleneck principle. arXiv preprint arXiv:2207.00088, 2022.
+13
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

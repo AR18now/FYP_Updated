@@ -1,0 +1,875 @@
+# FYP1-MidReport-F24-026-D-VocalCraftAI - i210782 Farzeen Qaiser
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The scope of the V ocalCraftproject includes:
+• V oice Command Functionality: This comprises a voice recognition model which
+is to transcribe the user’s voice instructions in controlling the aspects of the pam-
+phlet design such as layout, images, and text content.
+• Image Generation using Diffusion Model: It integrates the Diffusion Model,
+which automates the generation of visual and textual content to make pamphlets
+attractive-looking with correctly and professionally styled text according to user
+prompts.
+• Customizable Templates: To this end, the application will grant users the ability
+to edit and finalize pamphlets that have been generated according to their brand
+identity and marketing requirements.
+• Print-Ready Output: With the application, the user can create pamphlets ready
+for printing. These could be exported into numerous formats such that sharing is
+easy, even in SVG format.
+• Cloud-Based Storage: This lets the user save their projects online. Cloud solutions
+enable them to access and manipulate their projects from anywhere; thus, much
+convenience is achieved with such an option.
+• Mobile App Accessibility: It will make the system accessible through the use of
+mobile applications. The system will therefore have a wider usability scale for
+different users.
+• User-Friendly Interface: Creating a user-first interface that will ease the process
+of creating pamphlets, making it friendly for users with minimum design experience
+to produce quality promotional materials.
+1.3 Modules
+The following comprises of modules of V ocalCraft
+1.3.1 V oice Input and Transcription Module
+Purpose: Convert the user’s voice input into text for further processing.
+Key Functionality:
+2
+1.3 Modules
+• Capture voice input from the user through a mobile app.
+• Transcribe speech to text.
+• Ensure low-latency and high-accuracy transcription.
+1.3.2 Prompt Engineering and NER Module
+Purpose: Perform prompt engineering and extract key entities for pamphlet design.
+Key Functionality:
+• Extract important details (e.g., colors, text, layout) using Named Entity Recognition
+(NER).
+• Store extracted entities to guide image generation and layout.
+1.3.3 Image Generation and Inpainting Module
+Purpose: Generate the pamphlet image with placeholders for text and images using in-
+painting.
+Key Functionality:
+• Use the diffusion model to generate the main pamphlet image based on NER data.
+• Incorporate inpainting to add placeholders for text and object areas.
+• Inference-time inpainting using a binary mask to place text and objects precisely.
+1.3.4 Segmentation and Binary Mask Generation Module
+Purpose: Create a binary mask to define areas for text and images on the pamphlet.
+Key Functionality:
+• Generate a binary mask for the text and image areas.
+• Remove the objects from the final output image using
+• Feed this mask into the diffusion model for inpainting.
+3
+1. Introduction
+1.3.5 Image Resizing and Optimization Module
+Purpose: Resize and optimize the final image for printing or digital display.
+Key Functionality:
+• Resize the generated pamphlet based on user-specified print dimensions.
+• Ensure image quality and aspect ratio are maintained during resizing.
+• Provide options for different printing formats.
+1.3.6 Mobile App Front-End Module
+Purpose: Provide a user-friendly interface for voice input, pamphlet generation, and edit-
+ing options.
+Key Functionality:
+• Capture voice input and manage user interaction.
+• Display progress and final generated pamphlet.
+• Allow users to edit generated pamphlets.
+• Allow users to print pamphlets.
+1.3.7 Backend and Cloud Integration Module
+Purpose: Handle voice processing, model inference, and image generation in the cloud.
+Key Functionality:
+• Process voice input and prompts on the server.
+• Run inference models in the cloud.
+• Manage data flow between the app, models, and storage.
+1.3.8 Deployment Phase
+Purpose: Deploy the app for real-world use.
+Key Functionality:
+4
+1.3 Modules
+• Deploy the app on a server.
+• Set up continuous deployment for future updates.
+• Monitor app performance and user feedback for improvements.
+5
+1. Introduction
+1.4 User Classes and Characteristics
+The following are the user classes that will use this product.
+User Class Description
+End User (Regular User) The End User is the intended specific user of the system,
+which often is a person wanting to create posters for in-
+dividual use, advertising, or aesthetic. They will work with
+the system to as an example offer voice or text commands to
+capture prompts and review the created posters for modifi-
+cation. The users can also generate posters they have saved,
+shared or even those they want to retrieve from the list. End
+users come in all categories from those who do not have
+any clue on technical aspects to designers on the look for
+creative assistance.
+Admin The Admin manages the entire system. These are related
+to such processes as system performance control, account
+administration, error handling, machine learning model up-
+dates (such as Whisper or Stable Diffusion), and system se-
+curity.
+Table 1.1: User Classes and Characteristics
+6
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of V ocalCraft AI.
+2.1 Use-case
+The following are the use cases of V ocalCraft AI. The actors for this project are theUsers
+(Primary Actor) who will be generating the posters, theAdmin (Secondary Actor) who
+will manage the backend of the application, and theSystem that will process and generate
+the final output.
+Figure 2.1: Use Case Diagram
+7
+2. Project Requirements
+2.1.1 User Authentication Sign Up/Log In
+Field Details
+Use Case Name User Authentication (Sign Up / Log In)
+Scope A user signs up or logs into the app.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to access app features after authentication.
+Preconditions The user is not authenticated.
+Post-conditions The user is authenticated and redirected to the dashboard.
+Main Success Scenario 1. The user enters their credentials (or signs up with new
+details).
+2. The system verifies the credentials or creates a new ac-
+count.
+3. The user is successfully logged in and redirected to the
+dashboard.
+Table 2.1: User Authentication Use Case
+8
+2.1 Use-case
+2.1.2 Provide V oice Prompt
+Field Details
+Use Case Name Provide V oice Prompt
+Scope A user provides voice input to describe the poster they want
+to generate.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to describe the poster using voice input for ef-
+ficient interaction.
+System: Captures and converts voice input to text accu-
+rately for further processing.
+Preconditions User is authenticated and given permission to access the mi-
+crophone.
+Post-conditions V oice prompt is converted to text using the ASR (Automatic
+Speech Recognition) model.
+Main Success Scenario 1. The user opens the app and navigates to the voice prompt
+input.
+2. The user provides the voice input for the poster.
+3. The system captures the voice input and processes it us-
+ing the Whisper model for transcription.
+4. The transcribed text is now successfully created and can
+proceed with the poster creation.
+Table 2.2: Provide V oice Prompt Use Case
+9
+2. Project Requirements
+2.1.3 Provide Text Prompt
+Field Details
+Use Case Name Provide Text Prompt
+Scope The user provides a text prompt to describe the poster they
+want to generate.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to generate a poster using a custom text
+prompt.
+System: Accurately processes the text prompt and gener-
+ates the corresponding poster.
+Preconditions User is authenticated and the app is ready to receive input.
+Post-conditions The text prompt is processed, and the system generates the
+corresponding poster.
+Main Success Scenario 1. The user opens the app and navigates to the text input
+field.
+2. The user types in a description for the poster.
+3. The system processes the text prompt and sends it to the
+image generation model (Stable Diffusion).
+4. The system successfully generates and displays the
+poster based on the text prompt.
+Table 2.3: Provide Text Prompt Use Case
+10
+2.1 Use-case
+2.1.4 Generate Poster
+Field Details
+Use Case Name Generate Poster
+Scope The system generates a poster based on a voice or text
+prompt provided by the user.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to generate a visually appealing poster based
+on their input.
+System: Needs to accurately process the input prompt and
+generate a poster using the Stable Diffusion model.
+Preconditions The user has provided a valid voice or text prompt.
+The system uses the API for the poster generation model
+(Stable Diffusion).
+Post-conditions The poster is successfully generated and displayed for the
+user.
+The user can then proceed to edit or save the poster.
+Main Success Scenario 1. The user provides a voice or text prompt describing the
+poster.
+2. The system sends the prompt to the backend, which pro-
+cesses it through the Stable Diffusion model.
+3. The system retrieves the generated poster and displays it
+to the user.
+4. The user can view the poster and decide to save, edit, or
+regenerate it.
+Table 2.4: Generate Poster Use Case
+11
+2. Project Requirements
+2.1.5 Preview Poster
+Field Details
+Use Case Name Preview Poster
+Scope The user previews the generated poster before finalizing it
+for further actions like editing, saving, or sharing.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to ensure the poster meets expectations before
+editing, saving, or sharing.
+System: Provides a visual representation of the poster for
+the user to review.
+Preconditions The user has already provided a voice or text prompt, and
+the system has generated a poster.
+The generated poster is ready for display.
+Post-conditions The user successfully views the poster and decides to either
+edit, save, share, or regenerate it.
+Main Success Scenario 1. The system generates the poster based on the user’s
+prompt.
+2. The user is presented with a preview of the generated
+poster.
+3. The user reviews the poster and decides whether to pro-
+ceed with editing, saving, or sharing.
+4. The system allows the user to take the next action (edit,
+save, share, or regenerate).
+Table 2.5: Preview Poster Use Case
+12
+2.1 Use-case
+2.1.6 Edit Poster
+Field Details
+Use Case Name Edit Poster
+Scope The user can edit the generated poster by adjusting text, col-
+ors, fonts, or repositioning elements.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to customize the poster to better fit their pref-
+erences.
+System: Needs to provide a flexible editing interface to al-
+low the user to modify the poster easily.
+Preconditions The user has already generated or previewed the poster.
+The system has loaded the poster and editing tools are avail-
+able.
+Post-conditions The poster is modified and saved with the user’s changes,
+or the user discards the changes.
+The updated poster is ready for saving or sharing.
+Main Success Scenario 1. The user selects the edit option after generating or pre-
+viewing the poster.
+2. The system loads the editing interface, allowing the user
+to change text, colors, fonts, or reposition elements.
+3. The user makes the desired modifications to the poster.
+4. The user saves the changes, and the system updates the
+poster with the modifications.
+5. The poster is ready for further actions such as saving or
+sharing.
+Table 2.6: Edit Poster Use Case
+13
+2. Project Requirements
+2.1.7 Edit Prompt
+Field Details
+Use Case Name Edit Prompt
+Scope The user can modify the text or voice prompt previously
+provided for poster generation.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to refine or change the input prompt to generate
+a different poster.
+System: Needs to accept and process the edited prompt to
+generate a new poster.
+Preconditions The user has already provided an initial prompt (either voice
+or text).
+The system has generated a poster based on the initial
+prompt.
+Post-conditions The system updates the poster based on the edited prompt.
+The new poster is available for preview, editing, or saving.
+Main Success Scenario 1. The user selects the option to edit the previously provided
+prompt.
+2. The system presents the existing prompt (text or voice
+transcription) for modification.
+3. The user modifies the prompt and submits it.
+4. The system processes the edited prompt and generates a
+new poster.
+5. The system displays the new poster for user preview or
+further action.
+Table 2.7: Edit Prompt Use Case
+14
+2.1 Use-case
+2.1.8 Share Poster
+Field Details
+Use Case Name Share Poster
+Scope The user shares the generated poster via social media,
+email, or messaging apps.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to share the generated poster with others.
+System: Needs to provide options for sharing the poster via
+different platforms.
+Preconditions The user has generated or edited the poster and is satisfied
+with the final result.
+The poster is available for sharing, and the user is authenti-
+cated to use sharing features.
+Post-conditions The poster is successfully shared via the chosen platform
+(e.g., social media, email, or messaging app).
+Main Success Scenario 1. The user selects the share option for the generated poster.
+2. The system presents sharing options (e.g., social media,
+email, or messaging apps).
+3. The user selects a platform for sharing.
+4. The system shares the poster via the chosen platform,
+and the user receives confirmation of successful sharing.
+Table 2.8: Share Poster Use Case
+15
+2. Project Requirements
+2.1.9 Save Poster
+Field Details
+Use Case Name Save Poster
+Scope The user saves the generated poster to their local device or
+cloud storage.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to save the generated poster for future use or
+further modifications.
+System: Needs to provide the ability to save the poster in a
+format usable on different platforms (e.g., PNG, JPEG).
+Preconditions The user has generated or edited the poster and is satisfied
+with the result.
+The poster is available for saving, and the user has storage
+permission on their device.
+Post-conditions The poster is successfully saved to the user’s device or cloud
+storage in the selected format (e.g., PNG, JPEG).
+Main Success Scenario 1. The user selects the save option for the generated poster.
+2. The system provides format options for saving (e.g.,
+PNG, JPEG).
+3. The user selects a location on their device or cloud stor-
+age to save the poster.
+4. The system confirms that the poster has been success-
+fully saved in the selected location and format.
+Table 2.9: Save Poster Use Case
+16
+2.1 Use-case
+2.1.10 Save Prompts
+Field Details
+Use Case Name Save Prompts
+Scope The user saves a voice or text prompt for future use in gen-
+erating posters.
+Level User Goal
+Primary Actor User
+Stakeholders and interests User: Wants to save a prompt to reuse it for generating fu-
+ture posters without having to input it again.
+System: Needs to store the prompt securely and provide op-
+tions to retrieve and reuse it.
+Preconditions The user has successfully provided a valid prompt (text or
+voice).
+The system is capable of saving user inputs and associating
+them with the user’s account.
+Post-conditions - The prompt is saved in the system and associated with the
+user’s profile.
+- The user can retrieve and reuse the saved prompt for future
+poster generation.
+Main Success Scenario 1. The user selects the option to save a prompt after provid-
+ing it.
+2. The system presents a confirmation of the prompt to be
+saved.
+3. The user confirms the save action.
+4. The system saves the prompt in the user’s account for
+future use.
+5. The user can view or retrieve the saved prompt when
+needed.
+Table 2.10: Save Prompts Use Case
+17
+2. Project Requirements
+2.1.11 Return Poster To User
+Field Details
+Use Case Name Return Poster to User
+Scope The system returns the generated poster to the user for pre-
+view, editing, or saving.
+Level System Goal
+Primary Actor System
+Stakeholders and interests User: Wants to receive the generated poster for further ac-
+tions like editing, saving, or sharing.
+System: Needs to deliver the poster promptly and accu-
+rately based on the prompt provided by the user.
+Preconditions The user has provided a valid prompt (text or voice) and the
+system has successfully generated a poster.
+Post-conditions The generated poster is displayed to the user for preview
+and further actions.
+Main Success Scenario 1. The user provides a voice or text prompt to the system.
+2. The system processes the input and generates a poster
+based on the prompt.
+3. The system sends the poster back to the user interface.
+4. The user views the poster and proceeds to either edit,
+save, or share it.
+Table 2.11: Return Poster to User Use Case
+18
+2.1 Use-case
+2.1.12 Process V oice Input
+Field Details
+Use Case Name Process V oice Input
+Scope The system processes the user’s voice input and converts
+it into text using an ASR (Automatic Speech Recognition)
+model.
+Level System Goal
+Primary Actor System
+Stakeholders and interests User: Wants their voice input converted to text accurately
+for generating a poster.
+System: Needs to process the voice input efficiently and
+return accurate text for further poster generation steps.
+Preconditions The user has provided a valid voice input through the sys-
+tem’s interface.
+The system has access to the ASR model (Whisper) for tran-
+scription.
+Post-conditions The voice input is successfully converted into text and made
+available for poster generation.
+Main Success Scenario 1. The user speaks into the app to describe the poster.
+2. The system captures the voice input and sends it to the
+ASR model.
+3. The ASR model processes the voice input and transcribes
+it into text.
+4. The system retrieves the transcribed text and displays it
+for the user to confirm or edit.
+5. The text is ready for the next steps in poster generation.
+Table 2.12: Process V oice Input Use Case
+19
+2. Project Requirements
+2.1.13 Generate Poster From Text
+Field Details
+Use Case Name Generate Poster From Text
+Scope The system generates a poster based on the text input pro-
+vided by the user.
+Level System Goal
+Primary Actor System
+Stakeholders and interests User: Wants to see a poster generated based on the text
+prompt they provided.
+System: Needs to process the text input and generate an
+accurate poster using a machine learning model like Stable
+Diffusion.
+Preconditions The user has provided a valid text prompt describing the
+poster they want to generate.
+The system has access to the image generation model (Sta-
+ble Diffusion).
+Post-conditions The poster is generated and displayed for the user to pre-
+view or edit.
+Main Success Scenario 1. The user submits a text prompt describing the desired
+poster.
+2. The system processes the text and sends it to the image
+generation model.
+3. The model generates a poster based on the provided text.
+4. The system retrieves the generated poster and displays it
+to the user.
+5. The user can then preview or edit the poster before final-
+izing it.
+Table 2.13: Generate Poster From Text Use Case
+20
+2.1 Use-case
+2.1.14 Handle Poster Editing
+Field Details
+Use Case Name Handle Poster Editing
+Scope The system processes user input to modify the generated
+poster, such as adjusting text, colors, fonts, or repositioning
+elements.
+Level System Goal
+Primary Actor System
+Stakeholders and interests User: Wants to edit the poster by making adjustments to its
+layout, text, and other visual elements.
+System: Must handle the user’s input efficiently and update
+the poster in real-time, reflecting all changes accurately.
+Preconditions The user has generated a poster and initiated the editing pro-
+cess.
+The system provides an editing interface with tools for mod-
+ifying the poster.
+Post-conditions The poster is updated based on the user’s modifications and
+saved for further actions, such as saving or sharing.
+Main Success Scenario 1. The system presents the user with tools for editing the
+poster.
+2. The user interacts with the system to modify text, fonts,
+colors, or reposition elements.
+3. The system processes the user’s input in real time and
+updates the poster accordingly.
+4. The system saves the modified poster for further actions,
+such as previewing, saving, or sharing.
+Table 2.14: Handle Poster Editing Use Case
+21
+2. Project Requirements
+2.1.15 Manage Users
+Field Details
+Use Case Name Manage Users
+Scope The admin manages user accounts, including adding, re-
+moving, or modifying user accounts.
+Level User Goal
+Primary Actor Admin
+Stakeholders and interests Admin: Wants to manage user access, ensure only autho-
+rized users can access the system, and maintain system se-
+curity.
+System: Needs to keep the database of users updated and
+ensure that appropriate permissions are in place for user ac-
+tions.
+Preconditions The admin is authenticated and has the necessary permis-
+sions
+Post-conditions The user database is updated with the changes (add, remove,
+modify users) made by the admin.
+Main Success Scenario 1. The admin logs into the system and navigates to the user
+management section.
+2. The admin views the list of current users.
+3. The admin adds a new user by filling in the necessary
+information.
+4. The admin removes a user or modifies an existing user’s
+5. The system updates the user database accordingly and
+confirms the changes to the admin.
+Table 2.15: Manage Users Use Case
+22
+2.2 Functional Requirements
+2.1.16 Monitor System
+Field Details
+Use Case Name Monitor System
+Scope The admin monitors the system to ensure smooth operation,
+track performance, and detect any issues.
+Level Admin Goal
+Primary Actor Admin
+Stakeholders and interests Admin: Wants to ensure the system operates efficiently and
+detects any performance or security issues.
+System: Needs to provide real-time data and logs for moni-
+toring system health and activity.
+Preconditions The admin is authenticated and has the necessary permis-
+sions
+The system is operational and provides access to logs, per-
+formance data, and alerts.
+Post-conditions The admin successfully monitors system performance and
+is alerted to any issues (if applicable).
+Main Success Scenario 1. The admin logs into the system and navigates to the mon-
+itoring dashboard.
+2. The system displays performance measures, such as
+server health and response times.
+3. The admin monitors logs, metrics, and alerts for any
+anomalies or system errors.
+4. The admin takes action based on the logs.
+Table 2.16: Monitor System Use Case
+2.2 Functional Requirements
+This section describes the functional requirements of V ocalCraft.
+2.2.1 User Authentication
+The following are the requirements for User Authentication:
+1. The users will sign up using their email, password, and username.
+2. The system will authenticate the user.
+3. The system shall allow users to log out of their accounts.
+23
+2. Project Requirements
+2.2.2 V oice-to-Text Processing
+The following are the requirements for V oice-to-Text Processing:
+1. The system shall use the user’s microphone for voice input.
+2. The system shall convert the voice input into text using a speech recognition model
+(Whisper).
+3. The system shall display the text to the user for confirmation or editing.
+2.2.3 Text Input
+The following are the requirements for Text Input:
+1. The system shall allow users to input text prompts for poster generation manually.
+2. The system shall validate the text input to ensure it is not empty and make sure no
+information is missing (e.g., background color).
+2.2.4 Poster Generation
+The following are the requirements for Poster Generation:
+1. The system shall generate a poster based on the user’s voice or text prompts using
+an image generation model (Stable Diffusion).
+2. The system shall present the generated poster to the user for preview.
+2.2.5 Poster Editing
+The following are the requirements for Poster Editing:
+1. The system shall allow users to edit the generated poster (e.g., move text, change
+colours, and fonts, and resize elements).
+2. The system shall apply user edites to the poster in real-time.
+3. The system shall allow users to undo changes made during the editing process.
+24
+2.3 Non-Functional Requirements
+2.2.6 Save and Load Prompts
+The following are the requirements for Save and Load Prompts:
+1. The system shall enable the users to save their voice or text prompts for later use.
+2. The system shall allow users to retrieve previuosly saved prompts and reuse them
+to generate posters.
+2.2.7 Save and Share Posters
+The following are the requirements for Save and Share Posters:
+1. The system shall permit the users to download generated or edited posters in con-
+ventional formats such as PNG or JPEG.
+2. The system shall allow users to share the generated posters directly via social media,
+email, or messaging apps.
+2.2.8 System Monitoring and Management (Admin Features)
+The following are the requirements for System Monitoring and Management:
+1. The system shall enable an admin to monitor system performance of such functions
+as usage of the poster generation and user activity.
+2. The system shall enable an admin to create user profiles, delete and modify users’
+access permission.
+3. This system shall be capable to log errors and enable the admin to view log in case
+of troublshooting.
+2.3 Non-Functional Requirements
+This section specifies the nonfunctional requirements of V ocalCraft.
+2.3.1 Reliability
+1. It is required that the Mean Time Between Failure (MTBF) should not be below
+1000 hours of uninterrupted usage.
+25
+2. Project Requirements
+2. They defined a system failure as the inability to produce or generate a poster, re-
+spond to user input, or operate with voice/text prompts.
+3. If failure happens, the system should be able to recognize that or at least recognize
+the right time to alert the admin and the user.
+4. The system must have automatic recovery mechanisms such as retries for poster
+generation or a fallback strategy in case of a system failure.
+5. The system has to produce and store failure logs.
+6. The admin needs to be informed of consecutive failures that occur and records need
+to be kept of all system failures to analyze further.
+2.3.2 Usability
+1. USE-1: The system shall allow users to generate a poster from a voice or text
+prompt with no more than 3 interactions.
+2. USE-2: The system’s interface must allow users to preview the generated poster
+and make edits (e.g., adjust text or colors) with drag-and-drop functionality.
+3. USE-3: The system must provide real-time visual feedback during poster genera-
+tion, including progress bars or loading indicators.
+4. USE-4: The system shall allow users to undo or reset any poster edits with a single
+interaction.
+5. USE-6: The system must provide tips for first-time users to help them understand
+the main features.
+2.3.3 Performance
+1. PER-1: 95% of posters generated by the system shall be completed within 30 sec-
+onds from the time the user submits the request, under normal operating conditions.
+2. PER-2: 90% of voice-to-text conversions shall be processed and displayed to the
+user within 5 seconds after submission of voice input.
+3. PER-3: The system must support at least 100 concurrent users generating posters
+without noticeable performance degradation (response times not exceeding 30 sec-
+onds).
+26
+2.3 Non-Functional Requirements
+4. PER-4: The system shall allow the user to save or share posters within 5 seconds
+after the user confirms the poster is finalized.
+5. PER-5: In case of heavy load (more than 100 concurrent users), the system must
+maintain a response time of less than 60 seconds for 80% of poster generation
+requests.
+2.3.4 Security
+1. SEC-1: The system shall prevent unauthorized access to user data and poster gener-
+ation history, requiring a high level of technical skill and significant time to breach.
+2. SEC-2: The system shall detect and log any unauthorized access attempts and no-
+tify the admin within 5 minutes of the detection.
+3. SEC-3: The system shall ensure that user data is protected against unauthorized
+modifications, and any changes to sensitive data must be traceable.
+4. SEC-4: The system shall maintain the integrity of poster data during transmission
+and storage to prevent data corruption.
+27
+2. Project Requirements
+2.4 Domain Model
+Figure 2.2: Domain Model
+28
+Chapter 3
+System Overview
+3.1 Architectural Design
+The architectural design followed by V ocalCraft will be API-Centric Microservices with
+Event-Driven Workflow. This architecture offers flexibility, maintainability, and scalabil-
+ity. Most of the core functionalities of the app are abstracted within the external APIs
+and the app provides a procedural event-based workflow to the user. Event-based en-
+sures smooth asynchronous communication between services, allowing the user real-time
+interaction with the app. This architecture is also secure due to the API gateways, and
+token-based authentication that protects the sensitive operations of the app and user’s
+data.
+29
+3. System Overview
+Figure 3.1: Architectural Design Diagram
+30
+3.2 Design Models
+3.2 Design Models
+3.2.1 ERD Diagram
+Figure 3.2: ERD Diagram
+31
+3. System Overview
+3.2.2 Activity Diagram
+Figure 3.3: Activity Diagram
+32
+3.2 Design Models
+3.2.3 Data Flow
+Figure 3.4: Data Flow Diagram
+33
+3. System Overview
+3.2.4 State Transition Diagram
+Figure 3.5: State Transition Diagram
+34
+3.2 Design Models
+3.2.5 System Sequence Diagrams
+Figure 3.6: System Sequence Diagram for User Authentication Sign Up/Log In
+Figure 3.7: System Sequence Diagram for Providing V oice Prompt
+35
+3. System Overview
+Figure 3.8: System Sequence Diagram for Providing Text Prompt
+Figure 3.9: System Sequence Diagram for Generating Poster
+36
+3.2 Design Models
+Figure 3.10: System Sequence Diagram for Preview Poster
+37
+3. System Overview
+Figure 3.11: System Sequence Diagram for Edit Poster
+Figure 3.12: System Sequence Diagram for Share Poster
+38
+3.2 Design Models
+Figure 3.13: System Sequence Diagram for Save Poster
+39
+3. System Overview
+Figure 3.14: System Sequence Diagram for Save Prompts
+40
+3.2 Design Models
+Figure 3.15: System Sequence Diagram for Return poster to user
+Figure 3.16: System Sequence Diagram for Process V oice Input
+41
+3. System Overview
+Figure 3.17: System Sequence Diagram for Generate Poster From Text
+Figure 3.18: System Sequence Diagram for Manage Users
+42
+3.2 Design Models
+Figure 3.19: System Sequence Diagram for Monitor System
+43
+3. System Overview
+3.3 Data Design
+3.3.1 Information Domain Transformation
+It verifies the user’s credentials for authentication. Then the user speaks to the system or
+writes a text input, and the system translates it into the pamphlet of the user requirement.
+The input is then passed through external API such as STT conversion, prompt engineer-
+ing, JSON prompts file, image generation, and image inpainting. The data generated is
+used to construct the image, and the user can also share and or download the image.
+1. System Inputs
+• User Login Credentials (Text Input)
+• Image Prompt (V oice/Text Input)
+2. System Output
+• Generated Image
+• Sharing and Downloading options
+The app converts the voice prompt to text using an external speaker-to-text translation
+application. Once in text form, the given textual prompt is refined, and transformed into
+a JSON file using the Prompt Engineering and the NER API which defines key entities.
+Later, the prompt is transferred to the Diffusion API to generate the image and its parts in
+order to obtain the result.
+3.3.2 Data Structures
+The data entities in the app are for the user entries, user prompts, and generated images.
+1. User Entity
+• Attributes: ID, Name, Email, Password
+• Description: Stores the user login and signup information
+2. User Prompts
+• Attributes: ID, Prompt
+• Description: Stores the user prompts.
+3. Image Entity
+44
+3.3 Data Design
+• Attributes: ID, Name, ImageData, DateCreated, ShareData
+• Description: Stores metadata for each image generated by the user, including
+whether it was shared or downloaded.
+Relationships:
+• There is a one to many mapping between entities User to Image because one
+instance of a user can provide many images.
+• A one-to-many relationship exists between User and User Prompts since 1
+user can generate many prompts.
+• A one-to-one relationship exists between User Prompts and Image entities,
+as one prompt by a single user will generate only one image.
+3.3.3 Storage Mechanisms
+The app uses a relational database to store user credentials and image data securely.
+• Database:
+– Type: Relational Database (MySQL)
+– Purpose: To store user login details, user prompts, and generated images.
+• Storage Strategy:
+– User data is stored in a secure table with hashed passwords.
+– Prompt Data is stored in the table linked with the User table, organized by
+time created, and could be filtered out for each user.
+– Image data is stored along with metadata, including creation date and user
+ID for easy retrieval.
+3.3.4 Data Processing
+After the user login, the app processes the input prompt through several stages:
+• V oice-to-Text Conversion:The voice input is then passed to an API outside this
+system where it is converted into text.
+• Prompt Engineering and NER Processing: The subsequent text is processed us-
+ing a Prompt Engineering and a Named Entity Recognition API to perform Key
+Entity Extraction.
+45
+3. System Overview
+• Image Generation: The extracted entities are then employed to create an image
+via another API.
+Concurrency and Transactions:
+• Transactions for user login and image generation are handled in a sequential pro-
+cess, ensuring each stage is completed before moving to the next.
+• Session management is used to maintain user states, ensuring they remain logged
+in during the process.
+3.3.5 Security and Integrity of Data
+Data security is maintained throughout the app, particularly for sensitive user information
+and images.
+• Data Protection: User passwords are securely hashed, and sensitive data is en-
+crypted in storage.
+• Access Control: Before accessing the app’s features, user authentication will be
+required. Users and an admin will have different accesses in the app.
+3.3.6 Data Flow Between Subsystems
+The app consists of several subsystems:
+• User Authentication Subsystem: Handles user login and sign up.
+• STT Subsystem: Transforms voice prompts into text using an STT API.
+• Prompt Engineering and NER Subsystem: Extracts entities set in a pre-defined
+prompt layout from the text prompt.
+• Image Generation Subsystem: Creates images and components within the images
+based on extracted entities using an external API.
+• Image Sharing/Download Subsystem: Allows users to share or download the
+generated image.
+These subsystems follow a sequential data flow from getting the user input prompt to
+generating the pamphlet.
+46
+3.3 Data Design
+3.3.7 Optimization and Performance Considerations
+The app’s performance will be a result of the following optimizations:
+• Asynchronous API Calls: API calls for voice-to-text conversion and NER pro-
+cessing are handled asynchronously to reduce latency.
+47
+Chapter 4
+Conclusion
+In conclusion, through the application of voice-to-text processing, prompt engineering,
+and diffusion models, the V ocalCraftwill showcase its capability to completely trans-
+form the way promotional pamphlet is done. Being an app for mobile use and having
+customizable templates and cloud storage, V ocalCraft offers fast-food businesses an ef-
+fective and easily affordable tool for their marketing work.
+Such voice input and text output modules, along with the image processing module guar-
+antee the attractiveness and, at the same time, professional appearance of the text pre-
+sented in the proposed pamphlets. Concerning the current market, the project directly
+responds to some of the principal problems encountered with graphic design tools be-
+cause it provides straightforward software that does not require any prior experience in
+design.
+Also as V ocalCraft gradually transitions to a real-world application, there will be a need
+to improve the performance, accessibility, and security of the system as it forms a com-
+petitive tool for the marketing industry.
+48
+Glossary
+ASR (Automatic Speech Recognition): A technology that converts spoken language into
+text using algorithms and machine learning models. In this report, it refers to the
+use of the Whisper model to transcribe voice input.
+Diffusion Model: A generative model that generates images by iterative denoising a ran-
+dom noise image based on a given input prompt. Used for creating images in V o-
+calCraft’s poster generation process.
+NER (Named Entity Recognition): A process in natural language processing (NLP) that
+identifies and classifies key information (entities) such as names, dates, and loca-
+tions from text data. In this project, it helps extract relevant details from user input
+to generate the pamphlet content.
+Prompt Engineering: The process of designing input prompts for AI systems to guide
+their output. In this project, the Prompt Engineering will done on the textual prompt
+for the diffusion models to create a pamphlet.
+Inpainting: A technique used to fill in missing or masked parts of an image. In the
+V ocalCraft project, inpainting is used to add placeholders for text and object areas
+within the generated image.
+STT (Speech-to-Text): A technology that converts spoken language into written text.
+Whisper, an STT model, will be used in this project to transcribe the user’s voice
+input into text.
+49
+References
+[1] B. Cheng and M. Zhanikeev. Performance considerations for cloud storage in mobile
+applications. International Journal of Computer Applications , 2012.
+[2] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models,
+2020.
+[3] J. Nielsen and R. Molich. Heuristic evaluation of user interfaces. In Proceedings of
+the SIGCHI Conference on Human Factors in Computing Systems , pages 249–256,
+1990.
+[4] R. S. Pressman and B. R. Maxim. Software Engineering: A Practitioner’s Approach.
+McGraw-Hill, 2020.
+[5] Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, and Christine McLeavey.
+Whisper: Openai’s speech recognition model, 2023.
+[6] Aditya Ramesh et al. Zero-shot text-to-image generation, 2021.
+[7] X. Yao et al. Named entity recognition using bidirectional lstm-cnns. In IEEE Inter-
+national Conference on Data Engineering (ICDE) , pages 1487–1496, 2017.
+50
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

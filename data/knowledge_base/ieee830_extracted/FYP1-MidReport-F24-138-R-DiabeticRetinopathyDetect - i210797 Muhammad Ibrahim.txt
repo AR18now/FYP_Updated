@@ -1,0 +1,384 @@
+# FYP1-MidReport-F24-138-R-DiabeticRetinopathyDetect - i210797 Muhammad Ibrahim
+
+## 1. Introduction
+
+Introduction 11
+1.1 Problem Domain . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.2 Research Problem Statement . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2 Literature Review 22
+2.1 Related Research . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+2.1.1 Is it Time to Replace CNNs with Transformers for Medical Images? . . 22
+2.1.1.1 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+2.1.1.2 Critical Analysis . . . . . . . . . . . . . . . . . . . . . . . . 22
+2.1.1.3 Relationship to the proposed research work . . . . . . . . . . 33
+2.1.2 Conv-ViT: A Convolution and Vision Transformer-Based Hybrid Fea-
+ture Extraction Method for Retinal Disease Detection . . . . . . . . . . 33
+2.1.2.1 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+2.1.2.2 Critical analysis . . . . . . . . . . . . . . . . . . . . . . . . 33
+2.1.2.3 Relationship to the proposed research work . . . . . . . . . . 44
+2.1.3 Scopeformer: n-CNN-ViT Hybrid Model for Intracranial . . . . . . . . 44
+2.1.3.1 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+2.1.3.2 Critical analysis . . . . . . . . . . . . . . . . . . . . . . . . 44
+2.1.3.3 Relationship to the proposed research work . . . . . . . . . . 44
+2.1.4 Collaborative Consultation Doctors Model: Unifying CNN and ViT for
+COVID-19 Diagnostic . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+2.1.4.1 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+2.1.4.2 Critical analysis . . . . . . . . . . . . . . . . . . . . . . . . 55
+2.1.4.3 Relationship to the proposed research work . . . . . . . . . . 55
+2.1.5 Combining the Transformer and Convolution for Effective Brain Tumor
+Classification Using MRI Images . . . . . . . . . . . . . . . . . . . . . 66
+2.1.5.1 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+2.1.5.2 Critical analysis . . . . . . . . . . . . . . . . . . . . . . . . 66
+2.1.5.3 Relationship to the proposed research work . . . . . . . . . . 66
+2.2 Analysis Summary of research items . . . . . . . . . . . . . . . . . . . . . . . 66
+3 Proposed Method 99
+2
+CONTENTS
+3.1 Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+3.2 Methodology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+3.2.1 Input Image Data . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+3.2.2 Preprocessing and Data Augmentation . . . . . . . . . . . . . . . . . . 1010
+3.2.3 CNN Feature Extraction . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+3.2.4 ViT Attention Encoding . . . . . . . . . . . . . . . . . . . . . . . . . 1111
+3.2.5 Classification and Prediction . . . . . . . . . . . . . . . . . . . . . . . 1111
+4 Conclusions and Future Work 1212
+References 1313
+3
+List of Figures
+3.1 Framework of the Proposed Multi-Modal Deepfake Detection System . . . . . 1010
+4
+List of Tables
+2.1 Summary of Critical Analyses of Papers . . . . . . . . . . . . . . . . . . . . . 88
+0
+Chapter 1
+Introduction
+Diabetic Retinopathy (DR) is a leading cause of preventable blindness in diabetic patients.
+Early detection and classification of DR stages are critical to prevent vision loss. With ad-
+vancements in deep learning, automated systems for DR detection using retinal fundus images
+have shown promise in enhancing the efficiency and accuracy of diagnosis.
+1.1 Problem Domain
+Traditional methods for diagnosing Diabetic Retinopathy rely on manual examination of retinal
+images by specialists, which can be subjective and time-consuming. Convolutional Neural Net-
+works (CNNs) have shown effectiveness in automating this process by extracting local features
+from retinal images. However, CNNs are limited in capturing global dependencies in the im-
+age, which are essential for understanding complex retinal structures. On the other hand, Vision
+Transformers (ViTs) excel in capturing long-range dependencies but require large datasets and
+computational resources, making them less practical for medical imaging tasks with limited
+data availability.
+1.2 Research Problem Statement
+The challenge is to develop an efficient and accurate system for Diabetic Retinopathy detection
+that leverages the strengths of both CNNs and ViTs. Specifically, how can a hybrid CNN-ViT
+model be designed to enhance feature extraction and classification accuracy for DR detec-
+tion, while addressing the limitations of each individual architecture? This research aims to
+investigate the viability of such a hybrid model and its effectiveness in improving Diabetic
+Retinopathy detection.
+1
+Chapter 2
+Literature Review
+2.1 Related Research
+2.1.1 Is it Time to Replace CNNs with Transformers for Medical Images?
+2.1.1.1 Summary
+The paper[ 11] investigates whether Vision Transformers (ViTs) can effectively replace Con-
+volutional Neural Networks (CNNs) for medical image diagnosis. The authors explore the
+performance of ViTs versus CNNs across three medical imaging datasets, including APTOS
+2019, a dataset for Diabetic Retinopathy detection. They compare the models under three ini-
+tialization strategies: random initialization, ImageNet pretraining, and self-supervised learning.
+The results show that CNNs outperform ViTs when trained from scratch, but when pretrained
+on ImageNet, ViTs match CNNs in performance. Additionally, ViTs show a small advantage
+when combined with self-supervised pretraining.
+2.1.1.2 Critical Analysis
+The paper provides a valuable comparison between CNNs and ViTs for medical imaging tasks,
+which is a timely and important investigation given the rising popularity of ViTs. A strength
+of the research is the inclusion of self-supervised learning and transfer learning strategies, both
+of which are highly relevant to domains like medical imaging where labeled data is limited.
+However, the study reveals that ViTs generally require large amounts of data or pretraining to
+perform on par with CNNs, which could be a limitation for smaller datasets. Moreover, while
+ViTs provide better explainability through attention maps, the improvements in performance
+over CNNs are marginal in most cases with low-data regime.
+2
+2.1 Related Research
+2.1.1.3 Relationship to the proposed research work
+The findings of this paper support the use of CNNs for feature extraction in low-data regimes,
+as CNNs outperformed ViTs when trained from scratch. Moreover, the insights into ViTs’
+performance when pretrained on large datasets like ImageNet align with our strategy of using
+CNNs for local feature extraction and ViTs for global attention. This hybrid approach allows
+us to leverage the strengths of both models, combining the robust feature extraction capabil-
+ities of CNNs with the attention-based global feature capturing power of ViTs. Additionally,
+the paper’s emphasis on the explainability of ViTs through attention maps could enhance the
+interpretability of our hybrid model.
+2.1.2 Conv-ViT: A Convolution and Vision Transformer-Based Hybrid
+Feature Extraction Method for Retinal Disease Detection
+2.1.2.1 Summary
+The paper[22] presents a hybrid model combining CNNs and ViT to detect retinal diseases. The
+model integrates pre-trained CNN models (Inception-V3 and ResNet-50) to extract texture-
+based features and a ViT to capture shape-based features from optical coherence tomography
+(OCT) images. The fusion of CNN and ViT features enhances the ability to classify retinal
+diseases into four categories: Choroidal Neovascularization (CNV), Diabetic Macular Edema
+(DME), DRUSEN, and NORMAL. The model achieves a weighted average classification ac-
+curacy of 94%, indicating the effectiveness of combining both local texture and global shape
+features.
+2.1.2.2 Critical analysis
+The Conv-ViT model presents a novel approach by fusing CNN-based texture feature extraction
+with transformer-based shape feature learning. A key strength of the study is the use of both
+Inception-V3 and ResNet-50 CNN models to address texture features while adding the ViT to
+capture long-range pixel relationships. This hybrid approach improves the robustness of retinal
+disease classification, outperforming single-model approaches. However, the complexity of
+the model (with three deep learning models) may limit its practicality for real-time applications
+due to computational demands. Additionally, the dataset used is imbalanced, which may have
+affected the performance on minority classes like DRUSEN, which had a lower F1 score.
+3
+2. Literature Review
+2.1.2.3 Relationship to the proposed research work
+The Conv-ViT method approache leverages the strengths of CNNs for extracting local features
+and ViTs for capturing global relationships, making it relevant for medical image analysis tasks.
+The insights from this paper, particularly the success of combining multiple CNNs with ViTs,
+support our decision to employ a hybrid model for Diabetic Retinopathy detection. Addition-
+ally, it’s focus on fusing CNN and ViT outputs to improve classification performance can be
+applied to our work, potentially enhancing the accuracy of our model.
+2.1.3 Scopeformer: n-CNN-ViT Hybrid Model for Intracranial
+2.1.3.1 Summary
+The research[33] paper proposes a hybrid architecture combining multiple CNNs with a ViT
+for classifying intracranial hemorrhages. The authors utilize a feature generation backbone
+comprising several CNNs, including Xception networks, to create feature maps that enhance
+the ViT’s attention mechanism. The CNNs are pretrained using different paradigms such as
+ImageNet and GAN-based datasets, enabling the ViT to attend to rich and multi-level feature
+representations. This hybrid model achieves a classification accuracy of 98.04%, demonstrating
+its effectiveness and scalability for medical image analysis.
+2.1.3.2 Critical analysis
+The research highlights a novel combination of CNN and ViT models, showcasing the strength
+of using CNNs as feature extractors for the ViT. One of the strengths is the use of multiple
+pretrained CNNs, which improves the diversity and richness of the feature maps. However,
+while the hybrid model is scalable, the computational complexity of stacking multiple CNNs
+could be a drawback for systems with limited resources. Nonetheless, the paper effectively
+demonstrates the benefit of integrating CNNs into ViT-based architectures for complex medical
+tasks.
+2.1.3.3 Relationship to the proposed research work
+The approach of using CNNs as feature extractors to improve the ViT’s attention mechanism is
+directly applicable. Both tasks involve medical image classification, where the combination of
+local feature extraction (via CNNs) and global attention (via ViT) can enhance model perfor-
+mance. The findings from this paper, such as the modular scalability and the impact of using
+multiple pretrained CNNs, can inform the design and optimization of the proposed Diabetic
+Retinopathy detection model.
+4
+2.1 Related Research
+2.1.4 Collaborative Consultation Doctors Model: Unifying CNN and ViT
+for COVID-19 Diagnostic
+2.1.4.1 Summary
+The paper[44] proposes a hybrid model combining CNNs and ViTs for diagnosing COVID-19
+using chest X-ray and CT scan images. The model draws inspiration from the collaborative
+consultation process in medical diagnostics, where multiple experts consult to achieve more
+accurate diagnoses. The CNN extracts local spatial features, while the ViT captures global
+contextual information. The authors employ an early fusion strategy, where CNN and ViT
+features are combined and then passed through a residual neural network. The model is eval-
+uated on two benchmark datasets—ChestXray and Clean-CC-CCII—achieving accuracy rates
+of 98.86% and 95.62%, respectively.
+2.1.4.2 Critical analysis
+This paper presents an innovative approach by merging the strengths of CNNs and ViTs in
+medical diagnostics, emphasizing the collaboration between local feature extraction and global
+attention mechanisms. One of the strengths of the research is the use of early feature fusion,
+which maximizes the complementary capabilities of both models, leading to superior accuracy
+on COVID-19 diagnosis. Additionally, the analogy to a collaborative consultation between
+doctors provides a compelling conceptual framework for combining different models. How-
+ever, the computational complexity of using both CNN and ViT models in parallel might be a
+barrier for real-time or resource-constrained deployments in clinical settings.
+2.1.4.3 Relationship to the proposed research work
+Both models aim to combine CNNs for local feature extraction and ViTs for global context
+analysis. The early fusion strategy discussed in the paper offers valuable insights into how we
+can structure the fusion of CNN and ViT features in our model. Additionally, the paper’s strong
+results on medical image classification tasks suggest that a similar approach could improve the
+performance of our hybrid model for Diabetic Retinopathy detection, especially when dealing
+with the complexities of retinal image classification.
+5
+2. Literature Review
+2.1.5 Combining the Transformer and Convolution for Effective Brain
+Tumor Classification Using MRI Images
+2.1.5.1 Summary
+The research[55] explores a hybrid model combining CNNs and ViTs for brain tumor classifi-
+cation using MRI images. The authors propose a Transformer-Enhanced Convolutional Neural
+Network (TECNN) model, where the CNN is responsible for extracting local features, while the
+ViT captures global dependencies using self-attention. The paper demonstrates the effective-
+ness of this hybrid model on two datasets: BraTS 2018 and Figshare, achieving accuracy rates
+of 96.75% and 99.10%, respectively. The authors introduce Feature Fusion Module (FFM) and
+Intelligent Merge Module (IMM) to combine CNN feature maps with Transformer patches,
+which ensures that both local and global information are retained and used for classification.
+2.1.5.2 Critical analysis
+This research presents a strong case for hybrid architectures that leverage both CNNs and ViTs
+for medical image classification tasks. One of its strengths is the introduction of FFM and IMM,
+which addresses the semantic gap between CNN feature maps and Transformer embeddings,
+resulting in more effective feature fusion. The TECNN model outperforms state-of-the-art
+methods in the datasets it was tested on, demonstrating its robustness. However, while the
+model achieves high accuracy, it relies on a complex architecture that may be computationally
+expensive, making it challenging to implement in resource-constrained environments.
+2.1.5.3 Relationship to the proposed research work
+The TECNN model’s approach of using CNNs for local feature extraction and ViTs for global
+feature extraction involves medical image classification, and the hybrid architecture’s ability
+to combine spatial and global information can be applied to our Diabetic Retinopathy dataset.
+The FFM and IMM modules in TECNN offer a valuable reference for effectively merging
+CNN and ViT outputs, which can be integrated into our model to ensure that both local (retinal
+features) and global (contextual) information are preserved for accurate diagnosis. This paper’s
+methodology and findings can provide insights into optimizing our hybrid model for enhanced
+performance.
+2.2 Analysis Summary of research items
+6
+2.2 Analysis Summary of research items
+Paper Summary of Critical Analysis
+Is it Time to Replace
+CNNs with Transform-
+ers for Medical Im-
+ages?
+This paper highlights that CNNs generally out-
+perform ViTs in medical imaging tasks with
+limited data, though ViTs can match CNN per-
+formance when pretrained on large datasets like
+ImageNet. A strength of the study is the inclu-
+sion of self-supervised learning, which is valu-
+able for medical images. However, ViTs require
+significant pretraining and computational re-
+sources, making them less practical for smaller
+datasets or constrained environments. While
+ViTs offer better interpretability with attention
+maps, their performance gains over CNNs are
+marginal in low-data scenarios
+Conv-ViT: A Con-
+volution and Vision
+Transformer-Based
+Hybrid Feature Extrac-
+tion Method for Retinal
+Disease Detection
+This paper combines CNNs and ViTs for reti-
+nal disease detection, leveraging CNNs for tex-
+ture features and ViTs for shape features. This
+hybrid approach improves classification but in-
+creases computational complexity, which could
+limit real-world applications. The model also
+struggles with imbalanced datasets, particu-
+larly underperforming on minority classes like
+DRUSEN.
+Scopeformer: n-CNN-
+ViT Hybrid Model for
+Intracranial
+This paper introduces a hybrid model combin-
+ing CNNs and ViTs for intracranial hemorrhage
+classification. The model leverages multiple
+CNNs for detailed local feature extraction and
+a ViT for capturing global relationships in CT
+images. While this approach improves classi-
+fication accuracy, the reliance on multiple pre-
+trained CNNs and the ViT increases computa-
+tional complexity, which could limit scalability.
+Continued on next page
+7
+2. Literature Review
+Paper Summary of Critical Analysis
+Collaborative Consul-
+tation Doctors Model:
+Unifying CNN and
+ViT for COVID-19
+Diagnostic
+The paper presents a hybrid CNN-ViT model
+for COVID-19 diagnosis from medical images,
+combining CNNs for local feature extraction
+and ViTs for global attention. This collabora-
+tive approach mimics how doctors consult to
+improve diagnosis accuracy. While the model
+demonstrates strong performance in COVID-
+19 detection, the combination of multiple mod-
+els increases computational complexity, which
+may hinder real-time application.
+Combining the Trans-
+former and Convolu-
+tion for Effective Brain
+Tumor Classification
+Using MRI Images
+This paper proposes a hybrid model integrating
+CNNs for local feature extraction and ViTs for
+capturing global context in MRI images. This
+combination improves classification accuracy
+for brain tumors by leveraging the strengths of
+both architectures. However, the model’s com-
+plexity and high computational demands could
+limit its deployment in real-time or resource-
+constrained environments.
+Table 2.1: Summary of Critical Analyses of Papers
+8
+Chapter 3
+Proposed Method
+This section outlines our method for Diabetic Retinopathy detection using a hybrid model that
+combines CNNs for local feature extraction and ViTs for global attention-based processing.
+3.1 Overview
+The proposed method involves the following main steps:
+1. Input Image Data
+2. Preprocessing and Data Augmentation
+3. CNN Feature Extraction
+4. ViT Attention Encoding
+5. Classification and Prediction
+A diagram of the approach is shown in Figure 3.1 for clarity.
+9
+Figure 3.1: Framework of the Proposed Multi-Modal Deepfake Detection System
+3.2 Methodology
+Our methodology for Diabetic Retinopathy detection involves a hybrid deep learning model
+that integrates the strengths of CNNs and ViTs. This method leverages CNNs for local feature
+extraction and ViTs for capturing global dependencies in retinal fundus images, enhancing
+classification accuracy for Diabetic Retinopathy stages.
+3.2.1 Input Image Data
+We begin by using retinal fundus images as input to the model. The images are resized to
+a standard resolution of 224×224×3 to maintain uniformity across the dataset and facilitate
+efficient processing by both the CNN and ViT components.
+3.2.2 Preprocessing and Data Augmentation
+Prior to analysis, the images undergo preprocessing to improve the quality and robustness of
+the model:
+• Normalization: Pixel values are normalized to reduce intensity variations across images.
+• Data Augmentation: Techniques such as random rotation, flipping, and zooming are
+applied to enhance the model’s ability to generalize and reduce overfitting.
+3.2.3 CNN Feature Extraction
+To extract local features from the retinal images, we employ multiple pre-trained CNN models
+(e.g., ResNet-50, DenseNet-201) that capture fine-grained details such as blood vessel patterns,
+3.2 Methodology
+exudates and microaneurysms. The feature maps generated by each CNN are combined and
+aligned to provide a comprehensive representation of the retinal images.
+3.2.4 ViT Attention Encoding
+After the CNN feature extraction step, the resulting feature maps are passed into a Vision
+Transformer (ViT) model. The ViT processes these feature maps through self-attention layers
+to capture long-range dependencies and global contextual information, ensuring that the model
+can analyze the entire image holistically.
+3.2.5 Classification and Prediction
+Finally, the output from the ViT is passed through a Multi-Layer Perceptron (MLP) for classi-
+fication. The MLP is responsible for predicting the presence and severity of Diabetic Retinopa-
+thy based on the combined local and global features extracted by the CNN and ViT com-
+ponents. The model outputs the predicted class labels corresponding to different stages of
+Diabetic Retinopathy.
+This hybrid CNN-ViT model is designed to leverage the strengths of both architectures to
+achieve more accurate and robust Diabetic Retinopathy detection and classification.
+11
+Chapter 4
+Conclusions and Future Work
+This project proposes a hybrid model that combines Convolutional Neural Networks (CNNs)
+and Vision Transformers (ViTs) to enhance the detection and classification of Diabetic Retinopa-
+thy. The proposed approach aims to leverage CNNs for local feature extraction and ViTs
+for capturing global dependencies, addressing the limitations of each architecture individu-
+ally. While the model has not been fully developed, the design demonstrates the potential
+for improving diagnostic accuracy in early detection of Diabetic Retinopathy. By integrating
+both deep learning techniques, this approach could provide a more efficient and accurate tool
+for healthcare professionals in the future. Further research and development are required to
+validate this approach through real-world testing and optimization for practical deployment.
+12
+References
+[1] Magnus Söderberg Kevin Smith Christos Matsoukas, Johan Fredin Haslum. Is it time to
+replace cnns with transformers for medical images? arXiv, August 2021.
+[2] Md. Azad Hossain M. Ali Akber Dewan Pramit Dutta, Khaleda Akther Sathi. Conv-vit:
+A convolution and vision transformer-based hybrid feature extraction method for retinal
+disease detection. Journal of Imaging, July 2023.
+[3] Ghulam Rasool Yassine Barhoumi. Scopeformer: n-cnn-vit hybrid model for intracranial
+hemorrhage classification. arXiv, July 2021.
+[4] Minh-Triet Tran Trong-Thuan Nguyen, Tam V . Nguyen. Collaborative consultation doctors
+model: Unifying cnn and vit for covid-19 diagnostic. IEEE Access, August 2023.
+[5] Suliman Aladhadh Shabana Habib Mohammed F. Alsharekh Muhammad Islam Mo-
+hammed Aloraini, Asma Khan. Combining the transformer and convolution for effective
+brain tumor classification using mri images. Applied Sciences, March 2023.
+13
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

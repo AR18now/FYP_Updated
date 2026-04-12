@@ -1,0 +1,418 @@
+# FYP1-MidReport-F24-170-D-Kisan Rabta - i210519 Muhammad Siddique Umer
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+This project comprehensively collects, processes, and analyses data in real time in re-
+sponse to the needs of the Urdu-speaking farming population within Pakistan. A mobile
+application enables workers in the field to record conversations with farmers that can later
+be transcribed and analyzed using machine learning models built in Python. It will have
+an online database comprising agricultural information, and problems which are visually
+represented through our web interface. The other facilities included in this system are an
+admin panel for running extensive data queries and filtering for displaying relevant infor-
+mation thereby making decisions based on logical reasoning, hence improving farmers’
+production ability and making them more productive.
+1.3 Modules
+Our project, Kisan Rabta, aims to transform agriculture data collection and analysis to use
+advanced modern-day technologies by integrating with field personnel and admin man-
+agement. There will be two main modules of our project. One is the mobile app, and
+the other is the dynamic Web interface. Our mobile has simple functionalities that will
+streamline the data collection process to collect the data accurately and in real-time. This
+data is then stored in our database for further operations. Here comes our machine learn-
+ing models into action. They will use this data to transcribe the extensive recordings into
+text, and then by using the agriculture data, we will remove the noise from the data and
+keep only agriculture-related things. The goal of each Module of our project is to make
+efficiency improvements and simplify the workflow. Following is a detailed description
+of our modules with relevant features.
+1.3.1 Client Mobile App
+Field agents can install an application on their phones that gives them a simple interface
+for recording conversations in Urdu. This tool gathers data about agriculture within a
+timeline.
+1. Secure Login: To make the system more secure, there will be an authentication
+mechanism for secure login. To this end, the client cannot sign up directly through
+the app. Only the admins can create login credentials for the field personnel, who
+can then log in using these credentials.
+2. Profile Management: Users can access their profiles’ information and carry out
+profile management tasks, such as changing their profile pictures.
+2
+1.4 User Classes and Characteristics
+3. Voice Recording: High-quality voice recordings in real-time are used to store com-
+prehensive discussions involving field agents and farmers
+4. Upload Integration: After the client pushes these recordings into the database.
+These extensive conversation recordings are then stored in our database for further
+operations.
+5. Audio File Management: These recordings are managed on the mobile until the
+field personnel does not upload them to the database.
+1.3.2 Admin Web App
+For the second module of our project “Kisan Rabta,” we are building a dynamic web
+interface for admins to visualize, query, and filter based on the requirements.
+1. Secure Login: Admin Login Secure admin login functionality will ensure that no
+unauthorized users can access the dashboard.
+2. Admin Panel: A secure Admin Panel for managing user activity, creating login
+credentials for field employees, and managing their activities.
+3. Data Visualization Tools: Interactive tools for visualizing agricultural data with
+graphs, charts, and maps will be provided. Users can see the agriculture data spe-
+cific to a particular area. The admin can also search, filter, and query data. For
+example, suppose the admin wants to see the agricultural information in the Punjab
+province. In that case, the admin can write Punjab in the search bar, and our dash-
+board will show them the map of Punjab province, highlighting the cities of Punjab
+and pinpointing the cities where the admin can select any city for more information.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+3
+1. Introduction
+User class Description
+Field Agent
+(App User)
+The primary user of the mobile application will be the Field Agent. They
+will collect the data from the farmers in form of audio recordings of their
+conversation or manually entering the details of the issue and keep the loca-
+tion monitored by geo tagging for easy labelling of data.
+Admin (Ad-
+minister)
+The admin is responsible for managing users and the system through the web
+portal. The admin creates and manages the field agents accounts, revie the
+collected data and utilise the web application interface for data visualization,
+filtering and querying.
+Farmer
+(Farmer
+Participant)
+The farmer shares the data of the agricultural issue faced during the conver-
+sation with the field agent. They do not interact with the application directly,
+but they provide the relevant details that we need to process the issue they
+are facing.
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case
+Figure 2.1: Use Case Diagram
+Detailed Use cases:
+5
+2. Project Requirements
+ID UC001
+Name Record Conversations
+Actors agent, farmer
+Description This use case involves recording the conversations between
+a farmer and the agent regarding crop issues.
+Preconditions
+• The agent is logged in.
+• The farmer is ready to engage in a conversation.
+Postconditions
+• The audio recording is saved in the system.
+• A reference to the recording is stored in the database.
+Main Success Scenario
+1. The agent selects the "Record Conversation" option.
+2. The system starts the audio recording.
+3. The agent engages with the farmer about their crop
+issues.
+4. The system records the conversation in real-time.
+5. The agent stops the recording when the conversation
+ends.
+6. The system saves the audio file in the database.
+Extension If recording fails: The system alerts the agent to retry.
+Table 2.1: Use Case: Recording Conversations
+6
+2.1 Use-case
+ID UC002
+Name Transcribe Audio to Text
+Actors Machine Learning Model
+Description This use case involves transcribing recorded audio from a
+conversation into text using a machine learning model.
+Preconditions
+• Audio recording exists.
+• The system is capable of processing the audio file.
+Postconditions
+• The text transcription is saved in the system.
+Main Success Scenario system sends the recorded audio to the transcription
+service.The machine learning model processes the
+audio. The model converts the audio to text.The tran-
+scription is saved in the database.
+Extension If transcription fails: An error log is generated, and the pro-
+cess is retried.
+Table 2.2: Use Case: Transcribe Audio to Text Use Case
+7
+2. Project Requirements
+ID UC003
+Name Extract Agricultural Data
+Actors Machine Learning Model
+Description This use case involves analyzing transcribed text to extract
+relevant agricultural data, such as crop types, diseases, or
+issues mentioned by the farmer.
+Preconditions
+1. 2. 3. • Transcribed text exists.
+Postconditions
+• Agricultural data is saved and associated with the
+transcription.
+Main Success Scenario
+1. The system sends the transcribed text to the data ex-
+traction service.
+2. The machine learning model processes the text to
+identify key agricultural data.
+3. Extracted data is stored in the database.
+Extension If data extraction fails: The system retries or flags the is-
+sue.
+Table 2.3: Use Case: Extract Agricultural Data Use Case
+8
+2.1 Use-case
+ID UC004
+Name Analyze Data
+Actors Admin
+Description The admin can analyze the agricultural data extracted from
+conversations to derive useful insights for reporting or
+decision-making.
+Preconditions
+• Agricultural data exists in the system.
+Postconditions
+• Insights and analysis are presented to the admin.
+Main Success Scenario
+1. Admin logs into the system.
+2. Admin selects the "Analyze Data" option.
+3. The system saves the data.
+4. Admin can view the data trends and insights.
+Extension If login fails, the system displays an error message.
+Table 2.4: Use Case: Analyze Data Use Case
+9
+2. Project Requirements
+ID UC005
+Name Login
+Actors Admin
+Description The admin must log into the system to access any data or
+features.
+Preconditions
+• The admin has valid login credentials.
+Postconditions
+• The admin is logged in and has access to the system.
+Main Success Scenario
+1. The admin enters the username and password.
+2. The system validates the credentials.
+3. If valid, the admin is granted access to the dashboard.
+Extension If data collection fails: The system alerts the agent.
+Table 2.5: Use Case: Login Use Case
+2.2 Functional Requirements
+This section outlines the functional requirements of the Kisan Rabta Project. These re-
+quirements are critical for the system to perform properly and to record the interaction
+between the user and the system. The requirements ensure accurate data gathering, anal-
+ysis, and report generation functionalities.
+2.2.1 Voice Recording Interface
+The following are the requirements for the Voice Recording Interface module :
+1. FR 1.1: The system must include a voice recording interface for the call center
+agents to capture the conversations between the farmers and them in Urdu language.
+2. FR 1.2: The system should enable the agents to manually start and stop the record-
+ing during the conversation to ensure that the unwanted conversation is not cap-
+tured.
+10
+2.2 Functional Requirements
+3. FR 1.3: The recorded files should be kept securely in the system.
+2.2.2 Audio-to-Text Conversion
+The following are the requirements for the Audio-to-Text Conversionmodule:
+1. FR 2.1: The system will use machine learning models to automatically transcribe
+the recorded Urdu audio conversations into text.
+2. FR 2.2: The transcription accuracy will be high to ensure minimum data loss.
+2.2.3 Agricultural Data Extraction
+The following are the requirements for the Agricultural Data Extraction module:
+1. FR 3.1: The system will automatically extract crucial agricultural information from
+the transcribed text, such as crop diseases, problems, and treatment approaches.
+2. FR 3.2: The system must classify extracted data by crop type, disease name, and
+farmer area.
+3. FR 3.3: Extracted data must be retained in a database for future analysis and re-
+porting.
+2.2.4 Data Analysis and Insights
+The following are the requirements for the Data Analysis and Insights module:
+1. FR 4.1: The system will evaluate the retrieved data to discover patterns, such as
+crop diseases, farmers’ problems, and other agriculture-related information.
+2. FR 4.2: The system will provide insights depending on area, demographics, and
+crop kind.
+3. FR 4.3: The analysis must accommodate large-scale datasets for future scalability.
+2.2.5 Data Visualization
+The following are the requirements for Data Visualization module:
+1. FR 5.1: The system must include a web-based dashboard with data visualization
+features such as graphs and charts.
+11
+2. Project Requirements
+2. FR 5.2: Users may pick and filter data according to area, crop type, disease name,
+and time range.
+3. FR 5.3: The system must show visual representations of data trends, such as bar
+charts, to aid decision-making.
+2.2.6 Admin Dashboard and Reporting
+The following are the requirements for Admin Dashboard and Reporting module:
+1. FR 6.1: The system must have an admin interface that allows the administrators
+to query data using various filters such as the region, crop type, and farmer demo-
+graphic.
+2. FR 6.2: Administrators must be able to create reports based on the filtered data.
+3. FR 6.3: The system must enable reports to be exported in formats such as PDF or
+CSV for external usage.
+2.2.7 User Authentication and Roles
+The following are the requirements for User Authentication and Roles module:
+1. FR 7.1: The system must offer a login interface for all users, including agents and
+administrators.
+2. FR 7.2: The system must allow role-based access control, with administrators hav-
+ing full access and contact agents having restricted access depending on their func-
+tion.
+3. FR 7.3: Users will be authorized using their login and password.
+2.3 Non-Functional Requirements
+Following are the Non-Functional Requirements of Kisan Rabta Project.
+2.3.1 Performance
+1. PER 1.1: The system must support the concurrent use of up to 15 field agents and
+administrators without significant degradation in performance.
+12
+2.3 Non-Functional Requirements
+2. PER 1.2: Audio-to-text transcription should be processed within 5 minutes of up-
+loading, even with large audio files.
+3. PER 1.3: The system must handle the storage and processing of large datasets,
+ensuring that data retrieval queries for visualization take time between 30 - 60 sec-
+onds.
+2.3.2 Scalability
+1. SCA 2.1: The system must be scalable to accommodate future growth, supporting
+up to 25 field agents and an increase in data collection without significant changes
+in performance.
+2.3.3 Security
+1. SEC 3.1: The system must implement role-based access control (RBAC), with
+strict authorization checks ensuring only authorized users (field agents and admin-
+istrators) have access to the data.
+2. SEC 3.2: User authentication must be strong and include multi-factor authentica-
+tion for administrators.
+2.3.4 Usability
+1. USA 4.1: The mobile and web interfaces must be user-friendly and intuitive, al-
+lowing field agents and administrators to navigate through the system with minimal
+training.
+2.3.5 Data Integrity
+1. DAI 5.1: The system must ensure that all data, including audio recordings, tran-
+scriptions, and reports, is stored and maintained in its correct form.
+2.3.6 Maintainability
+1. MAI 6.1: The system architecture must allow for easy updates and maintenance,
+ensuring that new features and security patches can be deployed with minimal
+downtime.
+13
+2. Project Requirements
+2. MAI 6.2: Codebase should follow modular architecture patterns to allow individ-
+ual components, like machine learning models or the dashboard, to be updated
+independently.
+2.3.7 Compliance
+1. COM 7.1: All audio recordings must adhere to consent-based data collection prac-
+tices, with appropriate notifications provided to farmers before recording.
+2.4 Domain Model
+Figure 2.2: Domain Model
+14
+Chapter 3
+System Overview
+3.1 Architectural Design
+1. Presentation Layer (User Interface)
+The Presentation Layer manages user interactions across both mobile and web plat-
+forms. It serves as the interface for agents and administrative users to interact with
+the system, facilitating seamless communication and user engagement.
+2. Application Layer (Business Logic)
+The Application Layer handles the core business logic of the system, including
+voice recording, transcription processing, and user management. It is also respon-
+sible for invoking machine learning models to transcribe audio inputs and extract
+relevant agricultural information.
+3. Data Layer
+The Data Layer ensures that all collected and processed data is securely stored and
+easily accessible for future use, maintaining data integrity and availability across
+the system.
+4. Machine Learning Layer
+The Machine Learning Layer contains models for audio-to-text conversion and
+agricultural data extraction. It interacts with the Application Layer to provide
+transcription-based analysis and insights that aid in decision-making and informa-
+tion processing.
+15
+3. System Overview
+Figure 3.1: Architecture Diagram
+3.2 Design Models
+Design Models for Object-Oriented Development Approach
+•Activity Diagram
+16
+3.2 Design Models
+Figure 3.2: Activity Diagram
+17
+3. System Overview
+•Class Diagram
+Figure 3.3: Class Diagram
+•Class-level Sequence Diagram
+Figure 3.4: Class Level Sequence Diagram
+•State Transition Diagram
+18
+3.3 Data Design
+Figure 3.5: State Transition Diagram
+3.3 Data Design
+The information domain is transformed into the data structures by organizing all the enti-
+ties into the form of collections and documents in the non-relational database MongoDB.
+19
+3. System Overview
+Each collection in the database represents a specific entity and each document represents
+all the attributes of that entity. This allows easy access, retrieval, and manipulation of the
+data.
+• Entity Relationship Diagram
+Figure 3.6: Entity Relationship Diagram
+20
+3.3 Data Design
+Storage, Processing, and Organization of Major Entities
+1. Farmers Collection:
+• Storage: Each Farmers information is stored in the farmers document having
+attribute Unique identifier, Name etc.
+• Processing: When a farmer interacts with the system i.e records audio con-
+versation, their information can be easily accessible by the system.
+• Organization: All farmer documents are stored in the Farmers collection.
+2. Agents Collection:
+• Storage: Each agents information is stored in the agents document having
+attribute Unique identifier, Name, Role, Contact Information etc.
+• Processing: When an agent interacts with the system i.e records audio con-
+versation or pushes the recording onto the database, their information can be
+easily accessible by the system.
+• Organization: All agent documents are stored in the agents collection.
+3. Audio Recordings Collection:
+• Storage: Each Audio Recordings information is stored in the Audio Record-
+ings document having attributes like RecordingID, FilePath, RecordingDate,
+Duration, and references to FarmerID and AgentID.
+• Processing: When a recording is created, it generates a new document with
+the name Audio Recording linking it to the respective farmer and agent. This
+allows for efficient retrieval of all related recordings.
+• Organization: All audio recording documents are stored in the Audio Record-
+ings collection.
+4. Transcriptions Collection:
+• Storage: Each Transcriptions information is stored in the Transcriptions doc-
+ument having attributes like TranscriptionID, Text, Timestamp, and a refer-
+ence to RecordingID.
+• Processing: Each transcription can be generated from its corresponding au-
+dio recording, helping the system maintain a clear link for processing and
+retrieval.
+• Organization: All transcription documents are stored in the Transcriptions
+collection.
+5. Agricultural Data Collection:
+21
+3. System Overview
+• Storage: This collection contains documents with DataID, Crop Type, Dis-
+ease, Treatment, and a reference to TranscriptionID.
+• Processing: Data is extracted from transcriptions to create records of agricul-
+tural information, facilitating analysis and reporting.
+• Organization: All agricultural data entries are maintained in the Agricultural
+Data collection.
+6. Reports Collection:
+• Storage: Each Reports information is stored in the Reports document having
+attributes like ReportID, ReportDate, Summary, and a reference to DataID.
+• Processing: Reports can be generated based on the agricultural data, summa-
+rizing the findings for farmers or agents.
+• Organization: All report documents are stored in the Reports collection.
+Database
+• Database: All of these collections exist within a single MongoDB database, which
+acts as the central repository for all data.
+• Collections: The specific collections include:
+– Farmers
+– Agents
+– Audio Recordings
+– Transcriptions
+– Agricultural Data
+– Reports
+This organization allows for efficient querying and data management, making it easy to
+handle complex relationships and large volumes of data within the system.
+22
+Bibliography
+23
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

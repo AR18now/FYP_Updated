@@ -1,0 +1,226 @@
+# FYP1-MidReport-F24_048_D_unHinged - Arham
+
+## 1. Introduction
+
+1. Introduction
+1.1 Problem Statement
+Mental Health is a topic that has gained much attention in recent years and is being taken
+much more seriously. To coincide with this the portrayal of mental health in media is ob-
+served with a higher degree scrutiny to prevent any negative stereotypes from developing.
+Our team hopes to show the struggles of those with mental health issues and brain disor-
+ders while also creating an experience that can be enjoyed by consumers. We also would
+like to highlight the potential of procedural generation in game development. The use of
+procedural generation would allow developers to create quality products while reducing
+the workload and the costs needed. This is due to the increasing demands of quality and
+scope of games in recent years which procedural generation is one solution to meet these
+demands.
+1.2 Scope
+The scope of our project focuses on creating a procedurally generated video game that
+blends entertainment with raising mental health awareness. The game offers players an
+immersive experience where they will face challenges from the perspective of someone
+dealing with mental health issues. Each game level will be designed with guidance from
+mental health professionals to simulate the real-world difficulties faced by individuals
+with these conditions. The game will be a 2D, top-down, single-player experience, aim-
+ing to promote social awareness while delivering engaging gameplay. Set in a survival
+environment, the player’s goal is to escape a mental asylum, but without any violent or
+aggressive content, this is to combat the stereotype of mental illness leading to violent be-
+haviors. The game’s adaptive difficulty will cater to different skill levels, allowing players
+of all abilities to enjoy the experience while contributing to the message of empathy and
+understanding.
+1.3 Modules
+The project will be divided into the following four modules:
+1.3.1 Game Story & Prototypes
+This module is responsible for setting us on a path of Game Development while start-
+ing with the documentation and getting started with the project while using appropriate
+software.
+2
+1.3 Modules
+1. Game Design Document: Creation of Game Design Document.
+2. Prototype: Medium Fidelity Prototype on Figma
+3. Setup: Installation and Setting up Blender & Godot
+4. Backstory: Creating a game backstory to develop a game around while also gener-
+ating necessary dialogues for level 1.
+1.3.2 Basic Game Structure
+Module 2 is responsible for having basic assets created and adding basic functionality of
+the game while overcoming the challenges that arise during the initial phase.
+1. Asset Creation: Creation of 2D Assets to be used in the game.
+2. Asset Animation: Animating the 2D Assets in accordance with game.
+3. Game Menu: Creation of Game Menu and Settings.
+4. Basic Level Implementation: Setting the initial Level 1.
+5. Tutorial: adding a tutorial in Level 1
+6. Torch Mechanism: Adding Torch with ON and OFF Mechanism and adjusting
+lightning along with shaders.
+7. Basic Procedural Generation: Controlling the randomness of level and optimising
+its consistency
+1.3.3 Advanced Game Structure
+Module 3 is responsible for adding Non-Playable Characters (NPC) and their moves along
+with optimization of the processes in the prior module.
+1. Implementation of Enemy NPC: Adding Enemy Detection & Chasing Function-
+ality.
+2. Implanting Mental Illness Mechanism: Adding challenges, hallucinations effect,
+hallucination meter, and fear meter
+3. Collectibles and Inventory System: Spreading collectibles through out the level
+and adding inventory system.
+4. Sound Feature: Working on Game Sounds
+3
+1. Introduction
+1.3.4 Test & Publishing
+It is the final module of the game where we will optimize all the prior issues and add extra
+functionalities if need arises.
+1. Testing: Testing the game by playing it over and over again looking for bugs to
+debug.
+2. Publishing: Game Deployment on Itch.io, Isotopic, Game Jolt, Kongregate and
+New Grounds as they offer us to publish games for free.
+3. Marketing: Marketing the game so that people can start playing the game and
+bring it to top.
+1.3.5 Optional Features
+It is the final module of the game where we will optimize all the prior issues and add extra
+functionalities if need arises.
+1. Adding Backstory: Comic based story-line to add the backstory to a game in an
+immersive manner.
+2. Side Quests: Adding friendly NPC’s for side quests.
+3. Speech Patterns in the Game: Adding Language Modules (LM) and Speech so
+that user can always hear what the NPCs are talking about instead of reading the
+conversation.
+4. Adding Choices and Multiple Endings: Adding multiple endings based on few
+key choices.
+5. Hidden Paths: Adding hidden paths throughout the games to reach the exit as fast
+as possible by going through more difficult hurdles.
+1.4 User Classes and Characteristics
+4
+1.4 User Classes and Characteristics
+Mobile Players Players that seek a game that can be played in short bursts and run on
+mobile systems.
+Explorers A type of player that wants to explore the in-game enviornment to find
+secrets or easter eggs.
+Achievers A type of player that wants to earn achievements, collectables or simple
+bragging rights.
+Table 1.1: User Classes
+5
+Chapter 2
+Project Requirements
+2.1 Storyboarding & Design Document
+See the Figma submission for storyboard: FigmaFigma
+See the Game Design Document: Game Design DocumentGame Design Document
+2.2 Functional Requirements
+2.2.1 Module 1: Game Story & Prototypes:
+1. The Game Design Document will detail the blueprints needed to complete the
+project
+2. The Figma prototype will show how the first few screens of game may look
+3. Game will be designed using Godot
+4. Assets will be created using Blender
+5. A backstory that ties into the themes of the game
+2.2.2 Module 2: Basic Game Structure
+1. The game must use 2D assets
+2. The Game will feature animations using 2D assets
+3. The game will feature a main menu
+7
+2. Project Requirements
+4. The player can start a new game
+5. the player can continue an old game
+6. The game will have adjustable settings
+7. Level 1 will be created
+8. The game will have a tutorial
+9. The player can turn the torch on and off
+10. The level will be procedurally generated
+2.2.3 Module 3: Advanced Game Structure
+1. The Game will have NPCs
+2. Enemy NPCs will chase the player
+3. The player will experience different effects based on mental parameters
+4. The game will have an inventory
+5. The game will have items to collect and use
+6. The game must have sound effects for the atmosphere
+7. The game must have 3 levels
+2.2.4 Module 4: Test & Publishing
+1. The game must be completable
+2. The game will be published online for free
+3. The game will be marketed to players
+2.3 Non-Functional Requirements
+2.3.1 Performance
+The Game aims to run smoothly in order to not disrupt the tone or frustrate the player.
+The game will aim for fast load times and stable frame rates to maintain quality. This is
+especially important for the procedural generation to seen seamless.
+8
+2.4 Domain Model
+PER-1: The game should run at a stable 30 - 60 fps
+PER-2: The load times between levels should be no more than 5 seconds long
+2.3.2 Atmosphere
+The game seeks to convey the feelings and troubles a person with mental health issues
+goes through and the bleak setting of an asylum. In order to immerse the player in the
+game, the tone and atmosphere must remain consistent. This will be achieved using the
+assets created and the sound effects. These features must be coordinated to convey the
+oppressive and dark setting of an asylum.
+2.3.3 Replayability
+The aim of procedural generation is not only to lessen the workload of developers and
+reduce costs, but to also provide more entertainment. Since the levels are created at run
+time, the player will always get a different experience every time they run the game. This
+allows a game’s lifetime to increase since completing the levels does not mean the player
+has seen all there is to see. Every time the player starts a new game or level, the layout of
+the level, challenges and objectives will be slightly altered.
+2.3.4 Portable
+We are aiming for low end gaming and want out game to reach the broadest audience pos-
+sible. To achieve this the game must be able to run on any system regardless of processing
+power. The use of 2D assets will help achieve this, since they are less process heavy than
+3D graphics. Godot’s lightweight nature also means it will be easier for older and weaker
+systems to run the game.
+2.4 Domain Model
+9
+2. Project Requirements
+Figure 2.1: Domain Model
+10
+Chapter 3
+System Overview
+3.1 Architectural Design
+Figure 3.1: Architecture Diagram
+11
+3. System Overview
+The project will be using the architecture as shown above. The architecture is component
+based, each module is focused on certain functional requirements that need to be met.
+• The main module is the Game engine which will be handling the major functions of
+the game. It will be interacting with all the other modules in order to achieve this.
+• The Game Assets will comprise the graphics and sounds the the engine will use to
+create the game world and levels.
+• The Game physics will be the light that the player controls to see around the level
+and will interact with enemy AI.
+• The Game AI handles the behaviours of the entities within the levels and how they
+respond to the player’s actions.
+• The story will dictate how each of the levels will be generated and using which
+assets. The design of the assets will also be influenced by the narrative and setting.
+Enemy AI will affect how the dialogue will play out, and the story in turn will
+determine the enemy behaviour
+• The Hardware Abstraction will be used to store the state of the game between ses-
+sions and will handle the storage of assets. The input provided will tell the engine
+how to move the player and what the AI should react to.
+3.2 Design Models
+Procedural Approach
+Our project will follow a procedural methodology as this will fit the nature of how the
+game will run. The game will constantly check the states of certain values and run the
+needed processes.
+The flow chart showcases the runtime processes of the game. Although this is a simpli-
+fication of the actual flow of the game, the basic structure is similar. The game starts
+and the player chooses to either load an old game or start a new one. If a new game is
+started, a new level is generated along with NPCs and enemies. If an old game is loaded,
+no generation needs to take place and the old state is loaded. The player is then spawns
+into the game world and what follows depends on the player’s input. If the player inputs
+escape, the game will pause and the option to save, exit or unpause are offered. If the
+player inputs a direction, then the engine will update the player’s position on in the world.
+When the player moves, the engine will also check to see if an enemy has spotted the
+player, if so the enemy AI will begin the chase. This flow will follow a cycle until the
+player reaches the exit, loses all sanity or pauses and exits.
+12
+3.2 Design Models
+Figure 3.2: Flow Chart
+13
+Bibliography
+[1] Staff. Georgia’s got game: Why the gaming industry is larger than film, television and
+music combined. https://www.georgiaentertainment.com/2024/04/georgias-gotgame-why-
+the-gaming-industry-is-larger-than-film-television-and-music-combined/, April 19th, 2024.
+[2] Tarn Addams Tanya X. Short. Procedural Generation in Game Design. Taylor &
+Francis, CRC Press, 2017, 2017
+15
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

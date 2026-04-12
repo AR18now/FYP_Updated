@@ -1,0 +1,366 @@
+# FYP1-MidReport-F24-093-D-TrashCam-TrashCam Real Time Littering Detection - i210566 Muhammad Saad Hasan
+
+## 1. Introduction
+
+1. Introduction
+1.1 Problem Statement
+Littering is a pervasive issue in Pakistan, posing serious threats to urban aesthetics, public
+health, and tourism. Pakistan generates an estimated 36 million tons of solid waste, which
+is projected to increase to 85 million tons by 2050 due to rapid population growth, urban-
+ization, and economic development[22]. While about 50% of waste is collected, much of
+the rest is left uncollected, particularly in rural areas, contributing to air, soil, and water
+pollution[11]. The accumulation of waste in public spaces not only tarnishes the beauty of
+cities but also leads to environmental degradation, affecting air and water quality. Despite
+various government initiatives, such as cleanliness drives and awareness campaigns, there
+is no effective system in place to monitor and control littering on a large scale. Trash-
+Cam is designed to fill this gap by offering a fully automated solution to detect, identify,
+and report instances of littering in real time. Our system leverages advanced technologies
+like AI for object detection, facial and license plate recognition for identifying perpetra-
+tors, and GPS for accurate location tracking of littering events. By integrating with city
+databases, TrashCam ensures that authorities receive immediate notifications, enabling
+quick and efficient action. This will not only help in penalizing offenders but also pro-
+mote a sense of accountability among citizens. Furthermore, the inclusion of a mobile ap-
+plication empowers individuals to report littering incidents, fostering a community-driven
+approach to maintaining clean public spaces. In the long run, TrashCam aims to create a
+sustainable environment by reducing waste and encouraging responsible behavior.
+1.2 Scope
+TrashCam aims to develop a fully automated system that detects littering incidents in
+public spaces using advanced AI technologies. The system’s main functionalities in-
+clude real-time trash detection through object recognition, offender identification via fa-
+cial recognition, and vehicle license plate identification to pinpoint individuals involved
+in littering. The detection system will differentiate between intentional littering and ac-
+cidental disposal by analyzing behavior, such as whether an item is thrown in a bin or
+dropped and picked up. If facial recognition fails, feature analysis and cross-referencing
+family members through number plate detection will aid in identifying the offender. The
+collected data will be forwarded to a language model (LLM) for report generation, sum-
+marizing the incident, including offender details and behavior analysis. The report will
+then be automatically logged in the crime database, and appropriate fines will be issued.
+The system targets public areas like parks, streets, and parking lots, with optional integra-
+tion for private properties or corporate environments. Citizens will also be able to report
+incidents using a mobile application, fostering community participation. Future devel-
+opments may expand the system to track illegal dumping, analyze waste management
+2
+1.3 Modules
+patterns, and extend its scope to other urban cleanliness challenges.
+1.3 Modules
+The proposed project consists of several modules divided into two system types: Web
+App and Mobile App. Each module includes the respective features and functionalities
+for the web and mobile platforms.
+1.3.1 Client Web App
+This app is designed for authorities to monitor and take action on littering incidents de-
+tected through the system. It consists of the following modules:
+1.3.1.1 Litter Detection
+This module is responsible for detecting litter in real-time from video or image feeds
+using advanced object detection techniques.
+1. Detect trash objects such as bottles, cans, and papers using YOLO.
+2. Analyze behavior to differentiate between intentional littering and accidental drops.
+3. Visualize detected litter on a live map with GPS data.
+4. Generate real-time alerts for immediate action.
+1.3.1.2 Number Plate Reading
+This module is responsible for reading vehicle license plates using Optical Character
+Recognition (OCR) technology.
+1. Capture and extract vehicle license plate numbers from images or video footage.
+2. Cross-reference the license plate number with government databases to identify the
+vehicle owner.
+3. Log vehicle data for record-keeping and further investigation.
+3
+1. Introduction
+1.3.1.3 Facial Recognition
+This module utilizes advanced facial recognition technology to identify individuals re-
+sponsible for littering.
+1. Capture and analyze facial features from video or image feeds.
+2. Match the detected faces with known databases for offender identification.
+3. Alert authorities if an individual is identified.
+1.3.1.4 Report Generation and Fine Issuing
+This module automatically generates reports and issues fines after detecting littering inci-
+dents.
+1. Generate detailed reports including the type of litter, location, and time of the inci-
+dent.
+2. Automatically issue fines based on the severity of the offense using the collected
+data.
+3. Send notifications to offenders regarding issued fines.
+1.3.2 Client Mobile App
+This app is designed for citizens to report littering incidents and contribute to a cleaner
+environment. It consists of the following modules:
+1.3.2.1 Litter Reporting
+This module allows users to report littering incidents through the mobile app.
+1. Capture and upload images or videos of littering incidents.
+2. Provide details like location, type of litter, and time of the incident.
+3. Submit reports to the authorities for action.
+4
+1.4 User Classes and Characteristics
+1.3.2.2 License Plate Reporting
+This module allows users to report vehicles involved in littering incidents.
+1. Capture vehicle license plates involved in littering.
+2. Submit the report with the license plate details, including vehicle make and model
+if available.
+3. Notify authorities for further investigation.
+1.3.2.3 Incident History
+This module enables users to track the status of their reports and receive updates.
+1. View the history of submitted littering reports.
+2. Check the status of ongoing investigations and actions taken.
+3. Receive updates on whether fines were issued or actions were taken.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+5
+1. Introduction
+User class Description
+Municipal
+Authorities
+These are local government bodies responsible for public sanitation and
+waste management. They will use the system to receive real-time reports
+on littering incidents, monitor public spaces such as parks and streets, and
+issue fines or warnings based on offender identification via facial or license
+plate recognition. They are key users who will make decisions on deploying
+resources to clean up littering hotspots.
+Law En-
+forcement
+Agencies
+Police departments and traffic control units that will enforce littering laws.
+They will use the system’s facial recognition and vehicle number plate iden-
+tification features to trace offenders involved in littering. Reports generated
+by the system will help them take appropriate legal actions.
+Citizens General public who will use the mobile app to report littering incidents.
+They will be able to submit photos, videos, and locations of littering events,
+contributing to the community’s cleanliness. They will also be able to track
+incidents and see actions taken by authorities.
+Waste Man-
+agement
+Companies
+Companies involved in waste collection and disposal. They will use the sys-
+tem’s reports to optimize collection routes, focus on high-littering areas, and
+improve operational efficiency. They will benefit from data-driven insights
+to deploy resources more effectively.
+Environmental
+Agencies
+NGOs and environmental protection organizations that will use the system
+to promote environmental responsibility. They will access data insights to
+identify recurring littering issues and create targeted campaigns for aware-
+ness and cleanliness initiatives.
+Example: User Classes and Characteristics
+6
+Chapter 2
+Project Requirements
+This chapter outlines the functional and non-functional requirements for the TrashCam
+project, which are critical to its design and development. The functional requirements
+specify the system’s key features, such as litter detection, offender identification, report
+generation, and fine issuing, broken down into various modules.
+Non-functional requirements cover essential system qualities like performance, reliability,
+security, and usability, ensuring the system’s overall efficiency and scalability.
+Additionally, this chapter introduces modeling techniques, such as use case diagrams,
+event-response tables, and domain models, to help visualize the system’s structure and
+operations. These models are essential for both developers and stakeholders to understand
+how different components of TrashCam interact and work together.
+By addressing these requirements and models, this chapter provides a clear roadmap for
+the successful development of TrashCam, ensuring it meets both user and technical ex-
+pectations.
+2.1 Use-case/Event Response Table/Storyboarding
+For TrashCam, the requirement gathering involves a combination of use cases and event-
+response tables:
+2.1.1 Use Case Diagrams
+TrashCam has interactive end-user components, particularly through the mobile applica-
+tion where users report littering incidents. Thus, a use-case diagram can be created for
+mobile user interaction.
+7
+2. Project Requirements
+Figure 2.1: Use Case Diagram for TrashCam Mobile User Interaction
+2.1.2 Event-Response Table
+This technique will be useful for the real-time litter detection system which involves mul-
+tiple backend processes like detecting litter, identifying offenders, and issuing reports.
+8
+2.2 Functional Requirements
+Event Response
+Litter detected by camera System captures video footage and processes
+it through YOLO to identify trash objects
+(e.g., bottles, cans).
+Object classified as litter System flags the object and initiates behav-
+ior analysis to determine if littering was in-
+tentional or accidental.
+Behavior identified as intentional System captures the offender’s facial fea-
+tures using facial recognition.
+Offender’s face detected System compares the detected face with ex-
+isting databases of known offenders.
+Offender’s face not detected System proceeds to identify vehicle license
+plate using OCR (if the offender was near or
+in a vehicle).
+License plate identified System cross-references the license plate
+with a government database to identify the
+owner of the vehicle.
+Offender identified System generates a report including offender
+details, litter type, location, and timestamp.
+Report generated The report is logged in the city’s crime
+database and authorities are notified.
+Fine determined based on offense A fine is automatically issued and sent to the
+offender.
+Citizen reports litter via mobile app System logs the report, verifies the location
+and time, and generates a notification for au-
+thorities.
+2.2 Functional Requirements
+The functional requirements for TrashCam are categorized into different modules.
+2.2.1 Module 1: Litter Detection
+1. FR1: The system shall detect litter objects such as bottles, cans, and papers using
+the YOLO model.
+2. FR2: The system shall detect the location of the incident using the Google Maps
+API.
+9
+2. Project Requirements
+3. FR3: The system shall classify the litter into predefined categories (e.g., plastic,
+glass, metal, organic waste) to adjust fines based on the state’s legal regulations and
+the environmental impact of the litter.
+2.2.2 Module 2: Behavior Analysis
+1. FR1: The system shall differentiate between intentional littering and accidental
+disposal based on behavior analysis.
+2. FR2: The system shall detect vehicle-related littering by analyzing the motion of
+individuals throwing objects out of vehicles, correlating the action with vehicle
+movement, and assessing if the vehicle is stationary or moving.
+2.2.3 Module 3: Number Plate Recognition
+1. FR1: The system shall recognize and read vehicle license plates using Optical Char-
+acter Recognition (OCR).
+2. FR2: The system shall cross-reference the license plates with government databases
+to identify vehicle owners.
+2.2.4 Module 4: Facial Recognition
+1. FR1: The system shall capture and analyze facial features from video footage.
+2. FR2: The system shall match the captured faces with known offender databases for
+identification.
+3. FR3: The system shall trace the close relatives of the offender using available public
+databases or government records to confirm the identity.
+2.2.5 Module 5: Report Generation and Fine Issuing
+1. FR1: The system shall generate detailed reports for each littering incident, includ-
+ing the type of litter, location, time, identity of the offender, and how the event took
+place.
+2. FR2: The system shall include any photographic or video evidence in the report,
+including frames from the footage showing the littering action and offender identi-
+fication.
+10
+2.3 Non-Functional Requirements
+3. FR3: The system shall cross-reference the incident location with local zoning laws
+or environmental protection regulations, highlighting any additional penalties for
+littering in restricted or sensitive areas.
+4. FR4: The system shall log and archive all reports in a centralized database for future
+reference, with search filters for location, offender, litter type, or time period.
+5. FR5: The system shall notify responsible authorities in real-time, sending reports
+via email, SMS, or through a designated portal for immediate response depending
+on the urgency of the incident.
+2.2.6 Module 6: Fine Issuing
+1. FR1: The system shall issue fines based on the offense’s severity to the offender.
+2. FR2: The system shall notify the offender of their fine through multiple channels
+(e.g., SMS, email, mail) including details of the offense, supporting evidence (pho-
+tos or video), and instructions for payment.
+3. FR3: The system shall include an analytics dashboard for authorities to view statis-
+tics on fine issuance, payment rates, and geographical trends in littering offenses,
+helping inform public policies and initiatives.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+1. R1: The system should ensure a mean time between failures (MTBF) of at least 200
+hours, ensuring reliable detection, analysis, and reporting during live operations.
+2. R2: The system should store incident data in a backup database to avoid data loss
+in case of system failure.
+3. R3: The system should be capable of handling up to 50 simultaneous detections
+without interruption or failure.
+2.3.2 Usability
+1. USE-1: The system’s web and mobile interfaces should be intuitive and user-
+friendly, allowing users to generate reports and view data with minimal guidance.
+11
+2. Project Requirements
+2. USE-2: The mobile app should allow users to report littering incidents with one
+click, optimizing simplicity for end-users.
+3. USE-3: The system should be designed with basic accessibility features such as
+clear visual elements to support easy navigation for a diverse user base.
+2.3.3 Performance
+1. PER-1: The system should detect and classify littering events within 5 seconds of
+occurrence to ensure near real-time response.
+2. PER-2: The system should generate reports within 10 seconds after detecting a
+littering event.
+3. PER-3: The system should support up to 10 concurrent users accessing data without
+noticeable performance degradation.
+2.3.4 Security
+1. SEC-1: The system should implement basic authentication to protect sensitive data
+such as incident reports and offender identity.
+2. SEC-2: Data should be transmitted using secure HTTPS protocols to ensure confi-
+dentiality during communication.
+3. SEC-3: Personal data (e.g., offender details) should be anonymized to comply with
+privacy standards.
+4. SEC-4: The system should provide role-based access ensuring that only authorized
+users can access specific features (e.g., report management or fine issuance).
+2.4 Domain Model
+The domain model represents the key entities, their attributes, and relationships within the
+TrashCam system. This model helps visualize how different components of the system,
+such as users, cameras, offenders, and reports, interact with each other and how data is
+stored and processed.
+12
+2.4 Domain Model
+Figure 2.2: Domain Model for TrashCam System
+13
+
+Chapter 3
+System Overview
+3.1 Architectural Design
+The TrashCam system is designed using the Model-View-Controller architecture pattern
+to ensure a clear separation of concerns for processes such as litter detection, offender
+identification, and report generation. The architecture consists of three primary compo-
+nents:
+• Model: Manages the data, business logic, and database interactions. This includes
+the storage and management of information about users, cameras, reports, offend-
+ers, and authorities.
+• View: Represents the user interface elements, provided through both the mobile and
+web applications. Users interact with the system via the View, reporting littering
+incidents, viewing data, and receiving notifications.
+• Controller: Acts as the intermediary between the Model and the View. It handles
+user input, processes data from cameras and other sources, and updates the View
+with information from the Model.
+The MVC architecture ensures that each component operates independently, promoting
+scalability, maintainability, and ease of testing. Modules such as image processing, fa-
+cial recognition, and license plate detection interact through the Controller layer with the
+backend Models, ensuring a well-organized and efficient system.
+First, the Box and Line Diagram provides a simple representation of the system’s main
+components and their relationships:
+15
+3. System Overview
+Figure 3.1: Box and Line Diagram for TrashCam System
+Next, the following diagram illustrates the final architecture of the TrashCam system:
+Figure 3.2: TrashCam System Architecture
+16
+3.2 Design Models
+3.2 Design Models
+3.2.1 Activity Diagram
+Figure 3.3: Activity Diagram for Litter Detection and Reporting Process
+17
+3. System Overview
+3.2.2 Class Diagram
+Figure 3.4: Class Diagram of the System
+18
+3.2 Design Models
+3.2.3 State Transition Diagram
+Figure 3.5: State Transition Diagram for Litter Detection Process
+3.2.4 Sequence Diagram
+Figure 3.6: Sequence Diagram for TrashCam Litter Detection Process (Part 1)
+19
+3. System Overview
+Figure 3.7: Sequence Diagram for TrashCam Litter Detection Process (Part 2)
+3.3 Data Design
+This section explains how the information domain of the TrashCam system is transformed
+into data structures. The major entities such as users, cameras, authorities, offenders,
+reports, and litter events are stored, processed, and organized in a structured manner. The
+database is designed to store information efficiently, ensuring quick retrieval and data
+integrity.
+3.3.1 Entity-Relationship Diagram
+The following diagram shows the Entity-Relationship (ER) model of the TrashCam sys-
+tem, highlighting the main entities and their relationships.
+20
+3.3 Data Design
+Figure 3.8: Entity-Relationship Diagram of the TrashCam Database
+21
+
+Bibliography
+[1] Asian Development Bank. Solid waste management in pakistan: Current situation,
+issues, and road map. Asian Development Bank Publication , 2022.
+[2] World Bank Group. Pakistan: Solid waste management for a circular economy - a
+roadmap. Technical report, World Bank, 2020.
+23
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

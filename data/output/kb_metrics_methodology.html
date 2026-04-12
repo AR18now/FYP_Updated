@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Base Metrics Methodology</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 24px;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.45;
+    }
+    h1, h2 {
+      margin-bottom: 8px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+    }
+    code {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .small {
+      color: #475569;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SRS Knowledge Base Metrics: Methodology</h1>
+  <p class="small">
+    This document explains how KB TXT files are evaluated in the project using
+    <code>rag/evaluate_srs_kb.py</code>.
+  </p>
+
+  <div class="card">
+    <h2>Scoring Scale</h2>
+    <p>All metric values are normalized between <strong>0 and 1</strong>.</p>
+    <ul>
+      <li><strong>1.0</strong> = best quality</li>
+      <li><strong>0.0</strong> = poor quality</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Overall Score Formula (Weighted)</h2>
+    <p>
+      <code>
+        overall_score =
+        0.12*completeness + 0.08*fr_coverage + 0.08*nfr_coverage +
+        0.07*clarity_readability + 0.06*ambiguity_quality +
+        0.05*extraction_cleanliness + 0.05*content_adequacy +
+        0.05*duplication_quality + 0.06*structure_compliance +
+        0.05*numeric_specificity + 0.03*lexical_richness +
+        0.05*weak_phrase + 0.05*optionality + 0.05*atomicity +
+        0.06*consistency + 0.08*verifiability +
+        0.05*requirement_uniqueness + 0.04*requirement_id_coverage +
+        0.04*readability + 0.03*requirement_density
+      </code>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Metric Definitions and Calculations</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>What It Checks</th>
+          <th>How It Is Calculated (Surface Formula)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Completeness Metric</td>
+          <td>Whether core IEEE SRS sections exist.</td>
+          <td><code>hits / total_expected_sections</code> for Introduction, Overall Description, Specific Requirements markers.</td>
+        </tr>
+        <tr>
+          <td>Structure Compliance Metric</td>
+          <td>Heading quality and expected section structure.</td>
+          <td><code>heading_hits / expected_heading_count</code> using regex checks for key headings.</td>
+        </tr>
+        <tr>
+          <td>Clarity Metric</td>
+          <td>Vagueness level in text (ambiguity-based).</td>
+          <td><code>1 - (ambiguous_word_count / total_words)</code>.</td>
+        </tr>
+        <tr>
+          <td>Weak Phrase Metric</td>
+          <td>Presence of weak/vague phrases (fast, efficient, user-friendly, etc.).</td>
+          <td><code>1 - (weak_phrase_hits / total_words)</code>.</td>
+        </tr>
+        <tr>
+          <td>Optionality Metric</td>
+          <td>How much requirements use optional language (may/might/could/optional).</td>
+          <td><code>1 - (optional_requirement_lines / requirement_lines)</code>.</td>
+        </tr>
+        <tr>
+          <td>Atomicity Metric</td>
+          <td>If one requirement contains too many actions at once.</td>
+          <td><code>1 - (multi_action_requirements / total_requirements)</code>.</td>
+        </tr>
+        <tr>
+          <td>Consistency Metric</td>
+          <td>Conflicting terms in same document (e.g., always vs never).</td>
+          <td><code>1 - (conflict_pairs_found / total_conflict_pairs_checked)</code>.</td>
+        </tr>
+        <tr>
+          <td>Verifiability Metric</td>
+          <td>Whether requirements are measurable/testable.</td>
+          <td><code>measurable_requirements / total_requirements</code> (numbers, thresholds, %, etc.).</td>
+        </tr>
+        <tr>
+          <td>Requirement Uniqueness Metric</td>
+          <td>Duplicate/near-duplicate requirements.</td>
+          <td><code>1 - (duplicate_pairs / total_requirement_pairs)</code> using text similarity.</td>
+        </tr>
+        <tr>
+          <td>Requirement ID Coverage Metric</td>
+          <td>Use of IDs such as FR-01 / NFR-01.</td>
+          <td><code>requirements_with_ids / total_requirements</code>.</td>
+        </tr>
+        <tr>
+          <td>Readability Metric</td>
+          <td>Average sentence length quality band.</td>
+          <td>Score by average words per sentence (best around 12-20 words).</td>
+        </tr>
+        <tr>
+          <td>Requirement Density Metric</td>
+          <td>Requirement concentration per text length.</td>
+          <td>Compute requirements per 1000 words, then map to target quality bands.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Additional Support Metrics (also in report)</h2>
+    <ul>
+      <li><strong>FR Coverage:</strong> functional requirement signal quality.</li>
+      <li><strong>NFR Coverage:</strong> non-functional signal quality.</li>
+      <li><strong>Extraction Cleanliness:</strong> OCR/page/table noise penalty.</li>
+      <li><strong>Content Adequacy:</strong> enough content length for reliable retrieval.</li>
+      <li><strong>Duplication Quality:</strong> repeated-line ratio.</li>
+      <li><strong>Numeric Specificity:</strong> measurable constraints presence in quality-related lines.</li>
+      <li><strong>Lexical Richness:</strong> vocabulary diversity proxy.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Structural wording checks</h2>
+    <p>
+      The evaluator includes heuristics for imperative phrasing, weak terms, optionality, continuance phrases,
+      figure/table references, incomplete placeholders, and vague adjectives. These are reported with <code>arm_*</code> field names for compatibility.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric field</th>
+          <th>Meaning</th>
+          <th>Surface formula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>arm_imperative_quality</td>
+          <td>How many requirement lines use imperative language (shall/must).</td>
+          <td><code>imperative_requirement_lines / total_requirement_lines</code></td>
+        </tr>
+        <tr>
+          <td>arm_weak_phrase_quality</td>
+          <td>Penalty for weak/soft phrases.</td>
+          <td><code>1 - (weak_phrase_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_optionality_quality</td>
+          <td>Penalty for optional words (may/could/can/optional).</td>
+          <td><code>1 - (option_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_continuance_quality</td>
+          <td>Penalty for continuance terms (following/as follows/listed below).</td>
+          <td><code>1 - (continuance_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_directive_quality</td>
+          <td>Penalty for directive references (figure/table/note).</td>
+          <td><code>1 - (directive_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_incomplete_quality</td>
+          <td>Penalty for incomplete placeholders (TBD/TBS/XXX).</td>
+          <td><code>1 - (incomplete_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_ambiguity_quality</td>
+          <td>Penalty for known ambiguous terms.</td>
+          <td><code>1 - (ambiguity_count / total_requirement_lines)</code></td>
+        </tr>
+        <tr>
+          <td>arm_overall_score</td>
+          <td>Weighted combination of all structural wording checks.</td>
+          <td>Weighted sum of the sub-scores above.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Pass/Fail Rule Used</h2>
+    <p>
+      A document is marked <strong>passed</strong> when:
+    </p>
+    <ul>
+      <li><code>overall_score &gt;= pass_threshold</code> (default 0.62), and</li>
+      <li><code>ieee_section_coverage &gt;= 0.66</code>.</li>
+    </ul>
+  </div>
+
+  <p class="small">
+    Generated for project documentation. If metric logic changes in code, update this file accordingly.
+  </p>
+</body>
+</html>
+

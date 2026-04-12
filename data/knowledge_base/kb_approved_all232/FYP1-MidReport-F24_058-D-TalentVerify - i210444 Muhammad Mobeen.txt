@@ -1,0 +1,378 @@
+# FYP1-MidReport-F24_058-D-TalentVerify - i210444 Muhammad Mobeen
+
+## 1. Introduction
+
+1. Introduction
+interact with.
+1.2 Scope
+TalentVerify is a web based application for employers to streamline the interview process.
+The scope of this iteration focuses on the creating and usage of deep learning models that
+can accurately identify audio and video emotions which will later be used for evaluating
+the soft skills.
+An interface for both employer and regular user allows them to interact with the system.
+The employer sets the preferences to create an instance of the interview to begin the au-
+tomate hiring process. Users will be authenticated and then allowed to partake in the
+interview.
+During the interview process key interviewee features are extracted and evaluated us-
+ing distinct models for comprehensive analysis of the candidates emotions. Moreover, a
+multiple entity detection system is also employed to find if the candidate is getting any
+external assistance.
+1.3 Modules
+1.3.1 Web Application
+An interface that participants will use to interact with the system, consisting of a landing
+page that allows the user to either log in or create a new account. After the user is au-
+thenticated they are redirected to their relative interfaces, corresponding to their account
+type.
+1. User Authentication
+2. Employer Interface
+3. Interviewee Interface
+1.3.2 Emotion Detection Pipelines
+The emotion detection pipeline consistent of creating and using existing deep learning
+models to evaluate emotions. The key frames and audio samples are transferred to the
+server during the interview process. These raw data are cleaned and transformed to extract
+relevant features which will be used make accurate classifications at key time frames.
+2
+1.3 Modules
+1. Audio Emotions
+2. Video Emotions
+1.3.3 Cheating Detection
+The same key frames from video emotion pipeline are used to check for one type of
+cheating method. This method involves having external assistance during the interview
+process by having another person present in the room when prompted to be in an isolated
+environment during the interview process.
+1. Multiple entity detection
+2. Deepfake detection
+1.3.4 Question Generation
+The uniqueness of the application is defined by how every interviewee and employer gets
+a tailored experience with respect to their resume and job description that is provided
+prior to the interview.
+1. Resume Parsing
+2. Job Description Parsing
+1.3.5 Answer Evaluation
+This module covers the evaluation aspect of the questions generated from the module
+above. The final step involved in creating a marking criteria to evaluate a candidate during
+the interview process.
+1. Technical Evaluation
+2. Non Technical Evaluation
+1.3.6 A vatar Generation
+Avatar Generation module will focus on creating an AI assistant that interviewees can
+interact with during the interview process. It will allow us to add a personal touch and
+replicate the environment of an in person interview
+3
+1. Introduction
+1. Avatar Video Generation
+2. Avatar Audio Generation
+1.3.7 Dashboard
+The Dashboard module will be the final module for our end to end application. It will be
+a detailed dashboard that provides the employer of every candidates performance and the
+shortlisted candidates for the next stage of the hiring process. The amount of shortlisted
+candidates will be preset by the employer when they set the preferences while providing
+the job description.
+1. Interviewees performance dashboard
+2. Shortlisting feedback
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+The system will have 3 types of users:
+1. Employer
+2. Interviewee
+3. Admin
+4
+1.4 User Classes and Characteristics
+User class Description
+Employer An Employer is a companies’ full time employee responsible for setting up
+the interview. In the real-world these people can be the HR, Technical re-
+cruiters or even tech lead themselves for smaller sized companies. Employer
+will only impact the system by starting the automated hiring process where
+they provide short listing criteria. Every organization can have either one or
+many Employers that can instantiate the hiring process.
+Interviewee After the Employer sets up the interview, the Interviewee can navigate the
+scheduled interview. The Interviewee is prompted to be in an isolated en-
+vironment while also turning their webcam and microphone on. They par-
+ticipate in the interview by providing their resume and the interviewer agent
+asks and evaluates technical and non technical questions
+Admin System admin can overview the system by checking database logs and
+scheduled interviews. They can also access the hiring criteria set by the
+employers as well as monitor the shortlisting after the interview stage ends.
+Example: User Classes and Characteristics
+5
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the TalentVerify.
+2.1 Event Response Table
+The Event Response table describes the functionality of the web application.
+Event Trigger Response Notes
+Users Sign
+up
+User submits valid cre-
+dentials to register
+Authenticate the given
+email and add informa-
+tion to the database
+User specifies
+whether they
+are employer or
+interviewee
+Users Logs
+In
+User submits valid cre-
+dentials to access the
+interface
+Authenticate creden-
+tials and respond with
+user type
+Different in-
+terface for
+employer and
+interviewee
+Employer
+Sets Up
+Interview
+Employer creates a new
+interview setup, speci-
+fying criteria
+Save interview setup,
+notify interviewee with
+details
+criteria include
+shortlisting
+number, inter-
+view domain
+and job descrip-
+tion
+Interviewee
+setup
+Interviewee provides
+the resume
+System responds that
+resume successfully re-
+cieved
+The resume has
+to be in PDF for-
+mat
+7
+2. Project Requirements
+Analyze
+Resume
+Resume received from
+interviewee
+Analyze the informa-
+tion to create a set num-
+ber of technical and be-
+havioral questions from
+resume and job descrip-
+tion
+The technical
+questions will
+be generated
+from job de-
+scription and
+domain.
+Real-time
+emotion
+detection
+Interviewee is respond-
+ing to the questions
+Analyze the emotions
+from audio and video
+cues
+The evalua-
+tion continues
+throughout the
+interview
+Cheating
+Detection
+Trigger
+Suspicious behavior de-
+tected during the inter-
+view
+Trigger cheating detec-
+tion, flag key frames
+and increment counter
+Once the
+counter reaches
+a threshold
+value, the inter-
+view is marked
+as invalid due to
+cheating
+Interviewee
+Completes
+Interview
+Interviewee finishes an-
+swering all questions
+Store interview results,
+process final emotion-
+based evaluation
+Notify employer
+about interview
+completion
+Employer
+Reviews
+Interview
+Results
+Employer accesses the
+interview dashboard
+Display interview sum-
+mary, including emo-
+tion analysis and soft
+skill evaluation
+Includes video
+playback and
+emotional trend
+analysis
+2.2 Functional Requirements
+This section describes the functional requirements of the TalentVerify. Functional re-
+quiremnts will help understand how the different modules affect the stakeholders in our
+online interviewing platform.
+2.2.1 Web application
+Following are the requirements:
+1. The interviewee shall be able to view all interviews created by the employer.
+2. The Employer shall be able to set up and interview by setting filtering criteria.
+8
+2.2 Functional Requirements
+3. The system shall authenticate users’ credentials and provide appropriate interfaces
+based on their role.
+4. The Interviewee shall be able to filter Interviews by name and organization.
+2.2.2 Emotion Detection Pipeline
+Following are the requirements:
+1. The system shall be able to identify emotions from video key frames.
+2. The system shall be able to identify emotions from audio samples.
+2.2.3 Cheating Detection
+Following are the requirements:
+1. The system shall be able to detect multiple facial entities during the interview pro-
+cess.
+2. The system shall be able to detect deepfake faces from a given video key frame.
+2.2.4 Question Generation
+Following are the requirements:
+1. The Interviewee shall be able to receive personalized behavioral questions based on
+their resume.
+2. The Employer should be able to generate technical questions based on the job de-
+scription.
+2.2.5 Answer Evaluation
+Following are the requirements:
+1. The system shall be able to verify the facts in a response of technical question.
+2. The system shall be able to score answers to behavioral questions.
+9
+2. Project Requirements
+2.2.6 A vatar Generation
+Following are the requirements:
+1. The interviewee shall be able to view an avatar during the interview.
+2. The interviewee shall be able to listen to the avatar during the interview.
+2.2.7 Dashboard
+Following are the requirements:
+1. The Employer shall be able to view candidates performance after the interview.
+2. The Employer shall be able to view the shortlisted candidates after the interview.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements. These quality affect the overall perfor-
+mance of
+2.3.1 Reliability
+The system needs to maintain a non interrupted uptime for a smooth user experience:
+REL-1: The application shall have a mean time between failures (MTBF) of at least 100
+hours under average traffic conditions.
+REL-2: In the event of a failure, the system shall recover and resume normal operations
+from the last checkpoint within 3 minutes, the interview process will need to restart in-
+stead of resuming.
+REL-3: System failures during an interview shall trigger an automatic error log, notifying
+the admin while reverting back to original checkpoint before interview starting stage.
+2.3.2 Usability
+The application should be user-friendly for both employers and interviewees with mini-
+mal learning curves.
+USE-1: The system shall allow first-time users to successfully navigate through the in-
+terview setup and participation process without needing external documentation or help,
+10
+2.3 Non-Functional Requirements
+achieving a first-time completion rate of 90%.
+USE-2: The employer’s dashboard for reviewing interview results shall be accessible and
+understandable within 2 minutes of use for a new user.
+USE-3: The system shall display clear error messages in the event of invalid inputs and
+offer suggestions for correction, reducing input errors by 80%.
+2.3.3 Performance
+The system should perform efficiently under load, especially during concurrent interview
+sessions and data processing.
+PER-1: 95% of interview sessions shall have less than 2 second of delay for real-time
+emotion detection feedback during video and audio processing.
+PER-2: The resume analysis function shall generate interview questions based on the re-
+sume and job description within 10 seconds of submission.
+2.3.4 Security
+The application should protect sensitive data, especially personal and interview-related
+information, ensuring the highest levels of confidentiality and integrity.
+SEC-1: The application shall have role-based access control, ensuring that only autho-
+rized users (employers, interviewees, and system admins) can access specific data and
+functionalities.
+SEC-2: Sensitive information such as passwords shall be encrypted and stored in the
+database.
+11
+2. Project Requirements
+2.4 Domain Model
+12
+Chapter 3
+System Overview
+Our system allows employers to conduct easy automated interviews. The employer can
+choose how many candidates to pass on, as well as the soft and technical skill score
+thresholds. The employer may invite candidates to participate in these interviews by link-
+ing them on the job posting. Our web app will then setup and conduct automated inter-
+views of all the candidates and screen out the number specified by the employer based on
+how well they did on both their technical skills and their soft skills(confidence, nervous-
+ness, clarity etc). In the course of holding each interview, our automated agent will parse
+through each candidates resume, and generate personalized questions to assess each can-
+didate as well as questions based on the job description provided by the employer. These
+candidates are then provided to the employer alongside data on how the interviewees in
+general performed on both their soft and technical skills.
+3.1 Architectural Design
+We chose a micro-service architecture for our application, with 3 core services, Job Post-
+ing, User, and Interview Conduction. Interview conduction also contains some critical
+sub-services that all need to work for it to function.We chose this architecture because it
+is important in our case to ensure that independent tasks can be completed even if some
+functionality of the system is unavailable. For example, an employer should still be able
+to view their dashboard and candidate shortlists, even if the job posting service is unavail-
+able. Micro-service architectures also have the added benefit of scaling well, and dealing
+with asymmetrical load on different parts of the application.
+3.1.1 System Architecture
+13
+3. System Overview
+14
+3.2 Design Models
+3.2 Design Models
+3.2.1 Activity Diagram Diagram
+3.2.2 Class Diagram
+15
+3. System Overview
+16
+3.2 Design Models
+3.2.3 Class-Level Sequence Diagram
+3.2.3.1 Employer Sets up Interview
+3.2.3.2 Candidate Uploads Resume
+17
+3. System Overview
+3.2.3.3 System Analyzes Resume
+3.2.3.4 Conduct Interview with Real-Time Emotion Detection
+18
+3.2 Design Models
+3.2.3.5 Cheating Detection During Interview
+3.2.3.6 System Generates Interview Summary
+19
+3. System Overview
+3.2.3.7 Employer Reviews Interview Results
+3.3 Data Design
+Our database management system of choice is MongoDB. We chose MongoDB as it is a
+great free cloud based service with great scaling support. It is also NoSQL which allows
+us to store things like avatar parameters and weights easily. All of our user data is stored
+on a central database. Our database contains all user information, past and present scores,
+past and present interviews, statistics on candidate performance. All weights and neces-
+sary parameters for interviewer avatars are also stored inside of this database. Whenever
+an employer sets up an interview, we store this request along with a processed version
+of the job description. This processed version is generated by passing the description
+through an LLM to extract only necessary information. The same processing is applied
+to uploaded resumes, which are stored alongside their generated scores and any remarks
+generated by our scoring system.
+All of our neural networks are stored on servers in the form of weight files, with backup
+copies on offline systems. All temporary data is stored server-side whenever necessary.
+20
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

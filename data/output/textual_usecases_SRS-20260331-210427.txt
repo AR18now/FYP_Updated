@@ -1,0 +1,69 @@
+Use Case Name: Use Case 1
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Use Case 1' correctly and quickly.
+Preconditions: User is authenticated and required system components are available.
+Postconditions: System stores results and confirms successful completion.
+Main Success Scenario: 1. Actor initiates '.4 References- IEEE Standard for Software Requirements Specifications, IEEE 830-1998 - Project Charter - Stakeholder Analysis Report 1.5 OverviewThe LMS is designed to facilitate online learning by providing a platform for course management, student tracking, and instructor interaction. The system will support various functionalities such as course creation, assignment submission, grading, and communication between students and instructors. 2. Overall Description2.1 Product PerspectiveThe LMS is intended for educational institutions and organizations that require a centralized platform for managing online courses and student progress. The system will be accessible via web browsers and will support multiple users simultaneously. 2.2 Product Functions- Course Management: Create, edit, and delete courses. - Student Management: Enroll, track, and manage student progress. - Assignment Submission: Allow students to submit assignments electronically. - Grading: Instructors can grade assignments and provide feedback. - Communication: Facilitate communication between students and instructors through forums and messaging. 2.3 User Characteristics- Students: Individuals enrolled in courses who need to access course materials, submit assignments, and communicate with instructors. - Instructors: Educators responsible for creating and managing courses, assigning and grading work, and communicating with students. - Administrators: Personnel responsible for system administration, including user management and course approval. 2.4 Constraints- The system must comply with accessibility standards (e.g., WCAG 2.1). - Data privacy and security must be ensured according to GDPR and other relevant regulations. - The system shall be compatible with major web browsers (Chrome, Firefox, Safari). 2.5 Assumptions/Dependencies- The system will be hosted on a secure server with sufficient resources to handle concurrent user sessions. - Users will have access to the internet and basic computing devices (PCs, laptops, tablets, smartphones). 3. Specific Requirements3.1 External Interface Requirements- User Interface (UI):The LMS will have a responsive UI that adapts to different screen sizes and devices. - Hardware:The system will run on standard desktop and laptop computers, as well as mobile devices. - Software:The LMS will be compatible with popular web browsers (Chrome, Firefox, Safari) and operating systems (Windows, macOS, Linux). - Communication:The system will use HTTPS for secure data transmission and will support email notifications for important updates. 3.2 Functional Requirements-'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: (High Priority):Create a new course
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete '(High Priority):Create a new course' correctly and quickly.
+Preconditions: Course name, description, start date, end date, instructor. -
+Postconditions: Confirmation message, course ID.
+-
+Main Success Scenario: 1. Actor initiates 'Validate input, create course record, notify instructor. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: (Medium Priority):Enroll a student in a course
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete '(Medium Priority):Enroll a student in a course' correctly and quickly.
+Preconditions: Student ID, course ID. -
+Postconditions: Confirmation message.
+-
+Main Success Scenario: 1. Actor initiates 'Verify student and course existence, update enrollment status. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: (Low Priority):Submit an assignment
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete '(Low Priority):Submit an assignment' correctly and quickly.
+Preconditions: Assignment ID, file upload. -
+Postconditions: Confirmation message.
+-
+Main Success Scenario: 1. Actor initiates 'Validate assignment and file, store submission. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: (High Priority):Grade an assignment
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete '(High Priority):Grade an assignment' correctly and quickly.
+Preconditions: Assignment ID, grade, feedback. -
+Postconditions: Confirmation message.
+-
+Main Success Scenario: 1. Actor initiates 'Update assignment grade and feedback. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: (Medium Priority):Send a message to a student or instructor
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete '(Medium Priority):Send a message to a student or instructor' correctly and quickly.
+Preconditions: Recipient ID, message content. -
+Postconditions: Confirmation message.
+Main Success Scenario: 1. Actor initiates 'Send message through the system. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.

@@ -1,0 +1,923 @@
+# FYP1-MidReport-F24-169-D-Emobot - i210774 Muskan Imran
+
+## 1. Introduction
+
+Introduction: ................................................................................................................................ 5 
+Project Vision: .............................................................................................................................. 5 
+1. Project Problem: ............................................................................................................... 5 
+2. Objective: ........................................................................................................................ 5 
+3. Scope: ............................................................................................................................. 5 
+4. Constraint: ....................................................................................................................... 5 
+5. Stakeholder: ..................................................................................................................... 5 
+• Stakeholder Summary: ................................................................................................. 5 
+• Key High Goals of Stakeholder: ...................................................................................... 6 
+Software Requirement Specification (SRS): ................................................................................... 6 
+1. List of Features: ................................................................................................................ 6 
+2. Functional Requirements:................................................................................................. 6 
+3. Non-Functional Requirements: ......................................................................................... 7 
+Use Case Diagram: ...................................................................................................................... 8 
+High level Use Cases: ................................................................................................................... 8 
+1. Start Conversation ................................................................................................................ 9 
+2. Give Feedback ...................................................................................................................... 9 
+3. User Journal ......................................................................................................................... 9 
+4. Manage User Profiles ............................................................................................................ 9 
+5. Get Personalized Content...................................................................................................... 9 
+6. Access CBT Tools .................................................................................................................. 9 
+7. Report Chatbot Misbehavior ................................................................................................ 10 
+8. Manage Feedback ............................................................................................................... 10 
+9. Manage Users ..................................................................................................................... 10 
+10. Moderate Users ................................................................................................................ 10 
+11. Answer Queries/Feedback ................................................................................................ 10 
+12. Evaluate Need for Crisis Support ....................................................................................... 10 
+13. Backup Conversations ...................................................................................................... 11 
+14. Respond Based on Emotion ............................................................................................... 11 
+Extended Use Cases: ................................................................................................................. 11 
+1. Start Conversations ............................................................................................................ 11 
+2. Give Feedback .................................................................................................................... 12 
+3 
+ 
+3. Manage User Feedback ....................................................................................................... 12 
+4. Get Personalized Content.................................................................................................... 13 
+5. Get CBT Tools. .................................................................................................................... 14 
+6. Report Chatbot Misbehavior ................................................................................................ 14 
+7. Users Journal. ..................................................................................................................... 15 
+8. Manage User ...................................................................................................................... 15 
+9. Moderate Users. ................................................................................................................. 16 
+10. Answers Queries. .............................................................................................................. 16 
+11. Evaluate the need for Crisis Support. ................................................................................. 17 
+12. Backup Conversations. ..................................................................................................... 17 
+13. Response based on emotion. ............................................................................................ 18 
+14. Manage Feedback ............................................................................................................. 18 
+Domain Model: .......................................................................................................................... 19 
+System Sequence Diagrams (SSD): ............................................................................................. 20 
+1. Start Conversation .............................................................................................................. 20 
+2. Give Feedback .................................................................................................................... 20 
+3. User Journal ....................................................................................................................... 21 
+4. Manage User Profiles .......................................................................................................... 21 
+5. Get Personalized Content.................................................................................................... 22 
+6. Access CBT Tools ................................................................................................................ 22 
+7. Report Chatbot Misbehavior ................................................................................................ 23 
+8. Manage Feedback ............................................................................................................... 23 
+9. Manage Users ..................................................................................................................... 24 
+10. Moderate Users ................................................................................................................ 24 
+11. Answer Queries/Feedback ................................................................................................ 24 
+12. Evaluate Need for Crisis Support ....................................................................................... 25 
+13. Backup Conversations ...................................................................................................... 26 
+14. Respond Based on Emotion ............................................................................................... 26 
+Activity / Data Flow Diagram: ...................................................................................................... 27 
+1. Start Conversation .............................................................................................................. 27 
+2. Give Feedback .................................................................................................................... 28 
+3. User Journal ....................................................................................................................... 28 
+4. Manage User Profiles .......................................................................................................... 29 
+4 
+ 
+5. Get Personalized Content.................................................................................................... 29 
+6. Access CBT Tools ................................................................................................................ 30 
+7. Report Chatbot Misbehavior ................................................................................................ 30 
+8. Manage Feedback ............................................................................................................... 31 
+9. Manage Users ..................................................................................................................... 31 
+10. Moderate Users ................................................................................................................ 32 
+11. Answer Queries/Feedback ................................................................................................ 32 
+12. Evaluate Need for Crisis Support ....................................................................................... 33 
+13. Backup Conversations ...................................................................................................... 33 
+14. Respond Based on Emotion ............................................................................................... 34 
+Class Diagram: .......................................................................................................................... 34 
+System Diagram (SD): ................................................................................................................ 35 
+1. Start Conversation .............................................................................................................. 35 
+2. Give Feedback .................................................................................................................... 36 
+3. User Journal ....................................................................................................................... 37 
+4. Manage User Profiles .......................................................................................................... 38 
+5. Get Personalized Content.................................................................................................... 39 
+6. Access CBT Tools ................................................................................................................ 40 
+7. Report Chatbot Misbehavior ................................................................................................ 41 
+8. Manage Feedback ............................................................................................................... 42 
+9. Manage Users ..................................................................................................................... 43 
+10. Moderate Users ................................................................................................................ 44 
+11. Answer Queries/Feedback ................................................................................................ 45 
+12. Evaluate Need for Crisis Support ....................................................................................... 46 
+13. Backup Conversations ...................................................................................................... 47 
+14. Respond Based on Emotion ............................................................................................... 48 
+Architecture Diagram: ................................................................................................................ 49 
+Entity Relation Diagram (ERD): .................................................................................................... 50 
+Conclusion: ............................................................................................................................... 51 
+ 
+ 
+ 
+5 
+ 
+Introduction: 
+This document is the Mid-1 report for the Final Year Project called emoBot. The document includes 
+the SRS documentation for the project. Incorporating of all of the require diagrams and information. 
+A little about the emoBot, we are developing an AI-driven Mental Health Support app. The app will 
+use emotion recognition, with voice synthesis to deliver empathetic responses to the users in the 
+form of either text or voice as the user intended. 
+Project Vision: 
+ 
+1. Project Problem: 
+Mental health issues are a critical and growing concern all around the globe and many mental 
+health solution out their do not provide the responses that are empathetic toward the user and if 
+they are they are text form. We are working to bridge this gap between user and text by introducing 
+responses in the voice form using voice synthesis. 
+2. Objective: 
+• Develop an Ai chatbot that engages in the supportive and empathetic conversations. 
+• Integrating emotional detection and STT and TTS with Chatbot. 
+• Provide Content and CBT tools to the user. 
+• Provide crisis support if the need arrives by detection technology. 
+3. Scope: 
+4. Constraint: 
+These are the following constraint faced in the making of project: 
+• Limited access of the real-world mental health data. 
+• Time limitation for development within the academic year. 
+• Restriction on the use of external APIs. 
+ 
+5. Stakeholder: 
+• Stakeholder Summary: 
+Following are the stakeholders associated with the app. 
+End – Users: People who would interact with chatbot. 
+Admin: Person who will manage users and chats. 
+Expert: Person who will provide professional help in times of need. 
+6 
+ 
+Developer: Responsible for designing, developing, and maintaining the app. 
+ 
+• Key High Goals of Stakeholder: 
+End – Users: People seeking Mental health support would intract with the application. 
+Admin: Person who will manage users and chats to maintain the application. 
+Expert: Person who will provide professional help in times of need. 
+Developer: Responsible for designing, developing, and maintaining the app and for the 
+completion of the Project. 
+ 
+Software Requirement Specification (SRS): 
+ 
+1. List of Features: 
+Our app is designed to offer empathetic conversations to users. It will use emotion recognition to 
+generate responses that align with the user’s emotional state. The key features include: 
+• Speech recognition and text-to-speech functionalities for seamless interactions. 
+• Mood tracking and journaling tools to help users monitor their emotional journey. 
+• CBT (Cognitive Behavioral Therapy) tools that provide users with exercises to manage 
+mental health. 
+• Crisis detection capabilities to offer support when the user is in distress. 
+• A user management system that lets users create profiles and manage their experience. 
+• Personalized content and recommendations tailored to the user’s emotional state. 
+• A feedback system where users can share their thoughts to help improve the app. 
+ 
+2. Functional Requirements: 
+These are the features our application will have to provide the users. 
+o User Registration/Login: Users can create accounts, log in, and manage their profiles. 
+o AI Chatbot Conversations: The chatbot engages users with empathetic responses after 
+analyzing their emotions. 
+o Emotion Recognition: The system will detect the user's emotions, whether through text 
+or voice, and adjust its responses accordingly. 
+7 
+ 
+o Mood Tracking: Users will be able to log their moods over time, creating a personalized 
+emotional history. 
+o CBT Tools: The app will provide therapeutic tools based on CBT to help users with 
+mental health exercises. 
+o Crisis Support: The system will recognize signs of distress and offer appropriate support 
+resources when necessary. 
+o Feedback Management: Users will be able to submit feedback that the admin team can 
+review and address. 
+o Personalized Content: Content recommendations will be based on the user's behavior 
+and emotional state for a more tailored experience. 
+3. Non-Functional Requirements: 
+These are the non-functional requirements of our application: 
+o Data Privacy: We’ll ensure that all data is handled in line with privacy regulations like 
+GDPR, prioritizing sensitive user data. 
+o Response Time: The chatbot will respond to user input within 1-2 seconds to ensure a 
+smooth user experience. 
+o Availability: The system will be up and running 99.9% of the time, ensuring users can 
+access support whenever they need it. 
+o Accessibility: The app will be accessible to users with disabilities, offering features like 
+screen readers and voice commands. 
+o Integration with External APIs: We will integrate third-party APIs to support emotion 
+recognition, speech-to-text, and text-to-speech functionalities, enhancing the app’s 
+capabilities. 
+ 
+ 
+8 
+ 
+Use Case Diagram: 
+ 
+ 
+High level Use Cases: 
+ 
+
+9 
+ 
+1. Start Conversation 
+Actor User 
+Type Primary 
+Description The user initiates a conversation with the chatbot, which provides 
+empathetic responses based on emotion detection and mood 
+analysis. 
+ 
+2. Give Feedback 
+Actor User 
+Type Secondary 
+Description The user provides feedback about their experience with the 
+chatbot, which is stored for review by the admin and used to 
+improve the system. 
+ 
+3. User Journal 
+Actor User 
+Type Primary 
+Description User will be able to journal their thoughts about their daily lives. 
+ 
+4. Manage User Profiles 
+Actor User 
+Type Primary 
+Description The user can update their profile information, including personal 
+details, preferences, and mood tracking, to ensure personalized 
+content and experiences. 
+ 
+5. Get Personalized Content 
+Actor User 
+Type Primary 
+Description Based on the user's mood and behavior, the system provides 
+personalized mental health content such as articles, exercises, or 
+recommendations. 
+ 
+6. Access CBT Tools 
+Actor User 
+Type Primary 
+10 
+ 
+Description The user can access various Cognitive Behavioral Therapy (CBT) tools 
+designed to assist with anxiety, depression, and other mental health 
+challenges. 
+ 
+7. Report Chatbot Misbehavior 
+Actor User 
+Type Secondary 
+Description The user can report inappropriate or inaccurate responses from the 
+chatbot, triggering a review process by the admin or expert. 
+ 
+8. Manage Feedback 
+Actor Admin 
+Type Primary 
+Description The admin reviews and manages user feedback, making necessary 
+changes to the chatbot or system based on the submitted feedback. 
+ 
+9. Manage Users 
+Actor Admin 
+Type Primary 
+Description The admin manages user accounts, including creating, updating, 
+suspending, or deleting users as necessary. 
+ 
+10. Moderate Users 
+Actor Expert 
+Type Secondary 
+Description The expert moderates user interactions by reviewing flagged 
+conversations and determining whether user behavior violates 
+guidelines. 
+ 
+11. Answer Queries/Feedback 
+Actor Expert 
+Type Primary 
+Description The expert provides direct responses to user queries or feedback that 
+require human intervention. 
+ 
+12. Evaluate Need for Crisis Support 
+Actor System 
+Type Primary 
+11 
+ 
+Description The system monitors conversations for signs of emotional distress 
+and initiates crisis support protocols if a user is in danger. 
+ 
+13. Backup Conversations 
+Actor System 
+Type Secondary 
+Description The system regularly backs up user conversations to prevent data loss 
+and ensure recoverability. 
+ 
+14. Respond Based on Emotion 
+Actor Chatbot 
+Type Primary 
+Description The chatbot analyzes the emotional state of the user, generates an 
+emotion score, and provides empathetic responses based on the 
+detected emotion. 
+ 
+ 
+ 
+Extended Use Cases: 
+ 
+1. Start Conversations 
+Use case Name Start Conversations. 
+Scope User starts a conversation with the chatbot. 
+Level Primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: 
+Needs empathetic responses and guidance. 
+Admin: 
+Ensures the conversation is safe and appropriate. 
+ 
+Precondition User is logged in. 
+Postcondition Ensures the conversation is safe and appropriate. 
+Actor Action System Requirements 
+12 
+ 
+Main Success 
+Scenario 
+1. User types or sends a 
+voice message. 
+ 
+ 
+2. the chatbot responds 
+appropriately based on 
+emotion analysis. 
+ 
+Extensions If the user expresses distress, the system evaluates the need for crisis 
+support. 
+Special Requirements 1. Emotion analysis model should be accurate and fast. 
+2. Latency of speech response should be fast and empathetic. 
+ 
+2. Give Feedback 
+Usecase Name Give Feedback 
+Scope User provides feedback on the chatbot or the app experience. 
+Level Primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: Wants to improve the chatbot experience or report 
+an issue. 
+Admin: Receives feedback to improve the system. 
+Precondition 1. User is logged In. 
+2. User has interacted with the chatbot. 
+Postcondition Feedback is submitted and logged. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User provides feedback 
+through a feedback form. 
+ 
+ 
+ 
+2. Feedback is then stored in 
+the database by the 
+system. 
+ 
+Extensions If feedback is negative, it triggers an alert for admin review. 
+Special Requirements Feedback form should be easy to access and use. 
+ 
+3. Manage User Feedback 
+Usecase Name Manage User Profiles 
+Scope User manages their personal details, including updating information 
+and setting preferences. 
+Level Primary 
+Primary Actor User 
+13 
+ 
+Stakeholders and 
+Interests 
+User: Wants to maintain accurate profile information. 
+Admin: Monitors and ensures profile integrity. 
+Precondition User is logged in and has access to the profile page. 
+Postcondition User profile is updated. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User updates their profile. 
+2. System saves the 
+changes and reflects it on 
+the profile. 
+Extensions If invalid data is entered, the system prompts the user to correct it. 
+Special Requirements Data validation should be implemented to prevent incorrect entries. 
+ 
+ 
+4. Get Personalized Content. 
+ 
+Usecase Name Get Personalized Content 
+Scope User receives personalized content based on their past interactions 
+and emotional state. 
+Level Primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: Receives content tailored to their needs and emotions. 
+System: Provides relevant, helpful content. 
+Precondition User has a history of interactions that can be analyzed. But it not 
+necessary. 
+Postcondition Personalized content is delivered. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+ 
+ 
+ 
+ 
+2. User sees the content. 
+1. The system analyzes user 
+data and generates 
+personalized 
+recommendations. 
+ 
+Extensions If the user has no history, default content is provided. 
+Special Requirements The recommendations must be accurate and fast. 
+ 
+14 
+ 
+5. Get CBT Tools. 
+Usecase Name Get CBT Tools 
+Scope User accesses cognitive behavioral therapy (CBT) tools within the app. 
+Level Primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: Uses CBT tools to improve mental health. 
+Admin: Ensures tools are up-to-date and effective. 
+Precondition User is logged in and has accessed the CBT section. 
+Postcondition User successfully interacts with CBT tools. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User selects and 
+completes a CBT 
+exercise. 
+ 
+ 
+Extensions If the user is in a crisis, the system directs them to crisis support. 
+Special Requirements Tools must be easy to navigate and scientifically backed. 
+ 
+ 
+6. Report Chatbot Misbehavior 
+ 
+Usecase Name Report Chatbot Misbehavior 
+Scope User reports inappropriate or incorrect behavior by the chatbot. 
+Level Primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: Ensures the chatbot behaves appropriately. 
+Admin: Investigates and resolves chatbot issues. 
+ 
+Precondition User has interacted with the chatbot. 
+Postcondition Report is submitted and logged. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User submits a report. 
+ 
+2. The system flags it for 
+admin to review. 
+15 
+ 
+Extensions If the report is urgent, the system flags it for immediate admin 
+attention. 
+Special Requirements Reporting tool should be easy and accessible 
+ 
+7. Users Journal. 
+Usecase Name Journal of the user. 
+Scope User will be able to journal their daily life and mood. 
+Level primary 
+Primary Actor User 
+Stakeholders and 
+Interests 
+User: will journal their thoughts and mood. 
+Precondition User is logged in and goes to journaling interface. 
+Postcondition Journal is submitted and reflected. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User inputs their thoughts 
+and mood and other 
+information the journal. 
+ 
+ 
+ 
+2. System submits and 
+reflect it on the screen. 
+Extensions If not submitted than notify it to the user 
+Special Requirements User interface must be user friendly and encouraging for user to put 
+their thoughts. 
+ 
+8. Manage User 
+ 
+Usecase Name Manage Users 
+Scope Admin manages user accounts, including suspension or deletion. 
+Level Primary 
+Primary Actor Admin 
+Stakeholders and 
+Interests 
+Admin: Maintains user account integrity. 
+User: Expects a safe and secure experience. 
+Precondition Admin has access to the user management system. 
+Postcondition User accounts are updated or removed. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. Admin suspends, deletes, 
+or updates user accounts 
+as necessary. 
+ 
+ 
+16 
+ 
+Extensions System logs changes for security purposes. 
+Special Requirements Data privacy and security protocols must be in place. 
+ 
+9. Moderate Users. 
+Usecase Name Moderate Users 
+Scope Expert moderates user interactions and intervenes when necessary. 
+Level Primary 
+Primary Actor Expert 
+Stakeholders and 
+Interests 
+Expert: Ensures conversations are safe and productive. 
+User: Expects empathetic and supportive interactions. 
+Precondition Expert has access to user conversations. 
+Postcondition Conversations are moderated. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+ 
+ 
+2. Expert takes action 
+accordingly. 
+1. System shows potential 
+vulnerable chats. 
+Extensions If the situation is severe, the expert escalates to crisis support. 
+Special Requirements Access controls must ensure experts can only view relevant data. 
+ 
+ 
+10. Answers Queries. 
+ 
+Usecase Name Answer Queries/Feedback 
+Scope Expert answers queries or feedback from users. 
+Level Primary 
+Primary Actor Expert 
+Stakeholders and 
+Interests 
+User: Receives accurate and helpful responses. 
+Expert: Provides insight and resolves issues. 
+Precondition User have submitted a query. 
+Postcondition Query is resolved and user is satisfied. 
+Actor Action System Requirements 
+17 
+ 
+Main Success 
+Scenario 
+1. Expert Responds to the 
+query. 
+ 
+ 
+2. System submits the 
+query. 
+Extensions If the query is outside the expert’s scope, it is escalated. 
+Special Requirements Expert must have access to relevant tools and information. 
+ 
+11. Evaluate the need for Crisis Support. 
+Usecase Name Evaluate the Need for Support 
+Scope System evaluates if a user requires crisis support. 
+Level Primary 
+Primary Actor System 
+Stakeholders and 
+Interests 
+User: Receives appropriate crisis support. 
+System: Provides timely interventions. 
+Precondition User is in conversation with the chatbot, and emotional distress is 
+detected. 
+Postcondition User is directed to crisis support if needed. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User has activities in 
+journaling or chatbot. 
+ 
+ 
+2. System detects distress 
+and offers crisis support. 
+Extensions If the user is not in immediate crisis, supportive content is provided. 
+Special Requirements The system must have accurate emotional detection models. 
+ 
+12. Backup Conversations. 
+Usecase Name Backup Conversations 
+Scope System backs up conversations for future retrieval and security. 
+Level Primary 
+Primary Actor System 
+Stakeholders and 
+Interests 
+Admin: Ensures conversations are securely backed up. 
+User: Expects data to be securely stored. 
+Precondition Conversation has occurred. 
+Postcondition Conversations have backed up and stored. 
+Actor Action System Requirements 
+18 
+ 
+Main Success 
+Scenario 
+1. User has a convo with the 
+chatbot. 
+ 
+ 
+2. System automatically 
+backs up conversation 
+data. 
+ 
+Extensions If the backup fails, the system retries or alerts the admin. 
+Special Requirements Backups must be encrypted and securely stored. 
+ 
+13. Response based on emotion. 
+Usecase Name Response based on Emotion 
+Scope Chatbot responds empathetically based on detected emotions. 
+Level Primary 
+Primary Actor Chatbot 
+Stakeholders and 
+Interests 
+User: Expects empathetic and relevant responses. 
+System: Ensures emotional accuracy in responses. 
+Precondition User has initiated a conversation. 
+Postcondition Chatbot responds empathetically. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. User starts a 
+conversation, 
+ 
+ 
+2. System determined the 
+emotion of the convo. 
+3. Responses in the 
+accurate empathetic 
+manner rather in voice or 
+text depending on the 
+nature of the response 
+from the user. 
+Extensions If emotion is not detected, chatbot provides a neutral response. 
+Special Requirements Emotion detection module should be accurate. 
+ 
+14. Manage Feedback 
+Usecase Name Manage Feedback 
+Scope Admin reviews and maanges user feedback. 
+Level Primary 
+Primary Actor Admin 
+Stakeholders and 
+Interests 
+Admin: Needs to ensure feedback is appropriately 
+addressed. 
+19 
+ 
+User: Wants their feedback considered. 
+ 
+Precondition Feedback has been submitted by users. 
+Postcondition Feedback is reviewed and acted upon. 
+Main Success 
+Scenario 
+Actor Action System Requirements 
+1. Admin views and resolves 
+feedback issues. 
+ 
+Extensions Feedback requiring expert attention is escalated. 
+Special Requirements Feedback management tools must be intuitive for admins. 
+ 
+Domain Model: 
+ 
+
+20 
+ 
+System Sequence Diagrams (SSD): 
+ 
+1. Start Conversation 
+ 
+2. Give Feedback 
+ 
+
+21 
+ 
+3. User Journal 
+ 
+ 
+4. Manage User Profiles 
+ 
+ 
+
+22 
+ 
+5. Get Personalized Content 
+ 
+ 
+6. Access CBT Tools 
+ 
+ 
+ 
+
+23 
+ 
+7. Report Chatbot Misbehavior 
+ 
+8. Manage Feedback 
+ 
+ 
+
+24 
+ 
+9. Manage Users 
+ 
+10. Moderate Users 
+ 
+ 
+11. Answer Queries/Feedback 
+ 
+
+25 
+ 
+ 
+ 
+12. Evaluate Need for Crisis Support 
+ 
+
+26 
+ 
+13. Backup Conversations 
+ 
+14. Respond Based on Emotion 
+ 
+ 
+
+27 
+ 
+Activity / Data Flow Diagram: 
+1. Start Conversation 
+ 
+
+28 
+ 
+2. Give Feedback 
+ 
+3. User Journal 
+ 
+
+29 
+ 
+4. Manage User Profiles 
+ 
+5. Get Personalized Content 
+ 
+
+30 
+ 
+6. Access CBT Tools 
+ 
+7. Report Chatbot Misbehavior 
+ 
+
+31 
+ 
+8. Manage Feedback 
+ 
+9. Manage Users 
+ 
+
+32 
+ 
+10. Moderate Users 
+ 
+11. Answer Queries/Feedback 
+ 
+
+33 
+ 
+12. Evaluate Need for Crisis Support 
+ 
+13. Backup Conversations 
+ 
+ 
+
+34 
+ 
+14. Respond Based on Emotion 
+ 
+ 
+Class Diagram: 
+ 
+
+35 
+ 
+System Diagram (SD): 
+1. Start Conversation 
+ 
+ 
+
+36 
+ 
+2. Give Feedback 
+ 
+ 
+
+37 
+ 
+3. User Journal 
+ 
+ 
+
+38 
+ 
+4. Manage User Profiles 
+ 
+
+39 
+ 
+5. Get Personalized Content 
+ 
+
+40 
+ 
+6. Access CBT Tools 
+ 
+
+41 
+ 
+7. Report Chatbot Misbehavior 
+ 
+
+42 
+ 
+8. Manage Feedback 
+ 
+
+43 
+ 
+9. Manage Users 
+ 
+
+44 
+ 
+10. Moderate Users 
+ 
+
+45 
+ 
+11. Answer Queries/Feedback 
+ 
+
+46 
+ 
+12. Evaluate Need for Crisis Support 
+ 
+
+47 
+ 
+13. Backup Conversations 
+ 
+
+48 
+ 
+14. Respond Based on Emotion 
+ 
+ 
+ 
+
+49 
+ 
+Architecture Diagram: 
+ 
+ 
+The architecture we are going with is Layered. The system would compromise of 4 layers separated 
+but would communicate with each other. This approach would guarantee security and make the 
+system more compact. 
+The system has following layers: 
+ User Interface: 
+- User Interface to get input from the user. 
+Application Logic Layer: 
+- This would contain the business logic of the system with other engines for emotion 
+detection/recognition and recommendation system. 
+AI/ML Layer: 
+- This layer would contain the api for external components such as LLM. 
+Data Layer: 
+
+50 
+ 
+- This layer would contain the database of the system. 
+Entity Relation Diagram (ERD): 
+ 
+ 
+ 
+This is the Entity Relation Diagram of the system to create the relational schema for the creation of 
+the Database for the system. This is the initial design and could change with the progress of the 
+system. 
+o The oval shapes are the attributes of the entities. 
+o The squares are the entities. 
+o Diamonds are the relationships between different entities. 
+ 
+Prototype: 
+These are our initial designs for our app UI. This is just to give you an idea of what we are trying to 
+achieve here. 
+
+51 
+ 
+ 
+Conclusion: 
+Our application will be designed to help people with their mental health by giving them responses 
+according to the emotional state of the users. This the SRS documentation of our app. It includes 
+the diagram necessary like activity, SDs and SSDs that are required for the documents. After this we 
+will move to our 2nd phase in which we would start working on our STT and response modules with 
+UI as well.
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

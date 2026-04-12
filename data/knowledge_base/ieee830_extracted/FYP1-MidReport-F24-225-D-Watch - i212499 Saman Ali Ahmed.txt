@@ -1,0 +1,539 @@
+# FYP1-MidReport-F24-225-D-Watch - i212499 Saman Ali Ahmed
+
+## 1. Introduction
+
+1. Introduction
+problems worse. It is evident that addressing and resolving these challenges involves more
+than just surface-level measures. Over time, this ignorant and insensitive behaviour leads to in-
+creased accidents, operational delays, and poor performance becoming common characteristics
+in the construction industry.
+1.2 Scope
+HaloSight is a real-time worker monitoring web application. It is a construction-place safety
+and compliance system. As a starter, it uses object detection to detect Personal Protective
+Equipment (PPE) violations to ensure worker safety.
+HaloSight stands out from all other systems as it integrates the use of facial recognition to
+analyze stress among the workers to ensure productivity and avoid any mishaps. This system
+does not aim to be a general construction worker management system. Instead, it is focused on
+using object detection and facial recognition to increase productivity and safety of the workers
+on-site.
+1.3 Modules
+The application of HaloSight injects distinguished features to complete modules that will en-
+sure it in becoming a comprehensive construction worker safety and compliance system. This
+documentation describes all of the system’s
+1.3.1 PPE Detection and Alerts
+Ensuring safety compliance by monitoring personal protective equipment (PPE) usage through
+real-time video and picture analysis.
+1. Feature 1 (Supervisor): Real-time video analytics for PPE detection using object detec-
+tion.
+2. Feature 2 (Supervisor): Supervisors receive immediate non-compliance alerts for quick
+action.
+3. Feature 3 (Worker): Alerts for non-compliance to the staff, reminding workers to wear
+or adjust their required Personal Protective Equipment.
+2
+1.3 Modules
+1.3.2 Facial Emotion and Stress Analysis
+Monitors worker emotional states to promote well-being and productivity by using facial recog-
+nition and emotional analysis.
+1. Feature 1 (Supervisor): Emotion detection through facial analysis to monitor stress,
+fatigue, and discomfort in workers.
+2. Feature 2 (Supervisor): Automatic notifications are sent to supervisors when elevated
+stress levels are detected.
+3. Feature 3 (Worker): Workers can view their own emotional status and receive feedback
+on stress or fatigue.
+1.3.3 Reward and Recognition System
+Encouraging workers to follow safety protocols by offering rewards for consistent safety com-
+pliance.
+1. Feature 1 (Supervisor): Tracks workers who consistently follow safety regulations and
+protocols.
+2. Feature 2 (Supervisor): Manage the reward system and distribute rewards (e.g. bonuses,
+perks) to workers who maintain high safety standards.
+3. Feature 3 (Worker): Workers can view their compliance progress and eligibility for
+rewards.
+1.3.4 Data History and Report Generation
+Monitors safety and emotional trends over time to provide insights for better decision-making
+and improving workplace practices.
+1. Feature 1 (Supervisor): Collection and storage of historical data related to worker safety
+and emotional states.
+2. Feature 2(Supervisor): Automated report generation highlighting trends, including stress
+levels and PPE compliance.
+3. Feature 3 (Worker): Workers can view their personal historical data related to safety and
+emotional well-being.
+3
+1. Introduction
+1.3.5 Web Interface Development
+Focuses on creating a user-friendly web interface that ensures easy interaction and accessibility
+for both workers and administrators.
+1. Feature 1 (Supervisor and Worker ): Development of a user-friendly web application
+interface, designed for optimal usability and efficient workflow navigation.
+2. Feature 2 (Supervisor and Worker): Responsive design to ensure compatibility across
+all devices, allowing access from desktops, tablets, and mobile devices.
+1.3.6 System Integration and Performance
+Unifies all system components (PPE detection, emotional analysis, alerts) to ensure smooth,
+integrated workflows and real-time functionality.
+1. Feature 1 (Supervisor and Worker): Integration of all the different components into one
+system.
+2. Feature 2 (Supervisor and Worker): Performance optimization to ensure fast, real-time
+monitoring and smooth operation with low latency.
+4
+1.4 User Classes and Characteristics
+1.4 User Classes and Characteristics
+Table 1.1: User Classes
+User class Description
+Admins/ Su-
+pervisors
+Supervisors are responsible for overseeing daily operations on-site, ensuring that
+workers adhere to safety protocols and regulations. They receive real-time alerts
+on PPE non-compliance and monitor emotional health indicators such as stress
+and fatigue levels. Supervisors also manage and distribute rewards through the
+recognition system, tracking worker performance and compliance. Addition-
+ally, they are responsible for generating detailed safety and productivity reports,
+coordinating with other stakeholders, and taking necessary actions to improve
+workplace safety and overall efficiency.
+Construction
+Workers
+Construction workers are the employees that perform on site tasks while adhering
+to safety protocols. Workers receive real-time alerts for any PPE non-compliance
+or safety issues, prompting immediate corrective actions. They have access to
+their personal emotional health data, allowing them to monitor stress, fatigue,
+and overall well-being. Workers also participate in the reward system, tracking
+their safety compliance and performance to earn recognition and incentives. By
+following system feedback, they can continually improve their safety practices
+and contribute to a safer, more productive work environment.
+Construction
+Company
+The construction company that deploys the software, has access to monitor safety
+compliance reports, emotional health analytics, and safety metrics for workers
+on-site. They can view historical data, generate reports, and track overall sys-
+tem performance to ensure operational standards. Additionally, they manage
+administrative functions such as granting user access and reviewing system per-
+formance metrics, without direct responsibility for on-site management.
+5
+Chapter 2
+Project Requirements
+This chapter defines and discusses both the functional and non-functional requirements re-
+quired for proper design, implementation and functionality of the project. It describes the
+processes that the system should support, and the quality of service requirements that guar-
+antee dependability, interoperability, and extensibility. It is against these requirements that the
+framework for the development of a strong and effective system is established to meet the needs
+of all the stakeholders.
+2.1 Use-case Diagram
+The Use Case Diagram gives an overview of how the user and other components of the HaloSight
+system will interact with the different functions in the system. Here, the key aspects have been
+described, including PPE detection, stress level detection, reporting, and reward functionality.
+A use case describes the goal of the system, whereas the actors, which may be the workers,
+supervisors, or the system itself, show how these stakeholders employ the functionalities of the
+system to achieve that goal. This diagram helps as a map to explain how various users interact
+with the system to promote safety, compliance, and productivity in a workplace.
+6
+2.2 Extended Use Cases
+Figure 2.1: Use Case Diagram for HaloSight
+2.2 Extended Use Cases
+Use Case 01: Detect PPE Compliance
+Scope: HaloSight System (Worker Safety and Compliance Monitoring)
+Level: User-goal
+Primary Actor: System (HaloSight)
+Stakeholders and Interests:
+• Worker: Wants to ensure compliance with PPE rules to maintain safety.
+• Supervisor: Needs to ensure that workers are adhering to safety regulations and receive
+notifications for non-compliance.
+• Admin: Needs the system to be reliable and provide accurate compliance data for all
+workers.
+7
+2. Project Requirements
+Preconditions:
+• Workers are on-site, and the system is actively monitoring the workplace.
+• The video feed from the site is functioning and accessible by the HaloSight system.
+Postconditions:
+• The system has detected whether the worker is in compliance with PPE requirements.
+• If non-compliance is detected, the system sends alerts to both the worker and the super-
+visor.
+Main Success Scenario:
+Worker Action System Response
+1. Worker enters the worksite.
+2. System begins monitoring worker’s PPE
+through video feed.
+3. System analyzes the worker for the required
+PPE (e.g., helmet, gloves).
+4. System detects that the worker is fully
+compliant with PPE requirements.
+5. System logs compliance data for that
+worker.
+Extensions:
+• 3a. Worker enters the worksite without wearing the required PPE.
+System Response: The system detects a PPE violation and immediately generates an
+alert.
+• 3b. The system encounters an error in the video feed.
+System Response: The system logs the issue and sends a notification to the admin for
+resolution.
+2.3 Functional Requirements
+Below are the functional requirements for the HaloSight system, designed to ensure compre-
+hensive monitoring and safety compliance for construction workers. The system is divided
+8
+2.3 Functional Requirements
+into distinct modules, each with specific functionalities. These requirements define the key
+capabilities of each module.
+2.3.1 Module 1: PPE Detection and Alerts
+The following are the functional requirements for the PPE Detection and Alerts module:
+1. The system shall use real-time video analytics to detect if a worker is missing any re-
+quired PPE (e.g., helmets, gloves, etc.).
+2. The system shall alert the supervisor immediately if a PPE violation is detected.
+3. The system shall send a notification to the worker in case of a PPE violation.
+4. The system shall display real-time PPE compliance status on the supervisor’s dashboard
+for all workers.
+5. The system shall maintain a historical log of all PPE violations and corresponding actions
+taken.
+6. The system shall allow the supervisor to generate reports on PPE compliance trends over
+time.
+2.3.2 Module 2: Facial Emotion and Stress Analysis
+The following are the functional requirements for the Facial Emotion and Stress Analysis
+module:
+1. The system shall analyze workers’ facial expressions in real-time to detect signs of stress,
+fatigue, and discomfort.
+2. The system shall send an automatic alert to the supervisor if high stress or fatigue levels
+are detected in a worker.
+3. The system shall display the emotional state of workers on the supervisor’s dashboard.
+4. The system shall provide workers with access to their own emotional state, including
+stress or fatigue levels, through a personal dashboard.
+5. The system shall store emotional state data in a historical log for trend analysis.
+6. The system shall notify workers if their emotional state indicates high levels of stress or
+fatigue.
+9
+2. Project Requirements
+2.3.3 Module 3: Reward and Recognition System
+The following are the functional requirements for the Reward and Recognition System mod-
+ule:
+1. The system shall track each worker’s compliance with safety protocols, including PPE
+usage and emotional well-being.
+2. The system shall assign reward points to workers who consistently follow safety proto-
+cols.
+3. The system shall allow supervisors to manage and distribute rewards (e.g., bonuses or
+perks) based on the worker’s compliance status.
+4. The system shall provide workers with access to their compliance score and reward status
+through a personal dashboard.
+2.3.4 Module 4: Data History and Report Generation
+The following are the functional requirements for the Data History and Report Generation
+module:
+1. The system shall collect and store historical data related to worker safety and emotional
+states.
+2. The system shall automatically generate reports highlighting trends in PPE compliance
+and emotional health.
+3. The system shall allow supervisors to view and customize historical data reports based
+on time periods, worker compliance, and safety trends.
+4. The system shall allow workers to view their personal historical data related to safety and
+emotional well-being.
+2.3.5 Module 5: Web Interface Development
+The following are the functional requirements for the Web Interface Development module:
+1. The system shall provide a user-friendly web application interface for both workers and
+administrators to interact with the system.
+2. The system shall ensure a responsive design that works seamlessly across desktops,
+tablets, and mobile devices.
+10
+2.4 Non-Functional Requirements
+3. The system shall allow users (both workers and administrators) to access the system from
+any location via a web interface.
+4. The system shall allow real-time updates on worker compliance, emotional health, and
+alerts through the web interface.
+2.3.6 Module 6: System Integration and Performance
+The following are the functional requirements for the System Integration and Performance
+module:
+1. The system shall integrate all components, including PPE detection, emotional analysis,
+alerts, and report generation, into one unified platform.
+2. The system shall ensure that all integrated components function in real-time, providing
+immediate feedback and updates.
+3. The system shall be optimized for performance, ensuring low latency in real-time video
+processing, notifications, and data updates.
+4. The system shall support scalability, allowing multiple construction sites and numerous
+workers to be monitored without performance degradation.
+2.4 Non-Functional Requirements
+2.4.1 Reliability
+1. The system shall operate with no less than 1,000 Mean Time Between Failure (MTBF)
+operational hours.
+2. The system shall guarantee that failure in one module (e.g., PPE detection) does not
+affect the performance of other modules (e.g., facial emotion analysis).
+3. The system shall log failures and crashes automatically without user intervention, and
+the error recovery strategy shall enable the system to resume working within 1 minute of
+failure detection.
+2.4.2 Usability
+1. The intended web interface of the system shall enable new users to accomplish simple
+operations such as automatically reporting their compliance status within five minutes of
+11
+2. Project Requirements
+first use, with no training required.
+2. The system shall be designed with a user-friendly interface that minimizes errors and
+allows users to recover from errors within three clicks.
+3. The system shall be available to workers and supervisors via mobile devices, tablets, and
+desktops with an adaptive layout that conforms to Web Content Accessibility Guidelines
+(WCAG) 2.1 standards.
+4. The system shall ensure that critical actions (e.g., acknowledging a PPE violation) can
+be performed in two or fewer mouse clicks.
+2.4.3 Performance
+1. The system shall process PPE detection and facial emotion recognition from video feeds
+with an input-to-alert generation time of less than 2 seconds.
+2. The system shall support up to 1,000 concurrent users (including managers and workers)
+without noticeable performance degradation.
+3. The system shall generate a report on PPE compliance or emotional health trends for the
+past month in less than 5 seconds.
+4. The system shall be capable of streaming data from multiple construction sites simulta-
+neously with less than 3% downtime over a period of 1 year.
+2.4.4 Security
+1. The system shall encrypt all user data, including video feeds, using AES-256 encryption.
+2. Admin accounts shall require multi-factor authentication for access to sensitive data.
+3. The system shall log all user activities, including access to personal dashboards and re-
+port generation, with logs retained for 6 months for auditing purposes.
+4. The system shall be resistant to security breaches, with an estimated Time-to-Break
+(TTB) of at least 6 hours for a skilled White Hat hacker.
+5. The system shall lock accounts after three failed login attempts and send a reset link to
+the registered email address.
+12
+2.5 Domain Model
+2.4.5 Availability
+1. The system shall have an availability of 99.9%, allowing for a maximum of 8.76 hours
+of downtime per year.
+2. The system shall ensure that all critical services (e.g., PPE detection, alert generation)
+are accessible during working hours with no more than 1 minute of downtime.
+2.4.6 Scalability
+1. The system shall scale to accommodate a 50% increase in workers and construction sites
+without requiring major modifications to the underlying infrastructure.
+2. The system shall be capable of handling data from up to 50 construction sites simultane-
+ously while maintaining performance within acceptable limits.
+2.4.7 Maintainability
+1. The system shall allow updates to components (e.g., the PPE detection module) while
+the system is operational, with updates taking no longer than 10 minutes.
+2. The system shall be modular, allowing individual components (e.g., facial recognition or
+report generation) to be updated without impacting the functionality of other modules.
+2.4.8 Compliance
+1. The system shall comply with OSHA (Occupational Safety and Health Administration)
+regulations and requirements for occupational health and safety systems.
+2. The system shall comply with GDPR (General Data Protection Regulation) standards for
+data storage, access, and deletion in relation to user privacy.
+2.5 Domain Model
+The following is the domain model of the HaloSight project which shows how entities such
+as workers, supervisors, emotional health systems, PPE detection systems etc. are associated
+with each other. It shows how the system records the emotions and safety data and handles
+compliance while producing alerts and reports on workplace safety and performance.
+13
+2. Project Requirements
+Figure 2.2: Domain Model for HaloSight
+14
+Chapter 3
+System Overview
+HaloSight is a holistic worker safety surveillance tool developed for construction sectors. The
+first objective of the system is the real-time identification of safety protocols’ infringements,
+including the incorrect application of the Personal Protective Equipment (PPE), and the second
+one is the worker’s condition assessment by facial emotions and stress levels. As a result of us-
+ing video analytics and artificial intelligence, HaloSight provides supervisors with notifications
+in cases of non-adherence to PPE and signs of worker drowsiness.
+The features of the system include; identification of PPE, real-time alerts, historical records,
+and generation of reports to monitor the workers’ compliance and their emotional well-being.
+Also, it organizes and encourages positive safety behavior through a reward and recognition
+program. The system helps organizations to adhere to safety standards these include OSHA
+thus offering businesses a means of improving on the safety and productivity of the workers.
+3.1 Architectural Design
+The system follows the Client-Server System, with microservices implemented at the server
+end, where the client side includes the supervisor and worker interfaces and the server end han-
+dles video data, PPE, ED, and reporting. All are the modules incorporated into this architecture
+so that communication between client and server can take place easily. Seperate components
+are listed and defined below:
+3.1.1 Client-Side or Front-End
+The Client-Side involves two interfaces: Supervisor Interface and Worker Interface.
+15
+3. System Overview
+Description:
+The client layer is composed of graphical user interfaces (GUI) used by users with the roles of
+Supervisor and Worker. All interfaces are accessible through web or mobile applications.
+Functionality:
+• Workers:
+– Receive live notifications about PPE compliance.
+– Check personal compliance status and records.
+• Supervisors:
+– Supervise the conformance level of workers and monitor their emotional condition.
+– Receive notifications for PPE violations or high stress levels.
+– Generate compliance and emotional health reports.
+3.1.2 Server-Side (Microservices)
+The server-side is divided into microservices, each responsible for a particular system func-
+tionality. These microservices use lightweight protocols such as RESTful APIs and gRPC to
+support real-time data flow and enable scaling.
+3.1.2.1 PPE Detection Service
+• Description: This microservice processes video streams to identify the level of PPE
+usage in real-time.
+• Functionality:
+– Captures real-time video feeds from work sites.
+– Uses computer vision algorithms to recognize personal protective equipment (e.g.,
+helmets, gloves).
+– Sends alerts to the worker and the supervisor in case of PPE violations.
+3.1.2.2 Emotion and Stress Analysis Service
+• Description: This service tracks the facial expressions of workers to determine their
+emotional state and stress levels.
+16
+3.1 Architectural Design
+• Functionality:
+– Processes real-time video through emotion recognition algorithms.
+– Detects symptoms of fatigue, pressure, or discomfort.
+– Notifies supervisors if the worker’s stress level is high.
+3.1.2.3 Compliance and Reward Management Service
+• Description: In this service, the firm monitors the extent to which its workers are ob-
+serving the safety measures and administers the incentive program on the same.
+• Functionality:
+– Records compliance and violation information from the PPE detection and emotion
+analysis services.
+– Monitors compliance progress in the long run and provides incentives to the em-
+ployees.
+– Enables supervisors to set rules governing rewards and control incentives.
+3.1.2.4 Data Storage and Reporting Service
+– Description: It is responsible for the retention of compliance and emotional health
+data for a longer period and generation of reports.
+– Functionality:
+– Saves the violation records of PPE and the trend of emotion in a relational
+database (such as MySQL or PostgreSQL).
+– Prepares reports on the level of compliance of the workers and their emotional
+state to be discussed with managers.
+– Includes an API for history information retrieval as well as on-demand report
+generation.
+3.1.2.5 Real-Time Alerts and Notification Service
+– Description: This microservice is in charge of all real-time notification and alert-
+ing.
+– Functionality:
+17
+3. System Overview
+– Informs workers and supervisors instantly in situations when PPE is not used
+correctly or when stress levels are high.
+– Administers both push notifications and email and/or SMS notifications for
+important announcements.
+3.1.2.6 Authentication and User Management Service
+– Description: Controls the user authentication and it is responsible for granting
+access to the system.
+– Functionality:
+– Identifies the workers, supervisors, and administrators.
+– Offers the concept of Role-Based Access Control (RBAC) to guarantee that
+every user in the system has the rights that they should possess.
+The following is the architectural diagram for the HaloSight System:
+Figure 3.1: Client-Server architectural diagram
+18
+3.2 Design Models
+3.2 Design Models
+In this system, we will follow a procedural approach, where each process follows a de-
+fined sequence of steps for data input, analysis, and response. The system operates in
+a linear manner, handling PPE detection and alerts systematically from input to output.
+This allows clear control over data flow and process execution at each step..
+3.2.1 Activity Diagram
+The activity diagram belongs to "UC 01: Detect PPE Compliance", and it starts with
+the worker entering the worksite. The system checks whether the worker is wearing the
+required PPE by analyzing video input. If the worker is detected without PPE, the sys-
+tem sends an alert to the supervisor, as well as the respective worker, to correct their
+PPE compliance status. Upon receiving the alert, the supervisor reviews the situation
+and takes appropriate action, such as addressing the violation. If the worker is compliant
+with the PPE rules, the system logs the compliance and no further action is taken. The
+system then may continue to monitor other workers.
+19
+3. System Overview
+Figure 3.2: Activity Diagram for UC:01 Detect PPE Compliance
+20
+3.2 Design Models
+3.2.2 Data Flow Diagram
+The Level 1 Data Flow Diagram for "UC 01: Detect PPE Compliance" provides an
+overall view of the PPE detection system. The "PPE Detection System" processes the
+worker’s data, analyzing their compliance with PPE requirements. If the worker is not
+compliant, the system generates alerts and sends to the worker and to the Supervisor as a
+sink. Both compliant and non-compliant data are stored in the "Compliance Data" store
+for future reporting and analysis, the compliance events are logged in "Detection Logs"
+store, while the workers have their information stored in the "Worker Database".
+Figure 3.3: Level 1 DFD for UC 01: Detect PPE Compliance
+21
+3. System Overview
+The Level 2 Data Flow Diagram focuses on the detailed process within the PPE detection
+system. It breaks down the process into smaller steps which include the use of video
+processing and analytics to check for compliance. If a violation is detected, an alerts are
+sent. If compliance is confirmed, the data is logged into the "Compliance Data" store.
+The "Detection Logs" store keeps records of both violations and compliance for further
+use, like generating reports or analyzing safety trends.
+Figure 3.4: Level 2 DFD for UC 01: Detect PPE Compliance
+3.2.3 System-Level Sequence Diagram
+The system sequence diagram represents the process flow for the PPE Detection use
+case. It clearly outlines these interactions between the worker, PPE detection system,
+and supervisor, showing how the system responds to various inputs.
+22
+3.2 Design Models
+Figure 3.5: System Sequence Diagram for UC 01: Detect PPE Compliance
+23
+3. System Overview
+3.2.4 State Transition Diagram
+The state transition diagram for the PPE Detection System illustrates how the system
+moves through various states in response to detecting PPE compliance. Initially, the
+system remains in an idle state, waiting for an event where a worker enters the work-
+site. Upon detecting a worker’s entry, the system transitions to the "Detecting PPE"
+state, where video analytics are used to assess whether the worker is compliant with PPE
+requirements. If the worker is compliant, the system moves to the "PPE Confirmed"
+state and then returns to the idle state. However, if a violation is detected, the system
+transitions to the "Violation Detected" state and triggers alerts. In the alerting phase, no-
+tifications are sent to both the supervisor and the worker. Once these alerts are processed,
+the system returns to the idle state, ready for the next event.
+Figure 3.6: State Transition Diagram for UC 01: Detect PPE Compliance
+24
+3.3 Data Design
+3.3 Data Design
+3.3.1 Selecting Unstructured Databases
+In our project, we are utilizing unstructured and semi-structured databases such as Mon-
+goDB and PostgreSQL due to their inherent flexible qualities. These databases are par-
+ticularly well-suited for our needs because:
+Flexibility: Unlike traditional relational databases that require a predefined schema, un-
+structured databases allow us to store data in various formats. This is beneficial for
+our project as we are dealing with different types of data (like video files, compliance
+records, and emotional analysis data) that may evolve over time without requiring exten-
+sive schema modifications.
+Scalability: Unstructured databases can easily accommodate large volumes of data,
+making them ideal for our PPE Detection System, which may generate substantial data
+from video feeds and compliance records as it scales.
+Rich Data Types: These databases support complex data types such as arrays and nested
+documents, enabling us to represent relationships and hierarchies more naturally. For
+instance, a worker’s compliance history can include multiple records without needing
+separate tables.
+Performance: By using document-based storage, we can retrieve entire documents in a
+single query, which improves performance, especially when dealing with large datasets,
+such as those generated by the video analysis for PPE compliance.
+3.3.2 Information Transformation into Data Structures:
+For unstructured databases, it is considerably harder to visually display the schema, due
+to their abstract nature and scalable structure.However, despite these limitations, we pro-
+vide a visual representation of our schema to offer a clearer understanding of the rela-
+tionships and entities involved in the system.
+We will understand the data structures better with the example of our Use Case 01: "De-
+tect PPE Compliance". The information domain of our PPE Detection System is trans-
+formed into data structures through a combination of entity definitions and the relation-
+ships between them. The major data entities include:
+PPEComplianceRecord: This entity stores compliance records for each worker, includ-
+ing a unique record ID, date of compliance check, status, and associated video data.
+Worker: Represents each worker with attributes such as worker ID, name, role, contact
+details, compliance history, and reward points.
+Supervisor: Contains information about supervisors who oversee the workers, including
+their ID, name, and contact details.
+25
+3. System Overview
+Alert: Represents alerts generated when violations are detected, linking back to the
+worker involved.
+Reward: Stores information about rewards earned by workers for compliance.
+HistoricalData: Maintains historical records of compliance checks and emotional anal-
+ysis over time for each worker.
+These entities can be stored as documents within a MongoDB collection, where each
+document can contain all relevant information for that entity in a single structure. This
+design allows for easy updates and retrievals, streamlining the data management process.
+The following is a visual representation of the JSON schema:
+Figure 3.7: JSON schema of UC 01: Detect PPE Compliance
+26
+Bibliography
+[1] P. Ekman and W. V . Friesen. Facial action coding system: A technique for the mea-
+surement of facial movement. Consulting Psychologists Press, 1978.
+[2] M. Imran, H. Ullah, J. H. Kim, S. U. Khan, and R. A. Khan. Recent advances in
+deep learning-based computer vision applications for civil engineering: A review.
+Automation in Construction, 158:105289, 2023.
+[3] H. Lingard and S. Rowlinson. Occupational health and safety in construction project
+management. Spon Press, 2005.
+[4] Z. Mahmood and S. Saeed. Real-time data analytics for the Internet of Things .
+Springer, 2021.
+[5] J. Nielsen. Usability engineering. Academic Press, 1993.
+[11] [22] [33] [44] [55]
+27
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

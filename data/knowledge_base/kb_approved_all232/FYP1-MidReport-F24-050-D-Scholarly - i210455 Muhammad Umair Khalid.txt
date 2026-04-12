@@ -1,0 +1,710 @@
+# FYP1-MidReport-F24-050-D-Scholarly - i210455 Muhammad Umair Khalid
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The project aims to develop an innovative educational app to revolutionize how students
+comprehend and interact with learning-based content. The app will enable it’s users to
+upload a book and automatically generate a personalized learning roadmap based on the
+uploaded content. The generated roadmap will act as a study plan for the user and will
+allow the user to track their progress as they move forward. For each topic in the gen-
+erated roadmap, the app will provide detailed explanations for learning in the form of a
+short video format known as reels. The main objective of these reels will be to make com-
+plex topics easier to understand and learn them with great speed and accuracy. The app
+will also feature dedicated user settings and a dashboard for personalization and user data
+management enabling users to view their analytics and recommendations for the learning
+roadmap. The main objective behind this project is to enhance students’ learning expe-
+rience by combining traditional study methods with cutting-edge AI technology, making
+education more interactive, personalized, and efficient.
+1.3 Modules
+1.3.1 User Management
+This module will focus on the development of a prototype, enabling a secure login and
+registration process. After logging in, the personalized dashboard will allow users to
+monitor their learning progress, access uploaded materials, and engage with other app
+features.
+1. User Authentication
+2. User Profile
+3. User Settings
+4. Personalized Dashboard
+1.3.2 Roadmap Generation
+This module will add the functionality of Book Upload that will act as an input for the
+system and will automatically generate a personalized learning roadmap for the user. The
+generated roadmap will act as a structured study plan for the user and will visually present
+the topics and subtopics in a chronological order based on the uploaded content.
+2
+1.4 User Classes and Characteristics
+1. Book Upload
+2. Generate Roadmap
+3. View Roadmap
+1.3.3 Reels Generation
+This module will focus on the development of features such as text summarization, which
+will enable the user to generate short text explanations for the topics and subtopics in the
+generated roadmap. This module will also feature the development of short videos (reels)
+for the roadmap, allowing the user to understand the content in a visual representation.
+1. Generate Textual Summaries
+2. Generate Reels
+3. View Reels
+1.4 User Classes and Characteristics
+User class Description
+Students Students are the primary users of the "Scholarly" app, who want to upload
+learning materials, generate study roadmaps, and engage with learning con-
+tent through short videos (reels) and textual summaries. Students may up-
+load multiple books or study materials for different subjects and will rely on
+the app to help them manage their learning progress across various topics.
+They will also use the app to break down complex topics into smaller, more
+manageable sections, relying on the app’s personalized roadmaps and reels
+to focus on specific areas of study.
+3
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use Cases
+2.1.1 Diagram
+Figure 2.1: Use Case Diagram
+5
+2. Project Requirements
+2.1.2 User Creation
+Name User Creation
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in creating a new user account.
+System – Interested in providing account creation and authentica-
+tion service to the student.
+Preconditions Student does not have a user account before.
+Student has all the valid information available such as Email and
+Password etc.
+Postconditions Student has successfully created a new user account and logged
+into the system.
+Main Success
+Scenario
+Actor Action System Response
+Student desires to create a new
+user account.
+Student provides the nec-
+essary information such as
+Email, Username, Password
+etc.
+System checks if the informa-
+tion provided by the user is
+correct or not.
+System creates a new user
+account and updates the
+database.
+System logs in the new user.
+Extensions In case of any system error or any technical issue, the student may
+not be able to register an account.
+Student does not have the necessary information available, or the
+user has submitted wrong information. In both cases, the user can-
+not have a registered account.
+Table 2.1: User Creation
+6
+2.1 Use Cases
+2.1.3 Upload Book
+Name Upload Book
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in uploading their course book to generate a
+roadmap.
+System – Interested in getting the uploaded course book and up-
+dating the database.
+Preconditions Student has a registered account and has logged in to the system.
+Postconditions The system updates the database and redirects to the “Roadmap
+Page”.
+Main Success
+Scenario
+Actor Action System Response
+Student enters relevant infor-
+mation to log in.
+System authenticates the in-
+formation and grants access to
+the student.
+Student clicks on the “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on the “Upload
+New Book” button.
+System displays an upload
+pop-up.
+Student uploads the book.
+System preprocesses the book
+and updates the database.
+System redirects the student to
+the “Roadmap Page”.
+Extensions In case of any system error or technical issue, the student may not
+be able to upload their course book.
+In case of any system error or technical issue, the system may not
+be able to update the database or redirect to the “Roadmap Page”.
+The student does not remember their login credentials.
+Table 2.2: Upload Book
+7
+2. Project Requirements
+2.1.4 Generate Roadmap
+Name Generate Roadmap
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in generating a roadmap for the uploaded
+course book.
+System – Interested in providing a roadmap to the student for the
+uploaded course book.
+Preconditions Student has a registered account and has logged in to the system.
+Student has uploaded their course book.
+Postconditions Student can view the generated roadmap for their course book.
+Main Success
+Scenario
+Actor Action System Response
+Student enters relevant infor-
+mation to log in.
+System authenticates informa-
+tion and grants access to the
+student.
+Student clicks on “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on an uploaded
+book.
+System retrieves the book
+contents from the database.
+System generates and displays
+the roadmap to the student.
+Extensions In case of any system error or technical issue, the system may not
+be able to generate and display the roadmap.
+In case of any system error or technical issue, the student may not
+be able to view their generated roadmap.
+The student does not remember their login credentials.
+Table 2.3: Generate Roadmap
+8
+2.1 Use Cases
+2.1.5 Generate Topic Summary
+Name Generate Topic Summary
+Scope Scholarly
+Level System Level
+Primary Actor System
+Stakeholders
+and Interests
+System – Interested in generating a text summary for the student
+based on a selected topic.
+Preconditions System has generated a roadmap and a topic has been selected by
+the student.
+Postconditions System updates the database and stores the generated topic sum-
+mary.
+Main Success
+Scenario
+Actor Action System Response
+Student selects a topic from
+the generated roadmap.
+System fetches the description
+from the database based on the
+selected topic.
+System generates a summary
+based on the topic description.
+System updates the database
+and stores the generated sum-
+mary.
+Extensions In case of any system error or technical issue, the system might
+not be able to generate a summary based on a selected topic.
+Table 2.4: Generate Topic Summary
+9
+2. Project Requirements
+2.1.6 View Topic Summary
+Name View Topic Summary
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in viewing a summary of their selected topic.
+System – Interested in providing a text summary to the student
+based on a selected topic.
+Preconditions Student has a registered account and has logged in to the system.
+Student has uploaded their course book and a roadmap has been
+generated.
+Postconditions Student can view the topic summary of their selected topic.
+Main Success
+Scenario
+Actor Action System Response
+Student enters relevant infor-
+mation to log in.
+System authenticates informa-
+tion and grants access to the
+student.
+Student clicks on “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on the
+roadmap.
+System redirects the student to
+the “Roadmap Page”.
+Student selects a topic and
+clicks on “View Textual Ex-
+planation” button.
+System displays the topic
+summary to the student.
+Extensions In case of any system error or technical issue, the student may not
+be able to view the topic summary.
+The student does not remember their login credentials.
+Table 2.5: View Topic Summar
+10
+2.1 Use Cases
+2.1.7 Generate Reels
+Name Generate Reels
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in generating reels of their selected topic.
+System – Interested in displaying the generated reels to the student
+based on a selected topic.
+Preconditions Student has a registered account and has logged in to the system.
+Student has uploaded their course book and a roadmap has been
+generated.
+Postconditions The system updates the database and stores the generated reels.
+Main Success
+Scenario
+Actor Action System Response
+Student logs into the system.
+Student clicks on “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on the
+roadmap.
+System redirects the student to
+the “Roadmap Page”.
+Student selects a topic and
+clicks on the “Generate Reels”
+button.
+System redirects to the reels
+page.
+System fetches the contents
+from the database and gen-
+erates reels based on the se-
+lected topic and description.
+System redirects to the “View
+Reels” page.
+Extensions In case of any system error or technical issue, the system may not
+be able to generate and display the reels.
+The student does not remember their login credentials.
+Table 2.6: Generate Reels
+11
+2. Project Requirements
+2.1.8 View Reels
+Name View Reels
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in viewing reels of their selected topic.
+System – Interested in displaying reels to the student based on
+their selected topic.
+Preconditions Student has a registered account and has logged in to the system.
+Student has uploaded their course book and a roadmap has been
+generated.
+Postconditions System displays the reel to the student.
+Main Success
+Scenario
+Actor Action System Response
+Student enters relevant infor-
+mation to log in.
+System authenticates the in-
+formation and grants access to
+the student.
+Student clicks on “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on the
+roadmap.
+System redirects the student to
+the “Roadmap Page”.
+Student selects a topic and
+clicks on the “View Reels”
+button.
+System fetches the contents
+from the database and displays
+the reels to the student.
+Extensions In case of any system error or technical issue, the student may not
+be able to view the reels.
+The student does not remember their login credentials.
+Table 2.7: View Reels
+12
+2.1 Use Cases
+2.1.9 Provide Feedback
+Name Provide Feedback
+Scope Scholarly
+Level User Level
+Primary Actor Student
+Stakeholders
+and Interests
+Student – Interested in providing feedback related to the generated
+reel to better optimize the system performance.
+System – Interested in recording the feedback and storing it in the
+database, and performing further actions accordingly.
+Preconditions Student has a registered account and has logged in to the system.
+System has generated the reel for the particular topic.
+Student has watched the reel of a particular topic for a fixed time.
+Postconditions The system updates the database and records the student’s feed-
+back.
+13
+2. Project Requirements
+Main Success
+Scenario
+Actor Action System Response
+Student enters relevant infor-
+mation to log in.
+System authenticates the infor-
+mation and grants access to the
+student.
+Student clicks on “Books
+page”.
+System redirects the student to
+the “Books page”.
+Student clicks on the roadmap.
+System redirects the student to
+the “Roadmap Page”.
+Student selects a topic and
+clicks on the “View Reels”
+button.
+System redirects to the reels
+page and displays the reels
+based on the selected topic.
+Student watches a fixed por-
+tion of the reel.
+System tracks the student’s in-
+teraction with the reel.
+Student clicks on the “Feed-
+back Button” and provides
+feedback.
+System stores the feedback
+and updates the database.
+Extensions In case of any system error or technical issue, the student may not
+be able to provide feedback for a viewed reel.
+In case of any system error or technical issue, the system may not
+be able to update the database and store the provided feedback.
+The student does not remember their login credentials.
+Table 2.8: Provide Feedback
+14
+2.2 Functional Requirements
+2.2 Functional Requirements
+2.2.1 User Management
+• FR001: The student should be able to create a new account by providing essential
+data such as email, username, password, and personal details.
+• FR002: The system shall allow students to log in and authenticate them as users.
+• FR003: The system shall offer an interface for users to view their profile.
+• FR004: The user should be able to update their personal details, including user-
+name, date of birth, password etc.
+• FR005: The system shall provide a user dashboard.
+2.2.2 Roadmap Generation
+• FR001: The system shall allow users to upload a book in a pdf format.
+• FR002: The user should be able to see a loading screen when waiting for book
+upload completion.
+• FR003: The system shall analyse the uploaded content and clean it.
+• FR004: The system shall be able to identify main topics in the book for roadmap
+generation.
+• FR005: The system shall visualize the roadmap.
+• FR006: The user should be able to view the roadmap generated from the book.
+• FR007: The user shall be able to select a topic from the roadmap.
+• FR008: The user should be able to view the progress of their generated roadmap.
+2.2.3 Reels Generation
+• FR001: The system shall be able to summarize the text in the topic selected by the
+user.
+• FR002: The system shall present the user with an option to select a textual summary
+or reels.
+15
+2. Project Requirements
+• FR003: The user should be able to select either a textual summary or reels.
+• FR004: The system shall be able to generate short video reels from the topic se-
+lected by the user.
+• FR005: The user should be able to see generated reels based on the selected topic.
+• FR006: The user should be able to provide feedback on the viewed reels.
+• FR007: The system shall store the feedback.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+1. The system should have a Mean Time Between Failures (MTBF) of at least 500
+hours during normal usage to ensure minimal interruptions.
+2. In case of a failure of a subsystem (e.g., text summarization or reels generation), the
+entire system should not fail, and fallback mechanisms should be in place to notify
+the users of a failure/error
+3. For a system failure, the system will log necessary errors and critical issues for
+debugging and bug/error resolution.
+2.3.2 Usability
+1. USE-1: The user interface should be intuitive enough for first-time users to easily
+navigate the key features with minimal assistance.
+2. USE-2: The system shall allow users to upload a book in utmost two interactions
+(e.g., selecting the file and confirming the upload).
+3. USE-3: The system shall provide progress bars for all lengthy processes such as
+uploading a book or analyzing content.
+4. USE-4: The system shall provide an interactive roadmap allowing users to navigate
+through the roadmap to view topics and sub-topics.
+5. USE-5: The system shall enable users to recover from errors by providing error
+messages with clear description.
+16
+2.3 Non-Functional Requirements
+2.3.3 Performance
+• PER-1: The system shall allow users to upload a book within 30 seconds, for a size
+up to 50 MB.
+• PER-2: The system shall generate a personalized roadmap, within 15 seconds after
+course book has been successfully uploaded.
+• PER-3: The user dashboard shall load within 3 seconds after successful user login.
+• PER-4: The system shall display the topics and subtopics within 3 sec after clicking
+on the generated roadmap.
+• PER-5: The system should be able to handle at-least 100 concurrent users without
+any performance issues.
+• PER-6: The average response time for any standard operations should not be more
+than 3 seconds.
+2.3.4 Security
+• SEC-1: The system shall ensure secure authorized login for all registered users.
+• SEC-2: The system must guarantee data integrity for all users, preventing any unau-
+thorized data access.
+• SEC-3: The system shall implement security measures that require a minimum of
+two levels of authentication for accessing sensitive user data.
+17
+2. Project Requirements
+2.4 Domain Model
+Figure 2.2: Domain Model
+18
+Chapter 3
+System Overview
+Scholarly is an AI Driven Smart Learning Assistant designed and developed to boost stu-
+dent’s learning process through concise and topic-specific short reels instead of long video
+lectures. The primary objective of this system is to solve the problem of students being
+unable to retain focus while learning from traditional textbooks. Scholarly mainly func-
+tions by allowing its users to upload a book and automatically generate a roadmap to act as
+a study plan for the user allowing them to keep a track of their progress as they move for-
+ward. The generated roadmap will feature textual summaries as well as short video reels
+categorized into topics and subtopics based on the uploaded content. The design concept
+of this application is based on three key principles: user-friendliness, accessibility, and
+efficiency; mainly focusing on providing a simple yet intuitive experience for the user.
+The integration of AI algorithms will ensure that the system adapts to the needs of every
+student to offer personalized roadmaps and recommendations based on user performance
+and preferences.
+3.1 Architectural Design
+The Scholarly mobile application is designed using a three-tiered architecture, which in-
+cludes the Presentation Tier, Application Logic Tier, and Data Tier. This three-tiered ar-
+chitecture ensures that all the functionalities and responsibilities are distributed amongst
+different tiers, resulting in the development of a scalable, maintainable and efficient mo-
+bile application.
+1. Presentation Tier: The responsibilities of this tier include handling the user inter-
+face where students can upload and view content of the mobile application.
+2. Application Logic Tier: This tier contains the core logic and functionality of the
+application. It includes modules for user management, content upload and extrac-
+19
+3. System Overview
+tion, roadmap generation, textual summaries generation and reels generation.
+3. Data Tier: This Data tier of this application handles the storage, retrieval, and data
+management operations. It includes the database server where all user data, gen-
+erated roadmaps, generated summarized text, user feedback, and other information
+will be stored.
+3.1.1 Relationships Between Tiers
+1. Presentation Tier and Application Logic Tier: The Presentation tier containing
+the mobile app interfaces communicate with the application logic tier via APIs.
+The interaction between both the tiers allows users to securely log in, view personal
+information, upload books, generate textual summaries and roadmaps etc.
+2. Application Logic Tier and Data Tier: The Application tier contains the busi-
+ness logic modules of this application and can interact with the data tier to store
+and retrieve user data using JSON (firebase). This interaction enable the user the
+efficiently manage and update their data.
+Figure 3.1: Architectural Design
+20
+3.2 Design Models
+3.2 Design Models
+3.2.1 Activity Diagram
+3.2.1.1 User Management
+Figure 3.2: Activity Diagram
+This activity diagram showcases the user creation and authentication sequence and the
+user settings and dashboard where if a student is already a user then they can simply log
+in, otherwise they can sign up and login. Afterward, if they select the dashboard, then
+they will view their personalized user dashboard and view their progress. If they select
+the settings, then they will view the settings page and can update their profile as well.
+21
+3. System Overview
+3.2.1.2 Roadmap Generation
+Figure 3.3: Activity Diagram
+This activity diagram showcases the upload book and view/generate roadmap sequence.
+When a user logs in, they can view their books page and have the option to either upload
+a book or select an already uploaded book. If they select a book, then they will see
+the upload book page where they will upload a book and then a loading screen where a
+roadmap is being generated. Lastly, a roadmap will be displayed. If they select an already
+uploaded book then they will directly view the roadmap.
+22
+3.2 Design Models
+3.2.1.3 Reels Generation
+Figure 3.4: Activity Diagram
+This activity diagram showcases the view reels sequence. When the user logs in and views
+a roadmap, they will be able to select a topic from the roadmap. Based on that topic, they
+can either select the text summary option or the reels option. In the text summary option,
+they will view a textual summary of their selected topic and if they select the reels option
+then they will be able to view reels for the specified topic and will aslo be able to provide
+feedback on the viewed reel.
+23
+3. System Overview
+3.2.2 Class Diagram
+Figure 3.5: Class Diagram
+The class diagram of the Scholarly app demonstrates how different classes group together
+to form the business logic of the system; ensuring the complete implementation of the
+core functionalities for the Scholalry app. The main classes of this class diagram are
+Scholarly, User, Student, Book, Summary, Reel, Feedback, Model etc.
+• Scholarly acts as a controller class that coordinates all the actions within the sys-
+tem. It includes methods such as register, login, uploadBook, generateReel, and
+displaySummary to interacts with various handlers, such as the Book Manager,
+24
+3.2 Design Models
+Feedback Manager, Summary Manager, Reel Manager, and Roadmap Manager to
+manage the core functionality of the app.
+• User class stores all the personal information of the such as user’s first and last
+name, password, email, phone number, and role. It also contains methods for reg-
+istering and logging in for the users.
+• Student class inherits from the User class and implements some additional at-
+tributes such as uploadBook and giveFeedback methods to allow a student to upload
+a new book or provide their feedback.
+• Book class stores the information related to an uploaded book using the BookID,
+Title, Description, and Author attributes.
+• Summary class stores information for generated summaries by using SummaryID,
+Text, and Topic attibutes
+• Reel class holds attributes like ReelID and Content. It also manages the creation of
+short video explanations (reels) from the provided content.
+• Feedback class records the provided feedback by the user for a specific reel. At-
+tributes of this class include FeedbackID and Content.
+• Model handles the communication with machine learning models used for gener-
+ating reels and summaries. It has methods for initializing the model and generating
+content.
+• Roadmap, Summary, Reel, and Feedback Managers are responsible for man-
+aging the respective functionalities and interacting with the controller class.
+• Database interacts with all the major components and handles the data store and
+retrieve operations related to feedback, books, reels, summaries, and roadmaps.
+25
+3. System Overview
+3.2.3 Class-level Sequence Diagram
+3.2.3.1 User Creation
+Figure 3.6: SD User Creation
+This sequence diagram showcases the registration process. When the user clicks on the
+register button, the system class; Scholarly, calls the registerUser() function from the User
+class which requests to add a new user in Database. Given the user information, if the user
+does not exist then the Database adds a new user and returns true but if a user does exist,
+the Database returns false.
+26
+3.2 Design Models
+3.2.3.2 Upload Book
+Figure 3.7: SD Upload Book
+This sequence diagram showcases the book upload process. When the user clicks on the
+upload book button, the student class; Student, calls the uploadBook() function in system
+class; Scholarly. The system class calls a similar function in BookManager class which
+preprocess the book and adds the book into the Database.
+27
+3. System Overview
+3.2.3.3 Roadmap Generation
+Figure 3.8: SD Roadmap Generation
+This sequence diagram showcases the roadmap generation process. When the book is
+uploaded, the preprocessed book is sent to the system class; Scholarly, which calls the
+displayRoadmap() function in the roadmapManager class. This class then generates a
+roadmap and loads it into the Database and returns it to the system class.
+28
+3.2 Design Models
+3.2.3.4 Generate Topic Summary
+Figure 3.9: SD Generate Topic Summary
+This sequence diagram showcases the text summarization process. When the user clicks
+on the summerize button, the system class; Scholarly, extracts the book from the Database.
+It sends this book to the SummaryHandler which interacts with the Model to generate a
+summary and then saves the summary into the Database.
+29
+3. System Overview
+3.2.3.5 View Topic Summary
+Figure 3.10: SD View Topic Summary
+This sequence diagram showcases the view summary process. When the user clicks on
+view summary and they select the topic, the system class; Scholarly, fetches the summa-
+rized text from the Summary class. The Summary class extracts the summarized text from
+the Database and returns it. The system class then displays the summary.
+30
+3.2 Design Models
+3.2.3.6 Generate Reels
+Figure 3.11: SD Generate Reels
+This sequence diagram showcases the reel generation process. When the user clicks
+on view reels button, the system class; Scholarly, calls the generateReel() function in
+the ReelManager class. The ReelManager first extracts the summarized text from the
+Database and then sends it to the Model to generate the reels. The reels are then returned
+to the ReelManager class.
+31
+3. System Overview
+3.2.3.7 View Reels
+Figure 3.12: SD View Reels
+This sequence diagram showcases the view reels process. When the user clicks on the
+view reels button, the system class; Scholarly, calls the displayReel() function in the
+ReelManager class. This class then extracts the reels from the Database and displays
+it.
+32
+3.2 Design Models
+3.2.3.8 Provide Feedback
+Figure 3.13: SD Provide Feedback
+This sequence diagram showcases the feedback process. When the user has clicked on the
+view reels button and the reels are displayed, the system class; Scholarly, calls the record-
+Feedback() function in the Feedback class which saves the feedback into the Database.
+33
+3. System Overview
+3.3 Data Design
+Figure 3.14: Data Design Diagram
+The data design of the Scholarly app translates the system’s information into well-structured
+data models which are stored and managed using a database system to support core
+functionalities such as user management, content processing, feedback, summaries, and
+roadmaps. Each entity in the data design is defined with clear relationships and attributes,
+ensuring smooth data interactions throughout the application.
+3.3.1 Data Structures
+3.3.1.1 Student
+• Attributes: userID (PK), firstName, lastName, password, email, phoneNumber,
+role, booksUploaded (FK).
+• Description: Stores essential student information and keeps a record of all the
+books uploaded by each student.
+34
+3.3 Data Design
+3.3.1.2 Book
+• Attributes: BookID (PK), SummaryID (FK), Title, Description, Author.
+• Description: Stores book information for a book uploaded by the user.
+3.3.1.3 Summary
+• Attributes: SummaryID (PK), BookID (FK), Text.
+• Description: Stores the Textual Summaries for each topic and subtopic of the up-
+loaded book
+3.3.1.4 Reel
+• Attributes: ReelID (PK), Content, BookID (FK).
+• Description: Stores short-form videos (reels) for each topic, generated based on
+the uploaded book content.
+3.3.1.5 Roadmap
+• Attributes: RoadmapID (PK), BookID (FK), Content.
+• Description: Stores the generated roadmap for the each uploaded book.
+3.3.1.6 Feedback
+• Attributes: FeedbackID (PK), UserID (FK), ReelID (FK), Content.
+• Description: Contains the feedback provided by students for a specific reels
+3.3.1.7 Topic
+• Attributes: TopicID (PK), SummaryID (FK), BookID (FK), ReelID (FK), Text.
+• Description: Contains the topic of the uploaded book along with the ids for gener-
+ated reel and summary.
+35
+3. System Overview
+3.3.2 Databases and Storage
+• Firebase: Will be used to store personal data such as student information as well
+as uploaded/generated content including books, summaries, reels, feedback, and
+roadmaps.
+36
+Bibliography
+[1] Neil A. Bradbury. Attention span during lectures: 8 seconds, 10 minutes, or more?
+Advances in Physiology Education , 41(4):509–513, 2016.
+37
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -161,6 +161,9 @@ export const saveSRS = (srsData) => {
  * Get a specific SRS by document_id
  */
 export const getSRSById = (documentId) => {
+  if (documentId == null || String(documentId).trim() === '') {
+    return null;
+  }
   try {
     const srsList = getStoredSRS();
     return srsList.find(srs => srs.document_id === documentId || srs.id === documentId);
@@ -189,6 +192,9 @@ export const deleteInput = (inputId) => {
  * Delete a stored SRS
  */
 export const deleteSRS = (documentId) => {
+  if (documentId == null || String(documentId).trim() === '') {
+    return false;
+  }
   try {
     const srsList = getStoredSRS();
     const filtered = srsList.filter(srs => srs.document_id !== documentId && srs.id !== documentId);

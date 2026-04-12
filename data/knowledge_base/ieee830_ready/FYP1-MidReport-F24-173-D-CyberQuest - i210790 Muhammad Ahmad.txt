@@ -1,0 +1,1413 @@
+# FYP1-MidReport-F24-173-D-CyberQuest - i210790 Muhammad Ahmad
+
+## 1. Introduction
+
+1. Introduction
+needed to identify and counter cyber threats. Teenagers and young adults are more sus-
+ceptible to cybercrimes, such as ransomware attacks and social engineering attacks, in
+underdeveloped areas, such as South Asia, which encompasses the Indo-Pak region.
+Financial loss, identity theft, and other negative outcomes are possible outcomes of these
+attacks. As a result, people could participate in unsafe online activities or become the
+targets of cyberattacks, putting others and institutional data at risk.
+Existing methods for spreading cybersecurity awareness, including traditional educational
+programs and awareness campaigns, often fail to engage audiences effectively. These
+approaches tend to be uninteresting and lack the interactivity needed to capture attention,
+resulting in a lack of motivation among people to learn and apply essential cybersecurity
+practices. As a result, many individuals are reluctant to engage with these resources,
+leaving significant gaps in their understanding and preparedness against cyber threats.
+1.2 Scope
+Project Focus: A game-based intervention for cybersecurity awareness using Unity 3D
+and virtual reality.
+Target Audience: Teenagers and young adults.
+Objective: Design, develop, and implement a 3D game to increase knowledge of cy-
+bersecurity threats and best practices in order to increase knowledge and awareness of
+cybersecurity threats and best practices in a realistic and engaging setting.
+Learning Environment: To make learning relatable and interesting, the game will include
+a virtual environment that mimics real-world locations including homes, restaurants, and
+institutions. It will include virtual labs, classrooms, and scenarios that demonstrate these
+attacks and teach preventive measures, while also providing solutions after falling prey to a
+cyber attack. The scope consists of both the technical and educational aspects of the game.
+Educational Scenarios: Demonstrates various cyber attacks through interactive scenarios.
+Teaches preventive measures against cyber threats. Provides solutions for players after
+experiencing cyber attacks.
+Social Life Storyline: The game features a realistic storyline that captures the player’s
+daily activities. Activities include getting on a bus, attending university, visiting restaurants,
+and other daily routines.
+• Player Role and Interaction: The player enters the game as a character with
+established relationships with various non-player characters (NPCs) based on the
+story. Interactions occur with various non-player characters (NPCs) based on the
+storyline.
+2
+1.2 Scope
+• Reputation System: The player develops a positive reputation through interactions
+with NPCs. Positive social interactions boost the player’s reputation in front of
+others.
+• Rivals and Attackers: The player faces rivals, such as fellow students, who seek to
+embarrass them. Multiple attackers appear as NPCs in different scenarios, adding
+challenges to the game.
+• Mood Bar System: The game features a ’mood’ bar with two moods: ’happy’ and
+’dead inside’. Positive social interactions increase the ’happy’ mood, earning the
+player coins. Negative social points shift the mood towards ’dead inside’; if fully
+’dead inside’, the player loses that level.
+• Reputation Impact: The player’s reputation is influenced by their good or bad
+decisions. Good decisions enhance reputation and social points, while bad decisions
+and cyber attacks lead to negative outcomes, impacting how NPCs perceive the
+player such as leaked personal information.
+• Gameplay Progression: The player navigates daily life scenarios as a teenager or
+young adult. Scenarios include attending university, visiting restaurants, and other
+daily activities. The game spans through all levels of ’University life’ and concludes
+on the first day of the player’s office life.
+• VR Integration: The game uses VR technology to simulate real-life scenarios.
+Features include decision-making that affects scenario selection, virtual social inter-
+actions, and real-time feedback. Designed for deployment on various VR platforms,
+including Oculus headsets.
+• Cyber Attack Taxonomy: The game includes common cyber attacks within its
+system boundary such as Phishing, Man-in-the-Middle (MitM) attacks, Brute force
+attacks, Malware, Ransomware, Email spoofing, USB-based attacks, Sniffing, De-
+fault password exploitation, Spam attacks, Social engineering. These attacks are
+implemented in daily life scenarios to educate players on their nature, prevention,
+and solutions.
+• Out-of-Scope Attacks: Certain attacks are not covered as they fall outside the
+core objectives of the project such as DDoS, Clickjacking, Hash injection, ARP
+poisoning,DNS attacks, SQL injection. These attacks are considered irrelevant to
+the project scope residing in the irrelevant domain of the project.
+• Platform Support: The game is optimized for VR platforms, specifically including
+Oculus VR headsets.
+• Graphics: Graphics include realistic and immersive 3D models which accurately
+reflect daily life environments.
+3
+1. Introduction
+• User Interface: Includes simple and intuitive design, feedback mechanisms, easy
+navigation and clear suggestions for player assistance.
+• Audio: Includes ambient sounds that reflect the game environment and effects that
+highlight key events and decisions.
+Key functionalities within the project scope include:
+• Scenario Simulation: It is the process of modeling actual cyberattacks, including
+ransomware, social engineering, and phishing.
+• Educational Content: Interactive tutorials and feedback systems to reinforce learn-
+ing.
+• VR Integration: Support for various VR platforms, including Oculus Quest 2, to
+provide an immersive experience.
+Localized Content: Scenarios and narratives tailored to the cultural context of the Indo-
+Pak region.
+1.3 Modules
+The game consists of several key modules, each focusing on different aspects of game-
+play, from simulating cyber attacks to integrating VR technology. Below is the detailed
+description of each module, highlighting its main features.
+1.3.1 Module 1: Game Mechanics
+This module focuses on the core gameplay mechanics that define how players interact with
+the game environment. It includes the basic movement, actions, and interactions available
+to the player, ensuring a responsive and engaging gameplay experience.
+1. Feature 1: Player Movement and Controls
+(a) Develop intuitive player controls for movement, such as walking, running,
+working, and jumping, optimized for both standard and VR gameplay.
+(b) Implement player actions like interacting with objects, allowing players to
+actively engage with scenarios and complete tasks.
+2. Feature 2: Interaction with Game Objects
+4
+1.3 Modules
+(a) Provide mechanisms for interacting with objects within the game and non-
+player characters (NPCs) to assist with task fulfillment and scenario-specific
+event triggering.
+(b) Incorporate gameplay elements that are directly related to the game’s cyberse-
+curity themes, such as picking up things and hacking terminals.
+1.3.2 Module 2: Game Elements
+This module covers the game’s visual and aesthetic components, such as the construction
+of the environments, characters, and objects. It seeks to define the game’s aesthetic, making
+it aesthetically pleasing and thematically coherent.
+1. Feature 1: Visual Design of Environments
+(a) Build realistic 3D models of buildings, interiors, and other structures to produce
+immersive experiences that mimic real-world locations like residences, public
+spaces, and university campuses.
+(b) Focus on realistic textures, lighting, and environmental effects to enhance the
+game’s overall aesthetic and make the settings feel authentic and engaging.
+2. Feature 2: Aesthetics and Game Objects
+(a) Design game objects, such as furniture, personal items, and digital devices,
+with a realistic and culturally relevant style.
+(b) Ensure that these elements contribute to the game’s visual storytelling, support-
+ing the narrative and the player’s immersion in each scenario.
+1.3.3 Module 3: Assets Creation (Environment and Characters
+The visual assets of the game, such as the environments, props, and characters, are designed
+and created in this module. Its main goal is to produce an immersive visual experience that
+closely resembles actual environments.
+1. Feature 1: Development of characters
+(a) This involves creating characters, such as rivals, allies, and friendly NPCs, with
+unique traits, lighting, and visual effects that correspond to their roles in the
+game.
+2. Feature 2: Development of Immersive Environments
+5
+1. Introduction
+(a) Creating intricate settings, such as public areas, homes, and campuses of
+universities, with accurate lighting and textures to improve immersion.
+1.3.4 Module 4: Game Scenarios
+This module involves the development of storylines, levels, and narrative elements that
+guide the player through the game. It includes the design of scenario-based interactions
+and educational narratives that teach cybersecurity concepts through engaging gameplay.
+1. Feature 1: Storyboards and Narrative Building
+(a) Make thorough storyboards for every scenario that describe the story’s develop-
+ment and the player’s travel through a variety of real-world locations, including
+houses, restaurants, and universities.
+(b) Develop narratives that incorporate cybersecurity threats, personal challenges,
+and social pressures, aligning with the game’s goals of education and aware-
+ness.
+2. Feature 2: Scenario Integration and Milestones
+(a) Design scenarios that reflect daily life situations, where players face cybersecu-
+rity challenges like phishing, social engineering, and other attacks.
+(b) Include milestones and tasks that are contextually relevant to the player’s
+environment, such as securing personal devices at home, protecting data at
+university, or safely interacting in public spaces.
+1.3.5 Module 5: UI/UX
+This module focuses on the design of the user interface and the overall user experience, en-
+suring that the game is intuitive and accessible. It includes the development of storyboards
+that outline game flow and visual design, enhancing player engagement.
+1. Feature 1: Creation of Game Flow Objects
+(a) Map out the design of ‘mood bar’, coins etc.
+2. Feature 2: Design Intuitive Menus and In-Game Prompts
+(a) Development of clear and start, pause or setting menus, prompts, and feedback
+systems that guide the player, making navigation and learning straightforward.
+6
+1.4 User Classes and Characteristics
+1.3.6 Module 6: VR Integration
+This module focuses on the virtual reality components of the game, ensuring that all
+features are optimized for an immersive VR experience. It enhances player engagement by
+simulating realistic environments and interactions through VR technology.
+1. Feature 1:Create VR-Ready Controls and Interactions
+(a) Development of controls and interaction methods that are tailored for VR
+platforms, including support for Oculus Quest 2, allowing players to fully
+immerse in the game.
+2. Feature 2: Optimizing of 3D Assets and Mechanics for VR
+(a) Ensures that the game’s 3D models, environments, and mechanics are optimized
+for performance and realism in VR, providing a seamless and engaging player
+experience.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+7
+1. Introduction
+User class Description
+Students Students are the game’s primary users. These users will be university students,
+young people, or even teenagers who must be aware of the cyber security
+threats they may encounter in virtual environments that mimic real-world
+locations, including homes, restaurants, and institutions. The age range of
+players may be 16 to 25. Common cybersecurity problems that students will
+face include social engineering, USB-based attacks, phishing scams, and
+more. Decision-making mechanisms and interactive storytelling are all part
+of the game’s strategy to engage this demographic.
+Faculty
+Members
+Cybersecurity professionals or experts might use the game for training pur-
+poses or to educate young individuals on cybersecurity best practices. Their
+role is to evaluate the effectiveness of the game in teaching cybersecurity
+concepts and may provide insights for improvements. They may use the game
+to simulate real-world cybersecurity incidents for academic or professional
+training purposes.
+Cybersecurity
+Experts
+Experts and professionals in cybersecurity can utilize the game to teach or
+train youth on cybersecurity best practices. Their role is to evaluate how
+well the game teaches cybersecurity principles and provide feedback for
+improvement. For academic or professional training objectives, real-world
+cybersecurity situations can be replicated in the game.
+Additionally, the scenarios can be examined by cybersecurity specialists to
+see if they accurately depict cyberattacks that occur in real life. To make sure
+that each scenario accurately represents contemporary cybersecurity threats
+and strategies, they will assess each scenario’s authenticity. Experts will
+also offer suggestions for improvements to guarantee that the game teaches
+players about appropriate defensive tactics and the consequences of security
+flaws. Their input will help to improve the scenarios, making them more
+accurate and consistent with best practices in cyber security awareness.
+Game Ad-
+ministrator
+Game administrators are responsible for maintaining the game, updating
+scenarios, and ensuring the VR platform functions properly. They make sure
+the VR equipment operates properly and that the game is updated with the
+newest cybersecurity risks. Administrators are in charge of user data, system
+performance, and game settings.
+Example: User Classes and Characteristics
+8
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+Here below are all the story boards and use case diagrams.
+2.1.1 Story Board
+So first start with story board. Here below is the story board of phishing attack. Where
+user recieve an email having phishing content . As in start user gets admission in university
+so it recieved the email having info that register for the Welcome event. So here, The story
+board is as below here in Fig. 2.12.1.
+9
+2. Project Requirements
+Figure 2.1: Story Board
+The Use Case Diagram is as below in Fig. 2.22.2
+2.1.2 Use Case: Start Game
+Table 2.1: Start Game
+Section Content
+Designation UC-01-01
+Name Start Game
+Authors Nuzhat Rubab Zahra
+Priority High
+10
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Criticality High
+Source Game Design Team
+Responsible Game designer
+Description The player initiates the game application by launching it on
+their device, leading them to the main menu where they can
+start interacting with the game’s features.
+Trigger Event The player selects or taps the game icon to launch the appli-
+cation.
+Actors Player
+Pre-Condition
+• The game is installed and running on the device.
+• The device is powered on and functioning properly.
+Post-Condition The player enters the main menu of the game and can interact
+with various options such as "Play Game," "Settings," "View
+Achievements," etc.
+Result The game environment and main menu are loaded, allowing
+the player to proceed further.
+Main Scenario
+1. The player taps the game icon to launch the applica-
+tion.
+2. The system initializes the game engine and loads es-
+sential game files.
+3. The main screen is displayed with the "Start Game"
+button.
+4. The player selects "Start Game."
+5. The system loads the main menu, where the player can
+navigate different options.
+11
+2. Project Requirements
+Section Content
+Alternative Scenario
+• 3a. The game fails to load due to system error or
+missing files.
+• 4a. The system prompts the player to reinstall or check
+for missing files.
+Exception Scenario The game does not start due to external issues such as device
+power failure or insufficient storage.
+Qualities
+• QR.01: Load time should not exceed 5 seconds.
+• QR.02: The transition to the main menu should be
+smooth and without delays.
+2.1.3 Use Case: Main Menu Navigation
+Table 2.2: Main Menu Navigation
+Section Content
+Designation UC-01-02
+Name Main Menu Navigation
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality Medium
+Source Game Interface Expert
+Responsible UI/UX Designer
+Description The player interacts with the main menu to navigate different
+sections such as Profile Menu, Settings, Play Game, etc.
+Trigger Event Player selects a menu option from the main menu.
+Actors Player
+Pre-Condition The game is running, and the main menu is visible.
+Post-Condition Player navigates to the desired section.
+Result Successful navigation to another game section or submenu.
+12
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Main Scenario
+1. The player is presented with various options in the
+main menu.
+2. Player selects the desired option (e.g., Settings, Profile
+Menu, Play Game, etc.).
+3. System loads the selected submenu.
+4. Player is directed to the desired section (Settings, Play
+Game, etc.).
+Alternative Scenario
+• 3a. The system encounters a delay in loading the
+selected section.
+• 4a. Player is notified and a retry option is provided.
+Exception Scenario The game crashes during the transition to the next screen.
+Qualities
+• QR.03: Menu responsiveness should be less than 2
+seconds.
+• QR.04: Clear navigation without confusion.
+2.1.4 Use Case: Play Game
+Table 2.3: Play Game
+Section Content
+Designation UC-01-03
+Name Play Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Gameplay Designer
+Responsible Game designer
+13
+2. Project Requirements
+Section Content
+Description Player starts gameplay by selecting "Play Game" from the
+main menu. They are tasked with completing in-game tasks
+and progressing through the game.
+Trigger Event Player selects “Play Game” from the main menu.
+Actors Player
+Pre-Condition Game is loaded and the main menu is displayed.
+Post-Condition The player enters the gameplay environment.
+Result Player progresses through tasks and interacts with game
+elements.
+Main Scenario
+1. Player selects "Play Game" from the main menu.
+2. The system loads the current saved game state (or
+starts a new game).
+3. Player is presented with the game environment and
+objectives.
+4. The player starts interacting with the game, completing
+tasks, and earning rewards.
+Alternative Scenario
+• 4a. Player fails to complete tasks and restarts from the
+last checkpoint.
+Exception Scenario The system fails to load the game, causing the game to crash.
+Qualities
+• QR.05: Smooth and immersive gameplay experience.
+• QR.06: No freezing or glitches during transitions.
+2.1.5 Use Case: Save Game
+Table 2.4: Save Game
+Section Content
+Designation UC-01-04
+14
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Name Save Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game State Management Expert
+Responsible Game Designer
+Description The player can pause the game and save their current
+progress from the Pause Menu.
+Trigger Event The player pauses the game and selects "Save Game" from
+the pause menu.
+Actors Player
+Pre-Condition The player is actively playing the game and the pause menu
+is accessible.
+Post-Condition The game is successfully saved, and the player can resume
+or quit the game.
+Result The player’s game progress is saved, and they are returned
+to the pause menu or the game environment.
+Main Scenario
+1. The player pauses the game during gameplay.
+2. The Pause Menu is displayed.
+3. The player selects "Save Game" from the Pause Menu.
+4. The system prompts the player to confirm the save.
+5. The game state is saved in the player’s profile.
+6. The player chooses whether to resume the game or
+quit.
+Alternative Scenario
+• 4a. The save fails due to insufficient storage space.
+• 4b. The system informs the player of the failure and
+requests additional space.
+Exception Scenario The game crashes or the system fails to save due to a hard-
+ware error, resulting in loss of unsaved progress.
+15
+2. Project Requirements
+Section Content
+Qualities
+• QR.01: Saving time should not exceed 2 seconds.
+• QR.02: The player should be able to resume the game
+seamlessly after saving.
+2.1.6 Use Case: Pause Game
+Table 2.5: Pause Game
+Section Content
+Designation UC-01-05
+Name Pause Game
+Authors Nuzhat Rubab Zahra
+Priority Medium
+Criticality Medium
+Source Gameplay Designer
+Responsible Game Designer
+Description The player pauses the game to take a break, save the game,
+access the main menu, or access the game settings.
+Trigger Event Player selects "Pause Game" during gameplay.
+Actors Player
+Pre-Condition Player is in the middle of gameplay.
+Post-Condition Game is paused, and the player can access the pause menu.
+Result The game is paused and the player can choose to resume,
+save the game, change settings, or quit.
+Main Scenario
+1. Player presses the pause button.
+2. The game freezes the current state and shows the pause
+menu.
+3. The player can choose to resume the game, save the
+game, adjust settings, or quit to the main menu.
+16
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Alternative Scenario
+• 3a. Player chooses to go to the main menu.
+Exception Scenario The game crashes when attempting to pause.
+Qualities
+• QR.09: Smooth transition between paused and re-
+sumed states.
+• QR.10: No data loss during pause.
+2.1.7 Use Case: View Extras
+Table 2.6: View Extras
+Section Content
+Designation UC-01-06
+Name View Extras
+Authors Nuzhat Rubab Zahra
+Priority Medium
+Criticality Low
+Source Game Design Team
+Responsible Game Designer
+Description The player views the game’s extras like achievements, con-
+trols, and credits.
+Trigger Event Player selects the extras option from the main menu.
+Actors Player
+Pre-Condition Game is loaded, and the extras menu is accessible.
+Post-Condition Player views the selected extras.
+Result Information is displayed on the screen.
+17
+2. Project Requirements
+Section Content
+Main Scenario
+1. The player navigates to the main menu.
+2. The player selects "Extras" from the menu.
+3. The system displays options such as "View Achieve-
+ments," "View Controls," and "View Credits."
+4. The player selects the desired option:
+• 4a. If the player selects "View Achievements,"
+the system shows the list of achievements earned
+and their descriptions.
+• 4b. If the player selects "View Controls," the
+system shows the control layout and button map-
+pings.
+• 4c. If the player selects "View Credits," the sys-
+tem shows a scrollable list of game credits.
+5. The player exits the "Extras" section and returns to the
+main menu.
+Alternative Scenario
+• 4a. The player views achievements but hasn’t un-
+locked any, so the system shows a message indicating
+"No achievements unlocked yet."
+• 4b. The player views controls and wants to change
+the control scheme. The system provides an option
+to modify the control layout directly from the "View
+Controls" screen.
+• 4c. The player selects credits, but the credits scroll too
+fast. The player uses an option to slow down or pause
+the scrolling.
+18
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Exception Scenario
+• EX-01: The system fails to load the "Extras" section
+due to a temporary glitch, causing the game to freeze.
+The player is prompted to retry or restart the game.
+• EX-02: The system shows incomplete or corrupted
+data in the "View Achievements" screen, resulting in
+a loading error.
+Qualities
+• QR.11: The extras menu should load within 3 seconds.
+• QR.12: Achievements, controls, and credits should be
+presented in a readable format with smooth scrolling
+or transitions.
+2.1.8 Use Case: Manage Profile
+Table 2.7: Manage Profile
+Section Content
+Designation UC-01-07
+Name Manage Profile
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality Medium
+Source Game State Management Expert
+Responsible Game Designer
+Description The player manages their profile, including name, and other
+customization options.
+Trigger Event Player selects "Profile Menu" from the main menu.
+Actors Player
+Pre-Condition The game is running, and the main menu is accessible.
+Post-Condition Player updates profile information successfully.
+Result Profile is updated, and changes are saved.
+19
+2. Project Requirements
+Section Content
+Main Scenario
+1. The player selects "Profile Menu" from the main menu.
+2. The system displays the player’s current profile infor-
+mation.
+3. Player edits profile details (name, character, etc.).
+4. The system saves the updated profile.
+Alternative Scenario
+• 4a. The player cancels changes before saving.
+Exception Scenario
+• System fails to save the updated profile due to a server
+error.
+Qualities
+• QR.13: Profile changes are applied immediately.
+• QR.14: User-friendly interface for managing profile
+details.
+2.1.9 Use Case: Shop
+Table 2.8: Shop
+Section Content
+Designation UC-01-08
+Name Shop
+Authors Nuzhat Rubab Zahra
+Priority Medium
+Criticality Medium
+Source In-Game Purchases Expert
+Responsible Game Designer
+Description The player purchases in-game items or upgrades from the
+shop.
+20
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Trigger Event Player selects "Shop" from the main menu.
+Actors Player
+Pre-Condition The player has sufficient in-game currency.
+Post-Condition The player purchases items, and inventory is updated.
+Result Players successfully purchase items, and they are added to
+their inventory.
+Main Scenario
+1. The player selects "Shop" from the menu.
+2. The system displays a list of available items for pur-
+chase.
+3. The player selects an item and confirms the purchase.
+4. The system deducts the required amount from the
+player’s currency.
+5. The item is added to the player’s inventory.
+6. ‘Purchase’ is changed to ‘Purchased’.
+Alternative Scenario
+• 4a. The player cancels the purchase before confirming.
+Exception Scenario
+• System fails to complete the purchase due to a server
+error.
+Qualities
+• QR.15: Purchase confirmation should be instanta-
+neous.
+• QR.16: User-friendly interface for managing shop
+items.
+2.1.10 Use Case: Earn Rewards
+21
+2. Project Requirements
+Table 2.9: Earn Rewards
+Section Content
+Designation UC-01-09
+Name Earn Rewards
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Reward System Expert
+Responsible Game Designer
+Description The player earns rewards after successfully completing tasks.
+Trigger Event Player completes a task in-game.
+Actors Player
+Pre-Condition Player is actively engaged in completing tasks or objectives.
+Post-Condition Rewards are added to the player’s profile or inventory.
+Result Player receives rewards such as points, currency, or unlock-
+ables.
+Main Scenario
+1. The player successfully completes a task or objective.
+2. The system calculates the appropriate reward.
+3. The reward is added to the player’s currency or inven-
+tory.
+4. The player receives a notification of the earned re-
+wards.
+Alternative Scenario
+• Player fails to complete the task, and no rewards are
+given.
+Exception Scenario
+• System fails to update the player’s profile with earned
+rewards due to a server error.
+22
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Qualities
+• QR.17: Rewards should reflect immediately in the
+player’s profile.
+• QR.18: Clear notification of rewards earned.
+2.1.11 Use Case: End Game
+Table 2.10: End Game
+Section Content
+Designation UC-01-10
+Name End Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game Flow Expert
+Responsible Game Designer
+Description The player finishes their gameplay session and exits the
+game.
+Trigger Event Player selects "End Game" from the menu.
+Actors Player
+Pre-Condition Player is in the main menu.
+Post-Condition The game exits.
+Result Game session ends.
+Main Scenario
+1. The player selects “End Game” from the menu.
+2. The system prompts the player to confirm they want
+to exit.
+3. The player confirms the action.
+4. The game exits to the main menu or desktop.
+23
+2. Project Requirements
+Section Content
+Alternative Scenario
+• Player selects “Cancel” and returns to the game.
+Exception Scenario
+• The game crashes while closing.
+Qualities
+• QR.19: Smooth exit without delays.
+2.1.12 Use Case: Load Game
+Table 2.11: Load Game
+Section Content
+Designation UC-01-11
+Name Load Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game State Management Expert
+Responsible Game Designer
+Description The player loads a previously saved game state.
+Trigger Event Player selects "Load Game" from the main menu.
+Actors Player
+Pre-Condition The player has saved progress in the game.
+Post-Condition The game loads from the saved state, allowing the player to
+resume from where they left off.
+Result Game state is loaded successfully.
+Main Scenario
+1. The player selects "Load Game" from the main menu.
+2. The system displays a list of saved game states.
+3. The player selects the desired save.
+4. The system loads the selected game state.
+24
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Alternative Scenario
+• Player cancels the load process.
+Exception Scenario
+• System fails to load the saved game state due to data
+corruption.
+Qualities
+• QR.20: Loading should be quick and error-free.
+• QR.21: Ensure integrity of saved data.
+2.1.13 Use Case: Resume Game
+Table 2.12: Resume Game
+Section Content
+Designation UC-01-12
+Name Resume Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality Medium
+Source Game Design Team
+Responsible Game Designer
+Description The player resumes the game after pausing.
+Trigger Event Player selects "Resume Game" from the pause menu.
+Actors Player
+Pre-Condition The game is paused.
+Post-Condition Game resumes from the point it was paused.
+Result The player can continue playing the game.
+25
+2. Project Requirements
+Section Content
+Main Scenario
+1. The player selects "Pause Game" during gameplay.
+2. The system freezes game activity and shows the pause
+menu.
+3. The player selects "Resume Game."
+4. The system resumes gameplay from the paused point.
+Alternative Scenario
+• Player chooses to exit to the main menu instead of
+resuming.
+Exception Scenario
+• System fails to resume the game due to a freeze or
+crash.
+Qualities
+• QR.21: Seamless transition between pause and re-
+sume.
+• QR.22: Quick resume without delays.
+2.1.14 Use Case: Defend Against Cyber Attack
+Table 2.13: Defend against cyber attack
+Section Content
+Designation UC-01-13
+Name Defend against cyber attack
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Cybersecurity awareness domain expert
+Responsible Game designer
+26
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Description The player is attacked by a cyber attacker. They must choose
+the correct defensive actions based on cybersecurity knowl-
+edge to defend themselves.
+Trigger Event A cyber attack is initiated in-game by an NPC attacker.
+Actors Player, NPC Attacker
+Pre-Condition Player is actively progressing in-game.
+Post-Condition Players successfully defend against the attack and maintain
+their social reputation.
+Result Defence against the cyber attack, leading to point gain.
+Main Scenario
+1. A cyber attack warning appears on the screen.
+2. The player selects an appropriate defensive action (e.g.,
+change password, update software, block attacker).
+3. The game evaluates the player’s action.
+4. The system simulates whether the player successfully
+defends.
+5. If successful, the player gains points and retains repu-
+tation.
+6. If failed, the player’s reputation decreases, and they
+lose progress.
+Alternative Scenario
+• 4a. The player ignores the attack.
+• 4b. The attack causes damage to the player’s reputa-
+tion, and a reset is triggered.
+Exception Scenario
+• The player has no available tools to defend against the
+attack, leading to a forced reset.
+27
+2. Project Requirements
+Qualities
+• QR.24: Reaction time upon attack.
+• QR.25: Difficulty balance of attack.
+2.1.15 Use Case: New Game
+Table 2.14: New Game
+Section Content
+Designation UC-01-014
+Name New Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game Design Team
+Responsible Game Designer
+Description The player starts a new game from the main menu.
+Trigger Event Player selects "New Game" from the main menu.
+Actors Player
+Pre-Condition The game is installed, running, and on the main menu.
+Post-Condition A new game is initiated with default settings.
+Result The game starts, and the player is placed in the first scenario
+of the first chapter.
+Main Scenario
+1. The player selects "New Game" from the main menu.
+2. The system prompts the player for confirmation.
+3. The player confirms to start a new game.
+4. The system initializes the game environment and dis-
+plays the opening sequence.
+Alternative Scenario
+• 3a. The player cancels and returns to the main menu.
+28
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Exception Scenario
+• The system fails to load the game environment due to
+a technical issue.
+Qualities
+• QR.26: Smooth and fast transition to the game envi-
+ronment.
+• QR.27: No delays longer than 5 seconds when starting
+a new game.
+2.1.16 Use Case: Continue Game
+Table 2.15: Continue Game
+Section Content
+Designation UC-01-015
+Name Continue Game
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game Design Team
+Responsible Game Designer
+Description The player continues from the currently left game state.
+Trigger Event Player selects "Continue Game" from the main menu.
+Actors Player
+Pre-Condition There is a saved game state.
+Post-Condition The player resumes the game from the last saved state.
+Result The currently left game is loaded, and the player continues
+from their previous progress.
+29
+2. Project Requirements
+Section Content
+Main Scenario
+1. The player selects "Continue Game" from the main
+menu.
+2. The system loads the currently left game state.
+3. The player resumes the game from where they left off.
+Alternative Scenario
+• 2a. The system cannot find the currently left game
+state and prompts the player to start a new game.
+Exception Scenario
+• The system fails to load the currently left game state
+due to corruption or missing files.
+Qualities
+• QR.03: Fast loading of the currently left state, within
+5 seconds.
+• QR.04: Ensure no data loss during the loading process.
+2.1.17 Use Case: Select Chapter
+Table 2.16: Select Chapter
+Section Content
+Designation UC-01-16
+Name Select Chapter
+Authors Nuzhat Rubab Zahra
+Priority Medium
+Criticality Medium
+Source Game Design Team
+Responsible Game Designer
+Description The player selects a specific chapter to play from.
+Trigger Event Player selects "Select Chapter" from the main menu.
+Actors Player
+30
+2.1 Use-case/Event Response Table/Storyboarding
+Section Content
+Pre-Condition Chapters have been unlocked through previous gameplay.
+Post-Condition The selected chapter is loaded.
+Result The player starts the selected chapter.
+Main Scenario
+1. The player selects "Chapters" from the main menu.
+2. The system displays the available chapters.
+3. The player replays or continues a chapter.
+4. The system loads the chosen chapter.
+Alternative Scenario
+• 3a. The player cancels the selection and returns to the
+main menu.
+Exception Scenario
+• The system fails to load the selected chapter due to
+missing files.
+Qualities
+• QR.28: Chapters load within 3-5 seconds.
+• QR.29: Ensure only unlocked chapters are selectable.
+2.1.18 Use Case: Complete Task In Story
+Table 2.17: Complete Tasks in Chapter
+Section Content
+Designation UC-01-17
+Name Complete Tasks in Chapter
+Authors Nuzhat Rubab Zahra
+Priority High
+Criticality High
+Source Game Design Team
+Responsible Game Designer
+31
+2. Project Requirements
+Section Content
+Description The player completes a series of tasks or objectives within a
+chapter of the game.
+Trigger Event The player advances to a new chapter and is presented with
+tasks to complete.
+Actors Player
+Pre-Condition The chapter has started, and the task objectives are available
+to the player.
+Post-Condition The player successfully completes the tasks, and the chapter
+progress is updated.
+Result Tasks are completed, and progress in the current chapter is
+saved.
+Main Scenario
+1. The player starts a new chapter or resumes a previously
+saved chapter.
+2. The system presents the list of tasks or objectives for
+that chapter.
+3. The player completes the first task.
+4. The system confirms the task completion and updates
+the task list.
+5. The player proceeds with subsequent tasks, repeating
+steps 3 and 4.
+6. Upon completing all tasks, the system updates the
+chapter progress.
+7. Player is rewarded for successfully completing the
+chapter tasks.
+Alternative Scenario
+• 4a. The player skips or fails a task, causing a delay in
+chapter progression. The player is given the option to
+retry the task or skip it.
+32
+2.2 Functional Requirements
+Section Content
+Exception Scenario
+• The system fails to update the task completion due to
+a bug or server issue, causing progress to halt. The
+game offers the option to restart the chapter or reload
+the last saved checkpoint.
+Qualities
+• QR.30: Task progress is automatically saved in real-
+time to avoid loss of progress.
+• QR.31: Clear and intuitive user interface for display-
+ing and tracking task objectives.
+• QR.32: No performance drop during task transitions
+or task completion events.
+Storyboarding for graphically intensive applications.
+Create the suitable representation here.
+2.2 Functional Requirements
+This section outlines the functional requirements of the cybersecurity awareness game,
+focusing on features, player interactions, and game mechanics.
+2.2.1 Module 1: User Interface (UI) & User Experience (UX)
+The following requirements focus on the visual and interactive aspects of the game:
+1. FR1
+The system shall provide a simple, intuitive, and consistent user interface for navi-
+gating menus, settings, and indirect story-based tutorials.
+2. FR2
+The game shall offer real-time feedback in response to player actions, displayed
+visually on the screen.
+3. FR3
+The game shall allow the player to view the basic information about his overall
+33
+2. Project Requirements
+performance, level, and scores.
+4. FR4
+The system shall include a "Mood Bar" that dynamically reflects the player’s social
+status using two states: "happy" and "dead inside."
+5. FR5
+The system shall guide players through challenges by providing contextual prompts
+and suggestions.
+6. FR6
+The audio subsystem shall adjust ambient sounds and music based on player interac-
+tions and environments to enhance immersion.
+2.2.2 Module 2: Virtual Reality Integration
+This section describes requirements for integrating VR systems:
+1. FR1
+The system shall be compatible with VR headsets, including Oculus, allowing full
+VR gameplay.
+2. FR2
+VR environments shall simulate real-world locations like buses, universities, and
+restaurants, allowing players to interact with them.
+3. FR3
+The system shall allow players to interact with non-player characters (NPCs) in the
+VR environment through dialogue and decision-making interfaces.
+4. FR4
+Player decisions in virtual environments shall dynamically change the scenario and
+storyline.
+2.2.3 Module 3: Cybersecurity Attack Simulation
+The game simulates cyberattacks and teaches players how to respond to them:
+1. FR1
+The game shall simulate cyberattacks such as phishing, MitM, brute force, malware,
+and ransomware, presented within real-life daily scenarios.
+34
+2.2 Functional Requirements
+2. FR2
+The system shall provide educational content for each simulated cyberattack, ex-
+plaining its nature and preventive measures.
+3. FR3
+After a successful cyberattack, the system shall provide players with damage control
+strategies to recover from the incident.
+4. FR4
+The system shall restrict certain cyberattack simulations, such as DDoS or SQL
+injections, which are not within the educational scope of the game..
+2.2.4 Module 4: Reputation & Social Points System
+The player’s reputation and social points change based on in-game decisions:
+1. FR1
+The system shall adjust the player’s reputation based on their response to social
+interactions and cyberattacks.
+2. FR2
+The game shall reward positive actions with social points and in-game currency
+(coins) and penalise negative actions by reducing social points.
+3. FR3
+The "Mood Bar" shall reflect the player’s accumulated social points and visually
+indicate their emotional state.
+4. FR4
+Losing all social points shall result in failure of the current level, prompting a restart
+from a checkpoint.
+2.2.5 Module 5: Educational Content & Tutorials
+The game includes educational content to teach players about cybersecurity threats:
+1. FR1
+The game shall provide real-time feedback and hints to help players learn and
+reinforce proper responses to cyberattacks.
+2. FR2
+After an attack, the system shall give preventive tips to avoid similar attacks in future
+levels.
+35
+2. Project Requirements
+2.2.6 Module 6: Game Progression & Levels
+This section describes how the player advances through the game:
+1. FR1
+The game shall consist of multiple levels, with each level representing a different
+phase of the player’s life, such as university or early career.
+2. FR2
+Players shall unlock new virtual environments (homes, offices, public places) by
+completing tasks and reaching milestones.
+3. FR3
+Each level shall present increasingly complex challenges requiring players to apply
+their knowledge of cybersecurity.
+2.2.7 Module 7: Coins & Rewards System
+Players are rewarded for good decisions with in-game currency:
+1. FR1
+The game shall reward players with coins for making good decisions, such as
+protecting personal data or successfully avoiding a cyberattack.
+2. FR2
+Players shall use earned coins to unlock in-game items or progress to higher levels.
+3. FR3
+The system shall provide visual and auditory feedback when coins are earned to
+reinforce positive behaviour.
+2.2.8 Module 8: Decision-Making & Scenario Selection
+Player decisions affect the game’s storyline and outcomes:
+1. FR1
+The system shall present players with decisions that impact the game’s storyline,
+affecting their social standing, relationships, and future challenges.
+2. FR2
+The outcome of these decisions shall dynamically alter the next set of challenges,
+creating a unique experience based on the player’s choices.
+36
+2.2 Functional Requirements
+3. FR3
+The player’s decision-making process shall influence the behaviour of NPCs, affect-
+ing their responses and interactions with the player.
+2.2.9 Module 9: Non-Player Characters (NPCs) Interaction
+This section outlines how players interact with NPCs:
+1. FR1
+NPCs in the game shall exhibit different behaviours based on the player’s decisions,
+reflecting real-world social dynamics (e.g., rivals, friends, and family).
+2. FR2
+NPCs shall act as attackers, mentors, or allies depending on the context and scenarios
+within the game.
+3. FR3
+The player shall interact with NPCs through dialogues, activities, and decision points
+that affect their social standing.
+2.2.10 Module 10: Task & Milestone Management
+The following requirements address task-based gameplay:
+1. FR1
+The game shall feature milestones like reaching academic or personal goals (e.g.,
+completing tasks in university life or office life).
+2. FR2
+The system shall present challenges and tasks in each level that must be completed
+to move forward in the game, simulating real-life responsibilities and challenges.
+3. FR3
+Each task must integrate a learning component related to cybersecurity, such as
+completing a challenge without falling for a phishing scam or maintaining privacy
+during online interactions.
+2.2.11 Module 11: Level Failure & Restart Mechanism
+The following are the requirements for game progression and failure:
+37
+2. Project Requirements
+1. FR1
+Players shall lose a level if they reach the "dead inside" state on the mood bar, after
+which they must restart the level.
+2. FR2
+The game shall provide checkpoints within levels so that players don’t lose complete
+progress upon failure.
+3. FR3
+The system shall offer tips or guidance when players fail a level, helping them
+understand what went wrong and how to avoid failure in the next attempt
+2.2.12 Module 12: Daily Life Simulation
+The following requirements enhance the realistic portrayal of daily life:
+1. FR1
+The game shall simulate various daily activities, such as travelling on a bus, attending
+classes, or visiting restaurants.
+2. FR2
+These daily activities must be interwoven with cybersecurity education, where the
+player faces potential risks (e.g., using free Wi-Fi at a café or sharing information
+with strangers).
+3. FR3
+The player’s interaction with the virtual world (e.g., environments like homes or
+restaurants) shall mirror real-life cybersecurity challenges and solut ions.
+2.2.13 Module 13: Level Save Progression Management
+The following requirements manage player progress and saving levels:
+1. FR1
+The game shall automatically save player progress at predefined checkpoints, such
+as the completion of tasks, levels, or significant decisions within the storyline.
+2. FR2
+Players must have the option to manually save their current progress at any point in
+the game through an easily accessible "Save" button in the user interface.
+38
+2.3 Non-Functional Requirements
+3. FR3
+The game shall allow players to load their saved progress from the main menu or
+during the game.
+4. FR4
+The game shall include a checkpoint system that informs players when their progress
+is automatically saved.
+5. FR5
+If a player attempts to save during a critical event (e.g., during a cyberattack or key
+decision-making moment), the system shall prompt the player to complete the event
+before allowing the save.
+2.2.14 Module 14: Performance
+1. FR1
+The player shall be able to view their current performance.
+2. FR2
+The player shall be able to interact with the updated gaming based on their perfor-
+mance.
+2.2.15 Module 15: Ending
+1. FR1
+The game shall end once the player successfully reaches their office milestone.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements. These quality requirements should be
+specific, quantitative, and verifiable. The following are some examples of documenting
+guidelines.
+2.3.1 Reliability
+REL-1: The game shall recover from unexpected crashes or disruptions within 10 seconds
+and restore the player’s progress to the last saved checkpoint.
+39
+2. Project Requirements
+2.3.2 Usability
+Usability requirements deal with ease of learning, ease of use, error avoidance and recovery,
+the efficiency of interactions, and accessibility. The usability requirements specified here
+will help the user interface designer create the optimum user experience.
+USE-1: The VR system shall allow users to easily navigate the game menus using simple
+hand gestures or VR controllers.
+USE-2: The game must be simple and have a user-friendly interactive interface.
+USE-3: The game shall provide on-screen prompts to guide players through learning
+objectives and gameplay without external assistance.
+USE-4: The game must display error messages related to gameplay e.g., invalid actions.
+USE-5: The game must allow users to pause, save, and resume their progress at any time
+to accommodate players with varying time constraints or play preferences.
+2.3.3 Performance
+PER-1: The game must load scenarios within 10 seconds.
+PER-2: System shall perform well for continuously evaluating the performance of the
+user.
+PER-3: System shall be responsive towards the user’s actions
+PER-4: The system shall ensure that all in-game data processing, such as updating scores
+or generating cybersecurity attack results, is completed within 1 second to maintain a
+real-time experience.
+2.3.4 Security
+SEC-1: Profile of one user shall not be accessed by any other user
+2.4 Domain Model
+The Domain Model is displayed as Fig. 2.32.3 below:
+40
+2.4 Domain Model
+Figure 2.2: Use Case Diagram
+41
+2. Project Requirements
+Figure 2.3: Domain Model
+42
+Chapter 3
+System Overview
+The Cybersecurity Awareness Game is an innovative educational game aimed at teenagers
+and young adults, designed to raise awareness about cybersecurity threats and promote
+safe online practices. The game harnesses the power of virtual reality (VR) technology to
+create an immersive experience that mimics real-life situations, allowing players to engage
+with various scenarios they might encounter in their everyday lives—such as interacting
+on social media, attending classes, or navigating online communications.
+Functionally, the game integrates a user-friendly interface that guides players through
+different levels while providing real-time feedback based on their actions. Players navigate
+through challenges that simulate various cybersecurity threats, such as phishing attacks,
+malware, and social engineering, learning preventive measures and appropriate responses
+in the process. A dynamic reputation system tracks the player’s decisions, affecting their
+in-game reputation and social standing, thereby reinforcing the impact of their choices on
+their digital lives.
+Contextually, the game is developed to resonate with daily experiences of its target audi-
+ence, making the learning experience relatable and engaging. The design prioritises both
+fun and functionality, ensuring that players are not only entertained but also educated about
+essential cybersecurity principles in a safe, interactive environment. This project seeks
+to address the growing need for effective cybersecurity education among young users,
+equipping them with the knowledge and skills to navigate the digital world confidently and
+securely.
+3.1 Architectural Design
+The Architectural design is displayed in Fig. 3.13.1 below:
+43
+3. System Overview
+Figure 3.1: Architectural Design
+3.2 Design Models
+Design Models for Procedural Approach
+The applicable models for the project using procedural approach may include:
+3.2.1 Activity Diagram
+The Activity diagram is displayed in Fig. 3.23.2 below:
+44
+3.2 Design Models
+Figure 3.2: Activity Diagram
+3.2.2 System-level Sequence Diagram
+The System-level Sequence Diagram is displayed as Fig. 3.33.3 below:
+3.2.3 Data Flow Diagram
+3.2.3.1 Level 0
+1. Player The player is an external entity that interacts with the system by inputting
+choices or decisions related to cyber security scenarios (e.g., phishing attack, USB-
+based attack).
+2. CyberQuest (central process) The game receives inputs from the player, processes
+those inputs, and sends data back to the player as feedback or scores.
+3. Firebase The database system that stores player data, such as progress, scores,
+decisions, and choices. Firebase interacts with the game to store and retrieve
+information.
+4. VR System The VR component provides the immersive experience and retrieves
+player actions to send them back to the game system for decision-making.
+3.2.3.2 Level 0 DFD
+1. Player -> CyberQuest The player sends actions and receives feedback.
+45
+3. System Overview
+2. CyberQuest -> Firebase The game reads/writes player data (progress, scores, etc.).
+3. Game -> VR System The game receives VR input (e.g., actions performed in VR
+scenarios) and sends updates back to the VR environment.
+3.2.3.3 Level 1 DFD (Expanding Processes)
+1. Decision-Making Process
+Players input decisions related to different scenarios. Decisions are stored in Firebase,
+and outcomes are calculated.
+2. Game Feedback Process Based on decisions made by the player, feedback (score,
+advice) is generated. The Firebase is updated with new player data (scores).
+3. VR Interaction Process Player actions in VR (e.g., navigating a cybersecurity
+scenario) are processed and fed into the decision-making process.
+4. Data Management (Firebase) This handles storing and retrieving all game data
+(progress, actions, player profiles).
+3.2.3.4 Level 1 DFD
+1. Player -> Decision-Making Process The player makes choices that affect the game.
+2. Decision-Making Process -> Game Feedback Process The game evaluates the
+player’s decisions.
+3. VR Interaction Process -> Decision-Making Process VR interactions (player
+actions in the VR world) are fed into the game for evaluation.
+The Data Flow Diagram is displayed as Fig. 3.43.4 below:
+3.2.4 State Transition Diagram
+Steps:
+1. Initial State The player begins unaware of potential cyber-attacks.
+2. States
+(a) Daily Routine: The player goes through daily activities such as checking email,
+visiting the university, or going out to enjoy.
+46
+3.3 Data Design
+(b) Scenario Encounter: The player faces a situation where they are potentially
+exposed to a cyber threat (e.g., phishing, social engineering).
+(c) Decision Point: The player must make a choice, a critical moment where they
+can avoid or fall victim to the attack.
+(d) Attack Occurs: If the wrong decision is made, a cyber attack happens (e.g.,
+phishing or malware attack).
+(e) Safe: If the right decision is made, the player avoids the attack.
+(f) Feedback & Learning: The player receives feedback about the result and learns
+about the consequences of their choices.
+(g) Continue Game: After feedback, the player continues or ends the game and is
+now more aware of potential threats.
+3. Transitions
+(a) From the Daily Routine to Scenario Encounter.
+(b) From Scenario Encounter to Decision Point.
+(c) From Decision Point to either Attack Occurs or Safe.
+(d) From Attack Occurs to Feedback & Learning.
+(e) From Feedback & Learning to Continue Game or Game Over.
+The State Transition Diagram is displayed as Fig. 3.53.5 below:
+3.3 Data Design
+The "Game-Based Intervention for Cyber Security Awareness" system is organised, stored,
+and processed. The system uses Firebase, a NoSQL database, to manage player data,
+scenarios, decisions, and other game-related entities.
+3.3.1 Data Storage Solution
+The system uses Firebase (NoSQL) for data storage. Firebase is perfect for handling
+real-time data synchronisation, managing complex relationships, and providing scalability,
+which is crucial for a VR-based game. Additionally, Firebase supports user authentication,
+making it easier to manage player profiles and ensure secure access.
+47
+3. System Overview
+3.3.2 Data Entities and Structure
+The major data entities in the system include UserProfile, Scenario, UserDemographics,
+and DecisionLog. Each entity is stored in Firebase in a structured and scalable manner.
+Below is a breakdown of each entity and its corresponding fields:
+1. UserDemographics
+At the start of the game, the player will provide their username and gender. This
+entity stores basic information about the player.
+• userID (string): Unique identifier for each player (auto-generated by Firebase).
+• username (string): The player’s username or player name.
+• gender (string): The player’s gender (e.g., "Male," "Female," "Other"). This
+data helps personalise the player’s experience and can be used to tailor game
+content or display gender-specific avatars and preferences.
+2. UserProfile
+This entity stores player-specific information, including their progress, score, reputa-
+tion in the game and profile data.
+• userID (string): Unique identifier for each player (UserDemographics).
+• username (string): The player’s username or player name.
+• cyberSecurityScore (int): Player’s cumulative score based on their decisions
+and progress in the game.
+• progress (object): Tracks the current level, completed scenarios, and reputation
+status.
+– currentLevel (int): The level the player is currently on.
+– reputationScore (int): Player’s reputation score affected by their decisions
+in-game.
+– mood (string): Current mood (e.g., "happy" or "dead inside").
+– completedScenarios (array of strings): List of scenario IDs that the player
+has completed.
+• achievements (array of objects): Stores special achievements unlocked by the
+player.
+3. Scenario
+This entity defines the various scenarios in the game, including the type of cyber
+attack involved and the possible outcomes based on player decisions.
+• scenarioID (string): Unique identifier for each scenario.
+48
+3.3 Data Design
+• scenarioTitle (string): The title or name of the scenario (e.g., "Phishing Attack
+at University").
+• description (string): Detailed description of the scenario.
+• threatType (string): Type of cyber threat demonstrated in the scenario (e.g.,
+Phishing, Malware).
+• possibleOutcomes (array of objects): Different possible results based on player
+decisions.
+– outcomeID (string): Unique ID for each outcome.
+– decisionRequired (string): The decision that the player must make (e.g.,
+"Open suspicious email").
+– result (string): The result of the decision (e.g., "Player’s personal data
+gets leaked").
+– reputationImpact (int): The impact of the decision on the player’s repu-
+tation score.
+– moodImpact (int): How the decision affects the player’s mood (positive
+or negative).
+– cyberSecurityKnowledge (string): Educational information provided
+after the outcome is reached.
+4. DecisionLog
+The DecisionLog stores records of the player’s decisions and the corresponding
+outcomes. This information helps track the player’s learning journey and game
+progression.
+• logID (string): Unique identifier for the decision log entry.
+• userID (string): ID of the player who made the decision (links to UserProfile).
+• scenarioID (string): ID of the scenario being played (links to Scenario).
+• decision (string): The decision made by the player.
+• outcome (string): The resulting outcome of the decision.
+• timeStamp (datetime): The timestamp when the decision was made.
+3.3.3 Database Structure in Firebase
+The Firebase database is organised into collections and documents. Each entity is repre-
+sented as a collection of documents, making it easy to query and store data for each player,
+scenario, and decision. Example Firebase structure:
+49
+3. System Overview
+/UserDemographics
+/userID1
+username: "JohnDoe"
+gender: "Male"
+/UserProfile
+/userID1
+cyberSecurityScore: 85
+progress: {
+currentLevel: 3,
+reputationScore: 65,
+mood: "happy",
+completedScenarios: ["scenarioID1", "scenarioID2"]
+}
+achievements: [
+{name: "Phishing Survivor", date: "2024-10-02"},
+{name: "Malware Preventer", date: "2024-10-05"}
+]
+/Scenario
+/scenarioID1
+scenarioTitle: "Phishing Attack"
+description: "Player receives a phishing email..."
+threatType: "Phishing"
+possibleOutcomes: [
+{outcomeID: "outcomeID1", decisionRequired: "Click link", result: "Player data gets stolen", reputationImpact: -20, moodImpact: -15, cyberSecurityKnowledge: "Phishing emails often contain suspicious links."},
+{outcomeID: "outcomeID2", decisionRequired: "Ignore email", result: "Player avoids the attack", reputationImpact: +10, moodImpact: +5, cyberSecurityKnowledge: "Always verify email senders before clicking on any links."}
+]
+/DecisionLog
+/logID1
+userID: "userID1"
+scenarioID: "scenarioID1"
+decision: "Click link"
+outcome: "Player data gets stolen"
+timeStamp: "2024-10-02T10:15:00Z"
+50
+3.3 Data Design
+3.3.4 Data Processing and Organization
+• Firebase Collections: Each entity is represented as a collection in Firebase (e.g.,
+UserDemographics, UserProfile, Scenario, DecisionLog). Firebase’s NoSQL struc-
+ture allows for flexible, dynamic data storage and efficient querying.
+• Player Onboarding: The UserDemographics collection stores the username and
+gender provided by players during the onboarding process. This data is linked to the
+player’s UserProfile, tracking their progress, score, and reputation throughout the
+game.
+• Player Progress: Each player’s progress, including completed scenarios, deci-
+sions, and learning outcomes, is logged in their profile in the UserProfile collection,
+providing a personalised gaming experience.
+• Scenario Tracking: Each scenario is stored in the scenario collection, and the
+outcomes are dynamically loaded based on the player’s decisions.
+• Real-time Updates : Firebase ensures real-time syncing for continuous player
+progress updates and immediate logging of scenario outcomes.
+• Decision Logs: The DecisionLog collection records each decision made by the
+player, enabling tracking of their learning journey and allowing for future analysis.
+• Scenario Execution: When a player interacts with a scenario, the system loads data
+from the scenario collection. After the player makes a decision, the corresponding
+outcome is stored in the DecisionLog, and the player’s UserProfile is updated with
+the new progress and reputation score.
+This data design is optimised to ensure a smooth and personalised experience for
+each player in the VR game, with a focus on scalability, performance, and real-time
+interaction.
+51
+3. System Overview
+Figure 3.3: SSD
+52
+3.3 Data Design
+Figure 3.4: Data Flow Diagram
+53
+3. System Overview
+Figure 3.5: State Transition Diagram
+54
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

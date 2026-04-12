@@ -1,0 +1,710 @@
+# FYP1-MidReport-F24-181-D-Little Learner - i210600 Farhan Ahmad
+
+## 1. Introduction
+
+1. Introduction
+backgrounds negatively influence both learning outcomes and the quality of interactions.
+This requires that there is a need for a more sophisticated approach to teaching in order
+to account for regional accents while still creating engaging and personalized lessons to
+ensure basic language and number skills development. [22]
+These concerns is where it is believed that the proposed solution, that is bearing the name
+‘Little Learner’, which will act as an AI based academic tutor, will help by providing
+engaging techniques of learning through advanced strategies of machine learning and
+speech recognition. This platform would help to narrow this gap and improve preschool
+education in each socioeconomic stratum of the country’s population by a correspond-
+ingly addressing each stratum’s requirements and speech habits. [33]
+1.2 Scope
+The scope of the project is the development of our app Little Learner, the AI Tutor that is
+specified for children aged between 3-7 [55]. The Tutor will:
+• Target Audience: Focus on children aged 3-7, including those with disabilities,
+ensuring the system is inclusive and accessible to children with various communi-
+cation challenges.
+• Technological Focus: Utilize advanced AI technologies, including adapting and
+fine-tuning and training current technologies to accurately understand and interact
+with children in their native languages (Urdu). The project will create a custom
+dataset tailored to the linguistic and accent variations found in children from Pak-
+istan.
+• Educational Goals: Enhance the educational opportunities for young children by
+improving foundational language skills through personalized AI-driven interac-
+tions. The project aims to make learning more accessible and engaging, thereby
+fostering greater inclusivity in early childhood education.
+• Model Development: Fine-tune existing transcription models, followed by devel-
+opment of a prompted intent classification model. This will accurately interpret and
+respond to children’s voice inputs.
+• Data Collection and Processing : Creating a custom dataset of Pakistani chil-
+dren(aged 3-7 years old), speaking numbers 0-9. This will include data annotation,
+pre-processing and structuring of the data.
+• Implementation and Evaluation: The AI tutor will be refined using this custom
+dataset, ensuring that the final product is effective for the educational needs of each
+child.
+2
+1.3 Modules
+The project focuses on both technical development of AI models and the practical appli-
+cation of these models.
+1.3 Modules
+1.3.1 Voice Interaction and Processing Module
+This is the core module of the system that will handle the voice-based interaction and
+processing of the little learner app.
+1. Speech Recognition: Records and transcribes the children voice using our fine-
+tuned whisper model, recognising the diverse patterns.
+2. Answer Validation: Use LLM to properly analyze and understand the children’s
+responses by using the context of the question.
+3. Error Handling : Sometimes due to random reasons, the system is not able to
+recognize the response it will ask to speak again.
+1.3.2 Content Management and Personalization Module
+This module will manage the content based on the kid’s preferences and interests. It will
+also personalize the questions based on the difficulty level of the kid.
+1. Dynamic Content Repository: Store and manage a library of educational content
+that will be used to ask the questions.
+2. Personalization: Customize the questions based on the difficulty level of the kid
+that is being maintained with time.
+3. Progress Tracking: Keep a record of the child’s progress and then change the
+difficulty level of questions accordingly.
+1.3.3 Data Collection and Processing
+This module is responsible for collecting and making the dataset that will be used later to
+fine-tune our transcription model. Collecting audio through a web page and then process-
+ing and labeling those audio files will be done in this module.
+1. Web-Based Audio Collection Interface: Ensure the interface is intuitive for users,
+potentially children or their guardians, to submit audio samples.
+3
+1. Introduction
+2. Audio Processing : Apply audio processing techniques to clean up the recordings,
+such as noise reduction and volume normalization.
+3. Data Labeling : Manually Label all the audio files.
+1.3.4 Security and Scalability Infrastructure Module
+Security is critical, especially when dealing with children’s data. This module ensures
+that the platform is secure and scalable to handle varying loads and expand to new regions
+without degradation in performance.
+1. Data Encryption and Security : Implement robust encryption methods to secure
+children’s data both at rest and in transit.
+2. Scalable Architecture: Design the backend to scale resources dynamically based
+on the demand, ensuring seamless performance during peak usage.
+3. Analytics and Reporting: Provide tools for educators and parents to view detailed
+reports on children’s progress and system usage.
+1.3.5 Web Application Development
+Creating and maintaining an interactive and attractive application for the kids to enjoy
+themselves while using this application.
+1. UI/UX: Beautiful design and flow to keep kids interested in learning through the
+application.
+2. Development: Complete design implementation according the UI/UX.
+3. Integration: Integrate the model to work with the web application.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+4
+1.4 User Classes and Characteristics
+User class Description
+Children
+(End Users)
+The "Little Learner" AI tutor is introduced with children of aged range of
+3-7 years aiming at providing effective, interactive and fun learning con-
+tent in accordance with individual’s level of understanding. This system
+includes the method of recognizing and understanding children’s speech for
+the preparation of educational content with the use of efficient voices that
+would help enhance a child’s language, numbers, and mind in personalized
+ways.
+Parents /
+Guardians
+The operatives of the ’Little Learner’ system must include parents and
+guardians of the child users. Their main concern would be to follow their
+child’s educational progress and effectiveness of the content used. Parents
+are familiar with the system and request security with data, settings regula-
+tions, progress reviewing, assistance provision, and overall productive and
+safe learning for children.
+System Ad-
+ministrators
+The system administrators are the ones who ensure that the “Little Learner”
+system functions correctly and is used safely. This function includes gover-
+nance of the technical stack, maintenance of system availability, organiza-
+tion of information security protection, and activity regulation considering
+educational and information privacy aspects. They are in charge of per-
+forming routine maintenance and providing technical support to the system
+whenever it becomes necessary.
+User Classes and Characteristics
+5
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case/Event Response Table/Storyboarding
+7
+2. Project Requirements
+Figure 2.1: Use Case Diagram
+8
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.1 Fully Dressed Use Cases
+2.1.1.1 Use Case: Take Quiz
+Primary Actor: Child
+Secondary Actor: Parent/Guardian
+Preconditions:
+• The parent/guardian is registered and logged into the system.
+• The parent/guardian has selected the child’s profile.
+• The child has selected a course that includes quizzes.
+Postconditions:
+• The quiz results are recorded in the system.
+• The child receives immediate feedback on their performance.
+• The child’s progress is updated based on the quiz results.
+Main Success Scenario:
+1. The parent/guardian logs into the app.
+2. The parent/guardian selects the child’s profile from multiple profiles (if applicable).
+3. The child selects a specific course to engage with.
+4. The child navigates to the quiz section of the selected course.
+5. The child selects a quiz to take.
+6. The system presents the quiz questions one by one.
+7. The child submits answers to the quiz questions.
+8. The system evaluates the answers in real-time.
+9. The system provides immediate feedback on each question after submission.
+10. Upon completing all questions, the system displays the quiz results and updates the
+child’s progress.
+9
+2. Project Requirements
+Alternative Flows:
+A1. Multiple Attempts Allowed:
+• If the quiz policy allows multiple attempts, the child can retake the quiz.
+• Steps 6 through 10 of the Main Success Scenario are repeated.
+Exception Cases:
+E1. Incorrect Login Credentials:
+• If the parent/guardian enters incorrect credentials, the system displays an error mes-
+sage.
+• The parent/guardian is prompted to try logging in again or to reset the password.
+E2. Profile Selection Error:
+• If there’s an error in selecting the child’s profile (e.g., system error, profile not
+found), the system notifies the parent/guardian.
+• The parent/guardian is prompted to try again or contact support.
+E3. Course/Quiz Access Error:
+• If the selected course/quiz is unavailable or locked, the system informs the child
+and provides reasons (e.g., prerequisite not met, course/quiz under maintenance).
+• The child (or parent/guardian) is advised to select another course or wait until ac-
+cess is restored.
+E4. No Response During Quiz:
+• If the system detects no input from the child within a specific time, it prompts the
+child to respond or offers to pause/exit the quiz.
+• If no action is taken despite reminders, the quiz session is paused or ended based
+on the system settings.
+E5. Technical Issues (e.g., loss of connectivity):
+• If there is a loss of connectivity during the quiz, the system attempts to save the last
+recorded state.
+• The child is prompted to reconnect. Upon reconnection, the child can resume from
+the saved state or restart the quiz.
+10
+2.1 Use-case/Event Response Table/Storyboarding
+2.1.1.2 Use Case: Answer Question
+Primary Actor: Child
+Preconditions:
+• The child is logged into their profile.
+• The child is actively engaged in a course or a quiz.
+Postconditions:
+• The child’s answer is recorded in the system.
+• Feedback is provided based on the correctness of the answer.
+• The child’s progress and performance data are updated.
+Main Success Scenario:
+1. The child is presented with a question, either as part of a quiz or interactive learning
+session.
+2. The system waits for the child’s response.
+3. The child submits an answer using their voice.
+4. The system uses speech recognition to transcribe the child’s answer.
+5. The system evaluates the answer based on the question’s context and expected re-
+sponse.
+6. The system provides immediate feedback to the child:
+• If the answer is correct, the system praises the child or encourages further
+interaction.
+• If the answer is incorrect, the system offers hints or explains the correct an-
+swer.
+7. The child’s response and the feedback are recorded in their learning progress.
+Alternative Flows:
+A1. Request for Repeat:
+• If the child does not understand the question, they can request it to be repeated.
+11
+2. Project Requirements
+• The system repeats the question without penalty.
+Exception Cases:
+E1. Speech Recognition Error:
+• If the speech recognition system fails to accurately transcribe the child’s response,
+the system prompts the child to repeat their answer.
+• If repeated attempts fail, the system may suggest the child to type their answer if
+possible.
+E2. No Response Detected:
+• If the system detects no response within a reasonable timeframe, it prompts the
+child to answer.
+• If there is still no response, the system may skip the question or end the session
+based on the settings.
+E3. Incorrect Response Format:
+• If the child submits an answer in an incorrect format (e.g., typing in a voice-only
+session), the system notifies the child of the proper format and requests a new an-
+swer.
+E4. System Error/Technical Issue:
+• If a system error occurs during the question-answer session, the system attempts to
+log the issue and may restart the session.
+• The child is informed about the technical issue and is asked to retry or resume the
+session later.
+2.1.1.3 Use Case: Receive System Feedback
+Primary Actor: Child
+Preconditions:
+• The child has submitted an answer to a question or completed a quiz.
+• The system has evaluated the child’s answer or overall quiz performance.
+12
+2.1 Use-case/Event Response Table/Storyboarding
+Postconditions:
+• The child receives feedback that is informative and tailored to their response.
+• The feedback contributes to the child’s learning progress and understanding.
+Main Success Scenario:
+1. After the child submits an answer, the system processes and evaluates the response.
+2. The system determines the correctness of the answer:
+• If correct, the system calculates and displays points earned and may provide
+additional information or praise.
+• If incorrect, the system explains why the answer was wrong and provides the
+correct answer or a hint for better understanding.
+3. The feedback is presented in a child-friendly manner, using positive reinforcement
+to encourage learning.
+4. If the feedback involves corrective information, it includes educational content to
+help the child understand the correct concept.
+5. The child listens to or views the feedback.
+6. The feedback details (content, timing, and child’s response) are recorded for future
+learning analytics and adaptive learning improvements.
+Alternative Flows:
+A1. Continuous Feedback During Quizzes:
+• Instead of waiting until the end of a quiz, the system provides immediate feedback
+after each question.
+• This immediate feedback helps correct misconceptions early and maintains engage-
+ment.
+A2. Feedback Through Different Media:
+• Depending on the child’s learning preference and the complexity of the topic, feed-
+back is delivered via text, audio, or visual aids (like charts or animations).
+Exception Cases:
+E1. Feedback Misunderstanding:
+13
+2. Project Requirements
+• If the child indicates or the system detects that the feedback was not understood
+(e.g., the child repeats the mistake), the system offers to rephrase or provide addi-
+tional examples.
+• The system may invite the child to ask questions if they need more explanation.
+E2. Technical Issues Affecting Feedback Delivery:
+• If there is a delay or failure in delivering feedback due to technical issues, the system
+informs the child of the issue and attempts to resolve it.
+• If the issue persists, the system saves the session state and advises the child to restart
+the application or come back later.
+E3. Inaccurate Feedback:
+• If erroneous feedback is given due to a system error in content or assessment logic,
+the system logs the error for review.
+• The child is advised that there was an error, and the correct feedback is provided
+after a brief correction period.
+2.1.1.4 Use Case: View Course / Take Course
+Primary Actor: Child
+Preconditions:
+• The child is logged into their profile.
+• The child has navigated to the course section of the app.
+Postconditions:
+• The child has accessed and interacted with the course content.
+• The system has recorded the child’s interactions and progress for future reference
+and adaptive learning adjustments.
+Main Success Scenario:
+1. The child selects a course from a list of available courses.
+2. The system displays the course details, including a brief overview, learning objec-
+tives, and any prerequisites.
+14
+2.1 Use-case/Event Response Table/Storyboarding
+3. The child starts the course, which begins with an introductory video.
+4. Throughout the video, there are interactive pauses where the video stops, and the
+system asks the child questions related to the content just covered or about to be
+covered.
+5. The child responds to these interactive questions using voice inputs.
+6. The system processes the child’s responses and provides immediate feedback:
+• If the response is correct, the video continues with positive reinforcement.
+• If the response is incorrect, the system provides the correct information and a
+brief explanation before continuing.
+7. The course includes several sections, each with its own set of videos and interactive
+pauses.
+8. The child’s progress, including their answers and the system’s feedback, is recorded
+and analyzed for adaptive learning purposes.
+Alternative Flows:
+A1. Course Resumption:
+• If the child exits the course midway, the system saves their progress.
+• When the child returns, they are given the option to resume where they left off or
+restart the course.
+A2. Additional Learning Materials:
+• After answering questions or at the end of a section, the child can access additional
+learning materials such as worksheets or extended reading.
+Exception Cases:
+E1. Response Misinterpretation:
+• If the system misinterprets the child’s voice response due to background noise or
+unclear articulation, it prompts the child to repeat their answer.
+• If issues persist, the system may offer the child the option to input their response
+through an alternative method, such as selecting from multiple choices.
+E2. Technical Issues with Video Playback:
+15
+2. Project Requirements
+• If there are issues with video playback (e.g., buffering, errors), the system attempts
+to resolve the issue and notifies the child of the delay.
+• If the issue cannot be resolved promptly, the child is advised to try accessing the
+course later, and the incident is logged for technical review.
+E3. Lack of Engagement:
+• If the system detects a lack of engagement (e.g., no responses to interactive ques-
+tions, multiple incorrect answers suggesting distraction), it prompts the child with
+motivational messages or hints to re-engage them.
+• The system may also notify parents or educators if it observes consistent disengage-
+ment, suggesting further intervention.
+2.1.1.5 Use Case: Login/Register
+Primary Actor: Parent/Guardian
+Preconditions:
+• The parent/guardian has access to the device with the app installed.
+• The app is functioning properly without technical issues.
+Postconditions:
+• The parent/guardian is logged into the system, gaining access to manage their
+child’s profile and view progress.
+• If registering, the parent/guardian has created a new account with credentials stored
+securely.
+Main Success Scenario:
+1. The parent/guardian opens the app and is presented with options to either log in or
+register.
+2. For Login:
+(a) The parent/guardian enters their username and password.
+(b) The system verifies the credentials and logs them into the system.
+(c) The parent/guardian gains access to their dashboard where they can manage
+profiles, view progress, and adjust settings.
+16
+2.1 Use-case/Event Response Table/Storyboarding
+3. For Registration:
+(a) The parent/guardian selects the register option.
+(b) They are prompted to provide necessary information, including name, email
+address, password, and contact details.
+(c) They may also be asked to set up security questions or enable two-factor au-
+thentication for enhanced security.
+(d) After submitting the information, the system creates the account and sends a
+confirmation email to the provided email address.
+(e) The parent/guardian confirms their email address by clicking a link in the
+email, which activates their account.
+(f) Upon successful registration and email verification, the parent/guardian is
+redirected to log in with their new credentials.
+Alternative Flows:
+A1. Forgotten Password:
+• If a parent/guardian forgets their password, they select the “Forgot Password” op-
+tion.
+• They enter their email address, and the system sends them an email with a link to
+reset their password.
+• They follow the link, reset their password, and are then able to log in with the new
+credentials.
+A2. Update Profile Information:
+• After logging in, the parent/guardian can access their account settings to update
+profile information or change their password.
+Exception Cases:
+E1. Incorrect Credentials:
+• If the entered credentials are incorrect, the system displays an error message.
+• The parent/guardian is given the option to try logging in again or to reset their
+password.
+E2. Registration Errors:
+17
+2. Project Requirements
+• If there is an issue during registration (e.g., missing information, weak password),
+the system provides specific feedback about what needs to be corrected.
+• The parent/guardian corrects the information and resubmits the form.
+E3. Email Verification Issues:
+• If the parent/guardian does not receive the confirmation email, they can request the
+email be resent.
+• If there is still an issue, they are advised to check their spam folder or contact
+support for further assistance.
+E4. Technical Problems:
+• If there are technical issues preventing login or registration (e.g., server down, con-
+nection error), the system notifies the parent/guardian of the issue and suggests
+trying again later.
+2.1.1.6 Use Case: Create/Manage Child Profile
+Primary Actor: Parent/Guardian
+Preconditions:
+1. The parent/guardian is registered, logged in, and has verified their account.
+2. The parent/guardian has access to the dashboard or profile management section of
+the app.
+Postconditions:
+1. A new child profile is created, or existing profile information is updated success-
+fully.
+2. Changes are stored securely and are reflected immediately in the app for future
+sessions.
+Main Success Scenario:
+1. The parent/guardian navigates to the “My Children” section of the app after logging
+in.
+2. For Creating a New Profile:
+18
+2.1 Use-case/Event Response Table/Storyboarding
+(a) The parent/guardian clicks on “Add Child” or similar button.
+(b) They are prompted to enter details about the child, such as name, age, educa-
+tional level, interests, and any specific learning preferences or needs.
+(c) They may also upload a photo or choose an avatar for the child’s profile.
+(d) Upon entering all required information, the parent/guardian submits the form.
+(e) The system processes and confirms the creation of the new child profile, pro-
+viding a unique ID for the child’s profile within the app.
+3. For Managing an Existing Profile:
+(a) The parent/guardian selects an existing child’s profile from a list.
+(b) They click on “Edit Profile” or a similar option.
+(c) They update any details as needed, such as changing the child’s educational
+level or updating interests.
+(d) They can also deactivate or reactivate the profile, or update privacy settings.
+(e) After making the desired changes, they submit the updates.
+(f) The system processes and confirms the updates to the child’s profile.
+Alternative Flows:
+A1. Removing a Profile: If a parent/guardian decides to remove a child’s profile, they
+select the delete option within the child’s profile settings. The system prompts
+for confirmation to prevent accidental deletions. Upon confirmation, the profile is
+deleted, and the system updates the list of profiles accordingly.
+Exception Cases:
+E1. Incomplete Profile Information: If essential information is missing when attempt-
+ing to create or update a profile, the system displays an error message specifying
+the missing data. The parent/guardian is prompted to complete these fields before
+proceeding.
+E2. Privacy Concerns: If the parent/guardian sets privacy settings that restrict certain
+app functionalities, they are informed of these restrictions and their implications.
+They must confirm these settings to proceed with their choices.
+E3. Technical Issues: If there are technical issues (e.g., server errors, connectivity is-
+sues) that prevent profile creation or updates, the system notifies the parent/guardian
+and logs the issue. They are advised to try again later, and support may be contacted
+if the problem persists.
+19
+2. Project Requirements
+2.1.1.7 Use Case: Access Progress Reports/Analytics
+Primary Actor: Parent/Guardian
+Preconditions:
+1. The parent/guardian is logged into the system.
+2. The parent/guardian has access to the child’s profile.
+Postconditions:
+1. The parent/guardian views the child’s educational progress in a detailed report.
+2. The system logs the access for audit and future reference.
+Main Success Scenario:
+1. The parent/guardian navigates to the “Progress Reports” section after selecting their
+child’s profile.
+2. The system displays a list of available reports, categorized by date, subject, or other
+relevant criteria.
+3. The parent/guardian selects a report to view.
+4. The system presents a detailed progress report, which may include:
+• Scores and outcomes of quizzes and assessments.
+• Time spent on various courses and activities.
+• Progress over time in graphical formats.
+5. The parent/guardian can download the report as a PDF or print it directly from the
+system.
+Alternative Flows:
+A1. Custom Report Generation: The parent/guardian chooses to create a custom report
+by selecting specific criteria and date ranges. The system generates the report based
+on the selected parameters.
+Exception Cases:
+20
+2.2 Event Response Table
+E1. No Reports Available: If no reports are available (e.g., if it’s the beginning of a
+course or insufficient data), the system notifies the parent/guardian accordingly. The
+parent/guardian is advised on when to expect the first report based on the child’s
+activities.
+E2. Technical Issues Accessing Reports: If there are technical difficulties (e.g., server
+error, loading failure), the system displays an error message. The parent/guardian is
+advised to retry accessing the reports later and is given the option to contact support
+if the issue persists.
+E3. Incorrect Report Details: If the report contains errors or outdated information, the
+parent/guardian can report the issue through a feedback option. The system logs
+the issue and notifies the administration to review and rectify the error.
+E4. Privacy or Security Concerns: If there are concerns about data privacy or security
+breaches, the parent/guardian can alert the system through a secure channel. The
+system investigates and ensures that all data complies with privacy laws and security
+standards.
+2.2 Event Response Table
+The next table summarises system responses that are designed based on specific voice
+interaction events that occur within the voice-assisted AI tutor application. For each entry,
+the event that triggers the system response, the current state of the system when the event
+occurs, and the resultant actions by the system are noted down accordingly.
+21
+2. Project Requirements
+Event System State System Response
+Child speaks answer Waiting for answer Record audio, transcribe
+speech, validate answer,
+provide feedback based on
+correctness.
+Child requests question re-
+peat
+Active question session Repeat the question with-
+out any penalty or changes
+to state.
+Child gives unclear re-
+sponse
+Answer received but not
+understood
+Ask the child to repeat the
+answer or provide clarifi-
+cation options.
+No response from child Awaiting response Prompt the child again; if
+no response after set time,
+log inactivity and poten-
+tially end session.
+Background noise de-
+tected
+Recording answer Filter out noise, ask child
+to repeat if necessary, en-
+hance voice recognition
+accuracy.
+Child initiates new interac-
+tion
+Any state If appropriate, interrupt
+current process and ad-
+dress new request or query
+from the child.
+System detects voice com-
+mand error
+Processing command Log the error, provide er-
+ror message to child, and
+offer to restart or continue.
+Feedback requested by
+child
+Feedback session Provide detailed explana-
+tion or additional informa-
+tion about the last topic or
+answer.
+Error in voice recognition
+software
+Processing input Log technical issue, notify
+child of the error, and pro-
+vide alternative interaction
+method if persistent.
+Table 2.1: System Response Table for V oice Interactions
+22
+2.3 Functional Requirements
+2.3 Functional Requirements
+2.3.1 Voice Interaction and Processing Module
+1. Audio Input Capture: The system should be able to capture the kid’s voice clearly
+for processing.
+2. Noise Reduction: The system should be able to remove noise from the audio input
+to give better feedback.
+3. Feedback Generation: The system should be able to produce feedback according
+to the processed voice. If the answer is correct, then it should encourage the kid. If
+the answer is wrong, it should provide hints.
+4. Response Re-prompting: The system should re-prompt the question again if the
+kid fails to answer correctly or answer clearly after some attempts.
+5. Logging Errors: The system should store logs of errors so that it can learn the
+kid’s weak points and improve them.
+2.3.2 Content Management and Personalization Module
+1. Content Storage: The system should be able to store content for kids.
+2. Content Updates: The system should be flexible to add new content or change
+previous content.
+3. Content Levels: The system should contain contents for each kid’s difficulty level.
+It should contain content for easy, medium, and hard levels.
+4. Progress Reports: The system should be able to display full report on the kid’s
+performance like what is the kid’s weakness?
+2.3.3 Data Collection and Processing
+1. Recording Functionality : The interface should give users the functionality to
+record audio files from any device with a microphone.
+2. Noise Reduction: The collected audio files should be processed in order to remove
+any unnecessary audio.
+3. Volume Normalization: The audio files should have equal volume intensity for
+better training.
+23
+2. Project Requirements
+4. Quality Check : The audio files should be checked manually if the kid is even
+saying the right words or not.
+2.3.4 Security and Scalability Infrastructure Module
+1. Progress Tracking Dashboard: The parents can view their child’s progress like
+weaknesses and strengths.
+2. Cloud Infrastructure: The system infrastructure will be run on cloud to ensure
+scalability.
+3. Secure Authentication: The system will ensure password protected entry.
+4. Data Encryption: The data stored or transmitted should be encrypted in order to
+improve security.
+2.3.5 Web Application Development Module
+1. Child-Friendly Design: The system should be very simple and intuitive to attract
+the child.
+2. Responsive Design: The system should be able to work on any device for more
+accessibility.
+2.4 Non-Functional Requirements
+2.4.1 Reliability
+Making the system accessible to everyone at everytime is very important. The system
+should be running 24/7 to ensure access at any time. This will ensure that the app is
+available to users at any time and will boost productivity.
+2.4.2 Usability
+USE-1: The application will be kept simple and ensures that users can access every sec-
+tion within 2-3 clicks.
+USE-2: The application will use visual cues and animations to guide users through sec-
+tions and learning.
+USE-3: The application will be able to provide feedback within 2-3 seconds after user
+24
+2.5 Domain Model
+interaction.
+2.4.3 Performance
+PER-1: The application will ensure that about 90 percent of features respond in 3-5 sec-
+onds.
+PER-2: The system will be able to handle 5000 concurrent users at a time without any
+delay.
+PER-3: Audio processing requests will take almost 5-30 seconds to respond varying on
+the audio quality.
+PER-4: The system will ensure that 95 percent of learning content loads within 2-5 sec-
+onds of user interaction, if the internet connection is fair.
+2.4.4 Security
+SEC-1: The system will be able to prevent unauthorized access to user data by encrypt-
+ing it. To decrypt this information, it will be nearly impossible and brute-force attack will
+take years.
+SEC-2: The system will log all attempts of entry and set restrictions based on these at-
+tempts. e.g if a person enters their password incorrect several times, he will be forced to
+do 2 step-verification.
+SEC-3: The system will be able to protect against common security threats like SQL
+Injection etc. The success rate to stop these attacks will be about 90 percent.
+2.5 Domain Model
+25
+2. Project Requirements
+Figure 2.2: Domain Model
+26
+Chapter 3
+System Overview
+3.1 Architectural Design
+Figure 3.1: Architecture Diagram
+3.2 Design Models
+3.2.1 State Transition Diagram
+27
+3. System Overview
+Figure 3.2: State Transition Diagram
+28
+3.2 Design Models
+3.2.2 Activity Diagram
+29
+3. System Overview
+Figure 3.3: Activity Diagram
+30
+3.2 Design Models
+3.2.3 Parent Registers Child (User Registration)
+Figure 3.4: Parent Registers Child SD
+3.2.4 Child Logs In and Views Progress
+3.2.5 Child Learning from Course (Interactive Learning with Ques-
+tions)
+3.2.6 Parent Viewing Child Progress
+3.2.7 Child Taking Quiz
+31
+3. System Overview
+Figure 3.5: Child Logs In and Views Progress SD
+Figure 3.6: Child Learning from Course SD
+32
+3.2 Design Models
+Figure 3.7: Parent Viewing Child Progress SD
+Figure 3.8: Child Taking Quiz SD
+33
+3. System Overview
+3.2.8 Class Diagram
+Figure 3.9: Class Diagram
+34
+3.3 Data Design
+3.3 Data Design
+Figure 3.10: Data Design
+35
+
+Bibliography
+[1] Arvind Narayanan. I set up a chatgpt voice interface for my 3-year-old. here’s how it
+went. https://aisnakeoil.com/p/i-set-up-a-chatgpt-voice-interfacehttps://aisnakeoil.com/p/i-set-up-a-chatgpt-voice-interface ,
+2024. AI Snake Oil.
+[2] X. Chen, Y . Yang, and A. Rapp. Integrating chatbots in education: insights from
+the chatbot-human interaction satisfaction model (chism). International Journal of
+Educational Technology in Higher Education, 2022. Available at Springer Link.
+[3] Ting Liu Honghu Yi and Gongjin Lan. The key artificial intelligence technologies in
+early childhood education: a review. Artificial Intelligence Review, 2022. Available
+at Springer Link.
+[4] SoapBox Labs. Soapbox labs technology. https://www.soapboxlabs.com/technology/https://www.soapboxlabs.com/technology/,
+2024. Accessed: 2024-08-26.
+[5] Maya Grigolia Lela Machaidze Lasha Labadze. Role of ai chatbots in education: sys-
+tematic literature review. International Journal of Educational Technology in Higher
+Education, 2022. Available at Springer Link.
+[6] SpeechAce. Using the speechace api as voice ai for kids.
+https://speechace.com/using-the-speechace-api-as-voice-ai-for-kids/https://speechace.com/using-the-speechace-api-as-voice-ai-for-kids/ ,
+2024. Accessed: 2024-08-26.
+37
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,12 +1,16 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, Mic, X, CheckCircle, AlertCircle, Square, Sparkles, Info, Loader2 } from 'lucide-react';
+import { Upload, FileText, Mic, X, CheckCircle, AlertCircle, AlertTriangle, Square, Sparkles, Info, Loader2, Wand2 } from 'lucide-react';
 import axios from 'axios';
-import { saveInput } from '../utils/storage';
+import { saveInput, saveSRS } from '../utils/storage';
 import config from '../config';
+import { useTheme } from '../context/ThemeContext';
+import { getApiErrorMessage } from '../utils/apiErrors';
 
-const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark', setCurrentResults = () => {} }) => {
+const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themeProp, setCurrentResults = () => {} }) => {
+  const { theme: themeFromContext } = useTheme();
+  const theme = themeProp ?? themeFromContext ?? 'light';
   const isDark = theme === 'dark';
   const [inputType, setInputType] = useState('text');
   const [textInput, setTextInput] = useState('');
@@ -19,8 +23,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState([]);
+  /** Live debounced hint while typing: instruction-hijack lookalikes (not for normal “alerts/notifications” reqs). */
+  const [liveInjectionHint, setLiveInjectionHint] = useState(null);
   const [projectInfoErrors, setProjectInfoErrors] = useState([]);
   const [showHelp, setShowHelp] = useState(false);
+  /** Clarification / live copilot — off by default to keep the flow simple */
+  const [optionalToolsOpen, setOptionalToolsOpen] = useState(false);
   const [processingProgress, setProcessingProgress] = useState(0);
   
   // Audio recording states
@@ -32,12 +40,24 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
   const [isGeneratingDirectSRS, setIsGeneratingDirectSRS] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [lastSRSAvailable, setLastSRSAvailable] = useState(false);
+  const [clarification, setClarification] = useState(null);
+  const [isClarifying, setIsClarifying] = useState(false);
+  const [refinedInputText, setRefinedInputText] = useState('');
+  const [followupAnswers, setFollowupAnswers] = useState({});
+  const [copilotData, setCopilotData] = useState(null);
+  const [isCopilotLoading, setIsCopilotLoading] = useState(false);
+  const [skippedSuggestions, setSkippedSuggestions] = useState({});
+  const [copilotAnswer, setCopilotAnswer] = useState('');
+  const [copilotThread, setCopilotThread] = useState([]);
+  const [backendReady, setBackendReady] = useState(true);
+  const [backendStatusText, setBackendStatusText] = useState('Checking backend...');
   const navigate = useNavigate();
   const mediaRecorderRef = useRef(null);
   const timerRef = useRef(null);
   const progressIntervalRef = useRef(null);
   const transcriptionIntervalRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const injectionCheckTimerRef = useRef(null);
 
   // Memoized computed values
   const wordCount = useMemo(() => {
@@ -55,46 +75,105 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
   const minWords = 50;
   const maxChars = 10000; // Maximum input length
 
-  // Suspicious patterns for prompt injection detection
-  const suspiciousPatterns = [
-    /ignore\s+(previous|all|the|all\s+previous)\s+instructions?/i,
-    /forget\s+(the|previous|all|everything)/i,
-    /new\s+instructions?/i,
-    /(system|hidden)\s+prompt/i,
-    /prompt\s+injection/i,
-    /ignore\s+the\s+prompt/i,
-    /override\s+(the|previous|system)/i,
-    /disregard\s+(the|previous|all)/i,
-    /you\s+are\s+now/i,
-    /from\s+now\s+on/i,
-    /act\s+as\s+if/i,
-    /pretend\s+to\s+be/i,
-    /roleplay\s+as/i,
-    /<\|.*?\|>/,
-    /\[INST\].*?\[\/INST\]/i,
-    /<\|im_start\|>.*?<\|im_end\|>/i,
-  ];
+  const unresolvedClarificationItems = useMemo(() => {
+    if (!clarification) return 0;
+    const ambiguities = clarification.ambiguities?.length || 0;
+    const missing = clarification.add_suggestions?.length || 0;
+    return ambiguities + missing;
+  }, [clarification]);
+
+  // High-confidence only — must stay aligned with api_server SUSPICIOUS_PATTERNS (narrow list).
+  const injectionPatternsCritical = useMemo(
+    () => [
+      /\bignore\s+(?:all\s+)?previous\s+instructions?\b/i,
+      /\bignore\s+all\s+instructions?\b/i,
+      /\bdisregard\s+(?:all\s+)?(?:previous\s+)?instructions?\b/i,
+      /\bremove\s+(?:all\s+)?previous\s+instructions?\b/i,
+      /\bdelete\s+(?:all\s+)?previous\s+instructions?\b/i,
+      /\bdiscard\s+(?:all\s+)?previous\s+instructions?\b/i,
+      /\b(?:clear|erase)\s+all\s+previous\s+instructions?\b/i,
+      /\breplace\s+(?:all\s+)?previous\s+instructions?\b/i,
+      /\bdo\s+not\s+follow\s+(?:any\s+)?(?:previous\s+)?instructions?\b/i,
+      /\bforget\s+all\s+(?:previous\s+)?instructions?\b/i,
+      /\bforget\s+everything\b/i,
+      /\bprompt\s+injection\b/i,
+      /\bignore\s+the\s+prompt\b/i,
+      /\b(?:new|updated)\s+instructions\s*:\s*/i,
+      /\bact\s+as\s+if\b/i,
+      /\bpretend\s+to\s+be\b/i,
+      /\bpretend\s+you\s+are\b/i,
+      /\broleplay\s+as\b/i,
+      /<\|[^|]+\|>/,
+      /\[INST\].*?\[\/INST\]/i,
+      /<\|im_start\|>.*?<\|im_end\|>/i,
+      /<\|(user|assistant|system|eot_id)\|>/i,
+    ],
+    []
+  );
+
+  // Soft hints only (never block submit): wording that often appears in hijacks but also rarely in real SRS.
+  const injectionPatternsCaution = useMemo(
+    () => [
+      /\bfrom\s+now\s+on\b/i,
+      /\byou\s+are\s+now\b/i,
+      /\boverride\s+(?:the\s+)?(?:previous|system)\b/i,
+      /\b(?:system|hidden)\s+prompt\b/i,
+    ],
+    []
+  );
+
+  const matchesAnyPattern = useCallback((text, patterns) => {
+    if (!text || !patterns?.length) return false;
+    return patterns.some((re) => {
+      re.lastIndex = 0;
+      return re.test(text);
+    });
+  }, []);
 
   /**
-   * Detects potential prompt injection patterns in user input.
-   * @param {string} text - The text to check
-   * @returns {Object} - { hasInjection: boolean, patterns: string[] }
+   * Same as server-side blocking list — used for submit validation.
    */
-  const detectPromptInjection = useCallback((text) => {
-    if (!text) return { hasInjection: false, patterns: [] };
-    
-    const detectedPatterns = [];
-    for (const pattern of suspiciousPatterns) {
-      if (pattern.test(text)) {
-        detectedPatterns.push(pattern.toString());
+  const detectPromptInjection = useCallback(
+    (text) => {
+      if (!text) return { hasInjection: false, patterns: [] };
+      const detectedPatterns = [];
+      for (const pattern of injectionPatternsCritical) {
+        pattern.lastIndex = 0;
+        if (pattern.test(text)) {
+          detectedPatterns.push(pattern.toString());
+        }
       }
-    }
-    
-    return {
-      hasInjection: detectedPatterns.length > 0,
-      patterns: detectedPatterns
-    };
-  }, []);
+      return {
+        hasInjection: detectedPatterns.length > 0,
+        patterns: detectedPatterns,
+      };
+    },
+    [injectionPatternsCritical]
+  );
+
+  const classifyInjectionWhileTyping = useCallback(
+    (text) => {
+      if (!text || !text.trim()) return null;
+      if (matchesAnyPattern(text, injectionPatternsCritical)) {
+        return {
+          level: 'critical',
+          title: 'Blocked: instruction-hijack wording',
+          body:
+            'Phrases such as “ignore/remove/delete all previous instructions”, role-play orders, or model tokens (e.g. <|assistant|>) are not allowed. Processing is disabled until you delete this wording. Describe only what the product must do—without telling the AI to ignore its rules.',
+        };
+      }
+      if (matchesAnyPattern(text, injectionPatternsCaution)) {
+        return {
+          level: 'caution',
+          title: 'Wording resembles common hijack phrases',
+          body:
+            'Phrases like “from now on” or “system prompt” sometimes appear in attacks. If you are writing legitimate requirements—including a system that sends alerts, notifications, or security warnings—you can usually ignore this. We only block clear hijack patterns and special tokens when you submit.',
+        };
+      }
+      return null;
+    },
+    [injectionPatternsCritical, injectionPatternsCaution, matchesAnyPattern]
+  );
 
   /**
    * Sanitizes user input by removing potentially dangerous content.
@@ -182,6 +261,79 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
       if (audioUrl) URL.revokeObjectURL(audioUrl);
     };
   }, [audioUrl]);
+
+  // Backend health probe to reduce failed actions during testing.
+  useEffect(() => {
+    let cancelled = false;
+    const probe = async () => {
+      try {
+        const res = await axios.get(config.API_ENDPOINTS.HEALTH, { timeout: 8000 });
+        if (cancelled) return;
+        const ok = String(res?.data?.status || '').toLowerCase() === 'healthy';
+        setBackendReady(ok);
+        setBackendStatusText(ok ? 'Backend connected' : 'Backend responded with unhealthy status');
+      } catch (e) {
+        if (cancelled) return;
+        setBackendReady(false);
+        setBackendStatusText('Backend unreachable. Start api_server.py and retry.');
+      }
+    };
+    probe();
+    const timer = setInterval(probe, 20000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, []);
+
+  const loadLiveCopilotHints = useCallback(async () => {
+    if (!textInput || textInput.trim().length < 28) {
+      setError('Add a bit more text (28+ characters) before loading suggestions.');
+      return;
+    }
+    setError(null);
+    try {
+      setIsCopilotLoading(true);
+      const response = await axios.post(config.API_ENDPOINTS.CLARIFICATION_COPILOT, {
+        content: textInput,
+      });
+      setCopilotData(response.data);
+      setCopilotThread([]);
+      setCopilotAnswer('');
+      setSkippedSuggestions({});
+    } catch (err) {
+      console.error('Live copilot failed:', err);
+      setError(getApiErrorMessage(err, 'Could not load suggestions.'));
+    } finally {
+      setIsCopilotLoading(false);
+    }
+  }, [textInput]);
+
+  const nextCopilotTurn = useCallback(async () => {
+    if (!copilotAnswer.trim()) return;
+    if (!copilotData) return;
+    try {
+      setIsCopilotLoading(true);
+      const response = await axios.post(config.API_ENDPOINTS.CLARIFICATION_COPILOT_TURN, {
+        content: textInput,
+        latest_answer: copilotAnswer.trim(),
+        question_queue: copilotData.question_queue || []
+      });
+      setCopilotThread((prev) => [
+        ...prev,
+        { role: 'assistant', text: copilotData?.copilot?.question || '' },
+        { role: 'user', text: copilotAnswer.trim() }
+      ]);
+      setCopilotData(response.data);
+      setCopilotAnswer('');
+      setSkippedSuggestions({});
+    } catch (err) {
+      console.error('Copilot turn failed:', err);
+      alert(getApiErrorMessage(err, 'Could not process copilot turn.'));
+    } finally {
+      setIsCopilotLoading(false);
+    }
+  }, [copilotAnswer, copilotData, textInput]);
 
   const onDrop = useCallback((acceptedFiles) => {
     // Validate file types - only accept .txt and .pdf
@@ -457,10 +609,26 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
     setProjectInfoErrors(validateProjectInfo());
   }, [projectInfo, validateProjectInfo]);
 
+  // Debounced: warn while typing if text resembles hijacks (critical blocks submit; caution is advisory only).
+  useEffect(() => {
+    if (inputType !== 'text') {
+      setLiveInjectionHint(null);
+      return;
+    }
+    if (injectionCheckTimerRef.current) clearTimeout(injectionCheckTimerRef.current);
+    injectionCheckTimerRef.current = setTimeout(() => {
+      setLiveInjectionHint(classifyInjectionWhileTyping(textInput));
+    }, 380);
+    return () => {
+      if (injectionCheckTimerRef.current) clearTimeout(injectionCheckTimerRef.current);
+    };
+  }, [textInput, inputType, classifyInjectionWhileTyping]);
+
   // Handle text input change with validation
   const handleTextInputChange = useCallback((e) => {
     const newText = e.target.value;
     setTextInput(newText);
+    setClarification(null);
     
     if (newText.trim()) {
       const errors = validateTextInput(newText);
@@ -471,6 +639,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
   }, [validateTextInput]);
 
   // Validate input before processing
+  /** Same shape as ResultsView /api/generate-srs expects */
+  const buildRequirementsArray = useCallback((resultsData) => {
+    if (!resultsData) return [];
+    if (Array.isArray(resultsData)) return resultsData;
+    if (resultsData.results && Array.isArray(resultsData.results)) return resultsData.results;
+    if (resultsData.status) return [resultsData];
+    return [resultsData];
+  }, []);
+
   const validateInput = useCallback((inputText) => {
     const errors = [];
     const warnings = [];
@@ -483,7 +660,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
     // Check for prompt injection
     const injectionCheck = detectPromptInjection(inputText);
     if (injectionCheck.hasInjection) {
-      errors.push('Input contains suspicious patterns that could interfere with processing. Please remove any instruction-like text.');
+      errors.push(
+        'Blocked: text contains instruction-hijack phrases (e.g. ignore/remove previous instructions, model tokens). Delete them and describe only product behavior.'
+      );
       return { valid: false, errors, warnings, securityIssue: true };
     }
 
@@ -515,7 +694,66 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
     };
   }, [detectPromptInjection, minWords, maxChars]);
 
+  const runClarification = useCallback(async () => {
+    if (!textInput.trim()) {
+      setError('Please enter requirements text first.');
+      return;
+    }
+    setIsClarifying(true);
+    setError(null);
+    try {
+      const response = await axios.post(config.API_ENDPOINTS.CLARIFY_REQUIREMENTS, {
+        content: textInput
+      });
+      setClarification(response.data);
+      setRefinedInputText(response.data?.suggested_rewrite || textInput);
+      setFollowupAnswers({});
+    } catch (err) {
+      console.error('Clarification failed:', err);
+      setError(getApiErrorMessage(err, 'Failed to analyze clarifications.'));
+    } finally {
+      setIsClarifying(false);
+    }
+  }, [textInput]);
+
+  const applySuggestion = useCallback((suggestionText) => {
+    if (!suggestionText) return;
+    setRefinedInputText(suggestionText);
+  }, []);
+
+  const buildFinalTextWithFollowups = useCallback((baseText, answersMap) => {
+    const safeBase = (baseText || '').trim();
+    const entries = Object.entries(answersMap || {})
+      .filter(([, value]) => String(value || '').trim())
+      .sort((a, b) => Number(a[0]) - Number(b[0]));
+
+    if (entries.length === 0) return safeBase;
+
+    const answerLines = entries.map(([idx, value]) => `- Q${Number(idx) + 1}: ${String(value).trim()}`);
+    const followupBlock = `\n\nClarifications Provided:\n${answerLines.join('\n')}`;
+    return `${safeBase}${followupBlock}`.trim();
+  }, []);
+
+  const applyFollowupAnswers = useCallback(() => {
+    const base = refinedInputText?.trim() || textInput;
+    const merged = buildFinalTextWithFollowups(base, followupAnswers);
+    if (merged) {
+      setRefinedInputText(merged);
+    }
+  }, [buildFinalTextWithFollowups, refinedInputText, textInput, followupAnswers]);
+
+  const useRefinedAsInput = useCallback(() => {
+    if (!refinedInputText?.trim()) return;
+    const finalText = buildFinalTextWithFollowups(refinedInputText, followupAnswers);
+    setTextInput(finalText);
+    setValidationErrors(validateTextInput(finalText));
+  }, [refinedInputText, followupAnswers, validateTextInput, buildFinalTextWithFollowups]);
+
   const generateSRSFromAudioDirect = useCallback(async () => {
+    if (!backendReady) {
+      setError('Backend is not reachable. Please start the API server and try again.');
+      return;
+    }
     if (inputType !== 'audio') {
       setError('Switch to audio mode and record/upload audio first.');
       return;
@@ -550,21 +788,22 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
         setResults(response.data);
         if (setCurrentResults) setCurrentResults(response.data);
         setLastSRSAvailable(true);
+        navigate('/results');
       }
     } catch (err) {
       console.error('Direct SRS generation error:', err);
-      if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        setError('Request timed out. Please try a shorter recording or try again.');
-      } else {
-        setError(err.response?.data?.error || 'Failed to generate SRS from audio.');
-      }
+      setError(getApiErrorMessage(err, 'Failed to generate SRS from audio.'));
     } finally {
       setIsGeneratingDirectSRS(false);
     }
-  }, [inputType, audioBlob, projectInfo, onSRSGenerated, setCurrentResults]);
+  }, [backendReady, inputType, audioBlob, projectInfo, onSRSGenerated, setCurrentResults]);
 
   // Direct SRS generation from uploaded file (txt/pdf)
   const generateSRSFromFileDirect = useCallback(async () => {
+    if (!backendReady) {
+      setError('Backend is not reachable. Please start the API server and try again.');
+      return;
+    }
     if (uploadedFiles.length === 0) {
       setError('Please upload a txt or pdf file first.');
       return;
@@ -596,16 +835,21 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
         setResults(response.data);
         if (setCurrentResults) setCurrentResults(response.data);
         setLastSRSAvailable(true);
+        navigate('/results');
       }
     } catch (err) {
       console.error('Direct SRS from file error:', err);
-      setError(err.response?.data?.error || 'Failed to generate SRS from file.');
+      setError(getApiErrorMessage(err, 'Failed to generate SRS from file.'));
     } finally {
       setIsGeneratingDirectSRS(false);
     }
-  }, [uploadedFiles, projectInfo, onSRSGenerated, setCurrentResults]);
+  }, [backendReady, uploadedFiles, projectInfo, onSRSGenerated, setCurrentResults]);
 
   const processRequirements = useCallback(async () => {
+    if (!backendReady) {
+      setError('Backend is not reachable. Please start the API server and try again.');
+      return;
+    }
     setIsProcessing(true);
     setLastSRSAvailable(false);
     setError(null);
@@ -635,7 +879,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
         if (!validation.valid) {
           setValidationErrors(validation.errors);
           if (validation.securityIssue) {
-            setError('Security: Input contains suspicious patterns. Please remove any instruction-like text.');
+            setError(
+              'Blocked: instruction-hijack wording detected. Remove phrases that try to override the AI (e.g. “remove all previous instructions”) and keep only real requirements.'
+            );
           } else {
           setError('Please fix validation errors before processing');
           }
@@ -651,15 +897,42 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
       }
 
       let response;
+      /** When set, SRS was produced in the same HTTP call as processing (text-only). */
+      let srsFromCombined = null;
+      /** Server-side SRS failure after successful processing (combined endpoint only). */
+      let combinedSrsError = null;
 
       if (inputType === 'text' && textInput.trim()) {
         // Sanitize input before sending to backend
-        const sanitizedContent = sanitizeInput(textInput);
-        response = await axios.post(config.API_ENDPOINTS.PROCESS_SINGLE, {
-          type: 'text',
-          content: sanitizedContent,
-          project_info: projectInfo
-        });
+        const baseText = refinedInputText?.trim() ? refinedInputText : textInput;
+        const sourceText = buildFinalTextWithFollowups(baseText, followupAnswers);
+        const sanitizedContent = sanitizeInput(sourceText);
+        const clarificationSummary = clarification ? {
+          clarification_score: clarification.clarification_score,
+          unresolved_items: clarification.unresolved_items,
+          warning_level: clarification.warning_level,
+          ambiguities_count: clarification.ambiguities?.length || 0,
+          add_suggestions_count: clarification.add_suggestions?.length || 0,
+          followup_answers_count: Object.values(followupAnswers || {}).filter(v => String(v || '').trim()).length,
+        } : null;
+        const combined = await axios.post(
+          config.API_ENDPOINTS.PROCESS_AND_GENERATE_SRS,
+          {
+            type: 'text',
+            content: sanitizedContent,
+            project_info: {
+              ...projectInfo,
+              clarification_summary: clarificationSummary
+            }
+          },
+          { timeout: 300000 }
+        );
+        response = { data: combined.data.processing };
+        if (combined.data?.srs_error && !combined.data?.srs) {
+          combinedSrsError = combined.data.srs_error;
+        } else {
+          srsFromCombined = combined.data.srs;
+        }
       } else if (inputType === 'audio' && audioBlob) {
         // Validate audio blob exists and has content
         if (!audioBlob || audioBlob.size === 0) {
@@ -733,28 +1006,80 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
         throw new Error('Please provide text input, record audio, or upload files');
       }
 
-      setProcessingProgress(100);
+      setProcessingProgress(88);
       setResults(response.data);
       onResultsGenerated(response.data);
-      
-      // Save input to storage
+
       try {
         await saveInput({
-          projectInfo: projectInfo,
+          projectInfo: {
+            ...projectInfo,
+            clarification_summary: clarification ? {
+              clarification_score: clarification.clarification_score,
+              unresolved_items: clarification.unresolved_items,
+              warning_level: clarification.warning_level,
+            } : null
+          },
           inputType: inputType,
-          content: inputType === 'text' ? textInput : (inputType === 'audio' ? 'Audio recording' : 'File upload'),
+          content: inputType === 'text'
+            ? buildFinalTextWithFollowups((refinedInputText?.trim() ? refinedInputText : textInput), followupAnswers)
+            : (inputType === 'audio' ? 'Audio recording' : 'File upload'),
           fileNames: inputType === 'file' ? uploadedFiles.map(({ file }) => file.name) : [],
           results: response.data,
-          // Save audio data if available
           audioBlob: inputType === 'audio' ? audioBlob : null,
           transcription: inputType === 'audio' ? (response.data?.original_text || liveTranscription || '') : '',
-          liveTranscription: inputType === 'audio' ? liveTranscription : ''
+          liveTranscription: inputType === 'audio' ? liveTranscription : '',
+          clarification: clarification || null
         });
       } catch (error) {
         console.error('Error saving input to storage:', error);
       }
-      
-      // Don't auto-generate SRS - let user click "Generate SRS" button on results page
+
+      onSRSGenerated(null);
+
+      if (combinedSrsError) {
+        setProcessingProgress(100);
+        navigate('/results');
+        return;
+      }
+
+      try {
+        let srsPayload = srsFromCombined;
+        if (!srsPayload) {
+          const requirementsArray = buildRequirementsArray(response.data);
+          setProcessingProgress(92);
+          const srsResponse = await axios.post(
+            config.API_ENDPOINTS.GENERATE_SRS,
+            {
+              results: requirementsArray,
+              project_info: projectInfo,
+            },
+            { timeout: 300000 }
+          );
+          srsPayload = srsResponse.data;
+        } else {
+          setProcessingProgress(92);
+        }
+
+        if (srsPayload && (srsPayload.sections || srsPayload.raw_text)) {
+          onSRSGenerated(srsPayload);
+          try {
+            saveSRS(srsPayload);
+          } catch (e) {
+            console.error('Error saving SRS to storage:', e);
+          }
+          setLastSRSAvailable(true);
+          setProcessingProgress(100);
+          navigate('/results');
+        } else {
+          setProcessingProgress(100);
+          navigate('/results');
+        }
+      } catch (srsErr) {
+        console.error('SRS generation failed:', srsErr);
+        setProcessingProgress(100);
+        setError(getApiErrorMessage(srsErr, 'SRS generation failed. Please retry from the Results page.'));
+      }
 
     } catch (err) {
       console.error('Processing error:', err);
@@ -785,9 +1110,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
           setValidationErrors([validationData]);
         }
       } else {
-        // Show detailed error message from backend
-        const errorMsg = err.response?.data?.error || err.message || 'An error occurred while processing';
-        setError(errorMsg);
+        setError(getApiErrorMessage(err, 'An error occurred while processing.'));
         
         // If there's transcribed text, show it
         if (err.response?.data?.transcribed_text) {
@@ -799,44 +1122,54 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
       setTimeout(() => setProcessingProgress(0), 1000);
     }
-  }, [inputType, textInput, audioBlob, uploadedFiles, projectInfo, validateTextInput, onResultsGenerated]);
-
-  const generateSRS = useCallback(async (resultsData) => {
-    try {
-      let requirementsArray;
-      
-      if (Array.isArray(resultsData)) {
-        requirementsArray = resultsData;
-      } else if (resultsData.results && Array.isArray(resultsData.results)) {
-        requirementsArray = resultsData.results;
-      } else if (resultsData.status) {
-        requirementsArray = [resultsData];
-      } else {
-        requirementsArray = [resultsData];
-      }
-      
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_SRS, {
-        results: requirementsArray,
-        project_info: projectInfo
-      });
-      
-      onSRSGenerated(response.data);
-    } catch (err) {
-      console.error('SRS generation failed:', err);
-    }
-  }, [projectInfo, onSRSGenerated]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, buildRequirementsArray, navigate]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
+    if (!backendReady) return false;
     if (projectInfoErrors.length > 0) return false;
     if (inputType === 'text' && (!textInput.trim() || validationErrors.length > 0)) return false;
+    if (inputType === 'text' && liveInjectionHint?.level === 'critical') return false;
     if (inputType === 'audio' && !audioBlob) return false;
     if (inputType === 'file' && uploadedFiles.length === 0) return false;
     return true;
-  }, [isProcessing, inputType, textInput, validationErrors, audioBlob, uploadedFiles, projectInfoErrors]);
+  }, [isProcessing, backendReady, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles, projectInfoErrors]);
 
   return (
-    <div className="max-w-5xl mx-auto animate-fade-in" role="main" aria-labelledby="input-heading">
+    <div className="relative max-w-5xl mx-auto animate-fade-in" role="main" aria-labelledby="input-heading">
+      {(isProcessing || isGeneratingDirectSRS) && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-r2d-primary/50 backdrop-blur-sm px-4"
+          aria-live="polite"
+        >
+          <div
+            className="w-full max-w-md rounded-2xl border border-slate-200/80 bg-white p-8 shadow-2xl dark:bg-slate-900 dark:border-slate-600 text-center"
+            role="status"
+          >
+            <div className="mx-auto mb-6 relative h-14 w-14">
+              <div className="absolute inset-0 rounded-full border-[3px] border-r2d-accent/25" />
+              <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-r2d-accent border-r-blue-400 animate-spin" />
+            </div>
+            <h3 className="text-lg font-semibold text-r2d-primary dark:text-slate-100">
+              {isGeneratingDirectSRS ? 'Generating SRS' : 'Processing & generating SRS'}
+            </h3>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Model inference and document assembly in progress. Please keep this page open.
+            </p>
+            {isProcessing && (
+              <div className="mt-6 text-left space-y-2">
+                <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-r2d-accent to-blue-400 transition-all duration-300"
+                    style={{ width: `${Math.max(8, processingProgress)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-slate-500 tabular-nums">{Math.round(processingProgress)}% complete</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className={`relative rounded-2xl overflow-hidden border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
         <div className="relative rounded-2xl p-6 md:p-8">
           <div className="flex items-center justify-center mb-8">
@@ -847,6 +1180,13 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
               Input Requirements
             </h2>
           </div>
+          {!backendReady && (
+            <div className={`mb-5 rounded-lg border px-3 py-2 text-xs ${
+              isDark ? 'border-rose-800 bg-rose-900/20 text-rose-200' : 'border-rose-200 bg-rose-50 text-rose-700'
+            }`}>
+              {backendStatusText}
+            </div>
+          )}
 
           {/* Project Information */}
           <section className="mb-8" aria-labelledby="project-info-heading">
@@ -868,7 +1208,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   type="text"
                   value={projectInfo.title}
                   onChange={(e) => setProjectInfo(prev => ({ ...prev, title: e.target.value }))}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent hover:border-opacity-80 transition-all duration-200 ${
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent hover:border-opacity-80 transition-all duration-200 ${
                           titleError
                             ? `${isDark ? 'border-red-400/70 bg-red-900/15 text-slate-100' : 'border-red-300 bg-red-50 text-slate-900'}`
                             : `${isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`
@@ -901,7 +1241,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   type="text"
                   value={projectInfo.author}
                   onChange={(e) => setProjectInfo(prev => ({ ...prev, author: e.target.value }))}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent hover:border-opacity-80 transition-all duration-200 ${
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent hover:border-opacity-80 transition-all duration-200 ${
                           authorError
                             ? `${isDark ? 'border-red-400/70 bg-red-900/15 text-slate-100' : 'border-red-300 bg-red-50 text-slate-900'}`
                             : `${isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`
@@ -941,10 +1281,10 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   role="tab"
                   aria-selected={inputType === type}
                   aria-controls={`${type}-panel`}
-                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 ${
                     inputType === type 
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white scale-105 shadow-md' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102'
+                      ? 'bg-r2d-primary text-white shadow-md border border-r2d-primary' 
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                   }`}
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
@@ -964,16 +1304,51 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   value={textInput}
                   onChange={handleTextInputChange}
                   rows={10}
-                  className={`w-full px-3 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 resize-y ${
-                    validationErrors.length > 0 
+                  className={`w-full px-3 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all duration-200 resize-y ${
+                    validationErrors.length > 0
                       ? `${isDark ? 'border-red-400/70 bg-red-900/20 text-slate-100' : 'border-red-300 bg-red-50 text-slate-900'}`
-                      : `${isDark ? 'border-slate-700 bg-slate-900 text-slate-100 hover:border-slate-600' : 'border-slate-200 bg-white text-slate-900 hover:border-slate-300'}`
+                      : liveInjectionHint?.level === 'critical'
+                        ? `${isDark ? 'border-rose-500/80 bg-rose-950/30 text-slate-100' : 'border-rose-400 bg-rose-50 text-slate-900'}`
+                        : liveInjectionHint?.level === 'caution'
+                          ? `${isDark ? 'border-amber-500/60 bg-amber-950/25 text-slate-100' : 'border-amber-300 bg-amber-50/90 text-slate-900'}`
+                          : `${isDark ? 'border-slate-700 bg-slate-900 text-slate-100 hover:border-slate-600' : 'border-slate-200 bg-white text-slate-900 hover:border-slate-300'}`
                   }`}
-                  placeholder="Enter your requirements here..."
+                  placeholder="Describe what the system should do. Process anytime — optional tools are below."
                   aria-label="Requirements text input"
-                  aria-invalid={validationErrors.length > 0}
-                  aria-describedby={validationErrors.length > 0 ? 'validation-errors' : undefined}
+                  aria-invalid={validationErrors.length > 0 || liveInjectionHint?.level === 'critical'}
+                  aria-describedby={
+                    validationErrors.length > 0
+                      ? 'validation-errors'
+                      : liveInjectionHint
+                        ? 'live-injection-hint'
+                        : undefined
+                  }
                 />
+
+                {liveInjectionHint && (
+                  <div
+                    id="live-injection-hint"
+                    role="alert"
+                    className={`mt-3 flex gap-3 rounded-lg border px-3 py-2.5 text-sm leading-relaxed ${
+                      liveInjectionHint.level === 'critical'
+                        ? isDark
+                          ? 'border-rose-500/60 bg-rose-950/40 text-rose-100'
+                          : 'border-rose-200 bg-rose-50 text-rose-950'
+                        : isDark
+                          ? 'border-amber-600/50 bg-amber-950/35 text-amber-100'
+                          : 'border-amber-200 bg-amber-50 text-amber-950'
+                    }`}
+                  >
+                    <AlertTriangle
+                      className={`h-5 w-5 shrink-0 mt-0.5 ${liveInjectionHint.level === 'critical' ? 'text-rose-500' : 'text-amber-600'}`}
+                      aria-hidden
+                    />
+                    <div>
+                      <p className="font-semibold">{liveInjectionHint.title}</p>
+                      <p className="mt-1 opacity-95">{liveInjectionHint.body}</p>
+                    </div>
+                  </div>
+                )}
 
                 {/* Progress bar */}
                 <div className={`mt-3 h-2.5 w-full rounded-full overflow-hidden ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`} role="progressbar" aria-valuenow={progressPct} aria-valuemin="0" aria-valuemax="100">
@@ -1010,17 +1385,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   </span>
                 </div>
                 
-                {/* Validation Guidelines */}
-                <div className={`mt-3 text-sm p-3 rounded-lg border ${isDark ? 'text-slate-200 bg-slate-800 border-slate-700' : 'text-slate-600 bg-sky-50 border-sky-100'}`}>
-                  <p className="font-medium mb-1 flex items-center space-x-1">
-                    <Info className="h-4 w-4" aria-hidden="true" />
-                    <span>Requirements:</span>
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 text-xs ml-5">
-                    <li>Minimum 50 words required</li>
-                    <li>Numbers and symbols allowed, but include at least one letter</li>
-                  </ul>
-                </div>
+                <p className={`mt-2 text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  Need at least 50 words and one letter. Symbols and numbers are fine.
+                </p>
 
                 {/* Quick templates */}
                 <div className="mt-4">
@@ -1029,7 +1396,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                     <button
                       type="button"
                       onClick={() => setShowHelp(!showHelp)}
-                      className="text-xs text-indigo-500 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 transition-colors"
+                      className="text-xs text-r2d-accent hover:text-r2d-primaryLight focus:outline-none focus:ring-2 focus:ring-r2d-accent rounded px-2 py-1 transition-colors"
                       aria-expanded={showHelp}
                       aria-controls="help-text"
                     >
@@ -1045,8 +1412,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                           setTextInput(t.text);
                           setError(null);
                           setValidationErrors([]);
+                          setLiveInjectionHint(null);
                         }}
-                        className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                        className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
                           isDark 
                             ? 'bg-slate-900 text-slate-200 border-slate-700 hover:border-sky-400 hover:bg-slate-800'
                             : 'bg-white text-slate-700 border-slate-200 hover:border-sky-400 hover:bg-sky-50'
@@ -1065,6 +1433,247 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   )}
                 </div>
 
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOptionalToolsOpen((o) => !o)}
+                    className={`text-sm w-full sm:w-auto px-4 py-2 rounded-lg border transition-colors ${
+                      isDark
+                        ? 'border-slate-600 text-slate-200 hover:bg-slate-800'
+                        : 'border-slate-300 text-slate-700 hover:bg-slate-50'
+                    }`}
+                    aria-expanded={optionalToolsOpen}
+                  >
+                    {optionalToolsOpen ? 'Hide optional wording tools' : 'Optional: wording help & questions'}
+                  </button>
+                </div>
+
+                {optionalToolsOpen && (
+                <div className={`mt-3 p-4 rounded-xl border ${isDark ? 'bg-slate-800/90 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex gap-3">
+                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${isDark ? 'bg-r2d-primary/40 text-blue-200' : 'bg-r2d-accentMuted text-r2d-primary'}`}>
+                        <Sparkles className="h-5 w-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDark ? 'text-slate-100' : 'text-indigo-950'}`}>
+                          Optional wording tools
+                        </h4>
+                        <p className={`text-xs mt-1 max-w-xl ${isDark ? 'text-slate-300' : 'text-indigo-900/80'}`}>
+                          Load suggestions or run full analysis only when you want. Processing does not require this.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      {isCopilotLoading && (
+                        <span className={`text-xs inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg ${isDark ? 'bg-slate-900 text-cyan-300' : 'bg-white text-cyan-800 border border-cyan-200'}`}>
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                          Loading…
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={loadLiveCopilotHints}
+                        disabled={isCopilotLoading}
+                        className="text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 px-4 py-2 rounded-lg text-sm"
+                      >
+                        Load suggestions
+                      </button>
+                      <button
+                        type="button"
+                        onClick={runClarification}
+                        disabled={isClarifying}
+                        className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow-sm"
+                      >
+                        {isClarifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
+                        {isClarifying ? 'Analyzing…' : 'Full analysis'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Live suggestions (loaded on demand) */}
+                  {copilotData?.copilot && (
+                    <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'border-slate-600 bg-slate-900/50' : 'border-cyan-200/80 bg-white/80'}`}>
+                      <p className={`text-[11px] font-semibold uppercase tracking-wide mb-2 ${isDark ? 'text-cyan-300' : 'text-cyan-800'}`}>
+                        Live guidance
+                      </p>
+                      <div className="space-y-3">
+                        {copilotThread.length > 0 && (
+                          <div className={`p-3 rounded border max-h-44 overflow-auto ${isDark ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'}`}>
+                            {copilotThread.map((m, idx) => (
+                              <p key={`thread-${idx}`} className="text-xs mb-1">
+                                <strong>{m.role === 'assistant' ? 'Assistant' : 'You'}:</strong> {m.text}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        <div className={`p-3 rounded border text-xs ${isDark ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+                          <strong>Question:</strong> {copilotData.copilot.question || 'No question'}
+                        </div>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={copilotAnswer}
+                            onChange={(e) => setCopilotAnswer(e.target.value)}
+                            placeholder="Answer to continue the conversation…"
+                            className={`flex-1 px-3 py-2 rounded border text-xs ${isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={nextCopilotTurn}
+                            disabled={isCopilotLoading || !copilotAnswer.trim()}
+                            className="text-xs px-3 py-2 rounded bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white"
+                          >
+                            Next
+                          </button>
+                        </div>
+                        <div className="space-y-2">
+                          {(copilotData.copilot.suggestions || []).map((s, idx) => {
+                            if (skippedSuggestions[idx]) return null;
+                            return (
+                              <div key={`copilot-s-${idx}`} className={`p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                                <p className={`text-sm font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>{s.title}</p>
+                                <p className={`text-xs mt-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                                  <strong>Why:</strong> {s.reason}
+                                </p>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      if (s.rewrite) setRefinedInputText(s.rewrite);
+                                    }}
+                                    className="text-xs px-2.5 py-1 rounded bg-r2d-primary hover:bg-r2d-primaryLight text-white"
+                                  >
+                                    Apply
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => setSkippedSuggestions((prev) => ({ ...prev, [idx]: true }))}
+                                    className="text-xs px-2.5 py-1 rounded bg-slate-500 hover:bg-slate-600 text-white"
+                                  >
+                                    Skip
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => alert(`Why this suggestion?\n\n${s.reason || 'No reason provided.'}`)}
+                                    className="text-xs px-2.5 py-1 rounded bg-cyan-600 hover:bg-cyan-700 text-white"
+                                  >
+                                    Why this?
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Full analysis layer */}
+                  {clarification && (
+                    <div className={`mt-4 space-y-4 ${copilotData?.copilot ? `pt-4 border-t ${isDark ? 'border-slate-600' : 'border-indigo-200'}` : ''}`}>
+                      <p className={`text-[11px] font-semibold uppercase tracking-wide ${isDark ? 'text-indigo-300' : 'text-indigo-800'}`}>
+                        Full analysis
+                      </p>
+                      <div className={`text-xs p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-indigo-200 text-indigo-900'}`}>
+                        <div className="flex flex-wrap gap-4">
+                          <span><strong>Score:</strong> {Math.round((clarification.clarification_score || 0) * 100)}%</span>
+                          <span><strong>Warning:</strong> {clarification.warning_level || 'low'}</span>
+                          <span><strong>Unresolved:</strong> {unresolvedClarificationItems}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className={`text-xs font-semibold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Highlighted ambiguity</label>
+                        <div className={`mt-1 text-sm p-3 rounded border whitespace-pre-wrap ${isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`}>
+                          {clarification.highlighted_text || textInput}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <label className={`text-xs font-semibold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Suggested rewrite</label>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => applySuggestion(clarification.suggested_rewrite)}
+                              className="text-xs px-2.5 py-1 rounded bg-r2d-primary hover:bg-r2d-primaryLight text-white"
+                            >
+                              Apply suggestion
+                            </button>
+                            <button
+                              type="button"
+                              onClick={useRefinedAsInput}
+                              className="text-xs px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white"
+                            >
+                              Use as input
+                            </button>
+                          </div>
+                        </div>
+                        <textarea
+                          value={refinedInputText}
+                          onChange={(e) => setRefinedInputText(e.target.value)}
+                          rows={6}
+                          className={`mt-1 w-full px-3 py-2 rounded border text-sm ${isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`}
+                        />
+                      </div>
+
+                      {(clarification.add_suggestions?.length > 0 || clarification.remove_suggestions?.length > 0) && (
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div className={`p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Suggestions to add</p>
+                            <ul className="space-y-2">
+                              {(clarification.add_suggestions || []).map((s, idx) => (
+                                <li key={`add-${idx}`} className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>- {s}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className={`p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Suggestions to replace/remove</p>
+                            <ul className="space-y-2 max-h-32 overflow-auto">
+                              {(clarification.remove_suggestions || []).slice(0, 8).map((s, idx) => (
+                                <li key={`rm-${idx}`} className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>- {s}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {clarification.clarification_questions?.length > 0 && (
+                        <div className={`p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                          <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
+                            <p className={`text-xs font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                              Optional follow-up questions
+                            </p>
+                            <button
+                              type="button"
+                              onClick={applyFollowupAnswers}
+                              className="text-xs px-2.5 py-1 rounded bg-r2d-primary hover:bg-r2d-primaryLight text-white"
+                            >
+                              Apply follow-up answers
+                            </button>
+                          </div>
+                          <div className="space-y-3">
+                            {clarification.clarification_questions.slice(0, 5).map((q, idx) => (
+                              <div key={`q-${idx}`}>
+                                <p className={`text-xs mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{q}</p>
+                                <input
+                                  type="text"
+                                  value={followupAnswers[idx] || ''}
+                                  onChange={(e) => setFollowupAnswers((prev) => ({ ...prev, [idx]: e.target.value }))}
+                                  placeholder="Type your clarification..."
+                                  className={`w-full px-2.5 py-2 rounded border text-xs ${isDark ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                )}
+
                 {/* Validation Errors */}
                 {validationErrors.length > 0 && (
                   <div id="validation-errors" className="mt-3 space-y-2" role="alert" aria-live="polite">
@@ -1082,12 +1691,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
             {/* Audio Recording Panel */}
             {inputType === 'audio' && (
               <div id="audio-panel" role="tabpanel" aria-labelledby="audio-tab" className="animate-slide-up">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                   Audio Recording
                 </label>
                 
                 {/* Validation Guidelines */}
-                <div className="mb-4 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                <div className={`mb-4 text-sm p-3 rounded-lg border ${isDark ? 'text-slate-300 bg-slate-800 border-slate-700' : 'text-slate-600 bg-r2d-accentMuted/40 border-r2d-accentMuted'}`}>
                   <p className="font-medium mb-1 flex items-center space-x-1">
                     <Info className="h-4 w-4" aria-hidden="true" />
                     <span>Recording Requirements:</span>
@@ -1099,11 +1708,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                 </div>
                 
                 {!audioBlob ? (
-                  <div className="text-center p-8 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50/50 hover:border-gray-400 transition-colors duration-200">
+                  <div className={`text-center p-8 border-2 border-dashed rounded-lg transition-colors duration-200 ${isDark ? 'border-slate-600 bg-slate-900/40 hover:border-slate-500' : 'border-slate-300 bg-slate-50/50 hover:border-slate-400'}`}>
                     <div className={`mb-4 transition-transform duration-300 ${isRecording ? 'animate-pulse scale-110' : ''}`}>
-                      <Mic className={`h-16 w-16 mx-auto ${isRecording ? 'text-red-500' : 'text-gray-400'}`} aria-hidden="true" />
+                      <Mic className={`h-16 w-16 mx-auto ${isRecording ? 'text-red-500' : (isDark ? 'text-slate-500' : 'text-slate-400')}`} aria-hidden="true" />
                     </div>
-                    <p className="text-lg text-gray-600 mb-4 font-medium">
+                    <p className={`text-lg mb-4 font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                       {isRecording ? (
                         <span className="flex items-center justify-center space-x-2">
                           <span className="inline-block w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
@@ -1134,7 +1743,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                         </button>
                       )}
                     </div>
-                    <p className="text-sm text-gray-500 mt-4">
+                    <p className={`text-sm mt-4 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                       Record your requirements by speaking into your microphone
                     </p>
                     
@@ -1143,21 +1752,21 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                       <div className={`mt-6 p-4 rounded-lg border-2 ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-white border-blue-200'}`}>
                         <div className="flex items-center justify-between mb-2">
                           <label className={`text-sm font-semibold flex items-center space-x-2 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
-                            <Sparkles className={`h-4 w-4 ${isTranscribing ? 'animate-pulse text-blue-400' : 'text-gray-400'}`} aria-hidden="true" />
+                            <Sparkles className={`h-4 w-4 ${isTranscribing ? 'animate-pulse text-r2d-accent' : (isDark ? 'text-slate-500' : 'text-slate-400')}`} aria-hidden="true" />
                             <span>Live Transcription</span>
                             {isTranscribing && (
-                              <span className="text-xs text-blue-400 animate-pulse">Updating...</span>
+                              <span className="text-xs text-r2d-accent animate-pulse">Updating...</span>
                             )}
                             {!isRecording && liveTranscription && (
                               <span className="text-xs text-emerald-400">Last recorded transcription</span>
                             )}
                           </label>
                         </div>
-                        <div className={`min-h-[100px] max-h-[200px] overflow-y-auto p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700 text-white' : 'bg-gray-50 border-gray-200 text-slate-900'}`}>
+                        <div className={`min-h-[100px] max-h-[200px] overflow-y-auto p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}>
                           {liveTranscription ? (
                             <p className="text-base leading-relaxed whitespace-pre-wrap font-medium">{liveTranscription}</p>
                           ) : (
-                            <p className={`text-sm italic ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
+                            <p className={`text-sm italic ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                               Transcription will appear here as you speak...
                             </p>
                           )}
@@ -1205,7 +1814,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
             {inputType === 'file' && (
               <div id="file-panel" role="tabpanel" aria-labelledby="file-tab" className="animate-slide-up">
                 {/* Validation Guidelines */}
-                <div className="mb-4 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                <div className={`mb-4 text-sm p-3 rounded-lg border ${isDark ? 'text-slate-300 bg-slate-800 border-slate-700' : 'text-slate-600 bg-r2d-accentMuted/40 border-r2d-accentMuted'}`}>
                   <p className="font-medium mb-1 flex items-center space-x-1">
                     <Info className="h-4 w-4" aria-hidden="true" />
                     <span>File Content Requirements:</span>
@@ -1220,23 +1829,23 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   {...getRootProps()}
                   className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 ${
                     isDragActive 
-                      ? 'border-blue-500 bg-blue-50 scale-102' 
-                      : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                      ? (isDark ? 'border-r2d-accent bg-r2d-primary/20 scale-102' : 'border-r2d-accent bg-r2d-accentMuted/40 scale-102')
+                      : (isDark ? 'border-slate-600 hover:border-slate-500 hover:bg-slate-800/60' : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50')
                   }`}
                   role="button"
                   tabIndex={0}
                   aria-label="File upload area"
                 >
                   <input {...getInputProps()} aria-label="File input" />
-                  <Upload className={`h-12 w-12 mx-auto mb-4 transition-colors duration-200 ${isDragActive ? 'text-blue-500' : 'text-gray-400'}`} aria-hidden="true" />
+                  <Upload className={`h-12 w-12 mx-auto mb-4 transition-colors duration-200 ${isDragActive ? 'text-r2d-accent' : (isDark ? 'text-slate-500' : 'text-slate-400')}`} aria-hidden="true" />
                   {isDragActive ? (
-                    <p className="text-lg text-blue-600 font-medium">Drop the files here...</p>
+                    <p className="text-lg text-r2d-accent font-medium">Drop the files here...</p>
                   ) : (
                     <div>
-                      <p className="text-lg text-gray-600 mb-2 font-medium">
+                      <p className={`text-lg mb-2 font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                         Drag & drop files here, or click to select
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                         Supports: .txt, .pdf
                       </p>
                     </div>
@@ -1246,26 +1855,28 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                 {/* Uploaded Files List */}
                 {uploadedFiles.length > 0 && (
                   <div className="mt-4 space-y-2 animate-slide-up">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files ({uploadedFiles.length}):</h4>
+                    <h4 className={`text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Uploaded Files ({uploadedFiles.length}):</h4>
                     {uploadedFiles.map(({ file, id, status }) => {
                       const extension = file.name.toLowerCase().split('.').pop();
                       const isValidType = extension === 'txt' || extension === 'pdf';
                       
                       return (
-                        <div key={id} className={`flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 ${
-                          isValidType ? 'bg-gray-50' : 'bg-red-50 border border-red-200'
+                        <div key={id} className={`flex items-center justify-between p-3 rounded-lg transition-colors duration-200 ${
+                          isValidType
+                            ? `${isDark ? 'bg-slate-800 hover:bg-slate-700' : 'bg-slate-50 hover:bg-slate-100'}`
+                            : `${isDark ? 'bg-red-950/30 border border-red-800' : 'bg-red-50 border border-red-200'}`
                         }`}>
                         <div className="flex items-center space-x-3 flex-1 min-w-0">
                             {extension === 'pdf' ? (
                               <FileText className="h-4 w-4 text-red-500 flex-shrink-0" aria-hidden="true" />
                           ) : (
-                            <FileText className="h-4 w-4 text-blue-500 flex-shrink-0" aria-hidden="true" />
+                            <FileText className="h-4 w-4 text-r2d-accent flex-shrink-0" aria-hidden="true" />
                           )}
                             <span className={`text-sm font-medium truncate ${!isValidType ? 'text-red-600' : ''}`} title={file.name}>
                               {file.name}
                               {!isValidType && <span className="ml-2 text-xs text-red-500">(Invalid type)</span>}
                             </span>
-                          <span className="text-xs text-gray-500 flex-shrink-0">
+                          <span className={`text-xs flex-shrink-0 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                             ({(file.size / 1024).toFixed(1)} KB)
                           </span>
                         </div>
@@ -1287,15 +1898,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
 
           {/* Error Display */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg animate-slide-up" role="alert" aria-live="assertive">
+            <div className={`mb-6 p-4 rounded-lg animate-slide-up border ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'}`} role="status" aria-live="polite">
               <div className="flex items-center space-x-2 mb-2">
-                <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" aria-hidden="true" />
-                <span className="text-red-700 font-semibold">{error}</span>
+                <AlertCircle className="h-5 w-5 text-r2d-accent flex-shrink-0" aria-hidden="true" />
+                <span className={`${isDark ? 'text-slate-200' : 'text-slate-700'} font-semibold`}>{error}</span>
               </div>
               {validationErrors.length > 0 && (
                 <div className="mt-3 ml-7 space-y-2">
                   {validationErrors.map((err, index) => (
-                    <div key={index} className="text-sm text-red-600">
+                    <div key={index} className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                       • {err}
                     </div>
                   ))}
@@ -1306,14 +1917,14 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
 
           {/* Processing Progress */}
           {isProcessing && (
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg animate-slide-up">
+            <div className={`mb-6 p-4 rounded-lg animate-slide-up border ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-r2d-accentMuted/40 border-r2d-accentMuted'}`}>
               <div className="flex items-center space-x-3 mb-3">
-                <Loader2 className="h-5 w-5 text-blue-600 animate-spin" aria-hidden="true" />
-                <span className="text-blue-700 font-medium">Processing requirements...</span>
+                <Loader2 className="h-5 w-5 text-r2d-accent animate-spin" aria-hidden="true" />
+                <span className={`font-medium ${isDark ? 'text-slate-200' : 'text-r2d-primary'}`}>Processing requirements and generating SRS…</span>
               </div>
-              <div className="w-full bg-blue-100 rounded-full h-2.5">
+              <div className={`w-full rounded-full h-2.5 ${isDark ? 'bg-slate-700' : 'bg-blue-100'}`}>
                 <div 
-                  className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+                  className="bg-r2d-accent h-2.5 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${processingProgress}%` }}
                   role="progressbar"
                   aria-valuenow={Math.round(processingProgress)}
@@ -1321,7 +1932,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                   aria-valuemax="100"
                 />
               </div>
-              <p className="text-xs text-blue-600 mt-2">{Math.round(processingProgress)}% complete</p>
+              <p className={`text-xs mt-2 ${isDark ? 'text-slate-300' : 'text-r2d-primary'}`}>{Math.round(processingProgress)}% complete</p>
             </div>
           )}
 
@@ -1330,7 +1941,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
             <button
               onClick={processRequirements}
               disabled={!canProcess}
-              className="bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 hover:from-cyan-600 hover:via-indigo-600 hover:to-purple-700 disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
+              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
               aria-label="Process requirements"
               aria-busy={isProcessing}
             >
@@ -1342,7 +1953,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
               ) : (
                 <>
                   <CheckCircle className="h-5 w-5" aria-hidden="true" />
-                  <span>Process Requirements</span>
+                  <span>Process &amp; Generate SRS</span>
                 </>
               )}
             </button>
@@ -1350,7 +1961,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
               <button
                 onClick={generateSRSFromAudioDirect}
                 disabled={isGeneratingDirectSRS}
-                className="mt-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                className="mt-4 bg-r2d-accent hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
                 aria-label="Generate SRS directly from audio"
                 aria-busy={isGeneratingDirectSRS}
               >
@@ -1371,7 +1982,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
               <button
                 onClick={generateSRSFromFileDirect}
                 disabled={isGeneratingDirectSRS}
-                className="mt-4 bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:from-indigo-600 hover:via-blue-700 hover:to-cyan-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                className="mt-4 bg-r2d-primary hover:bg-r2d-primaryLight text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
                 aria-label="Generate SRS directly from file"
                 aria-busy={isGeneratingDirectSRS}
               >
@@ -1408,7 +2019,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme = 'dark',
                 <h3 className="text-lg font-semibold text-green-800">Processing Complete!</h3>
               </div>
               <p className="text-green-700">
-                Requirements processed successfully. Navigate to Results page to generate SRS.
+                Requirements processed and SRS generation finished. Opening Results…
               </p>
             </div>
           )}

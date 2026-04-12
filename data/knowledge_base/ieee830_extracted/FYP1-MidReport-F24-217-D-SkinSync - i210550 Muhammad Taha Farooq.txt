@@ -1,0 +1,1218 @@
+# FYP1-MidReport-F24-217-D-SkinSync - i210550 Muhammad Taha Farooq
+
+## 1. Introduction
+
+Introduction........................................................................................................................................4 
+• Abstract..............................................................................................................................................4 
+• Executive Summary...........................................................................................................................4 
+• Literature Review..............................................................................................................................5 
+• Research on Existing Products..........................................................................................................7 
+• Project Vision....................................................................................................................................7 
+• Problem Statement............................................................................................................................8 
+• Objectives..........................................................................................................................................9 
+• Scope.................................................................................................................................................9 
+• Software Requirement Specifications.............................................................................................10 
+• List of Features................................................................................................................................10 
+• Functional Requirements.................................................................................................................11 
+• Non-Functional Requirements........................................................................................................12 
+• Use Case Diagram...........................................................................................................................14 
+• High-Level Use Case.......................................................................................................................14 
+• Extended Use Case..........................................................................................................................16 
+• System Level Sequence Diagram....................................................................................................24 
+• System Sequence Diagram..............................................................................................................29 
+• Software Design..............................................................................................................................30 
+• Behavior Design (Design Phase) ....................................................................................................32 
+• Class diagram..................................................................................................................................32 
+• State Transition Diagram ................................................................................................................33 
+• Activity Diagram.............................................................................................................................34 
+• Architecture Diagram .....................................................................................................................42 
+• DB Representation ER Diagram.....................................................................................................44 
+• Conclusion.......................................................................................................................................45 
+• References.......................................................................................................................................45 
+ 
+ 
+ 
+ 
+List of Tables 
+• Table 1 .......................................................................................................................................7 
+• Table 2 .......................................................................................................................................9 
+• Table 3.......................................................................................................................................13 
+ 
+ 
+ 
+ 
+ 
+ 
+4 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Introduction 
+ 
+In recent years, the demand for personalized solutions have been growing at a substantial rate, 
+especially in industries focusing on healthcare and wellness. One major area gaining popularity is 
+skincare, where individualized approaches are extremely important due to the complex interplay 
+of factors like skin type, diet, and allergies. This project, SkinSync, aims to introduce an AI-
+driven skincare chatbot that not only provides tailored skincare advice but also could be utilised to 
+incorporate dietary and other factors to offer a clean approach to skin health. 
+ 
+We at SkinSync will be leveraging many different technologies such as natural language 
+processing (NLP), machine learning (ML), and image recognition, It is of the utmost importance 
+that we deliver highly personalized recommendations to users, which could help them in 
+maintaining optimal skin health and preventing any potential issues in the mere future. Unlike 
+generic skincare advice, this chatbot will be analysing a user’s data in real-time, as well as 
+adapting its recommendations as their needs and other aspects evolve. By considering 
+comprehensive factors such as lifestyle, nutrition, and potential allergens, this project intends to 
+revolutionize the skincare industry with scientific, user-specific insights. 
+ 
+Abstract 
+SkinSync focuses on the development of an AI-powered chatbot that could be utilized to offer 
+personalized skincare recommendations based on a person unique feature. By analyzing user-
+provided data such as skin type, dietary habits, and uploading images of an area a person wants 
+information about, the chatbot delivers scientifically sound guidance that is customized for 
+everyone who uses it. In addition to skincare, the chatbot will analyze nutritional deficiencies and 
+lifestyle factors to provide a complete skin health assessment. Due to the advancements in ML 
+and predictive analytics, the chatbot will continuously improve and adapt, offering more accurate 
+recommendations each time an individual uses it. This approach will aim to bridge the gap 
+between generic skincare solutions present on the internet and the personalized needs of each 
+person, setting a new standard in the industry. 
+5 
+Executive Summary 
+ 
+Product developers have always focused on a one size fits all approach due to its feasibility, where 
+skincare products and routines are marketed to the masses without considering individual needs. As 
+a result, many different people have experienced severe frustration and unresolved skin issues just 
+because there is a lack of personalized solution, We at SkinSync are here to deliver an AI -driven 
+chatbot designed especially to address this gap by offering tailored made skincare advice based on 
+each user’s unique characteristics, including skin type, diet, and lifestyle. The project combines AI 
+technologies such as ML, image recognition, and NLP to provide users with real-time, scientifically 
+validated skincare recommendations. 
+ 
+By accomplishing this, individuals who will have access to our platform that will continuously 
+learns and adapts to their needs, ultimately enhancing their overall skin health. Additionally, the 
+application offers business potential by providing companies and dermatologists with a new, 
+advanced tool for delivering personalized solutions to their clients. 
+ 
+Literature Review 
+Keeping Image classification as basis of our disease detection. We reviewed some reports that could 
+be specific to our needs and be extremely useful during this process. 
+ 
+1. The paper "ETLoViT: an acne diagnose approach using vision -transformers and model 
+ensembling" was authored by Krishna Veni Paluri and Ashish Gupta. It was published in 
+Engineering Research Express, and it presents an excellent method for acne classification 
+as it utilizes Vision Transformers for feature extraction, as well as coupled with deep 
+learning architectures such as MobileNetV2, VGG16, and InceptionResNetV2 all which are 
+mentioned approaches in the report. This approach led to a 96% accuracy in acne image 
+classification, showcasing the superior performance compared to existing models present 
+on other different platforms. 
+In their research, Paluri and Gupta utilized a dataset of only of 999 acne images, categorized 
+these images into three different and unique levels, employed transfer learning was also 
+utilized to enhance the model's performance. The ETLoViT model mentioned in the report 
+as an innovative model demonstrated its ability to surpass state of the art skin lesion 
+classification methods. As showcasing that by assembling multiple models, they achieved 
+6 
+improved classification accuracy, hence creating a brand new and promising avenue for 
+automated acne diagnosis. The study gives emphasis on the significance of leveraging deep 
+learning advancements to get more efficient, accurate medical image classificati on, 
+especially when it comes to extremely complex conditions like acne. 
+2. In their chapter titled Acne Detection Using Convolutional Neural Networks and Image 
+Processing Technique, the author Premanand Ghadekar and his colleagues presented an 
+AI-based framework that was utilized to detect acne using CNNs. They explored many 
+different applications of image processing techniques and used it to combine with CNN 
+architectures to identify acne present in images efficiently and effectively. The 
+methodology used by the authors included image pre-processing steps like noise reduction 
+and segmentation, as well as enhancing the input data quality before utilizing it into the 
+CNN model for training. The authors of this report highlighted the potential of their 
+approach in automating dermatological diagnostics with higher accuracy compared to 
+traditional visual inspection. 
+This work has significantly contributed to the growing research that applies deep learning 
+to dermatology, particularly in acne detection. The researchers have delved into the 
+challenges posed by acne diagnosis as well as show that their CNN-based system can be 
+used to effectively classify and detect acne specifically by leveraging advanced image 
+processing techniques. 
+3. In the article A Novel Approach for Acne Detection Using Machine Learning, the authors of 
+this paper have written that by leveraging machine learning techniques we can enhance acne 
+detection accuracy. The report has put major emphasizes on the use of various algorithms, 
+including decision trees as well as support vector machines, alongside feature extraction 
+methods, to put acne images into different classes effectively. By improving diagnostic 
+precision, the study aims to address the limitations of traditional methods, thus offering a 
+more reliable solution for skincare professionals and patients alike. 
+ 
+These three research papers align with our goal of finding solutions relevant to our project. The data 
+used in this research can also prove to be relevant to our work and can be utilized for training. 
+ 
+ 
+7 
+ 
+Research on existing Products 
+ 
+ 
+ OLAY Spotscan CureSkin 
+ 
+Features 
+Analyzes user selfies to 
+determine "skin age" and 
+suggests Olay products. 
+Evaluates acne severity from 
+photos and recommends La 
+Roche-Posay products. 
+Provides personalized 
+skincare solutions and 
+treatments for various skin 
+issues. 
+ 
+Limitations 
+Limited to recommending 
+only Olay products, 
+restricting broader skincare 
+advice. 
+Limited to recommending 
+only La Roche-Posay 
+products, restricting 
+unbiased recommendations. 
+Restricted to India, limiting 
+global reach and user 
+impact. 
+ Table 1 
+ 
+Project Vision 
+Problem Statement 
+ 
+Problem: 
+ 
+The average human being often struggles to identify skincare routines that is suitable to their 
+unique skin types, dietary habits, which could inevitably lead to ineffective treatments and try and 
+testing approach leads to unnecessary expenses. Additionally, there is a gap in addressing men's 
+skincare needs due to societal norms. 
+Impact: 
+Currently, skincare problems like acne and hyperpigmentation affect millions globally, leading to 
+self-esteem issues as well as mental health challenges. According to studies, untreated skin 
+conditions often result in long term physical and psychological impacts, such as depression, anxiety, 
+and could also cause social withdrawal. Moreover, the skincare industries has a certain bias towards 
+certain demographics leaving many undervalued. By addressing these issues with our solutions, 
+SkinSync we can empower users to take control of their skin health, overall improving their well -
+being and confidence (Jones & Chan, 2023). 
+ 
+ 
+ 
+ 
+ 
+ 
+8 
+ 
+Objectives 
+• Objective 1: Develop an AI model that is capable of analysing skin images and detect 
+conditions such as acne, hyperpigmentation, or other skin conditions. 
+• Objective 2: Provide personalized dietary recommendations to address any skin 
+deficiencies present as well as any related health concerns. 
+• Objective 3: Implement predictive analytics that could track user skin health over time and 
+offer future product suggestions based on changes in skin condition overtime. 
+• Objective 4: Make sure the chatbot is accessible across many different income levels, hence 
+being an affordable product options and reduce the stigma around men's skincare practices. 
+Scope 
+• We are developing an AI-powered chatbot that will provide personalized skincare 
+recommendations based on skin type, dietary habits, potential allergens. 
+• SkinSync will also let you incorporate image recognition for skin analysis. 
+• We will also provide nutrition deficiency detection and supplement recommendations. 
+• Integrate APIs into our system for skincare product recommendations. 
+• We will by addressing skincare concerns for all genders, focusing on all genders, often 
+overlooked due to societal norms. 
+• Prioritizing accessibility for users that have limited skincare knowledge or have any 
+financial constraints. 
+ Constraints 
+• First there is limited dataset availability for niche skin types. 
+• Privacy concerns is one of the biggest constraints of any application especially with user 
+health data. 
+• Dependency is present on accurate API data for product recommendations. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Stakeholders Description 
+9 
+ 
+3.6.1. Stakeholders Summary 
+Stakeholders 
+ 
+Description 
+Consumers Individuals seeking personalized skincare advice and product 
+recommendations. 
+Dermatologist Professionals who may use the system to complement their practice and 
+offer tailored advice to patients. 
+Skincare product 
+companies 
+Businesses that could benefit from the system by having their products 
+recommended to the appropriate target audience. 
+Health and wellness 
+companies 
+Organizations interested in integrating the chatbot’s capabilities into their 
+services. 
+AI and ML Researchers Academics and professionals focused on advancing AI applications in 
+healthcare. 
+Software Developers The team responsible for building and maintaining the AI-powered 
+chatbot. 
+API Providers Third-party services that supply data for skincare products, allergens, and 
+other relevant information. 
+ Table 2 
+Key High-Level Goals and Problems of Stakeholders: 
+• Users: they want accurate, affordable, as well as accessible skincare advice that is 
+tailored to their specific needs. 
+Problems: Main Concern about data privacy as different techniques could cause different 
+issues, there is also lack of personalized skincare products, misinformation. 
+• Healthcare Professionals: Theu usee AI to streamline diagnosis as well as initial 
+consultation. 
+ Problems: there is a fear of AI misdiagnosis as could cause errors, due to which these is 
+less trust in automated systems. 
+• Skincare Companies: there is an increase product visibility and engagement through 
+personalized recommendations as there product could be advertised to consumers 
+Problems: however main concern could be the overcoming market saturation and 
+competition. 
+• Developers: Ensure the chatbot remains updated with the latest skincare science. 
+Problems: Managing AI training data and system scalability. 
+• Regulatory Bodies: Safeguard user privacy and ensure the system aligns with healthcare 
+regulations. 
+10 
+ Problems: Ensuring compliance across different regions. 
+ 
+Software Requirement Specifications 
+List of Features 
+1. User Interface 
+• An interactive and user-friendly interface. 
+• A chat window for users to communicate. 
+• Image uploads for facial detection and analysis. 
+• User authentication and profile management. 
+2. Chatbot 
+• Primary tool for interacting with the AI dermatologist. 
+• Handles inquiries and ensures smooth conversational flow. 
+• Collaborates with diagnostic and recommendation systems to provide accurate and useful 
+responses. 
+• Delivers natural and informative user experiences. 
+3. Image Processing & Facial Detection 
+• Detects and analyzes the user-specified skin region in uploaded images. 
+• Prepares images by filtering, normalizing, and extracting features for analysis. 
+4. Disease Diagnosis 
+• Utilizes advanced machine learning to analyze processed images and diagnose skin conditions, 
+such as acne. 
+• Classifies skin condition characteristics and provides a diagnostic accuracy score. 
+5. Product Recommendation 
+• Recommends skincare products based on diagnosed skin conditions. 
+• Leverages a product database to suggest personalized options that match the user’s skin type and 
+needs. 
+6. Knowledge Base & NLP 
+• Understands user input using Natural Language Processing (NLP). 
+• Refers to a knowledge base to deliver accurate and relevant responses to user queries. 
+7. Backend & Database Management 
+• Manages databases, processing, and retrieval operations. 
+• Handles user data, images, diagnosis results, and product information. 
+• Ensures secure and efficient data management via APIs and databases. 
+ 
+11 
+Functional Requirements 
+ 
+1. Registration: 
+A. User shall be able to create an account if there is no existing account associated 
+with the user, email-id. 
+B. Users shall be able to enter account details. All these are required fields and account 
+creation cannot proceed unless these are filled. 
+C. User registers after this information is validated and the user agrees with the terms 
+and conditions. 
+2. Login Image Analysis for Skin Conditions: 
+A. The chatbot can accept and analyze skin condition images using CNNs and image 
+recognition. 
+B. Dependency: This feature is essential as the Personalized Product 
+Recommendations and Medical Advice rely on accurate diagnosis from this 
+analysis. 
+3. Personalized Product Recommendations: 
+A. The chatbot suggests skincare products based on the diagnosis. 
+B. Dependency: Depends on the output of the Image Analysis for Skin Conditions to 
+make accurate product suggestions. 
+4. Dietary Recommendations: 
+A. Provides dietary advice based on skin condition. 
+B. Dependency: It is independent but can benefit from data gathered from the Personal 
+Health Questionnaire. 
+5. Medical Advice and Referrals: 
+A. Recommends seeing a dermatologist for severe cases. 
+B. Dependency: Relies on the diagnosis from Image Analysis to determine if a referral 
+is necessary. 
+6. User Data and History Management: 
+A. Tracks user interaction history for future reference. 
+B. Dependency: None directly, but improves the overall user experience by retaining 
+historical data for future Image Analysis and Recommendations. 
+7. Multilingual Support: 
+A. Supports multiple languages to enhance accessibility. 
+B. Dependency: Independent of the other FRs but must be integrated into each feature 
+to ensure functionality across different languages. 
+12 
+ 
+8. Personal Health Questionnaire: 
+A. Asks users about lifestyle factors for better accuracy. 
+B. Dependency: Feeds data into Dietary Recommendations and enhances the overall 
+diagnosis accuracy for Personalized Product Recommendations. 
+ 
+Non - Functional Requirements 
+1. Performance Requirements: 
+A. Response Time: The system should respond to user interactions, such as generating 
+recommendations or detection, without extra delay. 
+B. Scalability: The application should be able to handle a considerable amount of users 
+without significant performance degradation. 
+C. Availability: The system should have minimized disruption and be accessible when 
+needed. The system should be reliable. 
+ 
+2. Security Requirements: 
+A. The users must be authenticated before accessing the system. 
+B. The system should employ control mechanisms to restrict user access to only the 
+necessary resources and features. 
+C. The system shall perform all input checks before allowing the user to register. 
+ 
+3. Compatibility: 
+A. The system shall be able to run seamlessly on current day browsers. For example 
+Chrome, Mozilla Firefox. 
+B. The system shall be able to run on various devices For example, Tablet, Laptop and 
+mobile phone. 
+ 
+4. Maintainability: 
+A. The system shall be developed keeping in mind the extension if needed. 
+Incorporation of new features should be easy to modify the existing features if 
+needed. 
+ 
+5. Documentation: 
+13 
+A. A comprehensive documentation shall be provided to the user for understanding the 
+guidelines and responsible use of the system. This can include a user manual, video 
+tutorial and frequently asked questions. 
+ 
+ 
+Iteration Plan 
+ 
+Iteration Time frame Module(s) 
+1 FYP 1 Mid Evaluation UI, Disease diagnosis 
+2 FYP 1 Final Evaluation Chatbot, backend 
+3 FYP 2 Mid Evaluation Product Recommendation, Integration 
+4 FYP 2 Final Evaluation Interface refinement, Optimization 
+ Table 3 
+ 
+ 
+Iteration 1 
+Use Case Diagram 
+14 
+ 
+ 
+ 
+ 
+ 
+ 
+High level Use Case 
+Use Case ID 01 
+Use Case Profile creation 
+Actor User 
+Type Primary 
+Description Users will create an account to share information 
+needed to create an account 
+ 
+Use Case ID 02 
+Use Case Skincare recommendation 
+Actor User, third party providers 
+Type Primary 
+
+15 
+Description The system provides users with customized 
+routine suggestions based on their profile. 
+ 
+Use Case ID 03 
+Use Case Diet recommendation 
+Actor User, third party providers 
+Type Primary 
+Description Third party would provide with dataset, Users will 
+be given the correct recommendation according to 
+their diagnosis 
+ 
+Use Case ID 04 
+Use Case Progress tracking 
+Actor User 
+Type Primary 
+Description The system keeps track of users’ skincare 
+routines, product usage, and overall progress, 
+presenting it in a visual format. 
+ 
+Use Case ID 05 
+Use Case User feedback 
+Actor User, System 
+Type Primary 
+Description Users submit feedback on the effectiveness of the 
+recommendations and products 
+ 
+Use Case ID 06 
+Use Case Disease Detection 
+Actor User, System 
+Type Primary 
+Description The system analyzes user data and predicts 
+potential skin issues before they occur 
+ 
+16 
+Use Case ID 07 
+Use Case API integration 
+Actor Third party provider 
+Type Primary 
+Description The system integrates external data sources, such 
+as allergen levels, and product databases, to 
+enhance the accuracy of recommendations. 
+ 
+Use Case ID 08 
+Use Case Product recommendation 
+Actor User, Third party providers 
+Type Primary 
+Description The system provides immediate skincare product 
+recommendations based on real-time data 
+ 
+ 
+ 
+Extended Use Cases 
+ 
+ 
+Use Case Name Personalized Skincare Recommendations 
+Scope Primary 
+Level User level 
+Primary Actor User (person seeking personalized skincare advice) 
+Stakeholders & 
+Interests 
+• User: Wants tailored skincare recommendations 
+• Dermatologist: Interested in reviewing or adjusting 
+recommendations 
+• System Provider: Ensures high user satisfaction 
+• Third-Party Providers: Benefit from integrating their data into 
+recommendations. 
+Preconditions • User has completed their profile. 
+• System can retrieve real-time data from third-party providers. 
+• Access to skincare product databases. 
+Postcondition • User receives and saves personalized skincare recommendations. 
+17 
+• Recommendations are stored in the user's history. 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. User navigates to the 
+recommendation section 
+ 
+ 2. System retrieves user profile, 
+dietary 
+ 3. analyses the information and 
+generates personalized product 
+and routine suggestions 
+ 4. System presents the 
+recommendations 
+5. reviews and saves 
+recommendations 
+ 
+ 
+Alternative 
+ 
+ 
+A1: User has not completed profile – system prompts for missing 
+data. 
+A2: No real-time data available – system generates 
+recommendations based on profile only 
+ 
+ 
+ 
+ 
+Exceptions 
+ E1: No internet connection – system informs user of limited 
+recommendations. 
+ E2: Product database unavailable – system notifies user and suggests 
+retrying later. 
+ 
+ 
+ 
+Use Case Name Profile Creation 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders & 
+Interests 
+User: Wants to create a personalized skincare profile. 
+- System Provider: Gathers accurate data for better recommendations. 
+Preconditions User has signed up on web page 
+Postcondition User profile is created, stored in the system, and used for personalized 
+recommendations. 
+18 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. selects “Create Profile” and 
+inputs necessary details. 
+ 
+ 2. validates and saves the profile. 
+ 3. confirms successful creation. 
+ 
+Alternative 
+ 
+ 
+A1: User fails to provide all required information – system prompts 
+user to complete missing fields. 
+Exceptions E1: System fails to save data due to a technical issue – user is 
+informed and asked to try again later. 
+ 
+ 
+ 
+Use Case 
+Name 
+Dietary and Nutritional Assessment 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders 
+& Interests 
+User: Wants to improve diet for better skin health. 
+System Provider: Gathers accurate dietary data to enhance 
+recommendations. 
+ Third-Party Providers: Provide nutritional data. 
+Preconditions User has completed their profile and provided basic dietary information. 
+Postcondition User receives dietary recommendations related to skin health. 
+19 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+User submits dietary details. 
+ 
+ 
+ 2. System analyzes data and 
+accesses third-party sources 
+for nutrition info. 
+ 
+ 3. System provides dietary 
+suggestions 
+ 
+Alternatives 
+A1: Incomplete dietary information – system prompts user for more 
+data. 
+A2: No third-party data – system makes suggestions based only on 
+user input. 
+Exceptions 
+E1: System fails to retrieve third-party data – user informed of 
+limited suggestions. 
+ 
+Use Case Name Real-Time Product Recommendations 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders & 
+Interests 
+• User: Wants real-time product suggestions. 
+• System Provider: Gathers real-time data to improve user 
+experience. 
+• Third-Party Providers: Provide real-time data 
+Preconditions User has a completed profile and the system is connected to real-
+time third-party data. 
+Postcondition User receives product suggestions based on current environmental 
+20 
+conditions. 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. requests real-time product 
+suggestions. 
+ 
+ 
+ 
+ 2. System retrieves real-time 
+data (allergens, etc.). 
+ 3. System provides 
+recommendations based on 
+user profile and real-time 
+data. 
+4. User views and 
+saves suggestions. 
+ 
+ 
+Alternative 
+ 
+ 
+A1: No real-time data available – system provides 
+recommendations based only on the user's profile. 
+Exceptions 
+E1: System fails to retrieve real-time data – user is 
+notified of limitations. 
+ 
+ 
+ 
+ 
+Use Case Name Predictive Skin Issue Detection 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders & 
+Interests 
+• User: Wants to prevent potential skin issues. 
+• Dermatologist: Interested in early detection of issues. 
+• System Provider: Ensures accurate predictions for user health 
+Preconditions 
+User profile and history are up-to-date. 
+system is connected to third-party data for accurate prediction 
+Postcondition User is informed of potential skin issues and recommended preventive 
+actions. 
+21 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. uploads skin health. 
+ 2. System analyzes profile, 
+history, and environmental data. 
+ 
+ 3. System identifies potential 
+issues and alerts the user. 
+ 
+User receives preventive 
+recommendations. 
+ 
+ 
+Alternative 
+ 
+ 
+ 
+Exceptions 
+ 
+ A1: No new issues detected – system informs user that no issues are 
+predicted. 
+ 
+ 
+ 
+ 
+E1: Predictive analysis fails – system notifies user to try again 
+later. 
+ 
+ 
+ 
+ 
+ 
+Use Case Name User Feedback 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders & 
+Interests 
+User: Wants to provide feedback to improve the system. 
+System Provider: Interested in gathering feedback to improve service 
+quality. 
+Preconditions User has interacted with the system and has feedback to share 
+22 
+Postcondition Feedback is submitted and logged for review by the system provider. 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. selects feedback 
+submission option 
+ 
+2. enters their feedback. 
+ 3. validates and submits 
+feedback. 
+ 4. confirms successful 
+submission 
+ 
+Alternative 
+ 
+ 
+A1: Feedback is incomplete – system prompts user for more details. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Use Case Name Progress Tracking 
+Scope Primary 
+Level User level 
+Primary Actor User 
+Stakeholders & 
+Interests 
+- User: Wants to track their skin progress over time. 
+- Dermatologist: Reviews progress for any necessary interventions. 
+- System Provider: Ensures accurate tracking for user engagement. 
+Preconditions The user is logged into his account. 
+Postcondition User history and progress are tracked and viewable over time 
+23 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+1. User views history and 
+progress. 
+ 
+ 
+ 2. System displays tracked skin 
+data over time. 
+.3. User compares progress and 
+views potential improvements. 
+ 
+ 
+Alternative 
+ 
+ 
+ A1: No significant progress – system informs user of lack of 
+change 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Use Case Name API Integration 
+Scope Primary 
+Level User level 
+Primary Actor Third-Party Data Providers 
+Stakeholders & 
+Interests 
+- System Provider: Needs reliable third-party data for real-time 
+skincare recommendations. 
+- Third-Party Providers: Interested in providing accurate data for 
+integration. 
+Preconditions API connections with third-party providers are established. 
+Postcondition The system retrieves and integrates third-party data into skincare 
+recommendations. 
+24 
+Main Success 
+Scenario 
+ 
+Actor Action System Response 
+ 1. System connects to third-
+party APIs. 
+ 
+ 2. System retrieves relevant data 
+(weather, allergens, etc.).. 
+ 3. System integrates the data 
+into real-time 
+recommendations 
+ 
+Alternative 
+ 
+ 
+A1: API connection fails – system reverts to basic recommendations 
+based on user profile only. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+System Sequence Diagrams 
+Skin Detection: 
+25 
+ 
+ 
+Diet recommendation: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+26 
+User Feedback: 
+ 
+ 
+Product recommendation: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Profile Creation: 
+
+27 
+ 
+ 
+Progress tracking: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Routine Recommendation: 
+ 
+
+28 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+System Level Sequence Diagram 
+ 
+ 
+
+29 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+30 
+Software Design 
+ 
+Design Methodology: Object-Oriented Programming (OOP) 
+ 
+The Object-Oriented Programming design is well-suited for the development of the system due to 
+several key factors which I will discuss below : 
+Modular Design and Reusability: 
+Firstly, OOP makes it possible to separate the system into various classes and give each with a 
+distinct function. For instance, separate classes can be built for components such as 
+DietaryRecommender, ProductRecommender, ImageAnalyzer, and Chatbot, each of which is 
+responsible of carrying their own tasks within the class and system 
+Object-oriented programming makes it easier for us to scale the system. By either new class can 
+be created, or existing ones which could be modified with little to no code modifications to add 
+new functionalities into our system. 
+Enhanced Maintainability: 
+Better maintainability is provided by object-oriented programming, which makes sure that every 
+object or class controls its own data and functions and communicates with other parts via 
+designated interfaces. This showcases that modifications that are made to a single system 
+component can be made without influencing any other component in the system. 
+Encapsulation: 
+OOP encapsulation makes it possible to isolate core states and behavior especially those 
+managing user data, image analysis, or recommendation system that are within each class. This 
+design promotes safe, as well as regulated interactions between various system components they 
+do this by guaranteeing that all inner workings of one class remain concealed from other classes 
+present. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+31 
+(b) Architectural Style: Microservices Architecture 
+For the AI Dermatologist Chatbot, adopting a Microservices Architecture is considered the most suitable 
+architectural approach.The reasons listen below is why we decided to use this approach: 
+Independent Services: 
+The system may be divided into multiple components, including the Image Analysis, Product 
+Recommendation Engine, Dietary Recommendation Engine, and User Data Manager, because of the 
+microservices architecture. This will help us when we want each service to be developed, launched, and 
+grown on its own. 
+This split is advantageous to our project since the skin analysis, user feedback, user profile management, 
+and recommendation services may all function independently before we integrate them. For instance, 
+improving the image analysis process is made feasible without actually jeopardizing the stability of other 
+system elements. 
+Scalability and Flexibility: 
+Microservices enable independent scaling. If the skin analysis feature is experiencing heavy usage, only 
+that part of the system needs to be scaled. The other components, like the product recommendation service, 
+can remain unaffected. 
+Fault Tolerance: 
+In a microservices architecture, the failure of one service doesn’t crash the entire system. For example, if 
+the product recommendation service experiences an issue, other critical services such as user profile 
+management and feedback submission will continue operating seamlessly. 
+Simplified Deployment: 
+Workflows including continuous integration and continuous deployment (CI/CD) are best suited for 
+microservices. Updates don't always need to affect the entire system; they might be applied to specific 
+services. This enables your system to react to user requests and new features with greater agility and 
+responsiveness. 
+Technology-Agnostic Development: 
+Every microservice can be constructed using the technology that best fits its needs. For instance, you might 
+rely on a separate stack for the chatbot interface and utilize Python and machine learning frameworks for 
+the analysis of skin picture data. This adaptability makes it possible to find more ideal solutions for every 
+system component. 
+ 
+ 
+ 
+ 
+32 
+ 
+Behavior Design (Design Phase) 
+Class Diagram: 
+ 
+ 
+ 
+ 
+
+33 
+ 
+ 
+ 
+State Transition Graph: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+34 
+ 
+ 
+Activity Diagram 
+ 
+1.Profile creation 
+2. 
+
+35 
+ 
+Supplement recommendation 
+
+36 
+ 
+Diet recommendation 
+P 
+
+37 
+ 
+Product recommendation 
+
+38 
+ 
+Skincare recommendation 
+
+39 
+ 
+User feedback 
+
+40 
+ 
+Skin Analysis 
+
+41 
+ 
+API integration 
+ 
+ 
+ 
+ 
+
+42 
+ 
+Architectural Diagram: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+43 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+44 
+ER Diagram (DB Representation): 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+45 
+Conclusion: 
+This report examines the whole project overview and provides a detailed analysis of how we will 
+be taking forward this project for our FYP. We have provided all the details from idea research, 
+competitive analysis, problem statement implementation design, iteration plan and development. 
+We have provided comprehensive diagrams to understand the behavior of our project. We have 
+complied with all the SE protocols and produced this document. The document and all its 
+components are our intellectual property. 
+ 
+ 
+ 
+References: 
+Used APA Citation for references: 
+ 
+• Paluri, K. V., & Gupta, A. (2024). ETLoViT: An acne diagnose approach using vision-
+transformers and model ensembling. Engineering Research Express, 6(3), 035242. 
+https://doi.org/10.1088/2631-8695/ad7ad9 
+• Ghadekar, P., Joshi, A., Vanjari, A., Raza, M., Gupta, S., & Gajaralwar, A. (2022). Acne 
+detection using convolutional neural networks and image processing technique. In D. R. 
+Panigrahi, & P. K. Mallick (Eds.), Advances in Manufacturing and Industrial Engineering 
+(pp. 47-54). CRC Press. 
+• Arief Kelik Nugroho, Retantyo Wardoyo, Moh Edi Wibowo, & Hardyanto Soebono. 
+(2024). Image dermoscopy skin lesion classification using deep learning method: 
+systematic literature review. Bulletin of Electrical Engineering and Informatics, 13(2), 
+1042–1049. https://doi.org/10.11591/eei.v13i2.6077 
+• Jones, S., & Chan, H. (2023). The Psychological Effects of Skin Disorders. Journal of 
+Dermatological Science, 12(3), 56-67. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+46 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

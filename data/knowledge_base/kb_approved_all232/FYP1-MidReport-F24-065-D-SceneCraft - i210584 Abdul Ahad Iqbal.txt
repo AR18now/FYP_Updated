@@ -1,0 +1,301 @@
+# FYP1-MidReport-F24-065-D-SceneCraft - i210584 Abdul Ahad Iqbal
+
+## 1. Introduction
+
+1. Introduction
+this effort is the translation of book manuscripts into screenplays. This calls for a compre-
+hension of all the works visually depicted in the book, the entire story arc of the books,
+and how precisely the characters advance the plot. This task is very time-consuming and
+normally it may take most writers several months to come up with these screenplays.
+The other problem, which writers experience while working on a movie script, is tag-
+ging the script components. The screenplay tags enhance the script by underlining the
+screenplay’s aspects such as the characters’ names, the props, VFX, and others. Current
+screenplay tools used require manual handling for such tasks since they are repetitive thus
+slowing the scripting.
+1.2 Scope
+As a new tool developed to help make the conversion of book manuscripts to screenplay
+easier, SceneCraft is a powerful tool for any writer. This project also includes the creation
+of an effective and intuitive interface where book manuscripts may be uploaded and where
+the program sends out properly formatted, industry-standard screenplays that users can
+edit directly as part of the project scope. Elements like plot points, characters, and settings
+from the story will be determined by our application. SceneCraft will then grow these
+elements into a classic screenplay form from which the heart of the story will be retained
+though it will be changed and put into a new visual narrative media form. The system
+will also feature an editing tool that enables the user to edit the screenplay, suggesting
+improvements from artificial intelligence. An automated feature in SceneCraft will be
+added to highlight and tag key production elements within the Screenplay. The goal
+of this project is to help increase the availability of opportunities where creative people
+have the chance to apply their talents toward a book-to-screen project. SceneCraft will
+enable the adaptation and editing tool but will not extend through the other stages of the
+filmmaking process. Our goal is to bring people closer to where writing and screenplay
+visuals meet, allowing those who want to tell stories to get them on the screen more easily
+than before.
+1.3 Modules
+1.3.1 Module 1
+In this module, we will establish the foundation on which subsequent stages of the project
+will be built.
+1. Dataset Creation
+2
+1.3 Modules
+2. Tagging Model Training
+3. Script Editor Interface Development
+4. Book Scraping
+1.3.2 Module 2
+This module aims to leverage AI with Natural Language Processing and Generative AI
+techniques for our specific screenplay purposes.
+1. Entity Extraction
+2. Prompt Engineering
+3. LLM fine-tuning
+4. RAG system implementation
+1.3.3 Module 3
+This module aims to implement and enhance the front end of the system to better support
+an environment for creating a screenplay.
+1. Format Conversion
+2. Real-time editing
+3. AI-assisted suggestions
+4. Integration
+1.3.4 Module 4
+The last module is spent on fine-tuning and enhancing the performance of the system for
+a better experience for the user.
+1. Tagging Model fine-tuning
+2. Testing
+3. UI/UX enhancement
+3
+1. Introduction
+1.4 User Classes and Characteristics
+Table 1.1: User Classes and Characteristics
+User class Description
+Book Authors Book Writers use SceneCraft’s features to create and edit their manuscripts. With
+chapter organization tools and AI assistance, writers can focus on long-form
+narrative prose. Many authors will also be interested in converting from book to
+screenplay format, they may have limited experience with it.
+Screenwriters Screenwriters mainly use the screenplay writing feature. They are familiar with
+the industry standards and will utilize the screenplay formatting tools and scene
+structuring features. Screenwriters may also use the book-to-screenplay conver-
+sion tool when adapting existing work.
+Assistant ProducersAssistant Producers oversee the screen-writing process. They assess the adap-
+tations done after converting from book to screenplay format and then provide
+feedback. They will also make use of an automated element tagging feature for
+budgeting which would otherwise take a lot of time
+Aspiring Writers Aspiring Writers are likely to use all three of the main features. They may start
+with writing a book to develop their narrative skills. They would then proceed to
+convert it into screenplay format and then use the screenplay writing features to
+improve it further.
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case Diagram
+Figure 2.1: SceneCraft Use Case Diagram
+5
+2. Project Requirements
+2.2 Functional Requirements
+2.2.1 Module 1
+The following are the functional requirements for Module 1:
+1. FR1: The SceneCraft system shall implement a tagging model which will identify
+and label key elements (e.g., characters, settings, dialogue) in a screenplay.
+2. FR2: The SceneCraft system shall provide users with a script editor interface that
+will allow users to edit and format screenplays.
+3. FR3: The SceneCraft system shall implement a book scrapping functionality that
+can extract content from EPUB files. The system shall process and extract a stan-
+dard novel-length book while maintaining essential metadata such as title, author
+and publication date.
+2.2.2 Module 2
+The following are the functional requirements for Module 2:
+1. FR1: The SceneCraft system shall automatically extract entities (such as characters,
+locations, and key plot points) from uploaded book manuscripts.
+2.2.3 Module 3
+The following are the functional requirements for Module 3:
+1. FR1: The SceneCraft system shall transform book manuscript text into a neatly
+organized screenplay framework that complies with industry norms and correctly
+recognizes scene headings, action lines, character names, and dialogues.
+2. FR2: The SceneCraft system shall create a real-time editing interface that enables
+users to edit the scripted text while seeing the changes made by multiple users on
+the same document flawlessly.
+3. FR3: The SceneCraft system shall offer recommendations from AI for better dia-
+logue and character growth while editing scenes that are relevant to users according
+to their input and created upon triggering the suggestion feature.
+6
+2.3 Non-Functional Requirements
+4. FR4: The SceneCraft system shall merge the features for format conversion and
+real-time editing with AI suggestions into a consistent user interface so users can
+access major features in minimum clicks.
+2.2.4 Module 4
+The following are the functional requirements for Module 4:
+1. FR1: The SceneCraft system shall optimize its tagging model to increase accuracy
+in tagging screenplay details (for instance scene headings and dialogue).
+2. FR2: The SceneCraft system shall review extensive testing that includes unit testing
+and integration tests along with user acceptance tests with all critical bugs fixed
+before the end of development.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+REL-1: The SceneCraft system shall sustain an MTBF greater than 720 hours (30 days). A
+disruption happens if it stops users from engaging with their projects or completing
+essential actions within 5 minutes.
+REL-2: The SceneCraft system shall set up daily automated backups for every project and
+system configuration that permit users to retrieve from any backup point within 30
+minutes.
+REL-3: The SceneCraft system shall constantly assess its well-being and alert the team for
+any unexpected issues or signs of trouble. Within 5 minutes of any detected issues
+occurring, the maintenance team will receive alerts.
+2.3.2 Usability
+USE-1: The SceneCraft system shall allow users to change a manuscript to a screenplay
+structure within 5 clicks from the main interface.
+USE-2: The SceneCraft system shall offer assistance relevant to each core feature with a
+single click or tap from every page.
+USE-3: The SceneCraft system shall save user updates automatically every 2 minutes and
+let users return to any older version with just two clicks.
+7
+2. Project Requirements
+USE-4: The SceneCraft system’s UI shall function as an easy-to-navigate interface support-
+ing keyboard shortcuts with a detailed shortcut overview reachable at any moment
+through pressing F1.
+USE-5: The SceneCraft system shall show direct and clear error notifications for all input
+mistakes alongside suggested corrections in under 5 seconds.
+2.3.3 Performance
+PER-1: The SceneCraft system shall provide its AI recommendations for manuscripts within
+5 seconds of user input.
+PER-2: The SceneCraft editor shall facilitate real-time team editing with no more than 500
+milliseconds for users connected on a 50 Mbps or higher Internet connection.
+PER-3: The SceneCraft system shall produce a PDF version of the completed screenplay in
+less than 10 seconds for files up to 200 pages.
+2.3.4 Security
+SEC-1: The SceneCraft system shall not allow unauthorized access attempts by people with
+highly sophisticated computer skills and knowledge of common hacking techniques
+the majority of the time.
+SEC-2: The SceneCraft protocol shall protect all data transmissions from the SceneCraft
+server to client applications.
+SEC-3: SceneCraft’s user authentication mechanisms shall be able to resist common attack
+vectors (brute force, dictionary attacks, and credential stuffing) with a success rate
+of over 50%.
+SEC-4: The SceneCraft system shall protect stored user data so that the physical hardware
+of the system would have to be breached by a team of skilled computer forensics
+experts, to extract any useful information from it.
+2.4 Domain Model
+8
+2.4 Domain Model
+Figure 2.2: SceneCraft Domain Model
+9
+Chapter 3
+System Overview
+Figure 3.1: Box and Line Diagram
+10
+3.1 Architectural Design
+3.1 Architectural Design
+Figure 3.2: Architecture Diagram
+The architecture diagram shows a system design for SceneCraft, divided into client-side
+and server-side components. Following is the modular structure and relationships between
+these components:
+3.1.1 Client Side
+3.1.1.1 UI (User Interface)
+• Dashboard: Offers an overview of projects and system status.
+11
+3. System Overview
+• Project Management: Handles creation and organization of screenplay projects.
+• Script Editor: Editing and writing of screenplay with the main interface.
+• Collaboration Tools: Allows real time collaboration with users.
+3.1.1.2 CL (Client Logic)
+• Local Formatting: Handles local text formatting and styling.
+• Real-time Sync: Ensures that the data between client and server is synchronized.
+3.1.2 Server Side
+3.1.2.1 API Layer
+• Acts as the entry point for any client-server communications.
+3.1.2.2 AS (Application Services)
+• Auth Service: It manages user’s authentication and authorization.
+• Project Service: It handles all project related operations.
+• Manuscript Service: Responsible for receiving manuscripts, and the subsequent
+conversion.
+• AI Suggestion Service: Helps in writing by making suggestions to the document
+through artificial intelligence.
+• Aligns the use of the software to coordinate the activity of the people within the
+same project in real-time.
+• Export Service: Is responsible for the exportation of script to different media for-
+mats.
+3.1.2.3 DL (Data Layer)
+• Database (MongoDB): Stores persistent data to be used in application.
+3.1.2.4 ES (External Services)
+• AI Model API: Processes advanced information coming from external AI services.
+12
+3.2 Design Models
+3.1.3 Key Relationships and Workflows
+1. Project Management in the UI communicates with the Project Service on the server
+side for project data operations.
+2. The Script Editor interfaces with multiple server-side services:
+• Manuscript Conversion service
+• AI Suggestion Service for Intelligent Writing Assistance
+3. Collaboration Tools interact with the Collaboration Service to facilitate real-time
+updates between users.
+4. The server-side services (AS) interact with the Database (DL) for data persistence.
+5. The Client Logic layer (CL) helps UI operations with local formats and real-integration,
+synchronization of time and functionality, making the use by the end users and ap-
+plications more appealing.
+3.2 Design Models
+3.2.1 Activity Diagrams
+Figure 3.3: Export Screenplay Activity Diagram
+13
+3. System Overview
+Figure 3.4: Book to Screenplay Conversion Activity Diagram
+14
+3.2 Design Models
+Figure 3.5: Modify Changes Activity Diagram
+15
+3. System Overview
+Figure 3.6: AI-assisted Suggestion Activity Diagram
+16
+3.2 Design Models
+3.2.2 Sequence Diagrams
+Figure 3.7: Manuscript Conversion Sequence Diagram
+17
+3. System Overview
+Figure 3.8: AI Suggestions Sequence Diagram
+18
+3.2 Design Models
+Figure 3.9: Screenplay Element Tagging Sequence Diagram
+19
+3. System Overview
+Figure 3.10: Project Management Sequence Diagram
+20
+3.3 Data Design
+3.2.3 Data flow Diagram
+Figure 3.11: Data Flow Diagram
+3.3 Data Design
+Our data is stored in and organized with MongoDB, a NoSQL document-based database.
+It transforms the system’s information into a collection of documents, corresponding to
+21
+3. System Overview
+major entities within the system. Here’s how the data is structured and processed:
+3.3.1 Data Storage
+1. We store each entity as a separate document for User, Project, Manuscript, Screen-
+play, Version, SceneElement, and AISuggestion in their respective MongoDB col-
+lections.
+2. Entity relationships are maintained through reference fields (e.g. Screenplay docu-
+ment entity has a reference to a Project by the projectId field).
+3.3.2 Data Processing
+1. When you upload a manuscript, it is added to the Manuscript collection and then
+processed to create a new Screenplay document.
+2. When users edit the screenplay new Version documents are created to keep track of
+what has changed.
+3. We extract SceneElements, storing them separately and linking them up with a
+Screenplay for quick retrieval and manipulation.
+4. The AI suggestions are stored and linked to the relevant Screenplay, as separate
+documents.
+3.3.3 Data Organization
+1. The top-level organizational unit is Projects that contain Manuscripts and Screen-
+plays.
+2. Version collection is used in screenplays for tracking changes in time.
+3. Screenplays are linked to separate scene elements so they can be updated and rear-
+ranged quickly without altering the whole Screenplay document.
+With this structure, the data can be managed flexibly and scale efficiently, including fea-
+tures such as collaborative editing, version control, and AI-assisted writing, while pre-
+serving the data integrity and making query and retrieval of information more efficient.
+3.3.4 ERD Diagram
+22
+3.3 Data Design
+Figure 3.12: SceneCraft Entity-Relationship Diagram
+23
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

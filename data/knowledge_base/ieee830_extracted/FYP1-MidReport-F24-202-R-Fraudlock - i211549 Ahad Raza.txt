@@ -1,0 +1,643 @@
+# FYP1-MidReport-F24-202-R-Fraudlock - i211549 Ahad Raza
+
+## 1. Introduction
+
+1. Introduction
+for both IOS and Android mobile devices.
+• How can a multitask learning model effectively detect lip-audio synchronization in deep-
+fake videos?
+• What impact do lip movements have on cheek muscle dynamics, and how can this be
+modeled for deepfake detection?
+6
+Chapter 2
+Literature Review
+2.1 Related Research
+2.1.1 FAMM: Facial Muscle Motions for Detecting Compressed Deep-
+fake Videos Over Social Networks
+2.1.1.1 Summary of the Research Item
+Paper "FAMM: Facial Muscle Motions for Detecting Compressed Deepfake Videos Over So-
+cial Networks"[55] addresses the menace of Deepfake videos, particularly those disseminated
+over social networks wherein video compression is inescapable. The authors have advocated
+a framework called FAMM (Facial-Muscle-Motions-Based), which improves the detection of
+compressed Deepfake videos. The methodology consists of three modules: facial landmark
+extraction, facial muscle motion feature construction, and probability prediction fusion.
+Firstly, for a particular video, the pipeline picks facial landmarks from consecutive frames
+through suitable face alignment techniques and DLIB. These facial landmarks then form geo-
+metric features which capture the muscle movement in five different sensory areas along with
+the entire face. The temporal dynamics of these movements then create patterns for detec-
+tion as unnatural, thus suggesting Deepfakes by FAMM. A final detection is developed based
+on Dempster-Shafer theory by fusing the probability scores from both GRU and SVM classi-
+fiers to ensure more robustness to compression artifacts. Extensive experiments demonstrate
+the superiority of FAMM in compressed Deepfake video detections, holding even accuracy in
+released Facebook and YouTube videos.
+7
+2. Literature Review
+2.1.1.2 Critical Analysis of the Research Item
+The FAMM framework has several advantages that make the above solution effective for Deep-
+fake detection. First, the application of facial muscle motion features is quite unique for giving
+a geometric view beyond the conventional artifact-based detection methods. It is based on the
+continuity of natural facial movements, which works to fight such noise commonly seen with
+compression in videos found on social networks. Deep feature construction, uses both the dis-
+tance and angle metrics over different facial regions, increasing the model’s ability to counter
+subtle manipulations.
+Further, Dempster-Shafer theory for probability fusion gives a good integration of the strengths
+of GRU and SVM classifiers to improve the overall detection accuracy. Further, the theoretical
+analysis on mutual information and invariance of facial landmarks even after compression adds
+on to the creditworthiness of the robustness of the framework. However, the work also has
+some drawbacks. The method based on precise facial landmark extraction sometimes faces
+the problem of low-resolution or heavily occluded videos that can affect the feature accuracy.
+More than that, The superior performance on standard datasets demonstrates the work well;
+however, its adaptability to diverse and evolving Deepfake generation techniques has not been
+adequately evaluated in this work. The computational complexity of processing continuous
+facial landmarks and temporal features can further affect the scalability of this model, especially
+for real-time applications on large-scale social networks.
+Overall, FAMM holds promising potential in the area of Deepfake detection, especially with
+regards to compressed videos. Future work can improve the robustness of the framework for
+landmark extraction, and develop its adaptability to more techniques for making the model
+rock-solid.
+2.1.1.3 Relationship to the Proposed Research Work
+Our proposed method is the extension of FAMM framework, taking visual and audio data to
+further improve Deepfake detection. Focusing only on facial muscle movements in compressed
+videos, our method also includes lip-audio synchronization analysis for cheek muscles. We can
+better detect mismatches in lip movements with the audio by aligning features of audio with
+frames of the video. Our use of attention mechanisms supports better focusing of the model on
+key areas, which improves the accuracy of detection.
+Unlike the approach adopted in the FAMM, where the Dempster-Shafer theory combines GRU
+and SVM classifiers, the present proposal adopts MLP with feature fusion techniques in order
+to combine the predictions from different modules in a way of simplifying the architecture
+while offering an effective combination of different feature sets.
+8
+2.1 Related Research
+2.1.2 Preventing DeepFake Attacks on Speaker Authentication by Dy-
+namic Lip Movement Analysis
+2.1.2.1 Summary of the research item
+This paper talks about the vulnerability of lip-based speaker authentication systems to Deep-
+Fake attacks by focusing on the analysis of dynamic lip movements rather than by relying on
+static features that are vulnerable to manipulation. In their work titled "Preventing DeepFake
+Attacks on Speaker Authentication by Dynamic Lip Movement Analysis," [66] the authors pro-
+pose a visual authentication scheme using a Deep Convolutional Neural Network (DCNN). A
+proposed model called SA-DTH-Net is divided into two major parts: the Fundamental Feature
+Extraction Network (FFE-Net) for dynamic lip motion analysis and the Representative Lip Fea-
+ture Extraction and Classification Network (RC-Net) for the purpose of extracting high-level
+features. It focuses more on speaker authentication via liveness through dynamic lip move-
+ments, thus reducing the threat from static lip features vulnerable to DeepFake technology.
+The model clearly demonstrated excellent performance on the GRID and MOBIO datasets,
+thereby outperforming the authentication accuracy of three state-of-the-art visual speaker au-
+thentication algorithms against human imposters. Another strength of the work was on its
+robustness against DeepFake-generated attacks and ensured that the usage of multitask learn-
+ing within the RC-Net contributes to reliable DeepFake detection by optimizing the network
+for both feature reconstruction and classification accuracy. Importantly, this proposed method
+does not rely on knowledge of specific DeepFake spoofing techniques, thus is flexible with
+differing spoofing strategies.
+2.1.2.2 Critical Analysis of the Research Item
+In a principal strength, the paper introduces a novel architecture in SA-DTH-Net which in-
+tegrates dynamic lip movement analysis along with the implementation of robust feature ex-
+traction mechanisms. By prioritizing temporal dynamics over static features, the described
+method complicates liveness detection and makes the authentication process even more dif-
+ficult to deceive with DeepFake technologies. The addition of the multitask learning within
+RC-Net further strengthens the model because of the high discriminative ability of the feature
+extracted for authentication purposes, but also representative of individual talking styles, which
+enhances the system’s resilience against impersonation attacks.
+However, the study has certain limitations. Mostly, reliance on prerecorded data may impede
+the model’s performance when applied to increasingly diversified and variable datasets that
+are often faced during real-world scenarios. There could also exist variability in real-world
+environment settings-lighting, camera angles, and occlusions introduced to the system that
+may impact the accuracy of authentication. The computational cost of this presented network,
+mainly its training, has the potential to affect the deploymentability of the system to resource-
+9
+2. Literature Review
+poor settings. On the other hand, the reliance on precomputed optical flow maps is effective in
+motion-capture applications, but it may become an disadvantage where optical flow estimates
+are noisy or poorly valued and degrade overall authentication performance.
+2.1.2.3 Relationship to the proposed research work
+Where the SA-DTH-Net explores the use of dynamic lip movements for authentication of
+speakers, our method makes use of both lip-audio synchronization and cheek muscles move-
+ment analysis to produce a richer test for video authenticity.
+Multitask learning is used for optimizing our model to multiple objectives like SA-DTH-Net.
+This would further augment its ability in effectively detecting DeepFake manipulation.
+However, our solution will be a bit different from SA-DTH-Net, as it mainly focuses on speaker
+verification. This method detects DeepFakes by looking at lip motion and audio signal mis-
+matches, and also cheek muscle mismatch. Our model can better realistically identify unnat-
+ural patterns of manipulations suggesting DeepFake maneuvers since it aligns audio features
+with the corresponding video frames and allows use of attention mechanisms. Instead, whereas
+SA-DTH-Net employs multitask learning within its RC-Net for the reconstruction of features
+and classification, our proposed solution utilizes Multi-Layer Perceptrons and feature fusion
+techniques to make predictions based on various modules. This integrates multiple feature sets
+in a streamlined fashion and enhances the accuracy and robustness of the detection of forged
+videos.
+2.1.3 Improving the Efficiency and Robustness of Deepfakes Detection
+through Precise Geometric Features
+2.1.3.1 Summary of the research item
+In the paper Improving the Efficiency and Robustness of Deepfake Detection through Precise
+Geometric Features" [ 77] the authors propose a unique detection framework that uses facial
+landmarks and a two-stream Recurrent Neural Network to enhance efficiency and robustness
+in detecting deepfakes. This research includes three key steps in their methodology: Face
+Preprocessing: In this step the faces are cropped from the video and aligned it using affine
+transformation. Landmark calibration: In this process they use the Lucas-Kanade optical
+flow algorithm which predicts landmark movement of the next frame by learning the move-
+ments from the previous frames, and a Kalman filter which integrates both the detected and LK
+prediction results to compute more stable landmark positions. It used Kalman gain to decide
+how much to trust the predictions versus the detection result based on the relative variance to
+decide when the detection is more unstable than the prediction finally,Feature extraction and
+10
+2.1 Related Research
+classification: After getting the calibrated landmarks these landmarks are embedded into two
+types of feature vector one for facial shape α and other one for movements between the frames
+β and then these two feature vectors are feed into two separate RNNsg1 and g2 each RNN pro-
+duces its prediction and then these predictions are averaged to produce the final classification
+result.
+The authors conclude that this research had a sound approach in the focus on geometric fea-
+tures rather than full image, pixel-level analysis increases the computational cost. They come
+out showing the model referred to as Landmark Recurrent Network (LRNet), which performs
+effectively by bringing forth the union of both feature vectors of facial shape and the temporal
+movements, making it a more efficient and flexible solution for deepfake detection compared
+to conventional pixel-level approaches.
+2.1.3.2 Critical analysis of the research item
+One of the strong points of this approach is the ability to represent features efficiently. In this
+research, the investigator uses only facial landmarks, rather than whole images which is a very
+efficient way of deepfake detection. The method is also simplified as it concentrates only on the
+geometry of the face eliminating unnecessary complexities associated with analyzing images
+on a pixel level. In addition, a Landmark Calibration module using the Lucas-Kanade optical
+flow method and Kalman filter is added to deal with the problem of very jittery landmarks
+that lead to noise and inaccurate results. The LK algorithm tracks movement and the Kalman
+filter reduces the noise introduced by jittery landmarks. Another advantage is that it employs
+a Two Stream RNN in which one stream accommodates the face shape while the other stream
+takes the image frames over a period of time. This decision improves the system’s ability to
+discriminate between inconsistencies in the structure of the face and its motion, which is very
+important for deepfake detection. In addition, the method is quite flexible and comes with wide
+applicability as it does not rely on any particular technique of landmarking which enhances its
+generalization and adaptability to different datasets.
+Nonetheless, this methodology has certain limitations. Due to the forward-backward check of
+the previous and next frames the use of the Kalman filter may improve the accuracy and reduce
+the noise but it introduces additional complexity and computational overhead. Continuous
+forward and backward checks, slow down the real-time detection. The selection of parameters
+like inherent variance Q and approximate relative variance Dr is empirical. It may work well
+for controlled experiments but may not generalize to real-world situations where factors like
+lighting could lead to inaccurate results and variances are difficult to predict or highly variable.
+11
+2. Literature Review
+2.1.3.3 Relationship to the proposed research work
+While the referenced study focuses on using facial landmarks and a two-stream Recurrent Neu-
+ral Network (RNN) to detect Deepfakes, our method extends this by incorporating both visual
+and audio data streams. By integrating lip-audio synchronization and cheek muscle movement
+analysis, we enhance the detection capabilities beyond geometric features alone.
+Additionally, similar to the use of multitask learning in the reviewed framework, our approach
+employs Multi-Layer Perceptrons (MLPs) and feature fusion techniques to combine predictions
+from different modules, improving overall accuracy and robustness. This extension allows our
+model to better identify inconsistencies and unnatural patterns in both facial movements and
+audio signals, providing a more comprehensive solution for Deepfake detection.
+2.1.4 DF-TransFusion: Multimodal Deepfake Detection via Lip-Audio
+Cross-Attention and Facial Self-Attention
+2.1.4.1 Summary of the research item
+In the paper "DF-TransFusion: Multimodal Deepfake Detection via Lip-Audio Cross-Attention
+and Facial Self-Attention"[88], the authors propose an innovative deepfake detection system that
+utilizes deep learning techniques to analyze both audio and video data.The architecture employs
+a modified VGG-16 feature extractor for video data while audio data and lip regions are pro-
+cessed in parallel using an audio transformer encoder. Face and lip regions of the videos are
+very accurately obtained with the help of MTCNN which acts as an adjunct for the region of
+interest extraction process. They used tubelet embedding method which captures spatial and
+temporal relationships between frames at the same time, unlike the uniform frame sampling
+approach, where each 2D frame is tokenized separately and temporal embedding information
+needs to be provided independently to the transformer encoder. This embedding strategy en-
+ables to promotion of the efficiency of the model by making it much easier to perform cross-
+attention between lip movement and audio by making it easier for the model to tell whether the
+audio and the lips are properly synchronized or not which is one of the features that deepfakes
+tend to alter. Finally, the outputs from both the audio and video transformer encoder mod-
+ules were then passed through the head of a multilayer perceptron (MLP) to generate the final
+classification label.
+The study concludes that this multimodal approach outperforms models that analyze modalities
+independently. They highlight the potential of multimodal analysis in deepfake detection. It
+emphasizes the need for continuous adoption of these models to newer deepfake generation
+methods.
+12
+2.1 Related Research
+2.1.4.2 Critical analysis of the research item
+The strengths of this research are notable. First, the use of VGG-16 for feature extraction and
+a transformer encoder with self-attention and cross-attention mechanisms, which are highly
+effective for handling sequential data such as video and audio. This combination seems well-
+chosen, as VGG-16 is known for its efficient performance in extracting features from images,
+while the transformer model captures both spatial features through self-attention and temporal
+relationships through cross-attention, making it suitable for tasks like lip-audio synchroniza-
+tion. Another strength is the use of cross-attention for detecting lip-audio synchronization
+inconsistencies, a powerful indicator of manipulation since deepfakes often fail to synchronize
+these two modalities.
+Additionally, this research improves efficiency in processing videos by reducing the number of
+frames from 300 to 30 in the video-only pipeline, as deepfakes typically persist throughout the
+entire video. This approach helps to address computational costs. The audio-visual data fusion
+using a multi-layer perceptron (MLP) also improves the model-centric manipulation detection
+capability against attacks that affect only one of the modalities. Also, with cuboid embeddings,
+since both space and time are fused simultaneously, spatiotemporal correlation is captured more
+efficiently making the attention mechanisms easier to implement and learn these correlations
+better.
+Nonetheless, there are some potential drawbacks in this strategy. To begin with, the lip region
+has been pre-processed where frames have converted into grey-scaled images. This may cause
+loss of useful information which may involve lip movements or texture around the mouth re-
+gion, which helps in the deepfake detection. Color pictures versus grayscale inputs have not
+been tested or the results compared by the author, therefore the justification for this prepro-
+cessing step is insufficient. In addition, the study does not address the model’s false positive or
+false negative rates, thus making it challenging to ascertain what deepfakes would confuse the
+model the most.
+Another concern is the conversion of the audio signal from stereo to mono to reduce input size.
+While this decreases computational complexity, it risks losing spatial audio cues, potentially
+masking manipulations, especially if the deepfake is applied only to one channel of the audio.
+Lastly, while the use of VGG-16 and two separate transformer encoders for the audio and video
+pipelines is effective, it significantly increases computational complexity, which may hinder the
+approach’s applicability for real-time detection. More efficient architectures may be necessary
+for such applications.
+2.1.4.3 Relationship to the proposed research work
+DF-TransFusion uses lip-audio cross-attention and facial self-attention to identify synchroniza-
+tion issues, our method extends this by also analyzing cheek muscle movements alongside lip
+13
+2. Literature Review
+movements.
+Like DF-TransFusion, we employ multi-task learning to enhance detection capabilities. Addi-
+tionally, we align audio features with video frames and use attention mechanisms to focus on
+both lip and cheek regions, allowing our model to detect a broader range of inconsistencies.
+Instead of relying solely on transformer encoders, our approach utilizes Convolutional Neural
+Networks (CNNs) and Multi-Layer Perceptrons (MLPs) for feature extraction and classifica-
+tion, facilitating more effective feature fusion.
+2.1.5 Lips Are Lying- Spotting the Temporal Inconsistency between Au-
+dio and Visual in Lip-Syncing DeepFakes
+2.1.5.1 Summary of the research item
+In the paper "Lips Are Lying: Spotting the Temporal Inconsistency between Audio and Vi-
+sual in Lip-Syncing DeepFakes"[99], the authors introduce LipFD, a novel framework designed
+to detect lip-sync forgeries by analyzing discrepancies between audio and video in deepfake
+technologies. The main goal of the LipFD framework is to provide a solution to the chal-
+lenge of detecting lip synchronization errors in input videos that have been manipulated. The
+architecture includes a Global Feature Encoder that incorporates self-attention to realize long
+audio-visual relationships so as to address lip sync problems.
+LipFD is made of three major modules: a Region Awareness module, which provides feature
+weighting, hence enabling the model to concentrate on the most important parts of input. Also,
+the architecture uses crop encoding that looks at wider portions of the input in order to carry
+out lip motion more effectively. The authors implement LipFD testing against others’ lead-
+ing methods and demonstrate that it achieves better performance across multiple datasets that
+include the A VLips proposed dataset, FF++ and DFDC. Metrics such as the accuracy (ACC),
+average precision (AP), false positive rate (FPR), and false negative rate (FNR) are utilized
+to evaluate the efficiency of the model. Last but not least, the resilience of LipFD is evalu-
+ated against popular perturbation attacks and is found to outperform contemporary deepfake
+detection techniques.
+2.1.5.2 Critical analysis of the research item
+The architecture in the article explains that the Global Feature Encoder uses self-attention
+mechanisms which are appropriate for challenging tasks such as lip-sync picture which en-
+tails the notion of temporality across several image frames within the suspected video. In this
+way, the architecture allows for the model to easily understand the long-range relationship that
+exists between lip movements and audio signals which would help during the detection of small
+14
+2.1 Related Research
+details in contrast to deep fake videos. Thanks to the self-attention mechanism, the model has
+the ability to attend to specific features across the various frames, which could increase the
+degree of manipulation that can be detected, given that many existing approaches tend to be
+destructive.
+One important aspect of the proposed architecture is that an MLP classifier using a Binary
+Cross-Entropy loss function is employed. This is a common approach for other classifica-
+tion tasks, but the authors would improve their presentation if they explained how various
+hyperparameter choices such as the learning rate or layer sizes affect the training process and
+performance of the model. For example, incorporating specific values or ranges for these hyper-
+parameters would allow readers to understand their impact on convergence speed and accuracy.
+The loss function, LRA, mathematically defined as
+LRA(θGR, θRA) =
+N
+∑
+j=1
+T
+∑
+i=1
+exp(ω max
+i − ω h
+i ),
+emphasizes the importance of the most discriminative features in lip-sync detection. This focus
+on forged areas within the frames improves detection accuracy, as the model becomes partic-
+ularly attuned to detecting anomalies in lip movements. However, further discussion on the
+implications of varying the steepness of the loss curve by adjusting hyperparameters, such as
+k, would deepen the analysis of how this affects the model’s sensitivity.
+The evaluation metrics, including accuracy (ACC), average precision (AP), false positive rate
+(FPR), and false negative rate (FNR), provide a thorough assessment of the model’s perfor-
+mance. A noticeable achievement is the 3.8% accuracy gain over RealForensics reported across
+three deepfake datasets. Nonetheless, the addition of more metrics, F1 and ROC-AUC in par-
+ticular, would help assess the performance level in more detail, especially when it comes to
+separating slight alterations. Within current results, the model is capable of demonstrating an
+average precision of 90% which is impressive and indicates a high capability in spotting al-
+tered images; however, what these results imply when applied to the practical realm needs to
+be addressed.
+The exploration of the generalization of the model is particularly interesting as it proves the
+flexibility of the architecture with respect to new data produced by different methods including
+MakeItTalk. This suggests robustness, but it would be useful to analyze the impact of such
+factors as the lack of use of certain manipulations in the training data set on the scope of the
+model.
+In addition, while performing the robustness analysis, it was shown that the model copes well
+with standard perturbations even without decreasing the performance in relation to a number of
+adjustments, which is better than RealForensics performs for brightness and contrast perturba-
+tions, and similar to that of the competitors for other types of distortions. The paper also states
+that near LipFD accuracy is kept above 85% under these perturbations, but more interesting
+15
+2. Literature Review
+would be if current metrics are sensitive to those perturbations how performance on each of the
+metrics changes with respect to the other one. To further increase robustness, recommendations
+on how the model should be altered or what type of data augmentation strategies to implement
+could be useful.
+Even though these advantages of this strategy must be acknowledged, some drawbacks present
+themselves. The preprocessing step of converting lip region frames to black and white may
+inadvertently strip critical texture and movement information, which could be vital for accu-
+rately detecting deepfakes. The lack of exploration of the impact of using color images versus
+grayscale inputs weakens the rationale behind this preprocessing choice. Additionally, convert-
+ing audio signals from stereo to mono raises concerns regarding the loss of spatial audio cues
+that may be crucial in identifying manipulations, especially if the deepfake modifies only one
+audio channel.
+The architecture, while effective in leveraging self-attention and MLP classifiers, may also in-
+troduce significant computational complexity, which could hinder its applicability for real-time
+detection scenarios. This complexity raises questions about scalability and efficiency, sug-
+gesting that exploring alternative architectures or techniques, such as pruning or quantization,
+might be beneficial for deployment in practical applications.
+2.1.5.3 Relationship to the proposed research work
+LipFD effectively detects temporal inconsistencies between audio and lip movements using
+self-attention mechanisms, our method incorporates additional facial features and employs
+multi-task learning to enhance detection accuracy. This comprehensive analysis allows our
+model to identify a wider range of Deepfake manipulations, improving robustness and reliabil-
+ity in various video conditions.
+2.1.6 Mobile DeepFake Detection through Machine Learning-based Corneal-
+Specular Backscattering
+2.1.6.1 Summary of the research item
+The research item under review introduces MobiDeep[ 1010], real-time DeepFake detection mo-
+bile application designed to operate without relying on cloud services. The authors propose a
+machine learning-based solution that leverages corneal-specular backscatter (CSB) images of
+human eyes. MobiDeep hypothesizes that existing DeepFake generation techniques struggle to
+accurately mimic the reflective elements of the eyes, particularly under varying environmental
+conditions.By focusing on the most reflective area of the face—the eyes—MobiDeep extracts
+features related to color components, shapes, and textures of CSB images, alongside Facial
+16
+2.1 Related Research
+Image Environmental Parameters (FIEP) such as illumination and background settings.
+The application employs lightweight Deep Neural Network (DNN) architectures, including
+MobileNet-V2, EfficientNet-B0, and DenseNet-121, to achieve high accuracy and rapid de-
+tection speeds. Experimental results demonstrate that MobiDeep, particularly when utilizing
+MobileNet-V2, attains an impressive accuracy of 98.7% (custom dataset) with detection times
+under 200 milliseconds on popular mobile devices like Samsung Galaxy S9 and iPhone 11. Ad-
+ditionally, the creation of the MobiDeep-DFD dataset, comprising over 4,000 annotated facial
+images, underpins the robustness of the proposed detection methodology.
+2.1.6.2 Critical analysis of the research item
+The research on MobiDeep demonstrates several strengths, including its innovative use of
+corneal-specular backscatter images to enhance DeepFake detection accuracy, the development
+of a real-time, cloudless mobile application that ensures user privacy and broad platform com-
+patibility, and impressive performance metrics with a 98.7% accuracy rate and detection speeds
+under 200 milliseconds on common mobile devices.
+Additionally, the creation of the comprehensive MobiDeep-DFD dataset with diverse annota-
+tions supports the model’s ability to generalize across various lighting conditions and facial
+variations. On the contrary, the research carries some drawbacks as well, for instance, the nar-
+rowness of concentrating only on the CSB images, which likely will be outdone by more recent
+DeepFake applications, and the need for uniform environmental parameters, which may affect
+precision in differing conditions.
+Moreover, the dataset may be homogenous because it may not cover many types of ethnici-
+ties, older persons or young children, or accessories worn on the faces of the persons captured
+limiting the performance in different situations. The analysis presented in the paper is also
+incomplete as it does not include extensive comparison with various modern DeepFake de-
+tection approaches, besides the mobile application may have limited resources when run on
+older or less powerful smart-devices making it less accessible and ineffective. To conclude,
+MobiDeep’s approach to detection of DeepFakes on mobile devices is novel and appears to be
+highly promising. However, these issues need to be resolved for the enhance resilience and
+wider reach of the solution.
+2.1.6.3 Relationship to the proposed research work
+In addition to employing these detection techniques, we have also implemented them within an
+application designed to facilitate the user experience across several mobile operating systems.
+The enhancement focuses on accessibility and usability so that even those with moderate de-
+vices will still enjoy the full benefit of robust DeepFake detection mechanisms on their phones.
+We also extend the analysis into the multi-modal data realm by employing audio-visual syn-
+17
+2. Literature Review
+chronization techniques with CSB image attributes to enhance the detection performance and
+reliability in various environments and across various device types.
+2.2 Analysis Summary of research items
+Paper Summary of Critical Analysis
+FAMM: Facial Muscle
+Motions for Detecting
+Compressed Deepfake
+Videos
+The FAMM framework effectively employs fa-
+cial muscle motion features, offering a geo-
+metric perspective that counters compression-
+induced noise. It combines GRU and SVM
+classifiers via Dempster-Shafer theory to en-
+hance accuracy. Limitations include reliance
+on precise facial landmark extraction, which
+may falter in low-resolution scenarios, and con-
+cerns over adaptability to evolving deepfake
+techniques. Scalability for real-time applica-
+tions also poses challenges.
+Preventing DeepFake
+Attacks on Speaker
+Authentication by Dy-
+namic Lip Movement
+Analysis
+The SA-DTH-Net architecture is a key strength
+of this study, focusing on dynamic lip move-
+ment analysis to enhance liveness detection,
+making it harder for attackers to deceive the sys-
+tem using DeepFake technologies. The multi-
+task learning approach within the RC-Net fur-
+ther improves the model’s ability to extract both
+discriminative and representative features for
+authentication. However, the reliance on prere-
+corded data and precomputed optical flow maps
+may limit its performance in real-world scenar-
+ios with diverse conditions. The computational
+complexity could also challenge its deployment
+in resource-limited environments.
+Continued on next page
+18
+2.2 Analysis Summary of research items
+Paper Summary of Critical Analysis
+Improving the Effi-
+ciency and Robustness
+of Deepfakes Detec-
+tion through Precise
+Geometric Features
+This approach utilizes facial landmarks, en-
+hancing detection accuracy through a Land-
+mark Calibration module and Two Stream
+RNN. While effective, it suffers from high com-
+putational costs, impacting real-time detection.
+The empirical selection of parameters may lead
+to inaccuracies in varying conditions, limiting
+practical applicability.
+DF-TransFusion: Mul-
+timodal Deepfake De-
+tection via Lip-Audio
+Cross-Attention and
+Facial Self-Attention
+The use of VGG-16 for feature extraction com-
+bined with a transformer encoder for handling
+audio-visual tasks is a key strength. It improves
+efficiency by reducing frames processed, but
+preprocessing steps may lose valuable informa-
+tion. The conversion of audio from stereo to
+mono risks losing spatial cues. High compu-
+tational complexity due to the architecture may
+hinder real-time applicability, suggesting a need
+for more efficient models.
+Lips Are Lying: Spot-
+ting the Temporal
+Inconsistency between
+Audio and Visual in
+Lip-Syncing Deep-
+Fakes
+This architecture uses a Global Feature En-
+coder based on self-attention, effective in cap-
+turing temporal dependencies for lip-sync de-
+tection. The model achieves a 90% average pre-
+cision but could benefit from discussing hyper-
+parameter impacts and including more perfor-
+mance metrics like F1 score. While showing
+robustness against common perturbations, con-
+cerns exist regarding the preprocessing of im-
+ages to grayscale and audio conversion to mono,
+which may lead to information loss. Compu-
+tational complexity raises scalability questions,
+suggesting a need for alternative architectures
+for real-time applications.
+Continued on next page
+19
+2. Literature Review
+Paper Summary of Critical Analysis
+Mobile DeepFake
+Detection through Ma-
+chine Learning-based
+Corneal-Specular
+Backscattering
+MobiDeep excels with its innovative use of
+corneal-specular backscatter images, achieving
+98.7% accuracy and detection speeds under 200
+milliseconds. It is a real-time mobile applica-
+tion that ensures privacy. However, its focus on
+CSB images may not withstand advanced tech-
+niques, and it requires consistent environmental
+parameters. The dataset lacks diversity and the
+comparative analysis with other methods is lim-
+ited, potentially affecting its robustness.
+Table 2.1: Summary of Critical Analyses on Deepfake Detection Papers
+20
+Chapter 3
+Proposed Method
+This chapter describes a comprehensive framework for detecting deepfake videos. Our ap-
+proach leverages the accompanying audio data from these augmented videos to enhance clas-
+sification performance in deepfake detection applications.
+3.1 Overview
+The main focus of this section is on understanding the relationship between articulators, par-
+ticularly the lips, and the sounds produced during speech to effectively identify deepfakes. The
+key stages of our proposed method are as follows:
+1. Input Video Stream
+2. Pre-processing
+3. Multimodal Feature Extraction and Temporal Alignment
+4. Attention Mechanisms for Feature Fusion
+5. Classification and Prediction
+A general overview of the proposed system Figure: 3.13.1
+21
+Figure 3.1: Framework of the Proposed Multi-Modal Deepfake Detection System
+3.2 Methodology
+3.2 Methodology
+Our methodology emphasizes the synchronous processing of visual and auditory information.
+We employ attention mechanisms to detect any discrepancies between lip movements and the
+corresponding audio. The detailed steps are outlined below.
+3.2.1 Input Video Stream
+The input consists of a video stream enriched with the appropriate audio tracks. It is crucial
+that the lip movements in the video correspond to the produced audio.
+3.2.2 Pre-Processing
+The following pre-processing procedures prepare the video and audio data for further analysis:
+• Face Detection: Using the DLIB library[ 1111], we identify and extract faces from each
+frame, isolating relevant portions of the facial structure.
+• Feature Localization: We pinpoint key regions of interest, such as the mouth and cheeks,
+to focus on the areas responsible for speech production.
+• Audio Extraction: We utilize techniques like Mel Frequency Cepstral Coefficients (MFCC)[1212]
+and Mel Spectrogram to capture the auditory features that correspond with lip move-
+ments.
+• Frame Alignment: We ensure that the audio and visual frames are synchronized, main-
+taining a temporal correlation between the features extracted from both modalities.
+3.2.3 Convolutional Neural Network (CNN) for Lip Movement Feature
+Extraction
+After pre-processing, the data is passed to a Convolutional Neural Network (CNN) to extract
+lip movement features. The CNN architecture comprises three convolutional layers with 32,
+64, and 128 filters respectively. Each convolutional layer is followed by a max pooling layer
+to reduce spatial dimensions and capture essential features. The extracted features are then
+flattened into a one-dimensional feature vector, preparing them for subsequent analysis.
+23
+3. Proposed Method
+3.2.4 Attention Mechanisms for Lip-Audio Synchronization
+The flattened lip movement features are fed into the Lip-Audio Synchronization block, which
+employs attention mechanisms to analyze both audio and lip features over time. This block
+consists of:
+• Self-Attention Layer: Focuses on the temporal dynamics of lip movements, capturing
+dependencies across different time steps.
+• Audio Self-Attention Layer: Extracts relevant audio features by attending to important
+aspects of the audio signal over time.
+• Cross-Attention Layer: Integrates lip and audio features, enhancing the synchronization
+between lip movements and corresponding audio signals.
+These attention layers work together to identify inconsistencies between lip movements and
+audio, which are indicative of Deepfake manipulations.
+3.2.5 CNN and Cross-Attention Layers for Lip-Cheek Muscle Movement
+Correspondence
+Parallel to lip-audio synchronization, the lip movement features are also processed in the Lip-
+Cheek Muscle Movement Correspondence block. This block focuses on analyzing cheek mus-
+cle movements over time through:
+• Cheek Muscle CNN: A dedicated CNN extracts detailed features related to cheek mus-
+cle movements from the video frames.
+• Cross-Attention Layer: Combines the extracted cheek muscle features with the lip
+movement features, allowing the model to correlate movements in both regions.
+This integration helps in detecting subtle inconsistencies between lip and cheek movements,
+further improving Deepfake detection accuracy.
+3.2.6 Multi-Layer Perceptron (MLP) for Classification and Feature Fu-
+sion
+After processing through the attention mechanisms, the synchronized features from the Lip-
+Audio Synchronization block are passed to a Multi-Layer Perceptron (MLP) for initial classi-
+fication. Simultaneously, the output from the Lip-Cheek Muscle Movement Correspondence
+24
+3.2 Methodology
+block is fed into a separate MLP. The outputs from both MLPs are then combined through a
+feature fusion process, which aggregates the predictions from the different modules. This fused
+output is used to generate the final classification decision, determining whether the input video
+is real or fake.
+25
+References
+[1] Haojie Wu, Pan Hui, and Pengyuan Zhou. Deepfake in the metaverse: An outlook survey.
+arXiv preprint arXiv:2306.07011, 2023.
+[2] KR Prajwal, Rudrabha Mukhopadhyay, Vinay P Namboodiri, and CV Jawahar. A lip sync
+expert is all you need for speech to lip generation in the wild. In Proceedings of the 28th
+ACM international conference on multimedia , pages 484–492, 2020.
+[3] Ting-Chun Wang, Arun Mallya, and Ming-Yu Liu. One-shot free-view neural talking-
+head synthesis for video conferencing. In Proceedings of the IEEE/CVF conference on
+computer vision and pattern recognition , pages 10039–10049, 2021.
+[4] Trisha Mittal, Uttaran Bhattacharya, Rohan Chandra, Aniket Bera, and Dinesh Manocha.
+Emotions don’t lie: An audio-visual deepfake detection method using affective cues. In
+Proceedings of the 28th ACM international conference on multimedia , pages 2823–2832,
+2020.
+[5] Xin Liao, Yumei Wang, Tianyi Wang, Juan Hu, and Xiaoshuai Wu. Famm: facial muscle
+motions for detecting compressed deepfake videos over social networks. IEEE Transac-
+tions on Circuits and Systems for Video Technology, 33(12):7236–7251, 2023.
+[6] Zekun Sun, Yujie Han, Zeyu Hua, Na Ruan, and Weijia Jia. Improving the efficiency and
+robustness of deepfakes detection through precise geometric features. In 2021 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR) , pages 3608–3617,
+2021.
+[7] Zekun Sun, Yujie Han, Zeyu Hua, Na Ruan, and Weijia Jia. Improving the efficiency
+and robustness of deepfakes detection through precise geometric features. InProceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 3609–
+3618, 2021.
+[8] Aaditya Kharel, Manas Paranjape, and Aniket Bera. Df-transfusion: Multimodal deep-
+fake detection via lip-audio cross-attention and facial self-attention. arXiv preprint
+arXiv:2309.06511, 2023.
+26
+REFERENCES
+[9] Weifeng Liu, Tianyi She, Jiawei Liu, Run Wang, Dongyu Yao, and Ziyou Liang. Lips
+are lying: Spotting the temporal inconsistency between audio and visual in lip-syncing
+deepfakes. arXiv preprint arXiv:2401.15668, 2024.
+[10] Muhammad Mohzary, Khalid J Almalki, Baek-Young Choi, and Sejun Song. Mobideep:
+Mobile deepfake detection through machine learning-based corneal-specular backscatter-
+ing. In 2023 IEEE 20th Consumer Communications & Networking Conference (CCNC) ,
+pages 1104–1109. IEEE, 2023.
+[11] Davis E. King. Dlib c++ library. http://dlib.net/http://dlib.net/, 2024. Accessed: 2024-10-05.
+[12] Md Afzal Hossan, Sheeraz Memon, and Mark A Gregory. A novel approach for mfcc
+feature extraction. In 2010 4th international conference on signal processing and com-
+munication systems, pages 1–5. IEEE, 2010.
+27
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,60 @@
+End with 'End of Document.'.
+1. INTRODUCTION
+Purpose: To provide a comprehensive travel booking solution that allows users to efficiently plan and manage their trips through searching, comparing, reserving, and managing various aspects of their travel arrangements including seat reservations, insurance purchases, and ticket generation.
+Scope: This document specifies the requirements for a ticket generating system designed to facilitate multi-city itinerary searches, fare comparisons, seat reservations, insurance additions, and e-ticket issuance. It also covers functionalities related to voucher redemption, fare change management, and trip reminder notifications.
+Definitions/Acronyms:
+- ITINERARY: A planned route taken during a journey.
+- FARE: The cost associated with a specific travel service.
+- VOUCHER: A document entitling the holder to a discount or free service.
+- E-TICKET: An electronic representation of a paper ticket used for travel.
+References: IEEE Std 830-1998, Software Requirements Specification Standard
+Overview: The Ticket Generating System is intended for travelers who need assistance in planning and executing their journeys across multiple cities. The system aims to streamline the process from initial search to final ticket delivery, ensuring a seamless experience for users.
+2. OVERALL DESCRIPTION
+Product Perspective: The product perspective focuses on providing a user-friendly interface for travelers to easily navigate and utilize the system's capabilities. The system will support both web-based and mobile applications to cater to different user preferences.
+Product Functions: The primary functions of the system include itinerary search, fare comparison, seat reservation, insurance addition, e-ticket issuance, voucher redemption, fare change management, and trip reminder notifications.
+User Characteristics: Users are expected to have varying levels of technical proficiency but require ease-of-use and accessibility regardless of their background.
+Constraints: The system must comply with relevant aviation regulations and industry standards. Performance limitations due to network latency shall be minimized without compromising functionality.
+Assumptions/Dependencies: The system assumes internet connectivity for all operations except for local storage of user profile information. Dependencies include integration with third-party APIs for real-time flight data and payment processing services.
+3. SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: The system shall present a clean and intuitive graphical user interface accessible via web browsers and mobile devices.
+- Hardware Interface: The system shall function on standard desktop computers and mobile devices running iOS and Android operating systems.
+- Software Interface: The system shall integrate with external databases for storing user profiles, flight schedules, and transaction records.
+- Communication Interface: The system shall communicate securely over HTTPS protocols with backend servers and third-party services for real-time updates and transactions.
+Functional Requirements:
+FR-1: Search Multi-City Itinerary
+Input: User inputs origin, destination, dates, and number of passengers.
+Processing: The system queries available flights from the database based on provided criteria.
+Output: Display list of matching itineraries along with total costs.
+Priority: High
+FR-2: Compare Fares
+Input: Selected itineraries from previous step.
+Processing: Retrieve detailed fare information for each selected option.
+Output: Present side-by-side comparison table showing prices, baggage allowances, and refund policies.
+Priority: Medium
+FR-3: Reserve Seats
+Input: Chosen itinerary details.
+Processing: Allocate seats according to passenger count and preferences.
+Output: Confirmation message indicating successful seat allocation.
+Priority: High
+FR-4: Add Insurance
+Input: Passenger selection and chosen policy type.
+Processing: Calculate premium based on selected coverage level.
+Output: Option to proceed with purchase and confirmation upon completion.
+Priority: Low
+FR-5: Receive E-Ticket
+Input: Successful reservation and payment confirmation.
+Processing: Generate unique e-ticket containing necessary travel information.
+Output: Send e-ticket via email or SMS to user’s preferred contact method.
+Priority: High
+Non-functional Requirements:
+Performance: The system must respond within 5 seconds under normal load conditions.
+Security: All communications between client and server must be encrypted using TLS version 1.2 or higher.
+Reliability: The system shall maintain up to 99% uptime with minimal downtime during peak usage periods.
+Usability: The system design shall follow established UI guidelines to ensure consistent and predictable behavior across platforms.
+Maintainability: Codebase shall adhere to best practices for readability and modularity to simplify future enhancements.
+Portability: The application shall deploy seamlessly across different environments including cloud hosting solutions.
+System Features:
+- Trip Reminder Notifications: Users can set alerts for upcoming departures which will be sent via email or SMS.
+- Simple Changes/Cancellations: Allow users to modify existing reservations or cancel them entirely subject to applicable fees.
+- Store Passenger Profiles: Automatically save frequently used personal and payment information to speed up future bookings. End of Document.

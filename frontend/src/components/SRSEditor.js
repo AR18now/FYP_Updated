@@ -1,58 +1,45 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Edit3, Bold, Highlighter, Save, X, Undo, Redo } from 'lucide-react';
 
+const toInitialHtml = (rawText = '') =>
+  String(rawText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br/>');
+
 const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
   const isDark = theme === 'dark';
   const editorRef = useRef(null);
-  const [content, setContent] = useState(srsData?.raw_text || '');
-  const [history, setHistory] = useState([content]);
-  const [historyIndex, setHistoryIndex] = useState(0);
+  const [content, setContent] = useState(toInitialHtml(srsData?.raw_text || ''));
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (srsData?.raw_text) {
-      setContent(srsData.raw_text);
-      setHistory([srsData.raw_text]);
-      setHistoryIndex(0);
-    }
+    setContent(toInitialHtml(srsData?.raw_text || ''));
   }, [srsData]);
 
-  const executeCommand = useCallback((command, value = null) => {
-    document.execCommand(command, false, value);
-    editorRef.current?.focus();
-    
-    // Update content and history
+  const syncContentFromEditor = useCallback(() => {
     const newContent = editorRef.current?.innerHTML || '';
     setContent(newContent);
-    
-    // Add to history
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newContent);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
-  }, [history, historyIndex]);
+  }, []);
+
+  const executeCommand = useCallback((command, value = null) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, value);
+    syncContentFromEditor();
+  }, [syncContentFromEditor]);
 
   const handleUndo = useCallback(() => {
-    if (historyIndex > 0) {
-      const newIndex = historyIndex - 1;
-      setHistoryIndex(newIndex);
-      setContent(history[newIndex]);
-      if (editorRef.current) {
-        editorRef.current.innerHTML = history[newIndex];
-      }
-    }
-  }, [history, historyIndex]);
+    editorRef.current?.focus();
+    document.execCommand('undo', false, null);
+    syncContentFromEditor();
+  }, [syncContentFromEditor]);
 
   const handleRedo = useCallback(() => {
-    if (historyIndex < history.length - 1) {
-      const newIndex = historyIndex + 1;
-      setHistoryIndex(newIndex);
-      setContent(history[newIndex]);
-      if (editorRef.current) {
-        editorRef.current.innerHTML = history[newIndex];
-      }
-    }
-  }, [history, historyIndex]);
+    editorRef.current?.focus();
+    document.execCommand('redo', false, null);
+    syncContentFromEditor();
+  }, [syncContentFromEditor]);
 
   const handleSave = useCallback(async () => {
     setIsSaving(true);
@@ -75,11 +62,21 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
   }, [srsData, content, onSave]);
 
   const handleContentChange = useCallback(() => {
-    if (editorRef.current) {
-      const newContent = editorRef.current.innerHTML;
-      setContent(newContent);
-    }
+    syncContentFromEditor();
+  }, [syncContentFromEditor]);
+
+  const enforceLtrEditing = useCallback(() => {
+    const el = editorRef.current;
+    if (!el) return;
+    el.setAttribute('dir', 'ltr');
+    el.style.direction = 'ltr';
+    el.style.textAlign = 'left';
+    el.style.unicodeBidi = 'plaintext';
   }, []);
+
+  useEffect(() => {
+    enforceLtrEditing();
+  }, [enforceLtrEditing, content]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
@@ -88,7 +85,7 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 p-6 text-white">
+        <div className="bg-gradient-to-r from-r2d-primary via-r2d-primaryLight to-r2d-accent p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Edit3 className="h-6 w-6" aria-hidden="true" />
@@ -108,7 +105,6 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
         <div className={`border-b p-4 flex items-center gap-2 flex-wrap ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'}`}>
           <button
             onClick={handleUndo}
-            disabled={historyIndex === 0}
             className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-slate-700 text-slate-200' : 'hover:bg-gray-200 text-gray-700'} disabled:opacity-50 disabled:cursor-not-allowed`}
             title="Undo"
             aria-label="Undo"
@@ -117,7 +113,6 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
           </button>
           <button
             onClick={handleRedo}
-            disabled={historyIndex === history.length - 1}
             className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-slate-700 text-slate-200' : 'hover:bg-gray-200 text-gray-700'} disabled:opacity-50 disabled:cursor-not-allowed`}
             title="Redo"
             aria-label="Redo"
@@ -179,16 +174,21 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
             ref={editorRef}
             contentEditable
             onInput={handleContentChange}
-            className={`min-h-[400px] p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            onFocus={enforceLtrEditing}
+            className={`min-h-[400px] p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
               isDark 
                 ? 'bg-slate-900 border-slate-700 text-slate-100' 
                 : 'bg-white border-gray-200 text-slate-900'
             }`}
+            dir="ltr"
             style={{
               whiteSpace: 'pre-wrap',
               fontFamily: 'system-ui, -apple-system, sans-serif',
               lineHeight: '1.8',
-              fontSize: '14px'
+              fontSize: '14px',
+              direction: 'ltr',
+              textAlign: 'left',
+              unicodeBidi: 'plaintext',
             }}
             suppressContentEditableWarning={true}
             dangerouslySetInnerHTML={{ __html: content }}

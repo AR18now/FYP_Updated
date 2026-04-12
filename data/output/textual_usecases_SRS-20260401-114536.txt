@@ -1,0 +1,98 @@
+Use Case Name: Browsing Products-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Browsing Products-' correctly and quickly.
+Preconditions: None -
+Postconditions: List of products with images, descriptions, prices, and ratings. -
+Main Success Scenario: 1. Actor initiates 'Display list of available products categorized into different sections. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Searching Products-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Searching Products-' correctly and quickly.
+Preconditions: Keywords or filter options. -
+Postconditions: Relevant product listings. -
+Main Success Scenario: 1. Actor initiates 'Filter and display matching products based on provided criteria. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Adding Items to Cart-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Adding Items to Cart-' correctly and quickly.
+Preconditions: Selected product(s), quantity. -
+Postconditions: Confirmation message and updated cart summary. -
+Main Success Scenario: 1. Actor initiates 'Update user's cart with selected item(s). -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Checkout Process-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Checkout Process-' correctly and quickly.
+Preconditions: Valid billing information, shipping address. -
+Postconditions: Order confirmation page with receipt details. -
+Main Success Scenario: 1. Actor initiates 'Validate inputs, process payment, generate receipt. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Administrator Management-
+Primary Actor: Administrator
+Stakeholders and Interests: Administrator: wants the system to complete 'Administrator Management-' correctly and quickly.
+Preconditions: Login credentials. -
+Postconditions: Access to product catalog, inventory management, order review. -
+Main Success Scenario: 1. Actor initiates 'Authenticate admin account, grant access to control panel. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Managing Inventory-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Managing Inventory-' correctly and quickly.
+Preconditions: Product ID, stock levels. -
+Postconditions: Updated inventory status displayed to admins. -
+Main Success Scenario: 1. Actor initiates 'Update database records reflecting changes in stock levels. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Reviewing Orders-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Reviewing Orders-' correctly and quickly.
+Preconditions: Order ID. -
+Postconditions: Order summary report. -
+Main Success Scenario: 1. Actor initiates 'Retrieve and display detailed order information including product names, quantities, total cost. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Handling Returns and Refunds-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Handling Returns and Refunds-' correctly and quickly.
+Preconditions: Customer request for return/refund. -
+Postconditions: Return policy guidelines, refund confirmation. -
+Main Success Scenario: 1. Actor initiates 'Verify eligibility, update order status, notify customer. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Promotional Discounts and Coupon Codes-
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Promotional Discounts and Coupon Codes-' correctly and quickly.
+Preconditions: Discount code during checkout. -
+Postconditions: Adjusted final price shown to user. -
+Main Success Scenario: 1. Actor initiates 'Apply discount to total purchase amount. -'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.

@@ -1,0 +1,304 @@
+# FYP1-MidReport-F24-185-D-SmartGallery - i212674 Shahbaz Haider Mirza
+
+## 1. Introduction
+
+1. Introduction
+ing tools do not effectively extract meaningful information like text or geo-location from
+images. The absence of integrated intelligent editing features and seamless mobile ac-
+cessibility further hampers the user experience, leaving users unable to fully engage with
+their digital memories.
+Smart Gallery aims to address these challenges by developing an AI-powered image
+management and retrieval system. By introducing advanced features like automatic clas-
+sification, natural language search, information extraction, and intelligent editing within a
+user-friendly mobile application, Smart Gallery enhances user interaction and efficiency.
+This solution empowers users to navigate their digital media with greater ease, making the
+management of vast photo collections a seamless and intuitive experience.
+1.2 Scope
+The project’s scope encompasses the development of " Smart-gallery" a user-friendly
+and versatile mobile application designed to simplify the integration of Classification ,
+Diffusion and text to image based Models into edge devices.
+1.3 Modules
+The Smart Gallery application is structured into several modules, each focusing on spe-
+cific functionalities to enhance image search and retrieval through natural language inputs.
+Below is a detailed description of each module and its associated features.
+1.3.1 Image Classification
+This module utilizes state of art classification model to automatically classify each unique
+person within solo or group images , predicting there age and emotion within image .
+1. Person Classification
+• Identify individuals in images.
+• Predict age.
+• Detect facial expressions to assess emotion.
+2. Category Classification
+• Recognize objects such as cars, animals, buildings and everyday items within
+the background of image .
+2
+1.3 Modules
+• Classify scenes like landscapes, urban settings, and indoor environments.
+• Geo-location tagging , to categorize images by location at which they are
+taken.
+• Automatically assign images to relevant categories.
+1.3.2 Search and Retrieval
+This module provides text based search capabilities, allowing users to find images using
+natural language queries or by providing a reference image.
+1. Text-Based Image Search and Retrieval
+• Enable searches using natural language prompts.
+• Support complex queries involving multiple criteria.
+• Provide quick and accurate search results.
+2. Reverse Image Retrieval
+• Search for similar images using an input image.
+• Detect duplicates or related images within the gallery.
+1.3.3 Caption Generation
+This module uses state of the art LLM to generate Creative and catchy captions for images,
+Easing the life for social media animals .
+1. Caption Generation
+• Generate fancy and creative captions based on image content.
+• Support caption customization and editing.
+1.3.4 Image Editing
+This module allows users to edit and style images using natural language prompts, offer-
+ing diffusion model editing capabilities within the app.
+1. Prompt-Based Inpainting
+• Edit images by describing desired changes in text.
+3
+1. Introduction
+• Remove or replace objects within images.
+2. Style Transfer and Blurring
+• Apply artistic styles to images.
+• Blur specific areas to obscure sensitive content.
+1.3.5 Mobile Application Integration
+This module ensures that all functionalities are seamlessly integrated into a user-friendly
+mobile application that is connected to user gallery , enhancing accessibility and user
+engagement.
+1.4 Constraints
+• Resource Limitations: As a undergrad students project, Smart Gallery operates under
+limited resources in terms of time, budget, and personnel. Meanwhile ,these factors can
+impact the project’s overall scope, depth, and execution.
+• Technical Constraints: Implementing advanced algorithms and LLM based function-
+alities such as image recognition, natural language based image searching editing require
+significant technical expertise.
+• Computational Resources: LLM powered features require substantial computational
+power for training models and real-time processing. Limited access to high-performance
+computing infrastructure may affect the performance, speed, and scalability of the appli-
+cation.
+• Integration Challenges: Integrating various AI components into a mobile application
+poses technical and hardware difficulties, especially when ensuring compatibility and per-
+formance across different edge devices .
+1.5 Out of Scope
+The following are not included in the scope of this project:
+• Support for iOS or other non-Android platforms.
+• Integration with social media platforms beyond basic sharing functionalities.
+• Data privacy features or compliance with specific data protection regulations.
+• Custom AI model training on user-provided datasets
+4
+1.6 User Classes and Characteristics
+1.6 User Classes and Characteristics
+The Smart-gallery system is designed to cater to a variety of user classes, each with dis-
+tinct roles and responsibilities. Below are the anticipated user classes and their pertinent
+characteristics.
+User class Description
+Casual Users Individuals who use their smartphones primarily for personal purposes, cap-
+turing everyday moments, events, friends, and family. They may not be
+technical experts but appreciate features within their gallery that simplify
+tasks. These users benefit from categorized photo albums, easy retrieval us-
+ing natural language queries like "photos of me at the beach."
+Professional
+Photogra-
+phers
+Users who take high-quality images for professional purposes, such as pho-
+tographers, graphic designers, and artists. They often manage large volumes
+of images and require advanced organizational and editing tools. They re-
+quire categorizing people and backgrounds, reverse image search to find
+similar or duplicate images, and prompt-based image editing to make quick
+adjustments.
+Social Media
+Influencers
+Individuals who frequently post on social media platforms and seek creative
+captions and editing tools to enhance their online presence. They require
+quick caption generation to create engaging posts, style transfer or image
+editing tools on the go to enhance content posting.
+Travelers Individuals who travel frequently and accumulate a large number of photos
+from different locations from different trips. They enjoy documenting their
+experiences and sharing them with others. This class of users benefit through
+geo-location tagging, categorization of landmarks, and generating captions
+that include location-specific information. Moreover, they can use natural
+language search to revisit memories by querying "sunset photos in Bali."
+5
+
+Chapter 2
+Project Requirements
+2.1 Use-case
+Figure 2.1: Use-Case Diagram
+7
+2. Project Requirements
+2.2 Functional Requirements
+The "Smart Gallery" project incorporates a range of functional requirements to deliver
+an intelligent and user-friendly mobile application that enhances image management and
+retrieval through AI-powered features. These requirements ensure the successful devel-
+opment and integration of various modules, including image classification, search and
+retrieval, caption generation, and image editing. The core functional requirements are as
+follows:
+2.2.1 Module 1
+Following are the requirements for module 1:
+1. Person Classification: Automatically detect and identify individuals in images,
+predicting attributes like age and facial expressions.
+2. Category Classification: Recognize objects such as vehicles,animals, or buildings,
+and classify them into relevant categories.
+3. Scene Recognition: Detect and classify environments such as landscapes, urban
+settings, or indoor scenes.
+4. Automatic Captioning: Generate descriptive, creative, and user customizable cap-
+tions based on the content of the image.
+5. View, Edit, and Delete Images:Enable users to view images in their gallery, apply
+edits, and delete images as needed.
+2.2.2 Module 2
+Following are the requirements for module 2:
+1. Text-Based Search: Enable users to search for images using natural language
+prompts, supporting complex queries.
+2. Reverse Image Search: Allow users to upload an image to find visually similar or
+related images in the gallery.
+3. Prompt-Based Inpainting: Allow users to modify images by describing the de-
+sired changes in text, such as object removal or replacement.
+4. Mobile Application Integration : Develop a simple, intuitive, and responsive UI
+for easy navigation and interaction across all features.
+8
+2.3 Non-Functional Requirements
+5. Natural Language Interaction: Facilitate smooth, natural language interactions
+for image searches, editing, and management.
+2.3 Non-Functional Requirements
+2.3.1 Performance
+• The system must load and process images quickly, ensuring smooth performance
+even for large galleries.
+• AI-powered features like image classification and caption generation should deliver
+results in a timely manner for each image.
+• The app should handle a substantial number of images without noticeable degrada-
+tion in performance.
+2.3.2 Usability
+• The user interface must be intuitive and easy to navigate, requiring minimal user
+training.
+• All key features such as search, edit, and classification should be accessible within
+2 clicks or taps.
+• The mobile app should be designed for both beginner and advanced users, with
+simple tutorials available
+2.3.3 Scalability
+• The system must be scalable to support additional features, such as video classifi-
+cation, without requiring a full redesign.
+• The database and AI model infrastructure must support the addition of new cate-
+gories, locations, and classification criteria with minimal performance impact.
+2.3.4 Compatibility
+• The app must work on all modern Android devices and must be adaptable for future
+versions.
+9
+2. Project Requirements
+• The system must be compatible with standard image formats,including JPEG, PNG
+.
+2.3.5 Reliability
+• The system should maintain a high level of availability to ensure continuous access
+for users.
+• All operations, including image uploads, classification, and edits, must be accu-
+rately completed without data loss.
+• A backup mechanism must ensure that no user data is lost, even in the case of server
+failure.
+2.3.6 Privacy
+• Users’ images and interactions must be kept private, with clear terms of use and
+privacy policies.
+• The app should allow users to control the level of sharing, ensuring full control over
+their data.
+10
+Chapter 3
+System Overview
+Smart-gallery is designed to cater to multiple features that required different image model
+processing that are leveraged and combined to develop this 1 in all gallery app. The
+architectural and design Models shown below illustrate the working of each feature.
+3.1 Architectural Design
+Figure 3.1: Architecture
+11
+3. System Overview
+3.2 Design Models
+3.2.1 Activity Diagrams
+Figure 3.2: System Activity Diagram
+12
+3.2 Design Models
+Figure 3.3: Classification Activity Diagram
+Figure 3.4: Geo-Location Tagging
+13
+3. System Overview
+Figure 3.5: Text Query Searching
+Figure 3.6: Prompt Editing Activity Diagram
+14
+3.2 Design Models
+Figure 3.7: Reverse Image Search
+15
+3. System Overview
+Figure 3.8: Caption Generation Activity
+16
+3.2 Design Models
+3.2.2 Class Diagram
+Figure 3.9: Class Diagram
+17
+3. System Overview
+3.2.3 Class-level Sequence Diagram
+Figure 3.10: Person and Object Classification
+Figure 3.11: Geo-location Tagging
+Figure 3.12: Text Query Searching
+18
+3.2 Design Models
+Figure 3.13: Reverse Image Retrieval
+Figure 3.14: Prompt-based In-painting
+Figure 3.15: Caption Generation
+19
+3. System Overview
+3.3 Data Design
+This section explains how the information domain of the Smart-gallery system is trans-
+formed into data structures. It describes how the image data is stored,processed, and
+organized. Additionally, it lists the databases or data storage items used in the system.
+3.3.1 ER-Diagram Explanation
+The ER diagram illustrates the data model for the Smart-gallery system, highlighting key
+entities and their relationships. Below is a detailed description of each entity and its
+attributes:
+• USER Attributes: id, name,email Relationships: has (1:1) with Search-Engine, has
+(1:1) with Editing, has (1:1) with Mobile-APP
+• Search-Engine Attributes: Search-Query, Result-Image Relationships: has (1:1)
+with Images,
+• Editor Attributes: Edit Query, Edit-type Relationships: has (1:1) with Images
+• MobileApp Attributes: App-version,platform Relationships: has (1:1) with Images
+• Images Attributes: id,Date,Tags,Location,Caption Relationships: has (1:1) with
+image classification , has (1:1) with Caption generator.
+3.3.2 Database
+The Smart-Gallery system uses SQLite and Milvus as its database management system.
+SQLite is a lightweight, file-based database that provides efficient storage and retrieval
+of data. Milvus is also a lightweight, vector database that provides efficient storage and
+retrieval of vector data .
+Both databases are suitable for applications where simplicity and minimal setup are re-
+quired.
+The key features of SQLite include:
+• Self-contained: No external dependencies or server setup is needed.
+• Serverless: Operates directly on the file system without requiring a separate server
+process
+20
+3.3 Data Design
+• Zero Configuration: No configuration is necessary, making it easy to integrate and
+use.
+• Cross-platform: Works consistently across various operating systems.
+• Efficient: Optimized for read-heavy operations with low memory overhead.
+The key features of Milvus include:
+• Vector Database: it is specifically designed to handle vector data, which is used in
+AI applications like image, video and natural language processing.
+• Scalability: It supports horizontal scalability, allowing to handle large-scale data
+efficiently .
+• High Performance: Optimized for fast retrieval of vectors, it offers low-latency
+search even with billions of vector data points.
+• Open Source: Milvus is open-source, with a large community and frequent updates,
+making it a reliable option for long-term projects.
+The combination of SQLite and Milvus is used to store image data and the embeddings
+generated by the processing models used within our application such as text based search-
+ing and editing ,Caption generation and image classification tags.
+which are crucial for maintaining consistent states and effiecient processing within the
+Smart-gallery system.
+21
+
+Bibliography
+23
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

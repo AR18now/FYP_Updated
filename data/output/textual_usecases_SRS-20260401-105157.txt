@@ -1,0 +1,10 @@
+Use Case Name: Not Available
+Primary Actor: User
+Stakeholders and Interests: Stakeholders expect this feature to be defined.
+Preconditions: Functional requirements were not found in the SRS.
+Postconditions: N/A
+Main Success Scenario: N/A
+Extensions: N/A
+Special Requirements: N/A
+Frequency of Occurrence: N/A
+Assumptions: N/A

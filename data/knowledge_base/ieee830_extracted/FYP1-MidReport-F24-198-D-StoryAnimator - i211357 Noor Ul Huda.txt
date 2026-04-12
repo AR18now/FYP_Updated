@@ -1,0 +1,561 @@
+# FYP1-MidReport-F24-198-D-StoryAnimator - i211357 Noor Ul Huda
+
+## 1. Introduction
+
+1. Introduction 
+well as the professional one. 
+1.2.1 Core Functionality 
+key features include: 
+ 
+2 
+• • Automatic object tracking and separation 
+• • Image to SVG conversion 
+• • AI-powered background removal 
+• • AI character generation 
+• • Story-based animation prompts 
+• • Gif motion generation 
+1.3 Modules 
+Story Animator functionality is organized into the following core modules: 
+1.3.1 Image Generation and Modification 
+This module forms the backbone of our character design toolset. In this module will 
+generate AI character image and then we will use object tracing and separation 
+techniques for easy manipulation of character parts. We will offer background removal, 
+giving users more control over final appearance. 
+1. Object Tracing and Separation 
+2. SVG Conversion 
+3. Background Removal 
+1.3.2 AI Character Generator 
+Taking an advantage of AI’s creative prowess in conception of characters and its time 
+saving aspect in characterization. 
+1. Text-to-Image Feature 
+2. Style Options 
+1.4 User Classes and Characteristics 
+ 
+1.3.3 Easy GIF Creation 
+Simplify the process of bringing static designs to life. Convert static character designs 
+into simple animated GIFs with minimal user effort. 
+ 
+3 
+• GIF Generation 
+1.4 User Classes and Characteristics 
+Our product can be used by multiple people: 
+1. Animation studios and production companies 
+2. Independent animators and character designers 
+3. Graphic designers and illustrators 
+4. Content creators and social media influencers 
+5. Advertising and marketing agencies 
+6. Game development studios 
+ 
+4 
+1. Introduction 
+User class Description 
+Animation 
+studios 
+Using our chatbot animation studio or product companies don’t have to 
+generate there characters or images from scratch they can use our image 
+generation feature and generate the image. Modify the image according to 
+their own use. 
+Animators 
+and 
+Character 
+designers 
+Animators can generate characters. Then download that image in a svg 
+format so they can easily redesign that image according to their own need. 
+They can use background removal feature so they have more control over 
+final appearance. GIF generation can be used by animators to bring life to 
+their static characters. 
+Content 
+creators 
+Content Creators can make small videos from our chatbot. They can make 
+multiple small videos of 2-3 secs and then merge these videos to make 
+their reels or story. 
+Game 
+development 
+stu- 
+dios 
+Game developers can generate Sprite characters for their games and use 
+GIF generation for the movement of sprites 
+Table 1.1: User Class 
+Chapter 2 
+ 
+5 
+Project Requirements 
+2.1 Use-case/Event Response Table/Storyboarding 
+In this section we will discuss use case Diagram and show use case table. In our project 
+firstly user will login or sign up or web based chat bot. Then user can generate an AI 
+image. User can use that image further and convert it into editable format or remove 
+background/noise. User can import his/her own image and manipulate its image. User 
+can download the image and further change it to his needs. One of the main features of 
+our chat bot is GIF generation. User can generate GIF using image and textual prompt. 
+Following is the use case Diagram and table: 
+2. Project Requirements 
+6 
+ 
+Figure 2.1: Usecase Diagram 
+2.1 Use-case/Event Response Table/Storyboarding 
+Use Case ID UC1 
+Name Login 
+Description This use case allows registered users to securely log into the chatbot platform. The user will be 
+required to enter valid credentials (such as username and password). If the credentials match the 
+stored records, the system grants access. Otherwise, the user will be prompted with an error 
+message and asked to retry. Multi-factor authentication (MFA) may also be integrated for added 
+security. 
+Actors User 
+Table 2.1: Use Case UC1 - Login 
+Use Case ID UC2 
+Name Signup 
+Description Through this use case, new users can register for a platform account. Users will be prompted to 
+enter any relevant information, including their password, email address, and phone number, etc. 
+After creating an account successfully, an email verification procedure might be used to confirm 
+the account. By doing this, the platform may track users for future logins. 
+Actors User 
+Table 2.2: Use Case UC2 - Signup 
+
+ 
+7 
+Use Case ID UC3 
+Name Generate Image from Text 
+Description In this use case, the user inputs a textual prompt or description, and the system uses the AI 
+model's interpretation of the prompt to create an image. The meaning, tone, or keywords in the 
+supplied text will be reflected in the created image. Users can refine their inputs to provide more 
+precise or targeted outcomes. This procedure turns text into visual art by using machine learning 
+models. 
+Actors User 
+Table 2.3: Use Case UC3 - Generate Image from Text 
+Use Case ID UC4 
+Name Import Own Image 
+Description Using this case, users can contribute with their own pictures to the platform for further 
+enhancements or editing. The proposed system should, however, support more file formats other 
+than the aforementioned namely; PNG, JPEG, and BMP. Background removal and image format 
+converter can be used by the user after the upload of the particular image. 
+Actors User 
+Table 2.4: Use Case UC4 - Import Own Image 
+Use Case ID UC5 
+Name Convert Image to SVG 
+Description In this particular use case, the user is able to transform a picture that has been created or copied to 
+the SVG (Scalable Vector Graphic) format within use of the system. This conversion is ideal for 
+logos, icons, as well as for illustrations As a result, such users are free to download the SVG file 
+or use more features of the platform for further customization. 
+Actors User 
+Table 2.5: Use Case UC5 - Convert Image to SVG 
+Use Case ID UC6 
+Name Download Image 
+Description With this use case, users can download a picture that they have modified after generating or 
+importing it. 
+Actors User 
+Table 2.6: Use Case UC6 - Download Image 
+2. Project Requirements 
+8 
+2.2 Functional Requirements 
+Use Case ID UC7 
+Name Remove Background/Noise 
+Description This use case enables users to remove off the noise in an image, meaning that only the necessary 
+portions of the image will be left. It gives users a choice to use an AI-created image or upload 
+their own of choice to the app. It has features that allow it to eliminate background as a possibility 
+and keep subject of interest as priority. This function is useful to pick up necessary items, to 
+increase the transparency of the background, and to increase overall sharpness of the picture. 
+Actors User 
+Table 2.7: Use Case UC7 - Remove Background/Noise 
+Use Case ID UC8 
+Name Generate GIF from Text 
+Description In this use case, the system creates a GIF in response to the prompt after the user enters a text 
+description that includes dynamic elements (like verbs). The AI interprets the movements and 
+actions mentioned in the text and converts them into animated graphics, resulting in a brief image 
+loop that is then converted into a GIF. The creation of original and compelling material is made 
+possible by this feature. 
+Actors User 
+Table 2.8: Use Case UC8 - Generate GIF from Text 
+Use Case ID UC9 
+Name Manage Chatbot History (DB) 
+Description Database administration is the main use case, which handles chatbot conversation history. 
+The producer, also known as the backend system, keeps a database copy of the user's 
+conversation history so that it may be retrieved, viewed, and edited as needed. Because past 
+exchanges can be consulted and utilized to improve current discussions, this enables a more 
+customized chatbot experience. 
+Actors Producer 
+Table 2.9: Use Case UC9 - Manage Chatbot History (DB) 
+2.2 Functional Requirements 
+The Functional requirement of our project are as follows: 
+• User Authentication 
+• Image Generation 
+• Convert Image to SVG 
+• Background Removal/Noise Reduction 
+• GIF Generation 
+• Manage Chatbot History 
+ 
+9 
+2.2.1 User Authentication 
+Following are the requirements for module 1: 
+1. A login page will be available where existing users will login 
+2. A signup page will be available where new users will make an account 
+2.2.2 Image Generation 
+To solve our image generation task, we test multiple models to get cartoon characters 
+according to our use case. Some models miserably failed to generate image with a high 
+quality(greater than 1080x720p), while some models are giving noise in output. Here are 
+some models we test: 
+1. Runwayml/stable-diffusion-v1-5: Output of v1-5 optimised around 512x512 
+pixels, that’s the major issue we’re having with it. 
+2. Stabilityai/stable-diffusion-2-1: Results become so messed up and high contrasted, 
+mostly cartoonized in a bad way 
+3. Playgroundai/playground-v2.5 
+Finally we’ve decide playgroundai version 2.5 ust because of it’s particular focus on 
+enhanced color and contrast, improved generation for multi-aspect ratios, and improved 
+human-centric fine details. 
+2.2.3 Convert Image to SVG 
+To make image in an editable form we will convert our image into svg format using 
+using tracing and contouring techniques. Here are some of the techniques we tried in this 
+module and some issues faced: 
+• Loss of color information: Tracing typically converts the image to grayscale or 
+binary, losing all color information from the original RGB image. This results in a 
+monochrome output that doesn’t capture the richness of the original image. 
+• Edge detection limitation: Tracing relies heavily on edge detection, by 
+differentiating between colors inside images. But when similar contrast were 
+found tracing could not make a boundary 
+2.2 Functional Requirements 
+2. Project Requirements 
+10 
+ 
+Figure 2.2: Tracing Issues 
+So we decided to search other techniques that would help us to resolve the tracing 
+problem, Than after understanding image processing in depth, we got introduced with a 
+Contours. 
+What actually Contour is? A curve joining all the continuous points (along the 
+boundary), having same color or intensity. The contours are useful for shape analysis 
+and object detection and recognition. 
+So we got a perfect boundary detection in contouring along with tracing. 
+2.2.4 Background Removal/Noise Reduction 
+For removing noise from background and uniquely identify a character from an image, 
+we look forward to Python image processing. But the implementation of kernal results in 
+loss of image quality. To address the issue, we move towards BRIA Background 
+Removal which suddenly help us to effectively separate foreground from background in 
+a range of categories and image types. 
+2.2.5 GIF Generation 
+With this module, users can combine a text prompt with an image that has been 
+uploaded or created to make animated GIFs. The system’s primary task will be to 
+recognize verbs or actions in the text and convert them into lively, dynamic sequences. 
+With the help of this tool, users may create dynamic and captivating content from static 
+photos that can be shared on several platforms. After analyzing the textual input, the AI 
+will create animations using user-defined elements and provide GIF customizing 
+choices. 
+2.2.6 Manage Chatbot History 
+The management and archiving of users’ previous chatbot interactions falls under the 
+purview of this module. The platform can effectively retain discussion logs and 
+guarantee their easy retrieval for subsequent sessions by utilizing MongoDB, a NoSQL 
+database that is both versatile and scalable. Because of its ability to remember past 
+
+ 
+11 
+exchanges, this enables a more customized chatbot experience, allowing users to 
+continue where they left off and improving the chatbot’s overall functionality. 
+2.3 Non-Functional Requirements 
+2.3.1 User Experience 
+Through the development of our platform, it becomes easy for users to be able to create 
+animated GIFs which in turn enhances their ability to transform their designs or even 
+subjective stories. Out chatbot is capable of opening a normal bitmap image file; in 
+addition, it can be imported to be used with Adobe Illustrator so it could be used by both 
+beginners and advanced users. 
+2.3.2 Industry Impact 
+Thus, our project aims to significantly reduce the character creation’s time and resources 
+consumed while focusing on these characteristics and enhancing user-friendliness. By 
+story animator the whole animation industry could actually have its ways of design and 
+production altered for the better, enabling people to get the character designs of high 
+quality at reasonable prices. 
+2.3.3 Reliability 
+• Our chatbot would guarantee availability for consumers by maintaining an uptime 
+of at least 99 
+• Unexpected mistakes would be graciously handled by the system. 
+2.3.4 Security 
+• The technology would protect users’ personal information, such as usernames and 
+passwords. 
+2.3.5 Scalability 
+• When additional people or more complicated duties (like picture modification) are 
+added, the system will be able to handle the added demand. 
+ 
+12 
+Chapter 3 
+System Overview 
+Give a general description of the functionality, context, and design of your project. 
+Provide any background information if necessary. 
+3.1 Architectural Design 
+ 
+Figure 3.1: Architectural Diagram 
+The architectural diagram (Figure 3.1) illustrates the structure of our chatbot system. It 
+consists of the following main components: 
+• User Interface: A web-based front-end that users interact with directly. 
+• Authentication System: Manages user login and registration, interfacing with the 
+User Database. 
+• Chatbot Core: Maintaining the context of image for new image generation 
+• Image Generation: text to image generation along with background removal. 
+• Image Processing: Conversion of raster images into svg format. 
+
+3.2 Design Models 
+ 
+• GIF Generation: On user prompt he/she can easily generate gif videos. 
+• Databases: To store user chat history along with images, we’ll using the database. 
+Our architecture allows scalability along with the easy separation of concerns between 
+system components. 
+3.2 Design Models 
+Basically we guys are using Object-Oriented Development approach which involves: 
+3.2.1 Activity Diagram 
+This is how the activity flow of the user is looked like in our project. First, if the user of 
+the web site is already registered, log into personal account is to be made. They will 
+make one if not. Following that, customers can upload one image from the computer or 
+create it. A few options will be available to the user, such as a download option, the 
+ability to break up an object (SVG transform option), or making a GIF.. 
+3. System Overview 
+14 
+ 
+3.2 Design Models 
+ 
+Figure 3.2: Activity diagram 
+3.2.2 Class Diagram 
+Image representing class diagram, which is showing the relationships among 
+components in our chatbot system. 
+• User: The class having attributes i.e. username, email, and password, and methods 
+like login(), signup(), and useChatbot(), allows user to interact with the platform. 
+• Auth: This class is specialized for handling authentication with methods like 
+LoginPage(), signupPage(), and validateCredentials(). 
+• Chatbot: Contains methods for generating images, SVG conversion, removal of 
+noise from backgrounds, generating GIFs, and assisting various user categories 
+(e.g., animators, designers). The Chatbot interacts with both the User and Auth 
+classes. 
+• Image: Stores image data like format, size, and content, with methods to convert, 
+remove background, denoise, and download the image. 
+• GIF: Manages GIF-specific functionality with attributes like frameRate and 
+methods to generate GIFs from text and download them. 
+3. System Overview 
+16 
+ 
+Figure 3.3: Class Diagram 
+3.2.3 Class-level Sequence Diagrams 
+3.2.3.1 User Sign-up Process 
+This diagram is showcasing the process of user registration, including username 
+availability check and account creation. 
+
+3.2 Design Models 
+17 
+ 
+Figure 3.4: User Sign-up Process Sequence 
+
+3. System Overview 
+18 
+3.2.3.2 User Login Process 
+Following sequence diagram is showing the login process, including credential 
+validation and JWT token generation. 
+ 
+Figure 3.5: User Login Process Sequence 
+3.2.3.3 Image Upload Process 
+This diagram shows the basic flow of uploading an image through the user interface and 
+storing them into a database. 
+ 
+Figure 3.6: Image Upload Process Sequence 
+
+3.2 Design Models 
+19 
+3.2.3.4 GIF Generation Process 
+Basically user have to option either to enter a prompt for gif generation, either he/she 
+want’s our chatbot to generate gif than chatbot can create a storyline according to the 
+image by using detection models and from them our large language model extract verbs 
+and on basis of that GIF is created. 
+ 
+Figure 3.7: GIF Generation Process Sequence 
+3.2.3.5 Image Download Process 
+User can hover to the image and option of download is shown, than user click on 
+download to get it on local machine. 
+ 
+
+3. System Overview 
+20 
+Figure 3.8: Image Download Process Sequence 
+3.2.3.6 Image to SVG Conversion Process 
+Upon hovering on an image, user may convert it into SVG format by clicking on the 
+option. 
+ 
+Figure 3.9: Image to SVG Conversion Sequence 
+3.2.3.7 Background/Noise Removal Process 
+AI generated images are not perfect ever, they may have some noise in the background. 
+To detect smartly and remove them, we provide a option to user so he/she can easily 
+remove the noise. 
+ 
+Figure 3.10: Background/Noise Removal Sequence 
+
+3.2 Design Models 
+21 
+3.2.3.8 Conversation History Management 
+While user is having conversation with chatbot, we smartly storing all the data to 
+database so if in future user want to continue the chat, he/she have no worries regarding 
+to that and all the chat along with images will be available to them. 
+ 
+Figure 3.11: chat history management 
+3.2.4 System-level Sequence Diagrams 
+Following layout provide a brief view of how user interacts with various system 
+components like flow of the operations for key functions. 
+
+3. System Overview 
+22 
+3.2.4.1 User Sign-up Process 
+ 
+Figure 3.12: User Sign-up Process Sequence 
+The sign-up process involves: 
+• User have to enter signup credentials 
+• System validates input across database if he/she exists or not 
+• If the user doesn’t exist, than system hashes the password so in case network 
+breaches information still be encrypted 
+• Successfully account is created and user receives a success message 
+• If not the case, error is thrown 
+ 
+
+3.2 Design Models 
+23 
+3.2.4.2 User Login Process 
+ 
+Figure 3.13: User Login Process Sequence 
+The login process includes: 
+• User requests login 
+• Credentials required 
+• User provides credentials 
+• Validation of credentials using database 
+• User receives login successful or failure message 
+
+3. System Overview 
+24 
+3.2.4.3 AI Image Generation Process 
+ 
+Figure 3.14: AI Image Generation Process Sequence 
+The AI image generation process involves: 
+• User inputs a text prompt 
+• Image Generation System processes the text prompt 
+• System uses an AI model to generate an image based on the prompt 
+• Generated image is returned and displayed to the user 
+
+3.2 Design Models 
+25 
+3.2.4.4 Image Upload Process 
+ 
+Figure 3.15: Image Upload Process Sequence 
+The image upload process consists of: 
+• User uploads their own image 
+• Chatbot System validates the image format 
+• System confirms successful upload 
+• Uploaded image is displayed to the user 
+
+3. System Overview 
+26 
+3.2.4.5 Background/Noise Removal Process 
+ 
+Figure 3.16: Background/Noise Removal Process Sequence 
+The background/noise removal process includes: 
+• User requests to remove background/noise from an image 
+• System processes the image to remove background/noise 
+• Processed image without background/noise is returned to the user 
+
+3.2 Design Models 
+27 
+3.2.4.6 Image to SVG Conversion Process 
+ 
+Figure 3.17: Image to SVG Conversion Process Sequence 
+The SVG conversion process consists of: 
+• User requests to convert an image to SVG format 
+• Image Processing System validates the image format 
+• System converts the image to SVG format 
+• Converted SVG image is returned to the user 
+
+3. System Overview 
+28 
+3.2.4.7 Image Download Process 
+ 
+Figure 3.18: Image Download Process Sequence 
+The image download process involves: 
+• User clicks the download icon on an image 
+• Chatbot System prepares the image for download 
+• System provides a download link for the image 
+• User confirms the download 
+• System initiates the image download 
+
+3.2 Design Models 
+29 
+3.2.4.8 Chat History Management Process 
+ 
+Figure 3.19: Chat History Management Process Sequence 
+The chat history management process includes: 
+• Producer requests to view chat history 
+• Chatbot System retrieves and displays chat history 
+• Producer selects a specific chat 
+• System fetches and displays selected chat details 
+• Producer can clear chat history 
+• System deletes history from database and confirms clearance 
+
+ 
+30 
+3.3 Data Design 
+3.3 Data Design 
+3.3.1 Data Flow Diagram 
+ 
+Figure 3.20: Data Flow Diagram 
+The Data Flow Diagram (DFD) illustrates the flow of information through our chatbot 
+system. It shows the key processes, data stores, and how data moves between different 
+components. Here’s a breakdown of the main elements: 
+• User: The central entity interacting with the system. 
+• Authentication System: Manages user login and registration. 
+• Chatbot System: The core system that processes user inputs and manages 
+interactions. 
+• Image Generation: Generates images based on text prompts. 
+• Image Processing: Handles image uploads, SVG conversion, and other 
+imagerelated tasks. 
+• GIF Generation: Creates GIFs based on extracted verbs from prompts or images. 
+• Data Stores: 
+– User Database: Stores user information 
+– Chat Database: Stores conversation history 
+– Image Database: Stores generated and uploaded images 
+
+ 
+31 
+Key data flows include: 
+• Text prompts from User to Chatbot System for image generation 
+• Image uploads and SVG conversion requests from User to Image Processing 
+• Auto generation of gif prompts or user define prompts for gif 
+• Retrieval of chat and images from the Database 
+This DFD is showcasing a high-level view that how data moves through the whole 
+system, also highlighting the inter-connections between different components and 
+databases. 
+ 
+ 
+ 
+Conclusion 
+ 
+In conclusion, the Story Animator project will enable reversing the problems animators, 
+designers, and other artists encounter when designing and modifying their animated 
+tales. From a unique set of features, the platform simplifies character design through the 
+use of image-to-SVG converter, background remover, GIF maker, and an AI character 
+creator. In addition to saving time and money, these features promote innovation and 
+creativity among a range of user classes, including content producers and professional 
+animators. Scalability, security, and a seamless user experience are guaranteed by the 
+strong system architecture, which also features a user-friendly interface and dependable 
+data management. Story Animator has the potential to revolutionize the animation and 
+design fields by providing high-quality tools to a wider audience, facilitating easier 
+access to animation, and affordability. 
+3. System Overview 
+32 
+ 
+Bibliography 
+ 
+1. RunwayML, "Stable Diffusion v1.5," RunwayML Documentation 
+Link: https://runwayml.com 
+2. Stability AI, "Stable Diffusion 2-1 Model," Stability AI Documentation 
+Link: https://stability.ai 
+3. PlaygroundAI, "Playground V2.5 Release Notes," Playground AI Documentation 
+Link: https://playgroundai.com 
+4. OpenCV, "Contours in OpenCV," OpenCV Documentation Link: 
+https://docs.opencv.org 
+5. BRIA Background Removal, "BRIA Background Removal Tool," BRIA Tech 
+Overview Link: https://bria.com/background-removal 
+6. Python Imaging Library (PIL), "Pillow: Python Imaging Library," Pillow 
+Documentation Link: https://pillow.readthedocs.io 
+7. Hugging Face, "Transformers for Text-to-Image Generation," Hugging Face 
+Documentation Link: https://huggingface.co
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

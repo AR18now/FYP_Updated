@@ -1,0 +1,261 @@
+# FYP1-MidReport-F24-153-D-BeAWarden - i210472 Muhammad Bilal Ur Rehman Khan
+
+## 1. Introduction
+
+1. Introduction
+Increasing Accidents: Traffic violations cause a lot of accidents. Every year there are
+roughly 10 thousand accidents of which 50 percent are fatal and this percentage is growing
+every year. Strict traffic supervision can control these accidents.
+1.2 Scope
+The scope of the project basically focuses on providing an AI-powered traffic violation
+system that enables registered users to act as virtual wardens. Our users will be able
+to record certain violations through our app. They will become registered users or vir-
+tual wardens after passing a test. Our App will provide an interface to record violations
+through their mobile phones fixed in the car . The videos will be sent to centralized
+server for violation detection through AI. Then using licence plate recognition system
+the violator will be tracked and the authorities will be notified and then a challan will be
+sent to the violator by the authorities.Basically this system is providing help by utilizing
+dynamic cameras used by virtual wardens. The system will cover a wide range of viola-
+tions described in the modules. The data privacy will be taken care of. Future expansion
+possibilities include advanced AI algorithms to detect complex traffic behaviors and also
+integration of our system with smart city cameras and system.
+1.3 Modules
+Write down the modules of the proposed project. Each module should highlight features,
+using bulleted/numbered notation. When developing both a mobile app and a web app,
+group the modules according to the system types, such as, Client Web App, Client Mobile
+App, Admin Web App etc.
+1.3.1 Module 1
+App Development
+1. Camera Recording (Using our app to record violations occuring on the specified
+roads.)
+2. V oice Command Recognition (Use voice command in app to auto record our videos.)
+3. UI/UX
+Licence Plate Detection
+2
+1.4 User Classes and Characteristics
+1. OCR Number Plate Detection (Use OCR to get number plates of the cars)
+1.3.2 Module 2
+Illegal Number Plate Detection
+1. Custom Dataset Collection (Collect dataset for Pakistan Number Plates Of Each
+region)
+2. Annotation (Label Dataset)
+3. Model Training (Train model to detect illegal number plates and also number plates
+of each region)
+HTV First Lane Detection
+1. First Lane Detection (Detect HTV in First Lane)
+2. Vehicle Classification (Classify each type of vehicle like HTV or LTV)
+3. Model Training (Train model to detect HTV and LTV)
+1.4 User Classes and Characteristics
+User Class Description
+Virtual Warden Our app will be used by the virtual warden after passing a series
+of tests. They will record the violations occurring through their
+mobile camera and upload them to our server through our app. The
+camera will be fixed in the car, and all they need to do is say a
+keyword, which will save a piece of the recording and send it to the
+server where all processing will occur using AI.
+Table 1.1: User Classes and Characteristics
+3
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+5
+2. Project Requirements
+2.1 Use-case Table
+Use Case Title Record and Upload Violation Video with Voice Activation
+Actor Virtual Warden (User)
+Description The user/warden opens the mobile camera, turns on the video recording
+and fits it on the dashboard of the car. Whenever a user will encounter
+any violation he will say a word violation and a chunk of video will be
+recorded focusing the number plate of the car performing violation from
+30 seconds earlier till 30 seconds after the violation has been detected.
+Only that part of the video will be saved on the mobile phone. At the
+end of the day all the chunks of violated videos will be uploaded on the
+server for further verification of violation by the higher authorities. If the
+violation is valid, challan will be generated on the name of the user on the
+basis of the number plate registration of that user. If the violation is not
+valid a cut will be generated to the user who uploaded the video because
+he wasted the time of authorities in checking the violation in that video.
+Preconditions 1. User must be logged in.
+2. Mobile camera should be fixed properly.
+3. V oice should be enabled.
+Main Success
+Scnerio
+1. The user opens up the app and starts recording. 2. The system starts
+recording the front view of the car. 3. The user detects any violation. 4.
+User says a command/word "violation". 5. The system saves the chunk
+of violated part from 30 seconds earlier of violation till 30 seconds after
+the violation have been performed. 6. The process continuous throughout
+the day whenever a user is using its car. 7. At the end of the day all the
+chunks of violated videos are uploaded on server.
+Postconditions 1. The chunks of videos are successfully uploaded to the server.
+2. The AI process the videos and send to authorities to detect traffic
+violations.
+Extentions 1. If the voice command is not working or the app didn’t detect your
+voice command, the user can manually save the chunk of the video via
+app. 2. If there is no internet connection at the time of upload, the system
+generates a message of no internet connection and informs the user that
+video will be uploaded automatically when the connection is restored.
+Special
+Requirements
+1. Smooth voice recognition.
+2. Enough storage space for storing video chunks in mobile phones.
+3. Secure and efficient data upload to the server.
+Table 2.1: Use Case
+6
+2.2 Functional Requirements
+2.2 Functional Requirements
+2.2.1 Module 1: App Development & License Plate Detection
+This module covers the development of the mobile app, voice command recognition, and
+the functionality for license plate detection using Optical Character Recognition (OCR).
+1. App Development:
+(a) Camera Recording:
+i. FR1.1: The app shall continuously record the video through the mobile
+fixed on the dashboard.
+ii. FR1.2: The app shall save a chunk of the video being recorded using
+voice command by the user .
+iii. FR1.3: The recorded video shall be saved locally until uploaded to the
+server.
+(b) Voice Command Recognition:
+i. FR1.4: The system shall detect specific voice commands (e.g., "Viola-
+tion") to save the recorded video chunks of traffic violations locally to be
+uploaded to the server.
+(c) UI/UX:
+i. FR1.6: The app shall have a user-friendly interface that will allow the
+user to start and stop recording videos on voice command and also view
+videos and upload them to the server.
+ii. FR1.7: The app shall give voice feedback on saving the video and starting
+and stopping the video.
+iii. FR1.8: The app shall have a dashboard for the user for their records and
+analytics and record their incentive in detecting violations.
+2. License Plate Detection:
+(a) OCR Number Plate Detection:
+i. FR1.9: The OCR shall be used to get the license plate number of the
+violator. The license plate shall be captured using the object detection
+model.
+ii. FR1.10:
+7
+2. Project Requirements
+2.2.2 Module 2: Illegal Number Plate Detection & HTV First
+Lane Detection
+This module focuses on detecting illegal number plates and heavy transport vehicles
+(HTV) using lane detection and vehicle classification.
+(a) Illegal Number Plate Detection:
+i. Custom Dataset Collection:
+A. FR2.1: The system shall allow the collection of a custom dataset of
+images containing various types of illegal number plates and number
+plates of each region
+B. FR2.2: The system shall support dataset updates with new images
+added to the dataset to improve model accuracy time to time.
+ii. Model Training:
+A. FR2.5: The system shall train a machine learning model using the an-
+notated dataset saved to detect illegal number plates in video footage
+uploaded to the server.
+(b) HTV First Lane Detection:
+i. First Lane Detection:
+A. FR2.7: The system shall detect the HTV on the first lane by first
+detecting the first lane and then the HTV on it and then report.
+ii. Vehicle Classification:
+A. FR2.9: The system shall classify all vehicles using the object detec-
+tion. And then detect violation based on vehicle type.
+iii. Model Training:
+A. FR2.11: The system shall train a machine learning model for HTV
+detection based on a custom dataset.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+The system shall have a MTBF of at least 200 hours of continuous operation. Our sys-
+tem shall have a downtime of no more than 2 hours for usual maintenance of server and
+new updates, so we can ensure complete availability of server to user fro working. The
+recorded videos shall be uploaded to the server without any corruption. Backup shall be
+kept in the app if any corruption of video occurs.
+8
+2.3 Non-Functional Requirements
+2.3.2 Usability
+The system shall offer an appealing UI that shall allow users to record and upload videos
+easily. The voice command feature for recording violation video chunks shall have an
+accuracy rate of at least 90%, and users shall receive clear feedback for successful or
+failed commands. The app will be very easy to use.
+2.3.3 Performance
+The mobile app shall function smoothly, ensuring that the video recording and saving of
+video don’t impact the device’s performance significantly, maintaining at least 30 FPS for
+video recording.
+2.3.4 Security
+All personal data such as videos, user information, and violation reports shall be secured.
+Unauthorized access to uploaded videos or violation data must be prevented using secure
+and proper authentication and role-based access controls. The app access will be given to
+only authorized users.
+9
+2. Project Requirements
+2.4 Domain Model
+Create a representation of the domain model for your project.
+Figure 2.1: Domain Model Diagram
+10
+Chapter 3
+System Overview
+In our App , The user will open our app and fix the device on the dashboard .The device
+will record the video . When the user comes across a violation he will use voice command
+to save the chunk of the video in which the violation will be captured . The video chunk
+will be saved locally in the phone storage. Then the user will upload all captured videos
+to the server. The server will run an AI model for all violation detection using a pipeline.
+In the end if any violation detected we will use OCR to get the license plate and notify
+the authorities and the user .
+3.1 Architectural Design
+Figure 3.1: Architectural Design Diagram
+11
+3. System Overview
+3.2 Design Models
+Design Models for Procedural Approach
+3.2.1 Activity Diagram
+Figure 3.2: Activity Diagram
+The activity diagram represents the flow of system. It starts from a precondition that a
+warden is already logged in. The warden opens up the app starts video recording and fix
+the mobile phone on the dashboard. Whenever a warden detects violation he says a word
+"violation" and a chunk of the video detecting violation is saved locally on mobile phone.
+Rest of the recording is automatically removed from storage as it is of no use. At the end
+of the day, the warden uploads all the chunks of videos on server where AI confirms that
+12
+3.2 Design Models
+the violation is valid and generates a challan on the name of user based on registration of
+number plate of the car.
+3.2.2 System Sequence Diagram
+The system sequence diagram shows the interactions between external actors and the
+system during the execution of a use case.
+Figure 3.3: System Sequence Diagram
+The system comprises of 4 modules
+1. Actor
+2. Be a Warden App
+3. Server
+4. Authorities
+The actor is a warden that is basically the user of the app. The warden detects the violation
+and records the video of violation. These videos are uploaded on server by the warden
+13
+3. System Overview
+where validity of violation is checked. Ai checks the validity and confirms that the viola-
+tion is valid. If it is valid than the chunk and notification is sent to higher authorities so
+that they can generate challan to the violator.
+14
+3.3 Data Design
+3.2.3 Data Flow Diagram
+The system sequence diagram shows the interactions between external actors and the
+system during the execution of a use case.
+Figure 3.4: Data Flow Diagram
+3.3 Data Design
+The videos made from the mobile are stored locally on the phone using the phone storage.
+Then the videos are uploaded to server and hosted there. Then the videos are passed to the
+AI model stored on the server. The videos on which the AI model is applied are discarded
+from the server if no violations detected if violation detected then the videos are saved
+somewhere to send to the user for proof.
+3.3.1 Databases
+• Firebase
+• PostgreSQL
+• AWS
+15
+
+Bibliography
+17
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

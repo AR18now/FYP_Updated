@@ -1,0 +1,643 @@
+# FYP1-MidReport-F24-149-D-AutoEngage - i210469 Salman Ahmad
+
+## 1. Introduction
+
+1. Introduction
+1.1 Problem Statement
+It becomes extremely difficult to handle and communicate with clients especially when
+the firm is operating in the current era of globalization. The problems are typical for the
+conventional call centers, including these situated in Pakistan; it is due to these reasons
+that it is challenging for organizations of this type to deliver high quality services over
+the prolong period. These include time, culture, language and human agents who may
+tire, make a slip, or may just not understand what the situation requires, and this is very
+frequent when dealing with foreign Clients. In addition, high expenses incurred in getting
+and training human Agents also form another disadvantage that hinders the expansion of
+these companies in a cheaper manner. In most circumstances, such problems result to the
+erosion of profit, levels of satisfaction among Clients going down, and with interacting
+markets such as the US, the rate of conversion coming down.
+1.2 Scope
+The AutoEngage project seeks to have a fully automated call center that will replace
+human beings by using the phone to interact with the clients. This solution deploys Speech
+to Text to transcribe real time client conversation, Large language models to mimic natural
+language/ human responses to client conversation and Text to speech to translate these
+responses back to speech.
+It aims to solve crucial issues that outdated large call center faces including high oper-
+ating cost, problems with management of overseas clients and problems with scalability.
+AutoEngage automates these processes and hence provides all the servicewithout fail and
+without the need to consult a time difference chart regarding the clients located in different
+countries. One of the system’s advantages is the presence of an analytics panel that tracks
+the progress and optimizes it. The first goal is to get more clients in an hour, increase the
+percentage of correct orders and solve the problem of being too formal. AutoEngage will
+be mainly used for keeping relationships with the customers and answering their product
+inquiries using script-based sales conversations, the aim being to provide a voice as close
+to human as possible in order to reassure customers and increase their confidence. Still,
+it is worth mentioning that, certain enhancements including voice cloning, deepfake, and
+multiple languages are not within the scope of this work.
+In sum, AutoEngage targets to offer a proven and growing all-in-one software solution for
+call centres that will improve clients’ satisfaction, optimise work, and contain expenses,
+thus confirming the instrument’s effectiveness as a large-scale solving tool for call centre
+activity..
+2
+1.3 Modules
+1.3 Modules
+1.3.1 Speech to Text Model and Basic UI
+This module focuses on developing a Speech-to-Text (STT) model and integrating it with
+a user interface, allowing voice input to be converted into text.
+1. STT Model construction and optimization.
+2. Implement a Desktop/Web App with links/Options for voice entry options including
+a Microphone button.
+3. Integrate the Desktop/Web App mic button with the developed STT Model to cap-
+ture and transcribe voice input.
+1.3.2 Intent Classification Development
+This idea deals with the development of the intent classification in particular, which is
+aimed at recognizing human’s intents or particular goals.
+1. Develop the Intent Classification Model.
+2. Prepare Data to train the intent classification model
+3. Train and achieve good accuracy for the classification of user intent to predefined
+classes
+1.3.3 LLM Script Adaptability and Fine-Tuning
+This module is focused on choosing of the Large Language Model and its further tuning to
+fit the conversation of the call-centre and provide the most suitable variant of the respond.
+1. Select the best LLM based on base accuracy and performance for the call center use
+case.
+2. Select only one LLM out of the trained LLMs and fine-tune the selected LLM with
+the help of a call center dataset in order to enhance the degree of correctness of the
+response.
+3. To obtain flexibility in producing scripts, regarding their language and construction,
+apply the intent classification model with the use of an RAG approach.
+3
+1. Introduction
+1.3.4 Human-Like Speech Synthesis
+Determining in advance that the computer speaking should sound like a human being is
+a criterion of human-like synthesis of speech by the computer. This particular module
+compels the development of a TTS synthesis model that would enable Avise customers
+get real like human voice.
+1. Text-to-Speech Synthesis Model should be made performant to provide accurate
+results and improve its capability.
+2. Make sure that the model is capable of generating the human such as male and
+female type voice.
+1.3.5 Call Center Dashboard and Application Integration
+This module focuses on building a dashboard for call center statistics and integrating it
+with voice and backend services.
+1. Develop a Desktop/Web App with a dashboard displaying call center statistics.
+2. Incorporate an in-built voice recorder for recording conversations.
+3. Continuously update text in the user interface as voice is transmitted.
+4. Integrate with external APIs used by the call center to initiate calls.
+5. Update the UI and statistics based on call status.
+6. Connect the application with a backend PostgreSQL database for storing call center
+statistics and customer information.
+1.3.6 Pipeline Integration and Testing
+This module integrates all components into a single system and ensures functionality
+through testing.
+1. Integrate the entire pipeline with the Desktop/Web Application.
+2. Ensure that all pipeline endpoints are correctly connected to the Application.
+3. Conduct automated UI tests to verify functionality.
+4. Perform manual testing for various call scenarios made through the Application.
+4
+1.4 User Classes and Characteristics
+1.4 User Classes and Characteristics
+User Class Description
+Call Centers Any organization with a massive call centre or customer service team de-
+pending on fielding a significant number of customer inquiries. They require
+a solution which is able to handle large number of clients domestically and
+internationally overcoming barriers such as those exhibited by time differ-
+ence. AutoEngage will assist them in cutting their operating expenses be-
+cause part of the pipe can be handled through marketing automation while
+still serving clients optimally well.
+Overseas
+Clients
+Business houses that have international clients this time zone difference is
+one of the most important factor to consider. AutoEngage also enables over-
+seas clients to receive responses instantly and appropriate in spite of de-
+lay due to time difference or limited manpower. It will guarantee uninter-
+rupted services to overseas markets and hence enhance the satisfaction level
+or clients.
+Customer
+Support
+Teams
+Some teams may be designated responsibility of managing customer satis-
+faction and handling complaints. These users will be able to set AutoEngage
+to automatically perform some of the common interactions while retaining
+human agent’s input for most complicated transformations. The AI will also
+be used for generating intelligence from analytics that can be used in cus-
+tomer relations enhancement.
+Sales Teams Sales departments that want to introduce an initial client contact and evalua-
+tion robotization. The AutoEngage will be built with explicit sales scripts to
+help communicate with potential consumers, respond to simple questions,
+and develop as many leads for salespeople as possible. This will optimise
+the number of clients seen in one hour and boost the number of conversions
+resulting from quick responses.
+Table 1.1: User Classes and their Characteristics
+5
+Chapter 2
+Project Requirements
+2.1 Event Response Table
+For AutoEngage, an Event-Response Table is suitable.
+Event System Response
+Call center initiates a call to the
+client
+The system dials the client’s number, establishes a
+connection, and introduces the agent as calling on be-
+half of the company.
+Client picks up the call The system plays the introductory script and provides
+basic information (e.g., the agent’s name,company).
+Client asks about the current pack-
+age
+The system uses pre-loaded data to inform the client
+about their current package details and benefits.
+Client is offered a new insurance
+package
+The system presents an upsell offer, explaining the
+benefits of subscribing to an additional or upgraded
+package.
+Client accepts the new package The system confirms the upgrade and marks the call
+successful as it will transferred to the live agent
+Client declines the offer The system logs the client’s response, thanks them for
+their time, and ends the call and marks the status as
+accordingly i.e (Not Intrested, Do not call)
+Client deviates from the call pur-
+pose
+Based on the client’s response, the system will ad-
+dress that response and bring the pitch of the sale back
+on track.
+Client requests more information The AI Agent gives out more information based on
+what the client is asking about
+Table 2.1: Event Response Table
+7
+2. Project Requirements
+2.2 Functional Requirements
+In this section, the functional requirements for the AutoEngage system are presented and
+discussed. The re- lements are summarized according to feature and the specific identified
+functional requirement- sociated with each module.
+2.2.1 Speech to Text Model and Basic UI
+Following are the requirements for this module:
+1. FR1:The system also requires interfacing with an existing Speech-to-Text (STT)
+model that continuously transcribes actual speech of the clients in various situations
+into writing.
+2. FR2: The system must have a possibility to be runned on the desktop and/or via the
+web interface, there should be a microphone button for user interaction.
+3. FR3: The microphone button has to be added to the STT model for the purpose of
+voice recognition in real time and speech recognition in real time
+2.2.2 Intent Classification Development
+Following are the requirements for this module:
+1. FR1: It is a necessity to incorporate an intent classification model into the system
+to categorise the client input into pre-ordained categories.
+2. FR2: The intent classification model also needs to assign the correct intent for each
+user’s request into the defined categories
+2.2.3 LLM Script Adaptability and Fine-Tuning
+Following are the requirements for this module:
+1. FR1: The system must consist of a Large Language Model (LLM) based on base
+Suitability, precision, and throughput and for call center use cases suitability.
+2. FR2: The selected LLM must be fine-tuned with call center type data to increase
+response accuracy.
+8
+2.2 Functional Requirements
+3. FR3: The system has to integrate the proposed LLM model with Retrieval-Augmented
+Generation. process, the script generation in other words is intended to create a
+rather elastic RAG for a dialogical. interactions with the client.
+2.2.4 Human-Like Speech Synthesis
+Following are the requirements for this module:
+1. FR1: It has to contain the Text-to-Speech (TTS) synthesis model that generates
+human-like speech.
+2. FR2: The TTS model must make use of male and female voice too that sound
+natural.
+2.2.5 Call Center Dashboard and Application Integration
+Following are the requirements for this module:
+1. FR1: The system must offer a solution delivered through a desktop/web applica-
+tion, complete with a dashboard designed to display the play call center numbers
+(e.g. number of calls, average length of a call, customer satisfaction).
+2. FR5: This application must integrate with an associated backend PostgreSQL database
+where the population includes center statistics and client information.
+2.2.6 Pipeline Integration and Testing
+Following are the requirements for this module:
+1. FR1: The whole process should be linked to a desktop/web application thus that
+each of the parts is integrated in the best manner possible.
+2. FR2: There has to be an automated UI testing to ensure that the system is operating
+properly.
+3. FR3: The system has to be manual tested for different call scenarios in order to
+verify their accuracy and reliability
+9
+2. Project Requirements
+2.3 Non-Functional Requirements
+The feature/model that follows defines other requirements that autodialing systems like
+AutoEngage come with. These where quality requirements are precise, tangible and exe-
+cutable, to assure the corresponding system. This involves the aspect of rating according
+to expectations on performance, reliability, usability as well as security.
+2.3.1 Reliability
+The system must ensure a high level of reliability to maintain continuous call center op-
+erations.
+• R-1:The system should have an uptime of 99.9 percent with no more than 5 minutes
+of downtime per month.
+• R-2: Should there be system failure, then all the recovery processes must be carried
+out automatically and the Operating system should comeback online within one
+hour of breakdown.
+2.3.2 Usability
+The system must be user-friendly and accessible for both call center operators and admin-
+istrators.
+• USE-1: Operators managing the AI should have access to a clear, intuitive dash-
+board for viewing ongoing calls, metrics, and real-time issues.
+2.3.3 Performance
+AutoEngage must meet performance benchmarks to handle large-scale operations.
+• PER-1: The STT model should maintain an accuracy rate of 90 percent or higher.
+• PER-2: The dashboard must load and display real-time call analytics data within
+10 seconds of request.
+• PER-3: The TTS model should generate speech that is rated at least 4/5 in terms of
+naturalness by users.
+• PER-4: Intent classification model should be able to classify the user’s intent cor-
+rectly 95 percent of the time.
+10
+2.3 Non-Functional Requirements
+• PER-5: The fine-tuned LLM should be able to generate responses in line with the
+user intent or the script with a 95 percent accuracy.
+2.3.4 Security
+AutoEngage must be comply with the following security requirements.
+• S-1: Only authorized users should access system features, and all data should be
+securely stored.
+11
+2. Project Requirements
+2.4 Domain Model
+Call Center
+ID
+Name
+Location
+TotalAgents
+Client
+ID
+Name
+Phone Number
+Current Package
+ZipCode
+Call
+Call ID
+TimeStamp
+Duration
+Status (Pending/Completed)
+AI Agent
+ID
+Name
+Status
+interacts...
+ 1
+*
+*
+Handles
+Analytics
+Analytics ID
+TotalAgents
+Sales Made
+Call Count
+1
+*
+ 1
+generated by
+1
+ 1
+tracks performace
+*
+1
+ received by
+Insurance Package
+Package ID
+Name
+Descriptiion
+Cost
+*
+held by
+*
+1
+*
+employs
+Figure 2.1: Domain Model for AutoEngage
+12
+Chapter 3
+System Overview
+Give a general description of the functionality, context, and design of your project. Pro-
+vide any background information if necessary.
+3.1 General Description
+The AutoEngage system is an AI-powered client engagement and sales automation plat-
+form designed to streamline and enhance call center operations. The primary goal of
+AutoEngage is to replace human agents with AI-driven interactions, enabling businesses
+to handle a large volume of client interactions with minimal human intervention. This
+automation not only reduces operational costs but also ensures scalability and consistent
+performance across various client interactions.
+The system leverages advanced technologies such as Speech-to-Text (STT) for transcrib-
+ing real-time conversations, Large Language Models (LLMs) to generate human-like re-
+sponses, and Text-to-Speech (TTS) to relay these responses back to clients. AutoEngage
+is intended to improve client interactions by offering quick, accurate, and personalized
+communication. Furthermore, it features an analytics module that tracks and evaluates
+the performance of agents, calls, and overall system operations.
+3.2 Context
+In the modern call center environment, companies face several challenges such as high
+operational costs, limitations of human agents, and the complexity of managing global
+clients. Traditional call centers often struggle to meet these demands due to time zone
+differences, human fatigue, and the cost of hiring and training agents.
+AutoEngage addresses these challenges by automating interactions with AI-driven agents
+13
+3. System Overview
+that can handle a wide range of client inquiries, upsell opportunities, and service requests.
+The system is designed to operate 24/7, allowing businesses to manage client interactions
+across different time zones without additional staffing. Additionally, AutoEngage pro-
+vides insights into customer behavior and agent performance through real-time analytics,
+enabling call centers to optimize their operations continuously.
+3.3 Design Overview
+The design of the AutoEngage system is modular and scalable, ensuring that it can be
+easily integrated into existing call center infrastructures. The system is composed of the
+following key modules:
+• Speech-to-Text (STT) Module : This component transcribes the client’s speech
+into text, allowing the system to understand and process client inquiries.
+• Intent Classification Module: Once the client’s speech is converted to text, this
+module classifies the intent of the client, such as a request for information, a com-
+plaint, or an interest in purchasing additional services.
+• Large Language Model (LLM) Module : The LLM generates human-like re-
+sponses based on the classified intent. It adapts the response according to predefined
+sales scripts or the client’s inquiry.
+• Text-to-Speech (TTS) Module: This module converts the generated text responses
+back into speech, which is then delivered to the client, creating a seamless and
+human-like interaction.
+• Call Center Dashboard: The system includes a web-based dashboard that displays
+real-time call center analytics, agent performance, and customer satisfaction met-
+rics. The dashboard is accessible to managers and supervisors to monitor system
+efficiency and adjust operations accordingly.
+• Analytics Module: This module collects data on client interactions, agent perfor-
+mance, call outcomes, and customer feedback. It generates reports that help the call
+center to make data-driven decisions and improve overall efficiency.
+14
+3.4 System Workflow
+3.4 System Workflow
+The workflow of AutoEngage can be summarized as follows:
+1. The system initiates a call to a client from the call center’s database.
+2. When the client answers, their speech is transcribed into text by the STT module.
+3. The Intent Classification Module analyzes the transcribed text and determines the
+purpose of the call.
+4. The LLM generates an appropriate response based on the client’s intent and prede-
+fined scripts.
+5. The response is converted back into speech by the TTS module and delivered to the
+client.
+6. The system tracks the client’s responses and decisions, offering upgrades or further
+assistance as needed.
+7. At the end of the call, the analytics data is updated, providing real-time insights into
+the call’s outcome and the agent’s performance.
+3.5 Background Information
+The need for automated systems like AutoEngage has grown in recent years due to the
+increasing demand for cost-efficient and scalable call center solutions. Many businesses,
+especially those with global operations, require systems that can handle a high volume of
+customer inquiries without relying heavily on human agents. By integrating AI technolo-
+gies into call center workflows, AutoEngage helps businesses achieve greater efficiency,
+reduce operational costs, and improve customer satisfaction.
+AutoEngage is built on modern AI models such as OpenAI’s GPT, with adaptations for
+the specific needs of call centers. The system’s design ensures that it can handle multiple
+languages and client profiles, though advanced features like voice cloning and deepfake
+technologies are not within its current scope.
+15
+3. System Overview
+3.6 Architectural Design
+In this section, we will develop a modular program structure for the AutoEngage sys-
+tem based on the Client-Server Architecture. This structure ensures that each part of the
+system focuses on a specific responsibility, while still allowing different components to
+collaborate effectively to achieve the overall functionality.
+3.6.1 Modular Program Structure
+The AutoEngage system is composed of two main components: the Client Side and the
+Server Side, each with its own set of subsystems. These components collaborate through
+well-defined interfaces to ensure smooth and efficient operation of the system.
+3.6.1.1 Client Side
+The Client Side is responsible for managing user interactions and presenting data in a
+user-friendly format. It contains two main modules:
+• User Interface (Call Center Dashboard) : This module provides the front-end
+interface for call center agents and managers to interact with the system. It displays
+real-time analytics, agent performance data, and call status updates. It also allows
+users to initiate or terminate calls.
+• Client Request Handling : This module manages communication between the
+client and server, sending user requests (e.g., starting a call or retrieving analytics)
+to the server, and receiving the necessary responses (e.g., call outcomes or system
+health information).
+3.6.1.2 Server Side
+The Server Side handles the core business logic, data processing, and data storage. It
+consists of the following functional modules:
+• Speech-to-Text (STT): This module transcribes client speech into text for further
+processing.
+• Intent Classification: This module analyzes the transcribed text to determine the
+client’s intent (e.g., inquiry, complaint, or service request).
+• Response Generation (LLM): This module generates human-like responses based
+on predefined scripts and the client’s detected intent.
+16
+3.6 Architectural Design
+• Text-to-Speech (TTS): This module converts the generated text responses into
+natural-sounding speech, allowing the system to maintain a conversational inter-
+face with the client.
+• Call Management: This module handles the entire lifecycle of a call, from initia-
+tion to termination, tracking the duration and managing call states.
+• Analytics: This module collects and analyzes data from completed and ongoing
+calls, providing insights into agent performance, client satisfaction, and system ef-
+ficiency.
+• Data Storage: This module ensures persistent storage of call data, agent perfor-
+mance metrics, and analytics. It interfaces with a database for secure and efficient
+data management.
+3.6.2 Relationships Between Modules
+The interaction between the Client Side and Server Side is based on a request-response
+model. The following high-level sequence describes the flow of data between the mod-
+ules:
+3.6.2.1 Client Side → Server Side
+• The client sends a request (e.g., initiating a call) through the Client Request Han-
+dling module to the server.
+• During a call, the client’s speech is sent to theSpeech-to-Text module on the server,
+which transcribes the speech for further processing.
+3.6.2.2 Server Side → Client Side
+• Once the Speech-to-Text module has transcribed the client’s speech, the text is
+passed to the Intent Classification module, which identifies the intent behind the
+client’s request.
+• Based on the classified intent, the Response Generation (LLM) module generates
+an appropriate response.
+• The Text-to-Speech module converts the generated text response into speech and
+sends it back to the client through the Client Request Handling module.
+17
+3. System Overview
+3.6.2.3 Server-Side Module Interactions
+• The Speech-to-Text module transcribes audio data and passes it to the Intent Clas-
+sification module for processing.
+• The Intent Classification module analyzes the transcribed text to determine the
+client’s intent and forwards this to theResponse Generation (LLM) module.
+• The Response Generation (LLM) module generates a dynamic response, which is
+then sent to theText-to-Speechmodule for conversion into natural-sounding speech.
+• The Call Management module oversees the call’s progress, ensuring proper han-
+dling of its lifecycle and updating the Analytics module with relevant data (e.g.,
+duration, agent performance, and client satisfaction).
+• All data related to the call, including performance metrics, are stored securely in
+the Data Storage module for future retrieval and analysis.
+18
+3.6 Architectural Design
+3.6.3 Box and Line Diagram (Initial Design)
+Figure 3.1: Box and Line Diagram for AutoEngage
+19
+3. System Overview
+3.6.4 Final Architectural Style: Client-Server
+Figure 3.2: Architecture Diagram
+20
+3.7 Design Models
+3.7 Design Models
+3.7.1 Activity Diagram
+Figure 3.3: Activity Diagram
+21
+3. System Overview
+3.7.2 Data Flow Diagram
+3.7.3 Level 0: Context Diagram
+Figure 3.4: DFD Level 0
+3.7.4 Level 1: Process Breakdown Diagram.
+Figure 3.5: DFD Level 1
+22
+3.7 Design Models
+3.7.5 System-level Sequence Diagram
+Figure 3.6: System Level Sequece Diagram
+23
+3. System Overview
+3.7.6 State Transition Diagram
+Figure 3.7: State Transition Diagram
+24
+3.8 Data Design
+3.8 Data Design
+Data is one of the essential aspects in the AutoEngage AI-powered Call Center system and
+the core of all the call interaction with clients including the information about particular
+discussions, profiles, call history, and statistics. This section conceptualizes the content
+domain of the system and how the data entities are stored, processed and organized.
+3.8.1 Data representation diagram: ERD
+Figure 3.8: ERD Diagram
+3.8.2 Key Data Structures
+3.8.2.1 Client Information
+Purpose: Stores information about each client who receives calls from the AI agent. This
+data includes the client’s name, contact details, and call history.
+Data Structure:
+• Client ID (unique identifier)
+• Name
+25
+3. System Overview
+• Phone number
+• Interaction history (previous conversations, call status)
+Storage: This data is stored in the Client Data Store.
+3.8.2.2 Call Information
+Purpose: Tracks the details of each call initiated by the AI agent, including the call
+duration, timestamp, transcription, and call outcome.
+Data Structure:
+• Call ID (unique identifier)
+• Client ID (reference to the client data)
+• Start time and end time
+• Call duration
+• Transcribed conversation (text from Speech-to-Text module)
+• Call outcome (e.g., successful, client hung up, follow-up needed)
+Storage: Stored in the Call Data Store for retrieval and analysis.
+3.8.2.3 Intent Classification Data
+Purpose: Stores the classification of client intents based on the transcribed speech. It’s
+used for determining how to respond to the client.
+Data Structure:
+• Intent ID
+• Client ID
+• Classified intent (e.g., request for information, complaint, product interest)
+• Intent timestamp (when the intent was detected)
+Storage: Temporarily stored during the call and logged in the Call Data Store for post-
+call analytics.
+26
+3.8 Data Design
+3.8.2.4 Prompt and Response Data
+Purpose: Stores the prompt generated by the Prompt Engineering module and the re-
+sponse generated by the LLM (Large Language Model).
+Data Structure:
+• Prompt ID
+• Intent ID (reference to the classified intent)
+• Generated prompt (text-based prompt for LLM)
+• Generated response (text response provided by the LLM)
+• Timestamp (when the response was generated)
+Storage: Logged in the Call Data Store for future review.
+3.8.2.5 Analytics Data
+Purpose: Stores overall performance and system metrics, such as the number of success-
+ful calls, average call duration, client satisfaction, and AI system accuracy.
+Data Structure:
+• Analytics ID
+• Date of report
+• Total calls
+• Successful interactions
+• Average call duration
+• Client satisfaction rating
+• Agent performance metrics
+Storage: Stored in the Analytics Data Store, which is accessed for performance reporting
+and decision-making.
+3.8.3 Databases and Data Storage Items
+The system includes two main databases for storing call-related and analytics data:
+27
+3. System Overview
+3.8.3.1 Client Data Store
+Type: Relational database.
+Purpose: Stores client profiles and interaction histories.
+Structure:
+• Client ID (Primary Key)
+• Name
+• Contact information
+• Interaction history (linked to call logs)
+Access: Accessed during call initiation to retrieve client details, and updated after each
+call.
+3.8.3.2 Call Data Store
+Type: Relational database.
+Purpose: Stores call details, including call transcriptions, intents, and responses.
+Structure:
+• Call ID (Primary Key)
+• Client ID (Foreign Key)
+• Transcription
+• Call outcome
+• Call duration
+• Generated responses
+Access: Continuously updated during the call and after the call ends. Used for generating
+reports or analyzing past conversations.
+3.8.3.3 Analytics Data Store
+Type: Relational database (optimized for analytics).
+Purpose: Stores performance metrics and call center analytics.
+Structure:
+28
+3.8 Data Design
+• Analytics ID (Primary Key)
+• Date
+• Total calls
+• Success rates
+• Average call duration
+• Performance and satisfaction metrics
+Access: Updated periodically (e.g., daily, weekly), based on call center performance.
+Provides insight into overall system efficiency and improvements.
+3.8.4 Data Flow and Processing
+The system follows these general steps to process and store the data:
+1. Client Call Initiation : The AI agent retrieves client information from the Client
+Data Store and initiates a call.
+2. Speech Processing: The client’s speech is converted to text by the Speech-to-Text
+(STT) module and stored in the Call Data Store.
+3. Intent Classification: The transcribed text is classified to understand the client’s
+intent and logged in the Call Data Store.
+4. Response Generation: Based on the classified intent, a prompt is generated, and
+the LLM generates a response. The generated response is stored along with the
+intent in the Call Data Store.
+5. Analytics Logging: After the call, key performance metrics such as call duration,
+client intent, and call outcome are logged in both the Call Data Store and the Ana-
+lytics Data Store for future analysis.
+3.8.5 Conclusion
+The data design for the AutoEngage system focuses on efficient storage and processing
+of client and call information. Data structures are designed to ensure smooth interactions
+between the AI agent and clients, while the analytics component tracks and improves
+system performance. The system employs multiple data stores to keep track of client
+profiles, call histories, and performance metrics, ensuring that every interaction is logged
+and stored for future analysis.
+29
+Bibliography
+[1] Collabora. Whisperfusion: Ultra-low latency conversations with an ai chatbot, May
+2024. Accessed: 2024-09-13.
+[2] Nima Mesgarani Kaung Myat Kyaw, Jonathan Hoyin Chan. Llm-powered conver-
+sational voice assistants: Interaction patterns, opportunities, challenges, and design
+guidelines. arXiv preprint arXiv:2309.13879, September 2023.
+[3] Kaung Myat Kyaw and Jonathan Hoyin Chan. A framework for synthetic audio
+conversations generation using large language models. Innovative Cognitive Com-
+puting (IC2) Research Center , September 2024. kaungmyat.kyaw@kmutt.ac.th,
+jonathan.chan@sit.kmutt.ac.th.
+[4] Yinghao Aaron Li, Xilin Jiang, Jordan Darefsky, Ge Zhu, and Nima Mesgarani. Style-
+talker: Finetuning audio language model and style-based text-to-speech model for fast
+spoken dialogue generation. arXiv preprint arXiv:2408.11849, 2024.
+[44] [33] [22] [11]
+31
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

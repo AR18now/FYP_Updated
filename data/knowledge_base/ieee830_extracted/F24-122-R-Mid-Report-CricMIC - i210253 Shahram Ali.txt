@@ -1,0 +1,516 @@
+# F24-122-R-Mid-Report-CricMIC - i210253 Shahram Ali
+
+## 1. Introduction
+
+1. Introduction
+1.3 Research Problem Statement
+Current mobile games deliver preset commentaries that are available in limited commen-
+tators’ voices. These commentaries are not only repetitive but they are also unable to cap-
+ture the complete context of the game. We will provide a user-friendly web interface that
+will handle commentary generation that will be non-repetitive and contextually aware.
+This will increase audience engagement who will benefit from informed commentary.
+1.4 Software Requirements Specification
+1.4.1 Functional Requirements
+• User Authentication: The software should support secure login and account man-
+agement, allowing users to access personalized settings and stored data.
+• Video Upload and Processing: Users must be able to upload cricket match clips,
+which will then be trimmed, analyzed, and processed for event detection, score-
+board extraction, and commentary generation.
+• Preset Selection: The system should allow users to choose predefined commentary
+styles and configurations to suit different commentary tones.
+• Voice Selection: Users should be able to select from a variety of voices for the
+generated commentary, with options for accents, genders, and tones.
+• Real-Time Processing: The software should provide commentary generation in
+real-time or near real-time, based on the uploaded video clips.
+1.4.2 Non-Functional Requirements
+These define the operational qualities and constraints of the software, ensuring perfor-
+mance, usability, and scalability:
+• Performance: The system should be able to handle multiple video uploads simul-
+taneously and process them efficiently without significant delays.
+• Usability: The interface must be intuitive, enabling users to easily navigate the
+software and make selections for uploads, presets, and voices.
+• Scalability: The system must be capable of scaling to accommodate an increasing
+number of users and video uploads as demand grows.
+2
+1.4 Software Requirements Specification
+• Security: Strong security measures must be in place to protect user data, including
+encrypted storage of login credentials and safe handling of uploaded files.
+• Compatibility: The software should be compatible across various browsers and
+devices, ensuring accessibility for all users.
+3
+
+Chapter 2
+Literature Review
+This chapter critically examines existing literature relevant to the CricMic’ architecture.
+It identifies key studies, theories, and findings, providing a foundation for CricMic and
+highlighting its relationship to prior work.
+2.1 Related Research
+Mentioned Down Below is the research we were able to gather related to our project.
+2.1.1 MatchTime: Towards Automatic Soccer Game Commentary
+Generation
+In recent years, significant work has been conducted to improve automatic soccer com-
+mentary generation, with datasets like SoccerNet-Caption serving as the foundation for
+many models. This paper proposed MatchTime, a curated dataset that corrects these tem-
+poral inconsistencies. MatchTime is built using a two-stage multi-modal temporal align-
+ment pipeline that filters and adjusts the timestamp discrepancies in existing datasets. By
+aligning the visual content with the commentary text more precisely, MatchTime enables
+the training of models that generate more accurate and engaging soccer game commen-
+tary.
+2.1.1.1 Summary of the research item
+This paper focuses on the challenge of video-text misalignment in soccer commentary
+datasets, specifically SoccerNet-Caption, which collects commentary from over 400 matches.
+The study highlights a significant issue where commentary timing can lag behind game
+5
+2. Literature Review
+events by up to 152 seconds, affecting the accuracy of AI-generated commentaries. To
+address this, the researchers manually corrected the timestamps for part of the dataset,
+creating the SN-Caption-test-align benchmark. This adjustment led to notable improve-
+ments in AI commentary accuracy, demonstrating the critical role of temporal alignment
+in enhancing commentary quality. The study suggests a multi-modal pipeline to automate
+this alignment for larger datasets.
+2.1.1.2 Critical analysis of the research item
+The commentary model leverages a range of visual features such as C3D, ResNet, Baidu,
+CLIP, and InternVideo, with features extracted at 1 or 2 FPS depending on the method. A
+fixed number of 32 query vectors are used in the temporal aggregator, and the aggregated
+features are projected to a 768-dimensional token that feeds into the LLaMA-3 model for
+text generation. The learning rate is set at 1 × 10 exp(-4), with training conducted over 100
+epochs using a single Nvidia RTX A100 GPU. The study employs several popular metrics
+for evaluating commentary quality, including BLEU, METEOR, ROUGE-L, CIDEr, and
+the GPT-score, which assesses semantic accuracy, expression, and professionalism.
+Figure 2.1: Evaluation Metrics
+2.1.1.3 Relationship to the proposed research work
+This paper uses Vision Transformers (ViTs), Perceiver-based Attention modules, and
+LLMs for generating text. The methods can be used in our problem to develop enhanced,
+context-based cricket commentary. We will use the idea of using a prompt to generate a
+text using any LLM like ChatGPT, Llama, or Claude. This approach is better than train-
+ing a separate text-to-text model for commentary generation. Another way we can use the
+concepts in this paper is for Cricket Shots Classification, the ViTs can be used as a fea-
+6
+2.1 Related Research
+ture extractor of our Cricket Shots Classification model. The methodology of extracting
+features from videos can be useful in developing our classification model.
+Figure 2.2: MatchTime: Towards Automatic Soccer Game Commentary Generation
+2.1.2 CricShotClassify: An Approach to Classifying Batting Shots
+from Cricket Videos Using a Convolutional Neural Network
+and Gated Recurrent Unit
+This paper focuses on the challenging task of classifying cricket batting shots using deep
+learning techniques. Traditional methods of manual feature extraction from video frames
+are time-consuming and prone to errors due to the high similarity between different cricket
+shots. This paper introduces a hybrid deep learning model combining a Convolutional
+Neural Network (CNN) and a Gated Recurrent Unit (GRU) to classify 10 distinct cricket
+batting shots, from cover drives to pull shots, using the CricShot10 dataset. By lever-
+aging automatic feature extraction through CNN and addressing temporal dependencies
+via GRU, the model achieves a high classification accuracy. The study further investigates
+various transfer learning models, with the VGG16–GRU architecture demonstrating supe-
+rior performance, providing a significant contribution to the field of cricket video analysis.
+2.1.2.1 Summary of the research item
+This paper introduces a novel method for classifying 10 different cricket batting shots
+using a hybrid deep-learning model. A new dataset, CricShot10, is created, containing
+videos with varying lengths and lighting conditions. The authors develop a CNN–GRU
+architecture and explore transfer learning models like VGG16, InceptionV3, Xception,
+and DenseNet169. By freezing layers in these models, the VGG16–GRU combination
+achieves the highest shot classification accuracy of 93. The study demonstrates how ef-
+7
+2. Literature Review
+fectively CNNs extract spatial features, while GRUs capture temporal patterns, addressing
+the challenges posed by similar cricket shots and varying video conditions.
+2.1.2.2 Critical analysis of the research item
+The CricShot10 dataset is a valuable resource for future research, enabling benchmarking
+of models in cricket shot classification. The use of hybrid CNN-GRU architectures is
+well-suited for capturing the spatial and temporal aspects of sports videos. However,
+the dataset’s limited size and shot variety pose a constraint. Expanding it to include
+more complex shots, like reverse sweeps, could better assess the model’s generalization.
+While VGG16-GRU performs well, exploring advanced transformer-based models may
+offer further improvements in sequence modeling. Despite these limitations, the study
+offers a solid approach with potential applications in cricket coaching, commentary, and
+commercial use.
+Figure 2.3: Dataset video quantity for 10 cricket batting shots
+Figure 2.4: Parameters and various accuracy measures for custom models
+2.1.2.3 Relationship to the proposed research work
+One major task in our project is cricket shots (pull shot, cover drive, etc.) classification.
+This paper provided a dataset that we can use to build a main model and then fine-tune
+the resultant model on our dataset. The models developed in this paper can also give a
+good baseline for the model we will use in our project.
+8
+2.1 Related Research
+2.1.3 Designing for Automated Sports Commentary Systems
+This paper explores the integration of Natural Language Processing (NLP) and Computer
+Vision (CV) to revolutionize automated sports commentary. Traditional sports commen-
+tary enhances viewer engagement, but with advancements in AI, the potential for auto-
+mated, real-time commentary is gaining attention. The proposed system combines text-to-
+speech with visual cues for play-by-play and color commentary, creating a personalized
+and engaging experience for users. By leveraging CV for in-game analysis and NLP for
+generating commentary, this system offers a comprehensive solution for both auditory
+and visual feedback.
+2.1.3.1 Summary of the research item
+The research presents an automated sports commentary system that integrates Natural
+Language Processing (NLP) and Computer Vision (CV) to provide a dynamic and immer-
+sive experience. By using CV to detect in-game events in real-time, the system generates
+play-by-play commentary that narrates the ongoing action. This is further enriched with
+color commentary, which pulls additional contextual information from a database, such
+as player stats or background stories, to provide deeper insights into the game.
+In addition to auditory feedback, the system enhances viewer engagement by incorpo-
+rating visual elements like italicized text, which draws attention to key moments and
+improves overall immersion. This multimodal design ensures that the audience receives
+a more comprehensive and engaging commentary experience, blending both audio and
+visual cues. A user study conducted with eight participants sheds light on how viewers
+Figure 2.5: Designing for Automated Sports Commentary Systems
+respond to this automated system. It emphasizes the need for personalized commentary
+content that aligns with different audience preferences, further validating the system’s
+ability to enhance the sports broadcasting experience.
+9
+2. Literature Review
+2.1.3.2 Critical analysis of the research item
+While the system effectively combines NLP and CV to deliver automated sports com-
+mentary, one limitation is its reliance on traditional deep learning architectures. Although
+the current approach performs well in integrating real-time commentary and contextual
+analysis, further experimentation with transformer-based models could enhance language
+precision and adaptability. Additionally, the relatively small sample size of the user study
+may not fully represent the diversity of audience preferences, warranting further research
+with a larger participant pool. Nonetheless, the research lays a strong foundation for fu-
+ture developments in personalized and AI-powered sports commentary systems. The Im-
+plementation was performed on MSI laptop with a 12th Gen Intel I9-12900HK 2.90Ghz
+CPU, NVIDIA GeForce RTX 3080 Ti GPU,and 32GB Ram.
+Figure 2.6: Critical Analysis
+2.1.3.3 Relationship to the proposed research work
+The purpose of this paper is to provide a holistic picture of designing a sports commentary
+system, and the challenges and solutions suggested in this paper will be vital for design-
+ing our cricket commentary generation application. An additional mechanism adopted in
+this paper is to include relevant data from external sources during the commentary gen-
+eration process to create a color commentary system. This task can be included in our
+project when we are using the text generation models. We can incorporate external data
+relevant to the players, teams or matches involved in the video. It provides an extensive
+list of models available for video classification, text generation, and speech generation.
+The speech models mentioned in the paper will be useful for us in generating dynamic
+commentary.
+10
+2.1 Related Research
+2.1.4 Optimized deep learning-based cricket activity
+Activity recognition in sports plays a crucial role in analyzing the performance of individ-
+ual players and teams across different athletic events. Each sport has distinct dynamics,
+from simple activities like walking and sitting to more complex actions such as overhead
+smashes in tennis. This paper introduces a new cricket activity dataset and a deep learn-
+ing model that effectively handles the complex task of activity recognition in cricket. By
+combining CNNs and LSTMs, the proposed model captures both spatial and temporal fea-
+tures, outperforming existing methods on both the new cricket dataset and four standard
+benchmarks.
+2.1.4.1 Summary of the research item
+The proposed model consists of multiple stages, beginning with keyframe selection and
+resizing to a standard size of 100x100 pixels for efficient training. The CNN layers are
+used to extract spatial features from the resized keyframes. These spatial features are
+then passed through LSTM cells to capture temporal dependencies between frames. The
+CNN component comprises multiple convolutional layers, each with a set of filters that
+detect patterns in the input keyframes. The output of these layers is a set of high-level
+feature maps that capture important details relevant to activity recognition. The LSTM
+component then analyzes these feature maps to identify the sequence of actions occurring
+in the video.
+2.1.4.2 Critical analysis of the research item
+The authors have conducted extensive experiments on the newly created cricket dataset
+as well as four benchmark datasets: UCF101, HMDB51, YouTube Action, and Kinet-
+ics. The experiments were carried out using Keras with TensorFlow-GPU on a system
+equipped with an NVIDIA GeForce GTX 3060 GPU. The results indicate that their model
+significantly outperforms other RNN-based approaches in terms of accuracy, recall, and
+F1 score.
+2.1.4.3 Relationship to the proposed research work
+This paper also introduces a medium-scale dataset that includes five cricket activities that
+will be used in our project. The authors have experimented with various vision encoders
+with multiple RNN-based decoders to produce an efficient model. We are planning on
+using similar methods on our dataset.
+11
+2. Literature Review
+2.1.5 Towards Automated Video Game Commentary Generation us-
+ing Generative AI
+Video gaming is growing as an industry and it provides unique challenges which could
+be solved using AI. One of the popular use cases of video games has been in the field
+of Reinforcement Learning where the effectiveness of Agents is determined by how well
+they perform on the chosen game. With the advent of Generative AI, the authors of
+this paper have tried to incorporate deep learning models and APIs to generate dynamic
+commentary of League of the Legends video game.
+2.1.5.1 Summary of the research item
+The authors have used pre-trained CNN models to extract frame-level features of size
+1028 which is then passed to multi-layer perceptron for classifying the video clip into one
+of the 20 classes. Then a simple matching dictionary is created that assigns a text to each
+class which along with a pre-defined prompt is sent to the LLM, to generate commentary.
+The generated is sent to a FakeYou API for generating the speech. The whole process is
+very effective in generating commentary, as everytime a unique commentary is generated
+for the same action. The authors have also incorporated a priority queue mechanism to
+determine which events should be used to generate commentary. This ensures that there
+is commentary generated every 15-20 seconds.
+2.1.5.2 Critical analysis of the research item
+Although the authors have utilized state-of-the-art models for classifying events, generat-
+ing text, and converting the text into speech, they fail in capturing the complete scene of an
+event as combat games provide very challenging scenes to be understood by the machine.
+Additionally, they are working on processing one frame every second which provides
+very little information as the temporal information has not been utilized. Thirdly, the gen-
+erated commentary is very generic and no mechanisms have been adopted to tackle the
+problem of hallucination. Therefore, despite providing useful techniques this paper has
+some weaknesses that need to be catered to when adopted in our project.
+2.1.5.3 Relationship to the proposed research work
+This paper closely matches with our project as it includes end-to-end commentary gener-
+ation. It includes modules like video classification, text generation, and voice generation.
+We also have to work on such tasks in order to generate cricket game commentary. This
+paper uses CNN based models like ResNet and EfficientNet to capture video frames’ fea-
+12
+2.1 Related Research
+tures and MLP for accurately classifying an activity. Once again the models will be used
+in our project for cricket shots classification and the APIs mentioned in the paper could
+be tested for generating text and speech.
+2.1.6 Automatic Cricket Highlight generation using Event-Driven and
+Excitement-Based features
+Generating sports highlights is a labor-intensive task that traditionally requires a certain
+level of expertise. With a special focus on cricket, a sport known for its complex rules and
+extended playing time, the authors propose an automated framework for generating sports
+highlights. Cricket matches include numerous key moments such as boundaries, wickets,
+and milestones, and the proposed model incorporates both event-driven and excitement-
+driven elements to capture important moments from the match. Key features like replays,
+audio intensity, player celebrations, and match scenarios are used to detect and extract
+crucial highlights.
+2.1.6.1 Summary of the research item
+The presented model operates in a structured manner, aiming to break down a cricket
+match’s footage into essential segments. This is accomplished by dividing the match into
+overs, further breaking them down into individual video shots. Each of these shots repre-
+sents an important aspect of the match such as player actions, boundary hits, and wickets.
+The process of highlight generation follows three stages: first, the model identifies various
+video shots within the innings (Stage 1); second, it extracts relevant cues like player cele-
+brations, scoreboard updates, and audio cues (Stage 2); and finally, it produces highlights
+based on either event-driven or excitement-driven criteria (Stage 3).
+2.1.6.2 Critical analysis of the research item
+This model addresses a significant challenge in sports broadcasting: automating the pro-
+cess of highlight generation, particularly for a complex sport like cricket. The approach
+of combining both event-driven (boundaries, wickets, etc.) and excitement-driven cues
+(replays, audio intensity, player celebrations) is particularly commendable, as it ensures
+the highlights not only capture key moments but also the overall excitement and atmo-
+sphere of the match. By using such multimodal cues, the model aligns well with human
+viewing preferences, focusing on both the technical events and the emotional highs of the
+game.
+13
+2. Literature Review
+2.1.6.3 Relationship to the proposed research work
+This seminal paper published in CVPR in 2018 uses multiple methods for detecting key
+events in an untrimmed cricket video. The methods include detecting scoreboard, umpire
+gestures, audience voice analysis and CNN based activity recognition. Although the task
+performed in this paper, highlights generation, is different from ours but certain methods
+like scoreboard detection, player detection are the same. The methodology in this paper
+can be applied for detecting scores, players and later on in the shots classification model.
+Various frames sampling methods have been applied to work on key frames during the
+classification of an action which is quite useful and relevant to our work.
+2.1.7 Goal: Event Detection in Sports
+Understanding complex events from unstructured videos, such as scoring a goal in a foot-
+ball game, is a highly challenging task. This is primarily due to the dynamic, complex,
+and varied nature of video sequences. In this study, the authors tackle this problem by
+leveraging the power of deep learning frameworks. Specifically, they propose a method
+that independently encodes spatial and temporal information using convolutional neural
+networks (CNNs) and subsequently fuses these features using regularized autoencoders.
+The research is demonstrated on a newly compiled dataset consisting of goal and no-goal
+sequences.
+2.1.7.1 Summary of the research item
+This paper presents a novel method for understanding and detecting complex events in
+unstructured video sequences, particularly focusing on football matches. The authors pro-
+pose a two-step approach: (i) extraction of spatio-temporal features using CNNs and (ii)
+fusion of these features via regularized autoencoders to perform classification of goal and
+no-goal events. The model effectively handles the dynamic challenges of sports videos,
+such as varying vantage points and zoom levels, by encoding both spatial and temporal
+data separately before combining them for classification.
+2.1.7.2 Critical analysis of the research item
+This research makes a significant contribution to the field of sports video analytics by
+addressing the complexities associated with unstructured, dynamic video streams. The
+separation of spatial and temporal information before feature fusion is a clever approach,
+as it tackles the challenges posed by shifting perspectives and changing camera zooms in
+sports broadcasts. The use of regularized autoencoders for feature fusion further strength-
+14
+2.2 Analysis Summary of research items
+ens the model’s ability to generalize across varying video conditions. However, the re-
+search could benefit from a more comprehensive exploration of larger and more diverse
+datasets, as the current model’s success is largely demonstrated on a limited dataset. Ad-
+ditionally, more insights into how well the model performs in non-football sports or other
+video contexts would add to the generalizability of the approach.
+2.1.7.3 Relationship to the proposed research work
+One of the primary tasks in our project is to detect an event in a video like a fall of a
+wicket or boundary scored. The methods described in this paper can be used to detect
+major events in a video. This uses the combination of classical methods like HOG and
+SIFT with deep learning models like CNN to detect an event in a sequence of frames. The
+model architecture can be implemented for detecting events as well as in classifying the
+cricket shots. Although the models used are very simple, they can still give us a baseline
+on evaluating the performance of different models.
+2.2 Analysis Summary of research items
+Commentary generation has been tried on many sports games including soccer, baseball,
+cricket, and other video games such as League of the Legends [11].
+The following table shows papers that have been recently published to address different
+aspects of commentary generation.
+Ref No. Methodology Dataset
+[11] Time Distributed 2D CNN, LSTM Cricket Shots (Custom
+Dataset)
+[33] Visual Encoders, Perceiver, LLaMa SoccerNet-Captions
+[44] Vision Transformers, Prompt
+Narration Custom Dataset
+[55]
+CNN-GRU, Transfer Learning
+(VGG16, InceptionV3,
+DenseNet169)
+CricShot10
+[22] Multimodal System (CV , NLP
+Integration)
+Real-Time Sports
+Commentary (Custom)
+Table 2.1: Review of Papers, Methodologies, and Datasets
+Each paper gave us a new insight on how to approach this problem. In [ 33] and [44] LLMs
+were used for commentary generation. [ 33] also presents the common evaluation metrics
+15
+2. Literature Review
+(BLEU, METEOR, ROUGE, etc. ) used for text-generation tasks. Furthermore, [ 11]
+presents an architecture for shot classification, and [55] uses YOLO for player detection.
+16
+Chapter 3
+Proposed Approach
+To generate dynamic cricket commentary we have to implement various Computer Vision,
+Natural Language Processing, and Speech Generation models. The proposed method
+involves extracting scoreboard information through OCR, player detection, shot classi-
+fication, commentary generation through a Large Language Model, and text-to-speech
+conversion for audio generation.
+3.1 Pre-Processing
+The pre-processing stage focuses on preparing raw video footage for subsequent analysis.
+In this step, cricket clips are trimmed to isolate specific events, such as when a ball is
+bowled and the batsman plays a shot. By trimming clips, we ensure that only relevant
+portions of the video are passed through the processing pipeline, reducing computational
+overhead and improving the accuracy of downstream models.
+3.1.1 Clip Trimming
+During the test phase, the first step is to trim the incoming video clips based on cricket-
+specific events. We utilize heuristics and predefined rules to identify key moments in the
+game, such as the start of a bowler’s run-up, the point when the ball is delivered, and
+when the batsman makes contact with the ball. These segments form individual "events,"
+and the video is trimmed accordingly to include only the footage around these moments.
+17
+3. Proposed Approach
+Figure 3.1: Clip Trimming
+3.1.2 Bounding Box Detection
+To accurately detect the scoreboard in cricket videos, we manually annotated data to mark
+where scorecards typically appear. Using this annotated data, we trained a model to detect
+a bounding box around the scorecard in each frame. This helps localize key information
+like scores and overs.
+By identifying the scorecard’s position, we ensure that it can be reliably extracted for
+further processing, such as Optical Character Recognition (OCR). This step strengthens
+the model’s robustness across different camera angles and lighting conditions, allowing
+the system to consistently capture scoreboard information for commentary generation.
+3.2 Event Detection
+The current context of the game, which we will call an event, can be extracted through the
+scoreboard. The scoreboard provides various information such as runs, wickets, current
+run rate, required run rate, etc. This information could be extracted using OCR models.
+3.3 Players Detection
+Similar to score extraction, player information is also extracted through the help of OCR
+models. This will help in constructing a prompt which will be sent to a LLM for generat-
+ing a commentary.
+3.4 Shot Classification
+To encapsulate additional context we will classify the shots played by the player such
+as cover drive, pull shot, straight drive, etc. This can be done by fine-tuning a Video
+Classification model on our dataset.We utilize an additional dataset from Kaggle that
+18
+3.5 Audio Captioning
+Figure 3.2: Event Detection
+contains annotations for various cricket shots. This dataset is integrated to further en-
+hance the model’s ability to detect and classify different types of shots played during the
+match, contributing to more accurate and context-aware commentary generation.This is
+then added to already acquired information for commentary generation.
+3.5 Audio Captioning
+Some information could not be present in the scoreboard which can be extracted through
+the present commentary which can be added to the prompt to enhance the context.
+3.6 Text-to-Text
+Once all the information is available, an LLM could be used to generate the commentary
+through a prompt. This commentary will contain the whole context of the game. Each
+time it would be an enhanced and unique commentary.
+19
+3. Proposed Approach
+3.7 Text-to-Speech
+Finally, once an enhanced, contextually-aware commentary is generated it can be sent to a
+speech model to generate audio. To make the commentary realistic, it should have inflec-
+tion in voice to capture various emotions. The text-to-speech models will be capable of
+producing such audio. To limit our scope we have decided to use a single commentator’s
+voice for commentary generation. We would need to fine-tune models on the selected
+commentator’s voice.
+Figure 3.3: Architecture Diagram
+3.8 Web Application
+The web application serves as the user interface for generating dynamic cricket commen-
+tary, providing an intuitive platform to interact with the system’s features. The application
+is designed with ease of use in mind, allowing users to upload videos, select presets, and
+customize voices for the generated commentary. Key features of the web application
+include:
+3.8.1 Login
+Users are required to log in to the application to access its functionality. The login system
+ensures that each user’s data is secure, and it provides a personalized experience, allowing
+20
+3.9 Diagrams
+users to save presets and voice preferences for future use. Once logged in, users can
+navigate through the platform seamlessly.
+3.8.2 Sidebar
+The sidebar offers easy navigation within the application, providing access to core func-
+tionalities such as uploading videos, selecting presets, and choosing voice options for
+commentary. It remains accessible on every page, allowing users to interact with multiple
+features simultaneously.
+Upload: The upload feature allows users to input their cricket videos directly into the sys-
+tem. Once uploaded, the application processes the video, trims it into events, and analyzes
+it using the pre-trained models for player detection, shot classification, and scoreboard ex-
+traction.
+Presets: Users can choose from various presets that define how the commentary is gener-
+ated. These presets include different commentary styles, such as professional, casual, or
+enthusiastic, tailoring the tone and language of the output based on user preferences.
+Voices: This feature enables users to select from a wide range of voices for the com-
+mentary. Users can choose a default voice or personalize the commentary by selecting a
+specific commentator’s style, gender, or accent. This flexibility enhances the user experi-
+ence by creating commentary that feels authentic and aligned with their preferences.
+3.9 Diagrams
+21
+3. Proposed Approach
+Figure 3.4: Login
+Figure 3.5: Models Functionality
+22
+3.9 Diagrams
+Figure 3.6: ERD
+Figure 3.7: Mock Fig 01
+23
+3. Proposed Approach
+Figure 3.8: Mock Fig 02
+Figure 3.9: Mock Fig 03
+24
+3.9 Diagrams
+Figure 3.10: Mock Fig 04
+Figure 3.11: Mock Fig 05
+25
+3. Proposed Approach
+Figure 3.12: Mock Fig 06
+Figure 3.13: Login Test Case
+26
+3.9 Diagrams
+Figure 3.14: Uploading Test Case
+Figure 3.15: Model Optimization
+27
+
+Chapter 4
+Conclusions and Future Work
+In conclusion, the engagement and excitement of any sport are highly dependent on how
+good the commentary is. The automatic generation of cricket commentary for mobile
+games will help in achieving this goal. We plan to provide a pipeline to generate auto-
+matic, context-aware, and dynamic cricket commentary. The commentary will be unique
+for each cricket event and will be non-repetitive. It will change according to the flow of
+the game and will present in-game insights. In addition, we will develop a complete web
+application for the gamers to upload their gameplay and receive enhanced commentary
+which could enhance audience engagement and retention.
+29
+
+Bibliography
+[1] W. Ahmad, M. Munsif, H. Ullah, M. Ullah, A. A. Alsuwailem, A. K. J. Saudagar,
+and K. Muhammad. Optimized deep learning based cricket activity recognition and
+medium scale benchmark. Alexandria Engineering Journal, 2023.
+[2] A. Peter, O. Nordberg, and Borch N. Designing automated sports commentary sys-
+tems. IMX, 2024.
+[3] J. Rao, H. Wu, C. Liu, and Y . Wang. Matchtime: Towards automatic soccer game
+commentary generation. Preprint, 2023.
+[4] N. Renella and M. Eger. Towards automated video game commentary using genera-
+tive ai. CEUR-WS, 2024.
+[5] K. S. Shashank, N. P. Prasad, K. S. Reddy, and L. S. Rao. Upload cricket match to
+generate audio commentary. ICSCSS, 2023.
+31
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

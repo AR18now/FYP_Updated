@@ -1,0 +1,6 @@
+# Replace Hugging Face access tokens (hf_...)
+regex:hf_[A-Za-z0-9]{20,}==>hf_REDACTED
+
+# Replace Replicate API tokens (often r8_...)
+regex:r8_[A-Za-z0-9]{10,}==>r8_REDACTED
+

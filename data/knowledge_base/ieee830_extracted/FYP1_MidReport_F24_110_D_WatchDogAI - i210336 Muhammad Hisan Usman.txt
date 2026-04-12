@@ -1,0 +1,202 @@
+# FYP1_MidReport_F24_110_D_WatchDogAI - i210336 Muhammad Hisan Usman
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+Due to the high importance and sensitivity of an advanced surveillance system, our soft-
+ware will have multiple functionalities in the scope.
+1. The software will be detecting a broad range of criminal and violent activities, like
+weapons, abuse, arson, burglary, shooting, stealing, vandalism, violence.
+2. It will also be trained to detect and recognize criminals (using facial recognition), who
+are known to be associated with criminal activities or who are on a watch-list.
+3. The software will be capable of pin-pointing the exact location of the crime in a pub-
+lic/crowded place.
+4. It will reduce the need to check the complete CCTV footage, by bookmarking the times
+of the violent activities.
+5. Scene understanding will also be integrated in this software.
+6. Automatic report generation will also be integrated in the software.
+7. The system will also be providing real time and instant alerts to the user and authorities
+(based on the severity of the crime).
+8. The software will provide the user with a web based app for monitoring the footage
+and surveillance.
+9. The system will be integrated with existing security systems, allowing a seamless tran-
+sition and operation.
+1.3 Modules
+The modules of the proposed project have been listed below. Each module highlights the
+features.
+1.3.1 Module 1
+1. Train multiple models to detect criminal and violent activities.
+2. Implement facial recognition to recognize and detect criminals.
+1.3.2 Module 2
+1. Implement scene understanding and integrate automatic report generation.
+2. Create a user friendly web app, to allow the user to monitor CCTV footage.
+2
+1.4 User Classes and Characteristics
+1.4 User Classes and Characteristics
+Various user classes anticipated to be used in this product, and the description of their
+pertinent characteristics:
+User class Description
+Violence The class "Violence" will be used to train all the models that would
+be detecting weapons and violent activities in a CCTV footage.
+Facial detection The class "Facial detection" will be using models to detect and
+recognise criminals in the feed.
+Scene under-
+standing
+The class "Scene understanding" will incorporate large vision mod-
+els for scene understanding, which will be used by the "Report gen-
+eration" class.
+Report genera-
+tion
+The class "Report generation" would use the scene understanding
+results for automatic report generation.
+Web app The class "Web app" will allow the user to monitor the CCTV
+footage from multiple cameras and also alert the user if a violent
+activity is detected.
+Table 1.1: Description of User Classes
+3
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Event Response Table
+Event System Response
+User login The system will allow the user to enter their credentials and
+login to the web app of the application.
+User clicks the "Next/Prev
+camera" button
+The system shifts to the next or previous camera, respectively,
+and displays the CCTV footage from that camera. The user
+can click these 2 buttons infinite number of times and the dis-
+play will start showing footage from the next/previous CCTV
+camera.
+System detects a violent
+activity
+The system will immediately alert the user about the activity
+detected and its type.
+System detects a criminal The system will immediately alert the user and display the de-
+tails of the criminal on the web-page, allowing the user to alert
+the authorities (if needed).
+User clicks on "Report
+generation"
+The system will automatically generate a report for the user,
+containing details of the event occurred along with the scene
+understanding done by the model.
+User clicks on "Book-
+marks"
+The system will show the time periods that were book marked
+for detecting any sort of suspicious activity.
+Table 2.1: Event Response Table
+5
+2. Project Requirements
+2.2 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style. This section is typically organized by feature as a system feature name and
+specific functional requirements associated with this feature. It is just one possible way to
+arrange them. Other organizational options include arranging functional requirements by
+use case, process flow, mode of operation, user class, stimulus, and response depend on
+what kind of technique has been used to understand functional requirements. Hierarchical
+combinations of these elements are also possible, such as use cases within user classes.
+2.2.1 Module 1
+Following are the requirements for module 1:
+1. The system will be capable of detecting violent activities in a CCTV footage.
+2. The system will immediately be able to detect any criminals in a CCTV footage.
+2.2.2 Module 2
+Following are the requirements for module 2:
+1. The system will be able to do scene understanding and generate reports based on
+its understandings.
+2. The backend will be integrated with the frontend and a web app will be delivered
+as a final product.
+6
+2.3 Non-Functional Requirements
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements.
+2.3.1 Reliability
+In case of a loss of signal/connectivity, the system may fail for a few seconds as that
+specific CCTV camera will be unavailable for recording any footage. This, however, is
+very rare to happen and may only occur in case of damage to the hardware of the CCTV
+camera or any cut-off in power lines. If the system is not backed up in case of power
+outages, it will not be available until the power is restored. The availability of a backup
+power source can resolve this issue. Moreover, the system will fail to detect any violent
+activities if the view is blocked by an object.
+2.3.2 Usability
+The system will be easy to use for not only a CCTV inspector, but anyone who wishes
+to check the footage’s. The feed from camera(s) will be displayed on the screen and the
+user can go onto the next or previous cameras by clicking on their respective buttons. A
+button will also be available for automatic report generation from the trained model. The
+web app will be easy to navigate and control, and will not require any technical expertise.
+2.3.3 Performance
+No specific performance requirements needed for the system operations except for a web
+monitor. The system can be integrated with any CCTV camera, thus, there is no specific
+requirement. However, for faster detections and to avoid any delays, it is recommended
+to have a system with at least 16GB of RAM and a GPU.
+2.3.4 Security
+In order to prevent the system being hacked or any data leakage, it is essential that the
+user keeps their credentials confidential. Moreover, the criminal dataset (for criminal
+detection) should not be exposed and its database access should not be with every user as
+the privacy of these individuals is a major concern and threat.
+7
+2. Project Requirements
+2.4 Domain Model
+Criminal
++name: String
++cnic: String
++address: String
++dob: Date
++crimes: String
+Violence
++Activity: String
+Scene Understanding
++Activity: String
++Environment: String
++Details: String
+Report Generation
++Activity: String
++Environment: String
++Description: String
+Figure 2.1: UML Diagram
+Use-case diagram:
+Figure 2.2: Use-case Diagram
+8
+Chapter 3
+System Overview
+3.1 Architectural Design
+In the first module, we’ll start by creating multi-models for violent activities detection.
+These models will automatically detect any activity that happens in the CCTV footage.
+This subsystem will be integrated with another subsystem, that will be detecting criminals
+that appear in the CCTV footage. In the second module, we’ll be creating a subsystem
+for scene detection. This system will be integrated with the previous two, as it will be
+using the results from the trained models for scene understanding. The scene understand-
+ing subsystem will be merged with the subsystem for report generation, which would be
+using the results of scene understanding for automatically generating a report. Lastly, a
+subsystem for pin-pointing the exact person who was involved in the violent activity, will
+be blended with the subsystem for scene understanding.
+Figure 3.1: Architecture Diagram
+9
+3. System Overview
+3.2 Design Model
+Design Model for Procedural Approach
+Figure 3.2: Sequence Diagram
+10
+3.3 Data Design
+3.3 Data Design
+Criminal dataset, which consists of criminals and their details, will be stored in a database,
+and will be used for detecting criminals in a CCTV footage, in real time. This database
+will be integrated with the facial detection subsystem. Only a few members of the devel-
+opment team (not the end user) will have access to this database, ensuring that their is no
+compromise on security. Any other images that are used for model training will simply
+be downloaded on the local system and will be used to train and test the model on.
+Figure 3.3: Dataflow Diagram
+Figure 3.4: ERD Diagram
+11
+
+Bibliography
+[1] R Tavassoli L Harris S Tan J Waite, J Feng and S Chakraborty. Active shooter detec-
+tion and robust tracking utilizing supplemental synthetic data. Arxiv, 2023.
+13
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

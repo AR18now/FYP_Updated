@@ -1,0 +1,799 @@
+# FYP1_MidReport_F24_097_D_LingoLearn - i210711 Fatima Basit
+
+## 1. Introduction
+
+1. Introduction
+tem’s boundaries, goals, objectives, and context while ensuring that the development is
+user-centered and diverse.
+1.1 Problem Statement
+Language is still a considerable barrier that hinders communication in education, business
+and daily life[11], especially for students who apply for scholarships in foreign countries
+where language proficiency is a requirement. Even with an abundance of language learn-
+ing apps out there, many are boring and unengaging, making it hard for people to stay
+motivated when they’re trying to learn a new language. These apps also lack real-time
+scenario practice or on-the-fly pronunciation feedback, which is so essential for learning
+a language. Live sessions with native speakers can be expensive or difficult to schedule
+due to timezone issues, reducing one of the greatest advantages — flexibility. Our sys-
+tem helps overcome these shortcomings by creating a sensory and cognitively immersive
+language learning experience with AR, on top of AI. This provides practice for real-life
+situations, instant pronunciation feedback, and communication with a virtual language
+partner in the learner’s own time. We want to evolve from the shortcomings of tradi-
+tional apps and provide an engaging, affordable, practical alternative that leads users back
+on their journey toward achieving language fluency without class or financial time con-
+straints. [22]
+1.2 Scope
+This project involves the creation of a mobile language learning app that will leverage
+Augmented Reality (AR) and Artificial Intelligence (AI). Key features of the app include
+a Mobile Augmented Reality (MAR), which takes users into 3D real-world situations and
+immerses them in cultural language contexts for learning. A user can use his phone and
+explore an AR environment which improves learning vastly, making the experience more
+intuitive and unforgettable. An AI-powered language accompaniment is a personalized
+tutor offering real-time guidance and natural practice conversations. The app comes with
+enhanced speech recognition that gives feedback on your pronunciation, so you can work
+on speaking practice in the best possible way. It also includes real-world scenario-based
+final assessments to evaluate whether the learner can put their language skills to use like
+an example of ordering food or traveling through a foreign market. Track your progress
+and performance with analytics so that you stay driven throughout the learning process,
+instilling a sense of streaks along with personalized feedback. Students business profes-
+sionals, working employees, and even tourists- all can achieve their requirements with
+this platform. It starts with users in Pakistan, the UK, and Germany — but there are plans
+2
+1.3 Modules
+to roll it out more broadly. The available languages are English, German, and Urdu more
+to come later. Our application is built on Augmented Reality for interactive learning and
+Artificial Intelligence is used for personalization — via mobile app.
+1.3 Modules
+Following are the modules that are included in our project:
+1.3.1 User Interface (UI) Module
+Develop the quickly comprehensible and manipulable online front-end and applications
+with the minimum accessibility barriers for browsing and exploiting your attributes.
+Features:
+1. Home screen with links for navigation engaging lessons, tests, and progress.
+2. Lesson screen with the AR scenes and interaction with AI bots.
+3. Screens for conducting the pronunciation test as well as scenario type assessment
+screens.
+4. Screens that show feedback and analytics concerning the user’s performance.
+1.3.2 Progress Tracking and Performance Analytics Module
+Monitor user’s language progress and offer language learning analytics from data col-
+lected.
+Features:
+1. Aggregate information on user engagement, test results, as well as learning achieve-
+ments.
+2. Performance analytics including metrics and insights based on the user.
+3. System Dashboard to demonstrate user completion and progress as well as possible
+deficits.
+3
+1. Introduction
+1.3.3 Scenario Based Assessment Module.
+Define language problems with the learner, and use an approach where the user learns by
+doing and acts out real-life situations by speaking the language in the assessment.
+Features:
+1. Create scenarios that replicate and expose real-world interaction.
+2. Create and implement a logic that will assess the user’s answers and give that an-
+swer a mark.
+3. Vary the complexity of the scenarios according to the ability of the user.
+1.3.4 Module of an Augmented Reality AR Environment
+Design extraordinary AR environments that incorporate the cultural and contextual factors
+related to the target language being learnt.
+Features:
+1. Provide a virtual world with the alternating cultures for a proper language acquisi-
+tion.
+2. Quickly change the environment according to the situation.
+1.3.5 AI Language Practitioner Module
+Assist learners through an AI bot who provides instant support on the learned language
+and feedback including comments on the accuracy of words or sentences used in conver-
+sations.
+Features:
+1. Interact by speaking which will involve the use of speech recognition.
+2. Responds using AI well heavens accuracy and relevance of speed and comprehen-
+sion.
+3. Helps one speak the language by simulating the necessary accent.
+4
+1.3 Modules
+1.3.6 Pronunciation Feedback Module
+Assist users improving themselves in pronouncing certain notions thanks to a detailed
+response and feedback with intervals.
+Features:
+1. Conduct a speech analysis to determine the level of the pronunciation efforts.
+2. Render a feedback immediately with ways to get better.
+Query Resolution and Support Module
+Assist users in real-time while they learn by using the Android-assisted Support system.
+Features:
+1. Resolve user queries related to their learning experience on the spot.
+2. Respond to user questions by generating automatic predetermined answers.
+1.3.7 Content Management Module
+Supervise lesson and test development, as well as editing.
+Features:
+1. Design and change lesson and evaluation types.
+2. Compile lesson plans according to the skills and knowledge levels of pupils.
+3. Make logs of content additions and changes for system maintenance.
+1.3.8 Backend and Database Management Module
+Conduct strict and secure data handling and offer management of backend processes of
+the platform.
+Features:
+1. Administer user accounts, progress data and individual preferences and settings.
+2. Administer lessons and assessments concepts and AR scene data.
+3. Provision of data security facilities.
+5
+1. Introduction
+1.4 User Classes and Characteristics
+User class Description
+Students Students are individuals who are registered within some organization, par-
+ticularly institutions of learning, and are interested in language acquisition.
+The application might be used in enhancing one’s studies or even learning
+personally. It is anticipated that students will always turn to the applica-
+tion on a regular basis for lessons, pronunciation practice, and AR-based
+scenario exercises. Numerous learners are likely to utilize the application
+for examinations or for reasons such as scholarship requirements, and they
+expect clear progress tracking. They would use AR rich modules and AI
+teaching avatar to enhance their experience.
+Tourists Tourists are occasional learners who want to grasp basic conversational
+skills in a foreign language for travel purposes. They will typically use
+this mobile application to learn phrases from the AI tutor and will be more
+inclined to use the app to prepare for specific situations like ordering food,
+asking for directions, or navigating foreign markets. For tourists, the fo-
+cus of interactions through the app will be the AR environments rather than
+learning languages in other cultures.
+Staff Staff members are people who will seek to embark on language acquisi-
+tion as one way of improving for better job performance, promotions or
+enhancement of workplace integration. These users may be using the app in
+the office where they try to incorporate learning while going about their day
+to day tasks.
+Language
+Enthusiasts
+These users are highly motivated who intend to acquire proficiency in vari-
+ous languages and also further their linguistic skills in one language. Such
+users will make use of all the functionalities which are given to them in-
+cluding the advanced AR module and in depth lessons. Enthusiasts can be
+expected to change languages quite often, and due to that, they will want to
+be able to switch languages seamlessly. This class of users will also use AI
+companion for personalized learning experiences and they expect the system
+to be reliable and offer challenging tasks and tests, as they are likely to be
+committed persistent users.
+6
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case
+Use-case Diagram
+7
+2. Project Requirements
+Figure 2.1: UseCase Diagram
+8
+2.1 Use-case
+In our case of this mobile language learning app, we have decided to go for the Use Case.
+This technique works perfectly when detailing an interactive, user’s utility-driven app
+like ours, where the clients deal with AR environments, and AI language supporters, and
+engage in lectures.
+Use Case Name User Signup
+Actors User
+Type Primary
+Description The user registers for the application by providing the re-
+quired details
+Table 2.1: Use Case: 1
+Use Case Name View Dashboard
+Actors User
+Type Primary
+Description Displays registered courses, progress, streaks, and naviga-
+tion options.
+Table 2.2: Use Case: 2
+Use Case Name Manage Profile
+Actors User
+Type Primary
+Description The user can update their personal details and preferences.
+Table 2.3: Use Case: 3
+9
+2. Project Requirements
+Use Case Name Register Course
+Actors User
+Type Primary
+Description The user selects a language course and their proficiency
+level to enroll.
+Table 2.4: Use Case: 4
+Use Case Name Take a Lecture
+Actors User
+Type Primary
+Description The user reviews previously completed lectures and takes
+the next available one.
+Table 2.5: Use Case: 5
+Use Case Name Take a Test
+Actors User
+Type Primary
+Description The user completes a test after finishing a week of lectures.
+Table 2.6: Use Case: 6
+Use Case Name Conduct AR Scenario-Based Assessment
+Actors User
+Type Primary
+Description The user completes AR assessments halfway through and at
+the end of the course.
+Table 2.7: Use Case: 7
+Use Case Name Interact with Learning Assistant
+Actors User
+Type Primary
+Description The user interacts with the AI avatar to ask language-related
+questions.
+Table 2.8: Use Case: 8
+Use Case Name View Progress
+Actors User
+Type Primary
+Description The user can see their overall progress in the course, includ-
+ing how many lectures are left and the week they are on.
+Table 2.9: Use Case: 9
+10
+2.1 Use-case
+Use Case Name View Results
+Actors User
+Type Primary
+Description The user views results from all the tests and AR assess-
+ments.
+Table 2.10: Use Case: 10
+Use Case Name View Streaks
+Actors User
+Type Primary
+Description The user views the number of consecutive days they have
+used the app.
+Table 2.11: Use Case: 11
+Use Case Name Issue certificate
+Actors System
+Type Primary
+Description The system generates a digital certificate for the user when
+they complete the whole course on a specific criteria
+Table 2.12: Use Case: 12
+11
+2. Project Requirements
+2.1.1 Extended Use Cases
+Use Case ID Uc-01
+Use Case Name User Signup
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The app is installed
+Success Guarantee (Post
+Condition)
+The User is successfully registered
+Main Success ScenarioActor Action System Response
+User opens the app and selects "Sign Up".
+The system asks the user to enter re-
+quired details.
+User enters the required details.
+The system verifies the inputted
+data.
+The system creates a new user and
+sends a confirmation mail.
+User clicks the verification link in the
+email.
+The system confirms the account is
+verified and completes registration.
+Special RequirementsThe user must not be already registered; otherwise, they will see an "already registered" message.
+Technology and Data Varia-
+tions List
+Internet connection
+Frequency of Occurrence Every time a new user wants to use the app
+Table 2.13: Use Case: 01
+12
+2.1 Use-case
+Use Case ID Uc-02
+Use Case Name View Dashboard
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user is logged in and has been registered to atleast 1 course
+Success Guarantee (Post
+Condition)
+The Dashboard successfully displays the User’s registered courses, progress and streaks
+Main Success ScenarioActor Action System Response
+User Logs in the app
+The system fetches the user data
+and the courses they are registered
+in.
+The dashboard is displayed, show-
+ing information such as progress,
+courses registered etc
+User can go to the different option on the
+dashboard
+Special Requirements The dashboard should update dynamically
+Technology and Data Varia-
+tions List
+Internet connection
+Frequency of Occurrence Everytime the user logs in or navigates to dashboard.
+Table 2.14: Use Case: 02
+Use Case ID Uc-03
+Use Case Name Manage Profile
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user is logged in.
+Success Guarantee (Post
+Condition)
+The User profile is updated dynamically and the changes are visible after saving.
+Main Success Scenario Actor Action System Response
+User selects "Manage Profile" from the
+navigation bar.
+The system displays the current in-
+formation of the user.
+The User updates the profile information.
+The system validates the informa-
+tion.
+System notifies the user that the
+changes have been saved.
+Special Requirements The system should handle the information securely.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Everytime the user wants to update their information.
+Table 2.15: Use Case:03
+13
+2. Project Requirements
+Use Case ID Uc-04
+Use Case Name Register Course
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user is logged in.
+Success Guarantee (Post
+Condition)
+The user is successfully registered in a course and the dashboard in updated accordingly.
+Main Success ScenarioActor Action System Response
+User selects "Register course" from the
+navigation bar.
+The systems displays the list of all
+the avalible courses that can be reg-
+istered.
+User selects the language and thier profi-
+ciency level.
+The system confirms course regis-
+teration and updates the user’s dash-
+board
+System notifies the user that the
+course have been registered.
+Special Requirements The system should offer the course according to the proficiency of the user.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Every Time the user wants to register in to a new course.
+Table 2.16: Use Case: 04
+Use Case ID Uc-05
+Use Case Name Take a Lecture
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user is logged in and is also enrolled in a course
+Success Guarantee (Post
+Condition)
+The user completes the lecture and the dashboard is updated automatically.
+Main Success Scenario Actor Action System Response
+User selects "Take Lecture" from the nav-
+igation bar.
+The systems displays the list of all
+completed and pending lectures.
+User selects the next lecture
+The system displays the content of
+the lecture.
+The system marks the lecture as
+completed and updates the dash-
+board.
+Special Requirements The lecture must be accessable and should follow a proper outline.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Every Time the user wants to take a lecture.
+Table 2.17: Use Case: 05
+14
+2.1 Use-case
+Use Case ID Uc-06
+Use Case Name Take a Test
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user has complete the number of lectures required to take a test.
+Success Guarantee (Post
+Condition)
+The user completes the test and gets feedback as well as score are displayed on the dashboard
+Main Success ScenarioActor Action System Response
+User opens the lesson from navigation bar
+System displays all the lectures of
+the upcomming week along with
+the tests avaliable
+User selects the upcomming test
+System displays the test
+User does the reuqiered tasks
+System updates the results and
+progress and dashboard is updated.
+Special Requirements Tests are to be taken after a specific peroid of time such as after a week or so.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence At the end of each week or specific amout of time
+Table 2.18: Use Case: 06
+Use Case ID Uc-07
+Use Case Name Conduct AR Scenario-Based Assessment
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user has completed the amount lectures and test specified by the admin.
+Success Guarantee (Post
+Condition)
+The user has completed the AR Assessment and has been evaluated.
+Main Success Scenario Actor Action System Response
+User opens the lesson from navigation bar
+System displays all the lectures of
+the upcomming week along with
+the tests avaliable
+User selects the upcomming Assessment
+The system then instantiate the AR
+enviorment
+User interacts with the enviorment to
+complete the assessment
+System evaluates the user’s prefor-
+mance in the Scenario and gives
+feedback on the preformace and up-
+dates the user dashboard
+Special Requirements The app should provide realistic AR scenario for the user
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence At a specific milestone such as mid-term, final assessment.
+Table 2.19: Use Case: 07
+15
+2. Project Requirements
+Use Case ID Uc-08Use Case Name Interact with Learning AssistantScope Lingo LearnLevel User-LevelPrimary Actor(s) UserStakeholders and interests User, App AdminPre-Conditions The user is logged in and is actively registered in a courseSuccess Guarantee (PostCondition) The user is able to interact with the AI bot in AR enviornment and gets accurate response from the bot.
+Main Success ScenarioActor Action System ResponseUser selects "Learning Assistant" fromdashboard The system displays an AI bot inAR enviornment which initiates theconversation.The user then interacts with the AI bot topractice. The system then reponds accord-ingly and help the user improvegrammar/ prouncation.System remains in conversationwith counter questions.Special Requirements The app should provide realistic AR scenario for the userTechnology and Data Varia-tions List Internet connection.
+Frequency of OccurrenceAnytime the user wants additional help without taking lessons or wants to practice in freestyle with restriction.
+Table 2.20: Use Case: 08
+Use Case ID Uc-09
+Use Case Name View Results
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The User has complete atleast one test or assessment.
+Success Guarantee (PostCondition) The User can see their progess and scores of all test/assessment they have completed
+Main Success ScenarioActor Action System ResponseUser selects "View Results" from the nav-igation bar. The system retrives all the test/ assess-ment results of the user.The user sees detailed results with scoreand feedback given on the test.Users can review their progress and com-pare results over time.
+Special RequirementsThe Results should be of the user that requested and should be displayed in a user-friendly manner.
+Technology and Data Varia-tions List Internet connection.
+Frequency of Occurrence Anytime user completes a test or assessment.
+Table 2.21: Use Case: 09
+16
+2.1 Use-case
+Use Case ID Uc-10
+Use Case Name View Streaks
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user has logged consectively on the app for multiple days.
+Success Guarantee (Post
+Condition)
+The users streaks are displayed.
+Main Success Scenario Actor Action System Response
+User logs in the app
+The system checks the user activity and
+calculates the streaks.
+User views streaks history
+The system updates the user streaks ev-
+eryday they login.
+Special Requirements User is given notification to maintain streaks.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Every day the user logs in the app
+Table 2.22: Use Case: 10
+Use Case ID Uc-11
+Use Case Name View Progress
+Scope Lingo Learn
+Level User-Level
+Primary Actor(s) User
+Stakeholders and interests User, App Admin
+Pre-Conditions The user is logged in and is registered in atleast one course.
+Success Guarantee (Post
+Condition)
+The user is able to see their progress such as lessons taken, test scores
+Main Success Scenario Actor Action System Response
+User selects "View Progress" from the
+dashboard.
+The system displays the current status of
+the user.
+User views progress of each lesson/
+tests/Assessments in detail
+The user exist the progress view
+Special Requirements The system updates the progress dynamically.
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Every time the user wants to check their progress.
+Table 2.23: Use Case: 11
+17
+2. Project Requirements
+Use Case ID Uc-12
+Use Case Name Issue certificate
+Scope Lingo Learn
+Level System-Level
+Primary Actor(s) System
+Stakeholders and interests User, System
+Pre-Conditions The user has completed the whole course
+Success Guarantee (Post
+Condition)
+The user is able to see and download certificate.
+Main Success Scenario Actor Action System Response
+After the final Assessment user selects
+generate Certificate
+The system then verifies the criteria.
+when Verifed the certificate is displayed
+The user downloads and exits.
+Special Requirements The certificate should have the User’s name
+Technology and Data Varia-
+tions List
+Internet connection.
+Frequency of Occurrence Everytime a course has been completed by the user
+Table 2.24: Use Case: 12
+18
+2.2 Functional Requirements
+2.2 Functional Requirements
+Use Case ID Functional Requirement
+User Signup
+FR-001 The system shall have an option for users to create an ac-
+count by filling in the details such as email address and
+password.
+FR-002 The system shall notify the user with an error if the email
+address is already registered in the system during signup.
+FR-003 The system shall create a one-time password during the
+signing process when the user registers, and it shall be sent
+to the email supplied during signup.
+FR-004 The system shall confirm the user’s OTP input against the
+one sent to their email and then confirm the user’s email
+upon successful verification.
+User Login FR-005 The system shall enable the users to log in through their
+noted email addresses and their created passwords.
+FR-006 The system shall show an error when the user enters incor-
+rect login details while logging into the system.
+Dashboard
+FR-007 The system shall display a dashboard with all the user’s reg-
+istered courses and the course progression once the user has
+successfully logged in.
+FR-008 The system shall calculate and present the total completed
+courses and the current week and day of the active courses
+on the dashboard.
+FR-009 The system shall display numbers of streaks on the dash-
+board and the numbers will be incremented for every day
+that a user accesses the app.
+Take a Lecture
+FR-010 The system shall present an interface that shall contain a
+button on the dashboard which shall redirect the determined
+user to the available lectures.
+FR-011 The system should provide the users with a list of lectures
+comprehensively along with the lectures’ titles and the com-
+pletion date.
+FR-012 The system shall provide an option for the users to speak to
+the AI tutor during lectures to support real-time communi-
+cation and assistance.
+FR-013 The system shall offer an AI avatar tutor to users in an Aug-
+mented Reality (AR) setting when taking a lecture, enhanc-
+ing the experience by making it more interactive and partic-
+ipatory.
+19
+2. Project Requirements
+View Streaks FR-014 The system shall provide the user with the information re-
+garding the streak count on the dashboard.
+FR-015 The system should give users the option of clicking on the
+streak section to view the streak history.
+View Progress FR-016 The system shall display the overall learning progress of a
+user on the dashboard.
+FR-017 The system should allow the users to see their progress
+through the use of diagrams or charts.
+Manage Profile FR-018 The system shall allow the users to navigate to the section,
+“Manage Profile” through the navigation bar.
+FR-019 The system shall enable the users to change their personal
+information on the system under the section, Manage Pro-
+file.
+Register Course FR-020 The system shall offer users the choice to enroll in a certain
+category through language and then a proficiency level op-
+tion for a new course.
+FR-021 The system should display a confirmation message upon
+successful enrollment of the course.
+Interact with the Learning AssistantFR-022 The system should have a conversational agent who works
+as a virtual teacher and answers users’ questions regarding
+the process of learning a language.
+FR-023 The system should allow the users to give input to the AI
+learning assistant avatar by speaking in a human voice and
+processing this input for appropriate responses.
+View Results FR-024 The system shall allow the users to navigate to the Results
+section through the navigation bar to see all the test and AR
+scenario-based assessment results.
+FR-025 The results screen of this system shall also display the user’s
+pronunciation accuracy over a certain period with the other
+test results.
+Change Settings FR-026 The system shall provide users the option to change the app
+settings through the navigation bar.
+FR-027 The system should store the user preferences and user set-
+tings on submission for later use.
+20
+2.2 Functional Requirements
+Take tests
+FR-028 The system must allow the users to perform scenario-based
+learning activities in the AR spaces where they will simulate
+communication and tasks one would do in real life.
+FR-029 The system shall provide clear instructions and target ob-
+jectives of every scenario-based assessment in detail before
+the user commences the assessment.
+FR-030 The system shall also accept answers in the form of spoken
+words/sentences during weekly tests enabling the system to
+evaluate the user’s ability to pronounce the right words in
+addition to how correct the answers are.
+FR-031 The system shall provide immediate feedback on user per-
+formance after completing the assessment, highlighting
+strengths and areas for improvement.
+FR-032 The system shall provide feedback on user performance in
+tests promptly highlighting pronunciation accuracy.
+Issue Certificate FR-033 The system should provide users who have completed the
+requisite number of lectures and assessments with the com-
+pletion certificate.
+Table 2.25: Functional Requirements
+21
+2. Project Requirements
+2.3 Non-Functional Requirements
+Following are the non functional requirements of our Project "Lingo Learn: Live the
+language through Immersive Augmented Reality Cultural Scenarios and Practice" :
+2.3.1 Reliability
+• The system must be available for users 99.9 percent of the time.
+• There should be ways to recover data if there is any failure of device.
+2.3.2 Usability
+• The interface should be user friendly so that user of any age can navigate through
+the app easily.
+• There should be a manual/ tutorial to help users using the app for the first time to
+understand the app working.
+2.3.3 Performance
+• The landing page should not take more the 3 seconds to load.
+• The AR experience should be smooth in every device to allows users interaction is
+smooth.
+2.3.4 Maintainability
+• Updating the app should be hard.
+• The code base should be well structured and easily understandable
+• Fixing bugs should be viable
+• The code should also be well documented.
+2.3.5 Scalability
+• The app should be able to incorporate changes and should be able to handle new
+language courses added in the future
+22
+2.3 Non-Functional Requirements
+• Cultural scenarios can be updated and app should be handle them
+2.3.6 Compatibility
+• The app should be able to run on different platforms.
+• The app must run on popular OS (Android).
+2.3.7 User Feedback
+• The user should be able to give feedback on how to improve the app.
+• The user should be able to report any bugs they encounter.
+2.3.8 Environmental Impact
+• The app should be developed in a way that it consumes low battery power and is
+environment friendly.
+23
+2. Project Requirements
+2.4 Domain Model
+Figure 2.2: Domain Model
+24
+Chapter 3
+System Overview
+3.1 Architectural Design
+Figure 3.1: Architectural Design Diagram
+3.2 Design Models
+3.2.1 Data Flow Diagrams
+Level 0:
+25
+3. System Overview
+Figure 3.2: Level 0: Context Diagram
+26
+3.2 Design Models
+Level 1:
+Figure 3.3: Level 1 Diagram
+27
+3. System Overview
+Level 2:
+Figure 3.4: Level 2 Diagram
+28
+3.2 Design Models
+Activity Diagrams:
+Figure 3.5: Activity Diagram 1:Sign Up
+29
+3. System Overview
+Figure 3.6: Activity Diagram 2:View Results
+30
+3.2 Design Models
+Figure 3.7: Activity Diagram 3:View Streaks
+31
+3. System Overview
+Take Lecture:
+Figure 3.8: Activity Diagram 4:Take test
+32
+3.2 Design Models
+Interact with learning Assisstant:
+Figure 3.9: Activity Diagram 5:Interact with Learning Assistant
+33
+3. System Overview
+Take AR Scenerio-Based Assessment:
+Figure 3.10: Activity Diagram 6:Take AR Scenario-Based Assessment
+34
+3.2 Design Models
+Generate Certificate:
+Figure 3.11: Activity Diagram 7:Generate Certificate
+35
+3. System Overview
+Take Lecture:
+Figure 3.12: Activity Diagram 8:take lecture
+36
+3.2 Design Models
+Manage Profile:
+Figure 3.13: Activity Diagram 9:Manage Profile
+37
+3. System Overview
+Register Course:
+Figure 3.14: Activity Diagram 10:Register Course
+38
+3.2 Design Models
+3.2.2 System Level Sequence Diagrams:
+Sign up:
+Figure 3.15: SSD 1:Sign Up
+39
+3. System Overview
+Manage Profile:
+Figure 3.16: SSD 2:Manage Profile
+40
+3.2 Design Models
+Register Course:
+Figure 3.17: SSD 3:Register Course
+41
+3. System Overview
+Take Lecture:
+Figure 3.18: SSD 4:Take Lecture
+42
+3.2 Design Models
+Take Test:
+Figure 3.19: SSD 5:Take Test
+43
+3. System Overview
+Take Assessment:
+Figure 3.20: SSD 6:Take Assessment
+44
+3.2 Design Models
+View Results:
+Figure 3.21: SSD 7:View results
+45
+3. System Overview
+View Streaks:
+Figure 3.22: SSD 8:View Streaks
+46
+3.2 Design Models
+Interact with AI Assistant :
+Figure 3.23: SSD 9:Interact with AI Assistant
+47
+3. System Overview
+Generate Certificate:
+Figure 3.24: SSD 10:Generate Certificate
+48
+3.2 Design Models
+3.2.3 State Transition Diagram
+Figure 3.25: State Transition Diagram
+49
+3. System Overview
+3.3 Data Design
+3.3.1 Entity Relationship Diagram:
+Figure 3.26: Entity Relationship Diagram
+50
+Bibliography
+[1] Anon. Nine-year old girl dies due to language barrier, interpreting absence at hos-
+pital—stratus video says lack of industry standardization creating healthcare hazard.
+www.healthitoutcomes.com, 2014.
+[2] Adam Hoffman. Millions of americans are getting lost in translation during hospital
+visits. Smithsonian Magazine, 2015.
+51
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -249,13 +249,14 @@ class RequirementsProcessor:
     def _preprocess_text(self, text: str) -> Dict[str, Any]:
         """Preprocess text using spaCy"""
         doc = self.models['spacy'](text)
+        noun_phrases = self._safe_noun_phrases(doc)
         
         return {
             'sentences': [sent.text.strip() for sent in doc.sents],
             'tokens': [token.text for token in doc if not token.is_space and not token.is_punct],
             'lemmas': [token.lemma_ for token in doc if not token.is_space and not token.is_punct],
             'entities': [(ent.text, ent.label_) for ent in doc.ents],
-            'noun_phrases': [chunk.text for chunk in doc.noun_chunks],
+            'noun_phrases': noun_phrases,
             'pos_tags': [(token.text, token.pos_) for token in doc if not token.is_space]
         }
     
@@ -520,13 +521,34 @@ Provide clear, specific answers based on the text. Do not use placeholder text l
         """Extract key terms and definitions from text"""
         # Simple definition extraction - can be enhanced
         doc = self.models['spacy'](text)
-        definitions = []
-        
-        for chunk in doc.noun_chunks:
-            if len(chunk.text.split()) >= 2:  # Multi-word terms
-                definitions.append(chunk.text)
+        definitions = self._safe_noun_phrases(doc)
         
         return list(set(definitions))[:10]  # Limit to 10 definitions
+
+    def _safe_noun_phrases(self, doc) -> List[str]:
+        """
+        Extract noun phrases safely.
+        When spaCy dependency parser is unavailable (blank model), fallback to simple n-grams.
+        """
+        phrases: List[str] = []
+        try:
+            for chunk in doc.noun_chunks:
+                text = chunk.text.strip()
+                if len(text.split()) >= 2:
+                    phrases.append(text)
+            return phrases
+        except Exception:
+            # Fallback: simple adjacent token bigrams/trigrams.
+            words = [t.text for t in doc if not t.is_space and not t.is_punct]
+            for i in range(len(words) - 1):
+                bigram = f"{words[i]} {words[i+1]}".strip()
+                if len(bigram.split()) >= 2 and len(bigram) > 5:
+                    phrases.append(bigram)
+            for i in range(len(words) - 2):
+                trigram = f"{words[i]} {words[i+1]} {words[i+2]}".strip()
+                if len(trigram.split()) >= 2 and len(trigram) > 8:
+                    phrases.append(trigram)
+            return phrases[:30]
     
     def process_batch(self, input_files: List[str]) -> List[Dict[str, Any]]:
         """Process multiple requirements files in batch"""

@@ -1,0 +1,1302 @@
+# FYP1-MidReport-F24-148-D-PromoHive - i210375 Aasir Farrukh
+
+## 1. Introduction
+
+1. Introduction
+type of behavior is reflected in the customer’s purchase history. A key challenge is
+identifying which discount type works best for each customer segment.
+• Second fold: The second fold refers to determining the optimal discount percent-
+age or the X and Y unknowns of the selected discount type in the first fold. This
+challenge includes deciding the right discount percentage that maximizes customer
+satisfaction/engagement while also maintaining profitability.
+The following table provides a summary of 8 discount types that are commonly referred to
+in promotional strategies, as provided by the industry collaborator in this project: UpStart
+Commerce:
+Discount Type Description
+Buy X Get Y Free Offers customers a free product when they pur-
+chase a certain number of other products. (e.g.
+buy 2 get 1 free)
+Fixed Price Discount Sets a fixed price for a product or a set of prod-
+ucts after meeting specific purchase require-
+ments. (e.g. Get 100 dollars off on next pur-
+chase)
+Percent Discount Offers a discount based on a percentage of the
+product’s price (e.g., Buy 1 for 10 percent off,
+Buy 2 for 20 percent off).
+Each N-th Product Discount Discounts every N-th product in the shopping
+cart, such as “20 percent off every 5th product.”
+Multiple Tiered Discount Applies increasing discounts as the customer
+spends more or buys more (e.g., Spend 100 dol-
+lars, get 10 percent off; Spend 200 dollars, get
+20 percent off).
+Buy X Get Y with Fixed Discount Offers a fixed discount on a product when a dif-
+ferent product is purchased (e.g., Buy 1 shirt,
+get pants for 5 percent off).
+Cart-Wide Discount Offers a discount based on the total value of the
+shopping cart (e.g., Get 10 dollars off for every
+100 dollars spent).
+Product Set Discount Provides a fixed discount or percentage off
+when a specific set of products is purchased to-
+gether (e.g., Buy a couch, loveseat, and chair
+for $999).
+Table 1.1: Main Discount Types Provided by UpStart Commerce
+2
+1.2 Scope
+1.2 Scope
+Our project aims to develop a promotion engine that helps sellers create, manage, and au-
+tomate promotional offers for different types of customer segments to achieve personal-
+ization. The main functionalities include a promotional calendar with customer segments,
+what type of promotion, and what percentage of discount to use for the promotion as its
+sub-features. Other features include automated emails and monitoring/reporting through
+dashboards.
+Customer segmentation will analyze customer’s purchase history/pattern and product pref-
+erences. Using machine learning, the system will suggest the most appropriate promotion
+type and the optimal discount value for the specific customer segment. These suggestions
+will be visible on the dashboards for the seller to approve/reject the promotion campaign.
+The dashboards would also show reports on past promotion performance that would be
+analyzed by the seller. Furthermore, the engine would allow sellers to send automated
+personalized emails to their customers for promotions.
+The boundary of the engine is that it would not be using any external or competitor data. It
+will focus only on the company’s data. Similarly, all the recommendations would be based
+on past data and not on real-time. Also, the engine would not be considering individual
+customer preferences at a level beyond the predefined customer segments. Additionally,
+our engine will be based upon MACH principles - Microservices, API-first, Cloud-native,
+Headless and we are focusing on producing a Headless product. By headless, we mean
+that there will be a minimal UI and our main operations will be performed via APIs.
+Moreover, the engine does not include dynamically adjusting promotions in real-time,
+and the dashboard would not have live reporting. The algorithm focus will be on machine
+learning algorithms like Regression, Clustering, Decision Trees, Random Forests, etc.
+1.3 Literature Review
+1.3.1 Paper 1 (2018)
+Author: Hong Xie, Richard T. B. Ma (National University of Singapore), John C. S. Lui
+(Chinese University of Hong Kong) )
+Title: Enhancing Reputation via Price Discounts in E-Commerce Systems: A Data-
+Driven Approach
+Objective/Purpose: To create a framework for discount rate optimizing to balance profits
+3
+1. Introduction
+and maintain seller’s reputation.
+Methodology: To determine the best discount rates, authors developed a stochastic ban-
+dits framework. They used eBay data to understand buyer behaviors and preferences
+towards discounts.
+Key Findings/Results:
+• Sellers reduced their time by 40% while losing 60% of short-term profit.
+• Long-term profit increased by at least 20% with the discount strategy.
+• The algorithm balanced loses with gains proving beneficial for new sellers who are
+looking to increase their reputation.
+Gaps/Limitations: The study focused on new sellers and may not be as useful to estab-
+lished businesses.
+Relevance to Our Research: This research paper is talking about discount optimization
+which can be useful for our project.
+1.3.2 Paper 2 (2022)
+Author: Soravit Wetprasit (University of Glasgow), Qi Cao (University of Glasgow),
+Chee Kiat Seow (University of Glasgow)
+Title: Recommender System for Coupon Discount of E-commerce Applications
+Objective/Purpose: To develop a hybrid recommender system for coupon discount rec-
+ommendations in e-commerce applications.
+Methodology: To match coupons to client preferences, the authors used matrix factor-
+ization (Alternating Least Squares) and they also used association rule mining (Apriori
+method). They used customer-item interactions and evaluated using AUC and Precision
+at K metrics to assess the model.
+Key Findings/Results:
+• The model showed a 20% improvement in precision compared to the normal exist-
+ing models.
+• It achieved an AUC score of 0.912 which means that it is performing better than
+feedback models.
+• The used model ranked the most relevant coupons at the top, with precision of 0.7
+with K set to 5.
+4
+1.3 Literature Review
+Gaps/Limitations: They did not go deep into understanding the personal behavior of
+customers.
+Relevance to Our Research:As it combines customer demographics, transaction history,
+and implicit feedback. This may help us in doing customer segmentations.
+1.3.3 Paper 3 (2019)
+Author and Year: Mei and Li (2022)
+Title: Research on E-commerce Coupon User Behavior Prediction Technology Based on
+Decision Tree Algorithm
+Objective/Purpose: To develop a predictive model for coupon redemption behavior in
+e-commerce to enhance targeted coupon distribution.
+Methodology: The authors used XGBoost (eXtreme Gradient Boosting) to create a pre-
+diction model which is based on decision trees. To optimize the model, they applied
+feature engineering and parameter tuning on Alibaba’s O2O e-commerce data.
+Key Findings/Results:
+• With an accuracy of 0.9206 and an AUC of 0.8223, the XGBoost model performed
+well.
+• Coupon utilization within a 15-day window was anticipated well by the model.
+Gaps/Limitations: They only focused on a small time span of 15 days which may not
+capture long term customer behavior.
+Relevance to Our Research: This research provides valuable insights into predicting
+coupon usage behavior, which is important for our AI-based promotion system. We would
+understand better how the prediction model can determine the customer segmentation for
+optimal discounts.
+1.3.4 Paper 4 (2024)
+Author: Anitha Julian, Challa Maheswar, Ramyadevi R, Murali Dhar M S, Selvi S
+Title: Analysis and Estimation of Discounts on Product Prices in E-Commerce Sites
+Objective/Purpose: To develop a framework for analyzing and estimating optimal dis-
+counts for products in e-commerce platforms.
+Methodology: The authors used the exploratory data analysis (EDA) to identify the exist-
+ing patterns and the relations between product sales and discount. They used the available
+5
+1. Introduction
+historical transaction data from e-commerce platforms to develop predictive models for
+discount optimization.
+Key Findings/Results:
+• Identified important relations between discount levels and sales volume.
+• Certain product categories consistently received larger discounts which increased
+sales.
+• The predictive model demonstrated high accuracy in estimating sales based on dis-
+count levels.
+Gaps/Limitations: The study did not make use of external factors like trends.
+Relevance to Our Research: This research provides a lot of explanation between dis-
+count and sales. Using this information we can benefit by determining the X and Y values
+in our discount type calculation.
+1.3.5 Paper 5 (2022)
+Author: Gaurav Jangra, Monika Jangra
+Title: Role of Artificial Intelligence in Online Shopping and its Impact on Consumer
+Purchasing Behaviour and Decision
+Objective/Purpose: Understanding the use of Artificial Intelligence on customer pur-
+chasing behavior.
+Methodology:
+• Descriptive research design
+• 200 respondents were given a structured questionnaire across a few Haryana dis-
+tricts.
+• Statistical analysis: Descriptive statistics, Chi-Square, ANOV A, and regression
+analysis
+Key Findings/Results:
+• AI explains 65% of the variance in customer purchasing decisions with R² value of
+0.650
+• Strong impact of AI on purchasing behavior could be seen with p-value < 0.05
+6
+1.4 Modules
+• ANOV A analysis showed the importance of the regression model with F-value =
+367.26, p-value < 0.05
+Gaps/Limitations:
+• Only few districts from Haryana were selected so there is an issue of limited scope
+• There might be bias due to the conventional sampling method
+Relevance to Our Research: This study provides useful insights into the relationship
+between AI and consumer behavior in online shopping. This is important for our AI
+Promotion system. This would benefit us in doing customer segmentations when we can
+understand what type of factors impact customers by how much amount.
+1.4 Modules
+1.4.1 Module 1
+This module will create promotions for different types of customer segments. A promo-
+tion calendar would be generated, which would show what promotion type with what
+discount value to be applied to different customer segments.
+1. AI Powered Promotion Calendar
+2. Customer Segmentation
+3. Customizable Discounting
+1.4.2 Module 2
+This module will use the output from the previous module and allow the company to send
+emails to the different customer segments. Moreover, it will allow the company to analyze
+and optimize its promotional strategies.
+1. Automated Emails
+2. Dashboards
+7
+1. Introduction
+1.4.3 Module 3
+This module will handle the deployment of our promotion engine and allow seamless
+integration with the e-commerce platforms. The integration will make sure that the engine
+is flexible (handles different types of data) and scalable (handles different amounts of
+data).
+1. Deployment
+2. System Integration
+1.4.4 Module 4
+The last module focuses on the final stage of the project. Rigorous testing will be done
+to ensure all functionalities are working as expected. Based on the feedback received,
+fine-tuning will be applied to improve performance.
+1. Offline A/B Testing
+2. Fine-Tuning
+8
+1.5 User Classes and Characteristics
+1.5 User Classes and Characteristics
+User Class Description
+Marketers
+and Retailers
+These users will be responsible for reviewing and approving promotions.
+They will also have access to a dashboard for reviewing a promotion’s ef-
+fectiveness via visuals.
+Development
+Team
+This group will handle the development, deployment, and maintenance of
+the promotion engine. They will also ensure that the promotion engine is
+successfully integrated with different e-commerce platforms.
+Customers The customers include the end users who will receive personalized promo-
+tions generated by our AI-powered promotion engine, aiming to enhance
+their shopping experience.
+System Ad-
+ministrators
+This group will be responsible for the overall management of the system.
+Table 1.2: User Classes and Characteristics
+9
+
+Chapter 2
+Project Requirements
+2.1 Use-case/Event Response Table/Storyboarding
+The use cases of our AI-based promotion engine are listed below:
+1. Generate Promotional Calendar: The AI-based engine will automatically create
+a promotion calendar for marketers to view. This calendar will generate promotions
+for different customer segments, taking into account the segment’s purchase history
+and behavior.
+2. Customer Segmentation: Our AI promotion engine will analyze customer data,
+purchase history, and cart data, grouping customers into segments for targeted/personalized
+promotions.
+3. Dynamic Discount Type Classification: The engine will dynamically allocate a
+discount type to each customer segment, relying on purchase history, behavior,
+preferences, and purchasing patterns.
+4. Dynamic Discount Value Calculation: Continuing from the previous use case, the
+engine will calculate the optimized discount value for the selected discount type,
+balancing customer satisfaction and business profitability (profit margin).
+5. Automated Promotion Execution: The proposed system will automate the entire
+promotion process, from segmentation to rolling out the promotion, without human
+intervention. This includes data analysis, customer segmentation, selecting the pro-
+motion type, and optimizing the discount value.
+6. Email Campaigns: Automated and personalized emails will be sent based on the
+approved promotion calendar, boosting customer engagement and increasing busi-
+ness profit.
+11
+2. Project Requirements
+7. Monitor Promotion Performance: A dashboard will be provided for marketers to
+monitor promotion performance, enabling data-driven decisions.
+8. Offline A/B Testing: Marketers can test different scenarios on existing datasets and
+compare outcomes without running live experiments.
+9. Marketer Approve or Reject Promotions : Admins/marketers will have the au-
+thority to approve or reject promotions generated by the engine before they are
+rolled out.
+Figure 2.1: Use-case Diagram.
+12
+2.2 Detailed Use Cases
+2.2 Detailed Use Cases
+Building upon the use cases listed in the previous section, this section contains detailed
+descriptions of each use case.
+2.2.1 Use Case 1
+Use Case Name Generate Promotional Calendar
+Scope AI Promotion Engine
+Level User goal
+Primary Actor Marketer
+Stakeholders and In-
+terests • Marketer: Expects a visually appealing and easy to un-
+derstand promotional calendar with optimized promotions
+for different customer segments to increase engagement and
+profitability.
+• Business: Businesses want personalized promotions to in-
+crease their revenue, sales, profit margin, and average sales
+per day.
+• Customers: Customers want personalized promotions to
+connect with businesses on a personal level, and those pro-
+motions have to take into account the history, purchase pat-
+tern, and preferences.
+Preconditions
+• The database, or PostgreSQL in our case, must have the
+whole customer data. This data includes purchase history,
+cart behavior, and preferences.
+• The marketer must be logged into the system.
+• Segmentation, regression, and classification models must
+be in place and active.
+13
+2. Project Requirements
+Success Guarantee
+(Postcondition) • The system generates a detailed, visually appealing, and
+easy to understand promotional calendar and that calendar
+should show optimized promotions for each customer seg-
+ment.
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The marketer logs
+into the system.
+The system authenticates the marketer.
+The marketer navi-
+gates to the "Gener-
+ate Promotional Cal-
+endar" section.
+The system displays the "Generate
+Promotional Calendar".
+The AI-based pro-
+motion engine must
+be active and rolling
+and it will query the
+customer data, when
+the marketer clicks
+on "Generate but-
+ton".
+The AI-based promotion engine
+queries the customer data.
+The system pro-
+cesses the data.
+The queried customer data will then be
+analyzed and passed through segmen-
+tation, regression, and classification to
+obtain results.
+Using segmentation,
+regression, and
+classification tech-
+niques, the engine
+will then populate
+the promotional
+calendar.
+The calendar is populated with promo-
+tions, discount types, discount values,
+and timestamps for each customer seg-
+ment.
+The marketer sees
+and reviews the pro-
+motion calendar.
+The system displays the promotional
+calendar in a visually appealing and
+understandable format for review.
+14
+2.2 Detailed Use Cases
+Extensions (Alternate
+Flows) • E1: If certain data points from customer data are unavail-
+able for certain segments:
+– The system will use external data resources or use
+predefined business rules to create generalized promo-
+tions.
+– The marketer will be notified that the data used for
+certain segments is not fully personalized.
+Special Requirements
+• The calendar must be visually appealing and easy to un-
+derstand, and the user(marketer) must be able to filter the
+calendar based on customer segment or time period.
+• The promotion engine should keep in mind the profit mar-
+gins whether the promotions are hurting those margins a
+lot and whether the promotions also capture the customer’s
+interest.
+Technology and Data
+Variations • The system should be able to handle data of various sizes
+and formats from numerous e-commerce platforms. It
+should also account for different date formats for sales data.
+15
+2. Project Requirements
+2.2.2 Use Case 2
+Use Case Name Customer Segmentation
+Scope AI Promotion Engine
+Level Sub-function
+Primary Actor AI-powered promotion engine
+Stakeholders and In-
+terests • Marketer: Marketers need multiple yet precise customer
+segments that understand and capture the customers’ be-
+haviour accurately.
+• Customers: Customers need themselves to be placed into
+segments that are related to their behaviour.
+• Business: Businesses want their promotions to be person-
+alized and targeted so that they can connect with the cus-
+tomers on personal terms and increase their profitability.
+Preconditions
+• The database or PostgreSQL in our case must have the
+whole customer data. This data includes purchase history,
+cart behaviour, and preferences.
+• Segmentation model must be in place and running.
+Success Guarantee
+(Postcondition) • The promotion engine must correctly and accurately seg-
+ment each customer into groups and that segmentation is
+done based on demographics, purchasing pattern/history
+and customer behaviour.
+16
+2.2 Detailed Use Cases
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The AI-powered
+promotion engine
+receives a specific
+customer’s data.
+The system queries the customer data
+from the database.
+The engine then
+queries the cus-
+tomer data from
+the database and
+uses that info i.e.
+purchasing his-
+tory, cart history
+and behaviour and
+analyzes that data.
+The system processes the data using
+segmentation techniques.
+using the trend
+present in data, the
+AI segmentation
+model will classify
+each person into
+different groups.
+The system creates customer segments
+based on demographics, purchasing
+patterns, and behavior.
+The end
+user(marketer/business)
+can see the segments
+of their customer
+base.
+The system displays the segmented
+customer groups.
+Extensions (Alternate
+Flows) • E1: If certain data points from customer data are unavail-
+able e.g marital status etc.:
+– Then the system will make use of only the data points
+that are available e.g. demographics and then group
+the customers based on that.
+– The user will be notified about the missing data points.
+17
+2. Project Requirements
+Special Requirements
+• It is crucial that the segmentation model produces an output
+that is fast, scalable, and can handle all sizes and formats of
+data.
+• Segments can be updated in real time as soon as new data
+becomes available.
+Technology and Data
+Variations • The data points will vary in size, format, and availability
+from one e-commerce platform to another.
+18
+2.2 Detailed Use Cases
+2.2.3 Use Case 3
+Use Case Name Dynamic Discount Type Classification
+Scope AI Promotion Engine
+Level Sub-function
+Primary Actor AI-powered promotion engine
+Stakeholders and In-
+terests • Marketer: Marketers want help identifying the right type
+of discount for the right kind of customer segment to ensure
+maximum customer engagement.
+• Customers: Customers want their shopping habits to be
+identified and learned to give them personalized promotions
+according to it.
+• Business: Businesses want their profitability to be maxi-
+mized but they also want to give market competitive dis-
+counts without hurting their profit margins.
+Preconditions
+• Customer segmentation must be done keeping in mind the
+customer purchase pattern, purchase history, and behavior.
+• Customer segmentation must be completed and the results
+must stored in a database.
+• The system’s discount rules and business goals should be
+defined.
+Success Guarantee
+(Postcondition) • The customer segment must be assigned the right and most
+resonating discount type e.g. Buy one get one, tiered dis-
+count according to the customer’s data.
+19
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The AI-powered
+promotion en-
+gine accesses
+the segmentation
+data stored in the
+database.
+The system queries the customer data,
+including purchasing history, cart be-
+havior, preferences, and customer be-
+havior.
+The AI promotion
+engine selects the
+best suited discount
+type for each seg-
+ment based on pre-
+vious discount type
+data and/or prede-
+fined business rules.
+The system analyzes the customer
+data.
+The end
+user(marketer/business)
+can see the break-
+down of discount
+types allocated
+to each customer
+segment.
+The system displays the assigned dis-
+count types for each segment.
+Extensions (Alternate
+Flows) • E1: If certain data points from customer data are unavail-
+able e.g marital status etc. or customer data is insufficient
+then:
+– Then the system will apply default business rules to
+assign a discount type.
+– The user will be notified about the missing data points
+and/or customer data being insufficient.
+20
+2.2 Detailed Use Cases
+Special Requirements
+• It is extremely important that the discount type selected
+does not hurt the business’s profit margins or start to incur
+loss.
+• Such a discount type has to be selected so that a balance
+between customer satisfaction and profitability is reached.
+Technology and Data
+Variations • The assigned discount type will have variations for example
+percentage discount is allocated for new visitors/customers
+and a tiered discount type is selected for old customers.
+21
+2. Project Requirements
+2.2.4 Use Case 4
+Use Case Name Dynamic Discount Value Calculation
+Scope AI Promotion Engine
+Level Sub-function
+Primary Actor AI-powered promotion engine
+Stakeholders and In-
+terests • Marketer: Marketers want to identify and achieve the right
+value of the discount to maintain an optimum balance be-
+tween business profitability and customer satisfaction.
+• Customers: Customers want the exact amount of discount
+to complete the purchase
+• Business: Businesses want their profitability to be maxi-
+mized but also they need to be ensured that the profit margin
+stays high and/or in the acceptable range.
+Preconditions
+• Customer segmentation must be done keeping in mind the
+customer purchase pattern, purchase history, and behavior.
+• Customer segmentation must be completed and the results
+must stored in a database.
+• In addition to customer segmentation, the allocated dis-
+count type to each customer segment must also be stored
+in the database which can be queried to access it.
+• The customer data, business goals, and systems’ discount
+rules should be defined.
+Success Guarantee
+(Postcondition) • After considering the optimum balance between customer
+satisfaction and business profit margins, an optimal dis-
+count value is assigned to the discount type template se-
+lected.
+22
+2.2 Detailed Use Cases
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The AI-powered
+promotion en-
+gine accesses
+the segmentation
+data stored in the
+database. It further
+accesses the dis-
+count type assigned
+to each customer
+segment.
+The system queries customer data, in-
+cluding purchasing history, cart behav-
+ior, preferences, and behavior.
+The engine then cal-
+culates the right dis-
+count value for the
+given discount type
+by querying the cus-
+tomer data from the
+database and using
+that info i.e. pur-
+chasing history, cart
+history, preferences,
+and behavior, and
+analyzing that data.
+The system takes into account the busi-
+ness’s profit goals during the calcula-
+tion.
+The end
+user(marketer/business)
+can now see the dis-
+count value assigned
+to each discount type
+of each customer
+segment and can
+now approve/reject
+it.
+The system displays the discount val-
+ues for review and approval/rejection.
+23
+2. Project Requirements
+Extensions (Alternate
+Flows) • E1: The selected discount value by the model/engine is not
+satisfying the profitability goals and instead exceeding the
+discount threshold:
+– Then the engine will make the discount value reduced
+to ensure business’s profitability.
+– The user will be notified about the adjustment in dis-
+count value made.
+Special Requirements
+• The calculated discount value must ensure business’s prof-
+itability and customer satisfaction, also it should take into
+consideration the demand elasticity and profit margins.
+Technology and Data
+Variations • The discount value will be variable by taking into account
+the demand for the product.
+24
+2.2 Detailed Use Cases
+2.2.5 Use Case 5
+Use Case Name Automated Promotion Execution
+Scope AI Promotion Engine
+Level User Goal
+Primary Actor AI-powered promotion engine
+Stakeholders and In-
+terests • Marketer: Marketers want the entire promotion process to
+be automated from segmentation to execution, to eliminate
+the need for manual and mundane tasks which are done by
+humans and prone to errors.
+• Customers: Customers want the promotions to reach to
+them in a timely and accurate manner.
+• Business: Businesses want their profitability to be maxi-
+mized without the need for manual labor.
+Preconditions
+• The promotions including the segment, discount type, and
+discount value must be approved and ready to roll out.
+• All of the data related to promotions i.e. segmentation, dis-
+count types, and values must be configured.
+Success Guarantee
+(Postcondition) • The promotions that are approved and are assigned by seg-
+mentation, discount type assignment, and discount value as-
+signment are automatically rolled out with minimal to no
+human intervention.
+25
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The AI-powered
+promotion engine
+retrieves the promo-
+tions generated.
+The system identifies the promotions
+assigned to each customer segment
+along with their discount values.
+The promotions are
+rolled out and each
+customer receives
+a promotion that is
+specifically tailored
+for them.
+The system rolls out the promotions.
+The mar-
+keter/business
+can track and re-
+view the promotion
+execution.
+The system records all the steps it
+takes so that it can analyze its per-
+formance afterwards and those records
+can be used to enhance the engine fur-
+ther in the future.
+Extensions (Alternate
+Flows) • E1: If some data inconsistency is found and promotions fail
+to roll out:
+– The error is entered into the system log.
+– The user will be notified about the error.
+Special Requirements
+• The automation must be seamless and scalable, meaning
+it should roll out promotions without any issues and can
+handle large scale as well as small scale promotion data.
+Technology and Data
+Variations • The promotion should be delivered automatically through
+various channels.
+26
+2.2 Detailed Use Cases
+2.2.6 Use Case 6
+Use Case Name Email Campaigns
+Scope AI Promotion Engine
+Level User Goal
+Primary Actor AI-powered promotion engine
+Stakeholders and In-
+terests • Marketer: Marketers want the promotional calendar that
+has been generated to be aligned with the automated email
+promotion campaigns.
+• Customers: Customers want the promotions they receive
+via emails to be personalized and resonate with them.
+• Business: Businesses want their profitability to be maxi-
+mized with the email promotions.
+Preconditions
+• The promotions including the approved segment, discount
+type, and discount value must be approved and ready to roll
+out.
+• The email template should be ready and saved into the
+database.
+Success Guarantee
+(Postcondition) • The promotions that are approved are sent to the right cus-
+tomers at the right time via emails.
+27
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Responsibility
+Using the approved
+promotions, our AI
+engine will generate
+personalized promo-
+tional emails.
+The system retrieves customer data
+and personalizes the email content
+with the relevant promotion details.
+Promotions are
+rolled out via email
+to the right customer
+segments.
+The AI system personalizes the email
+with customer information and promo-
+tion specifics.
+The mar-
+keter/business
+can monitor the
+email campaign’s
+progress.
+The system records all the steps it
+takes so that it can analyze its per-
+formance afterwards and those records
+can be used to enhance the engine fur-
+ther in the future.
+Extensions (Alternate
+Flows) • E1: If the emails fails to be sent to the customer:
+– The system will try again to send the email and log the
+failure of sending the email.
+– The user will be notified about the failed delivery.
+Special Requirements
+• The email promotion rolling out must be adapted for receiv-
+ing the email on various platforms e.g. mobile, desktop,
+etc. and it should also comply with the GDPR regulations
+for customer data handling.
+Technology and Data
+Variations • Email formats and way of language must be adapted ac-
+cording to different regions and preferences of the customer
+segment.
+28
+2.2 Detailed Use Cases
+2.2.7 Use Case 7
+Use Case Name Monitor Promotion Performance
+Scope AI Promotion Engine
+Level User Goal
+Primary Actor Marketer
+Stakeholders and In-
+terests • Marketer: Marketers want to receive insights based on the
+promotion’s recent performance after roll out.
+• Business: Businesses want monitoring of the promotions
+to make informed deci- sions which will lead to increased
+profitability.
+Preconditions
+• The promotions must have been active once in the past or
+must be running currently.
+Success Guarantee
+(Postcondition) • The system receives the insights from the promotion’s per-
+formance and presents those insights in a visual manner for
+the marketer to understand and comprehend.
+29
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The user(marketer)
+opens the analytics
+dashboard.
+The marketer views
+the dashboard.
+The system queries the promotion data
+from the database. The system then
+generates a dashboard for the user to
+see, the dashboard must have metrics
+such as click-through rates, conversion
+rates, and sales generated.
+The end-
+user(marketer)
+can see and review
+the visual repre-
+sentation of data
+and make informed
+decisions based on
+it.
+The system provides a visual repre-
+sentation of performance data (e.g.,
+graphs, charts) for easy comprehen-
+sion.
+The marketer makes
+adjustments based
+on the insights.
+The system also logs and maintains the
+changes made by the marketer for fur-
+ther fine-tuning the model in the fu-
+ture.
+Extensions (Alternate
+Flows) • E1: The promotion data is incomplete or the promotion is
+not found:
+– The system will show a warning message that the pro-
+motion data is insufficient or not found.
+Special Requirements
+• The dashboard must have a user-friendly interface and must
+be interactive.
+• The dashboard must provide valuable insights.
+• The dashboard must contain visual graphs like pie charts
+and/or bar graphs for easier understanding and comprehen-
+sion of the insights.
+30
+2.2 Detailed Use Cases
+Technology and Data
+Variations • The medium of delivery e.g. email promotion or in-app
+promotion will determine the variation in data that has to
+be displayed.
+31
+2. Project Requirements
+2.2.8 Use Case 8
+Use Case Name Offline A/B Testing
+Scope AI Promotion Engine
+Level User Goal
+Primary Actor Marketer
+Stakeholders and In-
+terests • Marketer: The marketer does not want to run live experi-
+ments but instead run offline simulations on existing data to
+gather valuable insights and compare different promotions.
+• Business: Businesses do not want to risk live experiments
+and want to increase profitability.
+Preconditions
+• The promotions that have been run in the past and their re-
+sults must be available along with the historical customer
+data.
+• There should be a module for offline A/B testing deployed
+and ready to be utilized.
+Success Guarantee
+(Postcondition) • The end-user of our system i.e. the marketer, runs sim-
+ulations on data to attain insights into which promotion is
+better of the two to maximize profitability and customer sat-
+isfaction/engagement.
+32
+2.2 Detailed Use Cases
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The A/B test-
+ing feature is
+accessed by the
+end-user(marketer).
+The marketer selects
+two or more promo-
+tions to compare.
+The system simulates the results by an-
+alyzing historical data without running
+live experiments.
+Without running any
+live experiments, the
+system uses histor-
+ical customer data
+and preferences to
+predict which pro-
+motion strategy will
+perform better.
+The system generates and displays a
+dashboard showing the predicted per-
+formance of each promotion.
+The marketer gath-
+ers insights from the
+simulation results.
+The insights will be gathered by the
+marketer and he/she decides which
+promotional strategy will perform bet-
+ter on what segment.
+Extensions (Alternate
+Flows) • E1: The data is missing certain data points to run the simu-
+lation:
+– The system will show a warning message that the data
+points are insufficient.
+– The user can still run the simulation but will be warned
+that the results might not be accurate.
+Special Requirements
+• The system should try and mimic real-world customer re-
+sponses.
+• The system should be able to handle both large and small
+datasets and should provide results within 10 minutes.
+33
+2. Project Requirements
+Technology and Data
+Variations • The simulation’s accuracy will be affected by the variations
+in data e.g. different demographics, physical location, etc..
+34
+2.2 Detailed Use Cases
+2.2.9 Use Case 9
+Use Case Name Marketer Approve or Reject Promotions
+Scope AI Promotion Engine
+Level Sub-function
+Primary Actor Marketer
+Stakeholders and In-
+terests • Marketer: The marketer wants to have a say in what pro-
+motions go out and what stays the same so that the business
+policies regarding profit are not violated.
+• Business:Businesses want to oversee whether the promo-
+tions are aligned with the business goals or not.
+Preconditions
+• The admin/marketer must be logged into the system with
+the right privileges.
+• The promotion calendar must be generated already and dis-
+played to be reviewed by the marketer.
+Success Guarantee
+(Postcondition) • The promotions that the marketer is suspicious about are
+flagged and revised and the promotions that are good stay
+the same.
+35
+2. Project Requirements
+Main Success Sce-
+nario
+Actor Action System Responsibility
+The system utilizes
+the customer data
+and purchase pat-
+terns of different
+customers to gen-
+erate personalized
+promotions for each
+segment.
+The marketer views
+the generated pro-
+motions in the form
+of a promotional cal-
+endar.
+The system presents the promotion
+calendar to the marketer.
+The promotions
+that have not been
+viewed yet will have
+been flagged as not
+viewed or pending
+approval.
+The system flags any promotions that
+have not been viewed or approved.
+The marketer then
+reviews the promo-
+tion generated by the
+promotion engine.
+The system allows the marketer to in-
+spect the promotion details.
+The promotions that
+are rejected are then
+asked for correc-
+tions and flagged,
+and the approved
+promotions are
+rolled out.
+Approved promotions are automati-
+cally rolled out. Rejected promotions
+are flagged for corrections.
+36
+2.2 Detailed Use Cases
+Extensions (Alternate
+Flows) • E1: A promotion is rejected by the marketer:
+– The system asks for the correction in the promotion
+by allowing the marketer to edit fields.
+– The system also logs the correction which can be used
+to further fine-tune the model in the future.
+Special Requirements
+• The approval must be easy to navigate..
+• The fields of the promotion generated must be editable.
+• The logs should maintain an audit trail of the changes made.
+Technology and Data
+Variations • Notifications of pending approvals delivered to the mar-
+keters via email or in-app messages.
+2.2.10 Module 1 - Promotion Creation
+1. The system shall consider and analyze the data available and shall generate promo-
+tions specifically for each customer segment.
+2. Corresponding to the generated promotions, the system shall create a visually ap-
+pealing and easy to understand promotion calendar which will clearly show the type
+of promotion and the value of promotion corresponding to each customer segment.
+3. The system shall select the discount type and optimize the discount value by taking
+into account customer preferences, behavior, and purchasing patterns.
+2.2.11 Module 2 - Automated Emails and Analytics
+1. The system shall be able to send promotional emails automatically to the right cus-
+tomers based on the generated approved promotional calendar.
+2. The system shall provide an insightful dashboard about each rolled out promotion,
+which the marketer may use to make informed decisions.
+37
+2. Project Requirements
+2.2.12 Module 3 - System Integration and Deployment
+1. The system shall provide RESTful API’s for easy integration with numerous and
+varied e-commerce platforms.
+2. The system shall provide a flexible engine, meaning it should be able to handle
+inputs(data) of different formats.
+3. The system shall be scalable, meaning it should be able to handle inputs(data) of
+different sizes/volumes.
+2.2.13 Module 4 - Testing and Optimization
+1. The system shall have the option for the user to do offline A/B testing so that the
+user can run simulations on the existing data before rolling out promotions.
+2. The system shall make sure that all blocks/functions work as expected before de-
+ployment.
+3. The system shall allocate room for feedback-driven fine-tuning of the AI models
+deployed to maximize and optimize the effectiveness of promotions.
+2.3 Non-Functional Requirements
+Non-functional requirements highlight the overall quality and robustness of a system. The
+NFRs for our system (AI-powered promotions engine) are listed below:
+2.3.1 Reliability
+Reliability is a crucial NFR and it is in place to ensure that the system is robust and if a
+failure occurs, how the system recovers from it.
+1. NFR1: The system shall constantly maintain an uptime percentage of 99.5 percent
+and ensure that the mean time between failures is minimally 5 minutes.
+2. NFR2: The system shall automatically detect any failures that are about to occur or
+have occurred and should recover from them with a data loss percentage being at 0
+percent.
+3. NFR3: The system shall maintain logs of all the critical processes that are taking
+place, and if a failure occurs, the development team has to be notified within 3
+minutes.
+38
+2.3 Non-Functional Requirements
+2.3.2 Usability
+For the system to be easy to navigate and intuitive, it has to follow the usability require-
+ments.
+1. NFR4: The system shall allow the user(marketer) to approve/disapprove any pro-
+motion with just a click of a button.
+2. NFR5: The system shall allow the marketer to change the content of the promotion
+within 5 minutes.
+3. NFR6: The system shall display the KPIs in a user-friendly and easy to understand
+manner so that the marketer understands it in under 30 seconds.
+4. NFR7: The system shall provide guides on how to use its feature so that a new user
+can be proficient in using the system within 1 hour of training.
+2.3.3 Performance
+Performance requirements are there to ensure that the system has high performance and
+it serves as a measure of how efficiently the system is operating.
+1. NFR8: The system shall process and store the promotion generated by the engine
+in the database within 5 seconds of generation.
+2. NFR9: The system shall store the changes made to the promotions by the marketers
+in the database within 2 seconds of the "save" button being clicked.
+3. NFR10: The email promotion push system shall be able to push 50,000 emails
+within 10 minutes.
+4. NFR11: The customer segmentation module shall be able to process up to 10 mil-
+lion records and return the segmentation results in under 8 minutes.
+2.3.4 Security
+For the security of customer data in the system and the prevention of unauthorized access,
+security requirements have to be followed.
+1. NFR12: To ensure that the data is not intercepted during transit or it is not com-
+promised during at rest i.e. in the database, it shall be encrypted using standard
+encryption procedure such as AES-256.
+39
+2. Project Requirements
+2. NFR13: The system shall use multi-factor authentication to authenticate and au-
+thorize marketer when accessing sensitive customer/promotion information.
+3. NFR14: The system shall maintain logs for everyone using it for the past 1 year.
+2.3.5 MACH Principles
+To focus on the modularity, APIs, cloud scalability, and headless architecture, the system
+should follow the MACH principles.
+1. NFR15 - Modularity: The system shall be divided into modules so that new fea-
+tures can be easily added, removed, and/or updated without compromising the
+working status of the entire system.
+2. NFR16 - API First: The system shall make use of well-documented RESTful APIs
+so that multiple platforms can access the promotion engine’s functionalities/features
+seamlessly.
+3. NFR17 - Cloud Native: The system shall be deployed on the cloud, making it easy
+to scale up or down and maintain 99.5 percent uptime.
+4. NFR18 - Headless: The systems backend implementation shall be decoupled so
+that it can be easily compatible with multiple interfaces e.g. mobile, web, etc.
+2.3.6 Scalability
+The scalability of our system will ensure that the system can handle input data of various
+sizes and formats.
+1. NFR19: The system shall be able to handle input data of Upton 1 million records/entries
+without reporting degrading in its performance.
+2.3.7 Maintainability
+It ensures that the system is easy to fix and easy to update for the development team.
+1. NFR20: The system shall be designed in such a way that new modules can be added
+and/or updates to existing modules can be made without the need for a complete
+restart of the system.
+2. NFR21: The code for the system shall follow proper procedures for comments so
+that other developers can contribute to it easily with an onboarding time of 3 days.
+40
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain Model.
+41
+
+Chapter 3
+System Overview
+Figure 3.1: General Overview of our system.
+3.0.1 Description of System Overview
+Our project titled PromoHive is an AI powered promotion engine and intends to work
+of principles of dynamic promotions. Customers have unique preferences and purchasing
+pattern that is hidden in the huge amounts of data, our engine works by analyzing that
+customer data. It works by segmenting customers of similar looking purchase history,
+product category preferences, seasonal trends, cycles and price sensitivity into different
+clusters or groups. By successful segmentation, we aim to introduce personalization into
+the promotions the customers receive.
+The project works by passing the data into an AI powered promotion engine which con-
+sists of 3 main sub-models: customer segmentation, discount type/advanced qualifier cal-
+43
+3. System Overview
+culation (classification) and discount value/amount calculation (regression/optimization).
+This is how the flow looks like: the customers are segmented, then based on each seg-
+ment’s data, the discount type/qualifier is selected e.g. frequency-based, seasonal-based,
+or product-based, and then finally, considering the profit margins, customer lifetime value,
+and inventory levels, the right discount value is calculated that ensures that the balance
+between customer satisfaction and business profitability is maintained.
+All in all, PromoHive is designed in such a way that multiple e-commerce companies
+can use it to boost sales and enhance customer satisfaction by using data to create smart,
+effective and resonating personalized discounts and promotions.
+44
+3.1 Architectural Design
+3.1 Architectural Design
+Figure 3.2: Architecture Diagram.
+3.1.1 Description of System’s Architecture Diagram:
+Here is the detailed description of the architecture diagram shown above.
+1. Customer Interaction: The interaction data of the customer is recorded and the AI
+model is trained using the help of it. The customer interacts with the website and
+the data recorded indirectly shows the individual customer’s preferences, customer
+behaviour, purchase patterns, purchase history and demographics which will be
+used by the AI engine for analysis.
+2. Data Collection and Pre-processing: In this step, the system will make use of the
+data collected in previous step and perform data analysis on it along with feature
+engineering to extract hidden information in the data and to perform analysis.
+3. AI Model: After recording customer interaction and performing pre-processing on
+the data, the AI model will perform 3 major tasks:
+45
+3. System Overview
+• Customer Segmentation: This part of the AI model will try and cluster cus-
+tomers into groups based on their purchasing behaviour and demographics
+amoungst other characteristics. For this segmentation, different techniques
+such as K-means clustering and/or DBSCAN will be used.
+• Promotion Type/Advance Qualifier Selection: This part of the AI engine
+will determine what type of discount (BOGO/tiered discount etc.) will be
+right to target which customer segment using classification techniques.
+• Discount Value Calculation:This part of the AI promotion engine will deter-
+mine the optimum amount of discount to be offered with the selected discount
+type.
+4. Personalized Promotions: After the analysis done by the promotional engine, the
+customers will receive personalized promotions.
+5. Promotional Calendar: After the analysis done by the promotional engine, the
+promotions will be arranged in a calendar clearly showing the time-frame and spe-
+cific customer segment to target the promotion on.
+6. Automated Emails: For the Generated promotions, the system will push out auto-
+mated emails so that the promotions have been reached to the right customers at the
+right times.
+7. Monitoring and Feedback: The system will track the performance of the pro-
+motions and display it in a dashboard for the marketer to see and make informed
+decisions based on it.
+46
+3.2 Design Models
+3.2 Design Models
+3.2.1 Use Case 1: Generate Promotional Calendar
+Activity Diagram:
+Figure 3.3: Activity Diagram for Use Case 1.
+47
+3. System Overview
+System Sequence Diagram:
+Figure 3.4: SSD for Use Case 1.
+48
+3.2 Design Models
+3.2.2 Use Case 2: Customer Segmentation
+Activity Diagram:
+Figure 3.5: Activity Diagram for Use Case 2.
+49
+3. System Overview
+System Sequence Diagram:
+Figure 3.6: SSD for Use Case 2.
+50
+3.2 Design Models
+3.2.3 Use Case 3: Dynamic Discount Type Classification
+Activity Diagram:
+Figure 3.7: Activity Diagram for Use Case 3.
+51
+3. System Overview
+System Sequence Diagram:
+Figure 3.8: SSD for Use Case 3.
+52
+3.2 Design Models
+3.2.4 Use Case 4: Dynamic Discount Value Calculation
+Activity Diagram:
+Figure 3.9: Activity Diagram for Use Case 4.
+53
+3. System Overview
+System Sequence Diagram:
+Figure 3.10: SSD for Use Case 4.
+54
+3.2 Design Models
+3.2.5 Use Case 5: Automated Promotion Execution
+Activity Diagram:
+Figure 3.11: Activity Diagram for Use Case 5.
+55
+3. System Overview
+System Sequence Diagram:
+Figure 3.12: SSD for Use Case 5.
+56
+3.2 Design Models
+3.2.6 Use Case 6: Email Campaigns
+Activity Diagram:
+Figure 3.13: Activity Diagram for Use Case 6.
+57
+3. System Overview
+System Sequence Diagram:
+Figure 3.14: SSD for Use Case 6.
+58
+3.2 Design Models
+3.2.7 Use Case 7: Monitor Promotion Performance
+Activity Diagram:
+Figure 3.15: Activity Diagram for Use Case 7.
+59
+3. System Overview
+System Sequence Diagram:
+Figure 3.16: SSD for Use Case 7.
+60
+3.2 Design Models
+3.2.8 Use Case 8: Offline A/B Testing
+Activity Diagram:
+Figure 3.17: Activity Diagram for Use Case 8.
+61
+3. System Overview
+System Sequence Diagram:
+Figure 3.18: SSD for Use Case 8.
+62
+3.2 Design Models
+3.2.9 Use Case 9: Marketer Approve or Reject Promotions
+Activity Diagram:
+Figure 3.19: Activity Diagram for Use Case 9.
+63
+3. System Overview
+System Sequence Diagram:
+Figure 3.20: SSD for Use Case 9.
+3.2.10 System-Level Sequence Diagram:
+Figure 3.21: System-Level SSD.
+64
+3.2 Design Models
+3.2.11 Data Flow Diagram:
+Figure 3.22: Data Flow Diagram of our System.
+65
+3. System Overview
+3.3 Data Design
+Figure 3.23: System’s ERD.
+3.3.1 Description of ERD
+Below is the description of Entity Relationship Diagram of our system which will handle
+data from various e-commerce platforms.
+1. Catalog: This table in the data is responsible for handling the inventory aspect.
+It includes values like name, category, and description, along with the product’s
+status (live, hidden, archived). It also includes a unique product identifier known as
+"ProductItemSKUid" which will be used to link product sold with its description.
+2. Order Data: This is a very important table in the data and it is responsible for
+recording the purchases made by each customer along with its details such as date
+and amount.
+3. Promotions Events: This table is significant in the sense that it stores the infor-
+mation of all the promotions that have been made live in the past along with the
+number of times each promotion has been availed. It can be linked to the customer
+using PromotionID.
+66
+3.3 Data Design
+4. Customer Events: This is a table which has crucial information of the customer.
+It has information of billing address, email and whether the customer has chosen to
+stay anonymous or not.
+5. Views Service: This table is a result of a logger, which logs in information of the
+customer related to product as it stores product details of the product viewed by the
+customer and the date of the view.
+6. Cart Service: This table contains data points related to the cart of a customer, it
+has critical information such as ProductItemSKUid, the cart action, and the date.
+67
+
+Bibliography
+[1] Gaurav Jangra and Monika Jangra. Role of artificial intelligence in online shopping
+and its impact on consumer purchasing behaviour and decision. Journal of Retailing
+and Consumer Services, 2022.
+[2] Anitha Julian, Challa Maheswar, R Ramyadevi, Murali MS Dhar, and S Selvi. Anal-
+ysis and estimation of discounts on product prices in e-commerce sites.IEEE Access,
+2024.
+[3] Li Mei. Research on e-commerce coupon user behavior prediction technology based
+on decision tree algorithm. International Journal of Computing and Digital Systems ,
+2022.
+[4] Soravit Wetprasit, Qi Cao, and Chee Kiat Seow. Recommender system for coupon
+discount of e-commerce applications. IEEE Transactions on Knowledge and Data
+Engineering, 2022.
+[5] Hong Xie, Richard T. B. Ma, and John C. S. Lui. Enhancing reputation via price
+discounts in e-commerce systems: A data-driven approach. ACM Transactions on
+Intelligent Systems and Technology, 2018.
+[11] [22] [33] [44] [55]
+69
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

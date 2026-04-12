@@ -4,9 +4,20 @@ import { History, FileText, Trash2, Eye, Download, Calendar, User, X, Search, Fi
 import { getStoredInputs, getStoredSRS, deleteInput, deleteSRS, clearAllStorage, getStorageStats } from '../utils/storage';
 import axios from 'axios';
 import config from '../config';
+import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
+import { useTheme } from '../context/ThemeContext';
 
-const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
+const HistoryView = ({ onLoadInput, onLoadSRS }) => {
+  const toSafeFilename = useCallback((value, fallback = 'SRS') => {
+    const cleaned = String(value || fallback)
+      .trim()
+      .replace(/[\\/:*?"<>|]+/g, '')
+      .replace(/\s+/g, '_');
+    return cleaned || fallback;
+  }, []);
+
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [activeTab, setActiveTab] = useState('srs'); // 'inputs' or 'srs'
   const [inputs, setInputs] = useState([]);
@@ -96,47 +107,34 @@ const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
     }
   }, [onLoadSRS, navigate]);
 
-  const handleDownloadSRS = useCallback(async (srs) => {
+  const handleDownloadSRS = useCallback(async (srs, format = 'pdf') => {
     try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_SRS_PDF, {
-        document_id: srs.document_id,
-        title: srs.title,
-        version: srs.version,
-        date: srs.date,
-        author: srs.author,
-        sections: srs.sections,
-        raw_text: srs.raw_text,
-      }, {
-        responseType: 'blob',
+      const endpoint =
+        format === 'docx'
+          ? config.API_ENDPOINTS.GENERATE_SRS_DOCX
+          : config.API_ENDPOINTS.GENERATE_SRS_PDF;
+      const response = await axios.post(
+        endpoint,
+        {
+          document_id: srs.document_id,
+          title: srs.title,
+          version: srs.version,
+          date: srs.date,
+          author: srs.author,
+          sections: srs.sections,
+          raw_text: srs.raw_text,
+        },
+        { responseType: 'blob' }
+      );
+      await saveBlobResponseAsDownload(response, {
+        defaultFilename: toSafeFilename(srs.title || srs.document_id || 'SRS'),
       });
-
-      // Determine file type from content type header
-      const contentType = response.headers['content-type'] || '';
-      const isPDF = contentType.includes('application/pdf');
-      const fileExtension = isPDF ? 'pdf' : 'html';
-      const fileName = `srs_${srs.document_id}.${fileExtension}`;
-
-      // Create blob with proper MIME type
-      const blob = new Blob([response.data], { 
-        type: isPDF ? 'application/pdf' : 'text/html' 
-      });
-      
-      // Create download link
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
-      
-      // Cleanup
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading SRS:', error);
-      alert('Failed to download SRS document. Please try again.');
+      console.error(`Error downloading SRS (${format}):`, error);
+      const msg = await messageFromAxiosBlobError(error);
+      alert(msg);
     }
-  }, []);
+  }, [toSafeFilename]);
 
   const handleClearAll = useCallback(() => {
     if (window.confirm('Are you sure you want to clear all history? This cannot be undone.')) {
@@ -186,7 +184,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 font-medium transition-all duration-200 border-b-2 ${
                 activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
+                  ? 'border-r2d-accent text-r2d-accent'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -203,7 +201,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
             placeholder="Search by title, author, or content..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent"
             style={{ 
               background: 'var(--card)', 
               color: 'var(--text)', 
@@ -258,19 +256,27 @@ const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleLoadSRS(srs)}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
                         title="View SRS"
                       >
                         <Eye className="h-4 w-4" aria-hidden="true" />
                         <span className="hidden sm:inline">View</span>
                       </button>
                       <button
-                        onClick={() => handleDownloadSRS(srs)}
+                        onClick={() => handleDownloadSRS(srs, 'pdf')}
                         className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center space-x-2 transition-all"
-                        title="Download SRS"
+                        title="Download SRS PDF"
                       >
                         <Download className="h-4 w-4" aria-hidden="true" />
-                        <span className="hidden sm:inline">Download</span>
+                        <span className="hidden sm:inline">PDF</span>
+                      </button>
+                      <button
+                        onClick={() => handleDownloadSRS(srs, 'docx')}
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
+                        title="Download SRS Word"
+                      >
+                        <Download className="h-4 w-4" aria-hidden="true" />
+                        <span className="hidden sm:inline">.docx</span>
                       </button>
                       <button
                         onClick={() => handleDeleteSRS(srs.document_id || srs.id)}
@@ -376,7 +382,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS, theme = 'dark' }) => {
                     <div className="flex gap-2 flex-wrap">
                       <button
                         onClick={() => handleLoadInput(input)}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
                         title="Load Input"
                       >
                         <Eye className="h-4 w-4" aria-hidden="true" />

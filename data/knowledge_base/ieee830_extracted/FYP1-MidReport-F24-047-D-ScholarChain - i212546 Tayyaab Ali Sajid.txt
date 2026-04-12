@@ -1,0 +1,876 @@
+# FYP1-MidReport-F24-047-D-ScholarChain - i212546 Tayyaab Ali Sajid
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The purpose of this project is to develop an automated study loaning system that will
+provide interest-free loans to support students with financially weak backgrounds by con-
+necting them with social welfare organizations through a crowd-sourcing model. Through
+blockchain technology, the system will guarantee a transparent, secure, and impenetrable
+loaning process. The system will have its private blockchain to ensure the security of the
+transactions and transparency only within the system. Furthermore, Blockchain will be
+used to create chain codes that will automate the entire loan process from agreement to last
+loan installments and track each transaction. The system will also have a Large Language
+Model (LLM) which will be used to provide personal assistance to the user during the
+form-filling process to answer queries. Additionally, LLM will majorly be used in risk
+assessment of the users’ application through analysis of financial documents, and aca-
+demic records. LLM will also be utilized for personalized plans for loan reimbursement
+depending on the student’s financial conditions. The system will also provide an inter-
+face for the donors to donate directly to our system without the involvement of any third
+parties. Moreover, students will be able to track how much loan has been reimbursed,
+see transaction logs, and query the chatbot in case of any confusion at any time. Lastly,
+the system will also automate user reminders about their repayments and automatically
+update the plans based on the users’ timely or late payments.
+1.3 Modules
+Our project is divided into 3 modules. The modules are listed below.
+1.3.1 Module 1 - AI Module
+We will be creating a RAG (Retrieval Augmented Generation) which will enhance the
+user experience by utilizing the power of LLMs along with the context of the documents
+uploaded by the users. This Module is crucial for the success of the ScholarChain because
+our system will utilize the analytical power of LLM for the automation of the loaning
+process This module includes the following features based on AI:
+1. Risk Assessment through analysis of financial documents, and academic records
+and checking if the applicant meets the loan criteria or not.
+2. Personal Assistants such as RAGbot or field suggestions/completion to assist the
+users throughout the form-filling process and reduce errors.
+2
+1.4 User Classes and Characteristics
+3. Personalized loan repayment plans based on financial conditions to help the student
+eliminate any financial burden.
+4. AI-driven customer support to query questions in case of any confusion to enhance
+user experience.
+1.3.2 Module 2 - Blockchain Module
+The blockchain module ensures that the loaning process is automated using chain codes.
+The implementation of a ledger using the blockchain would provide security and trans-
+parency within the system to ensure a tamper-free loaning platform. The following fea-
+tures will be developed under the blockchain module.
+1. Immutable Blockchain ledger to log all the transactions to provide a secure and
+transparent system.
+2. chain codes to automate and enforce loan agreements, govern loan transactions, and
+real-time disbursements and repayment collection.
+1.3.3 Module 3 - Web Application
+A web application will provide an interface to the students so they can interact with the
+system, fill out application forms, and track their loan status. It will allow the user for
+real-time tracking of the loan for the students. An interface for the donors will be made
+to donate directly into our system using payment gateways. Additionally, the web appli-
+cation will also provide several insights. This module includes the following features:
+1. Audit Trails from the donation till loan reimbursement to ensure complete track that
+the donations are being used for the proposed purpose.
+2. Automated financial reports so that students can get insights into the loan status.
+3. Automated reminders / Notifications for upcoming or delayed payments to ensure
+smooth operations.
+1.4 User Classes and Characteristics
+ScholarChain will be built to be used by a diverse set of users, each of whom will play
+a crucial role in ensuring the system’s effectiveness. This section describes the various
+user classes that will be interacting with the system and describes their roles and expected
+interactions within the system.
+3
+1. Introduction
+User class Description
+Students Students are the primary users for the application as they will be applying
+for interest-free loans in order to pursue their education. The primary demo-
+graphic that the system will cater to is students who come from disadvan-
+taged backgrounds and require support to cover their tuition costs. Students
+will be using the system to apply for loans, provide their documents, and
+track the application process and repayment schedules. AI assistants will
+also assist them with any queries that they may have.
+Parents Parents or legal guardians will be acting as co-signers for the students who
+will be applying for loans. They will be able to use the platform to monitor
+the repayment schedules as well. They may also co-sign loan agreements
+alongside their children.
+Social Wel-
+fare Entities
+(Donors)
+Social Welfare Organizations will serve as the primary financial contribu-
+tors to the platform. They will provide funding through donations, and the
+blockchain ledger will ensure the transparency of their contributions. These
+entities can use the platform to monitor their contributions and see how their
+funding is being utilized.
+System Ad-
+ministrators
+The system administrators will be responsible for verifying and approving
+risk assessment and the repayment plans that will be generated by the AI
+components of the platform.
+Table 1.1: User Classes and Characteristics
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 High-Level Use Cases
+Use Case Apply for Loan
+Actors Student
+Type Primary
+Description A student will use the ScholarChain platform to submit a loan ap-
+plication which includes filling out personal and academic details
+and uploading necessary documents. Once the form has been sub-
+mitted, the student will wait for verification and approval.
+Use Case Provide Funding
+Actors Social Welfare Entity (Donor)
+Type Primary
+Description A donor logs into the ScholarChain platform to provide funding
+for the revolving fund. They will contribute through secure pay-
+ment gateways, which will then be recorded on the blockchain for
+transparency and tracking.
+Use Case Approve Loan
+Actors System Administrator
+Type Primary
+Description The ScholarChain AI module will assess the loan applications by
+analyzing the documents and details provided by the student. The
+system administrator will then review the AI assessment and make
+the final decision regarding the approval of the loan.
+5
+2. Project Requirements
+Use Case Track Repayment
+Actors Student, Parent/Guardian
+Type Secondary
+Description Students and parents/guardians will be able to access the Schol-
+arChain platform to monitor loan repayment schedules and view
+previous payments.
+Use Case Customer Support Interaction
+Actors Student, System Administrator
+Type Primary
+Description Students can access ScholarChain’s AI-powered ChatBots to gain
+assistance. The issue may be escalated to system administrators to
+provide a resolution in case of a complex issue.
+Use Case Personalized Repayment Plan Generation
+Actors Student
+Type Primary
+Description Once the student has submitted his application and it has been ap-
+proved, an AI assistant creates a personalized repayment plan for
+the student based on their financial situation.
+Use Case Automated Loan Disbursement
+Actors System Administrator, Blockchain Ledger
+Type Primary
+Description: Upon approval of a loan, the smart contracts deployed on the
+blockchain will automatically disburse the designated amount to
+the student in order to ensure a transparent and tamper-proof pro-
+cess.
+Use Case Verify Loan Agreement
+Actors Student, Parent/Guardian
+Type Secondary
+Description Once the loan has been approved, the agreement will be digi-
+tally signed by the student or parent/guardian, which will then be
+recorded securely on the blockchain ledger.
+Use Case Payment Scheduling and Notifications
+Actors Student
+Type Secondary
+Description The ScholarChain platform sends automated reminders about up-
+coming payments to the students and provides the option to adjust
+the repayment plan as needed according to the students current fi-
+nancial condition.
+6
+2.2 Fully-Dressed Use Cases
+Use Case Financial Analysis for Risk Assessment
+Actors System Administrator
+Typ: Primary
+Description The AI module analyzes each student’s financial history and aca-
+demic records to determine the level of risk associated with grant-
+ing the loan. This assessment assists the system administrator in
+making the final decision on loan approval.
+2.2 Fully-Dressed Use Cases
+2.2.1 Use Case: Apply for Loan
+Use Case Apply for Loan
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student
+Stakeholders
+and Interests
+Student: The Student wants to apply for an interest-free loan.
+Preconditions
+1. The student must be registered on the ScholarChain plat-
+form and must be logged in to start the application process.
+2. The students must have all required documents prepared
+and ready for uploading.
+Success Guar-
+antee 1. Upon successful completion, the student’s loan applica-
+tion is submitted.
+2. The student receives confirmation of submission.
+7
+2. Project Requirements
+Main Success
+Scenario
+Actor Action System Response
+Student logs into the Scholar-
+Chain platform.
+System authenticates the
+student and provides ac-
+cess to their dashboard.
+Student selects the "Apply for
+Loan" option from the dash-
+board.
+System displays the loan
+application form with sec-
+tions for personal, aca-
+demic, and financial de-
+tails.
+Student fills in their personal
+information, academic details,
+and financial status.
+System verifies the entered
+details for completeness.
+Student uploads the required
+documents.
+System checks that the
+documents are in the cor-
+rect format (e.g., PDF) and
+stores them securely.
+Student reviews the form and
+submits the application.
+System saves the applica-
+tion and sends a confirma-
+tion notification to the stu-
+dent.
+Alternative
+Scenarios 1. Invalid Login
+2. Incomplete Form
+3. Missing Documents
+2.2.2 Use Case: Provide Funding
+Use Case Provide Funding
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Social Welfare Entity (Donor)
+Stakeholders
+and Interests
+Donor: Wants an easy-to-use and transparent to contribute to the
+education of students.
+8
+2.2 Fully-Dressed Use Cases
+Preconditions
+1. The donor must be registered and logged in to the Schol-
+arChain platform.
+Success Guar-
+antee 1. Upon successful transaction, the donation is added to the
+immutable blockchain ledger.
+Main Success
+Scenario
+Actor Action System Response
+Donor logs into the Scholar-
+Chain platform.
+System authenticates the
+donor and provides access
+to their dashboard.
+Student selects the "Contribute
+Funds" option from the dash-
+board.
+The system displays fund-
+ing options
+Donor enters the desired con-
+tribution amount.
+Donor provides payment de-
+tails and confirms the contribu-
+tion.
+The system processes the
+payment securely and con-
+firms the transaction.
+Donor receives confirmation of
+successful payment.
+The system updates the
+funding pool, records
+the transaction in the
+blockchain ledger, and
+displays the current status
+of contributions.
+Alternative
+Scenarios 1. Payment Failure
+2. Incorrect Contribution Amount
+2.2.3 Use Case: Approve Loan
+Use Case Approve Loan
+Scope ScholarChain
+Level User Level
+9
+2. Project Requirements
+Primary Ac-
+tor(s):
+System Administrator
+Stakeholders
+and Interests
+Student: Wants their loan application to be approved as soon as
+possible.
+System Administrator: Needs to ensure that all documentation is
+in order and whether the application is deserving of loan before
+giving approval.
+Preconditions
+1. All required documents must be successfully uploaded
+and verified.
+Success Guar-
+antee 1. The loan application is approved, and the student is noti-
+fied of the disbursement schedule.
+Main Success
+Scenario
+Actor Action System Response
+The AI does risk assessment on
+the student’s application.
+The system stores the re-
+sults of the risk assessment
+to be reviewed by the sys-
+tem administrator.
+The system administrator re-
+views the risk assessment re-
+sults.
+The system administrator ap-
+proves the loan application.
+The system updates the
+loan status to "Approved"
+and notifies the student.
+Alternative
+Scenarios 1. Missing Verification
+2.2.4 Use Case: Track Repayment
+Use Case Track Repayment
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student, Parent/Guardian
+10
+2.2 Fully-Dressed Use Cases
+Stakeholders
+and Interests
+Student: Wants to ensure timely repayments and track the repay-
+ment schedule in order to manage finances accordingly.
+Preconditions
+1. The student or parent/guardian must be logged in to Schol-
+arChain.
+2. The loan must be approved and disbursed in order to track
+repayments.
+Success Guar-
+antee 1. The students are able to track their repayment schedule
+and receive reminders about upcoming repayments.
+Main Success
+Scenario
+Actor Action System Response
+Student logs into Scholar-
+Chain.
+The system authenticates
+the user and displays their
+dashboard.
+User navigates to the "Repay-
+ment Tracking" section.
+The system displays de-
+tailed repayment informa-
+tion, including due dates,
+amounts, and history.
+Alternative
+Scenarios 1. Missed payment
+2. Partial payment
+3. Payment processing failure
+2.2.5 Use Case: Customer Support Interaction
+Use Case Customer Support Interaction
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student, System Administrator
+11
+2. Project Requirements
+Stakeholders
+and Interests
+Student: Wants to be able to receive help with any problems
+related to the platform, and be able to request human support in
+case of a complex problem for AI.
+System Administrator: Needs to assist students with issues the
+AI cannot resolve.
+Preconditions
+1. The student must be logged in to the ScholarChain plat-
+form to recieve support.
+Success Guar-
+antee 1. The student’s question or issue is resolved, either by the
+AI assistant or with manual intervention by a system ad-
+ministrator.
+Main Success
+Scenario
+Actor Action System Response
+Student requests support. The system displays avail-
+able options, including an
+AI-powered chatbot.
+Student asks a question via the
+chatbot.
+The chatbot analyzes the
+question and provides a re-
+sponse based on available
+information.
+Student is unsatisfied with the
+response or the issue is com-
+plex.
+The system escalates the
+request to a system admin-
+istrator for manual assis-
+tance.
+System administrator reviews
+the request and responds.
+The system notifies the
+student and displays the
+response from the admin-
+istrator.
+Alternative
+Scenarios 1. No Available Administrator
+2. AI inference error
+2.2.6 Use Case: Personalized Repayment Plan Generation
+12
+2.2 Fully-Dressed Use Cases
+Use Case Personalized Repayment Plan Generation
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student
+Stakeholders
+and Interests
+Student: Wants a flexible repayment schedule based on their cur-
+rent financial needs.
+Preconditions
+1. The student must have an approved loan.
+2. The student must have submitted all relevant documenta-
+tion and details
+Success Guar-
+antee 1. The system generates a personalized repayment plan, and
+the student is notified with the details.
+Main Success
+Scenario
+Actor Action System Response
+AI generates a repayment
+plan with due dates and
+amounts that are afford-
+able for the student.
+Student reviews and accepts
+the repayment plan.
+The system records the
+acceptance and sets up
+reminders for payment
+schedules.
+Student is unsatisfied with the
+response or the issue is com-
+plex.
+The system escalates the
+request to a system admin-
+istrator for manual assis-
+tance.
+Alternative
+Scenarios 1. Outdated or missing documents
+2.2.7 Use Case: Automated Loan Disbursement
+Use Case Automated Loan Disbursement
+Scope ScholarChain
+13
+2. Project Requirements
+Level User Level
+Primary Ac-
+tor(s):
+System Administrator, Blockchain Ledger
+Stakeholders
+and Interests
+Student: Wants to receive loans as soon as possible after loan
+approval.
+Preconditions
+1. The loan must be fully approved, and the student’s agree-
+ment must be signed.
+2. All requirements for smart contracts must be met.
+Success Guar-
+antee 1. Loan funds are successfully disbursed to the student’s des-
+ignated account.
+Main Success
+Scenario
+Actor Action System Response
+The smart contract validates
+the loan approval conditions.
+The system verifies all cri-
+teria are met for disburse-
+ment.
+Upon successful validation,
+funds are transferred to the
+student’s account.
+The system updates the
+blockchain ledger with the
+transaction details.
+Student is notified of the dis-
+bursement.
+The system sends a notifi-
+cation with details on the
+amount disbursed and the
+repayment schedule.
+Alternative
+Scenarios 1. Smart Contract Failure
+2.2.8 Use Case: Verify Loan Agreement
+Use Case Verify Loan Agreement
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student, Parent/Guardian
+14
+2.2 Fully-Dressed Use Cases
+Stakeholders
+and Interests
+Student: Wants to be aware of the terms and conditions of the
+loan agreement before signing it.
+Parent/Guardian: Wants to ensure that the loan agreement is fair
+and that all obligations are clearly stated.
+Preconditions
+1. The loan must be approved and ready for signing.
+Success Guar-
+antee 1. The loan agreement is reviewed and signed digitally by the
+student.
+Main Success
+Scenario
+Actor Action System Response
+The student receives a notifica-
+tion that the loan agreement is
+ready for review.
+The system displays the
+loan agreement document.
+Student reviews the loan terms
+and conditions.
+The system provides op-
+tions to accept or request
+clarification.
+student digitally signs the loan
+agreement.
+The system records the
+signatures and marks the
+agreement as complete.
+Alternative
+Scenarios 1. Request for Changes
+2. Signature Declined
+2.2.9 Use Case: Payment Scheduling and Notification
+Use Case Payment Scheduling and Notification
+Scope ScholarChain
+Level User Level
+Primary Ac-
+tor(s):
+Student
+Stakeholders
+and Interests
+Student: wants to be aware of all upcoming payments.
+15
+2. Project Requirements
+Preconditions
+1. The repayment plan must already be generated and ac-
+cepted by the student.
+Success Guar-
+antee 1. Students receive notifications regarding upcoming pay-
+ments.
+Main Success
+Scenario
+Actor Action System Response
+Student receives an alert about
+an upcoming payment.
+The system provides de-
+tails on the payment due
+date, amount, and instruc-
+tions on how to make the
+payment.
+Student decides to make the
+payment before the due date.
+The system processes the
+payment and updates the
+repayment history accord-
+ingly.
+Alternative
+Scenarios 1. Missed Notification
+2. Payment Postponement Request
+16
+2.3 Use Case Diagram
+2.3 Use Case Diagram
+Figure 2.1: ScholarChain Use Case Diagram
+17
+2. Project Requirements
+2.4 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style.
+2.4.1 Module 1: Student Interaction Module
+The following are the requirements for Module 1:
+1. Loan Application Submission: Students can submit loan applications by provid-
+ing personal, acedemic, and financial information.
+2. Personalized Repayment Plan Schedule: System assesses the current financial
+situation of the user and generates a personalized repayment plan.
+3. Repayment Tracking: Students can track their upcoming payments and view pay-
+ment history.
+4. AI-Powered Customer Support: Students can interact with an AI-powered chat-
+bot in order to address their queries regarding their application and the loan process.
+2.4.2 Module 2: Funding and Loan Management Module
+Following are the requirements for module 2:
+1. Funds Provision by Donors: Donors can contribute funds to the platform via se-
+cure payment gateways.
+2. Loan Application Approval: The system administrator reviews the AI-assessed
+application and makes the final decision on whether to approve or decline.
+3. Automated Loan Disbursement: Funds are automatically disbursed via smart
+contracts one applications are approved.
+2.4.3 Module 3: Administrative Tools
+Following are the requirements for module 3:
+1. Automated Risk Assessment: AI evaluates each application and assigns them a
+loan risk score.
+18
+2.5 Non-Functional Requirements
+2. Verification of Loan Signature:System administrators verify that an application’s
+terms and conditions have been accepted by the student and has digitally signed the
+agreement.
+2.4.4 Module 4: Notifications and Reminders
+1. Payment Scheduling and Alerts: Automatic notifications are sent to students to
+remind them of upcoming payment deadlines.
+2. Loan Status Update: The system notifies students about the current status of their
+loan application.
+2.5 Non-Functional Requirements
+This section outlines the non-functional requirements for the ScholarChain platform.
+2.5.1 Reliability
+ScholarChain must be highly reliable. The target mean time between failures should be no
+less than 500 hours. This will ensure continuous availability for the students and donors
+who wish to use the platform. In case of failure, automatic error detection mechanisms
+should be in place, as well as data protection measures to ensure that the user’s data is se-
+cure. A detailed failure log should be maintained for debugging and future improvement.
+• Failure Tolerance: The system should not experience more than one failure per
+month. The recovery period should not be more than 1 hour.
+2.5.2 Usability
+The ScholarChain platform must be easy to use for all types of users (Students, Parents,
+Donors). The interface must be intuitive and easy to navigate without much hassle.
+• Ease of Learning: A new user should be able to easily understand and navigate the
+platform within a few minutes of interaction.
+• Error Prevention and Recovery: Common errors such as incomplete form and
+uploading files in incorrect format should be clearly highlighted.
+• Interaction Efficiency: All tasks such as submitting an application should be com-
+pletable withing 5 steps.
+19
+2. Project Requirements
+2.5.3 Performance
+The ScholarChain system should perform efficiently to provide a smooth user experience
+under different load conditions.
+• Response Time: 90% of all pages must be loaded completely within 3 seconds
+over a 20Mbps connection.
+• Scalability: The platform must be able to support almost 5000 concurrent users
+without degradation in performance.
+• Data Processing: The data for the application process should be processable by
+the AI within 30 seconds of submission.
+2.5.4 Security
+The ScholarChain platform must be highly secure to protect user data and maintain the
+integrity of the system.
+• Data Protection: All user data must be encrypted at all times.
+• Access Control: Different users must have different access rights ensuring unau-
+thorized users cannot access sensitive information and functionalities.
+20
+2.6 Domain Model
+2.6 Domain Model
+Figure 2.2: ScholarChain Domain Model
+21
+
+Chapter 3
+System Overview
+3.1 Architectural Design
+3.1.0.1 Box and Line Diagram
+Figure 3.1: Box and Line Diagram
+23
+3. System Overview
+The box-and-line diagram is a high-level architectural representation of ScholarChain,
+showing how system layers interact, such as theClient Layer, Application Layer, Database
+Layer, AI layer, and Blockchain Layer.
+3.1.1 Component Diagram
+Figure 3.2: component Diagram
+The Component Diagram shows a detailed architecture of ScholarChain. This diagram
+provides a detailed understanding of how each subsystem contributes to the functionality
+of the system. Connections between the different components and layers are highlighted
+in this diagram.
+24
+3.2 Design Models
+3.2 Design Models
+3.2.1 Activity Diagram
+Figure 3.3: activity Diagram
+The Activity Diagram details the workflow of a student’s journey through the Scholar-
+Chain platform.
+25
+3. System Overview
+3.2.2 Class Diagram
+Figure 3.4: Class Diagram
+The Class Diagram shows how the system’s components are modeled as classes in an
+object-oriented design.
+26
+3.2 Design Models
+3.2.3 Sequence Diagrams
+3.2.3.1 Loan Application Sequence Diagram
+Figure 3.5: Loan Application Sequence Diagram
+3.2.3.2 Funding Contribution Sequence Diagram
+Figure 3.6: Funding Contribution Sequence Diagram
+27
+3. System Overview
+3.2.3.3 Approve Loan Sequence Diagram
+Figure 3.7: Approve Loan Sequence Diagram
+3.2.3.4 Track Repayment Sequence Diagram
+Figure 3.8: Track Repayment Sequence Diagram
+28
+3.2 Design Models
+3.2.3.5 Customer Support Sequence Diagram
+Figure 3.9: Customer Support Sequence Diagram
+3.2.3.6 Payment Scheduling and Notification Sequence Diagram
+Figure 3.10: Payment Scheduling and Notification Sequence Diagram
+29
+3. System Overview
+3.2.3.7 Personalized Repayment Sequence Diagram
+Figure 3.11: Personalized Repayment Sequence Diagram
+3.2.3.8 Automated Loan Disbursement Sequence Diagram
+Figure 3.12: Automated Loan Disbursement Sequence Diagram
+30
+3.2 Design Models
+3.2.3.9 Verify Loan Sequence Diagram
+Figure 3.13: Verify Loan Sequence Diagram
+31
+3. System Overview
+3.2.4 State Transition Diagram
+Figure 3.14: State Transition Diagram
+The State Transition Diagram describes how an application progresses through different
+states.
+32
+3.3 Data Design
+3.3 Data Design
+3.3.1 Schema Diagram
+Figure 3.15: Schema Diagram
+The Schema Diagram provides a detailed look at how different entities within Scholar-
+Chain are interrelated.
+33
+3. System Overview
+3.3.2 Json Schema
+Student Object
+{
+" bsonType " : " object " ,
+" required " : [ " student_id " , " name " , " email " , "
+a c a d e m i c _ d e t a i l s " , " f i n a n c i a l _ s t a t u s " ] ,
+" properties " : {
+" student_id " : {
+" bsonType " : " objectId "
+} ,
+" name " : {
+" bsonType " : " string "
+} ,
+" email " : {
+" bsonType " : " string "
+} ,
+" a c a d e m i c _ d e t a i l s " : {
+" bsonType " : " string "
+} ,
+" f i n a n c i a l _ s t a t u s " : {
+" bsonType " : " string "
+} ,
+" documents " : {
+" bsonType " : " array " ,
+" items " : {
+" bsonType " : " string "
+}
+}
+}
+}
+Loan Schema:
+{
+" bsonType " : " object " ,
+" required " : [ " loan_id " , " amount " , " a p p l i c a t i o n _ d a t e " , "
+a p p r o v a l _ s t a t u s " , " r e p a y m e n t _ p l a n _ i d " , " student_id "
+] ,
+" properties " : {
+" loan_id " : {
+34
+3.3 Data Design
+" bsonType " : " objectId "
+} ,
+" amount " : {
+" bsonType " : " decimal "
+} ,
+" a p p l i c a t i o n _ d a t e " : {
+" bsonType " : " date "
+} ,
+" a p p r o v a l _ s t a t u s " : {
+" bsonType " : " string "
+} ,
+" r e p a y m e n t _ p l a n _ i d " : {
+" bsonType " : " objectId "
+} ,
+" student_id " : {
+" bsonType " : " objectId "
+}
+}
+}
+RepaymentPlan Schema:
+{
+" bsonType " : " object " ,
+" required " : [ " plan_id " , " t o t a l _a m o u n t " , "
+m o n t h l y _ p a y m e n t " , " due_date " , " status " , " loan_id " ] ,
+" properties " : {
+" plan_id " : {
+" bsonType " : " objectId "
+} ,
+" t o t a l _ a m o u n t " : {
+" bsonType " : " decimal "
+} ,
+" m o n t h l y _ p a y m e n t " : {
+" bsonType " : " decimal "
+} ,
+" due_date " : {
+" bsonType " : " date "
+} ,
+" status " : {
+" bsonType " : " string "
+35
+3. System Overview
+} ,
+" loan_id " : {
+" bsonType " : " objectId "
+}
+}
+}
+Donor Schema:
+{
+" bsonType " : " object " ,
+" required " : [ " donor_id " , " name " , " email " , "
+t o t a l _ c o n t r i b u t i o n s " ] ,
+" properties " : {
+" donor_id " : {
+" bsonType " : " objectId "
+} ,
+" name " : {
+" bsonType " : " string "
+} ,
+" email " : {
+" bsonType " : " string "
+} ,
+" t o t a l _ c o n t r i b u t i o n s " : {
+" bsonType " : " decimal "
+}
+}
+}
+Transaction Schema:
+{
+" bsonType " : " object " ,
+" required " : [ " t r a n s a c t i o n _ i d " , " amount " , " date " , "
+donor_id " , " loan_id " , " student_id " ] ,
+" properties " : {
+" t r a n s a c t i o n _ i d " : {
+" bsonType " : " objectId "
+} ,
+" amount " : {
+" bsonType " : " decimal "
+} ,
+36
+3.3 Data Design
+" date " : {
+" bsonType " : " date "
+} ,
+" donor_id " : {
+" bsonType " : " objectId "
+} ,
+" loan_id " : {
+" bsonType " : " objectId "
+} ,
+" student_id " : {
+" bsonType " : " objectId "
+}
+}
+}
+37
+
+Bibliography
+[1] Gaper.io. Automated underwriting systems: How llms can automate loan processing
+and increase approval rates, May 2024. Accessed: 2024-08-20.
+39
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

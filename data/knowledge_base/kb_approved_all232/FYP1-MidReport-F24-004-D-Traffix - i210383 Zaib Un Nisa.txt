@@ -1,0 +1,1049 @@
+# FYP1-MidReport-F24-004-D-Traffix - i210383 Zaib Un Nisa
+
+## 1. Introduction
+
+Introduction ................................ ................................ ................................ .................... 6 
+1.1 Problem Statement & Motivation: ................................ ................................ ........ 6 
+1.2 Problem Solution ................................ ................................ ................................ .. 7 
+1.3 Project Scope ................................ ................................ ................................ ........ 8 
+1.4 Stake Holders ................................ ................................ ................................ ........ 9 
+Chapter 2 ................................ ................................ ................................ ....................... 10 
+Project Requirement ................................ ................................ ................................ .... 10 
+2.1 Use Case Diagram ................................ ................................ ............................. 10 
+Brief Use Cases: ................................ ................................ ................................ .... 11 
+Fully dressed Use cases: ................................ ................................ ...................... 11 
+2.2 Modules ................................ ................................ ................................ .............. 15 
+2.2.1 Traffic Detection from CCTV ................................ ................................ ........ 15 
+2.2.2 Traffic Signal Scheduling ................................ ................................ ............. 15 
+2.2.3 Emergency Vehicle Detection ................................ ................................ ...... 15 
+2.2.4 Automated vehicle challan generation system ................................ ........... 15 
+2.2.5 Manual setting of signals ................................ ................................ ............. 15 
+2.2.6 Admin Dashboard ................................ ................................ ......................... 16 
+2.3 User Classes and Characteristics ................................ ................................ .... 16 
+2.4 Functional Requirements ................................ ................................ ....................... 17 
+2.3.1 Detection of vehicles ................................ ................................ ....................... 17 
+2.3.2 Calculation of Car Density ................................ ................................ ............... 17 
+2.3.3 Traffic Signal Scheduling ................................ ................................ ................ 17 
+2.3.4 Emergency Vehicle Detection ................................ ................................ ......... 17 
+2.3.5 Automated vehicle challan detection system ................................ ................ 18 
+2.5 Non-Functional Requirements ................................ ................................ ............... 18 
+2.1.1 Reliability ................................ ................................ ................................ ....... 18 
+2.1.2 Usability ................................ ................................ ................................ ......... 18 
+2.1.3 Performance ................................ ................................ ................................ .. 18 
+2.1.4 Security requirements ................................ ................................ .................. 18 
+2.6 Domain Model ................................ ................................ ................................ ......... 19 
+Chapter 3 ................................ ................................ ................................ ....................... 20 
+3
+3
+9 
+ 
+ 
+System Overview ................................ ................................ ................................ .......... 20 
+3.1 Architectural Design ................................ ................................ .............................. 20 
+3.2 Design Models ................................ ................................ ................................ ....... 21 
+3.2.1 Activity Diagram ................................ ................................ ............................... 22 
+Update Profile Activity Diagram ................................ ................................ ............... 22 
+Monitor Car Detection Activity Diagram ................................ ................................ ... 23 
+Detect Emergency Vehicle Activity Diagram ................................ ............................ 24 
+3.2.2 Data flow Diagram ................................ ................................ ............................ 25 
+DFD Level 0 ................................ ................................ ................................ ............ 25 
+DFD Level 1 ................................ ................................ ................................ ............ 25 
+DFD Level 2 ................................ ................................ ................................ ............ 26 
+3.2.3 System-level Sequence Diagram (SSD) ................................ .......................... 27 
+Update Profile ................................ ................................ ................................ ......... 27 
+Monitor Car Detection................................ ................................ .............................. 28 
+Detect Emergency Vehicle ................................ ................................ ...................... 29 
+3.2.4 Sequence Diagrams (SD) ................................ ................................ ................. 30 
+Update Profile ................................ ................................ ................................ ......... 30 
+Monitor Car Detection................................ ................................ .............................. 31 
+Detect Emergency Vehicle ................................ ................................ ...................... 32 
+3.2.5 State Transition Diagram ................................ ................................ ................. 33 
+Update Profile ................................ ................................ ................................ ......... 33 
+Monitor Car Detection................................ ................................ .............................. 34 
+Detect Emergency Vehicle ................................ ................................ ...................... 35 
+3.3 Prototypes ................................ ................................ ................................ ............... 36 
+3.4 Implementation ................................ ................................ ................................ ....... 39 
+Car Detection ................................ ................................ ................................ ....... 39 
+Emergency Vehicle detection ................................ ................................ ............... 42 
+Web Application ................................ ................................ ................................ ... 43 
+3.5 Data Design ................................ ................................ ................................ ............. 46 
+3.6 Iteration Timeline ................................ ................................ ................................ ... 47 
+3.6 Conclusion ................................ ................................ ................................ .............. 47 
+Bibliography ................................ ................................ ................................ ................. 48 
+ 
+4
+3
+9 
+ 
+ 
+List of Figures 
+Figure 1: Use Case Diagram ................................ ................................ .......................... 10 
+Figure 2: Domain Model Diagram ................................ ................................ ................... 19 
+Figure 3: Architecture Diagram ................................ ................................ ....................... 20 
+Figure 4: Update Profile - Activity Diagram ................................ ................................ ..... 22 
+Figure 5: Monitor Car Detection - Activity Diagram ................................ ........................ 23 
+Figure 6: Detect Emergency Vehicle - Activity Diagram ................................ ................. 24 
+Figure 7: DFD Level 0 ................................ ................................ ................................ .... 25 
+Figure 8: DFD Level 1 ................................ ................................ ................................ .... 25 
+Figure 9: DFD Level 2 ................................ ................................ ................................ .... 26 
+Figure 10: Update Profile SSD ................................ ................................ ....................... 27 
+Figure 11: Monitor Car Detection SSD ................................ ................................ ........... 28 
+Figure 12: Emergency vehicle detection SSD ................................ ................................ . 29 
+Figure 13: Update Profile SD ................................ ................................ .......................... 30 
+Figure 14: Monitor Car Detection SD ................................ ................................ .............. 31 
+Figure 15: Emergency Vehicle detection SD ................................ ................................ .. 32 
+Figure 16 Update Profile State Transition Diagram ................................ ......................... 33 
+Figure 17 Monitor Car Detection State Transition Diagram ................................ ............. 34 
+Figure 18 Emergency Vehicle Detection State Transition Diagram ................................ . 35 
+Figure 19 Log In Prototype ................................ ................................ ............................. 36 
+Figure 20 New User Prototype ................................ ................................ ....................... 37 
+Figure 21 Homepage Prototype ................................ ................................ ...................... 37 
+Figure 22 Signal Control Prototype ................................ ................................ ................. 38 
+Figure 23 How it works? Prototype ................................ ................................ ................. 38 
+Figure 24 Car detection- Before & After ................................ ................................ .......... 40 
+Figure 25 Emergency Vehicle Detection ................................ ................................ ......... 42 
+Figure 26 Data Design -ERD ................................ ................................ .......................... 46 
+Figure 27 Work Timeline ................................ ................................ ................................ 47 
+ 
+5
+3
+9 
+ 
+ 
+List of Tables 
+Table 1: USC-1 Update Profile ................................ ................................ ....................... 11 
+Table 2: USC-2 Monitor Car Detection ................................ ................................ ........... 11 
+Table 3: USC-3 Detect Emergency Vehicle ................................ ................................ .... 11 
+Table 4: Fully dressed USC-1 ................................ ................................ ......................... 12 
+Table 5:Fully dressed USC-2 ................................ ................................ .......................... 13 
+Table 6:Fully dressed USC-3 ................................ ................................ .......................... 14 
+Table 7: User Classes & Characteristics ................................ ................................ ......... 16 
+ 
+ 
+ 
+6
+3
+9 
+ 
+ 
+Chapter 1 
+Introduction 
+1.1 Problem Statement & Motivation: 
+With an increasing population, our country has many issues such as 
+increasing traffic that causes delays while traveling. Traffic congestion is one 
+of the biggest challenges Pakistan faces today. The average annual growth 
+rate of Pakistan is 2.55 % and Islamabad is 2.80 %. [1] Sometimes, it even 
+costs a life when ambulances are not able to reach hospitals on time due to 
+traffic congestion. [2] This shows that an increase in the number of people is 
+the reason for the mismanagement of traffic and transport facilities therefore 
+a stable flow of traffic is very important for enhanced quality of life. 
+ 
+Moreover, there is shortage of traffic police in our country. It has 12,625 
+employees, and consists of 32 police stations [3]. The current number of 
+traffic police officers does not fulfill the requirement at every signal making it 
+impossible to implement traffic laws and manage traffic at all junctions etc . 
+The ratio of officers to signals is not proportional therefore there is a need for 
+a system that reduces the workload and enhances the ir work efficiency, 
+allowing them to focus on more critical issues such as dealing with traffic 
+crimes rather than just clearing lanes. 
+ 
+Developed countries have a proper traffic system which contributes to the 
+country's success by reducing traveling time improving road quality and 
+enhancing the lifestyle of people getting them free of everyday struggle of 
+not reaching their workplace on time and to unforeseen traffic congestion. 
+The national highway network is less than 5% of the total road network and 
+7
+3
+9 
+ 
+ 
+caters to about 80% of the commercial traffic. [4] It is very common in 
+Islamabad to face traffic every day, especially early morning when everyone 
+is off to offices and is getting late, so a proper traffic signal system will solve 
+all of these problems and save their time, hence increasing working capacity 
+and productivity. 
+ 
+1.2 Problem Solution 
+We have proposed solutions to the above mentioned problems by 
+introducing our innovative app “Traffix”. This will solve many of these 
+problems by smart use of AI and advanced algorithms ultimately conserving 
+energy and resources. 
+ 
+“Traffix” features will have automated traffic signals that will dynamically set 
+the timings and cycle of traffic signals based on car density in that lane or 
+road detected by CCTV footage. This smart system will solve the problem of 
+blocked traffic conges tions and hence provide smooth traffic flow without 
+overflow of cars in one certain lane. Consequently, it would reduce overflow 
+of cars in certain lanes improving the travel efficiency. 
+ 
+Furthermore, it will reduce dependency on man force at each signal as 
+signals will manage traffic automatically hence traffic police officers could 
+utilize their time and energy to work on other important matters such as traffic 
+violations and laws. It would reduce mental stress for traffic officers and lead 
+to more contented services. 
+ 
+Moreover, Traffix will be reduced, traffic congestion will cause smooth traffic 
+flow and the emergency vehicles can be detected by CCTV cameras , it will 
+revolutionize the trafficking system. This will allow the emergency vehicles to 
+8
+3
+9 
+ 
+ 
+be detected at a distance and get assisted by traffic signal scheduling to 
+optimize traffic timings such that emergency vehicles are given priority to. It 
+will help save lives by providing clearer routes to ambulances and provide 
+safe traveling. These feat ures should provide improved traffic management 
+and infrastructure for urban environments. 
+ 
+1.3 Project Scope 
+The project "TraffiX " is designed to change traffic management by 
+developing a system that uses real -time CCTV footage, image and video 
+processing with deep learning algorithms. Firstly, object detection using 
+YOLO will real -time identification of various vehicles i.e cars, t rucks, 
+motorcycles, and emergency vehicles. Ensuring smooth and smart traffic 
+flow to manage traffic and remove congestion. 
+ 
+Secondly, the system will calculate car density across different lanes, 
+providing data to inform dynamic traffic signal scheduling. This scheduling 
+module will adjust signal timings based on real -time footage of vehicle 
+density, prioritizing lanes with higher traffic to reduce congestion and improve 
+overall traffic flow. 
+ 
+Another challenge of "TraffiX" is the emergency vehicle detection module, 
+which uses various techniques for the training of models to identify 
+ambulances, fire trucks, and other emergency vehicles. The traffic signals 
+will prioritize and adjust the path fo r the emergency vehicles, making sure 
+these vehicles can navigate through traffic quickly and reach their 
+destinations. 
+ 
+9
+3
+9 
+ 
+ 
+Furthermore, the system includes an automated vehicle challan generation 
+system that identifies traffic violations such as running red lights or stopping 
+beyond designated lines. Using image and video processing, the system 
+captures evidence of these viola tions and automatically generates challans 
+for the offending vehicles, enhancing traffic rule enforcement and promoting 
+safer driving behavior. 
+ 
+1.4 Stake Holders 
+• Our Team: Zaib Un Nisa, Javaria Habib, Sara Meer Hussain 
+• Supervisor: Mr. Bilal Khalid Dar 
+• Co-supervisor: Mr. Wasif Ali Wasif 
+• FAST-NUCES FYP committee Islamabad 
+• Traffic Police Officers 
+• Government 
+ 
+ 
+10
+3
+9 
+ 
+ 
+Chapter 2 
+Project Requirement 
+2.1 Use Case Diagram 
+Here is our Use case diagram for the entire project. It shows how the different external 
+and internal actors interact with the system to ensure a smooth flow of traffic, it contains 
+main actors/users i.e. Traffic police Officer and Admin. It also has two systematic actors 
+i.e. CCTV camera and Smart Traffic Controller. It also has <<include>> which means 
+that if there is a traffic violation it is mandatory for challan generation and on the other 
+hand, <<extend>> which allows the user to have the option to either choose manual or 
+automatic setting. 
+ 
+ 
+ 
+ 
+Figure 1: Use Case Diagram 
+
+11
+3
+9 
+ 
+ 
+Brief Use Cases: 
+• Update Profile 
+ 
+Use case USC-1 Update Profile 
+Actor User 
+Type Primary 
+Description The user can update their personal information such as contact 
+number , password. 
+Table 1: USC-1 Update Profile 
+• Monitor Car Detection 
+ 
+Use case USC-2 Monitor Car Detection 
+Actor Traffic Police, Admin 
+Type Primary 
+Description Traffic police and the admin can view real-time CCTV footage to 
+monitor traffic which will later include it in the dynamic system. 
+Table 2: USC-2 Monitor Car Detection 
+• Detect Emergency Vehicle 
+ 
+Use case USC-3 Detect Emergency Vehicle 
+Actor Smart Traffic Signal System 
+Type Automatic 
+Description The system will use video processing to detect the incoming 
+emergency vehicles. 
+Table 3: USC-3 Detect Emergency Vehicle 
+Fully dressed Use cases: 
+ 
+• Update Profile 
+Use case Name USC-1 Update Profile 
+Scope Traffix 
+ 
+Level User Goal 
+Primary Actor User 
+12
+3
+9 
+ 
+ 
+Stakeholders & Interests User: Wants to keep their personal info up to date. 
+Precondition The user is assigned a profile and is logged into the 
+system. 
+Success Guarantee The updated information is saved in the database. 
+Main Success Scenario 1. User selects the “Update profile” option from side 
+bar. 
+2. The system displays the current profile info. 
+3. The user makes any new changes. 
+4. The user clicks on the save button. 
+5. The system validates the information. 
+6. The system saved the new information 
+successfully in the database. 
+7. The system prompts the confirmation message. 
+Extensions • 5a. If the validation fails (i.e incorrect phone 
+number format, short length of new password), 
+then the system prompts to update the information 
+again. 
+Special Requirements N/A 
+Technology & Data 
+Variance List 
+N/A 
+Frequency of 
+occurrence 
+Depends on user – Periodically 
+Miscellaneous N/A 
+Table 4: Fully dressed USC-1 
+ 
+• Monitor Car Detection 
+ 
+ 
+Use case Name USC-2 Monitor Car Detection 
+Scope Traffix 
+Level User Goal 
+Primary Actor Traffic Police, Admin 
+Stakeholders & Interests Traffic police: Wants to monitor traffic via real-time CCTV 
+footage of vehicles 
+ 
+Precondition Functional CCTV cameras 
+The user is logged into the system to view footage. 
+13
+3
+9 
+ 
+ 
+Success Guarantee Real-time traffic is monitored by the officers and admin. 
+Main Success Scenario 1. The actor has accessed the system. 
+2. The system displays CCTV footage of movement 
+of vehicles. 
+3. The actor observes the footage. 
+4. The actor takes any necessary actions. 
+ 
+Extensions • 2a. If the real-time footage isn’t available, then the 
+actor fixes it first. 
+Special Requirements The system should let the streaming of footage with low 
+latency. 
+Technology & Data 
+Variance List 
+Internet connection may affect the receiving of real-time 
+footage. 
+Frequency of 
+occurrence 
+Continuous. 
+Miscellaneous N/A 
+ 
+Table 5:Fully dressed USC-2 
+ 
+• Detect Emergency Vehicle 
+ 
+ 
+Use case Name USC-3 Detect Emergency Vehicle 
+Scope Traffix 
+Level Subsystem 
+Primary Actor Smart Traffic Signal System 
+Stakeholders & Interests System: Wants to ensure the emergency vehicles are 
+detected separately for priority passage. 
+Precondition The smart traffic system is working with CCTV cameras 
+for real-time footage.. 
+Success Guarantee Emergency vehicles are identified. 
+Main Success Scenario 1. The system monitors traffic via CCTV cameras. 
+2. The system identifies emergency vehicles using 
+video processing. 
+3. The system automatically adjusts the traffic signal 
+to prioritize the passage of emergency vehicle. 
+4. The system alerts the traffic police of emergency 
+vehicle. 
+14
+3
+9 
+ 
+ 
+Extensions • 2a The system remains idle until an emergency 
+vehicle is detected. 
+Special Requirements N/A 
+Technology & Data 
+Variance List 
+CCTV camera’ type might affect the accuracy of 
+detection. 
+Frequency of 
+occurrence 
+Based on incoming emergency vehicles. 
+Miscellaneous N/A 
+ 
+Table 6:Fully dressed USC-3 
+ 
+15
+3
+9 
+ 
+ 
+2.2 Modules 
+We have six different modules in our project, which are as follows: 
+2.2.1 Traffic Detection from CCTV 
+In this module, the CCTV camera will monitor traffic and the footage will be 
+integrated with image and video detection algorithms to control and 
+manage traffic. 
+2.2.2 Traffic Signal Scheduling 
+In this module, the system will use the videos detected by CCTV cameras 
+and implement a scheduling algorithm on them to dynamically control 
+traffic. The opening/ closing of the signal will be managed by the designed 
+algorithm. 
+2.2.3 Emergency Vehicle Detection 
+In this module, the emergency vehicle detection module will detect the 
+vehicles like ambulances, fire trucks, and police cars using video detection 
+and then modify the traffic signal timings to provide a clear path for the 
+emergency vehicle. 
+2.2.4 Automated vehicle challan generation system 
+In this module, the vehicles will be issued a challan for violating the traffic 
+rules i.e breaking a red light. 
+2.2.5 Manual setting of signals 
+In this module, the traffic police will be able to manually set the time of the 
+signals in case of any emergency or uncertainty, i.e. VIP protocol, protests, 
+etc. 
+16
+3
+9 
+ 
+ 
+2.2.6 Admin Dashboard 
+In this module, the admin will be able to manage settings, monitor traffic, 
+and manage profiles. The admin also ensures the overall working of the 
+system. 
+ 
+ 
+2.3 User Classes and Characteristics 
+User Class Description 
+Traffic Police 
+Officer 
+The traffic police officer uses the system integrated 
+at their specified location. The officer ensures the 
+system is working and integrated properly. They 
+are also able to monitor traffic/change signal 
+settings. They can view the challans generated 
+and emergency vehicle alerts. 
+Admin Officer The admin officer manages the traffic police 
+officers and their locations. The admin can register 
+new users and assign them a location. The admin 
+officer can monitor/change signal settings. 
+Table 7: User Classes & Characteristics 
+ 
+17
+3
+9 
+ 
+ 
+2.4 Functional Requirements 
+2.3.1 Detection of vehicles 
+ 
+• The system shall distinguish between different types of vehicles. 
+• The system shall detect moving vehicles. 
+• The system shall detect stationary vehicles. 
+ 
+2.3.2 Calculation of Car Density 
+ 
+• The system shall calculate the total number of vehicles. 
+2.3.3 Traffic Signal Scheduling 
+ 
+• The system shall prioritize lanes with more vehicle density. 
+• The system shall adjust traffic signal timings based on real- footage of 
+vehicle density. 
+• The system shall adapt to changing traffic conditions throughout the 
+day. 
+ 
+2.3.4 Emergency Vehicle Detection 
+ 
+• The system shall detect emergency vehicles in traffic using image 
+detection. 
+• The system shall modify traffic signal timings to provide a clear path 
+for detected emergency vehicles. 
+• The system shall notify traffic control when an emergency vehicle is 
+detected. 
+18
+3
+9 
+ 
+ 
+2.3.5 Automated vehicle challan detection system 
+ 
+• The system shall identify traffic violations i.e. breaking the signal etc. 
+• The system shall record and store data on detected violations. 
+2.3.5 Admin Dashboard 
+• The admin shall be able to register new Traffic Officers. 
+• The admin shall be able to view the Traffic Officers. 
+• The admin shall be able to update the Traffic Officer’s location. 
+• The admin shall be able to delete the Traffic Officer’s accounts. 
+• The admin shall be able to view the Traffic Officers. 
+• The admin shall be able to monitor Traffic. 
+• The admin shall be able to manage Signal Control. 
+2.5 Non-Functional Requirements 
+2.1.1 Reliability 
+RT-1: The system shall have a 24-48 hrs Mean Time Between Failures (MTFB), 
+ensuring continuous operation except for scheduled maintenance. 
+2.1.2 Usability 
+USE-1: The system shall have a user-friendly interface, allowing Traffic Police to 
+use the system efficiently. 
+2.1.3 Performance 
+PR-1 The system shall maintain its average response time of less than 5 seconds 
+in various conditions etc. 
+2.1.4 Security requirements 
+SEC-1: The system shall require user authentication for different tasks depending 
+on user's role. 
+ 
+19
+3
+9 
+ 
+ 
+2.6 Domain Model 
+ 
+The domain model diagram of the system “Traffix” comprehensively shows the 
+key entities and their relationship with each other. It also shows the entire system 
+works in an integrated manner in Traffix System with its internal and external 
+entities working to manage the system and its users. 
+ 
+Here is the diagram as follows: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 2: Domain Model Diagram 
+
+20
+3
+9 
+ 
+ 
+Chapter 3 
+System Overview 
+3.1 Architectural Design 
+ 
+The diagram that best fits our system is the Event Driven Architecture since our system 
+enables our system “Traffix” to detect the events occurring and act on them in real-time. 
+As our system relies upon real-time CCTV footage to detect traffic flow any event such as 
+emergency vehicle detection, traffic violation detection, or car detection can generate 
+instant automated responses for them. Our system comprises of complex systems to 
+cover large areas with input from CCTV footage. It helps handle our system’s complex 
+and time-sensitive tasks efficiently. 
+ 
+Figure 3: Architecture Diagram 
+
+21
+3
+9 
+ 
+ 
+3.2 Design Models 
+ 
+We have chosen procedural approach design models rather than OOP 
+methodology due to the requirements of our system, “Traffix”. Since it is 
+comprised of data processing and step-by-step procedural logic for processing 
+data and generating responses based on any event that occurs. The flow of 
+diagrams will explain the complexity of our system and how the process of each 
+event works. 
+ 
+We are using the following design models: 
+ 
+• Activity Diagram 
+• Data Flow Diagram 
+• State Transition Diagram 
+• System Level Sequence Diagram (SSD) 
+• Sequence Diagram (SD) 
+ 
+ 
+ 
+22
+3
+9 
+ 
+ 
+3.2.1 Activity Diagram 
+The following are the activity diagrams for our system. 
+Update Profile Activity Diagram 
+ 
+The following is the activity diagram for update profile 
+ 
+ 
+Figure 4: Update Profile - Activity Diagram 
+
+23
+3
+9 
+ 
+ 
+Monitor Car Detection Activity Diagram 
+The following is the activity diagram for Monitor Car Detection. 
+ 
+ 
+ 
+Figure 5: Monitor Car Detection - Activity Diagram 
+
+24
+3
+9 
+ 
+ 
+Detect Emergency Vehicle Activity Diagram 
+The following is the activity diagram for Detect Emergency Vehicle 
+ 
+ 
+ 
+ 
+ 
+Figure 6: Detect Emergency Vehicle - Activity Diagram 
+
+25
+3
+9 
+ 
+ 
+3.2.2 Data flow Diagram 
+For graphical representation of the data flow within Traffix we have made use of a 
+modelling diagram that provided a dynamic view of the system i.e Data Flow Diagram 
+(DFD) 
+DFD Level 0 
+This is the context level, in which we are giving an abstract overview of the system. 
+ 
+ 
+Figure 7: DFD Level 0 
+DFD Level 1 
+The is the Level 1, a more detailed view of the system where it shows all the processes 
+involved in the entire processing of dynamically adjusting traffic. 
+ 
+Figure 8: DFD Level 1 
+
+26
+3
+9 
+ 
+ 
+DFD Level 2 
+In this Level 2, it shows the database of footage detection and database for user data 
+with the entire processes and its sub-processes. 
+ 
+ 
+Figure 9: DFD Level 2 
+
+27
+3
+9 
+ 
+ 
+3.2.3 System-level Sequence Diagram (SSD) 
+To model operations initiated between the users and system, Traffix, we have made use 
+of system sequence diagrams. 
+Update Profile 
+The following is the ssd for update profile, for updating password and phone number. 
+ 
+ 
+Figure 10: Update Profile SSD 
+
+28
+3
+9 
+ 
+ 
+Monitor Car Detection 
+The following is the ssd for monitor car detection. 
+ 
+ 
+ 
+Figure 11: Monitor Car Detection SSD 
+ 
+ 
+ 
+ 
+ “Signal Control 
+29
+3
+9 
+ 
+ 
+Detect Emergency Vehicle 
+The following is the ssd for detection of emergency vehicle detection. 
+ 
+Figure 12: Emergency vehicle detection SSD 
+ 
+“Signal Control 
+30
+3
+9 
+ 
+ 
+3.2.4 Sequence Diagrams (SD) 
+To model operations initiated between the users and the sub systems working all 
+together in Traffix, we have made use of system sequence diagrams. 
+Update Profile 
+The following is the sequence diagram for update profile, for updating password and 
+phone number. 
+ 
+ 
+Figure 13: Update Profile SD 
+ 
+“Signal Control 
+31
+3
+9 
+ 
+ 
+Monitor Car Detection 
+The following is the sequence diagram for monitor car detection. 
+ 
+ 
+Figure 14: Monitor Car Detection SD 
+“Signal Control 
+32
+3
+9 
+ 
+ 
+Detect Emergency Vehicle 
+The following is the sequence diagram for detection of emergency vehicle detection. 
+ 
+Figure 15: Emergency Vehicle detection SD 
+“Signal Control 
+33
+3
+9 
+ 
+ 
+3.2.5 State Transition Diagram 
+In order to show how each component of the system works and responds back we have 
+made use of state transition diagram from each state of the module. 
+Update Profile 
+The following is the state transition diagram for update profile. 
+ 
+Figure 16 Update Profile State Transition Diagram 
+
+34
+3
+9 
+ 
+ 
+Monitor Car Detection 
+The following is the state transition diagram for monitor traffic. 
+ 
+Figure 17 Monitor Car Detection State Transition Diagram 
+ 
+
+35
+3
+9 
+ 
+ 
+Detect Emergency Vehicle 
+The following is the state transition diagram for detection of emergency vehicle. 
+ 
+Figure 18 Emergency Vehicle Detection State Transition Diagram 
+
+36
+3
+9 
+ 
+ 
+3.3 Prototypes 
+Here are the prototypes we made for our web application before starting our 
+project in order to gain an idea of what we will be working on and what kind of 
+project we want to execute. We aim to create a simple UI considering that our 
+project is complex with its technical challenges so we want to keep our UI simple, 
+and user friendly for its targeted users I.e- Traffic Police officers, Admin. 
+ 
+We have included the following screens: 
+ 
+• Log In 
+• New User 
+• Homepage 
+• Signal Control (We will be showing the Monitor CCTV only on this screen 
+for this iteration) 
+• How it works? 
+ 
+ 
+ 
+Log In 
+The following is the log In page prototype to authenticate user. 
+ 
+ 
+ 
+Figure 19 Log In Prototype 
+ 
+ 
+
+37
+3
+9 
+ 
+ 
+New User 
+ 
+The following is the register new user prototype which will only be present in the 
+admin portal as only the admin can register new Traffic police officers and assign 
+them location. 
+ 
+ 
+Figure 20 New User Prototype 
+Homepage 
+ 
+This is the homepage where user is directed to after logging in to the Traffix 
+System. 
+ 
+Figure 21 Homepage Prototype 
+
+38
+3
+9 
+ 
+ 
+Signal Control (Monitor CCTV footage) 
+ 
+This is the main screen which monitors and controls everything in Traffix. It will 
+show the entire cycle of the traffic signal as well as the current traffic light. It will 
+have the option to be controlled by the user or let it control automatically. 
+ 
+Figure 22 Signal Control Prototype 
+ 
+How it works? 
+ 
+This is the screen which shows how the system works for traffic police officer’s 
+ease. 
+ 
+ 
+Figure 23 How it works? Prototype 
+
+39
+3
+9 
+ 
+ 
+3.4 Implementation 
+Car Detection 
+Firstly here is the screenshot for car detection. We chose the yolov5 model for car 
+detection as it has the best perfomance as compared to other versions. It is also 
+compatible with other tools. We are running the pythorch code on our system to detect 
+cars. We used the command python detect.py --weights best.pt --img 640 --conf 0.25 
+--source C:/Users/zaibu/Desktop/Video.mp4 --classes 2 to detect the cars. It is 
+storing the data in runs\detect\exp5 file. 
+ 
+ 
+The results of the video are as follows: 
+ 
+
+40
+3
+9 
+ 
+ 
+Before 
+ 
+ 
+After: It is identifying the cars and their accuracy. 
+ 
+ 
+It also has the option to detect cars in live camera however to test it out we are using the 
+database we gathered in this iteration. Below are the results: 
+Figure 24 Car detection- Before & After 
+ 
+ 
+
+41
+3
+9 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+42
+3
+9 
+ 
+ 
+Emergency Vehicle detection 
+For emergency vehicle detection we fine-tuned the same pre-trained model 
+with emergency vehicle images that we gathered while collecting our 
+database. Here are the results: 
+ 
+ 
+Figure 25 Emergency Vehicle Detection 
+ 
+
+43
+3
+9 
+ 
+ 
+Web Application 
+Here is the log in page of our system. Only pre-registered users with the email 
+ending with “police.gov.pk” can log in here to access the system. 
+ 
+ 
+ 
+This is the homepage where user is directed to after logging in to the Traffix 
+System. 
+ 
+It is the central point for all the options for the user who has just logged in to the 
+system. The user can access all the features including how it works, alerts, 
+challan, signal control, log out etc from the navigation bar in top and side bar on 
+the left. On the left side all the features will be presented i.e- register new user, 
+update your own profile, View all accounts etc. 
+ 
+ 
+ 
+
+44
+3
+9 
+ 
+ 
+Upon clicking on the log out button it prompts the user to re-confirm their action. 
+ 
+ 
+This is the register new page which will only be accessed by the admin. It has 
+various checks, and takes input to register the new Traffic Police officer.
+ 
+ 
+ 
+ 
+ 
+
+45
+3
+9 
+ 
+ 
+Th update your profile page allows you to view your name and update you phone 
+number and password to keep your system safe and secure. 
+ 
+ 
+ 
+
+46
+3
+9 
+ 
+ 
+3.5 Data Design 
+Data Storage and Processing: 
+The data is stored in Mongodb Atlas database in which we are doing the data storage, 
+retrieval, updation, and deletion. 
+The data will be organized into tables based on the entities and their attributes. 
+Database: Mongodb Atlas 
+Tables: Admin, Officers, TrafficSignals, , Challan, Vehicle. 
+Columns of the tables: Attributes of each entity (eg username, password, email, 
+CNIC, city, etc.) 
+ 
+• Admin table: has the information about the admin, i.e. username, password, 
+email, CNIC, city, and sector. 
+• Officers table: has the information about traffic officers, i.e. username, password, 
+email, CNIC, city, and sector. 
+• TrafficSignals table: has the information about traffic signals, i.e. signalID, 
+signalStatus (red, yellow, green), timing (time left of the signal), and location. 
+• Challan table: has the information about traffic violation tickets for crossing the 
+boundary line, i.e. challanID, challanNumber, challanAmount, issueDate, and 
+challanStatus (if it has been paid or if it is still pending). 
+• Vehicle table: has the information about vehicles on the roads for the traffic 
+signal violation, i.e. vehicleID, vehicleType (to check if it is a normal car or an 
+emergency vehicle), vehicleNumber (incase of challan). 
+ 
+ 
+ 
+Figure 26 Data Design -ERD 
+
+47
+3
+9 
+ 
+ 
+3.6 Iteration Timeline 
+Our project is divided into four iterations each of three months, starting from 
+August. All the work is equally distributed amongst the group members and will be 
+done collaboratively. Our focus for this iteration was iteration 1. 
+ 
+ 
+Figure 27 Work Timeline 
+3.6 Conclusion 
+In conclusion, we implemented the iteration 1 update profile, monitor traffic using 
+vehicle detection including emergency vehicle detection to identify the type of 
+vehicle. However, we will be adjusting the traffic signal for the emergency vehicle 
+in iteration 3 to prioritize traffic lane. For the detection and identification of vehicle 
+we used YOLO algorithm, fine-tuned and trained our model with images/videos 
+for Emergency vehicle detection. We have successfully implemented all the 
+features of iteration one including database collection, prototyping, UI/UX and car 
+detection and have a working demo of our system, with all the features mentioned 
+above. 
+
+48
+3
+9 
+ 
+ 
+Bibliography 
+ 
+[1
+] 
+Census-2023, "PBS," [Online]. Available: 
+https://www.pbs.gov.pk/sites/default/files/population/2023/tables/national/table_1.pdf.. 
+[2
+] 
+A. Khan, "Transfer delay and in-hospital mortality of trauma patients in Pakistan". 
+[3
+] 
+"Islamabad," [Online]. Available: 
+https://datacommons.org/place/wikidataId/Q1362?utm_medium=explore&mprop=cou
+nt&popt=Person&hl=en. 
+[4
+] 
+IIPs, "Challenges of Urban Transport in Pakistan," [Online]. Available: 
+https://iips.com.pk/challenges-of-urban-transport-in-pakistan/. 
+[5
+] 
+"Geeks for geeks," [Online]. Available: https://www.geeksforgeeks.org/event-driven-
+architecture-system-design/. 
+ 
+1
+3
+9
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

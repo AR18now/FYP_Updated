@@ -1,0 +1,54 @@
+Use Case Name: Search Multi-City Itinerary
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Search Multi-City Itinerary' correctly and quickly.
+Preconditions: User inputs origin, destination, dates, and number of passengers.
+Postconditions: Display list of matching itineraries along with total costs.
+Main Success Scenario: 1. Actor initiates 'The system queries available flights from the database based on provided criteria.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Compare Fares
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Compare Fares' correctly and quickly.
+Preconditions: Selected itineraries from previous step.
+Postconditions: Present side-by-side comparison table showing prices, baggage allowances, and refund policies.
+Main Success Scenario: 1. Actor initiates 'Retrieve detailed fare information for each selected option.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Reserve Seats
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Reserve Seats' correctly and quickly.
+Preconditions: Chosen itinerary details.
+Postconditions: Confirmation message indicating successful seat allocation.
+Main Success Scenario: 1. Actor initiates 'Allocate seats according to passenger count and preferences.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Add Insurance
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Add Insurance' correctly and quickly.
+Preconditions: Passenger selection and chosen policy type.
+Postconditions: Option to proceed with purchase and confirmation upon completion.
+Main Success Scenario: 1. Actor initiates 'Calculate premium based on selected coverage level.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.
+
+Use Case Name: Receive E-Ticket
+Primary Actor: User
+Stakeholders and Interests: User: wants the system to complete 'Receive E-Ticket' correctly and quickly.
+Preconditions: Successful reservation and payment confirmation.
+Postconditions: Send e-ticket via email or SMS to user’s preferred contact method.
+Main Success Scenario: 1. Actor initiates 'Generate unique e-ticket containing necessary travel information.'. 2. System validates request details. 3. System executes the requested operation. 4. System returns confirmation to the actor.
+Extensions: If validation fails, the system displays a clear error and asks for correction.
+Special Requirements: Response must meet defined performance and security constraints.
+Frequency of Occurrence: Multiple times per day during normal system usage.
+Assumptions: Users have valid access rights and network connectivity is available.

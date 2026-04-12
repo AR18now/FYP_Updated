@@ -1,3 +1,15 @@
+# Install with the SAME Python that runs the API (avoids broken pip.exe launchers):
+#   .\.venv\Scripts\python.exe -m pip install -r requirements_api.txt
+# Or:  powershell -ExecutionPolicy Bypass -File .\install_api_deps.ps1
+# If the venv points to an old path, recreate:  py -3 -m venv .venv  (then install again)
+# api_server.py also loads main_orchestrator, SRS modules, etc. For a working app,
+# install the full stack:  pip install -r requirements.txt
+
 Flask==2.3.3
 Flask-CORS==4.0.0
 Werkzeug==2.3.7
+xhtml2pdf>=0.2.15
+reportlab>=4.0.0
+replicate>=0.24.0
+python-dotenv>=1.0.0
+python-docx>=1.1.2

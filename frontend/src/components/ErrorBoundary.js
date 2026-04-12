@@ -13,7 +13,8 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    const safeMsg = error instanceof Error ? error.message : String(error ?? 'Unknown error');
+    console.error('Error caught by boundary:', safeMsg, errorInfo);
     this.setState({
       error,
       errorInfo
@@ -46,7 +47,9 @@ class ErrorBoundary extends React.Component {
                     Error Details (Development Only)
                   </summary>
                   <pre className="mt-2 text-xs text-red-800 overflow-auto max-h-48">
-                    {this.state.error.toString()}
+                    {this.state.error instanceof Error
+                      ? this.state.error.stack || this.state.error.message
+                      : String(this.state.error)}
                     {this.state.errorInfo && (
                       <div className="mt-2">
                         {this.state.errorInfo.componentStack}

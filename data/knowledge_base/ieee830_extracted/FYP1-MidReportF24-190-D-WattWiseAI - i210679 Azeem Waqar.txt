@@ -1,0 +1,521 @@
+# FYP1-MidReportF24-190-D-WattWiseAI - i210679 Azeem Waqar
+
+## 1. Introduction
+
+1. Introduction
+millions of dollars lost.
+There should be a more subtle approach in solving these challenges. Predictive models
+which can much better capture the complexities of electricity demand.
+1.2 Scope
+The devlopment of WattWiseAI reflects the methodology for developing a hybrid deep-
+learning model to increase the accuracy of the forecast of electricity demand. This project
+will integrate ANN with Encoder-Decoder Long Short-Term Memory and ICEEMDAN.
+These main elements are designed to capture nonlinear patterns, handle sequential data,
+and filter high-frequency noise from electricity demand data.
+The scope entails data collection, model development, training, testing, and even deploy-
+ment. The team will gather all available historical data from the utility companies and
+from any public datasets, then pre-process it for handling missing values and normaliza-
+tion before preparing to train a hybrid model. The developed model will be trained and
+further validated on the data for improving its accuracy and, of course, comparing the
+results with the already existing solutions from AutoGrid and Grid4C.
+Further testing shall be done under multiple scenarios to check on scalability and ro-
+bustness. Deployment shall cover the development of the user interface that will enable
+real-time prediction of electricity demand with scenario analysis. Finally, the final model
+should provide better accuracy in the forecasts, much stability of the grid, and poten-
+tial cost savings by utility operators. The documentation and reporting will outline the
+technical details, results, and possible economic benefits for the project.
+1.3 Modules
+Our system would be divided into the following modules:
+1.3.1 Data Collection and Integration
+1. This module is responsible for collecting and integrating data from different re-
+sources from different companies, government agencies and various public data
+sets. It is also capable of generating data based on typical patterns and trends if real
+data is not available or inaccessible.
+2
+1.3 Modules
+1.3.2 Data Processing and Analysis
+1. This module processes the collected data in various ways to ensure it is ready for
+training the models. In this module we perform cleaning of data by dealing with
+missing values and outliers. Furthermore, We will perform resampling and aggre-
+gation of data as required for effective model training.
+1.3.3 Model Training Module
+1. This module is to train a hybrid deep learning model consisting of the components:
+ANN, EDLSTM and ICEEMDAN.The training process involves feeding the pre-
+processed data into each model, adjusting model parameters through techniques
+like backpropagation, and hyperparameter tuning to improve performance.
+1.3.4 Prediction Module
+1. It is the module that creates electricity demand forecasts using this proposed hybrid
+deep learning model. It would combine forecast values of the modules of ANN,
+EDLSTM, and ICEEMDAN to bring about an accurate and reliable forecast. The
+module would have features that would also reveal the accuracy of the prediction,
+update the model with new data, and tune up the parameters of the model to ensure
+long-term performance. Another key feature that enables scenario analysis is such
+that a forecast can be prepared even under variant conditions like seasonal variations
+or spikes.
+1.3.5 Model Deployment Module
+1. This module is actually the deployment of the trained model into either the real
+world or a simulated environment. This will involve the creation of infrastructural
+arrangement that would allow the model in a production situation where the effi-
+ciency of the model is established within the setting of a real-time situation.
+1.3.6 User Interface And Visualization Module
+1. This module provides a user-friendly interface to interact with the model and the
+predictions. It includes visualization tools for the forecast results, time-series plots,
+error distributions, and scenario analysis. The interface enables users to insert new
+data, run predictions, and show the results in an accessible format. Another possi-
+3
+1. Introduction
+bility could be offering options for customization, depending on different types of
+user needs: changing the forecast horizon or choosing specific time periods.
+1.4 User Classes and Characteristics
+The primary users of the system will include the following classes:
+User class Description
+Users The major end users of the WattWiseAI system will be Electricity Grid
+Operators, Energy Managers, and Utility Company Analysts. The above-
+mentioned listed users would utilize the system in observing, recording
+electricity demand for maintaining stability within the grid, and to assist
+decision-making processes regarding the distribution of energy. Hence,
+these users can forecast demands in electricity; they can look into histori-
+cal data and provide reports facilitated by real-time predictions. The user
+can input parameters, like date and region, for which the model is going to
+predict the demanded value.
+Administrators The project of WattWiseAI has an Admin who oversees the entire manage-
+ment and maintenance of the forecasting system. Such Admin duties consist
+of overseeing data operations, model training, and ensuring optimal perfor-
+mance from the system. They collect and upload historical consumption
+data and related datasets for model training in the system. They process data
+cleaning and normalization activities to make raw data available for analysis
+and training purposes. Admin initiates the training of the hybrid prediction
+model, training it to learn well from the provided data.
+Table 1.1: User Classes
+4
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project. The
+requirement gathering technique we chose is Use case.
+2.1 Use-case
+This section includes the Use Case diagram and high level use cases of the entire project
+along with the expanded use cases for this iteration.
+5
+2. Project Requirements
+Figure 2.1: Use Case Diagram
+6
+2.1 Use-case
+UC-01: Forecasting Electricity Demand
+Use Case Forecasting Electricity Demand
+Actors Operators
+Type Primary
+Description Users can input specific parameters (e.g., date, region) to receive
+predictions for future electricity demand.
+UC-02: Historical Predictions
+Use Case View Historical Predictions
+Actors Operators
+Type Primary
+Description Users can access past electricity demand forecasts and compare them
+with actual consumption data to assess model accuracy.
+UC-03: Generate Detailed Reports
+Use Case Generate Detailed Reports
+Actors Operators
+Type Primary
+Description Users can request comprehensive reports summarizing predictions,
+performance metrics, and historical trends.
+UC-04: Analyze Seasonal Trends
+Use Case Analyze Seasonal Trends
+Actors Operators
+Type Secondary
+Description Users can analyze how electricity demand varies by season to identify
+patterns and inform planning.
+UC-05: Real-Time Load Balancing
+Use Case Real-Time Load Balancing
+Actors Operators
+Type Primary
+7
+2. Project Requirements
+UC-05: Real-Time Load Balancing
+Description The system provides users with recommendations for load balancing
+based on real-time electricity consumption data.
+UC-06: Peak Demand Prediction
+Use Case Peak Demand Prediction
+Actors Operators
+Type Secondary
+Description Users can forecast peak demand periods, allowing them to prepare for
+high consumption times.
+UC-07: Upload Historical Data
+Use Case Upload Historical Data
+Actors Admin
+Type Primary
+Description Admins upload historical electricity consumption and relevant datasets
+for model training.
+UC-08: Data Preprocessing
+Use Case Data Preprocessing
+Actors Operator
+Type Secondary
+Description Admins pre-process the uploaded data to clean and normalize it, ensuring
+it is ready for training the model.
+UC-09: Train Prediction Model
+Use Case Train Prediction Model
+Actors Operator
+Type Primary
+Description Admins perform the training process for the hybrid model using the
+pre-processed data.
+8
+2.2 Functional Requirements
+UC-10: Update Prediction Model
+Use Case Update Prediction Model
+Actors Operator
+Type Secondary
+Description Admins update the prediction model with new data and improved
+algorithms to enhance accuracy.
+UC-11: Monitor Model Performance
+Use Case Monitor Model Performance
+Actors Operator
+Type Secondary
+Description Admins monitor the performance of the model, check accuracy metrics
+and make necessary adjustments.
+Table 2.11: Usecases
+2.2 Functional Requirements
+2.2.1 Data Collection and Integration
+Following are the requirements for module 1:
+1. The system should be able to gather data from different sources like government
+sites, public datasets and utility companies
+2. The system should also be able to generate synthetic data to improve accuracy
+2.2.2 Data Pre-processing
+Following are the requirements for module 2:
+1. The system should clean the data and handle outliers
+2. The system should fill in any missing values
+2.2.3 Hybrid Model Implementation
+Following are the requirements for module 3:
+9
+2. Project Requirements
+1. The system shall implement a hybrid deep-learning model that combines ANN,
+EDLSTM, and ICEEMDAN for predicting electricity demand.
+2. The system shall accurately decompose electricity demand data into high- and low-
+frequency components using ICEEMDAN.
+2.2.4 Model Training and Validation
+Following are the requirements for module 4:
+1. The system shall train the hybrid model using the processed data and validate its
+performance using cross-validation techniques.
+2. The system shall optimize the model’s hyperparameters to achieve the best predic-
+tion accuracy.
+2.2.5 Prediction Module
+Following are the requirements for module 5:
+1. The system shall provide daily electricity demand predictions based on the trained
+model.
+2. The system shall visualize the prediction results in a user-friendly format via the
+web interface.
+2.2.6 Web Application Interface
+Following are the requirements for module 6:
+1. The system shall present prediction results and data visualizations through an inter-
+active web interface built with React.js.
+2. The system shall allow users to query past predictions and compare them with actual
+demand data.
+2.2.7 Data Storage and Management
+Following are the requirements for module 7:
+10
+2.3 Non-Functional Requirements
+1. The system shall store historical data, model outputs, and user queries in a SQL
+database.
+2. The system shall ensure secure and efficient retrieval of data for analysis and com-
+parison.
+2.2.8 V ersion Control and Collaboration
+Following are the requirements for module 8:
+1. The system shall use GitHub for version control, enabling collaborative develop-
+ment and tracking changes in the codebase.
+2.3 Non-Functional Requirements
+This section specifies nonfunctional requirements.
+2.3.1 Performance
+• The system should provide electricity demand predictions with a response time of
+less than 2 seconds after data input.
+• The model training process should complete within a reasonable time frame, de-
+pending on the dataset size, with the goal of processing a typical daily dataset within
+30 minutes.
+2.3.2 Scalability
+• The system should be able to handle increasing amounts of data without significant
+degradation in performance, accommodating future expansion to larger datasets or
+additional data sources.
+• The system should be able to serve multiple users at the same time, ensuring a
+smooth experience
+2.3.3 Reliability
+• The system should be up 98% of the time so that users can access the system ac-
+cording to their needs
+11
+2. Project Requirements
+• The system should be able to recover from crashes efficiently and provide logs to
+help prevent crashes in future
+2.3.4 Usability
+• The interface should be easy to use. Operations should follow simple steps, be self
+explanatory and guide users
+• The system should display appropritae messages to guide users in case they make a
+mistake and need help
+2.3.5 Security
+• The system should ensure data security by using various protocols and passwords
+to verify that data is given only to authorized users
+• All communication should be secure and encrypted using various techniques to
+further protect data
+12
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain Model
+13
+
+Chapter 3
+System Overview
+The proposed WattWiseAI system will provide accurate, short-term electricity demand
+forecasting using a state-of-the-art hybrid deep learning model. In general, there are two
+primary types of users: end-users and administrative users, who manage data and update
+the prediction models.
+At the heart of WattWiseAI, there is in-depth architecture oriented so that every compo-
+nent works in harmony to empower impeccable predictions for electricity demand.
+The core engine fuses ANN, EDLSTM, and a technique known as ICEEMDAN. Such
+a strong hybrid model has been devised for this complex, continuously changing nature
+of electricity demand data. It provides very high accuracy by decomposing the data into
+different parts and then using deep learning techniques.
+WattWiseAI gives real-time demand prediction with past predictions it generates reports
+based on seasonal trends. Some advanced functions entail forecasting peak demand and
+load balancing analytics. Thus, these are some of the key features where one would find
+useful insights required to make prudent decisions toward grid stability and efficiency.
+The administrators manage the system’s backend, uploading historical electricity con-
+sumption data, preparing and analyzing it, training new prediction models, updating the
+models based on their performance evaluations, and so on. There are even advanced tools
+integrated into the system, such as PeakDemandAnalyzer and SeasonalTrendAnalyzer,
+which give detailed insight into the high-demand periods and seasonal trends, respec-
+tively, to help the user draw up reports and alerts on disruption possibilities for fine-tuning
+their operations.
+Furthermore, WattWiseAI combines historical and real-time weather information to en-
+hance the accuracy of its forecasts by correlating such weather conditions with energy
+consumption to best reflect how environmental conditions impact demand. The system is
+built in such a way that its architecture is modular and scalable, which makes the main-
+tenance and further enhancement quite easy. The system handles everything concerning
+15
+3. System Overview
+user management, prediction modeling, data analysis, and alert mechanisms separately in
+their relevant modules. Based on this layered architecture, the system processes oodles
+of data by running advanced analysis and providing actionable insights to both end-users
+and administrators.
+3.1 Architectural Design
+3.1.1 Modular Program Structure
+The system WattWiseAI is based on modular architecture. The modules will interact with
+each other to ensure that efficient data flow and to perform the accurate predictions. This
+architecture is also very useful for future integration of additional features.
+3.1.1.1 Data Management
+Functionality: The module provides the facilities of collection of data, storage of data,
+and preprocessing of historical electricity consumption data and weather related data.
+This module also supports uploading data files and connects to external sources for real-
+time updates and suggestions.
+Relationship: It works closely with the Model Training and Prediction Modules by sup-
+plying clean, prepared and processed data, ensuring that all data used in modeling and
+forecasting is consistent, clean and processed.
+3.1.1.2 Model Training and Updating
+Functionality: The module manages the training of the hybrid model, which includes
+different modules including ANN, EDLSTM, and ICEEMDAN. It includes the training
+of all the model on the preprocessed data. It also responsible for the updating of the model
+to increase the accuracy in electricity consumption predictions.Then to integrate the all
+the models to show the predictions.
+Relationship: It Integrates with the Data Management Module to access preprocessed
+data and sends updated models to the Prediction Module for real-time demand forecast-
+ing.This module also monitors the model’s performance to ensure its accuracy meets the
+required standards.
+16
+3.1 Architectural Design
+3.1.1.3 Prediction and Analysis
+Functionality: This module is used to perform predictions using the trained hybrid
+model. It includes the visualizations of all the results to the user that include the reports
+and the time series graph of the electricity demand. The user can use these predictions for
+load balancing and to analyze the seasonal trends.
+Relationship: It is using the previous module that is Model training and updated in which
+model is trained for the forecasting electricity demand. Then it show visuals to the user.
+3.1.1.4 User Interface and Reporting
+Functionality: In this module includes all the interface for the users and admins to use
+the system. It will provide a dashboard to perform predictions to the users and to interact
+with the system to both users and admins. It is providing a dashboard for visualizing
+forecasts, generating detailed reports, and interacting with analytical tools to the user. For
+the admin, it offers data upload capabilities, model monitoring, and management features.
+Relationship: This module takes data from the Prediction and Analysis module for fore-
+casting data and to show visuals to user. It also interact with the other modules for the
+Data Management to upload data and preprocessing the data and Model training and so
+on.
+3.1.1.5 Model Monitoring and Performance
+Functionality: The module is used for the track of model performance to test that the
+model is working correctly or not. It provides the predictions errors and accuracy metrics
+to update the model on this basis.
+Relationship: It connects with Model Training Module to track its performance over
+time. It gives feedback on accuracy and helping the admin decide when retraining is
+necessary. Data generated from this module is accessible via the User Interface for re-
+view and reporting.
+17
+3. System Overview
+3.1.2 Architecture Diagram
+Figure 3.1: Architecture Diagram
+18
+3.2 Design Models
+3.2 Design Models
+3.2.1 Activity Diagrams
+Figure 3.2: Act-1: Forecasting Electricity Demand
+19
+3. System Overview
+Figure 3.3: Act-2: Historical Predictions
+20
+3.2 Design Models
+Figure 3.4: Act-3: Generating Detailed Reports
+21
+3. System Overview
+Figure 3.5: Act-4: Analyze Seasonal Trends
+22
+3.2 Design Models
+Figure 3.6: Act-5: Realtime Load Balancing
+23
+3. System Overview
+Figure 3.7: Act-6: Peak Demand Prediction
+24
+3.2 Design Models
+Figure 3.8: Act-7: Upload Historical Data
+25
+3. System Overview
+Figure 3.9: Act-8: Data Pre-processing
+26
+3.2 Design Models
+Figure 3.10: Act-9: Train Prediction Model
+27
+3. System Overview
+Figure 3.11: Act-10: Update Prediction Model
+28
+3.2 Design Models
+Figure 3.12: Act-11: Monitor Model Performance
+29
+3. System Overview
+3.2.2 Class Diagram
+Figure 3.13: Class Diagram
+30
+3.2 Design Models
+3.2.3 Class-Level Sequence Diagram
+Figure 3.14: ss-1: Forecasting Electricity Demand
+31
+3. System Overview
+Figure 3.15: ss-2: Historical Prediction
+32
+3.2 Design Models
+Figure 3.16: ss-3: Generate Detailed Reports
+33
+3. System Overview
+Figure 3.17: ss-4: Analyze Seasonal Trends
+34
+3.2 Design Models
+Figure 3.18: ss-5: Realtime Load Balancing
+35
+3. System Overview
+Figure 3.19: ss-6: Peak Demand Prediciton
+36
+3.2 Design Models
+Figure 3.20: ss-7: Upload Historical Data
+37
+3. System Overview
+Figure 3.21: ss-8: Data Pre-Processing
+38
+3.2 Design Models
+Figure 3.22: ss-9: Train Prediction Model
+39
+3. System Overview
+Figure 3.23: ss-10: Update Prediction Model
+40
+3.3 Data Design
+3.3 Data Design
+3.3.1 Data Transformation and Storage
+The information ecosystem within ’WattWiseAI’ encompasses a variety of data sources,
+including electricity demand, weather conditions, predictive forecasts, user information,
+and reports. These data types are structured into specific formats to optimize how they
+are stored, processed, and retrieved, supporting the system’s forecasting and reporting
+capabilities.
+3.3.2 Key Data Entities and Their Storage
+3.3.2.1 Users
+• Data Structure: User details are organized in a relational database, where each
+user has fields like UserID, Name, Email, AccessLevel, and Preferences.
+• Storage and Processing: User data is housed in a centralized database (e.g., Post-
+greSQL) to facilitate authentication and role-based access control. Additionally,
+activity logs are maintained to customize user experiences and generate personal-
+ized reports.
+3.3.2.2 Electricity Demand Data
+• Data Structure: This is stored in a time-series format with attributes such as Date,
+Hour, BalancingAuthority, SubRegion, and DemandMW.
+• Storage and Processing: A time-series database (e.g., InfluxDB or TimescaleDB)
+is used to store this data, making it efficient for time-based retrieval and analy-
+sis. Historical demand patterns inform the system’s forecasting models to generate
+future predictions.
+3.3.2.3 Weather Data
+• Data Structure: Weather data records include factors like Temperature, Humidity,
+WindSpeed, and SeasonIndicator, each tied to a specific time and location.
+• Storage and Processing: Stored in a relational database with indexed fields for fast
+querying, this data is regularly integrated with electricity demand data for prepro-
+cessing, feeding into the forecasting model for training and predictions.
+41
+3. System Overview
+3.3.2.4 Forecasting Model
+• Data Structure: Model data consists of parameters and configurations, stored un-
+der fields like ModelID, ModelType (e.g., ANN, EDLSTM, ICEEMDAN), Param-
+eters, and TrainingDate.
+• Storage and Processing: These configurations and model histories are stored in
+a NoSQL database (e.g., MongoDB), allowing for flexible storage that can easily
+adapt to varied model parameters and enable fast access for retraining or updates.
+3.3.2.5 Predictions
+• Data Structure: Prediction records include PredictionID, Date, PredictedDemandMW,
+SubRegion, and AccuracyMetrics.
+• Storage and Processing: Stored in a time-series database, predictions are aligned
+with the structure of historical data and are used in the interface for trend analysis
+and demand management purposes.
+3.3.2.6 Reports
+• Data Structure: Reports are composed of fields like ReportID, UserID, Report-
+Type, GeneratedDate, and Content.
+• Storage and Processing: Generated on demand, these reports are stored in a
+document-oriented database (e.g., MongoDB) for quick and easy retrieval. Reports
+support various types, including historical trends, seasonal analyses, and prediction
+evaluations.
+3.3.2.7 Seasonal Trends
+• Data Structure: Seasonal trends are captured in fields like TrendID, SeasonType,
+AverageDemand, and YearlyChange.
+• Storage and Processing: Trends derived from historical data are stored in a rela-
+tional database, enabling the analysis of seasonal patterns. This data is periodically
+updated to help improve the accuracy of the forecasting models.
+42
+3.3 Data Design
+3.3.3 Database Storage and Solutions
+• Relational Database: PostgreSQL is used to store structured data, such as user pro-
+files and reports, ensuring data consistency and allowing efficient SQL queries.
+• Time-Series Database: InfluxDB or TimescaleDB handles time-series data like
+electricity demand and predictions, ideal for managing chronological datasets.
+• NoSQL Database: MongoDB is used for storing non-relational data, such as model
+configurations and parameters, offering dynamic and flexible storage.
+• Document Storage: Amazon S3 or Google Cloud Storage is utilized for storing
+large documents, such as detailed reports and seasonal trend analyses, in a scalable
+and durable way.
+43
+3. System Overview
+3.3.4 ERD
+Figure 3.24: ERD
+44
+Chapter 4
+Conclusions and Future Work
+The WattWiseAI project indicates the sophistication of data analysis and forecasting tech-
+niques that serve as an important basis for the better management of electricity demand.
+In developing an efficient and accurate daily electrical demand prediction system, Watt-
+WiseAI can show the inadequacies that exist in balancing energy supply and consumption
+needs at utility companies. It combines historical consumption patterns with external fac-
+tors, such as weather and seasonality, to obtain actionable insights that will help reduce
+forecasting errors, optimize grid stability, and provide more precise resource allocation.
+If that is not enough, WattWiseAI provides user and admin functionality for friction-
+less forecasting, reporting, and real-time monitoring so stakeholders make truly informed
+decisions. This positions WattWiseAI for both promoting sustainability in energy man-
+agement and reducing operational cost, hence a step towards resilience and adaptability
+in power grid solutions for the future.
+45
+
+Bibliography
+1. https://www.sciencedirect.com/science/article/pii/S0196890423010531
+2. https://www.frontiersin.org/journals/energy-research/articles/10.3389/fenrg.2024.1442502/full
+3. https://econjournals.com/index.php/ijeep/article/view/16506
+4. https://www.researchgate.net/publication/271364922_Electricity_Consumption_Forecasting_
+in_Thailand_Using_an_Artificial_Neural_Network_and_Multiple_Linear_Regression
+47
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

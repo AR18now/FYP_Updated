@@ -1,0 +1,149 @@
+=== SYSTEM CONSTRAINTS AND ASSUMPTIONS START ===
+The system will operate within a budget that limits the number of concurrent users to
+500. It must support at least two payment gateways for secure transactions. The system is expected to run on standard web browsers without requiring specific plugins. Users need internet access to book trips. The system shall have a response time under 2 seconds for all queries and updates.
+=== SYSTEM CONSTRAINTS AND ASSUMPTIONS END === === NON-FUNCTIONAL REQUIREMENTS START ===
+Performance:
+- Response time for all queries and updates shall not exceed 2 seconds.
+Security:
+- Payment information must be encrypted using SSL/TLS protocol.
+Reliability:
+- The system must provide uninterrupted service with minimal downtime.
+Usability:
+- The interface design shall follow modern UI guidelines.
+Maintainability:
+- Codebase shall allow easy modification and enhancement.
+Portability:
+- The application must be deployable across various operating systems and devices.
+=== NON-FUNCTIONAL REQUIREMENTS END === INTRODUCTION
+Purpose: To define the system requirements for a travel booking platform.
+Scope: This document defines the requirements for the travel booking system.
+Definitions/Acronyms:
+- UI: User Interface
+- SSL/TLS: Secure Socket Layer/Transport Layer Security
+References: IEEE Std 830-1998
+Overview: This document outlines the detailed specifications for the travel booking system, including external interfaces, functional and non-functional requirements, and constraints. OVERALL DESCRIPTION
+Product Perspective: The product is a web-based travel booking platform aimed at individual travelers who want to plan their journeys efficiently.
+Product Functions:
+- Search multi-city itineraries
+- Compare fares
+- Filter by baggage and refund policies
+- Reserve seats
+- Add insurance
+- Receive e-tickets
+- Handle voucher redemptions
+- Process fare changes
+- Provide alternative options if inventory expires during checkout
+- Offer trip reminders
+- Facilitate simple changes and cancellations
+- Store passenger profiles for faster bookings
+User Characteristics: Individual travelers looking to book travel arrangements online.
+Constraints:
+- Maximum 500 concurrent users
+- Support at least two payment gateways
+- No specific browser plugins required
+Assumptions/Dependencies:
+- Users have internet access
+- Payment information is securely transmitted via SSL/TLS SPECIFIC REQUIREMENTS
+External Interfaces:
+- User Interface: The system provides a graphical user interface for interaction.
+- Hardware: Standard web servers and client machines running common web browsers.
+- Software: Two or more payment gateway APIs for transaction processing.
+- Communication: Secure communication through HTTPS.
+Functional Requirements:
+FR-1: Search Multi-City Itineraries
+Input: Origin, destination, dates, passengers' details.
+Processing: Retrieve available flights from databases and display them based on criteria.
+Output: List of flight options with prices, times, and other relevant details.
+Priority: High
+FR-2: Compare Fares
+Input: Selected flights from previous step.
+Processing: Calculate total costs including taxes, fees, and additional services.
+Output: Summary of total cost for selected flights.
+Priority: Medium
+FR-3: Filter by Baggage and Refund Policies
+Input: Selected flights from previous steps.
+Processing: Display policy details related to baggage allowance and refunds.
+Output: Detailed policy descriptions for each option.
+Priority: Low
+FR-4: Reserve Seats
+Input: Flight selection, seat preferences.
+Processing: Confirm seat reservation and update database.
+Output: Confirmation message and updated itinerary.
+Priority: High
+FR-5: Add Insurance
+Input: Passenger information, chosen insurance type.
+Processing: Calculate premium and process purchase.
+Output: Insurance confirmation and updated itinerary.
+Priority: Medium
+FR-6: Receive E-Tickets
+Input: Reservation confirmation.
+Processing: Generate and send electronic ticket(s) via email.
+Output: Email containing digital tickets.
+Priority: High
+FR-7: Handle Voucher Redemptions
+Input: Voucher code, reservation reference.
+Processing: Validate voucher against current reservations and apply discount.
+Output: Updated price and reservation details.
+Priority: Medium
+FR-8: Process Fare Changes
+Input: Current reservation, new date/time preference.
+Processing: Update reservation with new details and recalculate costs.
+Output: New itinerary reflecting changed preferences.
+Priority: Medium
+FR-9: Provide Alternative Options If Inventory Expires During Checkout
+Input: Out-of-stock items identified during checkout.
+Processing: Identify alternative flights or accommodations and suggest replacements.
+Output: Recommended alternatives with associated costs.
+Priority: High
+FR-10: Offer Trip Reminders
+Input: Booking date.
+Processing: Schedule reminder notifications before departure.
+Output: Reminder sent via SMS/email.
+Priority: Medium
+FR-11: Facilitate Simple Changes/Cancellations
+Input: Existing reservation, change request.
+Processing: Modify existing reservation according to requested changes.
+Output: Updated itinerary reflecting changes.
+Priority: Medium
+FR-12: Store Passenger Profiles for Faster Bookings
+Input: Passenger details.
+Processing: Save passenger profile for future use.
+Output: Stored passenger profile ready for quick rebooking.
+Priority: Low
+Non-Functional Requirements:
+Performance:
+- Response time for all queries and updates shall not exceed 2 seconds.
+Security:
+- Payment information must be encrypted using SSL/TLS protocol.
+Reliability:
+- The system must provide uninterrupted service with minimal downtime.
+Usability:
+- The interface design shall follow modern UI guidelines.
+Maintainability:
+- Codebase shall allow easy modification and enhancement.
+Portability:
+- The application must be deployable across various operating systems and devices. SYSTEM FEATURES
+Feature 1: Multi-City Itinerary Search
+- Allows users to find routes connecting multiple cities.
+Feature 2: Fare Comparison Tool
+- Enables side-by-side comparison of different travel packages.
+Feature 3: Baggage and Refund Policy Information
+- Provides detailed information about baggage allowances and refund conditions.
+Feature 4: Seat Reservation Functionality
+- Supports reserving specific seats on flights.
+Feature 5: Insurance Addition Option
+- Offers optional travel insurance coverage during booking.
+Feature 6: Electronic Ticket Generation
+- Generates and sends digital tickets directly to customers’ emails.
+Feature 7: Voucher Redemption Mechanism
+- Validates and applies discounts provided by vouchers.
+Feature 8: Dynamic Pricing Adjustments
+- Updates pricing dynamically based on real-time inventory status.
+Feature 9: Real-Time Inventory Monitoring
+- Ensures accurate representation of available seats and services.
+Feature 10: Automated Notification System
+- Sends automated alerts for upcoming trips and important updates.
+Feature 11: Flexible Change/Cancellation Policies
+- Implements flexible rules for changing or canceling bookings.
+Feature 12: Passenger Profile Management
+- Stores customer profiles for quicker and easier future bookings. End of Document.

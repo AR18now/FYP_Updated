@@ -1,0 +1,543 @@
+# FYP1_MidReport_F24_057_D_ARch360 - i212960 Abdullah Tahir
+
+## 1. Introduction
+
+1. Introduction
+• AI-Assistance: The project integrates AI to enhance design suggestions based on
+user preferences, hence optimizing the user experience.
+Intended Audience for the Arch360 Document
+• Clients (Homeowners, Business Owners, Property Developers):
+– Role : To make sure that the final product meets their expectations, end users
+must be able to visualize and interact with architectural ideas.
+– Interest : Better understanding of their future spaces and environments, less
+uncertainty, and increased satisfaction with the final design.
+• Architects:
+– Role : Before construction begins architects, can communicate architectural
+visions to their clients through ARch360.
+– Interest : This applies to enhancing the design process and the reduction of
+misunderstandings between employees, clients, and other stakeholders to im-
+prove on organizational communication and customer satisfaction.
+• Interior Designers:
+– Role : People who have to choose the colors, the materials, and other practical
+and aesthetic features of the interior of the space.
+– Interest : Presenting possible designs to the clients and making changes on
+the work in response to the opinion of the clients.
+• Construction Contractors:
+– Role : The workers that have the responsibility of translating the concept into
+a tangible construction.
+– Interest : The ability to become a clear and accurate receiver of design in-
+structions such as avoiding situations where construction work has already
+progressed only for client to make changes that will require other parts of the
+construction project to be done again.
+• Project Managers:
+– Role : People in charge of coordinating finances, schedules, and coordination
+between contractors, architects, and designers during the whole construction
+process.
+– Interest : Ensuring that the project runs efficiently, minimizing revisions, and
+adhering to the client’s vision while staying on schedule and within budget.
+2
+1.1 Problem Statement
+• Investors or Real Estate Developers:
+– Role : People who provide resources and finances for construction.
+– Interest : Reducing the risk of cost overruns and delays by ensuring design
+clarity and client approval early in the process.
+• AR and Unity Developers:
+– Role : The entire team responsible for developing ARch360 project.
+– Interest : Continuous development, system improvements, and ensuring user
+satisfaction with the platform’s performance.
+• Supervisors and Academic Advisors:
+– Role : Mentors who guide the development of the ARch360 project from a re-
+search and technical perspective, ensuring the solution is academically sound
+and meets project goals.
+– Interest : Ensuring that the project is innovative, and practical, and delivers a
+real-world solution to the identified problem.
+1.1 Problem Statement
+Provide a problem statement in a concise paragraph describing: Why you are developing
+this system? What problem does your software solve? (Usually in 10-16 sentences)
+1.2 Scope
+The architecture and construction industries often face a significant challenge in bridging
+the communication gap between clients and professionals. Clients typically struggle to
+visualize 2D plans or even traditional 3D renders, resulting in misunderstandings, dissat-
+isfaction, and costly revisions during or after the construction phase. These miscommu-
+nications arise because clients are unable to fully grasp the scale, design details, or spatial
+layout of their future spaces through static visuals. Furthermore, last-minute changes
+due to unmet expectations can lead to project delays and budget overruns, impacting the
+overall efficiency of the design and construction process.
+To address this issue, we are currently creating ARch360, an application that will apply
+the use of Augmented Reality to present architectural designs in the form of interactive
+3D environments. Through this system, clients can get a feel of their future homes or
+commercial space before construction takes place. Through real-time walkthroughs, and
+3
+1. Introduction
+the ability to interact with the design and view the changes instantaneously, ARch360
+minimizes potential misunderstandings and guarantees the result to be satisfactory for the
+client. It will increase clients’ engagement with the architects, decrease the likelihood
+of the change orders, and improve clients’ satisfaction by providing a more effective and
+enjoyable way to design and modify spaces. In the end, with ARch360, the design cycle
+becomes less cumbersome, and time could be saved while also eliminating the chances of
+its unsatisfactory completion.
+1.3 Modules
+1.3.1 Module 1: Building Instantiation
+1. Model Loader: Loads 3D architecture models into Unity (such as AutoCAD files)
+for augmented reality (AR) rendering. This enables users to see how their build-
+ing might look in the actual world.
+2. Placement Tools: Users can use the tools they need to precisely position and align
+virtual architectural models using augmented reality in real space. This guarantees
+that the 3D model blends in with the surroundings.
+3. Scale and Alignment: Automatically adjusts the scale and alignment of the 3D
+models to match the real-world dimensions, ensuring that the model’s size and po-
+sition are proportionate and realistic.
+1.3.2 Module 2: Area Analysis
+1. Environment Scanning: Utilizes ARCore to scan the user’s physical environment,
+capturing detailed spatial data such as walls, floors, and obstacles.
+2. Spatial Mapping: Creates a comprehensive 3D map of the scanned area, which is
+used to integrate the virtual building model seamlessly with the actual environment.
+3. Measurement Tools: Offers accurate tools that enable users to measure distances
+and areas in the scanned space so they have a strong idea of how best to fill out
+servers once design decisions are finalized.
+1.3.3 Module 3: Customization/Decor
+1. Wall Customization: Users can see how different colors look on their walls by cus-
+tomizing the walls in their 3D building model by choosing various color schemes.
+4
+1.3 Modules
+2. Floor Customization: Allows the user to choose the most appropriate tiling op-
+tions available according to their preferences and the interior of their homes or
+spaces. Tiles can be placed on the floor, and users can easily visualize and have an
+idea which tile options best match the interior of their homes.
+1.3.4 Module 4: Building Tour
+1. Virtual Tours: A First person controller is implemented to allow users a virtual
+tour of the building and navigate different floors and rooms for a better understand-
+ing of the design.
+2. Floor Navigation: Provides easy navigation tools for moving between different
+levels of the building, enhancing the immersive experience.
+1.3.5 Module 5: AI Expert Module
+1. Design Suggestion Engine: The AI Expert module in the ARchitect360 application
+utilizes open-source tools and frameworks to provide intelligent design suggestions,
+helping users create personalized and stylish architectural designs. By leveraging
+pre-trained language models, this module offers tailored recommendations for de-
+sign elements such as wall colors and tile schemes based on user preferences and
+architectural styles.
+1.3.6 Module 6: UI Module
+The UI Module is responsible for all user interface elements and interaction methods,
+ensuring seamless navigation and intuitive control within the Android mobile app. This
+module focuses on delivering a fluid and responsive user experience tailored for a mobile
+environment, and will be designed using Figma for visual layouts, with Unity as the
+development platform.
+1. Touch Control: Provides intuitive touch gestures for users to interact with the app.
+Includes tap, swipe, pinch-to-zoom, drag, and long-press actions for selecting, plac-
+ing, and customizing elements within the 3D environment.
+2. Gesture-Based Navigation: Implements mobile navigation gestures, such as swip-
+ing between screens, double-tap for zooming in/out, and drag for rotating or moving
+elements in the 3D space.
+3. Main Menu Screen: The central hub for accessing core functionalities, including
+starting a new project and loading existing projects.
+5
+1. Introduction
+4. Customization Panels: Mobile-friendly panels for wall and floor customization.
+Users can select wall paint colors and tile designs through swatches and apply them
+in real-time on their 3D models. Includes real-time preview functionality.
+5. Building Tour Controls: Virtual joy stick or swipe-based controls for navigating
+through the virtual building and a simple touch-based floor selection options for ex-
+ploring different levels of the building design and options for first-person to enhance
+the immersive experience.
+1.4 User Classes and Characteristics
+Identify the various user classes that you anticipate will use this product, and describe
+their pertinent characteristics.
+Table 1.1: User Classes and Descriptions
+User class Description
+Customers Customers use the mobile app to visualize their future homes or commercial
+spaces in AR. They can customize design elements (e.g., wall colors, floors)
+using intuitive touch controls and check the alignment of the final design
+with their expectations.
+Architects Architects utilize ARch360 to showcase designs to clients, make on-the-spot
+modifications, and promote transparent communication. They work across
+desktop computers for design creation and mobile devices for augmented
+reality presentations, staying actively engaged with clients throughout the
+design process.
+Interior De-
+signers
+Interior designers concentrate on visualizing and personalizing interior fea-
+tures such as color schemes and décor. They utilize AR-based customiza-
+tion tools for instant previews, engaging primarily during the interior design
+stage, with most interactions taking place through mobile devices.
+Project Man-
+ager
+Project managers are responsible for monitoring the project’s progress, en-
+suring it remains on schedule and within the allocated budget. They rely on
+ARch360 for comprehensive overviews, client input, and tracking timelines,
+frequently engaging through mobile.
+6
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case
+1. UCO1:Usecase: View Building in AR
+• Actor: Client
+• Type: Primary
+• Main Flow: The AR view is started by the client.Using the device camera,
+the system superimposes the 3D model on top of real-world environment.
+2. UCO2:Usecase:Import 3D Model
+• Actor: Client
+• Type: Primary
+• Main Flow: Client clicks import button to import a 3D model into the repos-
+itory.Client chooses an appropriate file type of .fbx format. The model is
+loaded and shown.
+3. 3. UCO3:Usecase:Analyze Area
+• Actor: Client
+• Type: Secondary
+• Main Flow: The client select area analyze tool.The client defines the point
+from which the system start measuring. The client is able to see the results
+after area analyses.
+7
+2. Project Requirements
+4. UCO4:Usecase: Provide a 3D model.
+• Actor: Architect
+• Type: Primary
+• Main Flow: Architect creates and sends 3D model to the client of .FBX file
+format. The client receives and imports the model.
+5. UCO5:Usecase: Customize Walls
+• Actor: Client
+• Type: Secondary
+• Main Flow: The client chooses the wall customization choice.The device
+provides several wall design options.The client implements the desired cus-
+tomization.
+6. UCO6:Usecase: Recieve Design Suggestions
+• Actor: Client
+• Type: Secondary
+• Main Flow: The client clicks on the receive generate suggestions option.
+Client is shown different suggestions related to the customization he has made
+to the 3D model. The client uses most appropriate design suggestions and
+make changes according to that.
+7. UCO7:Usecase:Navigate Building
+• Actor: Client
+• Type: Primary
+• Main Flow: The client clicks on navigate building option. Client is given the
+option to select which floor he wants to navigate. When client selects floor
+client can select options to navigate different rooms in the building.
+8
+2.1 Use-case
+Figure 2.1: Use Case Diagram
+9
+2. Project Requirements
+2.2 Functional Requirements
+The ARch360 system should provide an immersive augmented reality experience for vi-
+sualizing and customizing architectural designs. These requirements are functional in
+nature, divided into modules, and define the interface each module should expose to oth-
+ers.
+2.2.1 Building Instantiation Module
+This module shall load and render 3D architectural models in an AR environment.
+• FR1: The system should be able to import 3D models in various formats such as
+.FBX, .OBJ, or cad files of AutoCAD into the AR environment.
+• FR2: It should have utilities to orient and place the virtual building models in the
+real space with much accuracy.
+• FR3: This system shall have the ability to automatically scale and align the 3D
+models into real-world dimensions.
+2.2.2 Area Analysis Module
+This would be responsible for scanning and mapping the user’s physical environment to
+ensure seamless integration of the virtual model.
+• FR1: The system shall make use of the ARCore in scanning the environment of the
+user, capturing the spatial data like walls, floors, obstacles.
+• FR2: The system shall build a complete 3D map of the area that gets scanned to
+integrate the virtual building model seamlessly.
+• FR3: The system shall be able to provide functionalities to measure distances and
+areas in the scanned environment.
+2.2.3 Customization/Decoration Module
+This module allows users to personalize visual features of their building designs.
+• FR1: The system shall be able to allow users to select different colors for the walls
+in their 3D building model.
+10
+2.3 Non-Functional Requirements
+• FR2: The system shall be able to enable the user to select from a set of tile designs
+and styles for the floors.
+• FR3: The system shall show, in real time, the selected customizations on the 3D
+model.
+2.2.4 Building Tour Module
+This module provides the interactive exploration of the virtual building.
+• FR1: The system shall implement an FPS controller in order for users to move
+inside the virtual building.
+• FR2: The system shall provide tools for navigation among the floors and rooms.
+• FR3: The system shall embed the overview map to help users travel around large
+or complex buildings.
+2.2.5 AI Expert Module
+The module is responsible for providing intelligent design suggestions to the user.
+• FR1: The system shall make use of open-source tools and frameworks that shall
+give AI-driven design suggestions to the end user for things such as wall colors and
+tile schemes.
+• FR2: The system shall employ the usage of pre-trained language models to form
+recommendations based on user preferences and architectural style.
+• FR3: The system shall enable a user to accept, modify, or reject design suggestions
+proposed by AI-driven architecture.
+These functional requirements ensure ARch360 will deliver a complete-scale and user-
+friendly AR experience for architectural visualization and customization.
+2.3 Non-Functional Requirements
+Here are the Non-Functional Requirements (NFRs) for ARch360:
+11
+2. Project Requirements
+2.3.1 Reliability
+• Uptime: ARch360 should have an uptime of 99.9%, ensuring high availability.
+• Error Recovery: In case of failure, the system should automatically recover from
+crashes within 10 seconds, saving user progress where applicable.
+• Data Integrity: All data (e.g., project designs, user settings) must be saved reliably,
+with no data loss in case of system crashes.
+2.3.2 Usability
+• Ease of learning: A system should be simple enough so that users can understand
+how to perform simple tasks easily.
+• Error Avoidance and Recovery: ARch360 should be able to resolve user errors
+with a clear and user-friendly interface.
+• Accessibility: ARch360 to be available and operational 24/7 ensuring it is available
+when users need it.
+• USE-1: The system shall allow users to upload a CAD file and visualize it in AR
+within two interactions.
+2.3.3 Performance
+• PER-1: The system shall load AR models within 7-8 seconds on mobile devices
+and within 5 seconds on desktop devices.
+• Rendering: ARch360 must maintain a frame rate of at least 30 FPS on mobile
+devices and 30 FPS on desktops for smooth interaction with 3D models.
+2.3.4 Security
+• Authentication:All users must authenticate via secure login, with multi-factor au-
+thentication (MFA) for high-privilege users (e.g., architects, developers).
+• Data Encryption:All user data, including design files, must be encrypted in transit
+(using TLS) and at rest (AES-256).
+• SEC-1: The system should resist unauthorized access and maintain the log of all
+login attempts.
+12
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain Model
+13
+Chapter 3
+System Overview
+The ARchitect360 Project, through the use of extended reality-based tools, aspires and
+seeks to revolutionize both the creation and presentation of architectural designs. Distinc-
+tively, it enables a person to engage with three-dimensional structures within a physical
+space long before a single brick has been laid, thereby providing potential clients, ar-
+chitects, and contractors with an engaging and collaborative tool during the period of
+building design. Most specifically, the platform is intended to handle general problems
+in design communication, including misinterpretation of blueprints and the inability to
+visualize spaces realistically. ARch360 is a complex transformation of 2D architectural
+drawings into dynamic 3D models that clearly show how one can understand, explore,
+and make changes in building designs
+1. Capability: The platform is integrated with five major modules, which include:
+2. Building Instantiation: This module instantiates and renders 3-D models such as
+Auto-CAD files in Unity for AR visualization. It allows users to position the model
+correctly within their real-world space and provides utility for tweaking the scale
+while manually aligning it to ensure the building best fits in a real-world space.
+3. Area Analysis: By utilizing the ARCore technology, this module scans the user’s
+surroundings to record the spatial data, thus creating an environmental map in 3D.
+It provides tools to measure distances and assess areas; those are important in eval-
+uating the feasibility of the designs against particular sites.
+4. Customization/Decor: The purpose of this feature is to let the user customize
+the graphical aspects of their building designs. It allows the user to make aesthetic
+changes, such as wall colors and floor designs, and to see what those changes would
+look like in real-time. Building Tour: The platform integrates an FPS controller
+that lets users tour the virtual building in a very interactive way. They can go up
+14
+3.1 Architectural Design
+and down floors, rooms, and areas to create full insight into the layout and spatial
+relations.
+5. Building Tour: The platform integrates an FPS controller that lets users tour the
+virtual building in a very interactive way. They can go up and down floors, rooms,
+and areas to create full insight into the layout and spatial relations.
+6. AI Expert Module: This module uses AI-powered suggestions for design elements
+like wall colors and flooring options. Pre-trained language models use AI to make
+personalized suggestions based on user preferences and architectural style.
+Context and Background: Traditionally, architectural visualization has been done using
+2D blueprints, renderings, and physical models, resulting in communication barriers be-
+tween architects and their clients.Many times, there were errors in the understanding of
+how the final images of their places would look and feel because these were beyond the
+comprehension of the non-technical clients. This resulted in the need to make extremely
+expensive changes during the construction process.
+The project exploits new technologies and open-source frameworks, including Unity and
+ARCore tools and AI models, granting thus rapidity in development, more opportunities,
+and wider access.
+Design: The ARch360 is designed with great tenderness to the users allowing technical
+end users a complicated user interface. Practical application for integration of the 3D
+models happens quite effortlessly into the physical environment. Evaluation of design
+solutions is provided much closer to reality. Due to Rapid alterations of styles, thanks to
+the application of Artificial Intelligence, design elements can be tried out and the effects of
+such decisions witnessed instantly. It is a Building Designer type of software in which all
+the modules are independent and each module takes up a certain part of the architectural
+visualization process and also allows easy modifications or additions for different projects
+on the system
+3.1 Architectural Design
+The initial concept behind ARchitect360 was to create architecture that rests on a modu-
+larly scalable structure, wherein each component is independent yet interacting with other
+components to perform flawlessly and assure smooth performance. The perspective view
+of multiline architecture, where the core functionalities are separated into distinct layers,
+goes to include: UI, business logic, and data management. This modular structure allows
+for easier development, maintenance, and future extension of the system.
+At the highest level, the system is decomposed into five core modules responsible for
+15
+3. System Overview
+different aspects of the architectural visualization process: Building Instantiation, Area
+Analysis, Customization/Decor, Building Tour, and the AI Expert Module. Interaction
+via a central communication bus among the above-mentioned modules ensures smooth
+data flow and workflow among them. These are the relationships and, where applicable,
+interactions across these modules:
+1. Building Instantiation: This module brings in 3D models into an AR environment.
+It provides placement tools to align and scale the model correctly based on the
+user’s physical space. It communicates with the Area Analysis module to receive
+environmental data so that the virtual model is well-matched and fits within real-
+world surroundings.
+2. Space Analyzer: ARCore does space scanning and then spatial mapping. This
+module feeds the system with details of the size of, and space constraints in, the
+physical environment. It interacts with the Building Instantiation module to position
+and scale the 3D model appropriately for precise placement within the physical
+space.
+3. Customization/Decor: The Customization/Decor module will let the user person-
+alize certain parts of their design, including wall colors and the type of floor. It
+fetches 3D model data from the Building Instantiation module and refreshes the
+model with user input. Besides that, it also communicates runtime visual feedback
+back to the UI layer.
+4. Building Tour: Building Tour module implements an FPS controller allowing the
+user to virtually navigate around a building. It works in collaboration with the
+Building Instantiation and Customization/Decor modules to ensure that navigation
+of the user within the 3D model is at its full customized state.
+5. AI Expert Module: This module provides intelligent design suggestions through
+the use of pre-trained AI models.. Suggests design elements, such as wall colours
+and tile styles, based on user preference or project requirements. It also pulls in user
+preferences and building data from the Customization/Decor module to personalize
+its recommendations and feedback for the user.
+High-Level Module Interaction At a high level, these are divided into three layers:
+Presentation Layer (UI): handles user input, visual output; AR visualization, and cus-
+tomization interface.
+Business Logic Layer: Comprises modules such as Building Instantiation, Area Analy-
+sis, AI Expert Module, etc., which are employed for the necessary core processing func-
+tions.
+16
+3.1 Architectural Design
+Data Layer: It concerns the maintenance of 3D model data, scan data of an environment,
+and customization parameters.
+Figure 3.1: Architecture Diagram
+17
+3. System Overview
+3.2 Design Models
+Design Models for Object Oriented Development Approach
+Figure 3.2: Activity Diagram
+18
+3.2 Design Models
+Figure 3.3: Class Diagram
+19
+3. System Overview
+Figure 3.4: ERD
+20
+3.2 Design Models
+Figure 3.5: Class Level Sequence Diagram
+21
+3. System Overview
+3.3 Data Design
+Design Models for Procedural Approach In ARchitect360, the information domain of
+the system is transformed into a line of data structures that regulate architectural models,
+user preferences, spatial data, and AI suggestions of the system. These data structures
+then enable the system to provide complex functionality, including rendering 3-D models
+in AR, customization of design, scanning the environment, and AI-driven design sugges-
+tions.
+Data Structures and Entities
+1. Architectural 3D Models
+• Data Structure: The 3D models are stored in any format like .FBX, .OBJ, or
+AutoCAD. Unity parses the models and renders them by using mesh structures
+comprising vertices, edges, and faces that define the geometry of the building.
+• Storage and Processing: The geometries and models are loaded into Unity’s
+MeshRenderer, which processes them for visualization. Models can be stored
+locally or fetched from cloud storage depending on the system configuration.
+• Organization: In Unity, it is organized by different building components like
+walls, floors, and ceilings, structured into a scene hierarchy. This structur-
+ing would permit users to interact with and make their own adjustments to
+individual elements.
+2. User Customization Data
+• Data Structure: Wall colors, flooring, and decor customization options are
+kept in the form of either key-value pairs or as objects in JSON. Every option
+is tagged with model parts the respective option belongs to, for example, wall,
+floor, etc.
+• Storage and Processing : When a user chooses an option to customize, the
+system will pick up an appropriate file for a certain material or texture involved-
+such as wall colors or floor patterns-and apply it to the relevant component of
+the given 3D model. This is handled dynamically in Unity using material
+shaders.
+• Organization: It stores information about user and session personalization;
+hence the system will be able to remember user preferences across sessions
+by storing them in a NoSQL database like MongoDB or Firebase.
+3. Environment Scanning Data (Spatial Data)
+22
+3.3 Data Design
+• Data Structure: The spatial data originates from environment scanning through
+ARCore. This information is stored as point clouds and mesh maps. Such
+point clouds contain 3D coordinates that represent a user’s environment ge-
+ometry.
+• Storage and Processing: ARCore processes the captured spatial data in real
+time by creating a spatial map representative of the particular physical envi-
+ronment. The data is to be used by the module of Area Analysis for accurate
+placing of the virtual 3D models into the real world.
+• Organization: Spatial data is organized in a 3D grid or octree structure so
+that efficient mapping of large environments is possible. Each node in the
+grid represents a real-world location for accurate positioning and placement
+of virtual objects.
+4. AI Data Structure Design Suggestions:
+• Data Structure: Pre-trained language models and decision trees make the AI-
+driven suggestions. The input parameters of the AI model are text or numeric
+input data, such as user preferences (color, lighting, furniture); room dimen-
+sions; and style preferences. A set of recommended design options shall be
+the output based on the input.
+• Storage and Processing : Storage and Processing shall be done by the AI,
+which shall process the user’s input and give certain design recommendations.
+These are stored in JSON format and utilized through customization options
+applied to the 3-D models.
+• Organization: The AI data generated shall be stored on a per-user profile ba-
+sis, with suggestions connected to specific portions of the architectural model
+for personalized changing recommendations.
+5. Data Structure: User Profile and Session Data:
+• The architectural design of the system will decide whether or not the user
+profiles reside in a relational database, such as PostgreSQL, or otherwise in
+the NoSQL database, MongoDB. With the profile, user information includes
+past projects, preference about customizations, and AI-generated recommen-
+dations.
+• Storage and Processing: User profiles will be persisted within the system so
+that users can revisit their previous choices in design, view recommendations,
+and make changes between sessions.
+• Data Organization: The data from the User is stored in tables or documents.
+For each given user, there is an ID that connects, with that ID, their prefer-
+23
+3. System Overview
+ences, session data, and chosen architectural models within large parts of the
+system.
+Databases and Data Storage ARchitect360 uses both Relational and NoSQL databases
+for managing the information inside the system:
+• NoSQL Database-e.g., Firebase or MongoDB
+– Used for : User customization data, spatial maps, and real-time session infor-
+mation
+– Why : NoSQL databases are best suited for dynamic and flexible data, such
+as user preferences, which may vary from user to user and might change over
+time.
+• Relational Database-e.g., PostgreSQL
+– Used for : Structured data, such as user profiles, past design projects, and
+saved sessions.
+– Reason : Relational databases are strong in consistency and well fit for man-
+aging structured, user-centric data.
+• Cloud Storage usages include AWS S3, Google Cloud Storage.
+– Stores large files like 3D models, textures, and environment maps.
+– Reason : Cloud storage is highly scalable and can hold the big datasets re-
+quired by high-resolution architectural models.
+• Local Storage (temporary cache):
+– Usage : Temporary caching stores 3D models, textures, and scanned environ-
+ments for quick access within a session.
+– Why : In essence, local caching improves the performance by allowing the
+system to fetch generally accessed files at incredible speed.
+Data Flow and Interaction
+The 3D model is loaded from the database or cloud storage and rendered in real-time.
+Whatever changes are made by the users are immediately applied and stored in the database.
+The on-set environmental setup detects the spatial data through environment scanning,
+which ARCore further processes to align the virtual models. AI suggestions populate
+concerning the input provided by the user and connect with customization option settings
+to implement instant design changes.
+24
+3.3 Data Design
+With this in mind, data structures are bound in the system to best handle all the com-
+plexities of real-time AR rendering, user customization, spatial mapping, and AI-driven
+recommendations to make sure the experience by the user is responsive and engaging.
+25
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

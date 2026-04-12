@@ -1,0 +1,635 @@
+# FYP1-MidReport-F24-139-D-Archeon - i211366 Muhammad Ahmad Farhan
+
+## 1. Introduction
+
+Introduction 11
+2 Product Comparison 33
+3 Project Vision 55
+3.1 Problem Statement . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+3.2 Business Opportunity . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+3.3 Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+3.4 Project Scope . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+3.5 Constraints . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+3.6 Stakeholder Description . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+3.7 Stakeholder Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . 77
+3.8 User Classes and Characteristics . . . . . . . . . . . . . . . . . . . . . . 77
+3.9 Project Planning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 88
+4 Project Requirements 99
+4.1 Use-cases . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+4.1.1 Use Case Diagram . . . . . . . . . . . . . . . . . . . . . . . . . 99
+4.1.2 High Level Use Cases . . . . . . . . . . . . . . . . . . . . . . . . 1010
+4.1.3 Extended Use Cases . . . . . . . . . . . . . . . . . . . . . . . . 1111
+4.2 Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . 1616
+4.2.1 3D Reconstruction Module . . . . . . . . . . . . . . . . . . . . . 1616
+4.2.2 Device Scanning and Input Module . . . . . . . . . . . . . . . . 1616
+4.2.3 Rendering and Visualization Module . . . . . . . . . . . . . . . . 1616
+4.2.4 VR Interaction Module . . . . . . . . . . . . . . . . . . . . . . . 1717
+4.2.5 User Interface Module . . . . . . . . . . . . . . . . . . . . . . . 1717
+4.2.6 Storage & Data Management Module . . . . . . . . . . . . . . . 1818
+4.2.7 User Profile Management Module . . . . . . . . . . . . . . . . . 1818
+4.3 Non-Functional Requirements . . . . . . . . . . . . . . . . . . . . . . . 1919
+4.3.1 Accessibility . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+4.3.2 Usability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+4.3.3 Performance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+4.3.4 Security . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+2
+CONTENTS
+4.3.5 Compatibility . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1919
+4.4 Domain Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2020
+5 System Overview 2121
+5.1 Architectural Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2222
+5.2 Design Models . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2424
+5.2.1 Activity Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 2424
+5.2.2 Data Flow Diagrams . . . . . . . . . . . . . . . . . . . . . . . . 2525
+5.2.3 System Sequence Diagrams . . . . . . . . . . . . . . . . . . . . 2727
+5.3 Data Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3232
+6 Appendix I: Project Poster 3333
+References 3535
+3
+List of Figures
+3.1 Software Test Plan . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 88
+4.1 Usecase Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+4.2 Domain Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2020
+5.1 Architecture Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2222
+5.2 Activity Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2424
+5.3 Data Flow Diagram Level 0 . . . . . . . . . . . . . . . . . . . . . . . . . 2525
+5.4 Data Flow Diagram Level 1 . . . . . . . . . . . . . . . . . . . . . . . . . 2525
+5.5 Data Flow Diagram Level 2 . . . . . . . . . . . . . . . . . . . . . . . . . 2626
+5.6 UC-1 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 2727
+5.7 UC-2 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 2828
+5.8 UC-3 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 2929
+5.9 UC-4 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 3030
+5.10 UC-5 Sequence Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . 3131
+5.11 Data Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3232
+6.1 Project Poster . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3434
+4
+List of Tables
+2.1 Product Comparison Table . . . . . . . . . . . . . . . . . . . . . . . . . 33
+3.1 Stakeholder Summary Table . . . . . . . . . . . . . . . . . . . . . . . . 77
+3.2 Software Development Plan . . . . . . . . . . . . . . . . . . . . . . . . . 88
+0
+Chapter 1
+Introduction
+"A picture is worth a thousand words", but "freedom" isn’t one of them. Historically,
+novel forms of visualization have always revolutionized how information is conveyed.
+After all, the human brain is very receptive to visual perceptions, being capable of iden-
+tifying images seen for as little as 13 milliseconds–about 8x faster than the blink of an
+eye. From painting portraits to printing paper, capturing images to recording videos, vi-
+sual media has always restricted us to only seeing what is captured from a single fixed
+perspective. This limits the potentials that lie in visual media for depth of immersion and
+the feeling of being there.
+What if we take it a step further? What if we could add depth to visuals and provide the
+freedom to interact with them? This is where 3D media comes into play. 3D media offers
+an immersive experience that transcends the constraints of fixed perspective visuals. The
+power of 3D visualization lies not only in its ability to capture the essence of a space but
+also in its potential to convey the ambiance, functionality, and spatial abstracts in a way
+that traditional media cannot.
+The Archeon project envisioned in this report addresses the limitations of traditional me-
+dia in conveying the vibe and ambiance of a space. By providing virtual, 360° indoor
+views of reconstructed real-world venues, Archeon lets users interactively explore the en-
+vironment and get a better feel of the space. The core objective of the project include har-
+nessing advanced deep learning and computer vision to create realistic, multi-dimensional
+novel views of interior spaces using scans captured from everyday mobile devices.
+The scope of this report covers the vision, concept, design, development, anticipated im-
+pact and potential applications of this project. It aims to provide a comprehensive per-
+spective on the project, from its inception to the technical details that make it a reality.
+1
+
+Chapter 2
+Product Comparison
+Product Pros/Cons Technology Limitations
+RealityCapture - High-quality
+photogrammetry-
+based 3D models
+Photogrammetry - High cost and
+complex interface
+- Requires
+professional
+equipment for best
+results
+- Not user-friendly
+for non-experts
+Alpha3D - Easy-to-use, single
+image input
+Image-based 3D
+reconstruction
+- Limited to single
+image input,
+resulting in
+low-quality
+geometric accuracy
+- Quick results - Struggles with
+precise and detailed
+3D modeling
+Polycam - Uses LiDAR for
+detailed 3D scans
+LiDAR + iOS - iOS exclusive,
+limited to Pro
+devices
+- Strong for basic
+interior scanning on
+supported devices
+- Lacks VR
+capabilities and
+struggles with
+diverse inputs (e.g.,
+low-light)
+Table 2.1: Product Comparison Table
+3
+
+Chapter 3
+Project Vision
+3.1 Problem Statement
+When choosing a venue for an event, an apartment to purchase, or a new workspace,
+we often find ourselves wondering: Does the space have the right ambiance? Does the
+lighting feel comforting? Is the layout functional for productivity? Is the environment
+cramped or spacious? While photos and videos give us some idea, they are no substitute
+for feeling like you’re there, even when visiting in person isn’t an option. This is where
+digital 3D environment models come into play. There is a need for immersive experiences
+that are interactive, photorealistic, and multi-dimensional[ 33]. Experiences that recreate
+the essence, feeling, and vibe of a space, thereby enabling users to naturally and intuitively
+find the information they need.
+Archeon aims to help with this by creating realistic, multi-dimensional digital models of
+interior spaces using scans captured from everyday mobile devices. This project uses re-
+cent advances in deep learning and computer vision to make 3D reconstruction technology
+available to a broader audience.
+3.2 Business Opportunity
+The motivation behind Archeon is to revolutionize how we capture and explore real-world
+spaces. Traditionally, 3D modeling has been largely confined to niche design industries
+due to its high complexity and costs. However, with a market projected to grow from
+$6.77B in 2024 to $22.19B by 2032[11], there is immense potential in making the technol-
+ogy more accessible. Whether it’s for selecting event venues, exploring homes or hotel
+rooms, inspecting new workspaces or restaurants, or touring heritage sites, the ability to
+capture real-world spaces in 3D has widespread applications across worlds.
+5
+3. Project Vision
+3.3 Objectives
+1. Deep learning Reconstruction: Use of deep learning methods to allow users to gen-
+erate high-quality models without requiring expert knowledge.
+2. User-Friendly Mobile Interface: Provide an intuitive interface for capturing, recon-
+structing, and viewing indoor spaces to make the process accessible for profession-
+als and casual users alike.
+3. Cross Platform Compatibility: Make the app able to run on widely available mobile
+devices to eliminate the need for professional equipment.
+4. Virtual Reality Integration: Include features for users to explore and interact with
+their reconstructed environments in VR.
+3.4 Project Scope
+The scope of the Archeon project encompasses the development of a mobile application
+for high-fidelity 3D neural reconstruction of indoor spaces. The application will use ad-
+vanced deep learning techniques to allow users to scan and reconstruct real-world scenes
+into detailed 3D geometry.[22] The project consists of three main components:
+• Research and Model Development: Identifying and fine-tuning the most effective
+deep learning models for 3D reconstruction. The goal is to achieve high visual and
+geometric fidelity.
+• Mobile Application Development: Creating a cross-platform mobile application
+that integrates these deep learning models. The application will enable users to
+capture, reconstruct and view 3D environments with ease.
+• Virtual Reality Integration: Develop support for immersive VR experiences. Users
+will be able to explore and interact with their reconstructed environments in a virtual
+reality setting.
+3.5 Constraints
+The project will be limited to static indoor environments and will not handle dynamic
+scenes with moving objects. The results will also depend on the quality of input video as
+well as surface and environment complexity. Additionally, the systems performance will
+vary based on device and network capabilities. Lastly, accuracy will be prioritized over
+speed, so there may be a trade-off in the inference time
+6
+3.6 Stakeholder Description
+3.6 Stakeholder Description
+1. Development Team: Students, developers, and designers responsible for building
+the software.
+2. Supervisor/Advisor: The Faculty guiding the development of the project.
+3. End Users: Individuals such as architects, designers, or hobbyists who will use the
+software to create 3D models.
+4. Clients/Organizations: Companies or institutions (e.g.,firms, museums etc) that will
+adopt the app for various purposes.
+3.7 Stakeholder Summary
+Stakeholder Represents Role
+Development
+Team
+Students, developers,
+and designers
+Responsible for building the software,
+including design, development, and
+testing.
+Supervisor Faculty members Guides the development of the project,
+providing oversight and feedback.
+End Users Regular people, archi-
+tects, designers, and
+hobbyists
+Utilize the software to create and ma-
+nipulate 3D models for various applica-
+tions.
+Organizations/
+Clients
+Companies, institutions
+(e.g., firms, museums)
+Adopt the application for diverse pur-
+poses, enhancing their operational capa-
+bilities.
+Table 3.1: Stakeholder Summary Table
+3.8 User Classes and Characteristics
+User class Description
+Casual Users Individuals who occasionally explore or utilize the app for personal creat-
+ing, viewing and sharing of 3D models. They may require basic guides to
+navigate the application. They seek a user-friendly interface.
+Professional
+Users
+Architects, interior designers and real estate agents etc., who use the app for
+their work. They are familiar with the app and require high-fidelity models.
+7
+3. Project Vision
+3.9 Project Planning
+Table 3.2: Software Development Plan
+Iteration# Time frame Tasks/Modules
+01 Aug-Oct Device Scanning and Input Module
+User Profile Module (Feat 1: User Accounts)
+02 Oct-Dec 3D Reconstruction Module
+Rendering and Visualization Module
+03 Jan-Mar User Profile Module (Feat 2: Main Dashboard)
+User Interface Module (Feat 1: Core Interface)
+Storage & Data Management Module
+04 Apr-May VR Interaction Module
+User Interface Module (Feat 2: Integrate VR)
+Figure 3.1: Software Test Plan
+8
+Chapter 4
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+4.1 Use-cases
+4.1.1 Use Case Diagram
+Figure 4.1: Usecase Diagram
+9
+4. Project Requirements
+4.1.2 High Level Use Cases
+UC-1 Reconstruct 3D Scene
+Actors Application User
+Type Primary Use Case
+Description The user provides images or videos of an indoor space
+using the mobile application, which then uploads the
+media and generates a 3D environment model using
+deep learning techniques.
+UC-2 Render 3D Models
+Actors Application User
+Type Primary Use Case
+Description The user requests to render a previously generated 3D
+model, which is downloaded to the device and dis-
+played with realistic textures and lighting
+UC-3 Explore Models in VR
+Actors Application User
+Type Primary Use Case
+Description The user visualizes the 3D model in virtual reality and
+interacts with it using VR controllers.
+UC-4 Manage 3D Data
+Actors Application User
+Type Primary Use Case
+Description The user can store generated models in database, re-
+trieve them for viewing and share them by exporting.
+UC-5 Manage Accounts
+Actors Application User
+Type Primary Use Case
+Description The user can register and login to their accounts
+where their past projects are available in a dashboard.
+10
+4.1 Use-cases
+4.1.3 Extended Use Cases
+Use Case UC-1: Reconstruct 3D Scene
+Scope: Archeon
+Level: User goal
+Primary Actor: Application User
+Stakeholders and Interests:
+Application User: Wants an accurate 3D model of their indoor space
+Preconditions:
+a. The user has granted permission to access the camera and storage.
+b. The user has images/videos of an indoor space.
+Postconditions:
+A detailed 3D model of the scanned indoor space is successfully generated
+The generated model and uploaded video are saved to the user’s account
+Main Success Scenario:
+1. The user opens the mobile application.
+2. The user selects the option to capture/record a video.
+3. The user captures the videos or images of an indoor space.
+4. The system downsamples video frames to key-visuals and uploads the media.
+5. The system applies deep learning techniques to generate a 3D model.
+7. The user receives a confirmation of successful reconstruction.
+6. The 3d model is saved in the user’s account.
+Extensions:
+3a. If the media quality is low:
+The system prompts user to retake the media
+4a. If the upload fails,
+The system provides an error message
+5a. If the generation process is interrupted:
+The system provides an error message
+Special Requirements:
+The system must support standard video and image formats.
+11
+4. Project Requirements
+Technology and Data Variation List:
+1. Variation in performance based on device capabilities
+2. Differences in reconstruction based on complexity of environment and quality of media
+Use Case UC-2: Render 3D Model
+Scope: Archeon
+Level: User goal
+Primary Actor: Application User
+Stakeholders and Interests:
+Application User: Wants to visualize their generated 3D models.
+Preconditions:
+a. The user has at least one generated 3D model saved in their account.
+Postconditions:
+The selected 3D model is rendered and displayed with realistic textures and lighting.
+Main Success Scenario:
+1. The user navigates to their list of saved 3D models.
+2. The user selects a 3D model to render.
+3. The system retrieves the selected model from storage.
+4. The system renders the model with textures and lighting.
+5. The user explores the rendered 3D model on their device.
+Extensions:
+*. If the user chooses to render right after 3D generation
+Steps 1 and 2 are skipped.
+3a. If the rendering is interrupted
+The system displays an error message.
+3b. If the model takes too long to render
+The user is given the option to cancel or wait.
+Special Requirements:
+NA
+12
+4.1 Use-cases
+Technology and Data Variation List:
+Performance may vary with network and device capabilities.
+Differences in rendering time based on model complexity and size.
+Use Case UC-3: Explore Models in VR
+Scope: Archeon
+Level: User goal
+Primary Actor: Application User
+Stakeholders and Interests:
+Application User: Wants an immersive experience of exploring models in VR.
+Preconditions:
+a. The user has a compatible VR headset connected to the mobile device.
+b. A 3D model has been generated and is available for viewing.
+Postconditions:
+The user successfully visualizes and interacts with the 3D scene in VR environment.
+Main Success Scenario:
+1. The user navigates to their list of saved 3D models.
+2. The user selects a 3D model to explore in VR and puts on a headset.
+3. The system loads the selected 3D model in the VR environment
+4. The user views and interacts with the model using VR.
+Extensions:
+4a. If the headset is not detected:
+The system prompts user to connect it.
+Special Requirements:
+NA
+Technology and Data Variation List:
+Variation in user experience based on VR headsets.
+13
+4. Project Requirements
+Use Case UC-4: Manage 3D Data
+Scope: Archeon
+Level: User goal
+Primary Actor: Application User
+Stakeholders and Interests:
+Application User: Wants to have access to past generated models and the ability to share
+them.
+Preconditions:
+a. The user has an account and is logged in.
+b. The user has 3D models saved on their account.
+Postconditions:
+The user can successfully store, retrieve and share their models.
+Main Success Scenario:
+1. The user navigates to their projects dashboard.
+3. The user selects the option to export the model.
+4. The system prompts the user to choose a file format for export.
+5. The system successfully exports the model in the chosen format.
+Extensions:
+5a. If the export fails:
+The user is prompted to try again.
+Special Requirements:
+The system must support multiple file formats for export(e.g., OBJ, FBX)
+The system must ensure data integrity during storage and retrieval.
+Technology and Data Variation List:
+Retrieval times will vary based on the model size.
+14
+4.1 Use-cases
+Use Case UC-5: Manage Accounts
+Scope: Archeon
+Level: User goal/Subfunction
+Primary Actor: Application User
+Stakeholders and Interests: Application User
+Preconditions:
+The user has access to the application.
+The user account is created and they have access to their projects.
+Main Success Scenario:
+1. The user opens the application and chooses to register/login.
+2. The user enter the required information(i.e., email, password).
+3. The system creates the account and directs user to the dashboard.
+4. The user has complete access to capturing, reconstructing and rendering 3D models of
+indoor spaces.
+Extensions:
+*. If the users chooses to login/signup with google accounts
+They select the option and the system completes the operation
+3a. If credentials are incorrect:
+The user is notified and advises to try again,=.
+Special Requirements:
+The system must provide an option for password recovery.
+Technology and Data Variation List:
+NA
+15
+4. Project Requirements
+4.2 Functional Requirements
+4.2.1 3D Reconstruction Module
+The core module responsible for converting 2D image or video inputs into 3D models,
+using deep learning techniques to reconstruct indoor spaces.
+Features:
+• Converts video/images into 3D environment models using neural networks.
+• Preprocesses and downsamples video frames to extract key images.
+Requirements:
+1. FR01: The system shall convert 2D images or video into 3D models using neural
+networks.
+2. FR02: The system shall preprocess and downsample video frames to extract key
+images for reconstruction.
+4.2.2 Device Scanning and Input Module
+This module focuses on capturing real-world data through the mobile device’s camera,
+followed by uploading of the captured video.
+Features:
+• Records video/images natively using the mobile device’s camera
+• Facilitates the upload of pre-recorded videos or images
+Requirements:
+1. FR03: The system shall allow users to record and upload videos/images using mo-
+bile devices
+4.2.3 Rendering and Visualization Module
+This module handles the graphical representation of the 3D models once they have been
+reconstructed. It ensures the models are rendered efficiently on various devices.Features:
+16
+4.2 Functional Requirements
+• Renders 3D models with realistic textures and lighting
+• Supports zooming and panning of the 3D models
+Requirements:
+1. FR04: The system shall render 3D models with realistic textures and lighting
+2. FR05:The system shall support zooming, panning and rotating of the 3D models.
+4.2.4 VR Interaction Module
+This module enables immersive exploration and interaction with the 3D environments in
+Virtual Reality. Features:
+• Provides tools for zooming and panning within VR
+• Integrates with VR hardware for smooth interaction
+• Supports VR movement and navigation controls (extended)
+Requirements:
+1. FR06: The system shall visualize the 3D models in VR environments
+2. FR07: The system shall allow users to interact with the generated 3D models.
+3. FR08: system shall support VR movement and navigation controls (extended)
+4.2.5 User Interface Module
+This module defines how users interact with the application. It provides the front-end
+design and ensures that the app is accessible for a wide range of users. Features:
+• Intuitive interface for scanning, reconstruction, and exploration
+• Integrates VR model visualization into the mobile device interface
+Requirements:
+1. FR09: The system shall provide an intuitive interface for scanning, reconstruction
+and exploration.
+2. FR10: The system shall integrate VR model visualization into mobile device inter-
+face
+17
+4. Project Requirements
+4.2.6 Storage & Data Management Module
+This module manages the secure storage, retrieval and sharing of the input data (scans)
+and the output data (models). Features:
+• Storage of input images/videos and 3D models into database
+• Retrieval of saved models for further viewing and interaction
+• Export of 3D models in various file formats for sharing
+Requirements:
+1. FR11: The system shall store input images/videos and generated 3D models in a
+database
+2. FR12: The system shall be able to retrieve saved 3D models for further viewing
+3. FR13: The system shall allow users to export their models in various file formats.
+4.2.7 User Profile Management Module
+This module allows users to manage their accounts and track their project history includ-
+ing uploads and generated models. Features:
+• User account creation, login, and authentication
+• Tracks and organizes user projects in a dashboard
+Requirements:
+1. FR14: The system shall allow users to create their accounts and login.
+2. FR15: The system shall keep track and organize user projects in a dashboard.
+18
+4.3 Non-Functional Requirements
+4.3 Non-Functional Requirements
+4.3.1 Accessibility
+ACC-1: The application shall provide a user friendly interface for ease of use.
+ACC-2: The system shall be designed to ensure new users can navigate core functions
+with minimal guidance.
+ACC-3: The system shall provide clear visual feedback for all interactions to guide users
+through the 3D scanning and model generation process.
+4.3.2 Usability
+USE-1: The application should let users reconstruct and view 3D scenes with minimum
+five steps on the user interface
+USE 2: The user interface shall follow best mobile design practices, so new users can
+learn to user the core functions in under 5 minutes.
+USE-3: The user shall provide users with clear and concise error messages.
+4.3.3 Performance
+PRE-1: The reconstruction process should complete in under 2 hours. (Currently uncer-
+tain of feasibility)
+4.3.4 Security
+SEC-1: The system should securely store user data to protect sensitive information of
+user’s interior home environments.
+4.3.5 Compatibility
+COM-1: The system shall be cross-platform and compatible with most mobile devices
+released in recent years.
+19
+4. Project Requirements
+4.4 Domain Model
+Figure 4.2: Domain Model
+20
+21
+5. System Overview
+Chapter 5
+System Overview
+5.1 Architectural Design
+Figure 5.1: Architecture Diagram
+22
+5.1 Architectural Design
+Architecture Choice Justification
+The client-server architecture is ideal for this system due to the following reasons:
+1. Resource Efficiency: Offloads GPU-intensive deep learning processing to a powerful
+server to minimize client hardware requirements.
+2. Scalability: Supports a growing user base by allowing multiple clients to connect with-
+out degrading server performance.
+3. Centralized Processing: Ensures consistent and reliable 3D model generation by main-
+taining control over algorithms, models and hardware.
+4. Lightweight Clients: Simplifies client design, focusing on scan capture and result dis-
+play.
+5. Data Security: Centralizes storage of sensitive scans and models, reducing risks asso-
+ciated with local data storage on client devices.
+This architecture effectively balances performance, user experience, and security for 3D
+model generation.
+Procedural Approach Justification
+A procedural approach was chosen for the Archeon project due to its efficiency in man-
+aging the system’s data flow and processing tasks. Given the nature of 3D reconstruction
+and environment rendering, a procedural approach allows for clear, linear sequences of
+operations that can be easily followed and optimized. This approach facilitates the devel-
+opment of specialized functions for each critical process, such as scanning, processing,
+and rendering. Additionally, the procedural model simplifies debugging and testing, as in-
+dividual functions can be assessed in isolation before integration. While object-oriented
+programming offers advantages in terms of encapsulation and reusability, the procedural
+method aligns more closely with the system’s immediate needs for rapid data processing
+and minimal computational overhead. Thus, the procedural approach is ideal for deep
+learning and 3D graphics rendering required in this project.
+23
+5. System Overview
+5.2 Design Models
+5.2.1 Activity Diagram
+Figure 5.2: Activity Diagram
+24
+5.2 Design Models
+5.2.2 Data Flow Diagrams
+Level 0
+Figure 5.3: Data Flow Diagram Level 0
+Level 1
+Figure 5.4: Data Flow Diagram Level 1
+25
+5. System Overview
+Level 2
+Figure 5.5: Data Flow Diagram Level 2
+26
+5.2 Design Models
+5.2.3 System Sequence Diagrams
+UC-1: Reconstruct 3D Scene
+Figure 5.6: UC-1 Sequence Diagram
+27
+5. System Overview
+UC-2: Render 3D Scene
+Figure 5.7: UC-2 Sequence Diagram
+28
+5.2 Design Models
+UC-3: Explore Models in VR
+Figure 5.8: UC-3 Sequence Diagram
+29
+5. System Overview
+UC-4: Manage 3D Data
+Figure 5.9: UC-4 Sequence Diagram
+30
+5.2 Design Models
+UC-5: Manage Accounts
+Figure 5.10: UC-5 Sequence Diagram
+31
+5. System Overview
+5.3 Data Design
+Data Model
+Figure 5.11: Data Model
+32
+33
+6. Appendix I: Project Poster
+Chapter 6
+Appendix I: Project Poster
+Figure 6.1: Project Poster
+34
+Bibliography
+[1] Fortune Business Insights. 3d mapping 3d modeling market size, share covid-19
+impact analysis. F ortune Business Insights, 2024.
+[2] Ricardo Martin-Brualla, Noha Radwan, Mehdi S. M. Sajjadi, Jonathan T. Barron,
+Alexey Dosovitskiy, and Daniel Duckworth. Nerf in the wild: Neural radiance fields
+for unconstrained photo collections. arXiv, 2021.
+[3] Marcos Seefelder and Daniel Duckworth. Reconstructing indoor spaces with nerf.
+Google Research, 2023.
+35
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

@@ -1,0 +1,599 @@
+# FYP1-MidReport-F24-189-D-Pixel - i212769 Syed Sabih Nasir
+
+## 1. Introduction
+
+1. Introduction
+could arise, particularly in the smart contract interactions and P2P network. This will
+assist them in performing risk assessments and developing security measures.
+Marketing Staff: This document provides marketing professionals with a clear under-
+standing of Decentra’s unique selling points, such as its decentralized nature, privacy
+protection, and cost advantages. These insights can help them craft marketing strategies
+aimed at attracting users and promoting the platform.
+This document serves as a roadmap for all involved entities/parties, ensuring that they
+fully understand Decentra’s goals, architecture, and development process, facilitating col-
+laboration across different areas of expertise.
+1.1 Problem Statement
+The development of Decentra roots from the increasing dissatisfaction with the central-
+ized nature of online traditional marketplace. These platforms, which dominate the e-
+commerce niche, impose significant restrictions on both sellers and buyers, resulting in
+higher listing and transaction fees, constrained trade, and immense privacy concerns. Cen-
+tralized platforms typically act as middlemen, charging heavy listing and transaction fees
+that range from 9
+Beyond the privacy and financial concerns, centralized traditional platforms also limit
+the users’ freedom by controlling the way which the users can pay on their platform,
+restricting them to traditional payment methods like credit/debit cards or PayPal/Paytm.
+These payment methods are not only prone to high processing fees but also subject to
+delays, chargebacks, and frustrating disputes. The centralized control over user data,
+trade policies, and payment methods places an undue burden on users, who are forced to
+comply with the platform’s requirements and face risks to their security and privacy.
+In response to these challenges, Decentra offers a decentralized alternative to this whole
+ecosystem, designed to eliminate the need for intermediaries and empowering users with
+more control and freedom over their transactions. By leveraging smart contracts and
+blockchain technology, our platform creates a permissionless, anti censorship marketplace
+where buyers and sellers can interact directly with each other. The platform operates us-
+ing smart contracts on the Base blockchain, which allows for automated and transparent
+transactions without the need for a trusted third party, hence offering users more flexibility
+and options for payment methods. Smart contracts provide a self-executing mechanism
+that ensures trade terms are met, therefore minimizing the likelihood of fraud and dis-
+putes. This completely removes the need for centralized arbitration or oversight, as all
+transactions are governed by pre-defined, immutable smart contract code.
+A key advantage of decentralization for users are the lower transaction fees. Since there is
+2
+1.2 Scope
+no middleman taking a cut of each sale, sellers can list their products at competitive prices,
+and buyers can purchase products and services without the added burden of platform fees.
+Plus, our platform supports the use of various cryptocurrencies, thus giving users the
+flexibility to choose their preferred payment method, which can further reduce fees and
+enhance the speed of transactions. This approach ensures that users retain full ownership
+of their data and assets, as the blockchain’s cryptographic foundations protect user privacy
+and prevent unauthorized access to sensitive information.
+Another major benefit of our marketplace is the ability to resist censorship through decen-
+tralization. Unlike traditional centralized platforms that can unilaterally delist products or
+block transactions, our platform operates in a distributed manner, making it nearly impos-
+sible for any single entity/user to restrict or control access to the marketplace to anyone
+else. This application can open up new opportunities for global trade, allowing users
+and businesses in regions with restrictive trade policies to engage in ecommerce without
+fear of censorship or interference from governments or corporations. In terms of user
+privacy, our platform ensures that personal information is shared only when absolutely
+necessary, and even then, only with relevant parties. By using public key encryption and
+cryptographic signatures, Decentra allows users to maintain their anonymity while still
+engaging in secure and verifiable transactions. This stands in stark contrast to traditional
+centralized platforms, which often require users to provide extensive personal information
+that is stored on vulnerable servers, making it a prime target for attackers.
+In summary, Decentra takes into account the key limitations of centralized ecommerce
+platforms by offering a decentralized, permissionless blockchain-based marketplace that
+empowers users with enhanced freedom, lower fees,greater privacy, and resistance to cen-
+sorship. By removing the need for middlemen through leveraging smart contracts, De-
+centra provides a more secure, transparent, and efficient trading ecosystem where users
+can trade freely without being subject to the policies and fees of centralized authorities.
+This decentralized marketplace is not just a technological shift, but a necessary evolution
+in the way global commerce operates, putting control back in the hands of users while
+ensuring their privacy and security.
+1.2 Scope
+Our scope for the application Decentra is to develop two things:
+1. A Decentra Protocol that is a collection of smart contracts that allow users to trade
+in a decentralized manner. Anybody is free to build a Client that interacts with this
+protocol to enable trading. Other people might want to build a Client for various
+reasons For example: Our hosted Client (Decentre Web Application) may have to
+censor selling of specific goods due to legal obligations. Another person can host
+3
+1. Introduction
+a web application interacting with the protocol that doesn’t censor these specific
+goods. The protocol remains uncensored and completely decentralized at all times.
+The collection of smart contracts(Decentra Protocol) is similar to what web devel-
+opers would traditionally call an API and will be documented as such.
+2. A Decentra Web Application(Client)that allows end users to interact with the smart
+contracts. The interactions with smart contracts will be heavily abstracted so there
+is no learning curve for the end user. This also consists of any indexers or other
+auxillary modules that would be required to build a user-friendly web application.
+This will be extensively documented to ensure anybody else wanting to build a
+Client to interact with the smart contracts can learn by example.
+One of the core functionalities of Decentra is the ability to perform secure and transparent
+transactions using cryptocurrencies, with support for any ERC20 tokens. This offers users
+the freedom to choose from a diverse range of digital currencies for payments, breaking
+the dependence on traditional banking systems and debit/credit card payments. By utiliz-
+ing smart contracts, the platform automates transaction processes, including payment han-
+dling, escrow services, and dispute resolution, ensuring fairness and transparency without
+the need for centralized arbitration.
+An important feature of Decentra is its Trade Protocol, which governs the terms and con-
+ditions of transactions between buyers and sellers. The protocol supports multiple types of
+payment methods, including direct payments and double deposit escrow systems, where
+both parties must agree from their sides before funds are released. For additional secu-
+rity, the platform incorporates Notary Escrow, where a third party notary can be chosen
+to arbitrate transactions in the event of a dispute. This system ensures that users have
+access to fair and unbiased resolution mechanisms without compromising decentraliza-
+tion. Furthermore, all transaction metadata, including trade agreements, assets or services
+being traded, and personal information of users, are all securely stored within the smart
+contracts, ensuring transparency and securing information of our users.
+To enhance the decentralized nature of the marketplace, we will use IPFS (InterPlane-
+tary File System) to store product listing images, reviews, and other relevant data in a
+distributed manner. By hosting this data on IPFS, the platform ensures that informa-
+tion is safe from tampering and not reliant on any single centralized server. This helps
+increase the reliability of the platform and ensures that users can access product informa-
+tion anytime increasing the availability aspect of our platform, even in the case traditional
+servers experience downtime or technical issues. The use of IPFS further reinforces our
+platform’s commitment to creating a fully decentralized environment where users are not
+reliant on any single point of failure.
+The Decentra Client Application, a web-based application, allows users to interact with
+the platform in various roles, including merchants, buyers, and notaries. Merchants can
+4
+1.2 Scope
+set up online stores, list products, and manage sales, while buyers can search for prod-
+ucts, make purchases, and leave reviews. The application is equipped with a user-friendly
+interface that simplifies interactions with the decentralized backend, enabling users with
+minimal technical knowledge to navigate the platform easily. It also includes a ratings and
+reviews system that stores feedback about merchants and products on IPFS, ensuring that
+reviews are permanent and cannot be tampered with. This promotes trust and account-
+ability on the platform, as buyers can make informed decisions based on the experiences
+of others.
+Moreover, the scope also includes the implementation of a Notaries and V oting Pools sys-
+tem. This feature allows users to choose notaries to act as arbiters in the case of disputes,
+or rely on a pool of selected judges to provide arbitration services. V oting polls help
+improve fairness and transparency by involving multiple arbiters/judges in the decision-
+making process, further ensuring fairness and transparency in trade. The system is made
+in a way to be highly flexible, allowing business owners and buyers to either manually se-
+lect their preferred notaries or rely on the platform’s automated selection process, which
+is defined in our smart contracts i.e maintaining transparency throughout the process.
+The project also includes an escrow system backed by multisignature smart contracts to
+ensure that payments are only released when both buyers and sellers have approved the
+transaction. This approach greatly reduces the risks attached with online purchasing, such
+as fraud or non delivery of products or services. Furthermore, our platform incorporates
+decentralized search tools, enabling users to efficiently browse and find the products they
+need without relying on centralized algorithms or databases.
+In summary, the scope of this marketplace covers the development of a decentralized
+marketplace protocol and a client to create a secure, transparent, permission-less ,and an
+open trading ecosystem.
+Its main functionalities include:
+1. Cryptocurrency Based Transactions
+2. Escrow Functionality
+3. Dispute Resolution Mechanisms
+4. Tamper-Proof Review System
+All designed to ensure a seamless and trustworthy trading experience for global users.
+The project’s decentralized architecture aims to remove the traditional constraints of e-
+commerce, offering users a platform that is censorship-resistant, cost-effective, and fully
+under their control.
+5
+1. Introduction
+1.3 Modules
+1.3.1 Trade Protocol
+The Trade Protocol governs the transactions on our platform. It has smart contracts that
+setup trade terms between users, manage transactions, and handle disputes between the
+peers. The system supports multiple payment methods, including direct payments and
+escrow using smart contracts.
+Features:
+1. Base Chain Payments and Escrow
+• Direct Payment: A direct trade between a buyer and seller, used when buyer
+trusts the seller.
+• Double-deposit Escrow : 2 of 2 multisignature smart contract. An escrow
+where both the buyer and seller trust each other. Fund will stay in the smart
+contract if any of the parties refuse signature.
+• Notary Escrow: 2-of-3 or n-of-m multisignature smart contract with notariy.
+The buyer and seller agree on a arbiter prior to beginning the trade. The arbiter
+will have to sign off on the transaction.
+• Smart Contracts
+– Metadata Module : Defines trade type and validity period.
+– ID Module : Contains network ID, Account pubkey, PGP pubkey, and
+other identifiers.
+– Trade Module : Information of the goods or services being traded.
+2. IPFS for Hosting Product Listing Images and Reviews Files are stored in a
+way that prevents tampering and ensures permanence, leveraging IPFS’s content-
+addressable system.
+• Product Listing Images: Store high-resolution images of products on IPFS to
+ensure they are always accessible without relying on a single point of failure.
+This enables faster load times and reduces reliance on centralized servers.
+• Product Reviews: Host user reviews and feedback on IPFS, ensuring they are
+permanently recorded and tamper-proof. Each review is stored as a separate
+file, accessible via unique content hashes.
+6
+1.3 Modules
+1.3.2 Decentra Client Application (Web App)
+The Decentra client application is central to user interaction with the marketplace. It
+allows users to take roles such as merchant, buyer, notary, or arbiter, with diverse UI/UX
+depending on the type of trade. The application includes:
+1. User Role Management
+• Merchant: Allows for setting up store , product listing, and managing sales.
+• Buyer: Facilitates searching, purchasing, and payment management.
+• Notary: Provides arbitration system and validates reviews.
+2. Decentralized Network Interaction
+• Connects with the smart contracts on deployed on Base(Chain).
+• Connects with IPFS to show images.
+3. Ratings and Reviews System
+• Ratings: Scores for merchant behavior, item quality, and shipping time.
+• Reviews: Written summaries of trade experiences.
+• Considerations: Mitigation of Sybil attacks, persistent and immutable stor-
+age.
+1.3.3 Notaries and V oting Pools
+• Arbiters
+• Function: Provide arbitration and review validation services.
+• Accreditation: Carry over off chain trust.
+• Choosing Notaries: Users can manually select or rely on notaries they like
+provided both parties agree.
+1. V oting Pools
+• Purpose: Minimize collusion risk by involving multiple arbiters.
+• Pool Formation: Includes notaries chosen by merchant and buyer, plus ran-
+dom selections.
+• Digital Rulings: Notary pool receives a fee for the moderating the trade.
+7
+1. Introduction
+1.4 User Classes and Characteristics
+User Classes and Characteristics
+User class Description
+Individual
+Sellers
+Typically small business owners, artisans, or hobbyists. Interested in selling
+goods and services without incurring high fees. Prefer platforms that offer
+autonomy and control over their listings. Value privacy and wish to manage
+what personal information is shared.
+Buyers Buyers using Decentra are individuals in search of a diverse array of prod-
+ucts and services, drawn to the platform by its competitive pricing and exten-
+sive selection. They prioritize a shopping experience that is both secure and
+private, with transparency in transactions being a key factor. The absence of
+additional fees during transactions is particularly appealing to these users,
+as they seek a frictionless purchasing process without hidden costs.
+Marketplace
+Operators
+Are focused on establishing niche marketplaces within the Decentra ecosys-
+tem. They require robust tools for managing multiple vendor accounts and
+overseeing transactions while ensuring a user-friendly interface for end-
+users. These operators are keenly interested in analytics and reporting fea-
+tures that provide insights into marketplace performance, helping them op-
+timize their operational strategies.
+High-Trust
+Individuals
+Can provide valuable escrow services, acting as intermediaries to facilitate
+secure and reliable transactions between buyers and sellers. These escrow
+service providers play a critical role in building trust within the decentralized
+marketplace by ensuring that both parties fulfill their obligations before the
+exchange of goods, services, or digital assets is completed.
+8
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of the project.
+2.1 Use-case
+Figure 2.1: Use Case Diagram for Decentra
+9
+2. Project Requirements
+2.1.1 Actors
+• Buyer: A user who has registered and logged into the platform.
+• Seller: A user who lists and manages products for sale on the platform.
+• Guest User: A user who browses the marketplace without logging in or registering.
+2.1.2 Browsing Products
+Actors: Guest User, Buyer
+Description: The user (guest or buyer) can browse products listed in the marketplace.
+Guest users can view the products but need to sign up or log in to perform further actions
+like adding to the cart or purchasing.
+Preconditions: The platform must have products listed by sellers.
+Main Flow:
+1. The user navigates to the homepage or search page.
+2. The user can filter products by category, price, or other parameters.
+3. The system displays product details such as price, seller, and description.
+4. If the user is a buyer, they can add products to the cart.
+5. Guest users are prompted to log in or sign up to proceed to checkout.
+Postconditions: The user views product details, and buyers can add items to their cart.
+2.1.3 Add to Cart
+Actor: Buyer
+Description: A logged-in buyer can add selected products to their cart for future check-
+out.
+Preconditions: The buyer must be logged in. Products must be available in the market-
+place.
+Main Flow:
+1. The buyer selects a product to view.
+10
+2.1 Use-case
+2. The system displays the product’s details.
+3. The buyer clicks the “Add to Cart” button.
+4. The system adds the product to the buyer’s cart and confirms the action.
+Postconditions: The product is added to the buyer’s cart, ready for checkout.
+2.1.4 Place Order
+Actor: Buyer
+Description: The buyer can place an order for products added to the cart.
+Preconditions: The buyer must have products in their cart and payment information
+ready.
+Main Flow:
+1. The buyer proceeds to checkout.
+2. The system prompts the buyer to enter shipping and payment details.
+3. The buyer reviews the order summary.
+4. The buyer confirms the order, and the system processes the payment.
+Postconditions: The order is placed, and the buyer receives an order confirmation.
+2.1.5 Manage Products
+Actor: Seller
+Description: Sellers can add, update, or remove products in the marketplace.
+Preconditions: The seller must be logged in.
+Main Flow:
+1. The seller navigates to the seller dashboard.
+2. The seller can click on “Add New Product” to list a new item for sale.
+3. The system prompts the seller to enter product details, including images and price.
+4. Sellers can also update or remove existing product listings from the dashboard.
+11
+2. Project Requirements
+Postconditions: New products are added to the marketplace or existing products are
+updated/removed.
+2.1.6 Manage Orders
+Actor: Seller
+Description: The seller manages incoming orders placed by buyers, updates the order
+status, and processes shipping.
+Preconditions: The seller has products listed in the marketplace and received orders.
+Main Flow:
+1. The seller navigates to the order management section.
+2. The seller views new orders and selects an order to update.
+3. The system displays order details, and the seller can update the status (e.g., “Shipped,”
+“Delivered”).
+Postconditions: The order status is updated, and the buyer is notified.
+2.1.7 Tracking Orders
+Actor: Buyer
+Description: The buyer can track the status of orders they have placed.
+Preconditions: The buyer must have placed an order and received a tracking number or
+status.
+Main Flow:
+1. The buyer navigates to the “My Orders” section in their account.
+2. The system displays all past orders with current statuses (e.g., “Processing,” “Shipped,”
+“Delivered”).
+3. The buyer selects an order to view detailed tracking information (e.g., courier de-
+tails, estimated delivery).
+Postconditions: The buyer can see the real-time status of their order and contact support
+if necessary.
+12
+2.2 Functional Requirements
+2.1.8 User Authentication
+Actors: Buyer, Seller
+Description: Both buyers and sellers must authenticate (log in or sign up) to access
+platform features like placing an order or managing products.
+Preconditions: The user has an account or must create one.
+Main Flow:
+1. The user clicks on the login/signup button.
+2. The system prompts the user to enter email and password or sign up using a regis-
+tration form.
+3. The system authenticates the user and redirects them to the respective dashboard
+(buyer or seller).
+Postconditions: The user is authenticated and can now access buyer/seller-specific fea-
+tures.
+2.2 Functional Requirements
+This section describes the functional requirements of the system expressed in the natural
+language style. This section is typically organized by feature as a system feature name and
+specific functional requirements associated with this feature. It is just one possible way to
+arrange them. Other organizational options include arranging functional requirements by
+use case, process flow, mode of operation, user class, stimulus, and response depend on
+what kind of technique has been used to understand functional requirements. Hierarchical
+combinations of these elements are also possible, such as use cases within user classes.
+2.2.1 Trade Protocol
+Following are the functional requirements for the Trade Protocol module:
+1. The system must allow buyers to make direct payments to sellers without escrow
+when trust is established.
+2. The system must implement a 2-of-2 multisignature smart contract for double-
+deposit escrow, requiring signatures from both parties for transaction completion.
+13
+2. Project Requirements
+3. The system must support a 2-of-3 or n-of-m multisignature smart contract involving
+a designated notary, requiring their signature for transaction completion.
+4. The system must allow for the definition of trade type and validity period, ensuring
+trades comply with these terms.
+5. The system must maintain identifiers such as network ID, account public key, and
+PGP public key for each transaction.
+6. The system must store information related to the goods or services being traded.
+7. The system must provide a mechanism for handling disputes between peers.
+8. The system must support various payment methods, including direct payments and
+escrow transactions.
+2.2.2 IPFS for Hosting Product Listing Images and Reviews
+Following are the functional requirements for the IPFS module:
+1. The system must store high-resolution images of products on IPFS.
+2. The system must host user reviews on IPFS, with each review stored as a separate
+file accessible via unique content hashes.
+3. The system must leverage IPFS’s content-addressable system for retrieving product
+images and reviews.
+2.2.3 Decentra Client Application (Web App)
+Following are the functional requirements for the Decentra Client Application module:
+1. The application must allow users to select roles (merchant, buyer, notary, arbiter)
+with tailored features for each role.
+2. Merchants must be able to set up stores, list products, and manage sales.
+3. Buyers must be able to search, purchase, and manage payment transactions.
+4. Notaries must provide arbitration services and validate user reviews.
+5. The application must connect with smart contracts deployed on the Base chain and
+access images hosted on IPFS.
+6. Users must be able to provide ratings and written reviews for merchants and prod-
+ucts.
+14
+2.3 Non-Functional Requirements
+2.2.4 Notaries and V oting Pools
+Following are the functional requirements for the Notaries and V oting Pools module:
+1. The system must allow notaries to provide arbitration and validation services for
+trades.
+2. Users must be able to manually select notaries or rely on suggestions, ensuring
+mutual agreement between parties.
+3. The system must enable the formation of voting pools to minimize collusion risks
+during arbitration.
+4. The notary pool must be able to issue digital rulings and receive fees for moderating
+trades.
+2.3 Non-Functional Requirements
+2.3.1 Reliability
+The decentralized marketplace platform must have a high level of reliability, ensuring
+minimal downtime. All functions of the system should be deterministic. In case of any
+failures, the system should ensure that data is not lost and users are informed of the issue.
+Robust error detection mechanisms must be in place to identify faults in real-time, while
+automated recovery strategies should restore normal operation within a specified time,
+preferably within one hour of a detected failure.
+2.3.2 Usability
+The platform must be easy to use, catering to both novice and experienced users. Since
+the platform relies on decentralized wallet authentication, users should be able to create
+accounts, perform transactions, and manage their listings seamlessly. The design should
+be intuitive, ensuring users can accomplish tasks with minimal effort, without requiring
+technical knowledge of blockchain or smart contracts. It is critical that the interface be
+responsive and provide appropriate feedback in case of errors. Additionally, the system
+should prevent common user mistakes and offer suggestions to rectify issues when they
+arise. To enhance accessibility, the platform must comply with established guidelines,
+ensuring users with disabilities can interact with the platform effectively. For example,
+wallet authentication and order placement should not require more than a few straightfor-
+ward steps.
+15
+2. Project Requirements
+2.3.3 Performance
+Performance requirements for the decentralized platform must be optimized to handle
+high user traffic and transaction loads. Specific performance goals should include the
+ability to process transactions such as purchasing or listing items within a few seconds,
+ideally no more than 5 seconds. Search operations should provide results in under 1
+second for most users. The platform should be designed to scale, handling up to 10,000
+concurrent users without a noticeable decline in performance. Smart contracts, the core
+mechanism for transaction validation, should also be optimized for speed, ensuring that
+blockchain confirmations do not slow down the user experience, particularly during peak
+traffic times.
+2.3.4 Security
+The security of the decentralized platform is paramount, especially as it handles sensitive
+financial transactions. All user interactions, including wallet-based account creation and
+authentication, must be secure and immune to external threats such as phishing or man-
+in-the-middle attacks. Given the decentralized nature of the platform, there should be no
+centralized recovery options, meaning users must securely manage their private keys to
+access their accounts. The platform should encrypt all sensitive data, both in transit and
+at rest, utilizing encryption standards such as AES-256. Additionally, the system must be
+resilient against attacks, including DDoS attacks, ensuring continuous availability even
+under malicious pressure. The system should also provide robust mechanisms to prevent
+unauthorized access to smart contracts, and all critical operations must be logged for
+auditing and tracking purposes.
+16
+2.4 Domain Model
+2.4 Domain Model
+Figure 2.2: Domain Model of Decentra
+2.4.1 Description
+This diagram illustrates the structure of a decentralized marketplace. It highlights the in-
+teraction between different actors such as Guest Users, Buyers, Sellers, and Judge/Notaries,
+all interfacing with the system via a unified UI that interacts with several Smart Con-
+tracts. The Account Smart Contract manages wallet-based authentication without pass-
+word recovery, ensuring security and decentralization. Transaction Smart Contracts han-
+dle secure order transactions. Payments are processed through a Payment Gateway using
+cryptocurrency. Dispute Resolution Smart Contracts automate dispute management, with
+Judges/Notaries providing final resolution. All transactions and contracts are securely
+stored on the Blockchain.
+17
+
+Chapter 3
+System Overview
+3.1 Architectural Design
+Figure 3.1: Architectural Diagram
+This architecture outlines the flow between different components involved in the platform.
+Users, either Buyers or Sellers, first authenticate via the Web Application. Sellers list
+19
+3. System Overview
+products, which are stored in the Products system along with associated images, which
+are handled via IPFS (InterPlanetary File System) for decentralized storage. Buyers place
+orders through the Web Application, and the order details are stored on the Blockchain
+for immutability and transparency. Buyers proceed to payment, which is processed via
+the Payment system using cryptocurrency, with transaction details also recorded on the
+Blockchain. The diagram highlights how the blockchain secures transactions, ensuring
+decentralization and trust between parties.
+3.2 Design Models
+3.2.1 Activity Diagram
+Figure 3.2: Activity Diagram
+This activity diagram outlines the flow of interactions in the Dectra decentralized mar-
+ketplace from the perspective of both buyers and sellers. It begins with users connecting
+their wallets and accessing the client application. Users can either proceed as Guest Users
+20
+3.2 Design Models
+to browse products and view details or authenticate as Buyers or Sellers.
+If a user is a Buyer, they can search for products, retrieve images from IPFS, add products
+to the cart, and proceed to checkout. Payment is made using cryptocurrency through a
+Smart Contract, which triggers the transaction to be recorded on the blockchain. Upon
+payment, an order confirmation is sent to the buyer, and the seller is notified of the new
+order.
+If a user is a Seller, they list products for sale, upload images to IPFS, manage inventory,
+and receive orders. Payment is received via cryptocurrency through the Smart Contract,
+and the transaction is similarly recorded on the blockchain. After receiving payment,
+the seller updates the order status and notifies the buyer of the progress. This diagram
+effectively shows how buyers and sellers interact with the platform while ensuring decen-
+tralization and security via blockchain and IPFS.
+21
+3. System Overview
+3.2.2 Sequence Diagram
+Figure 3.3: Sequence Diagram
+22
+3.2 Design Models
+This sequence diagram illustrates the flow of a user interacting with a decentralized mar-
+ketplace. The process begins when the user visits the web application and browses prod-
+ucts. If the user selects a product, they proceed to place an order. If not logged in, the
+user is redirected to a login page before continuing. Once logged in, order details are
+submitted to the blockchain, followed by transaction processing through a payment gate-
+way. After payment confirmation, the system checks if the payment was successful. If
+successful, the order is placed; otherwise, the payment fails, ending the process.
+23
+3. System Overview
+3.2.3 Class Diagram
+Figure 3.4: Class Diagram
+24
+3.2 Design Models
+The class diagram for the Decentra decentralized marketplace illustrates the primary com-
+ponents and their relationships within the system. The key entities are:
+1. Guest User: Represents unregistered users who can browse the marketplace, view
+products, add items to the cart, and proceed to checkout.
+2. Buyer: Extends from the general user. Buyers can create orders, view purchase
+history, and initiate disputes if necessary.
+3. Seller: Responsible for listing products, managing orders, and resolving disputes.
+Sellers interact with the platform to manage their inventory and sales.
+4. Judge Notary: Handles the resolution of disputes. Once a dispute is initiated, the
+Judge Notary reviews the case and provides a final resolution.
+5. UI: The user interface that acts as a bridge between users and the blockchain-based
+smart contracts. It ensures that buyers, sellers, and guest users can interact seam-
+lessly with the platform’s functionalities.
+6. Account Smart Contract : Manages user authentication through wallet-based au-
+thentication, ensuring privacy and security. There is no password recovery due to
+the decentralized nature of the system.
+7. Transaction Smart Contract: Secures transactions and records orders. It plays a
+central role in managing the financial transactions between buyers and sellers.
+8. Payment Gateway: Facilitates cryptocurrency payments for both buyers and sell-
+ers, ensuring that transactions are securely processed via the blockchain.
+9. Dispute Resolution Smart Contract: Automates the dispute management process,
+allowing for fair and transparent resolutions that are finalized by the Judge Notary.
+10. Blockchain: Serves as the backend, storing all contracts and transactions securely.
+It ensures transparency and immutability across all transactions and actions taken
+by users.
+In this design, anonymity is a key feature, as minimal data from both buyers and sell-
+ers is collected. Most interactions, including account creation and payment, are handled
+through decentralized smart contracts, ensuring that users retain control over their infor-
+mation while the platform remains secure and transparent.
+25
+3. System Overview
+3.3 Data Design
+Figure 3.5: Data Flow Diagram
+This Level 0 Data Flow Diagram (DFD) represents the overall structure of a decentralized
+marketplace web application. It identifies key components and their interactions with the
+central "Decentra Web Application."
+1. Buyers/Sellers/Guest: External users who interact with the system. Buyers place or-
+ders, sellers list products, and guests may browse products or register. 2. User Authenti-
+cation: This process ensures that only registered users can perform specific actions such
+as placing orders or listing products. 3. Placing Orders: Buyers can place orders for
+products listed on the platform through the web application. 4. Listing Products: Sellers
+use this feature to list products on the platform, making them available for purchase. 5.
+26
+3.3 Data Design
+Blockchain: The application communicates with a blockchain to store immutable transac-
+tion records and order details, ensuring transparency and security. 6. IPFS (InterPlanetary
+File System): This decentralized storage system is likely used to store product images,
+descriptions, and other large files securely and in a decentralized manner. 7. Notaries:
+Used for verifying transactions or product authenticity through a decentralized validation
+system.
+Each component interacts with the central web application, forming a complete decen-
+tralized e-commerce ecosystem.
+In our decentralized marketplace project, the data design primarily revolves around two
+key storage and processing technologies: IPFS (InterPlanetary File System) and Blockchain.
+• IPFS is used to store and retrieve the large, decentralized files such as product images
+and descriptions. When a seller lists a product, the images and relevant metadata are up-
+loaded to IPFS. Each file uploaded is given a unique content identifier (CID), ensuring
+the data is immutable and easily retrievable by both buyers and sellers. The decentralized
+nature of IPFS ensures that files are not hosted on a single server but spread across mul-
+tiple nodes, providing redundancy and improved access speeds while maintaining data
+integrity. • Blockchain handles all transactions and stores the corresponding transactional
+data. This includes buyer and seller interactions, order creation, payments, and dispute
+resolution. Each transaction is securely recorded on the blockchain as a block that in-
+cludes the transaction details, timestamps, and the involved parties’ wallet addresses. The
+blockchain ensures that all order histories, payments, and contracts are immutable, trans-
+parent, and verifiable by all users without the need for a central authority.
+Together, IPFS and Blockchain work in tandem to support the decentralized nature of the
+platform, ensuring data security, transparency, and persistence in a trustless environment.
+The product details stored in IPFS are linked to their corresponding transactional records
+on the blockchain, creating a seamless flow of data between these two components.
+27
+
+Bibliography
+29
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

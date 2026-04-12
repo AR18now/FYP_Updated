@@ -1,0 +1,607 @@
+# FYP1-MidReport-F24_121_D_GrociDish - i211361 Ahmed Mujtaba
+
+## 1. Introduction
+
+1. Introduction
+1.2 Scope
+The app will feature a personalized grocery list generation system that takes into account
+user preferences, budget, and categories such as dietary needs. For managing recipes,
+users will have access to a variety of pre-existing options with complete nutritional in-
+formation, including those specifically tailored for conditions like diabetes, hypertension,
+and obesity. Calories will be recommended based on each user’s Body Mass Index (BMI)
+and Ideal Body Weight (IBW), ensuring portion control that aligns with individ- ual health
+goals. Nutritional recommendations, including the balance of macro-nutrients (carbohy-
+drates, fats, and proteins), will be adjusted according to the user’s activity levels. This will
+optimize health outcomes by ensuring that the diet aligns with user’s lifestyle and specific
+needs. The app will recommend recipes based on the ingredients available from the user’s
+grocery list, providing a more customized experience. Additionally, the app will also fea-
+ture daily caloric tracking for each family member, providing insights into their overall
+consumption patterns for better health management. However, the app does not calculate
+nutritional information in real time, meaning users will not receive immediate updates on
+the nutritional content of their selected ingredients individually. Instead, the recipes will
+have pre-calculated values. Similarly, the app does not generate new recipes on the fly
+based on user inputs or available ingredients. Instead, it relies on a pre-existing database
+of recipes, from which it suggests the most appropriate meal.
+1.3 Modules
+1.3.1 Personalized Grocery List Generation
+This module enables users to generate grocery lists tailored to their preferences(like
+brands) and budget,
+1. Feature 1: Allows users to create grocery lists based on personal preferences .
+2. Feature 2: Incorporates budget constraints to generate a cost-effective grocery list
+that balances nutrition and affordability.
+3. Feature 3: Provides brand preferences based on budget, allowing users to select
+from local and affordable grocery brands for their purchases.
+2
+1.3 Modules
+1.3.2 Grocery List Modification via Chatbot
+This module integrates a chatbot that assists family members in managing their grocery
+lists. The chatbot performs various operations such as retrieving, adding, and updating
+items in the grocery list, ensuring an interactive and convenient experience for users.
+1. Feature 1: Allows user to append items to their grocery list via a chat interface.
+Users can simply input commands like "Add item".
+2. Feature 2: Retrieves the current grocery list, providing users with an updated view
+of the items already added.
+3. Feature 3: Incorporates natural language processing to enhance user interaction,
+making it easier to perform operations mentioned above.
+1.3.3 Ingredient-Based Recipe Suggestions
+This module recommends recipes based on the ingredients available from the generated
+grocery list. It enhances customization by offering recipe suggestions that align with what
+users already have, making meal planning more convenient and efficient.
+1. Feature 1: Suggests recipes based on ingredients from the user’s grocery list, en-
+suring minimal food waste and efficient meal planning.
+2. Feature 2: Allows users to filter recipe suggestions by dietary preferences or health
+conditions.
+1.3.4 Meal Recommendation System
+This module offers users a curated selection of recipes from the Calorics: Practical Man-
+ual of Clinical Nutrition book, with detailed nutritional information. It also provides
+recipes suited for health conditions (diabetes,hypertension and obesity).
+1. Feature 1: Provides Meals tailored to health conditions like diabetes, hypertension,
+and obesity, ensuring users can manage their dietary needs effectively.
+2. Feature 2: Includes alternative Meal options for variety while maintaining nutri-
+tional balance.
+3. Feature 3: Nutritional calculations(Total Calories,Fats,carbs,protein and per serving
+calories) are done with the help of a nutritionist to ensure accuracy and suitability
+for local cuisine.
+3
+1. Introduction
+4. Feature 4: Users can access a comprehensive database of pre-existing recipes.
+1.3.5 Calories Recommendation System
+This module calculates recommended serving sizes for each family member, ensuring
+portion control tailored to individual health goals. It uses the Harris-Benedict equation to
+personalize calorie and nutrient intake recommendations.
+1. Feature 1: Takes user input including age, weight, height,gender and activity level.
+2. Feature 2: Calculates BMI(Body Mass Index) and IBW(Ideal Body Weight) for
+accurate health assessments.
+3. Feature 3: Uses the Harris-Benedict equation to calculate daily calorie needs based
+on the individual’s activity level, aiding in meal planning.
+4. Feature 4: Recommends for each family member, detailing daily calories, carbohy-
+drates, protein, and fat intake for optimal nutrition.
+1.3.6 Caloric Tracking
+This module tracks the daily caloric intake of each family member, providing insights
+into overall consumption and helping users monitor their diet to make healthier choices.
+It allows for personalized tracking with optional privacy controls.
+1. Feature 1: Each family member can have an optional, password-protected calorie
+tracker, ensuring privacy and individualized monitoring.
+2. Feature 2: Tracks daily caloric intake giving users a comprehensive view of their
+diet.
+3. Feature 4: Provides a visual breakdown of calorie sources, making it easier for users
+to identify unhealthy eating patterns or nutrient deficiencies.
+1.4 User Classes and Characteristics
+Mentioned below are the identified user classes that will use GrociDish,
+4
+1.4 User Classes and Characteristics
+User class Description
+Pakistani
+Families
+These are the primary users of GrociDish.They are looking for a convenient
+way to plan their grocery shopping and meals while staying within a budget.
+They value personalized grocery lists and Meals that cater to their dietary
+needs and preferences.
+Home Cooks Individuals who prepare meals at home and need assistance in planning nu-
+tritionally balanced meals. They benefit from detailed nutritional informa-
+tion and recipe suggestions based on available ingredients.They can benefit
+from the wide variety of recipes available
+Individuals
+with Dietary
+Restrictions
+Users who have specific health conditions such as diabetes, hypertension, or
+obesity. They require specialized recipes and guidance to maintain a healthy
+lifestyle .They can benefit from the therapeutics recipes available in our app
+with nutritional information.
+Health-
+Conscious
+Individuals
+Users who are focused on maintaining a healthy lifestyle. They use the app
+to track their daily caloric intake and ensure their meals are nutritionally
+balanced.
+Table 1.1: User Classes and Characteristics for GrociDish
+5
+
+Chapter 2
+Project Requirements
+This chapter describes the functional and non-functional requirements of GrociDish.
+2.1 Use-case Diagram
+7
+2. Project Requirements
+Figure 2.1: GrociDish Use-Case Diagram
+2.2 Detailed Use Cases
+2.2.1 Manage Account
+Use Case Name: Manage Account
+Scope: GrociDish System
+Level: User Goal
+Primary Actor: User(Master User)
+Stakeholders and Interests:
+• User: Wants to create an account and add family members.
+• Family Members: Want to be added to the system and have appropriate permis-
+sions.
+8
+2.2 Detailed Use Cases
+Pre-conditions: User has access to the GrociDish application and Internet connection.
+Post-conditions: User account is created, and family members are added with appropriate
+permissions.
+Main Success Scenario:
+Step User Action/System Response
+1 The user accesses the GrociDish app.
+2 The system presents the user with a
+Sign-up option.
+3 The user selects the Sign-Up option.
+4 The system displays the User
+Registration form, prompting the user to
+enter the necessary information.
+5 User enters email, username, and
+password.
+6 The system validates the entered
+data.Once the user’s data passes
+validation, the system securely stores the
+user’s information in the database.
+7 User adds family members.
+8 User assigns permissions for grocery list
+generation and Recipe selection.
+9 System confirms account creation and
+family member addition.
+10 The user can now log in using their
+registered username and password.
+11 The user can update and delete account
+after successful login.
+Table 2.1: Main Success Scenario for Manage User Account
+Extensions:
+• 1a. If the email is already in use, the system prompts the user to provide a different
+email or log in with the existing account.
+• 6a. If any field in the registration form is missing or invalid, the system highlights
+the errors and prompts the user to correct them.
+• 8a. If the user skips assigning permissions to family members, the system prompts
+for at least one action to be assigned.
+9
+2. Project Requirements
+2.2.2 Manage Profile
+Use Case Name: Manage Profile
+Scope: GrociDish System
+Level: User Goal
+Primary Actor: Family Member
+Stakeholders and Interests:
+• Family Member: Wants to enter personal details for accurate tracking.
+• System: Needs accurate data for personalized recommendations.
+Preconditions: Family member is added to the system by the primary user.
+Post-conditions: Family member’s personal details are saved in the system.
+Main Success Scenario:
+Step User Action/System Response
+1 Family member logs into the GrociDish
+system using the credentials provided by
+the master user.
+2 The system prompts the family member
+to enter personal details such as name,
+age, weight, height and activity level.
+3 The family member enters their personal
+information.
+4 The system validates the entered data and
+calculates BMI,IBW and Calculate the
+members Calories.
+5 The system saves the family member’s
+personal details for future use in
+recommendations.
+Table 2.2: Main Success Scenario for Manage Profile
+Extensions:
+• 1a. If any detail is missing or invalid, the system prompts the family member to
+provide the required information.
+2.2.3 View Recipe Catalogue
+Use Case Name: View Recipe Catalogue
+Scope: GrociDish System
+10
+2.2 Detailed Use Cases
+Level: User Goal
+Primary Actor: Family Member
+Stakeholders and Interests:
+• Family Member: Wants to view recipes and like/dislike recipes.
+• System: Uses this data for personalized recommendations.
+Preconditions: Family Member is logged into the GrociDish system.
+Post-conditions: User’s recipe preferences are saved and used for personalized recom-
+mendations.
+Main Success Scenario:
+Step User Action/System Response
+1 The Family Member browses the recipe
+catalog on the app.
+2 The Family Member selects a recipe and
+can like or dislike it.
+3 The system saves the recipe preferences
+for future recommendations.
+Table 2.3: Main Success Scenario for View Recipe Catalogue
+Extensions:
+• 2a. If the user tries to like or dislike the same recipe multiple times, the system
+prevents duplicate actions.
+2.2.4 Grocery List Generation
+Use Case Name: Grocery List Generation
+Scope: GrociDish System
+Level: User Goal
+Primary Actor: Authorized Family Member
+Stakeholders and Interests:
+• Authorized Family Member: Wants to generate a grocery list within a set budget.
+• Family Members: Want to ensure the list meets their needs.
+• System: Needs to generate an optimized list based on preferences and budget.
+11
+2. Project Requirements
+Preconditions: Authorized family member is logged into the GrociDish system and au-
+thenticated.
+Post-conditions: Grocery list is generated and saved.
+Main Success Scenario:
+Step User Action/System Response
+1 The authorized family member enters the
+budget for grocery shopping and set
+brand preference.
+2 The system generates a grocery list based
+on the budget and family brand
+preferences.
+3 Family members review the grocery list
+and modify it if necessary.
+4 The system saves the final grocery list.
+Table 2.4: Main Success Scenario for Grocery List Generation
+Extensions:
+• 2a. If the budget is insufficient to meet the needs, the system suggests budget
+adjustments and prompts.
+• 3a. If Authorized family member modify the list, the system updates the list ac-
+cordingly.
+2.2.5 Track Calories
+Use Case Name:Track Calories
+Scope: GrociDish System
+Level: User Goal
+Primary Actor: Family Member
+Stakeholders and Interests:
+• Family Member: Wants to track daily calorie intake accurately.
+• System: Needs accurate data for health recommendations.
+Pre-conditions: Family member is logged into the system.
+Post-conditions: Daily calorie intake is tracked and visualized.
+12
+2.2 Detailed Use Cases
+Main Success Scenario:
+Step User Action/System Response
+1 The family member logs into the
+GrociDish application.
+2 The system displays the dashboard with
+an option to track calories.
+3 The family member selects the calorie
+tracking option.
+4 The system prompts the user to enter
+individual servings of food consumed.
+5 The family member inputs the details of
+each food item, including serving size
+and type.
+6 The system validates the entered data and
+calculates the total daily calorie intake.
+7 The system displays the calculated
+calorie intake and provides a visual
+representation (e.g., bar chart or pie
+chart) on the dashboard.
+8 The family member reviews the visual
+representation and can see their daily
+intake compared to recommended levels.
+9 The system suggests dietary adjustments
+if calorie intake exceeds recommended
+levels.
+10 The family member can log out or
+continue tracking further meals for the
+day.
+Table 2.5: Main Success Scenario for Calorie Tracking
+Extensions:
+• 1a. If serving data is incomplete, the system prompts for additional information.
+• 2a. If calorie intake exceeds recommended levels, the system provides alerts.
+2.2.6 Select Meal Plan
+Use Case Name: Select Recipe
+Scope: GrociDish System
+Level: User Goal
+Primary Actor: Authorized Family Member
+Stakeholders and Interests:
+13
+2. Project Requirements
+• Authorized Family Member: Wants to select recipes for meal planning.
+• Family Members: Want to ensure selected recipes meet their dietary preferences.
+• System: Needs to track selected recipes for calorie tracking.
+Pre-conditions: Authorized Family Member is logged into the system and has access to
+select.
+Post-conditions: Selected recipes are saved and used for meal planning.
+Main Success Scenario:
+Step User Action/System Response
+1 The Authorized Family Member logs into
+the GrociDish app and clicks on Meal
+recommendation option.
+2 The system displays the recommended
+Meals.
+3 The Authorized Family Member browses
+through the available Meals for healthy
+members and for members with health
+conditions
+(diabetes,hypertension,obesity).
+4 The Authorized Family Member selects a
+desired Meal.
+5 The system saves the selected Meal.
+6 The system updates the meal plan and
+grocery list based on the selected recipe.
+7 The system confirms the successful
+selection and updates to the user.
+Table 2.6: Main Success Scenario for Meal Selection
+Extensions:
+• 2a. If the recipe is already selected, the system notifies the user.
+• 2b. If the recipe does not meet dietary preferences, the system suggests alternatives.
+2.2.7 Modify Grocery List
+Use Case Name: Modify Grocery List
+Scope: GrociDish System
+Level: User Goal Primary Actor: Authorized Family Member
+Stakeholders and Interests:
+14
+2.3 System Sequence Diagrams
+• Authorized Family Member: Wants to ensure the grocery list meets the family’s
+needs and budget.
+• Family Members: Want to ensure their preferences are included.
+• System: Needs to maintain an accurate and optimized grocery list.
+Pre-conditions: Authorized family member is logged into the system and has access to
+the grocery list.
+Post-conditions: Grocery list is updated and saved with the modifications.
+Main Success Scenario:
+Step User Action/System Response
+1 The authorized family member logs into
+the GrociDish application.
+2 The system displays the current grocery
+list.
+3 The authorized family member reviews
+the grocery list.
+4 The authorized family member makes
+modifications (adds/removes items).
+5 The system updates the grocery list with
+the modifications.
+6 The system saves the updated grocery list.
+7 The system confirms the successful
+updates to the user.
+Table 2.7: Main Success Scenario for Modifying Grocery List
+Extensions:
+• 2a. If an item is not available, the system suggests alternatives.
+• 2b. If the budget is exceeded, the system alerts the user and suggests adjustments.
+2.3 System Sequence Diagrams
+2.3.0.1 Manage Account
+15
+2. Project Requirements
+Figure 2.2: Manage Account SSD
+16
+2.3 System Sequence Diagrams
+Figure 2.3: Manage Family Members SSD
+2.3.0.2 Manage Profile
+17
+2. Project Requirements
+Figure 2.4: Manage Profile SSD
+2.3.0.3 Track Calories
+18
+2.3 System Sequence Diagrams
+Figure 2.5: Track Calories SSD
+2.3.0.4 Generate and Modify Grocery List
+19
+2. Project Requirements
+Figure 2.6: Generate and Modify Grocery List SSD
+20
+2.3 System Sequence Diagrams
+2.3.0.5 Select Meal Plan
+21
+2. Project Requirements
+Figure 2.7: Select Meal Plan SSD
+22
+2.3 System Sequence Diagrams
+2.3.0.6 View Recipe Catalog
+23
+2. Project Requirements
+Figure 2.8: View Recipe Catalog SSD
+2.4 Functional Requirements
+This section describes the functional requirements of the GrociDish App.
+2.4.1 Module 1: Manage Account
+Following are the requirements for Module 1:
+1. FR1: The system shall allow users to register a new account with valid email, user-
+name, and password.
+2. FR2: The system shall validate user registration data and securely store it in the
+database.
+24
+2.4 Functional Requirements
+3. FR3: The system shall allow users to add family members and assign permissions
+for grocery list generation and recipe selection.
+4. FR4: The system shall confirm account creation and family member addition upon
+successful registration.
+5. FR5: The system shall allow users to log in using their registered credentials.
+6. FR6: The system shall allow users to update and delete their account after success-
+ful login.
+2.4.2 Module 2: Manage Profile
+Following are the requirements for Module 2:
+1. FR1: The system shall allow users(Family Members) to view their profile details,
+including name, age, and role etc.
+2. FR2: The system shall allow users to edit their profile information.
+3. FR3: The system shall allow users to change their password for security purposes.
+4. FR4: The system shall allow the Master User to update family member details and
+manage their roles.
+2.4.3 Module 3: Personalized Grocery List Generation
+Following are the requirements for Module 3:
+1. FR1: The system shall allow authorized user to create personalized grocery lists
+based on their preferences.
+2. FR2: The system shall incorporate budget constraints to generate cost-effective
+grocery lists.
+3. FR3: The system shall provide options for brand preferences, allowing users to
+select grocery brands.
+2.4.4 Module 4: Grocery List Modification
+Following are the requirements for Module 4:
+25
+2. Project Requirements
+1. FR1: The system shall allow users to append items(add,remove) to their grocery
+list via a chat interface.
+2. FR2: The system shall retrieve the current grocery list, providing users with an
+updated view of the items added.
+3. FR3: The system shall incorporate natural language processing to enhance user
+interaction with the chatbot.
+2.4.5 Module 5: Meal Recommendation
+Following are the requirements for Module 5:
+1. FR1: The system shall suggest recipes based on ingredients from the user’s grocery
+list.
+2. FR2: The system shall allow users to select Meal suggestions by health conditions
+like diabetes, hypertension, and obesity.
+3. FR3: The system shall include alternative Meal options for variety while maintain-
+ing nutritional balance.
+4. FR4: The system shall perform nutritional calculations (total calories) for accuracy
+and suitability.
+5. FR5: The system shall provide access to a comprehensive database of pre-existing
+recipes.
+2.4.6 Module 6: Nutritional Recommendation
+Following are the requirements for Module 6:
+1. FR1: The system shall take user input including age, weight, height, gender, and
+activity level.
+2. FR2: The system shall calculate BMI (Body Mass Index) and IBW (Ideal Body
+Weight) for health assessments.
+3. FR3: The system shall use the Harris-Benedict equation to calculate daily calorie
+needs based on activity levels.
+4. FR4: The system shall recommend for each family member, detailing daily caloric,
+carbohydrate, protein, and fat intake.
+26
+2.5 Non-Functional Requirements
+2.4.7 Module 7: Daily Caloric Tracking
+Following are the requirements for Module 7:
+1. FR1: The system shall allow each family member to have a password-protected
+calorie tracker for privacy.
+2. FR2: The system shall track daily caloric intake, providing users with a compre-
+hensive view of their diet.
+3. FR3: The system shall provide a visual breakdown of calorie sources, identifying
+unhealthy eating patterns or nutrient deficiencies.
+2.5 Non-Functional Requirements
+This section specifies nonfunctional requirements of the GrociDish App.
+2.5.1 Reliability
+Error Handling: The system should manage expected and unexpected errors efficiently,
+providing users with clear error messages, such as when a grocery list or recipe fails to
+generate.
+Fault Tolerance: GrociDish should handle failures like a service or database crash by
+using retries and backups for key processes, including grocery list generation and recipe
+recommendations.
+2.5.2 Usability
+Ease of Use: The app interface (React Native) must be intuitive and user-friendly, allow-
+ing easy navigation for functions like updating grocery lists and viewing recipes. .
+Interoperability: Usability requirements ensure ease of use, error prevention, efficient
+interaction, and accessibility for all users. These requirements help design an optimal
+user experience.
+2.5.3 Performance
+Data Processing: GrociDish must handle real-time calorie tracking and ingredient up-
+dates as meals are consumed by family members.
+27
+2. Project Requirements
+Background Tasks: Weekly scraping of grocery prices must not affect real-time perfor-
+mance and should be processed asynchronously.
+• PER-1: The system shall generate a personalized grocery list within 10 seconds
+after user input.
+• PER-2: Updates to the grocery list shall be reflected in real-time, with changes
+processed in less than 10 seconds.
+• PER-3: The chatbot shall respond to user queries within 5 seconds.
+• PER-4: The system shall suggest Meal plan based on ingredients within 10 sec-
+onds.
+• PER-5: Calorie recommendations shall be processed within 5 seconds.
+• PER-6: BMI and IBW calculations shall achieve 95% accuracy based on user
+data.
+• PER-7: Calorie breakdowns shall be displayed within5 seconds after user request.
+• PER-8: Login requests shall be processed within 3 seconds.
+2.5.4 Security
+Authorization and Role Management: Only authorized users should generate grocery
+lists or select Meal Plans. Each family member should have appropriate role-based access.
+Authentication: The system should implement secure login with JWT, ensuring token
+expiration and revocation mechanisms. Security requirements should protect the system
+and its data from unauthorized access, defining the effort required to breach the system.
+2.6 Domain Model
+28
+2.6 Domain Model
+Figure 2.9: GrociDish Domain Model
+29
+
+Chapter 3
+System Overview
+3.1 Architectural Design
+The architecture diagram for GrociDish shows the interaction between the frontend ap-
+plication, backend services, and the AI models. Users access the system through the
+frontend application, which communicates with the API Gateway. The gateway acts
+as the central hub for routing requests to the various backend services, including User
+& Family Management, Grocery List Service, Meal Tracking Service, Recipe Man-
+agement, and the Chatbot Service. These services interact with a database to manage
+users, recipes, and grocery data. TheAI services — specifically the Grocery Generation
+Model and the Recipe Suggestion Model — provide tailored recommendations for gro-
+ceries and recipes, enhancing the app’s functionality based on user data. The architecture
+ensures a modular design with AI integration for personalized recommendations.
+3.1.1 Architectural Diagram
+31
+3. System Overview
+Figure 3.1: GrociDish Architectural Diagram
+3.2 Design Models
+Approach:Object Oriented Development Approach
+OOP is better suited for GrociDish because it organizes the system into reusable, modular
+components that represent real-world entities like users, recipes, and grocery lists. This
+structure enhances maintainability and scalability as the app grows, allowing features like
+calorie tracking, recipe selection, and family member management to be handled effi-
+ciently within separate classes. OOP also enables encapsulation, securing sensitive data
+like user health information, and supports re-usability through inheritance, making it eas-
+ier to extend functionality in the future without major rewrites. This flexibility makes
+OOP ideal for a complex, evolving system like GrociDish.
+3.2.1 Activity Diagram
+32
+3.2 Design Models
+Figure 3.2: GrociDish Activity Diagram33
+3. System Overview
+3.2.2 Class Diagram
+34
+3.2 Design Models
+Figure 3.3: GrociDish Class Diagram
+35
+3. System Overview
+3.2.3 Class Level Sequence Diagrams
+36
+3.2 Design Models
+Figure 3.4: View Recipe Catalog SD
+37
+3. System Overview
+Figure 3.5: Register Account SD
+Figure 3.6: Generate Grocery List SD
+38
+3.2 Design Models
+Figure 3.7: Track Calories SD
+39
+3. System Overview
+Figure 3.8: Select Meal SD
+40
+3.2 Design Models
+Figure 3.9: Manage Account SD
+41
+3. System Overview
+Figure 3.10: Modify Grocery List SD
+42
+3.3 Data Design
+3.3 Data Design
+GrociDish utilizes PostgreSQL as its primary database management system to efficiently
+store and manage user profiles, grocery items, recipes, and health data. The system fol-
+lows a relational model, ensuring robust data integrity and support for complex queries.
+Key entities like Users, Grocery-Items, Recipes, and Health-Profile are linked through
+well-defined relationships to facilitate seamless data retrieval and storage. The ERD di-
+agram below illustrates the relationships between these core entities in the GrociDish
+database structure.
+3.3.1 ERD Diagram
+43
+3. System Overview
+Figure 3.11: GrociDish ERD Diagram
+44
+
+## 2. Overall Description
+
+
+
+## 3. Specific Requirements

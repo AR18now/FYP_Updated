@@ -50,7 +50,10 @@ from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
-app = Flask(__name__)
+# CRA emits assets under frontend/build/static/; disable Flask's default /static -> ./static
+# (would otherwise serve empty /app/static from Dockerfile and return 404 for JS/CSS).
+FRONTEND_BUILD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend", "build")
+app = Flask(__name__, static_folder=None)
 
 # CORS configuration
 # In production, restrict to specific origins for security
@@ -4523,9 +4526,7 @@ def cleanup_system():
         logger.error(f"Error during cleanup: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# Serve React frontend in production
-FRONTEND_BUILD_DIR = os.path.join(os.path.dirname(__file__), 'frontend', 'build')
-
+# Serve React frontend in production (FRONTEND_BUILD_DIR set at app init)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_frontend(path):

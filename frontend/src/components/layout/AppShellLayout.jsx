@@ -183,7 +183,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                 type="button"
                 onClick={() => {
                   onLogout();
-                  navigate('/login');
+                  navigate('/start');
                 }}
                 className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight dark:bg-r2d-accent dark:hover:bg-blue-600"
               >

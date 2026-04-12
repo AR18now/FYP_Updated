@@ -6,8 +6,15 @@
 const STORAGE_KEYS = {
   USERS: 'req2design_users',
   CURRENT_USER: 'req2design_current_user',
-  SESSION: 'req2design_session'
+  SESSION: 'req2design_session',
 };
+
+export const ROLES = {
+  USER: 'user',
+  EXPERT: 'expert',
+};
+
+const normalizeRole = (r) => (r === ROLES.EXPERT ? ROLES.EXPERT : ROLES.USER);
 
 /**
  * Get all registered users
@@ -23,48 +30,54 @@ export const getUsers = () => {
 };
 
 /**
- * Register a new user
+ * Register a new user (role: 'user' | 'expert')
  */
-export const signup = (username, email, password) => {
+export const signup = (username, email, password, role = ROLES.USER) => {
   try {
     const users = getUsers();
-    
-    // Check if username already exists
-    if (users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
+    const resolvedRole = normalizeRole(role);
+
+    if (users.find((u) => u.username.toLowerCase() === username.toLowerCase())) {
       return { success: false, error: 'Username already exists' };
     }
-    
-    // Check if email already exists
-    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+
+    if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
       return { success: false, error: 'Email already registered' };
     }
-    
-    // Validate inputs
+
     if (!username || username.trim().length < 3) {
       return { success: false, error: 'Username must be at least 3 characters' };
     }
-    
+
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return { success: false, error: 'Invalid email address' };
     }
-    
+
     if (!password || password.length < 6) {
       return { success: false, error: 'Password must be at least 6 characters' };
     }
-    
-    // Create new user (in production, password should be hashed)
+
     const newUser = {
       id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       username: username.trim(),
       email: email.trim().toLowerCase(),
-      password: password, // In production, hash this!
-      createdAt: new Date().toISOString()
+      password,
+      role: resolvedRole,
+      createdAt: new Date().toISOString(),
     };
-    
+
     users.push(newUser);
     localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
-    
-    return { success: true, user: { id: newUser.id, username: newUser.username, email: newUser.email } };
+
+    return {
+      success: true,
+      user: {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    };
   } catch (error) {
     console.error('Error during signup:', error);
     return { success: false, error: 'Failed to create account. Please try again.' };
@@ -72,43 +85,65 @@ export const signup = (username, email, password) => {
 };
 
 /**
- * Login user
+ * Login — expectedRole must match the account role ('user' | 'expert')
  */
-export const login = (usernameOrEmail, password) => {
+export const login = (usernameOrEmail, password, expectedRole = ROLES.USER) => {
   try {
     const users = getUsers();
-    
-    // Find user by username or email
-    const user = users.find(u => 
-      (u.username.toLowerCase() === usernameOrEmail.toLowerCase()) ||
-      (u.email.toLowerCase() === usernameOrEmail.toLowerCase())
+    const want = normalizeRole(expectedRole);
+
+    const user = users.find(
+      (u) =>
+        u.username.toLowerCase() === usernameOrEmail.toLowerCase() ||
+        u.email.toLowerCase() === usernameOrEmail.toLowerCase()
     );
-    
+
     if (!user) {
       return { success: false, error: 'Invalid username/email or password' };
     }
-    
-    // Check password (in production, compare hashed passwords)
+
     if (user.password !== password) {
       return { success: false, error: 'Invalid username/email or password' };
     }
-    
-    // Create session
+
+    const accountRole = normalizeRole(user.role);
+
+    if (accountRole !== want) {
+      if (want === ROLES.USER) {
+        return {
+          success: false,
+          error: 'This account is registered as an expert reviewer. Use the expert sign-in page.',
+        };
+      }
+      return {
+        success: false,
+        error: 'This account is a project user account. Use the user sign-in page.',
+      };
+    }
+
     const session = {
       userId: user.id,
       username: user.username,
       email: user.email,
-      loginTime: new Date().toISOString()
+      role: accountRole,
+      loginTime: new Date().toISOString(),
     };
-    
+
     localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(session));
-    localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify({
-      id: user.id,
-      username: user.username,
-      email: user.email
-    }));
-    
-    return { success: true, user: { id: user.id, username: user.username, email: user.email } };
+    localStorage.setItem(
+      STORAGE_KEYS.CURRENT_USER,
+      JSON.stringify({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: accountRole,
+      })
+    );
+
+    return {
+      success: true,
+      user: { id: user.id, username: user.username, email: user.email, role: accountRole },
+    };
   } catch (error) {
     console.error('Error during login:', error);
     return { success: false, error: 'Login failed. Please try again.' };
@@ -136,9 +171,8 @@ export const isAuthenticated = () => {
   try {
     const session = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!session) return false;
-    
+
     const sessionData = JSON.parse(session);
-    // Check if session is still valid (optional: add expiration check)
     return !!sessionData && !!sessionData.userId;
   } catch (error) {
     return false;
@@ -146,12 +180,14 @@ export const isAuthenticated = () => {
 };
 
 /**
- * Get current user
+ * Get current user (includes role)
  */
 export const getCurrentUser = () => {
   try {
     const user = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
-    return user ? JSON.parse(user) : null;
+    if (!user) return null;
+    const parsed = JSON.parse(user);
+    return { ...parsed, role: normalizeRole(parsed.role) };
   } catch (error) {
     console.error('Error getting current user:', error);
     return null;
@@ -164,10 +200,11 @@ export const getCurrentUser = () => {
 export const getSession = () => {
   try {
     const session = localStorage.getItem(STORAGE_KEYS.SESSION);
-    return session ? JSON.parse(session) : null;
+    if (!session) return null;
+    const parsed = JSON.parse(session);
+    return { ...parsed, role: normalizeRole(parsed.role) };
   } catch (error) {
     console.error('Error getting session:', error);
     return null;
   }
 };
-

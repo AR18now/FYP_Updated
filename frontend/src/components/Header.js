@@ -53,7 +53,7 @@ const Header = ({ theme = 'dark', onToggleTheme, currentUser, onLogout }) => {
               <button
                 onClick={() => {
                   if (onLogout) onLogout();
-                  navigate('/login');
+                  navigate('/start');
                 }}
                 className="hidden md:inline-flex items-center space-x-2 rounded-lg border border-white/30 bg-white/10 px-3 py-2 text-sm font-semibold hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-600 transition"
                 aria-label="Logout"

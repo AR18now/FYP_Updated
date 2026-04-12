@@ -50,11 +50,13 @@ const statusBadge = (status) => {
   );
 };
 
-const ExpertReviewPage = ({ srsData: sessionSrs }) => {
+/** mode: 'user' — submit + my submissions only; 'expert' — reviewer inbox only (separate panel). */
+const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
   const location = useLocation();
   const preselectId = location.state?.preselectDocumentId;
+  const isExpertPanel = mode === 'expert';
 
-  const [tab, setTab] = useState('submit');
+  const [tab, setTab] = useState(() => (isExpertPanel ? 'inbox' : 'submit'));
   const [storedList, setStoredList] = useState(() => getStoredSRS());
   const [selectedDocId, setSelectedDocId] = useState('');
   const [notes, setNotes] = useState('');
@@ -209,10 +211,13 @@ const ExpertReviewPage = ({ srsData: sessionSrs }) => {
                 <UserCheck className="h-3.5 w-3.5" />
                 Human in the loop
               </div>
-              <h1 className="mt-3 text-2xl lg:text-3xl font-bold font-display tracking-tight">Expert review</h1>
+              <h1 className="mt-3 text-2xl lg:text-3xl font-bold font-display tracking-tight">
+                {isExpertPanel ? 'Expert review queue' : 'Expert review'}
+              </h1>
               <p className="mt-2 max-w-2xl text-sm text-indigo-100/90 leading-relaxed">
-                After AI generates your SRS, send it to a human expert for structured feedback. Experts see the queue on
-                this same page (in production you would restrict the inbox to reviewer accounts).
+                {isExpertPanel
+                  ? 'Pending submissions from project users. Open an item, review the SRS snapshot, and submit structured feedback.'
+                  : 'After AI generates your SRS, send it to a human expert for structured feedback. Track your submissions under My submissions—reviewers use the separate expert panel.'}
               </p>
             </div>
             <FileText className="h-14 w-14 text-white/30 shrink-0 hidden sm:block" aria-hidden />
@@ -221,11 +226,13 @@ const ExpertReviewPage = ({ srsData: sessionSrs }) => {
       </section>
 
       <div className="flex flex-wrap gap-2 border-b border-r2d-border dark:border-slate-700 pb-2">
-        {[
-          { id: 'submit', label: 'Send for review', icon: Send },
-          { id: 'my', label: 'My submissions', icon: ListChecks },
-          { id: 'inbox', label: 'Expert inbox', icon: Inbox },
-        ].map(({ id, label, icon: Icon }) => (
+        {(isExpertPanel
+          ? [{ id: 'inbox', label: 'Expert inbox', icon: Inbox }]
+          : [
+              { id: 'submit', label: 'Send for review', icon: Send },
+              { id: 'my', label: 'My submissions', icon: ListChecks },
+            ]
+        ).map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             type="button"

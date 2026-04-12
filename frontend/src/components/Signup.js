@@ -1,20 +1,48 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Sparkles, Rocket, ArrowRight } from 'lucide-react';
-import { signup, isAuthenticated } from '../utils/auth';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { useNavigate, Link, Navigate, useParams } from 'react-router-dom';
+import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Sparkles, Rocket, ArrowRight, UserCheck } from 'lucide-react';
+import { signup, isAuthenticated, getCurrentUser, ROLES } from '../utils/auth';
 import { useTheme } from '../context/ThemeContext';
 
 const Signup = ({ onSignup }) => {
+  const { role: roleParam } = useParams();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
-  
+
+  const role = roleParam === 'expert' ? ROLES.EXPERT : ROLES.USER;
+  const isExpert = role === ROLES.EXPERT;
+  const roleInvalid = roleParam !== 'user' && roleParam !== 'expert';
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated()) {
-      navigate('/', { replace: true });
+      const u = getCurrentUser();
+      const dest = u?.role === ROLES.EXPERT ? '/expert' : '/';
+      navigate(dest, { replace: true });
     }
   }, [navigate]);
+
+  const hero = useMemo(
+    () =>
+      isExpert
+        ? {
+            badge: 'Expert reviewer',
+            title: 'Create a reviewer account',
+            body: 'You will only use the expert panel: review queue and feedback—separate from project user accounts.',
+            bullets: [{ Icon: Rocket, text: 'Access the shared review queue' }],
+          }
+        : {
+            badge: 'Project user',
+            title: 'Create your engineering workspace',
+            body: 'Start transforming ambiguous requirements into structured SRS documents, use cases, and diagrams.',
+            bullets: [
+              { Icon: Rocket, text: 'Fast setup in under a minute' },
+              { Icon: ArrowRight, text: 'Direct access to full SRS pipeline' },
+            ],
+          },
+    [isExpert]
+  );
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -44,14 +72,13 @@ const Signup = ({ onSignup }) => {
     setIsLoading(true);
 
     try {
-      const result = signup(formData.username, formData.email, formData.password);
-      
+      const result = signup(formData.username, formData.email, formData.password, role);
+
       if (result.success) {
         if (onSignup) {
           onSignup(result.user);
         }
-        // Auto-login after signup
-        navigate('/login');
+        navigate(`/login/${roleParam}`);
       } else {
         setError(result.error || 'Signup failed');
       }
@@ -60,7 +87,7 @@ const Signup = ({ onSignup }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [formData, navigate, onSignup]);
+  }, [formData, navigate, onSignup, role, roleParam]);
 
   const handleChange = useCallback((e) => {
     setFormData(prev => ({
@@ -89,6 +116,10 @@ const Signup = ({ onSignup }) => {
 
   const strength = passwordStrength();
 
+  if (roleInvalid) {
+    return <Navigate to="/start" replace />;
+  }
+
   return (
     <div className="min-h-screen relative overflow-x-hidden overflow-y-auto flex items-start md:items-center justify-center p-4 md:p-6 py-8" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
       <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-r2d-accent/15 blur-3xl" />
@@ -103,39 +134,49 @@ const Signup = ({ onSignup }) => {
         <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
       </button>
       <div className="w-full max-w-5xl grid lg:grid-cols-2 rounded-3xl overflow-hidden border shadow-2xl backdrop-blur-xl bg-white/80 dark:bg-slate-900/75 border-slate-200/70 dark:border-slate-700/70">
-        <section className="hidden lg:flex flex-col justify-between p-10 bg-gradient-to-br from-r2d-primary via-r2d-primaryLight to-r2d-accent text-white">
+        <section
+          className={`hidden lg:flex flex-col justify-between p-10 text-white ${
+            isExpert
+              ? 'bg-gradient-to-br from-indigo-900 via-violet-800 to-slate-900'
+              : 'bg-gradient-to-br from-r2d-primary via-r2d-primaryLight to-r2d-accent'
+          }`}
+        >
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
               <Sparkles className="h-3.5 w-3.5" />
-              Req2Design Platform
+              {hero.badge}
             </div>
-            <h2 className="mt-6 text-3xl font-bold leading-tight">Create your engineering workspace</h2>
-            <p className="mt-3 text-blue-100/90 text-sm leading-relaxed">
-              Start transforming ambiguous requirements into structured SRS documents, use cases, and diagrams.
-            </p>
+            <h2 className="mt-6 text-3xl font-bold leading-tight">{hero.title}</h2>
+            <p className="mt-3 text-blue-100/90 text-sm leading-relaxed">{hero.body}</p>
           </div>
           <div className="space-y-3 text-sm">
-            <div className="flex items-center gap-2">
-              <Rocket className="h-4 w-4 text-blue-100" />
-              Fast setup in under a minute
-            </div>
-            <div className="flex items-center gap-2">
-              <ArrowRight className="h-4 w-4 text-blue-100" />
-              Direct access to full SRS pipeline
-            </div>
+            {hero.bullets.map(({ Icon, text }, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <Icon className="h-4 w-4 text-blue-100" />
+                {text}
+              </div>
+            ))}
           </div>
         </section>
 
         <section className="p-6 sm:p-8 md:p-10">
           <div className="max-w-md mx-auto">
             <div className="flex justify-center mb-4 lg:hidden">
-              <div className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-r2d-primary to-r2d-accent p-4 text-white shadow-lg">
-                <UserPlus className="h-7 w-7" aria-hidden="true" />
+              <div
+                className={`inline-flex items-center justify-center rounded-2xl p-4 text-white shadow-lg ${
+                  isExpert ? 'bg-gradient-to-br from-indigo-800 to-violet-700' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
+                }`}
+              >
+                {isExpert ? <UserCheck className="h-7 w-7" aria-hidden="true" /> : <UserPlus className="h-7 w-7" aria-hidden="true" />}
               </div>
             </div>
-            <h1 className="text-3xl font-bold mb-2 text-r2d-primary dark:text-slate-100 text-center lg:text-left">Create Account</h1>
+            <h1 className="text-3xl font-bold mb-2 text-r2d-primary dark:text-slate-100 text-center lg:text-left">
+              {isExpert ? 'Expert sign up' : 'Create account'}
+            </h1>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-7 text-center lg:text-left">
-              Set up your account and start working on your FYP requirements workflow.
+              {isExpert
+                ? 'Register separately from project users. You will sign in to the expert panel only.'
+                : 'Set up your account and start working on your FYP requirements workflow.'}
             </p>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
@@ -316,14 +357,19 @@ const Signup = ({ onSignup }) => {
               </button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-2">
               <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Already have an account?{' '}
                 <Link
-                  to="/login"
+                  to={`/login/${roleParam}`}
                   className="text-r2d-accent hover:text-r2d-primaryLight font-semibold transition-colors"
                 >
                   Sign in
+                </Link>
+              </p>
+              <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+                <Link to="/start" className="text-slate-600 dark:text-slate-400 hover:underline">
+                  ← Choose user or expert
                 </Link>
               </p>
             </div>

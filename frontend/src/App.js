@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AppShellLayout from './components/layout/AppShellLayout';
-import ProtectedRoute from './components/ProtectedRoute';
+import ExpertShellLayout from './components/layout/ExpertShellLayout';
+import RoleProtectedRoute from './components/RoleProtectedRoute';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import WelcomePage from './pages/WelcomePage';
 import SRSViewer from './components/SRSViewer';
 import ResultsView from './components/ResultsView';
 import HistoryView from './components/HistoryView';
@@ -72,14 +74,17 @@ function App() {
       <Router>
         <div className="min-h-screen">
           <Routes>
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
+            <Route path="/start" element={<WelcomePage />} />
+            <Route path="/login/:role" element={<Login onLogin={handleLogin} />} />
+            <Route path="/signup/:role" element={<Signup onSignup={handleSignup} />} />
+            <Route path="/login" element={<Navigate to="/start" replace />} />
+            <Route path="/signup" element={<Navigate to="/start" replace />} />
 
             <Route
               element={
-                <ProtectedRoute>
+                <RoleProtectedRoute allowedRole="user">
                   <AppShellLayout {...shellProps} />
-                </ProtectedRoute>
+                </RoleProtectedRoute>
               }
             >
               <Route
@@ -174,9 +179,21 @@ function App() {
               />
               <Route
                 path="expert-review"
-                element={<ExpertReviewPage srsData={srsData} />}
+                element={<ExpertReviewPage srsData={srsData} mode="user" />}
               />
               <Route path="srs-metrics" element={<SRSMetricsPage srsData={srsData} />} />
+            </Route>
+
+            <Route
+              path="/expert"
+              element={
+                <RoleProtectedRoute allowedRole="expert">
+                  <ExpertShellLayout {...shellProps} />
+                </RoleProtectedRoute>
+              }
+            >
+              <Route index element={<ExpertReviewPage srsData={srsData} mode="expert" />} />
+              <Route path="profile" element={<ProfilePage currentUser={currentUser} />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

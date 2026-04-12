@@ -42,7 +42,7 @@ COPY requirements.txt requirements_api.txt ./
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r requirements_api.txt
 
-# Copy backend source code
+# Copy backend source code (root) and Python packages imported by api_server.py
 COPY *.py ./
 COPY main_orchestrator.py ./
 COPY srs_generator.py ./
@@ -50,6 +50,10 @@ COPY srs_model_generator.py ./
 COPY json_to_srs_pdf.py ./
 COPY module1_large_scale.py ./
 COPY config_large_scale.json ./
+COPY generation/ ./generation/
+COPY input_processing/ ./input_processing/
+COPY evaluation/ ./evaluation/
+COPY rag/ ./rag/
 
 # Copy data directory (if needed)
 COPY data/ ./data/

@@ -14,9 +14,11 @@ import os
 import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import replicate
+from replicate.exceptions import ReplicateError
+from replicate.stream import ServerSentEvent
 
 # Try to load .env file if python-dotenv is available
 try:
@@ -422,6 +424,192 @@ Author: {author}
                     continue
                 raise
         raise Exception("Failed to get response from Replicate after all retries")
+
+    def _stream_call_replicate(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> Iterator[str]:
+        """
+        Stream tokens/chunks from Replicate as they are produced.
+        Sending partial output immediately improves perceived latency (time-to-first-byte) versus waiting
+        for the full completion in `_call_replicate`.
+        """
+        input_payload: Dict[str, Any] = {
+            "prompt": prompt,
+            "max_new_tokens": self.config.max_new_tokens,
+            "max_tokens": self.config.max_new_tokens,
+            "temperature": self.config.temperature,
+            "top_p": self.config.top_p,
+            "repetition_penalty": self.config.repetition_penalty,
+        }
+        if input_overrides:
+            input_payload.update(input_overrides)
+
+        # use_file_output=False: text models return string tokens; avoids file URL transforms on OUTPUT.
+        stream_iter = None
+        try:
+            stream_iter = replicate.stream(
+                self.config.model_name,
+                input=input_payload,
+                use_file_output=False,
+                timeout=self.config.timeout,
+            )
+        except ReplicateError as e:
+            if "does not support streaming" in str(e).lower():
+                self.logger.warning(
+                    "Replicate model has no stream endpoint; using buffered generation with chunked delivery."
+                )
+                full = self._call_replicate(prompt, input_overrides)
+                step = 240
+                for i in range(0, len(full), step):
+                    yield full[i : i + step]
+                return
+            raise
+
+        for event in stream_iter:
+            if event.event == ServerSentEvent.EventType.ERROR:
+                raise RuntimeError(event.data or "Replicate stream error")
+            if event.event == ServerSentEvent.EventType.OUTPUT and event.data:
+                yield event.data
+
+    def stream_srs_text_chunks(
+        self,
+        requirements_data: List[Dict[str, Any]],
+        project_info: Optional[Dict[str, str]] = None,
+    ) -> Tuple[str, str, Iterator[str]]:
+        """
+        Build the same prompt as synchronous generation and return a chunk iterator for SSE.
+        Streaming lets the UI render SRS text incrementally instead of blocking on the full document.
+        """
+        if project_info is None:
+            project_info = {
+                "title": "Software Requirements Specification",
+                "author": "Model-based Generator",
+                "version": "1.0",
+            }
+        if not requirements_data:
+            requirements_data = [{"original_text": "No requirements provided"}]
+        requirements_text = self._extract_requirements_text(requirements_data)
+        if not requirements_text or len(requirements_text.strip()) < 10:
+            raise ValueError("Requirements text is too short or empty for streaming")
+        prompt = self._build_prompt(requirements_text, project_info)
+        return requirements_text, prompt, self._stream_call_replicate(prompt)
+
+    def _document_from_replicate_output(
+        self,
+        raw_text: str,
+        prompt: str,
+        requirements_text: str,
+        project_info: Dict[str, str],
+    ) -> SRSDocument:
+        """Clean, validate, parse, and package model output (used by sync and streaming paths)."""
+        raw_text = self._clean_generated_text(raw_text)
+        self.logger.info(f"Received response from Replicate, length: {len(raw_text)} chars")
+        if raw_text:
+            self.logger.info(f"Raw text response (first 1000 chars): {raw_text[:1000]}")
+
+        if not self._looks_like_full_srs(raw_text):
+            self.logger.warning(
+                "Model output looks incomplete (len=%s). Retrying once with stricter constraints.",
+                len(raw_text) if raw_text else 0,
+            )
+            retry_prompt = (
+                prompt
+                + "\n\n"
+                + "CRITICAL: Output must be a complete IEEE 830 SRS with ALL sections. "
+                + "Start with: '1. INTRODUCTION' and include '2. OVERALL DESCRIPTION' and "
+                + "'3. SPECIFIC REQUIREMENTS'. Include at least FR-1..FR-5 and Non-functional "
+                + "Requirements. Do not output only a title/author block."
+            )
+            raw_retry = self._call_replicate(
+                retry_prompt,
+                input_overrides={
+                    "temperature": 0.25,
+                    "top_p": 0.9,
+                    "repetition_penalty": max(1.12, float(self.config.repetition_penalty)),
+                    "max_new_tokens": self.config.max_new_tokens,
+                    "max_tokens": self.config.max_new_tokens,
+                },
+            )
+            raw_retry = self._clean_generated_text(raw_retry)
+            if self._looks_like_full_srs(raw_retry):
+                raw_text = raw_retry
+                self.logger.info("Retry produced a complete-looking SRS (len=%s).", len(raw_text))
+            else:
+                raise ValueError(
+                    "SRS generation produced an incomplete document (model returned a short / header-only response). "
+                    "Please retry generation or provide more detailed requirements."
+                )
+
+        cleaned_raw_text = raw_text.strip()
+        if cleaned_raw_text.startswith("```"):
+            cleaned_raw_text = re.sub(r'^```[a-z]*\s*\n?', '', cleaned_raw_text, flags=re.IGNORECASE)
+            cleaned_raw_text = re.sub(r'\n?```\s*$', '', cleaned_raw_text, flags=re.MULTILINE)
+            cleaned_raw_text = cleaned_raw_text.strip()
+
+        disclaimer_patterns = [
+            r'This document adheres strictly to the IEEE 830-1998 format.*?specifications\.?\s*$',
+            r'This document adheres.*?IEEE 830.*?specifications\.?\s*$',
+            r'No additional content or assumptions have been added.*?specifications\.?\s*$',
+        ]
+        for pattern in disclaimer_patterns:
+            cleaned_raw_text = re.sub(pattern, '', cleaned_raw_text, flags=re.IGNORECASE | re.DOTALL | re.MULTILINE)
+
+        cleaned_raw_text = cleaned_raw_text.strip()
+        cleaned_raw_text = self._normalize_generated_layout(cleaned_raw_text)
+        cleaned_raw_text = self._enforce_professional_tone(cleaned_raw_text)
+
+        document_id_temp = f"SRS-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        self._save_raw_text(cleaned_raw_text, document_id_temp)
+
+        sections = self._parse_text_sections(cleaned_raw_text)
+
+        intro_purpose = sections.get('introduction', {}).get('purpose', '')
+        overall_funcs = sections.get('overall_description', {}).get('product_functions', [])
+        func_reqs = sections.get('specific_requirements', {}).get('functional_requirements', [])
+
+        self.logger.info(
+            f"Parsed sections - Purpose length: {len(intro_purpose)}, Functions: {len(overall_funcs)}, FR count: {len(func_reqs)}"
+        )
+
+        if not intro_purpose or intro_purpose == "This document specifies the software requirements for the system.":
+            self.logger.warning("Parsed sections appear to be empty/placeholder! Check parser logic.")
+            self.logger.info(f"Full parsed sections: {json.dumps(sections, indent=2)[:2000]}")
+
+        self.logger.info("Successfully parsed SRS sections")
+
+        stored_raw_text = cleaned_raw_text
+
+        hallucination_analysis = self._detect_potential_hallucinations(
+            cleaned_raw_text,
+            requirements_text,
+        )
+
+        if hallucination_analysis['has_hallucinations']:
+            self.logger.warning(
+                f"Potential hallucinations detected in generated SRS. "
+                f"Confidence score: {hallucination_analysis['confidence_score']}. "
+                f"Flagged sections: {len(hallucination_analysis['flagged_sections'])}"
+            )
+        else:
+            self.logger.info(
+                f"Generated SRS passed hallucination checks. "
+                f"Confidence score: {hallucination_analysis['confidence_score']}"
+            )
+
+        sections['_hallucination_analysis'] = hallucination_analysis
+
+        document_id = f"SRS-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        srs_doc = SRSDocument(
+            document_id=document_id,
+            title=project_info.get("title", "Software Requirements Specification"),
+            version=project_info.get("version", "1.0"),
+            date=datetime.now().strftime("%Y-%m-%d"),
+            author=project_info.get("author", "Model-based Generator"),
+            sections=sections,
+        )
+        if stored_raw_text:
+            srs_doc.raw_text = stored_raw_text
+            srs_doc.sections['_raw_text'] = stored_raw_text
+
+        return srs_doc
 
     def _looks_like_full_srs(self, text: str) -> bool:
         """
@@ -1463,115 +1651,14 @@ Author: {author}
         if not requirements_text or len(requirements_text.strip()) < 10:
             self.logger.warning("Requirements text is too short or empty, using empty sections")
             sections = self._empty_sections()
+            stored_raw_text = None
         else:
             prompt = self._build_prompt(requirements_text, project_info)
             self.logger.info(f"Built prompt, length: {len(prompt)} chars")
-            
+
             try:
                 raw_text = self._call_replicate(prompt)
-                raw_text = self._clean_generated_text(raw_text)
-                self.logger.info(f"Received response from Replicate, length: {len(raw_text)} chars")
-                if raw_text:
-                    self.logger.info(f"Raw text response (first 1000 chars): {raw_text[:1000]}")
-
-                # If the model returns a header-only / truncated response, retry once with a stricter prompt.
-                if not self._looks_like_full_srs(raw_text):
-                    self.logger.warning(
-                        "Model output looks incomplete (len=%s). Retrying once with stricter constraints.",
-                        len(raw_text) if raw_text else 0,
-                    )
-                    retry_prompt = (
-                        prompt
-                        + "\n\n"
-                        + "CRITICAL: Output must be a complete IEEE 830 SRS with ALL sections. "
-                        + "Start with: '1. INTRODUCTION' and include '2. OVERALL DESCRIPTION' and "
-                        + "'3. SPECIFIC REQUIREMENTS'. Include at least FR-1..FR-5 and Non-functional "
-                        + "Requirements. Do not output only a title/author block."
-                    )
-                    raw_retry = self._call_replicate(
-                        retry_prompt,
-                        input_overrides={
-                            "temperature": 0.25,
-                            "top_p": 0.9,
-                            "repetition_penalty": max(1.12, float(self.config.repetition_penalty)),
-                            "max_new_tokens": self.config.max_new_tokens,
-                            "max_tokens": self.config.max_new_tokens,
-                        },
-                    )
-                    raw_retry = self._clean_generated_text(raw_retry)
-                    if self._looks_like_full_srs(raw_retry):
-                        raw_text = raw_retry
-                        self.logger.info("Retry produced a complete-looking SRS (len=%s).", len(raw_text))
-                    else:
-                        raise ValueError(
-                            "SRS generation produced an incomplete document (model returned a short / header-only response). "
-                            "Please retry generation or provide more detailed requirements."
-                        )
-                
-                # Clean the raw text to remove markdown code blocks and disclaimers
-                cleaned_raw_text = raw_text.strip()
-                if cleaned_raw_text.startswith("```"):
-                    cleaned_raw_text = re.sub(r'^```[a-z]*\s*\n?', '', cleaned_raw_text, flags=re.IGNORECASE)
-                    cleaned_raw_text = re.sub(r'\n?```\s*$', '', cleaned_raw_text, flags=re.MULTILINE)
-                    cleaned_raw_text = cleaned_raw_text.strip()
-                
-                # Remove disclaimer text
-                disclaimer_patterns = [
-                    r'This document adheres strictly to the IEEE 830-1998 format.*?specifications\.?\s*$',
-                    r'This document adheres.*?IEEE 830.*?specifications\.?\s*$',
-                    r'No additional content or assumptions have been added.*?specifications\.?\s*$',
-                ]
-                for pattern in disclaimer_patterns:
-                    cleaned_raw_text = re.sub(pattern, '', cleaned_raw_text, flags=re.IGNORECASE | re.DOTALL | re.MULTILINE)
-                
-                cleaned_raw_text = cleaned_raw_text.strip()
-                cleaned_raw_text = self._normalize_generated_layout(cleaned_raw_text)
-                cleaned_raw_text = self._enforce_professional_tone(cleaned_raw_text)
-                
-                # Save cleaned raw text to file
-                document_id_temp = f"SRS-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
-                self._save_raw_text(cleaned_raw_text, document_id_temp)
-                
-                # Parse text to extract SRS sections (for structured access)
-                sections = self._parse_text_sections(cleaned_raw_text)
-                
-                # Log parsed sections to verify they're not empty
-                intro_purpose = sections.get('introduction', {}).get('purpose', '')
-                overall_funcs = sections.get('overall_description', {}).get('product_functions', [])
-                func_reqs = sections.get('specific_requirements', {}).get('functional_requirements', [])
-                
-                self.logger.info(f"Parsed sections - Purpose length: {len(intro_purpose)}, Functions: {len(overall_funcs)}, FR count: {len(func_reqs)}")
-                
-                if not intro_purpose or intro_purpose == "This document specifies the software requirements for the system.":
-                    self.logger.warning("Parsed sections appear to be empty/placeholder! Check parser logic.")
-                    self.logger.info(f"Full parsed sections: {json.dumps(sections, indent=2)[:2000]}")
-                
-                self.logger.info("Successfully parsed SRS sections")
-                
-                # Store cleaned raw_text for full document generation
-                stored_raw_text = cleaned_raw_text
-                
-                # Detect potential hallucinations in generated content
-                hallucination_analysis = self._detect_potential_hallucinations(
-                    cleaned_raw_text,
-                    requirements_text
-                )
-                
-                # Log hallucination analysis
-                if hallucination_analysis['has_hallucinations']:
-                    self.logger.warning(
-                        f"Potential hallucinations detected in generated SRS. "
-                        f"Confidence score: {hallucination_analysis['confidence_score']}. "
-                        f"Flagged sections: {len(hallucination_analysis['flagged_sections'])}"
-                    )
-                else:
-                    self.logger.info(
-                        f"Generated SRS passed hallucination checks. "
-                        f"Confidence score: {hallucination_analysis['confidence_score']}"
-                    )
-                
-                # Store hallucination analysis in sections for API response
-                sections['_hallucination_analysis'] = hallucination_analysis
+                return self._document_from_replicate_output(raw_text, prompt, requirements_text, project_info)
             except Exception as e:
                 self.logger.error(f"Error calling Replicate: {e}. Using empty sections.", exc_info=True)
                 sections = self._empty_sections()
@@ -1586,12 +1673,10 @@ Author: {author}
             author=project_info.get("author", "Model-based Generator"),
             sections=sections,
         )
-        # Store raw_text as an attribute (works even if not in dataclass definition)
         if stored_raw_text:
             srs_doc.raw_text = stored_raw_text
-            # Also store in sections for easy access
             srs_doc.sections['_raw_text'] = stored_raw_text
-        
+
         return srs_doc
 
 

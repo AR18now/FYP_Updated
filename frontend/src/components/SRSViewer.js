@@ -1,8 +1,25 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { Download, FileText, ChevronDown, ChevronRight, CheckCircle, Printer, AlertTriangle, Info, Workflow, FileCode, RefreshCw, UserCheck, BarChart3 } from 'lucide-react';
+import {
+  Download,
+  FileText,
+  ChevronDown,
+  ChevronRight,
+  CheckCircle,
+  Printer,
+  AlertTriangle,
+  Info,
+  Workflow,
+  FileCode,
+  RefreshCw,
+  UserCheck,
+  BarChart3,
+  Sparkles,
+} from 'lucide-react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import config from '../config';
+import { saveSRS } from '../utils/storage';
+import { consumeSrsGenerateStream } from '../utils/srsStream';
 import { formatSrsToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
@@ -14,6 +31,15 @@ import {
 } from '../utils/srsQualityCopy';
 import SrsAiEvaluationMetrics from './SrsAiEvaluationMetrics';
 
+/** Same contract as generate-srs-stream `results` body. */
+function buildRequirementsArrayForSrs(resultsData) {
+  if (!resultsData) return [];
+  if (Array.isArray(resultsData)) return resultsData;
+  if (resultsData.results && Array.isArray(resultsData.results)) return resultsData.results;
+  if (resultsData.status) return [resultsData];
+  return [resultsData];
+}
+
 const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, onUseCaseDataChange }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
     const cleaned = String(value || fallback)
@@ -24,7 +50,15 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   }, []);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const docRootRef = useRef(null);
+  const srsPipelineHandledIds = useRef(new Set());
+  /** Live token stream before the final SRS object exists — improves perceived latency on this page. */
+  const [streamPreview, setStreamPreview] = useState('');
+  const [isStreamingSrs, setIsStreamingSrs] = useState(false);
+  const [pipelineError, setPipelineError] = useState(null);
+  const [actionsMenuOpen, setActionsMenuOpen] = useState(false);
+  const actionsMenuRef = useRef(null);
   const [expandedSections, setExpandedSections] = useState({});
   const [showValidation, setShowValidation] = useState(false);
   const [isGeneratingUseCases, setIsGeneratingUseCases] = useState(false);
@@ -43,6 +77,81 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     if (resultsData.status) return [resultsData];
     return [resultsData];
   }, []);
+
+  useEffect(() => {
+    if (!actionsMenuOpen) return;
+    const onDoc = (e) => {
+      if (actionsMenuRef.current && !actionsMenuRef.current.contains(e.target)) setActionsMenuOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setActionsMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDoc);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [actionsMenuOpen]);
+
+  /**
+   * Process & Generate hands off here so the SRS streams in the same view as the finished document.
+   */
+  useEffect(() => {
+    const pipe = location.state?.srsPipeline;
+    if (!pipe?.id) return;
+    if (!currentResults) return;
+    if (srsPipelineHandledIds.current.has(pipe.id)) return;
+    srsPipelineHandledIds.current.add(pipe.id);
+    setPipelineError(null);
+
+    if (pipe.combinedError) {
+      setPipelineError(String(pipe.combinedError));
+      return;
+    }
+
+    if (pipe.prebuiltSrs && (pipe.prebuiltSrs.sections || pipe.prebuiltSrs.raw_text)) {
+      if (onSelectSrsVariant) onSelectSrsVariant(pipe.prebuiltSrs);
+      try {
+        saveSRS(pipe.prebuiltSrs);
+      } catch (e) {
+        console.error('Error saving SRS to storage:', e);
+      }
+      return;
+    }
+
+    const items = buildRequirementsArrayForSrs(pipe.processingPayload);
+    (async () => {
+      setIsStreamingSrs(true);
+      setStreamPreview('');
+      try {
+        const srsPayload = await consumeSrsGenerateStream({
+          url: config.API_ENDPOINTS.GENERATE_SRS_STREAM,
+          body: {
+            results: items,
+            project_info: pipe.projectInfo || {},
+          },
+          onDelta: (_chunk, accumulated) => setStreamPreview(accumulated),
+        });
+        if (srsPayload && (srsPayload.sections || srsPayload.raw_text)) {
+          if (onSelectSrsVariant) onSelectSrsVariant(srsPayload);
+          try {
+            saveSRS(srsPayload);
+          } catch (err) {
+            console.error('Error saving SRS to storage:', err);
+          }
+        } else {
+          setPipelineError('The server returned an empty SRS. Check API logs and try again.');
+        }
+      } catch (err) {
+        console.error('SRS stream failed:', err);
+        setPipelineError(getApiErrorMessage(err, 'SRS generation failed.'));
+      } finally {
+        setIsStreamingSrs(false);
+        setStreamPreview('');
+      }
+    })();
+  }, [location.state, currentResults, onSelectSrsVariant]);
 
   const runModelVsRagComparison = useCallback(async () => {
     const results = buildRequirementsArray(currentResults);
@@ -615,7 +724,9 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     setExpandedSections({});
   }, []);
 
-  if (!srsData) {
+  const hasPipelineState = !!location.state?.srsPipeline;
+
+  if (!srsData && !isStreamingSrs && !streamPreview && !pipelineError && !hasPipelineState) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16 animate-fade-in" role="status">
         <div className="rounded-xl card-shadow p-12 border" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
@@ -629,10 +740,85 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     );
   }
 
+  if (hasPipelineState && !currentResults && !srsData && !pipelineError && !isStreamingSrs) {
+    return (
+      <div className="max-w-4xl mx-auto text-center py-16 animate-fade-in" role="status">
+        <div className="rounded-xl card-shadow p-12 border" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
+          <RefreshCw className="h-12 w-12 mx-auto mb-4 animate-spin text-r2d-primary" aria-hidden="true" />
+          <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--text)' }}>
+            Loading processed requirements…
+          </h2>
+          <p className="text-sm" style={{ color: 'var(--muted)' }}>
+            Preparing the SRS view.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (pipelineError && !srsData && !isStreamingSrs) {
+    return (
+      <div className="max-w-4xl mx-auto py-12 animate-fade-in px-4" role="alert">
+        <div className="rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-950/40 dark:border-rose-800 p-8 text-left">
+          <h2 className="text-lg font-semibold text-rose-900 dark:text-rose-100 mb-2">SRS generation issue</h2>
+          <p className="text-sm text-rose-800 dark:text-rose-200 mb-6">{pipelineError}</p>
+          <Link
+            to="/generate-srs"
+            className="inline-flex items-center gap-2 rounded-lg bg-r2d-primary px-4 py-2 text-white text-sm font-medium hover:bg-r2d-primaryLight"
+          >
+            Back to Generate SRS
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if ((isStreamingSrs || streamPreview) && !srsData) {
+    return (
+      <div className="max-w-6xl mx-auto animate-fade-in px-4" role="main" aria-labelledby="srs-live-heading">
+        <div className="bg-white dark:bg-slate-900 rounded-xl card-shadow p-6 md:p-8 border border-slate-200 dark:border-slate-700">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+            <div>
+              <h2 id="srs-live-heading" className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-1 flex items-center gap-2">
+                <Sparkles className="h-7 w-7 text-r2d-primary shrink-0" aria-hidden="true" />
+                SRS document
+              </h2>
+              <p className="text-sm text-amber-800 dark:text-amber-200/90">
+                Streaming live — text below updates as the model generates (lower perceived wait than loading the full document at once).
+              </p>
+            </div>
+            <div className="relative shrink-0">
+              <button
+                type="button"
+                disabled
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 text-sm font-medium text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400 cursor-not-allowed"
+              >
+                <span>Actions</span>
+                <ChevronDown className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+          <pre className="text-xs leading-relaxed whitespace-pre-wrap font-mono max-h-[min(70vh,720px)] overflow-y-auto rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-950 p-4 text-slate-900 dark:text-slate-100">
+            {streamPreview}
+          </pre>
+        </div>
+      </div>
+    );
+  }
+
+  if (!srsData) {
+    return (
+      <div className="max-w-4xl mx-auto py-16 text-center animate-fade-in px-4" role="status">
+        <RefreshCw className="h-10 w-10 mx-auto animate-spin text-r2d-primary mb-4" aria-hidden="true" />
+        <p className="text-slate-600 dark:text-slate-400">Preparing document view…</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto animate-fade-in" role="main" aria-labelledby="srs-heading">
       <div className="bg-white dark:bg-slate-900 rounded-xl card-shadow p-6 md:p-8">
-        {/* Header */}
+        {/* Header — single Actions menu (keeps the toolbar compact). */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
             {!srsData.raw_text && (
@@ -647,66 +833,117 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
             )}
             <p className="text-gray-600 dark:text-slate-400 text-sm">Document ID: {srsData.document_id}</p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="relative w-full sm:w-auto" ref={actionsMenuRef}>
             <button
               type="button"
-              onClick={downloadSRS}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-              aria-label="Download SRS as PDF"
+              onClick={() => setActionsMenuOpen((o) => !o)}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border-2 border-r2d-primary/40 bg-gradient-to-r from-r2d-primary to-r2d-accent px-4 py-2.5 text-sm font-medium text-white shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
+              aria-expanded={actionsMenuOpen}
+              aria-haspopup="menu"
+              id="srs-actions-trigger"
             >
-              <Download className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Download PDF</span>
+              <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span>Actions</span>
+              <ChevronDown className={`h-4 w-4 shrink-0 transition-transform ${actionsMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
-            <button
-              type="button"
-              onClick={downloadSRSDocx}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-              aria-label="Download SRS as Word"
-            >
-              <Download className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Download .docx</span>
-            </button>
-            <button
-              type="button"
-              onClick={printSRS}
-              className="bg-r2d-accent hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-              aria-label="Print SRS document"
-            >
-              <Printer className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Print</span>
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                navigate('/expert-review', {
-                  state: { preselectDocumentId: srsData.document_id || srsData.id },
-                })
-              }
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              aria-label="Send SRS to human expert review"
-            >
-              <UserCheck className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Expert review</span>
-            </button>
-            <Link
-              to="/srs-metrics"
-              className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
-              aria-label="Open SRS quality metrics table"
-            >
-              <BarChart3 className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">SRS metrics</span>
-            </Link>
-          {hasQualityChecks && (
-            <button
-              type="button"
-              onClick={() => setShowValidation((prev) => !prev)}
-              className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Toggle quality checks and pinpointing"
-            >
-              <AlertTriangle className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{showValidation ? 'Hide checks' : 'Show checks'}</span>
-            </button>
-          )}
+            {actionsMenuOpen && (
+              <div
+                role="menu"
+                aria-labelledby="srs-actions-trigger"
+                className="absolute right-0 left-0 sm:left-auto z-50 mt-2 w-full sm:w-72 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 shadow-2xl py-1 overflow-hidden animate-fade-in"
+              >
+                <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700">
+                  Document
+                </div>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  onClick={() => {
+                    downloadSRS();
+                    setActionsMenuOpen(false);
+                  }}
+                >
+                  <Download className="h-4 w-4 text-r2d-primary shrink-0" />
+                  Download PDF
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  onClick={() => {
+                    downloadSRSDocx();
+                    setActionsMenuOpen(false);
+                  }}
+                >
+                  <Download className="h-4 w-4 text-r2d-primary shrink-0" />
+                  Download .docx
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  onClick={() => {
+                    printSRS();
+                    setActionsMenuOpen(false);
+                  }}
+                >
+                  <Printer className="h-4 w-4 text-r2d-accent shrink-0" />
+                  Print
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  onClick={() => {
+                    navigate('/expert-review', {
+                      state: { preselectDocumentId: srsData.document_id || srsData.id },
+                    });
+                    setActionsMenuOpen(false);
+                  }}
+                >
+                  <UserCheck className="h-4 w-4 text-indigo-600 shrink-0" />
+                  Expert review
+                </button>
+                <Link
+                  role="menuitem"
+                  to="/srs-metrics"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  onClick={() => setActionsMenuOpen(false)}
+                >
+                  <BarChart3 className="h-4 w-4 text-slate-600 shrink-0" />
+                  SRS metrics
+                </Link>
+                {hasQualityChecks && (
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                    onClick={() => {
+                      setShowValidation((prev) => !prev);
+                      setActionsMenuOpen(false);
+                    }}
+                  >
+                    <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />
+                    {showValidation ? 'Hide checks' : 'Show checks'}
+                  </button>
+                )}
+                <div className="border-t border-slate-100 dark:border-slate-700 my-1" />
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 disabled:opacity-50"
+                  disabled={isComparing || !buildRequirementsArray(currentResults).length}
+                  onClick={() => {
+                    runModelVsRagComparison();
+                    setActionsMenuOpen(false);
+                  }}
+                >
+                  <RefreshCw className={`h-4 w-4 text-sky-600 shrink-0 ${isComparing ? 'animate-spin' : ''}`} />
+                  {isComparing ? 'Comparing models…' : 'Compare Fine-tuned vs RAG'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -929,21 +1166,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
         )}
 
         <div className="mb-6 rounded-lg border border-sky-200 dark:border-sky-800 bg-sky-50/80 dark:bg-sky-950/30 p-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <div>
-              <h4 className="text-sm font-semibold text-sky-900 dark:text-sky-100">Testing Lab: Fine-tuned vs RAG</h4>
-              <p className="text-xs text-sky-800 dark:text-sky-200/90 mt-1">
-                Run both approaches on the same input, compare scores, then load either output into this viewer.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={runModelVsRagComparison}
-              disabled={isComparing}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-4 py-2 rounded-lg text-sm"
-            >
-              {isComparing ? 'Comparing...' : 'Compare Fine-tuned vs RAG'}
-            </button>
+          <div>
+            <h4 className="text-sm font-semibold text-sky-900 dark:text-sky-100">Testing Lab: Fine-tuned vs RAG</h4>
+            <p className="text-xs text-sky-800 dark:text-sky-200/90 mt-1">
+              Run both approaches on the same input, compare scores, then load either output into this viewer. Start the run from{' '}
+              <strong className="text-sky-950 dark:text-sky-50">Actions → Compare Fine-tuned vs RAG</strong> above.
+            </p>
           </div>
           {compareError && (
             <p className="mt-3 text-sm text-rose-700 dark:text-rose-300">{compareError}</p>

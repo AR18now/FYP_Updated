@@ -13,7 +13,9 @@ import {
   AlertCircle,
   CheckCircle2,
   Clock,
+  MessageCircle,
 } from 'lucide-react';
+import ExpertReviewChat from '../components/ExpertReviewChat';
 import config from '../config';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import { getStoredSRS } from '../utils/storage';
@@ -57,6 +59,8 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
   const isExpertPanel = mode === 'expert';
 
   const [tab, setTab] = useState(() => (isExpertPanel ? 'inbox' : 'submit'));
+  /** Shared across lists; request ids are unique. */
+  const [expandedId, setExpandedId] = useState(null);
   const [storedList, setStoredList] = useState(() => getStoredSRS());
   const [selectedDocId, setSelectedDocId] = useState('');
   const [notes, setNotes] = useState('');
@@ -68,7 +72,6 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
   const [loadingList, setLoadingList] = useState(false);
   const [listError, setListError] = useState(null);
 
-  const [expandedId, setExpandedId] = useState(null);
   const [reviewDrafts, setReviewDrafts] = useState({});
   const [savingId, setSavingId] = useState(null);
 
@@ -101,23 +104,35 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
     }
   }, [options, selectedDocId]);
 
-  const refreshRequests = useCallback(async () => {
-    setLoadingList(true);
-    setListError(null);
+  const refreshRequests = useCallback(async (opts) => {
+    const silent = opts?.silent === true;
+    if (!silent) {
+      setLoadingList(true);
+      setListError(null);
+    }
     try {
       const res = await axios.get(config.API_ENDPOINTS.EXPERT_REVIEW_REQUESTS, { params: { status: 'all' } });
       setRequests(Array.isArray(res.data?.requests) ? res.data.requests : []);
     } catch (e) {
-      setListError(getApiErrorMessage(e, 'Could not load review queue.'));
-      setRequests([]);
+      if (!silent) {
+        setListError(getApiErrorMessage(e, 'Could not load review queue.'));
+        setRequests([]);
+      }
     } finally {
-      setLoadingList(false);
+      if (!silent) setLoadingList(false);
     }
   }, []);
 
   useEffect(() => {
     refreshRequests();
   }, [refreshRequests]);
+
+  /** Poll while a thread is expanded so the other party's messages appear without manual refresh. */
+  useEffect(() => {
+    if (!expandedId) return undefined;
+    const t = setInterval(() => refreshRequests({ silent: true }), 12000);
+    return () => clearInterval(t);
+  }, [expandedId, refreshRequests]);
 
   const selectedSrs = useMemo(() => {
     if (!selectedDocId) return null;
@@ -131,6 +146,8 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
   }, [requests, currentUser?.id]);
 
   const pendingInbox = useMemo(() => requests.filter((r) => r.status === 'pending'), [requests]);
+
+  const reviewedInbox = useMemo(() => requests.filter((r) => r.status === 'reviewed'), [requests]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -227,7 +244,10 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
 
       <div className="flex flex-wrap gap-2 border-b border-r2d-border dark:border-slate-700 pb-2">
         {(isExpertPanel
-          ? [{ id: 'inbox', label: 'Expert inbox', icon: Inbox }]
+          ? [
+              { id: 'inbox', label: 'Expert inbox', icon: Inbox },
+              { id: 'threads', label: 'Reviewed & chat', icon: MessageCircle },
+            ]
           : [
               { id: 'submit', label: 'Send for review', icon: Send },
               { id: 'my', label: 'My submissions', icon: ListChecks },
@@ -238,6 +258,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
             type="button"
             onClick={() => {
               setListError(null);
+              setExpandedId(null);
               setTab(id);
             }}
             className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
@@ -361,38 +382,62 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
             <p className="mt-6 text-sm text-slate-500">No submissions yet.</p>
           ) : (
             <ul className="mt-4 divide-y divide-slate-200 dark:divide-slate-700">
-              {mySubmissions.map((r) => (
-                <li key={r.id} className="py-4 first:pt-0">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                      <p className="font-medium text-slate-900 dark:text-slate-100">
-                        {r.srs_snapshot?.title || r.srs_snapshot?.document_id || r.id}
-                      </p>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Submitted {r.submitted_at ? new Date(r.submitted_at).toLocaleString() : '—'}
-                      </p>
+              {mySubmissions.map((r) => {
+                const threadOpen = expandedId === r.id;
+                return (
+                  <li key={r.id} className="py-4 first:pt-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <p className="font-medium text-slate-900 dark:text-slate-100">
+                          {r.srs_snapshot?.title || r.srs_snapshot?.document_id || r.id}
+                        </p>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          Submitted {r.submitted_at ? new Date(r.submitted_at).toLocaleString() : '—'}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {statusBadge(r.status)}
+                        <button
+                          type="button"
+                          onClick={() => setExpandedId(threadOpen ? null : r.id)}
+                          className="inline-flex items-center gap-1 rounded-lg border border-r2d-border px-2 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                        >
+                          {threadOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                          Chat
+                        </button>
+                      </div>
                     </div>
-                    {statusBadge(r.status)}
-                  </div>
-                  {r.requester_notes && (
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/80 rounded-lg px-3 py-2">
-                      <span className="font-medium text-slate-700 dark:text-slate-200">Your notes: </span>
-                      {r.requester_notes}
-                    </p>
-                  )}
-                  {r.review && (
-                    <div className="mt-3 rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50/80 dark:bg-emerald-950/30 p-3 text-sm">
-                      <p className="font-semibold text-emerald-900 dark:text-emerald-100">
-                        {r.review.expert_name} · {r.review.verdict?.replace(/_/g, ' ')}
+                    {r.requester_notes && (
+                      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/80 rounded-lg px-3 py-2">
+                        <span className="font-medium text-slate-700 dark:text-slate-200">Your notes: </span>
+                        {r.requester_notes}
                       </p>
-                      <p className="mt-1 text-emerald-900/90 dark:text-emerald-100/90 whitespace-pre-wrap">{r.review.expert_feedback}</p>
-                      <p className="mt-2 text-xs text-emerald-800/80 dark:text-emerald-300/80">
-                        {r.review.reviewed_at ? new Date(r.review.reviewed_at).toLocaleString() : ''}
-                      </p>
-                    </div>
-                  )}
-                </li>
-              ))}
+                    )}
+                    {r.review && (
+                      <div className="mt-3 rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50/80 dark:bg-emerald-950/30 p-3 text-sm">
+                        <p className="font-semibold text-emerald-900 dark:text-emerald-100">
+                          {r.review.expert_name} · {r.review.verdict?.replace(/_/g, ' ')}
+                        </p>
+                        <p className="mt-1 text-emerald-900/90 dark:text-emerald-100/90 whitespace-pre-wrap">{r.review.expert_feedback}</p>
+                        <p className="mt-2 text-xs text-emerald-800/80 dark:text-emerald-300/80">
+                          {r.review.reviewed_at ? new Date(r.review.reviewed_at).toLocaleString() : ''}
+                        </p>
+                      </div>
+                    )}
+                    {threadOpen && (
+                      <div className="mt-4">
+                        <ExpertReviewChat
+                          requestId={r.id}
+                          messages={r.chat_messages}
+                          senderRole="user"
+                          currentUser={currentUser}
+                          onRefresh={() => refreshRequests({ silent: true })}
+                        />
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
@@ -451,6 +496,13 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                             {(snap.raw_text || '').length > 280 ? '…' : ''}
                           </pre>
                         </div>
+                        <ExpertReviewChat
+                          requestId={r.id}
+                          messages={r.chat_messages}
+                          senderRole="expert"
+                          currentUser={currentUser}
+                          onRefresh={() => refreshRequests({ silent: true })}
+                        />
                         <div className="grid sm:grid-cols-2 gap-3">
                           <div>
                             <label className="text-xs font-semibold uppercase text-slate-500">Verdict</label>
@@ -494,6 +546,70 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                           {savingId === r.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                           Submit review
                         </button>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {tab === 'threads' && isExpertPanel && (
+        <div className="rounded-xl border border-r2d-border bg-white dark:bg-slate-900 dark:border-slate-700 p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Reviewed — follow-up chat</h2>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Completed reviews stay here so you can tell the author what changed, confirm the SRS is acceptable, or answer questions.
+          </p>
+          {loadingList ? (
+            <div className="mt-8 flex justify-center text-slate-500">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+          ) : reviewedInbox.length === 0 ? (
+            <p className="mt-6 text-sm text-slate-500">No reviewed items yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {reviewedInbox.map((r) => {
+                const open = expandedId === r.id;
+                const snap = r.srs_snapshot || {};
+                return (
+                  <li
+                    key={r.id}
+                    className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 overflow-hidden"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setExpandedId(open ? null : r.id)}
+                      className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-slate-100/80 dark:hover:bg-slate-800"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-medium text-slate-900 dark:text-slate-100 truncate">
+                          {snap.title || snap.document_id}
+                        </p>
+                        <p className="text-xs text-slate-500 truncate">
+                          {r.submitter?.username || r.submitter?.email || 'Anonymous'} · {r.review?.reviewed_at ? new Date(r.review.reviewed_at).toLocaleString() : ''}
+                        </p>
+                      </div>
+                      {open ? <ChevronUp className="h-5 w-5 shrink-0 text-slate-400" /> : <ChevronDown className="h-5 w-5 shrink-0 text-slate-400" />}
+                    </button>
+                    {open && (
+                      <div className="px-4 pb-4 pt-0 border-t border-slate-200 dark:border-slate-700 space-y-4">
+                        {r.review && (
+                          <div className="rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50/80 dark:bg-emerald-950/30 p-3 text-sm">
+                            <p className="font-semibold text-emerald-900 dark:text-emerald-100">
+                              {r.review.expert_name} · {r.review.verdict?.replace(/_/g, ' ')}
+                            </p>
+                            <p className="mt-1 text-emerald-900/90 whitespace-pre-wrap">{r.review.expert_feedback}</p>
+                          </div>
+                        )}
+                        <ExpertReviewChat
+                          requestId={r.id}
+                          messages={r.chat_messages}
+                          senderRole="expert"
+                          currentUser={currentUser}
+                          onRefresh={() => refreshRequests({ silent: true })}
+                        />
                       </div>
                     )}
                   </li>

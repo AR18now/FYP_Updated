@@ -25,6 +25,7 @@ import config from '../config';
 import { formatSrsToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
+import { consumeSrsGenerateStream } from '../utils/srsStream';
 
 /**
  * Summarize pipeline steps for the UI (no raw tab dumps).
@@ -127,6 +128,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
   const [showEditor, setShowEditor] = useState(false);
   const [isGeneratingUseCases, setIsGeneratingUseCases] = useState(false);
   const [srsGenError, setSrsGenError] = useState(null);
+  /** Raw SRS text accumulated from the streaming endpoint (append-only; improves perceived latency). */
+  const [streamPreview, setStreamPreview] = useState('');
 
   const downloadText = useCallback((filename, content, mimeType = 'text/plain') => {
     const blob = new Blob([content], { type: mimeType });
@@ -147,21 +150,24 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
     setIsGeneratingSRS(true);
     setSrsGenerated(false); // Reset state
     setSrsGenError(null);
+    setStreamPreview('');
     try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_SRS, {
-        results: items,
-        project_info: results.project_info || {}
+      const srsPayload = await consumeSrsGenerateStream({
+        url: config.API_ENDPOINTS.GENERATE_SRS_STREAM,
+        body: {
+          results: items,
+          project_info: results.project_info || {},
+        },
+        onDelta: (_chunk, accumulated) => setStreamPreview(accumulated),
       });
-      
-      // Check if SRS was actually generated (has sections with content)
-      if (response.data && (response.data.sections || response.data.raw_text)) {
-        setSrsData(response.data);
-        onGenerateSRS(response.data);
+
+      if (srsPayload && (srsPayload.sections || srsPayload.raw_text)) {
+        setSrsData(srsPayload);
+        onGenerateSRS(srsPayload);
         setSrsGenerated(true);
-        
-        // Save SRS to storage
+
         try {
-          saveSRS(response.data);
+          saveSRS(srsPayload);
         } catch (error) {
           console.error('Error saving SRS to storage:', error);
         }
@@ -174,6 +180,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
       setSrsGenError(getApiErrorMessage(error, 'SRS generation failed.'));
     } finally {
       setIsGeneratingSRS(false);
+      setStreamPreview('');
     }
   }, [results, onGenerateSRS]);
 
@@ -550,6 +557,23 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             >
               <span className="font-medium">SRS error: </span>
               {srsGenError}
+            </div>
+          )}
+          {(isGeneratingSRS || streamPreview) && (
+            <div
+              className="rounded-xl border p-4 mt-2"
+              style={{ borderColor: 'var(--card-border)', background: 'var(--bg)' }}
+              aria-live="polite"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: 'var(--muted)' }}>
+                Live SRS output (streaming)
+              </p>
+              <pre
+                className="max-h-56 overflow-y-auto text-xs leading-relaxed whitespace-pre-wrap font-mono p-3 rounded-lg border"
+                style={{ borderColor: 'var(--card-border)', color: 'var(--text)', background: 'var(--card)' }}
+              >
+                {streamPreview}
+              </pre>
             </div>
           )}
         </div>

@@ -1,0 +1,233 @@
+INTRODUCTION
+Purpose: To define the requirements for an online e-commerce platform that allows users to browse, purchase, and administrators to manage products and orders.
+Scope: This document covers the basic functionalities required for a typical e-commerce website including product browsing, searching, adding to cart, checking out, payment processing, and administrative functions. It does not cover advanced features such as security, scalability, or maintenance.
+Definitions/Acronyms: E-commerce
+- Electronic Commerce; GUI
+- Graphical User Interface; HTTP
+- Hypertext Transfer Protocol; HTML
+- HyperText Markup Language; HTTPS
+- Secure Hypertext Transfer Protocol; URL
+- Uniform Resource Locator; UI
+- User Interface; UML
+- Unified Modeling Language; XML
+- Extensible Markup Language.
+References: IEEE Standard 830-1998, ISO/IEC 25010:2011(E), IEEE Std 729-1983.
+Overview: This Software Requirements Specification (SRS) outlines the detailed requirements for an e-commerce application designed to facilitate online shopping and administration tasks.
+
+OVERALL DESCRIPTION
+Product Perspective: The perspective is focused on providing a simple yet robust solution for both customers and administrators. The target audience includes general internet users who wish to shop online and business owners/administrators who need tools to manage their store.
+Product Functions:
+- Allow users to browse through various products.
+- Enable users to perform searches based on keywords and filters.
+- Permit users to add selected items to their shopping cart.
+- Support secure payment methods with receipt generation upon successful transactions.
+- Provide functionality for administrators to add new products, modify existing ones, update stock levels, and view customer orders.
+- Ensure the system supports promotional offers and discount codes.
+- Handle return requests, refund processes, and notifications regarding out-of-stock items.
+User Characteristics: Users will range from novice to experienced web shoppers. They may have varying levels of technical expertise but generally expect ease of navigation and reliable service.
+Constraints: The system must operate within standard web server environments and comply with common browser standards. Performance optimizations must ensure quick load times even under moderate traffic conditions.
+Assumptions/Dependencies: It is assumed that all necessary third-party services for payment gateways and email delivery systems are available and functioning correctly. Dependencies exist on external APIs for handling payments and sending emails.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Must provide a clean, intuitive design suitable for mobile devices and desktop computers. shall adhere to modern web design principles and accessibility guidelines.
+- Hardware Interface: No specific hardware requirements beyond standard PC or mobile device specifications.
+- Software Interface: Requires compatibility with popular web browsers (e.g., Chrome, Firefox, Safari). Supports integration with common payment gateways (e.g., PayPal, Stripe).
+- Communication Interface: Utilizes HTTPS protocol for secure transmission of sensitive information. Adheres to RESTful API conventions for interaction between client and server components.
+Functional Requirements:
+FR-01: Browse Products
+Input: None
+Processing: Retrieve product listings from database or cache.
+Output: Display list of products with images, descriptions, prices, and ratings.
+Priority: Medium
+FR-02: Search by Keywords
+Input: Keyword(s) entered by user.
+Processing: Filter product listings based on keyword matches across title, description, tags.
+Output: List of matching products sorted by relevance.
+Priority: High
+FR-03: Add Items to Cart
+Input: Selected product ID and quantity.
+Processing: Update session storage or local storage with added item details.
+Output: Confirmation message displayed to user indicating addition to cart.
+Priority: High
+FR-04: Checkout Process
+Input: Validated user account credentials and shipping address.
+Processing: Calculate total cost including taxes and shipping fees. Validate payment method and process transaction securely.
+Output: Receipt generated and sent via email to user. Order confirmation page displayed.
+Priority: High
+FR-05: Admin Add New Product
+Input: Form submission containing product name, price, image URL, category, etc.
+Processing: Insert new record into database table dedicated to products.
+Output: Success message shown to admin.
+Priority: Low
+FR-06: Admin Edit Existing Product
+Input: Form submission specifying changes to product attributes.
+Processing: Update corresponding row in database table.
+Output: Confirmation message displayed to admin.
+Priority: Low
+FR-07: Admin Remove Product
+Input: Selection of product ID from dropdown menu.
+Processing: Delete specified record from database table.
+Output: Confirmation dialog before deletion occurs.
+Priority: Low
+FR-08: Manage Inventory Levels
+Input: Adjustments made through form inputs.
+Processing: Modify quantities stored in database fields associated with respective products.
+Output: Updated display reflecting current stock status.
+Priority: Low
+FR-09: Review Customer Orders
+Input: Access request initiated by admin.
+Processing: Fetch relevant records from order history log.
+Output: Detailed report showing order date, customer info, shipped status, and other pertinent details.
+Priority: Low
+Non-functional Requirements:
+Usability: The interface shall follow best practices for ease of use and learnability. Navigation shall be straightforward, and feedback mechanisms shall clearly indicate actions taken by the user.
+Reliability: The system must function consistently over time without unexpected failures due to bugs or errors. Data integrity measures shall prevent loss or corruption of critical information during operations.
+Performance: Response times for core interactions shall remain below 3 seconds under normal usage scenarios. Scalability limitations do not apply here since we focus solely on base functionality.
+Portability: Codebase shall be written in cross-platform compatible languages/frameworks ensuring seamless deployment across different operating systems and devices.
+
+SYSTEM FEATURES
+Feature 1: Product Browsing
+Description: Enables users to view and interact with product catalogues presented visually and categorically.
+
+Feature 2: Search Functionality
+Description: Provides capability to filter and find products using keywords and predefined filters.
+
+Feature 3: Shopping Cart Management
+Description: Allows users to collect desired goods temporarily until ready to finalize purchases.
+
+Feature 4: Payment Gateway Integration
+Description: Facilitates secure financial exchanges between buyers and sellers via supported platforms.
+
+Feature 5: Administrator Tools
+Description: Offers management interfaces for creating, updating, deleting entries related to merchandise and sales activities.
+
+Feature 6: Email Notifications
+Description: Sends automated messages confirming transactions and informing about significant events like order completions or cancellations.
+
+Feature 7: Discount Application
+Description: Applies promotional discounts and coupon codes to reduce final costs for eligible customers.
+
+Feature 8: Return Handling
+Description: Manages procedures for returning purchased items back to merchants according to established policies.
+
+Feature 9: Out-of-Stock Alerts
+Description: Notifies users when chosen products become unavailable so they can choose alternatives promptly.
+
+End of Document.INTRODUCTION
+To define the requirements for an online e-commerce platform that allows users to browse, purchase, and administrators to manage products and orders.
+Scope: This document covers the basic functionalities required for a typical e-commerce website including product browsing, searching, adding to cart, checking out, payment processing, and administrative functions. It does not cover advanced features such as security, scalability, or maintenance.
+Definitions/Acronyms: E-commerce
+- Electronic Commerce; GUI
+- Graphical User Interface; HTTP
+- Hypertext Transfer Protocol; HTML
+- HyperText Markup Language; HTTPS
+- Secure Hypertext Transfer Protocol; URL
+- Uniform Resource Locator; UI
+- User Interface; UML
+- Unified Modeling Language; XML
+- Extensible Markup Language.
+References: IEEE Standard 830-1998, ISO/IEC 25010:2011(E), IEEE Std 729-1983.
+Overview: This Software Requirements Specification (SRS) outlines the detailed requirements for an e-commerce application designed to facilitate online shopping and administration tasks.
+
+OVERALL DESCRIPTION
+The perspective is focused on providing a simple yet robust solution for both customers and administrators. The target audience includes general internet users who wish to shop online and business owners/administrators who need tools to manage their store.
+Product Functions:
+- Allow users to browse through various products.
+- Enable users to perform searches based on keywords and filters.
+- Permit users to add selected items to their shopping cart.
+- Support secure payment methods with receipt generation upon successful transactions.
+- Provide functionality for administrators to add new products, modify existing ones, update stock levels, and view customer orders.
+- Ensure the system supports promotional offers and discount codes.
+- Handle return requests, refund processes, and notifications regarding out-of-stock items.
+User Characteristics: Users will range from novice to experienced web shoppers. They may have varying levels of technical expertise but generally expect ease of navigation and reliable service.
+Constraints: The system must operate within standard web server environments and comply with common browser standards. Performance optimizations must ensure quick load times even under moderate traffic conditions.
+Assumptions/Dependencies: It is assumed that all necessary third-party services for payment gateways and email delivery systems are available and functioning correctly. Dependencies exist on external APIs for handling payments and sending emails.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Must provide a clean, intuitive design suitable for mobile devices and desktop computers. shall adhere to modern web design principles and accessibility guidelines.
+- Hardware Interface: No specific hardware requirements beyond standard PC or mobile device specifications.
+- Software Interface: Requires compatibility with popular web browsers (e.g., Chrome, Firefox, Safari). Supports integration with common payment gateways (e.g., PayPal, Stripe).
+- Communication Interface: Utilizes HTTPS protocol for secure transmission of sensitive information. Adheres to RESTful API conventions for interaction between client and server components.
+Functional Requirements:
+FR-01: Browse Products
+Input: None
+Processing: Retrieve product listings from database or cache.
+Output: Display list of products with images, descriptions, prices, and ratings.
+Priority: Medium
+FR-02: Search by Keywords
+Input: Keyword(s) entered by user.
+Processing: Filter product listings based on keyword matches across title, description, tags.
+Output: List of matching products sorted by relevance.
+Priority: High
+FR-03: Add Items to Cart
+Input: Selected product ID and quantity.
+Processing: Update session storage or local storage with added item details.
+Output: Confirmation message displayed to user indicating addition to cart.
+Priority: High
+FR-04: Checkout Process
+Input: Validated user account credentials and shipping address.
+Processing: Calculate total cost including taxes and shipping fees. Validate payment method and process transaction securely.
+Output: Receipt generated and sent via email to user. Order confirmation page displayed.
+Priority: High
+FR-05: Admin Add New Product
+Input: Form submission containing product name, price, image URL, category, etc.
+Processing: Insert new record into database table dedicated to products.
+Output: Success message shown to admin.
+Priority: Low
+FR-06: Admin Edit Existing Product
+Input: Form submission specifying changes to product attributes.
+Processing: Update corresponding row in database table.
+Output: Confirmation message displayed to admin.
+Priority: Low
+FR-07: Admin Remove Product
+Input: Selection of product ID from dropdown menu.
+Processing: Delete specified record from database table.
+Output: Confirmation dialog before deletion occurs.
+Priority: Low
+FR-08: Manage Inventory Levels
+Input: Adjustments made through form inputs.
+Processing: Modify quantities stored in database fields associated with respective products.
+Output: Updated display reflecting current stock status.
+Priority: Low
+FR-09: Review Customer Orders
+Input: Access request initiated by admin.
+Processing: Fetch relevant records from order history log.
+Output: Detailed report showing order date, customer info, shipped status, and other pertinent details.
+Priority: Low
+Non-functional Requirements:
+Usability: The interface shall follow best practices for ease of use and learnability. Navigation shall be straightforward, and feedback mechanisms shall clearly indicate actions taken by the user.
+Reliability: The system must function consistently over time without unexpected failures due to bugs or errors. Data integrity measures shall prevent loss or corruption of critical information during operations.
+Performance: Response times for core interactions shall remain below 3 seconds under normal usage scenarios.
+Portability: Codebase shall be written in cross-platform compatible languages/frameworks ensuring seamless deployment across different operating systems and devices.
+
+SYSTEM FEATURES
+Feature 1: Product Browsing
+Description: Enables users to view and interact with product catalogues presented visually and categorically.
+
+Feature 2: Search Functionality
+Description: Provides capability to filter and find products using keywords and predefined filters.
+
+Feature 3: Shopping Cart Management
+Description: Allows users to collect desired goods temporarily until ready to finalize purchases.
+
+Feature 4: Payment Gateway Integration
+Description: Facilitates secure financial exchanges between buyers and sellers via supported platforms.
+
+Feature 5: Administrator Tools
+Description: Offers management interfaces for creating, updating, deleting entries related to merchandise and sales activities.
+
+Feature 6: Email Notifications
+Description: Sends automated messages confirming transactions and informing about significant events like order completions or cancellations.
+
+Feature 7: Discount Application
+Description: Applies promotional discounts and coupon codes to reduce final costs for eligible customers.
+
+Feature 8: Return Handling
+Description: Manages procedures for returning purchased items back to merchants according to established policies.
+
+Feature 9: Out-of-Stock Alerts
+Description: Notifies users when chosen products become unavailable so they can choose alternatives promptly.
+
+End of Document.

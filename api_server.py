@@ -18,7 +18,7 @@ try:
 except ImportError:
     pass
 
-from flask import Flask, request, jsonify, send_file, send_from_directory
+from flask import Flask, request, jsonify, send_file, send_from_directory, Response, stream_with_context
 from flask_cors import CORS
 from werkzeug.exceptions import RequestEntityTooLarge, BadRequest
 import json
@@ -138,6 +138,16 @@ def _find_review_by_id(reviews: list, rid: str) -> int | None:
         if isinstance(r, dict) and r.get("id") == rid:
             return i
     return None
+
+
+def _normalize_review_entry(r: dict) -> dict:
+    """Ensure chat_messages exists for API responses and in-memory updates."""
+    if not isinstance(r, dict):
+        return r
+    cm = r.get("chat_messages")
+    if not isinstance(cm, list):
+        return {**r, "chat_messages": []}
+    return r
 
 
 def _compute_kb_quality_metrics(raw_text: str) -> dict:
@@ -1545,6 +1555,16 @@ def _build_srs_dict_from_results(results: list, project_info: dict, mode_overrid
 
     logger.info(f"SRS generated successfully: {srs.document_id}")
 
+    return _srs_document_to_api_dict(srs, results, project_info, resolved_mode)
+
+
+def _sse_srs_event(payload: dict) -> str:
+    """One Server-Sent Event frame (JSON payload)."""
+    return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+
+
+def _srs_document_to_api_dict(srs, results: list, project_info: dict, resolved_mode: str) -> dict:
+    """Build the same JSON contract as POST /api/generate-srs from an in-memory SRS document."""
     raw_text = getattr(srs, "raw_text", None) or srs.sections.get("_raw_text")
     hallucination_analysis = srs.sections.get("_hallucination_analysis", {})
 
@@ -2108,6 +2128,102 @@ def generate_srs():
 
     except Exception as e:
         logger.error(f"Error generating SRS: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/generate-srs-stream', methods=['POST'])
+def generate_srs_stream():
+    """
+    Stream SRS generation over Server-Sent Events (SSE).
+
+    Emits JSON lines in SSE `data:` frames:
+      - {"type": "delta", "text": "..."} — append to the live preview (token/chunk-level or chunked RAG text).
+      - {"type": "done", "srs": {...}} — same payload shape as POST /api/generate-srs.
+      - {"type": "error", "message": "..."} on failure.
+
+    Streaming reduces perceived latency: the client can render the first tokens before the full document exists.
+    """
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        results = data.get('results')
+        project_info = data.get('project_info', {})
+        if not results:
+            return jsonify({'error': 'No results provided'}), 400
+        if not isinstance(results, list):
+            results = [results]
+
+        results = sanitize_requirement_results(results)
+        project_info = sanitize_project_info(project_info)
+        inj = reject_payload_if_prompt_injection_in_results(results)
+        if inj:
+            raise RequirementSecurityError(inj, 403)
+
+        logger.info(f"SRS stream: generating with {len(results)} result(s)")
+
+        resolved_mode = str(os.environ.get("SRS_GENERATION_MODE", "model")).strip().lower()
+        if resolved_mode not in {"rag", "model"}:
+            resolved_mode = "model"
+
+        @stream_with_context
+        def event_stream():
+            try:
+                if resolved_mode == "rag":
+                    # RAG returns a full document; we still chunk `raw_text` so the UI can reveal it progressively.
+                    srs = _generate_srs_document(results, project_info, mode_override="rag")
+                    raw = (getattr(srs, "raw_text", None) or (srs.sections or {}).get("_raw_text") or "")
+                    step = 320
+                    for i in range(0, len(raw), step):
+                        yield _sse_srs_event({"type": "delta", "text": raw[i : i + step]})
+                    out = _srs_document_to_api_dict(srs, results, project_info, "rag")
+                    gm = dict(out.get("generation_meta") or {})
+                    gm["streamed"] = True
+                    out["generation_meta"] = gm
+                    yield _sse_srs_event({"type": "done", "srs": out})
+                    return
+
+                token = (os.environ.get("REPLICATE_API_TOKEN") or "").strip()
+                if not token:
+                    yield _sse_srs_event(
+                        {
+                            "type": "error",
+                            "message": "REPLICATE_API_TOKEN is not configured; streaming requires the model backend.",
+                        }
+                    )
+                    return
+
+                model_gen = SRSModelGenerator()
+                req_text, prompt, chunk_it = model_gen.stream_srs_text_chunks(results, project_info)
+                parts = []
+                for piece in chunk_it:
+                    parts.append(piece)
+                    yield _sse_srs_event({"type": "delta", "text": piece})
+                full_raw = "".join(parts)
+                srs_doc = model_gen._document_from_replicate_output(full_raw, prompt, req_text, project_info)
+                out = _srs_document_to_api_dict(srs_doc, results, project_info, "model")
+                gm = dict(out.get("generation_meta") or {})
+                gm["streamed"] = True
+                out["generation_meta"] = gm
+                yield _sse_srs_event({"type": "done", "srs": out})
+            except Exception as e:
+                logger.exception("SRS stream failed inside generator")
+                yield _sse_srs_event({"type": "error", "message": str(e)})
+
+        return Response(
+            event_stream(),
+            mimetype="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+                "X-Accel-Buffering": "no",
+            },
+        )
+
+    except RequirementSecurityError as sec:
+        return jsonify(sec.payload), sec.status
+    except Exception as e:
+        logger.error(f"Error starting SRS stream: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 
@@ -4185,6 +4301,7 @@ def expert_review_submit():
             "requester_notes": notes or None,
             "srs_snapshot": srs_snapshot,
             "review": None,
+            "chat_messages": [],
         }
 
         with _expert_reviews_lock:
@@ -4210,6 +4327,7 @@ def expert_review_list():
             reviews = list(_load_expert_reviews())
         if status_filter in {"pending", "reviewed"}:
             reviews = [r for r in reviews if isinstance(r, dict) and r.get("status") == status_filter]
+        reviews = [_normalize_review_entry(r) for r in reviews if isinstance(r, dict)]
         return jsonify({"requests": reviews})
     except Exception as e:
         logger.error("expert_review_list: %s", e)
@@ -4227,9 +4345,69 @@ def expert_review_get(rid):
         idx = _find_review_by_id(reviews, rid)
         if idx is None:
             return jsonify({"error": "Not found"}), 404
-        return jsonify(reviews[idx])
+        return jsonify(_normalize_review_entry(reviews[idx]))
     except Exception as e:
         logger.error("expert_review_get: %s", e)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/expert-review/requests/<rid>/messages', methods=['POST'])
+def expert_review_post_message(rid):
+    """
+    Append a chat message on a review thread. Body: sender_role (user|expert), body (str),
+    author_label (optional), submitter (optional dict with user_id for user messages).
+    """
+    try:
+        rid = str(rid or "").strip()
+        if not rid or len(rid) > 64 or not re.match(r"^er_[a-f0-9]+$", rid, re.I):
+            return jsonify({"error": "Invalid review id"}), 400
+        data = request.get_json(silent=True)
+        if data is None or not isinstance(data, dict):
+            return jsonify({"error": "Expected a JSON object body"}), 400
+        sender_role = str(data.get("sender_role") or "").strip().lower()
+        if sender_role not in {"user", "expert"}:
+            return jsonify({"error": "sender_role must be user or expert"}), 400
+        body = sanitize_user_input(str(data.get("body") or "").strip(), max_length=8000)
+        if len(body) < 1:
+            return jsonify({"error": "body is required"}), 400
+        author_label = str(data.get("author_label") or "").strip()[:200] or None
+        req_submitter = data.get("submitter") if isinstance(data.get("submitter"), dict) else {}
+
+        with _expert_reviews_lock:
+            reviews = _load_expert_reviews()
+            idx = _find_review_by_id(reviews, rid)
+            if idx is None:
+                return jsonify({"error": "Not found"}), 404
+            item = reviews[idx]
+            if not isinstance(item, dict):
+                return jsonify({"error": "Invalid record"}), 500
+            item = _normalize_review_entry(dict(item))
+            stored_uid = (item.get("submitter") or {}).get("user_id")
+            if sender_role == "user" and stored_uid:
+                client_uid = str(req_submitter.get("user_id") or "").strip()
+                if client_uid != str(stored_uid).strip():
+                    return jsonify({"error": "User identity does not match this submission"}), 403
+
+            mid = f"cm_{uuid.uuid4().hex[:16]}"
+            msg = {
+                "id": mid,
+                "sent_at": datetime.utcnow().isoformat() + "Z",
+                "sender_role": sender_role,
+                "body": body,
+            }
+            if author_label:
+                msg["author_label"] = author_label
+
+            cm = list(item.get("chat_messages") or [])
+            cm.append(msg)
+            item["chat_messages"] = cm
+            reviews[idx] = item
+            if not _save_expert_reviews(reviews):
+                return jsonify({"error": "Could not save message. Check server disk space and permissions."}), 500
+
+        return jsonify({"ok": True, "message": msg})
+    except Exception as e:
+        logger.error("expert_review_post_message: %s", e)
         return jsonify({"error": str(e)}), 500
 
 
@@ -4261,7 +4439,7 @@ def expert_review_complete(rid):
             idx = _find_review_by_id(reviews, rid)
             if idx is None:
                 return jsonify({"error": "Not found"}), 404
-            item = reviews[idx]
+            item = _normalize_review_entry(dict(reviews[idx]))
             if not isinstance(item, dict):
                 return jsonify({"error": "Invalid record"}), 500
             if item.get("status") != "pending":
@@ -4339,8 +4517,10 @@ if __name__ == '__main__':
     print("  POST /api/transcribe-audio - Transcribe audio only (for live transcription)")
     print("  POST /api/process-batch - Process batch requirements")
     print("  POST /api/generate-srs - Generate SRS document")
+    print("  POST /api/generate-srs-stream - Stream SRS generation (SSE)")
     print("  POST /api/expert-review/submit - Submit SRS for human expert review")
     print("  GET  /api/expert-review/requests - List expert review requests")
+    print("  POST /api/expert-review/requests/<id>/messages - Append expert/user chat message")
     print("  PATCH /api/expert-review/requests/<id> - Complete expert review")
     print("  POST /api/evaluate-srs-kb-metrics - KB-style quality scores for raw SRS text (app use)")
     print("  POST /api/download-srs/<format> - Download SRS")

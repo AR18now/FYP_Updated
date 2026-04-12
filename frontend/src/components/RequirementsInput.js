@@ -29,7 +29,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [showHelp, setShowHelp] = useState(false);
   /** Clarification / live copilot — off by default to keep the flow simple */
   const [optionalToolsOpen, setOptionalToolsOpen] = useState(false);
-  const [processingProgress, setProcessingProgress] = useState(0);
   
   // Audio recording states
   const [isRecording, setIsRecording] = useState(false);
@@ -854,7 +853,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setLastSRSAvailable(false);
     setError(null);
     setValidationErrors([]);
-    setProcessingProgress(0);
 
     const currentProjectErrors = validateProjectInfo();
     if (currentProjectErrors.length > 0) {
@@ -863,14 +861,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setIsProcessing(false);
       return;
     }
-
-    // Simulate progress for better UX
-    progressIntervalRef.current = setInterval(() => {
-      setProcessingProgress(prev => {
-        if (prev >= 90) return prev;
-        return prev + Math.random() * 10;
-      });
-    }, 500);
 
     try {
       // Validate and sanitize text input before processing
@@ -968,13 +958,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
             'Content-Type': 'multipart/form-data'
           },
           timeout: 240000, // 4 minutes timeout for longer recordings
-          onUploadProgress: (progressEvent) => {
-            if (progressEvent.total) {
-              const uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-              // Update progress to show upload progress (0-50%) then processing (50-100%)
-              setProcessingProgress(Math.min(50, uploadProgress));
-            }
-          }
         });
       } else if (uploadedFiles.length > 0) {
         // Validate all uploaded files are txt or pdf
@@ -1006,7 +989,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         throw new Error('Please provide text input, record audio, or upload files');
       }
 
-      setProcessingProgress(88);
       setResults(response.data);
       onResultsGenerated(response.data);
 
@@ -1037,49 +1019,18 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
       onSRSGenerated(null);
 
-      if (combinedSrsError) {
-        setProcessingProgress(100);
-        navigate('/results');
-        return;
-      }
-
-      try {
-        let srsPayload = srsFromCombined;
-        if (!srsPayload) {
-          const requirementsArray = buildRequirementsArray(response.data);
-          setProcessingProgress(92);
-          const srsResponse = await axios.post(
-            config.API_ENDPOINTS.GENERATE_SRS,
-            {
-              results: requirementsArray,
-              project_info: projectInfo,
-            },
-            { timeout: 300000 }
-          );
-          srsPayload = srsResponse.data;
-        } else {
-          setProcessingProgress(92);
-        }
-
-        if (srsPayload && (srsPayload.sections || srsPayload.raw_text)) {
-          onSRSGenerated(srsPayload);
-          try {
-            saveSRS(srsPayload);
-          } catch (e) {
-            console.error('Error saving SRS to storage:', e);
-          }
-          setLastSRSAvailable(true);
-          setProcessingProgress(100);
-          navigate('/results');
-        } else {
-          setProcessingProgress(100);
-          navigate('/results');
-        }
-      } catch (srsErr) {
-        console.error('SRS generation failed:', srsErr);
-        setProcessingProgress(100);
-        setError(getApiErrorMessage(srsErr, 'SRS generation failed. Please retry from the Results page.'));
-      }
+      /** Hand off to SRS viewer: live stream and final doc render on `/srs` (not a blocking overlay). */
+      navigate('/srs', {
+        state: {
+          srsPipeline: {
+            id: Date.now(),
+            projectInfo: { ...projectInfo },
+            processingPayload: response.data,
+            prebuiltSrs: srsFromCombined,
+            combinedError: combinedSrsError || null,
+          },
+        },
+      });
 
     } catch (err) {
       console.error('Processing error:', err);
@@ -1120,9 +1071,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     } finally {
       setIsProcessing(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-      setTimeout(() => setProcessingProgress(0), 1000);
     }
-  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, buildRequirementsArray, navigate]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
@@ -1137,39 +1087,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
   return (
     <div className="relative max-w-5xl mx-auto animate-fade-in" role="main" aria-labelledby="input-heading">
-      {(isProcessing || isGeneratingDirectSRS) && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-r2d-primary/50 backdrop-blur-sm px-4"
-          aria-live="polite"
-        >
-          <div
-            className="w-full max-w-md rounded-2xl border border-slate-200/80 bg-white p-8 shadow-2xl dark:bg-slate-900 dark:border-slate-600 text-center"
-            role="status"
-          >
-            <div className="mx-auto mb-6 relative h-14 w-14">
-              <div className="absolute inset-0 rounded-full border-[3px] border-r2d-accent/25" />
-              <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-r2d-accent border-r-blue-400 animate-spin" />
-            </div>
-            <h3 className="text-lg font-semibold text-r2d-primary dark:text-slate-100">
-              {isGeneratingDirectSRS ? 'Generating SRS' : 'Processing & generating SRS'}
-            </h3>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Model inference and document assembly in progress. Please keep this page open.
-            </p>
-            {isProcessing && (
-              <div className="mt-6 text-left space-y-2">
-                <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-r2d-accent to-blue-400 transition-all duration-300"
-                    style={{ width: `${Math.max(8, processingProgress)}%` }}
-                  />
-                </div>
-                <p className="text-xs text-slate-500 tabular-nums">{Math.round(processingProgress)}% complete</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
       <div className={`relative rounded-2xl overflow-hidden border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
         <div className="relative rounded-2xl p-6 md:p-8">
           <div className="flex items-center justify-center mb-8">
@@ -1912,27 +1829,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   ))}
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Processing Progress */}
-          {isProcessing && (
-            <div className={`mb-6 p-4 rounded-lg animate-slide-up border ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-r2d-accentMuted/40 border-r2d-accentMuted'}`}>
-              <div className="flex items-center space-x-3 mb-3">
-                <Loader2 className="h-5 w-5 text-r2d-accent animate-spin" aria-hidden="true" />
-                <span className={`font-medium ${isDark ? 'text-slate-200' : 'text-r2d-primary'}`}>Processing requirements and generating SRS…</span>
-              </div>
-              <div className={`w-full rounded-full h-2.5 ${isDark ? 'bg-slate-700' : 'bg-blue-100'}`}>
-                <div 
-                  className="bg-r2d-accent h-2.5 rounded-full transition-all duration-300 ease-out"
-                  style={{ width: `${processingProgress}%` }}
-                  role="progressbar"
-                  aria-valuenow={Math.round(processingProgress)}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                />
-              </div>
-              <p className={`text-xs mt-2 ${isDark ? 'text-slate-300' : 'text-r2d-primary'}`}>{Math.round(processingProgress)}% complete</p>
             </div>
           )}
 

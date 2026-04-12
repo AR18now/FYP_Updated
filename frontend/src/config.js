@@ -23,6 +23,8 @@ const API_ENDPOINTS = {
   CLARIFICATION_COPILOT: `${API_BASE_URL}/api/clarification-copilot`,
   CLARIFICATION_COPILOT_TURN: `${API_BASE_URL}/api/clarification-copilot-turn`,
   GENERATE_SRS: `${API_BASE_URL}/api/generate-srs`,
+  /** Same body as GENERATE_SRS; SSE stream with delta + done events (see `utils/srsStream.js`) */
+  GENERATE_SRS_STREAM: `${API_BASE_URL}/api/generate-srs-stream`,
   GENERATE_SRS_COMPARE: `${API_BASE_URL}/api/generate-srs-compare`,
   RTM_ANALYZE: `${API_BASE_URL}/api/rtm-analyze`,
   /** Document quality metrics: POST { raw_text } to /api/evaluate-srs-kb-metrics (not stored on generate-srs JSON) */
@@ -39,6 +41,8 @@ const API_ENDPOINTS = {
   EXPERT_REVIEW_SUBMIT: `${API_BASE_URL}/api/expert-review/submit`,
   EXPERT_REVIEW_REQUESTS: `${API_BASE_URL}/api/expert-review/requests`,
   expertReviewRequest: (id) => `${API_BASE_URL}/api/expert-review/requests/${encodeURIComponent(id)}`,
+  expertReviewMessages: (id) =>
+    `${API_BASE_URL}/api/expert-review/requests/${encodeURIComponent(id)}/messages`,
   /** POST { prompt, srs_text } — metrics on SRS already generated in the app */
   SRS_EVAL_EXISTING: `${SRS_EVAL_BASE_URL}/api/evaluate-existing`,
   SRS_EVAL_HISTORY: `${SRS_EVAL_BASE_URL}/api/history`,

@@ -26,13 +26,15 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies (cairo/pkg-config: required for pycairo via xhtml2pdf/svglib PDF stack)
+# Install system dependencies (cairo/pkg-config: pycairo/xhtml2pdf; plantuml+graphviz: use case diagram PNG)
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     ffmpeg \
     pkg-config \
     libcairo2-dev \
+    plantuml \
+    graphviz \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements files

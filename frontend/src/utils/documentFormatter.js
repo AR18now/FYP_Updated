@@ -151,15 +151,27 @@ export const formatSrsToHtml = (rawText = '', options = {}) => {
   normalized = normalized.replace(/^\s*-{3,}\s*\n+/, '');
   normalized = normalized.trim();
 
+  // Drop prompt-instruction lines (e.g. "End with: 'End of Document.'") — they are not body text.
+  // If left in place, the "End of Document." truncation below would cut the document too early.
+  normalized = normalized
+    .split('\n')
+    .filter((line) => !( /End\s+with\s*:/i.test(line) && /End\s+of\s+Document/i.test(line)))
+    .join('\n');
+
   // Keep only one canonical SRS document body in UI:
-  // start at first INTRODUCTION and stop at first End of Document.
+  // start at first INTRODUCTION and stop at the *last* End of Document. (closing line; avoids early false matches).
   const firstIntroIdx = normalized.search(/(^|\n)\s*INTRODUCTION\s*(\n|$)/i);
   if (firstIntroIdx >= 0) {
     normalized = normalized.slice(firstIntroIdx).trim();
   }
-  const endMarker = normalized.match(/\bEnd of Document\./i);
-  if (endMarker && typeof endMarker.index === 'number') {
-    normalized = normalized.slice(0, endMarker.index + endMarker[0].length).trim();
+  let endCut = -1;
+  const endRe = /\bEnd of Document\./gi;
+  let em;
+  while ((em = endRe.exec(normalized)) !== null) {
+    endCut = em.index + em[0].length;
+  }
+  if (endCut >= 0) {
+    normalized = normalized.slice(0, endCut).trim();
   }
 
   const text = normalized;

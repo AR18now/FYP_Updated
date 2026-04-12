@@ -26,11 +26,13 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (cairo/pkg-config: required for pycairo via xhtml2pdf/svglib PDF stack)
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     ffmpeg \
+    pkg-config \
+    libcairo2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements files

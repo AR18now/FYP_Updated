@@ -15,8 +15,8 @@ RUN npm ci
 # Copy frontend source
 COPY frontend/ ./
 
-# Build frontend (use environment variable for API URL if provided)
-ARG REACT_APP_API_URL=http://localhost:8000
+# Build frontend: default empty so production uses same-origin /api (set build-arg if API is on another host)
+ARG REACT_APP_API_URL=
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 RUN npm run build

@@ -5,28 +5,50 @@
  * In production, these values can be overridden using environment variables.
  */
 
-// Main API: use REACT_APP_API_URL when set (e.g. split deploy). Otherwise in production builds
-// use same-origin relative URLs so /api/* hits the Flask app (e.g. Render). CRA dev server still
-// needs localhost:8000 because UI runs on :3000.
+// Main API: Docker often bakes REACT_APP_API_URL=http://localhost:8000 — in the browser on a real
+// host (e.g. onrender.com) we must use same-origin '' instead, or health checks hit the user's PC.
 function trimSlash(s) {
   return String(s).replace(/\/$/, '');
 }
-const _rawApi = process.env.REACT_APP_API_URL;
-const API_BASE_URL =
-  _rawApi != null && String(_rawApi).trim() !== ''
-    ? trimSlash(_rawApi)
-    : process.env.NODE_ENV === 'production'
-      ? ''
-      : 'http://localhost:8000';
 
-/** SRS AI evaluation microservice (FastAPI) — set REACT_APP_SRS_EVAL_URL when deployed */
-const _rawEval = process.env.REACT_APP_SRS_EVAL_URL;
-const SRS_EVAL_BASE_URL =
-  _rawEval != null && String(_rawEval).trim() !== ''
-    ? trimSlash(_rawEval)
-    : process.env.NODE_ENV === 'production'
-      ? ''
-      : 'http://localhost:8010';
+function resolveApiBaseUrl() {
+  const fromEnv =
+    process.env.REACT_APP_API_URL != null && String(process.env.REACT_APP_API_URL).trim() !== ''
+      ? trimSlash(process.env.REACT_APP_API_URL)
+      : '';
+  if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+    const local = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!local) {
+      if (!fromEnv || /localhost|127\.0\.0\.1/.test(fromEnv)) {
+        return '';
+      }
+      return fromEnv;
+    }
+  }
+  if (fromEnv) return fromEnv;
+  return process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
+}
+
+function resolveSrsEvalBaseUrl() {
+  const fromEnv =
+    process.env.REACT_APP_SRS_EVAL_URL != null && String(process.env.REACT_APP_SRS_EVAL_URL).trim() !== ''
+      ? trimSlash(process.env.REACT_APP_SRS_EVAL_URL)
+      : '';
+  if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+    const local = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!local) {
+      if (!fromEnv || /localhost|127\.0\.0\.1/.test(fromEnv)) {
+        return '';
+      }
+      return fromEnv;
+    }
+  }
+  if (fromEnv) return fromEnv;
+  return process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8010';
+}
+
+const API_BASE_URL = resolveApiBaseUrl();
+const SRS_EVAL_BASE_URL = resolveSrsEvalBaseUrl();
 
 // API endpoints
 const API_ENDPOINTS = {

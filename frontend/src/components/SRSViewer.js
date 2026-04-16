@@ -838,8 +838,8 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   }
 
   return (
-    <div className="max-w-6xl mx-auto animate-fade-in" role="main" aria-labelledby="srs-heading">
-      <div className="bg-white dark:bg-slate-900 rounded-xl card-shadow p-6 md:p-8">
+    <div className="max-w-6xl mx-auto animate-fade-in overflow-x-hidden px-1 sm:px-0" role="main" aria-labelledby="srs-heading">
+      <div className="bg-white dark:bg-slate-900 rounded-xl card-shadow p-4 sm:p-6 md:p-8 overflow-x-hidden">
         {/* Header — single Actions menu (keeps the toolbar compact). */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
@@ -924,7 +924,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     setActionsMenuOpen(false);
                   }}
                 >
-                  <UserCheck className="h-4 w-4 text-indigo-600 shrink-0" />
+                  <UserCheck className="h-4 w-4 text-r2d-primary shrink-0" />
                   Expert review
                 </button>
                 <Link
@@ -961,7 +961,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     setActionsMenuOpen(false);
                   }}
                 >
-                  <RefreshCw className={`h-4 w-4 text-sky-600 shrink-0 ${isComparing ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`h-4 w-4 text-r2d-accent shrink-0 ${isComparing ? 'animate-spin' : ''}`} />
                   {isComparing ? 'Comparing models…' : 'Compare Fine-tuned vs RAG'}
                 </button>
               </div>
@@ -1187,12 +1187,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
           </div>
         )}
 
-        <div className="mb-6 rounded-lg border border-sky-200 dark:border-sky-800 bg-sky-50/80 dark:bg-sky-950/30 p-4">
+        <div className="mb-6 rounded-lg border border-r2d-accent/30 dark:border-r2d-primary/60 bg-r2d-accentMuted/45 dark:bg-r2d-primary/20 p-4">
           <div>
-            <h4 className="text-sm font-semibold text-sky-900 dark:text-sky-100">Testing Lab: Fine-tuned vs RAG</h4>
-            <p className="text-xs text-sky-800 dark:text-sky-200/90 mt-1">
+            <h4 className="text-sm font-semibold text-r2d-primary dark:text-r2d-accentSoft">Testing Lab: Fine-tuned vs RAG</h4>
+            <p className="text-xs text-r2d-primary/90 dark:text-slate-200/90 mt-1">
               Run both approaches on the same input, compare scores, then load either output into this viewer. Start the run from{' '}
-              <strong className="text-sky-950 dark:text-sky-50">Actions → Compare Fine-tuned vs RAG</strong> above.
+              <strong className="text-r2d-primary dark:text-slate-100">Actions → Compare Fine-tuned vs RAG</strong> above.
             </p>
           </div>
           {compareError && (
@@ -1210,7 +1210,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                 const conf = typeof hall?.confidence_score === 'number' ? `${Math.round(hall.confidence_score * 100)}%` : 'N/A';
                 const length = String(item?.raw_text || '').trim().length;
                 return (
-                  <div key={key} className="rounded-lg border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
+                  <div key={key} className="rounded-lg border border-r2d-accent/30 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
                     <p className="font-semibold text-slate-900 dark:text-slate-100">{label}</p>
                     <div className="mt-2 text-xs text-slate-700 dark:text-slate-300 space-y-1">
                       <p>Confidence: <strong>{conf}</strong></p>
@@ -1448,7 +1448,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
 
         {srsData.raw_text ? (
           <div className="mt-8">
-            <div className="bg-gray-50 dark:bg-slate-800/50 p-6 rounded-lg border border-gray-200 dark:border-slate-600">
+            <div className="bg-gray-50 dark:bg-slate-800/50 p-3 sm:p-6 rounded-lg border border-gray-200 dark:border-slate-600 overflow-x-hidden">
               <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/70 shadow-sm mb-6 overflow-hidden">
                 <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-700">
                   <h2 className="text-lg font-bold text-r2d-primary dark:text-slate-100 tracking-tight">
@@ -1467,7 +1467,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                   <span>Generated output · verify before sign-off</span>
                 </div>
               </div>
-              <section className="mb-6 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 p-5">
+              <section className="mb-6 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 p-3 sm:p-5">
                 <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400 mb-2">
                   Software Requirements Specification
                 </p>
@@ -1476,7 +1476,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                 </h2>
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Document Control</p>
                 <div className="overflow-x-auto">
-                  <table className="w-full border-collapse text-sm">
+                  <table className="min-w-[520px] w-full border-collapse text-sm">
                     <thead>
                       <tr className="bg-slate-50 dark:bg-slate-800/70">
                         <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Version</th>
@@ -1516,7 +1516,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
         ) : (
           <>
         {/* Expand/Collapse Controls */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           <button
             onClick={expandAll}
             className="text-sm text-r2d-accent hover:text-r2d-primaryLight px-3 py-1 rounded border border-r2d-accentMuted hover:bg-r2d-accentMuted/40 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-r2d-accent"
@@ -1539,7 +1539,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
           <div className="border border-gray-200 dark:border-slate-600 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200">
             <button
               onClick={() => toggleSection('introduction')}
-              className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:bg-slate-800/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-r2d-accent"
+              className="w-full p-4 sm:p-6 text-left flex items-center justify-between gap-3 hover:bg-gray-50 dark:bg-slate-800/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-r2d-accent"
               aria-expanded={expandedSections.introduction}
               aria-controls="introduction-content"
             >
@@ -1551,7 +1551,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
               )}
             </button>
             {expandedSections.introduction && (
-              <div id="introduction-content" className="px-6 pb-6 space-y-4 animate-slide-up">
+              <div id="introduction-content" className="px-4 sm:px-6 pb-6 space-y-4 animate-slide-up">
                 <div>
                   <h4 className="text-lg font-medium text-gray-900 dark:text-slate-100 mb-2">1.1 Purpose</h4>
                   <p className="text-gray-700 dark:text-slate-300 leading-relaxed">{srsData.sections.introduction.purpose}</p>
@@ -1580,7 +1580,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
           <div className="border border-gray-200 dark:border-slate-600 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200">
             <button
               onClick={() => toggleSection('overall_description')}
-              className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:bg-slate-800/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-r2d-accent"
+              className="w-full p-4 sm:p-6 text-left flex items-center justify-between gap-3 hover:bg-gray-50 dark:bg-slate-800/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-r2d-accent"
               aria-expanded={expandedSections.overall_description}
               aria-controls="overall-description-content"
             >

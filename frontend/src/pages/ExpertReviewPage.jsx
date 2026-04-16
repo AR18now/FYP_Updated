@@ -218,20 +218,20 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
   const refreshStored = () => setStoredList(getStoredSRS());
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
+    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in px-1 sm:px-0">
       <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/90 dark:border-slate-700 overflow-hidden">
-        <div className="relative px-6 py-8 lg:px-10 lg:py-9 bg-gradient-to-br from-indigo-900 via-r2d-primary to-slate-900 text-white">
-          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-300/30 via-transparent to-transparent" />
+        <div className="relative px-4 sm:px-6 py-8 lg:px-10 lg:py-9 bg-gradient-to-br from-r2d-primaryDark via-r2d-primary to-slate-900 text-white">
+          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-r2d-accent/30 via-transparent to-transparent" />
           <div className="relative flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-100">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-100">
                 <UserCheck className="h-3.5 w-3.5" />
                 Human in the loop
               </div>
               <h1 className="mt-3 text-2xl lg:text-3xl font-bold font-display tracking-tight">
                 {isExpertPanel ? 'Expert review queue' : 'Expert review'}
               </h1>
-              <p className="mt-2 max-w-2xl text-sm text-indigo-100/90 leading-relaxed">
+              <p className="mt-2 max-w-2xl text-sm text-slate-100/90 leading-relaxed">
                 {isExpertPanel
                   ? 'Pending submissions from project users. Open an item, review the SRS snapshot, and submit structured feedback.'
                   : 'After AI generates your SRS, send it to a human expert for structured feedback. Track your submissions under My submissions—reviewers use the separate expert panel.'}
@@ -261,7 +261,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
               setExpandedId(null);
               setTab(id);
             }}
-            className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+            className={`inline-flex items-center gap-2 rounded-lg px-3 sm:px-4 py-2 text-sm font-medium transition-colors ${
               tab === id
                 ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
@@ -277,7 +277,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
             refreshStored();
             refreshRequests();
           }}
-          className="ml-auto inline-flex items-center gap-2 rounded-lg border border-r2d-border px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+          className="w-full sm:w-auto sm:ml-auto inline-flex items-center justify-center gap-2 rounded-lg border border-r2d-border px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
         >
           Refresh
         </button>
@@ -300,7 +300,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
           {options.length === 0 ? (
             <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
               No SRS found. Generate one from{' '}
-              <Link to="/generate-srs" className="text-r2d-primary font-medium underline dark:text-blue-400">
+              <Link to="/generate-srs" className="text-r2d-primary font-medium underline dark:text-r2d-accentSoft">
                 Generate SRS
               </Link>{' '}
               first.
@@ -356,7 +356,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
               <button
                 type="submit"
                 disabled={submitting || !selectedSrs}
-                className="inline-flex items-center gap-2 rounded-lg bg-r2d-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-r2d-primaryLight disabled:opacity-50 dark:bg-r2d-accent dark:hover:bg-blue-600"
+                className="inline-flex items-center gap-2 rounded-lg bg-r2d-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-r2d-primaryLight disabled:opacity-50 dark:bg-r2d-accent dark:hover:bg-r2d-primaryLight"
               >
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 Send to expert queue

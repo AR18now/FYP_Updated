@@ -63,7 +63,7 @@ class ErrorBoundary extends React.Component {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={this.handleReset}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="bg-r2d-primary hover:bg-r2d-primaryLight text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
                 aria-label="Try again"
               >
                 <RefreshCw className="h-5 w-5" aria-hidden="true" />

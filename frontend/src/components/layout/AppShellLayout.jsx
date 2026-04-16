@@ -21,11 +21,12 @@ import {
   UserCircle2,
   UserCheck,
   BarChart3,
+  Search,
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 const primaryNav = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/', label: 'Workspace Home', icon: LayoutDashboard, end: true },
   { to: '/generate-srs', label: 'Generate SRS', icon: FileInput },
   { to: '/results', label: 'Processing results', icon: PanelLeft },
   { to: '/srs', label: 'SRS document', icon: FileText },
@@ -48,7 +49,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
 
   const pageTitle = useMemo(() => {
     const map = {
-      '/': 'Dashboard',
+      '/': 'Workspace Home',
       '/generate-srs': 'Generate SRS',
       '/textual-usecases': 'Textual use cases',
       '/usecase-diagram': 'Use case diagram',
@@ -67,7 +68,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-r2d-surface text-slate-800 dark:bg-r2d-primaryDark dark:text-slate-100">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-sky-100 via-cyan-50 to-emerald-100 text-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100">
       {sidebarOpen && (
         <button
           type="button"
@@ -80,7 +81,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
       <aside
         className={`
           fixed z-50 inset-y-0 left-0 flex flex-col w-64 overflow-y-auto
-          bg-r2d-primary text-slate-100 border-r border-white/10 shadow-nav
+          bg-gradient-to-b from-teal-700 via-cyan-700 to-emerald-700 text-slate-100 border-r border-white/10 shadow-nav
           transform transition-all duration-200 ease-out
           ${collapsed ? 'lg:w-[76px]' : 'lg:w-64'}
           lg:translate-x-0 lg:static lg:z-0 lg:sticky lg:top-0 lg:h-screen
@@ -106,7 +107,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
           <button
             type="button"
             onClick={() => setCollapsed((c) => !c)}
-            className="hidden lg:inline-flex p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-white/10"
+            className="hidden lg:inline-flex p-1.5 rounded-md text-slate-300 hover:text-white hover:bg-white/10"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!collapsed}
           >
@@ -143,7 +144,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden">
         <header className="sticky top-0 z-30 h-16 flex flex-wrap items-center justify-between gap-3 px-4 lg:px-8 border-b border-r2d-border bg-r2d-surfaceElevated/95 backdrop-blur-md shadow-sm dark:bg-slate-900/95 dark:border-slate-700/80">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
@@ -161,6 +162,11 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
               <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold sm:hidden">Req2Design</p>
               <p className="text-sm font-semibold text-r2d-primary truncate dark:text-slate-100">{pageTitle}</p>
             </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+            <Search className="h-3.5 w-3.5" />
+            Quick search coming soon
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
@@ -185,7 +191,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                   onLogout();
                   navigate('/start');
                 }}
-                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight dark:bg-r2d-accent dark:hover:bg-blue-600"
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight dark:bg-r2d-accent dark:hover:bg-r2d-primaryLight"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Logout</span>
@@ -194,8 +200,8 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
           </div>
         </header>
 
-        <main className="flex-1 p-4 lg:p-8 max-w-[1680px] w-full mx-auto flex flex-col overflow-y-auto">
-          <div className="flex-1">
+        <main className="flex-1 p-2 sm:p-4 lg:p-8 max-w-[1680px] w-full mx-auto flex flex-col overflow-y-auto overflow-x-hidden">
+          <div className="flex-1 rounded-2xl border border-white/70 bg-white/80 p-3 sm:p-4 shadow-xl backdrop-blur-sm dark:border-slate-700/70 dark:bg-slate-900/75 overflow-x-hidden">
             <Outlet />
           </div>
           <footer className="mt-10 pt-8 border-t border-r2d-border dark:border-slate-700">

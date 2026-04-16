@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 const taskLinkClass =
-  'flex items-center gap-3 rounded-lg border border-r2d-border bg-r2d-surfaceElevated px-4 py-3 text-sm font-medium text-slate-800 hover:bg-slate-50 hover:border-r2d-primary/30 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800 transition-colors';
+  'flex items-center gap-3 rounded-xl border border-r2d-border bg-r2d-surfaceElevated px-4 py-3 text-sm font-medium text-slate-800 hover:bg-slate-50 hover:border-r2d-primary/30 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800 transition-colors';
 
 const DashboardPage = ({ hasResults, hasSrs, hasUseCases, srsData }) => {
   const nextStep = useMemo(() => {
@@ -34,10 +34,18 @@ const DashboardPage = ({ hasResults, hasSrs, hasUseCases, srsData }) => {
   const srsTitle = srsData?.title ? String(srsData.title).slice(0, 48) : null;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
+    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in px-1 sm:px-0">
       <header>
-        <h1 className="text-xl font-semibold text-r2d-primary dark:text-slate-100 tracking-tight">Dashboard</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{nextStep}</p>
+        <div className="overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-lg">
+          <div className="h-36 bg-gradient-to-r from-cyan-500 via-emerald-500 to-teal-600" />
+          <div className="p-5 sm:p-6 -mt-12">
+            <div className="inline-flex rounded-md bg-white/90 dark:bg-slate-900/90 px-3 py-1 text-xs font-medium text-slate-600 dark:text-slate-300 shadow">
+              Active Workspace
+            </div>
+            <h1 className="mt-3 text-2xl font-semibold text-r2d-primary dark:text-slate-100 tracking-tight">Workspace Home</h1>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{nextStep}</p>
+          </div>
+        </div>
         {srsTitle && (
           <p className="mt-1 text-xs text-slate-500 dark:text-slate-500 font-mono truncate" title={srsData?.document_id}>
             Current SRS: {srsTitle}
@@ -53,13 +61,13 @@ const DashboardPage = ({ hasResults, hasSrs, hasUseCases, srsData }) => {
         </h2>
         <Link
           to="/generate-srs"
-          className="flex items-center justify-between gap-4 rounded-xl border-2 border-r2d-primary bg-r2d-primary px-5 py-4 text-white shadow-md hover:bg-r2d-primaryLight transition-colors"
+          className="flex items-center justify-between gap-3 rounded-xl border-2 border-r2d-primary bg-r2d-primary px-4 sm:px-5 py-4 text-white shadow-md hover:bg-r2d-primaryLight transition-colors"
         >
           <span className="flex items-center gap-3">
             <Sparkles className="h-5 w-5 shrink-0 opacity-90" aria-hidden />
-            <span>
+            <span className="min-w-0">
               <span className="block font-semibold">Generate SRS</span>
-              <span className="block text-xs text-blue-100 font-normal mt-0.5">Input · process · create document</span>
+              <span className="block text-xs text-slate-200 font-normal mt-0.5">Input · process · create document</span>
             </span>
           </span>
           <ArrowRight className="h-5 w-5 shrink-0" aria-hidden />
@@ -86,7 +94,7 @@ const DashboardPage = ({ hasResults, hasSrs, hasUseCases, srsData }) => {
         <h2 id="tasks-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
           Workspace
         </h2>
-        <ul className="space-y-2">
+        <ul className="grid md:grid-cols-2 gap-2">
           <li>
             <Link to="/results" className={taskLinkClass}>
               <PanelLeft className="h-4 w-4 text-slate-500 shrink-0" aria-hidden />
@@ -118,7 +126,7 @@ const DashboardPage = ({ hasResults, hasSrs, hasUseCases, srsData }) => {
         <h2 id="deliverables-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
           Deliverables
         </h2>
-        <ul className="space-y-2">
+        <ul className="grid md:grid-cols-2 gap-2">
           <li>
             <Link to="/textual-usecases" className={taskLinkClass}>
               <ClipboardList className="h-4 w-4 text-slate-500 shrink-0" aria-hidden />

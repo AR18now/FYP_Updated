@@ -90,8 +90,8 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto animate-fade-in">
-      <div className="bg-white dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-6 md:p-8">
+    <div className="max-w-7xl mx-auto animate-fade-in overflow-x-hidden px-1 sm:px-0">
+      <div className="bg-white dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-3 sm:p-5 md:p-8 overflow-x-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div>
             <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-slate-100">
@@ -103,11 +103,11 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               <strong>PlantUML</strong> from your Cockburn textual use cases.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             <button
               onClick={generateUseCases}
               disabled={isLoading}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
               {isLoading ? 'Generating...' : 'Generate / Refresh'}
@@ -116,7 +116,7 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               type="button"
               onClick={downloadPdf}
               disabled={!activeDiagramB64}
-              className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <Download className="h-4 w-4" />
               Download PDF
@@ -125,13 +125,13 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               type="button"
               onClick={downloadPuml}
               disabled={!activePlantUml}
-              className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center gap-2 text-sm disabled:opacity-50"
+              className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 w-full sm:w-auto"
               title="PlantUML source for the selected layout"
             >
               <FileCode className="h-4 w-4" />
               .puml
             </button>
-            <div className="flex rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden">
+            <div className="flex rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => setDiagramLayout('vertical')}
@@ -165,7 +165,7 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               type="button"
               onClick={() => setFitWidth((w) => !w)}
               disabled={!activeDiagramB64}
-              className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center gap-2 text-sm disabled:opacity-50"
+              className="border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 w-full sm:w-auto"
               title="Toggle fit width vs tall (vertical) view"
             >
               <Maximize2 className="h-4 w-4" />
@@ -174,7 +174,7 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           </div>
         </div>
 
-        <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-4 bg-slate-50 dark:bg-slate-950/50 min-h-[72vh] flex items-center justify-center overflow-auto">
+        <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-3 sm:p-4 bg-slate-50 dark:bg-slate-950/50 min-h-[50vh] sm:min-h-[60vh] lg:min-h-[72vh] flex items-center justify-center overflow-auto">
           {activeDiagramB64 ? (
             <img
               src={`data:image/png;base64,${activeDiagramB64}`}

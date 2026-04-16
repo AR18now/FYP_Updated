@@ -12,21 +12,21 @@ html.dark {
   --muted: #475569;
   --card: #ffffff;
   --card-border: #e2e8f0;
-  --accent: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #f97316 100%);
+  --accent: linear-gradient(135deg, #334155 0%, #4f46e5 60%, #6366f1 100%);
   --panel: #0f172a;
-  --panel-border: #1e293b;
+  --panel-border: #334155;
   --panel-text: #e2e8f0;
 }
 
 .theme-dark {
-  --bg: #121827;
+  --bg: #0b1220;
   --text: #e2e8f0;
   --muted: #cbd5e1;
-  --card: #1a2332;
-  --card-border: #253141;
-  --accent: linear-gradient(135deg, #1a2332 0%, #253141 50%, #4f46e5 100%);
-  --panel: #1a2332;
-  --panel-border: #253141;
+  --card: #111827;
+  --card-border: #334155;
+  --accent: linear-gradient(135deg, #0f172a 0%, #334155 48%, #4f46e5 100%);
+  --panel: #111827;
+  --panel-border: #334155;
   --panel-text: #e2e8f0;
 }
 
@@ -38,13 +38,28 @@ body {
   scroll-behavior: smooth;
   background-color: var(--bg);
   background-image:
-    radial-gradient(1200px at 80% 10%, rgba(99, 102, 241, 0.05), transparent 60%),
-    radial-gradient(900px at 15% 20%, rgba(14, 165, 233, 0.05), transparent 55%),
+    radial-gradient(1200px at 80% 10%, rgba(79, 70, 229, 0.07), transparent 60%),
+    radial-gradient(900px at 15% 20%, rgba(51, 65, 85, 0.07), transparent 55%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 64 64' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-opacity='0.05'><rect x='18' y='10' width='24' height='44' rx='3' ry='3'/><line x1='23' y1='18' x2='41' y2='18'/><line x1='23' y1='26' x2='41' y2='26'/><line x1='23' y1='34' x2='41' y2='34'/><line x1='23' y1='42' x2='34' y2='42'/></svg>");
   background-size: auto, auto, 200px 200px;
   background-repeat: no-repeat, no-repeat, repeat;
   color: var(--text);
   transition: background 200ms ease, color 200ms ease;
+}
+
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 code {
@@ -61,9 +76,9 @@ code {
 .progress-animated {
   background: linear-gradient(
     120deg,
-    rgba(14, 165, 233, 0.25),
-    rgba(99, 102, 241, 0.45),
-    rgba(236, 72, 153, 0.35)
+    rgba(51, 65, 85, 0.28),
+    rgba(79, 70, 229, 0.5),
+    rgba(99, 102, 241, 0.38)
   );
   background-size: 200% 100%;
   animation: progressShift 2s linear infinite;
@@ -77,16 +92,16 @@ code {
 
 .neon-text {
   text-shadow:
-    0 0 8px rgba(99, 102, 241, 0.6),
-    0 0 14px rgba(14, 165, 233, 0.4),
-    0 0 22px rgba(236, 72, 153, 0.35);
+    0 0 8px rgba(79, 70, 229, 0.6),
+    0 0 14px rgba(51, 65, 85, 0.35),
+    0 0 22px rgba(99, 102, 241, 0.35);
 }
 
 .neon-card {
   box-shadow:
     0 12px 38px -18px rgba(15, 23, 42, 0.4),
-    0 0 22px rgba(99, 102, 241, 0.35),
-    0 0 38px rgba(236, 72, 153, 0.22);
+    0 0 22px rgba(79, 70, 229, 0.32),
+    0 0 38px rgba(51, 65, 85, 0.24);
 }
 
 /* Card shadow with depth */
@@ -176,6 +191,48 @@ code {
 .glass {
   backdrop-filter: saturate(140%) blur(8px);
   background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Intro splash neon effects */
+.splash-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
+}
+
+.splash-neon-text {
+  text-shadow:
+    0 0 8px rgba(34, 211, 238, 0.9),
+    0 0 20px rgba(99, 102, 241, 0.55),
+    0 0 38px rgba(56, 189, 248, 0.35);
+}
+
+.splash-neon-ring {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 0 18px rgba(34, 211, 238, 0.5),
+    0 0 36px rgba(99, 102, 241, 0.45);
+}
+
+.splash-loader {
+  width: 35%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #22d3ee, #6366f1, #22d3ee);
+  background-size: 200% 100%;
+  animation: splashLoad 2.3s linear forwards;
+}
+
+@keyframes splashLoad {
+  0% {
+    width: 10%;
+    background-position: 0% 50%;
+  }
+  100% {
+    width: 100%;
+    background-position: 200% 50%;
+  }
 }
 
 /* Focus visible for accessibility */

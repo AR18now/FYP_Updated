@@ -24,9 +24,13 @@ from werkzeug.exceptions import RequestEntityTooLarge, BadRequest
 import json
 import os
 import tempfile
+import time
 from datetime import datetime
 import logging
 import re
+import binascii
+from urllib.parse import unquote_plus
+from collections import defaultdict, deque
 import replicate
 
 # Import our existing modules
@@ -47,8 +51,10 @@ import base64
 import threading
 import uuid
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.shared import Pt
 
 # CRA emits assets under frontend/build/static/; disable Flask's default /static -> ./static
 # (would otherwise serve empty /app/static from Dockerfile and return 404 for JS/CSS).
@@ -73,6 +79,29 @@ app.config["MAX_CONTENT_LENGTH"] = _max_mb * 1024 * 1024
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Lightweight in-memory guardrails (no external dependency).
+_SECURITY_WINDOW_SECONDS = int(os.environ.get("SECURITY_WINDOW_SECONDS", "300"))
+_SECURITY_RATE_LIMIT = int(os.environ.get("SECURITY_RATE_LIMIT", "80"))
+_SECURITY_RATE_LIMIT_HEAVY = int(os.environ.get("SECURITY_RATE_LIMIT_HEAVY", "20"))
+_SECURITY_ATTACK_BLOCK_SECONDS = int(os.environ.get("SECURITY_ATTACK_BLOCK_SECONDS", "600"))
+_SECURITY_MAX_EVENTS_PER_IP = int(os.environ.get("SECURITY_MAX_EVENTS_PER_IP", "200"))
+_SECURITY_LOCK = threading.Lock()
+_REQUEST_EVENTS: dict[str, deque[float]] = defaultdict(deque)
+_SUSPICIOUS_EVENTS: dict[str, deque[float]] = defaultdict(deque)
+_BLOCKED_UNTIL: dict[str, float] = {}
+_HEAVY_ROUTES = frozenset(
+    {
+        "/api/process-and-generate-srs",
+        "/api/process-audio",
+        "/api/process-batch",
+        "/api/generate-srs",
+        "/api/generate-srs-stream",
+        "/api/generate-srs-compare",
+        "/api/clarification-copilot",
+        "/api/clarification-copilot-turn",
+    }
+)
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -99,6 +128,48 @@ def _handle_bad_request(e):
             return jsonify({"error": desc.strip()}), 400
         return jsonify({"error": "Bad request."}), 400
     return e
+
+
+@app.before_request
+def _security_pre_request_guard():
+    """
+    Per-IP rate limiting and temporary blocking for repeated suspicious activity.
+    """
+    if not request.path.startswith("/api/"):
+        return None
+    ip = _get_client_ip()
+    now = time.time()
+    limit = _SECURITY_RATE_LIMIT_HEAVY if request.path in _HEAVY_ROUTES else _SECURITY_RATE_LIMIT
+
+    with _SECURITY_LOCK:
+        blocked_until = _BLOCKED_UNTIL.get(ip, 0.0)
+        if blocked_until > now:
+            retry = int(max(1, blocked_until - now))
+            return jsonify(
+                {
+                    "error": "Too many suspicious requests from this client. Try again later.",
+                    "retry_after_seconds": retry,
+                }
+            ), 429
+
+        events = _REQUEST_EVENTS[ip]
+        events.append(now)
+        while events and (now - events[0]) > _SECURITY_WINDOW_SECONDS:
+            events.popleft()
+        if len(events) > _SECURITY_MAX_EVENTS_PER_IP:
+            while len(events) > _SECURITY_MAX_EVENTS_PER_IP:
+                events.popleft()
+
+        if len(events) > limit:
+            _BLOCKED_UNTIL[ip] = now + min(_SECURITY_ATTACK_BLOCK_SECONDS, 180)
+            logger.warning("SECURITY rate_limit ip=%s path=%s count=%s", ip, request.path, len(events))
+            return jsonify(
+                {
+                    "error": "Rate limit exceeded. Please slow down and retry.",
+                    "retry_after_seconds": 120,
+                }
+            ), 429
+    return None
 
 
 # --- Human expert review queue (JSON file; shared across clients on same server) ---
@@ -378,6 +449,29 @@ def _rtm_similarity(a: str, b: str) -> float:
     return inter / denom
 
 
+def _normalize_req_id(value: str) -> str:
+    raw = str(value or "").upper().strip()
+    m = re.search(r"\b(FR|NFR)\s*[-_ ]?\s*(\d+)\b", raw)
+    if not m:
+        return ""
+    return f"{m.group(1)}-{m.group(2)}"
+
+
+def _extract_req_ids(text: str) -> set:
+    found = set()
+    for m in re.finditer(r"\b(FR|NFR)\s*[-_ ]?\s*(\d+)\b", str(text or ""), flags=re.IGNORECASE):
+        found.add(f"{m.group(1).upper()}-{m.group(2)}")
+    return found
+
+
+def _canonical_uc_name(name: str) -> str:
+    # Strip punctuation and non-semantic prefixes for robust cross-artifact comparison.
+    txt = re.sub(r"[^a-z0-9\s]", " ", str(name or "").lower())
+    txt = re.sub(r"\b(use\s*case|uc)\s*[-_ ]?\d+\b", " ", txt)
+    txt = re.sub(r"\s+", " ", txt).strip()
+    return txt
+
+
 def _extract_requirements_for_rtm(srs_data: dict) -> list:
     rows = []
     sections = (srs_data or {}).get("sections", {}) if isinstance(srs_data, dict) else {}
@@ -443,14 +537,36 @@ def _extract_textual_usecases_for_rtm(use_case_data: dict) -> list:
                 continue
             name = str(uc.get("use_case_name") or f"UC-{idx}").strip()
             scenario = str(uc.get("main_success_scenario") or "").strip()
-            out.append({"id": f"TUC-{idx}", "name": name, "text": f"{name} {scenario}".strip()})
+            preconditions = str(uc.get("preconditions") or "").strip()
+            full_text = " ".join(part for part in (name, preconditions, scenario) if part).strip()
+            ref_ids = set()
+            ref_ids.update(_extract_req_ids(uc.get("id", "")))
+            ref_ids.update(_extract_req_ids(preconditions))
+            ref_ids.update(_extract_req_ids(scenario))
+            out.append(
+                {
+                    "id": f"TUC-{idx}",
+                    "name": name,
+                    "text": full_text,
+                    "req_ids": sorted(ref_ids),
+                    "canonical_name": _canonical_uc_name(name),
+                }
+            )
     if not out:
         rendered = str(textual.get("text", "") if isinstance(textual, dict) else "")
         blocks = [b.strip() for b in re.split(r"\n\s*\n", rendered) if b.strip()]
         for idx, block in enumerate(blocks, start=1):
             m = re.search(r"Use Case Name:\s*(.+)", block, flags=re.IGNORECASE)
             name = (m.group(1).strip() if m else f"UC-{idx}")[:180]
-            out.append({"id": f"TUC-{idx}", "name": name, "text": block[:800]})
+            out.append(
+                {
+                    "id": f"TUC-{idx}",
+                    "name": name,
+                    "text": block[:800],
+                    "req_ids": sorted(_extract_req_ids(block)),
+                    "canonical_name": _canonical_uc_name(name),
+                }
+            )
     return out
 
 
@@ -459,12 +575,45 @@ def _extract_diagram_usecases_for_rtm(use_case_data: dict) -> list:
     puml = str(diagram.get("plantuml_code", "") if isinstance(diagram, dict) else "")
     names = []
     for m in re.finditer(r'usecase\s+"([^"]+)"\s+as\s+([A-Za-z0-9_]+)', puml, flags=re.IGNORECASE):
-        names.append({"id": f"DUC-{m.group(2)}", "name": m.group(1).strip(), "text": m.group(1).strip()})
+        name = m.group(1).strip()
+        names.append(
+            {
+                "id": f"DUC-{m.group(2)}",
+                "name": name,
+                "text": name,
+                "req_ids": [],
+                "canonical_name": _canonical_uc_name(name),
+            }
+        )
     if not names:
         for idx, m in enumerate(re.finditer(r"\(([^)]+)\)", puml), start=1):
             nm = m.group(1).strip()
             if nm and not any(n["name"] == nm for n in names):
-                names.append({"id": f"DUC-{idx}", "name": nm, "text": nm})
+                names.append(
+                    {
+                        "id": f"DUC-{idx}",
+                        "name": nm,
+                        "text": nm,
+                        "req_ids": [],
+                        "canonical_name": _canonical_uc_name(nm),
+                    }
+                )
+    uc_ref_map = {}
+    for m in re.finditer(
+        r'([A-Za-z0-9_]+)\s*\.\.\s*note\s*(?:right|left|top|bottom)?\s*:?\s*([^\n]*)',
+        puml,
+        flags=re.IGNORECASE,
+    ):
+        alias = str(m.group(1) or "").strip()
+        note_txt = str(m.group(2) or "").strip()
+        if not alias or not note_txt:
+            continue
+        uc_ref_map.setdefault(alias, set()).update(_extract_req_ids(note_txt))
+    for uc in names:
+        alias = uc["id"].replace("DUC-", "", 1)
+        refs = sorted(uc_ref_map.get(alias, set()))
+        if refs:
+            uc["req_ids"] = refs
     return names
 
 
@@ -500,15 +649,24 @@ def _build_rtm_report(srs_data: dict, use_case_data: dict) -> dict:
     used_diagram_ids = set()
 
     for req in reqs:
+        req_norm = _normalize_req_id(req.get("req_id", ""))
         best_t = []
         best_d = []
         for uc in textual:
             score = _rtm_similarity(req["text"], uc["text"])
-            if score >= 0.12:
+            uc_refs = {_normalize_req_id(x) for x in uc.get("req_ids", []) if _normalize_req_id(x)}
+            explicit = req_norm and req_norm in uc_refs
+            if score >= 0.12 or explicit:
+                if explicit:
+                    score = max(score, 0.95)
                 best_t.append((score, uc))
         for du in diagram:
             score = _rtm_similarity(req["text"], du["text"])
-            if score >= 0.08:
+            du_refs = {_normalize_req_id(x) for x in du.get("req_ids", []) if _normalize_req_id(x)}
+            explicit = req_norm and req_norm in du_refs
+            if score >= 0.08 or explicit:
+                if explicit:
+                    score = max(score, 0.95)
                 best_d.append((score, du))
         best_t.sort(key=lambda x: x[0], reverse=True)
         best_d.sort(key=lambda x: x[0], reverse=True)
@@ -527,7 +685,31 @@ def _build_rtm_report(srs_data: dict, use_case_data: dict) -> dict:
         covered = bool(textual_ids or diagram_ids)
         if covered:
             covered_count += 1
-        consistency = "good" if (textual_ids and diagram_ids) else ("partial" if (textual_ids or diagram_ids) else "missing")
+        consistency = "missing"
+        if textual_ids and diagram_ids:
+            textual_names_norm = {
+                _canonical_uc_name(name) for name in textual_names if _canonical_uc_name(name)
+            }
+            diagram_names_norm = {
+                _canonical_uc_name(name) for name in diagram_names if _canonical_uc_name(name)
+            }
+            name_overlap = bool(textual_names_norm.intersection(diagram_names_norm))
+            textual_refs = {
+                _normalize_req_id(x)
+                for _, uc in best_t
+                for x in uc.get("req_ids", [])
+                if _normalize_req_id(x)
+            }
+            diagram_refs = {
+                _normalize_req_id(x)
+                for _, du in best_d
+                for x in du.get("req_ids", [])
+                if _normalize_req_id(x)
+            }
+            ref_overlap = bool(textual_refs.intersection(diagram_refs))
+            consistency = "good" if (name_overlap or ref_overlap) else "partial"
+        elif textual_ids or diagram_ids:
+            consistency = "partial"
         if consistency == "good":
             consistent_count += 1
         testable, vague_terms = _is_testable_requirement(req["text"])
@@ -607,6 +789,81 @@ def _extract_text_from_pdf(pdf_path: str) -> str:
         import PyPDF2
     except Exception:
         return ""
+
+
+def _get_client_ip() -> str:
+    xff = request.headers.get("X-Forwarded-For", "")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+def _stable_text_fingerprint(text: str) -> str:
+    try:
+        import hashlib
+
+        return hashlib.sha256(str(text or "").encode("utf-8", errors="ignore")).hexdigest()[:16]
+    except Exception:
+        return "na"
+
+
+def _record_suspicious_input_event(reason: str, text: str = "") -> None:
+    ip = _get_client_ip()
+    now = time.time()
+    with _SECURITY_LOCK:
+        events = _SUSPICIOUS_EVENTS[ip]
+        events.append(now)
+        while events and (now - events[0]) > _SECURITY_WINDOW_SECONDS:
+            events.popleft()
+        if len(events) >= 6:
+            _BLOCKED_UNTIL[ip] = now + _SECURITY_ATTACK_BLOCK_SECONDS
+    logger.warning(
+        "SECURITY suspicious_input ip=%s reason=%s fingerprint=%s",
+        ip,
+        reason,
+        _stable_text_fingerprint(text),
+    )
+
+
+def _decode_obfuscated_variants(text: str) -> list[str]:
+    """
+    Generate alternate decoded forms to catch encoded prompt-injection payloads.
+    """
+    src = str(text or "")
+    variants = [src]
+    try:
+        u1 = unquote_plus(src)
+        if u1 != src:
+            variants.append(u1)
+            u2 = unquote_plus(u1)
+            if u2 != u1:
+                variants.append(u2)
+    except Exception:
+        pass
+
+    # Decode long base64-like fragments inside text.
+    for token in re.findall(r"[A-Za-z0-9+/=]{24,}", src):
+        if len(token) % 4 != 0:
+            continue
+        try:
+            raw = base64.b64decode(token, validate=True)
+            decoded = raw.decode("utf-8", errors="ignore")
+            if decoded and any(ch.isalpha() for ch in decoded):
+                variants.append(decoded)
+        except (binascii.Error, ValueError):
+            continue
+    return variants
+
+
+def _normalize_for_security_scan(text: str) -> str:
+    norm = str(text or "")
+    norm = norm.replace("\x00", " ")
+    norm = norm.replace("\u200b", "").replace("\u200c", "").replace("\u200d", "").replace("\ufeff", "")
+    # Simple leetspeak normalization for common bypasses.
+    norm = norm.translate(str.maketrans({"0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t"}))
+    norm = re.sub(r"[^a-zA-Z0-9\s]", " ", norm)
+    norm = re.sub(r"\s+", " ", norm).strip().lower()
+    return norm
     try:
         text_chunks = []
         with open(pdf_path, 'rb') as f:
@@ -662,23 +919,31 @@ def detect_prompt_injection(text: str) -> tuple[bool, list[str]]:
     """
     if not text:
         return False, []
-    
-    detected_patterns = []
-    text_lower = text.lower()
-    
-    for pattern in SUSPICIOUS_PATTERNS:
-        matches = re.findall(pattern, text_lower, re.IGNORECASE | re.MULTILINE)
-        if matches:
-            detected_patterns.append(pattern)
-    
-    # Log suspicious activity if detected
+
+    detected_patterns: list[str] = []
+    scan_variants = _decode_obfuscated_variants(text)
+    normalized_variants = [_normalize_for_security_scan(v) for v in scan_variants]
+
+    for variant in normalized_variants:
+        for pattern in SUSPICIOUS_PATTERNS:
+            if re.search(pattern, variant, re.IGNORECASE | re.MULTILINE):
+                detected_patterns.append(pattern)
+
+    # Heuristic for disguised imperative attacks ("ignore previous instructions" broken by symbols/spaces)
+    joined = " ".join(normalized_variants)
+    if (
+        "ignore" in joined
+        and "previous" in joined
+        and ("instruction" in joined or "instructions" in joined)
+    ):
+        detected_patterns.append("heuristic:ignore_previous_instructions")
+
+    # unique
+    detected_patterns = sorted(set(detected_patterns))
     if detected_patterns:
-        logger.warning(
-            f"Potential prompt injection detected. Patterns: {detected_patterns}. "
-            f"Input preview: {text[:200]}..."
-        )
-    
-    return len(detected_patterns) > 0, detected_patterns
+        _record_suspicious_input_event("prompt_injection_detected", text)
+
+    return bool(detected_patterns), detected_patterns
 
 def sanitize_user_input(text: str, max_length: int = 10000) -> str:
     """
@@ -862,7 +1127,7 @@ def validate_text_content(text: str) -> dict:
             f"SECURITY ALERT: Prompt injection attempt detected. "
             f"Patterns: {detected_patterns}. "
             f"Input length: {len(text)} chars. "
-            f"Input preview: {text[:500]}..."
+            f"Fingerprint: {_stable_text_fingerprint(text)}"
         )
         errors.append(
             'Request rejected: disallowed instruction-hijack phrasing (e.g. ignore/remove/delete previous instructions, '
@@ -883,6 +1148,7 @@ def validate_text_content(text: str) -> dict:
         most_common_word, freq = counts.most_common(1)[0]
         if total >= 20 and freq / total >= 0.6:
             errors.append(f"Input appears to be mostly repeated token '{most_common_word}' ({freq} of {total} tokens). Please provide meaningful requirements.")
+            _record_suspicious_input_event("repeated_token_spam", text)
     
     # Require at least one alphabetic character (allow numbers/symbols but not only them)
     if not re.search(r'[A-Za-z]', text):
@@ -897,6 +1163,33 @@ def validate_text_content(text: str) -> dict:
         'valid': len(errors) == 0,
         'errors': errors
     }
+
+
+_SENSITIVE_OUTPUT_PATTERNS = [
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----", re.IGNORECASE), "[REDACTED_PRIVATE_KEY]"),
+    (re.compile(r"\bsk-[A-Za-z0-9]{20,}\b"), "[REDACTED_API_KEY]"),
+    (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "[REDACTED_AWS_KEY]"),
+    (re.compile(r"\b(?:api[_-]?key|access[_-]?token|secret|password)\s*[:=]\s*[^\s,;]{6,}", re.IGNORECASE), "[REDACTED_SECRET]"),
+    (re.compile(r"(?i)\b(system prompt|developer instructions?|hidden instructions?)\b"), "[REDACTED_INTERNAL_INSTRUCTIONS]"),
+]
+
+
+def _sanitize_output_text(text: str) -> str:
+    out = str(text or "")
+    for pattern, replacement in _SENSITIVE_OUTPUT_PATTERNS:
+        out = pattern.sub(replacement, out)
+    out = re.sub(r"\n{4,}", "\n\n\n", out)
+    return out
+
+
+def _sanitize_output_payload(obj: Any) -> Any:
+    if isinstance(obj, str):
+        return _sanitize_output_text(obj)
+    if isinstance(obj, list):
+        return [_sanitize_output_payload(x) for x in obj]
+    if isinstance(obj, dict):
+        return {k: _sanitize_output_payload(v) for k, v in obj.items()}
+    return obj
 
 
 def build_clarification_payload(text: str) -> dict:
@@ -1474,6 +1767,22 @@ def _coerce_results_list_for_srs(results_data: object) -> list:
     return [results_data]
 
 
+def _validate_generation_payload(results: list, project_info: dict) -> Optional[dict]:
+    if not isinstance(results, list) or not results:
+        return {"error": "Invalid generation payload: results must be a non-empty list."}
+    if len(results) > 128:
+        return {"error": "Invalid generation payload: too many requirement items."}
+    for idx, item in enumerate(results):
+        if not isinstance(item, dict):
+            return {"error": f"Invalid generation payload: item {idx} must be an object."}
+        txt = str(item.get("original_text") or item.get("content") or item.get("text") or "")
+        if len(txt) > 20000:
+            return {"error": f"Invalid generation payload: item {idx} is too large."}
+    if project_info is not None and not isinstance(project_info, dict):
+        return {"error": "Invalid generation payload: project_info must be an object."}
+    return None
+
+
 def _generate_srs_document(results: list, project_info: dict, mode_override=None):
     """
     Runtime generation switch.
@@ -1542,6 +1851,9 @@ def _build_srs_dict_from_results(results: list, project_info: dict, mode_overrid
 
     results = sanitize_requirement_results(results)
     project_info = sanitize_project_info(project_info)
+    payload_err = _validate_generation_payload(results, project_info)
+    if payload_err:
+        raise ValueError(payload_err["error"])
     inj = reject_payload_if_prompt_injection_in_results(results)
     if inj:
         raise RequirementSecurityError(inj, 403)
@@ -1619,7 +1931,7 @@ def _srs_document_to_api_dict(srs, results: list, project_info: dict, resolved_m
             f"Confidence: {hallucination_analysis.get('confidence_score', 'N/A')}"
         )
 
-    return srs_dict
+    return _sanitize_output_payload(srs_dict)
 
 
 @app.route('/api/process-single', methods=['POST'])
@@ -3151,7 +3463,60 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
         footer_p = doc.sections[0].footer.add_paragraph()
     _add_page_number(footer_p)
 
-    doc.add_heading(title or 'Software Requirements Specification', 0)
+    project_label = (title or '').strip()
+    if not project_label or project_label.lower() == 'software requirements specification':
+        project_label = 'Project'
+    author_label = (author or '').strip() or 'author'
+    org_label = 'organization'
+    version_label = (version or '').strip() or '1.0'
+    created_label = (date_value or '').strip() or datetime.now().strftime('%Y-%m-%d')
+
+    cover_rule = doc.add_paragraph('_' * 86)
+    cover_rule.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    cover_title = doc.add_paragraph()
+    cover_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    title_run = cover_title.add_run('Software Requirements\nSpecification')
+    title_run.bold = True
+    title_run.font.size = Pt(24)
+
+    doc.add_paragraph('')
+    for_line = doc.add_paragraph('for')
+    for_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    for_line.runs[0].bold = True
+
+    project_line = doc.add_paragraph(f"<{project_label}>")
+    project_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    project_run = project_line.runs[0]
+    project_run.bold = True
+    project_run.font.size = Pt(22)
+
+    version_line = doc.add_paragraph(f"Version {version_label} approved")
+    version_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    version_line.runs[0].bold = True
+
+    doc.add_paragraph('')
+    prepared_line = doc.add_paragraph(f"Prepared by <{author_label}>")
+    prepared_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    prepared_line.runs[0].bold = True
+
+    org_line = doc.add_paragraph(f"<{org_label}>")
+    org_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    org_line.runs[0].bold = True
+
+    date_line = doc.add_paragraph(f"<{created_label}>")
+    date_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    date_line.runs[0].bold = True
+
+    doc.add_paragraph('')
+    footer_line = doc.add_paragraph(
+        "Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document."
+    )
+    footer_line.runs[0].italic = True
+
+    doc.add_page_break()
+
+    doc.add_heading('Software Requirements Specification', 0)
     meta = doc.add_paragraph()
     meta.add_run(f"Document ID: {document_id or 'N/A'}\n")
     meta.add_run(f"Version: {version or '1.0'}\n")
@@ -3963,12 +4328,31 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
         return ''.join(out), toc
 
     body_html, toc_entries = _format_srs_html_body(text)
+    toc_items = [
+        (1, "Table of Contents", "table-of-contents"),
+        (1, "Revision History", "revision-history"),
+        *toc_entries,
+    ]
     toc_html = ''.join(
-        f'<li class="d{depth}"><a href="#{html.escape(anchor)}">{html.escape(label)}</a></li>'
-        for depth, label, anchor in toc_entries
+        (
+            f'<li class="d{depth}">'
+            f'<a href="#{html.escape(anchor)}">'
+            f'<span class="toc-label">{html.escape(label)}</span>'
+            f'<span class="toc-dots" aria-hidden="true"></span>'
+            f'</a>'
+            f'</li>'
+        )
+        for depth, label, anchor in toc_items
     )
 
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    project_label = (title or '').strip()
+    if not project_label or project_label.lower() == 'software requirements specification':
+        project_label = 'Project'
+    author_label = (author or '').strip() or 'author'
+    org_label = "organization"
+    version_label = (version or '').strip() or '1.0'
+    created_label = (date or '').strip() or datetime.now().strftime("%Y-%m-%d")
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -3998,61 +4382,59 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             margin-bottom: 16px;
         }}
         .cover {{
-            border: 1px solid #94a3b8;
-            border-radius: 8px;
-            padding: 24px 24px;
-            margin: 0 0 14px;
-            min-height: 235mm;
+            min-height: 250mm;
             box-sizing: border-box;
             page-break-after: always;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 8mm 4mm 6mm;
+            position: relative;
         }}
-        .cover-kicker {{
-            margin: 0 0 12px;
-            font-size: 11pt;
-            letter-spacing: 1pt;
-            text-transform: uppercase;
-            color: #475569;
+        .cover-top-rule {{
+            border-top: 2px solid #111827;
+            margin: 0 0 20mm;
+        }}
+        .cover-main-title {{
+            margin: 0;
             text-align: center;
-        }}
-        .cover-title {{
-            margin: 0 0 18px;
-            font-size: 30pt;
-            line-height: 1.25;
+            font-size: 22pt;
+            line-height: 1.15;
             font-weight: 800;
-            color: #0f172a;
-            text-align: center;
+            color: #000;
         }}
-        .cover-subtitle {{
-            margin: 0 0 18px;
-            text-align: center;
-            font-size: 12pt;
-            color: #334155;
-            font-weight: 600;
+        .cover-right {{
+            width: 62%;
+            margin-left: auto;
+            margin-top: 24mm;
+            text-align: right;
+            color: #000;
         }}
-        .rev-title {{
-            margin: 12px 0 8px;
-            font-size: 12pt;
+        .cover-for {{
+            margin: 0 0 10mm;
+            font-size: 19pt;
             font-weight: 700;
-            color: #0f172a;
-            text-align: center;
         }}
-        .rev-table {{
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10.5pt;
+        .cover-project {{
+            margin: 0 0 12mm;
+            font-size: 32pt;
+            font-weight: 800;
         }}
-        .rev-table th, .rev-table td {{
-            border: 1px solid #cbd5e1;
-            padding: 6px 7px;
-            text-align: left;
-            vertical-align: top;
-        }}
-        .rev-table th {{
-            background: #f8fafc;
+        .cover-version {{
+            margin: 0 0 14mm;
+            font-size: 15pt;
             font-weight: 700;
+        }}
+        .cover-prepared, .cover-org, .cover-date {{
+            margin: 0 0 8mm;
+            font-size: 13pt;
+            font-weight: 700;
+        }}
+        .cover-footnote {{
+            position: absolute;
+            left: 4mm;
+            bottom: 4mm;
+            margin: 0;
+            font-size: 10pt;
+            color: #374151;
+            font-style: italic;
         }}
         .doc-header-top {{
             padding: 13px 15px;
@@ -4144,50 +4526,107 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
         }}
         .toc-list {{
             margin: 0;
-            padding-left: 18px;
-            line-height: 1.5;
+            padding: 0;
+            line-height: 1.45;
+            list-style: none;
         }}
-        .toc-list li {{ margin: 2px 0; }}
+        .toc-list li {{ margin: 1px 0; }}
+        .toc-list li a {{
+            color: #000;
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }}
+        .toc-list li a:hover {{
+            text-decoration: underline;
+        }}
+        .toc-list li .toc-label {{
+            white-space: nowrap;
+        }}
+        .toc-list li .toc-dots {{
+            flex: 1;
+            border-bottom: 1px dotted #111827;
+            margin-bottom: 2px;
+            min-width: 20px;
+        }}
+        .toc-list li a::after {{
+            content: target-counter(attr(href), page);
+            white-space: nowrap;
+            min-width: 16px;
+            text-align: right;
+        }}
         .toc-list li.d2 {{ margin-left: 10px; }}
         .toc-list li.d3, .toc-list li.d4, .toc-list li.d5 {{ margin-left: 20px; }}
         .content {{ page-break-before: always; max-width: 180mm; }}
+        .revision-box {{
+            margin: 0 0 18px;
+            page-break-after: always;
+        }}
+        .revision-title {{
+            margin: 0 0 8px;
+            font-size: 16pt;
+            font-weight: 700;
+        }}
+        .revision-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11pt;
+        }}
+        .revision-table th, .revision-table td {{
+            border: 1px solid #111827;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }}
     </style>
 </head>
 <body>
     <section class="cover">
-      <p class="cover-kicker">Software Requirements Specification</p>
-      <h1 class="cover-title">{html.escape(title)}</h1>
-      <p class="cover-subtitle">Req2Design · IEEE 830-1998 aligned</p>
-      <p class="rev-title">Document Control</p>
-      <table class="rev-table" role="presentation">
-        <thead>
-          <tr>
-            <th style="width: 18%;">Version</th>
-            <th style="width: 20%;">Date</th>
-            <th style="width: 24%;">Author</th>
-            <th>Change Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{html.escape(version)}</td>
-            <td>{html.escape(date)}</td>
-            <td>{html.escape(author)}</td>
-            <td>Initial generated draft for structured review.</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="margin-top:12px; font-size:10pt; color:#475569; text-align:center;">
-        <strong>Document ID:</strong> {html.escape(document_id)}
-      </p>
+      <div class="cover-top-rule"></div>
+      <h1 class="cover-main-title">Software Requirements<br/>Specification</h1>
+      <div class="cover-right">
+        <p class="cover-for">for</p>
+        <p class="cover-project">&lt;{html.escape(project_label)}&gt;</p>
+        <p class="cover-version">Version {html.escape(version_label)} approved</p>
+        <p class="cover-prepared">Prepared by &lt;{html.escape(author_label)}&gt;</p>
+        <p class="cover-org">&lt;{html.escape(org_label)}&gt;</p>
+        <p class="cover-date">&lt;{html.escape(created_label)}&gt;</p>
+      </div>
+      <p class="cover-footnote">Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document.</p>
     </section>
     <pdf:nextpage />
 
-    <section class="toc-box">
+    <section class="toc-box" id="table-of-contents">
       <h2 class="toc-title">Table of Contents</h2>
       <ul class="toc-list">
         {toc_html}
       </ul>
+    </section>
+    <pdf:nextpage />
+
+    <section class="revision-box" id="revision-history">
+      <h2 class="revision-title">Revision History</h2>
+      <table class="revision-table" role="presentation">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Name</th>
+            <th style="width: 18%;">Date</th>
+            <th>Reason For Changes</th>
+            <th style="width: 17%;">Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{html.escape(author_label)}</td>
+            <td>{html.escape(created_label)}</td>
+            <td>Initial generated draft for review.</td>
+            <td>{html.escape(version_label)}</td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
     </section>
     <pdf:nextpage />
 

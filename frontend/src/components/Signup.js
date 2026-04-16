@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, Link, Navigate, useParams } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Sparkles, Rocket, ArrowRight, UserCheck } from 'lucide-react';
-import { signup, isAuthenticated, getCurrentUser, ROLES } from '../utils/auth';
+import { signup, isAuthenticated, getCurrentUser, ROLES, validatePasswordPolicy, PASSWORD_POLICY } from '../utils/auth';
 import { useTheme } from '../context/ThemeContext';
 
 const Signup = ({ onSignup }) => {
@@ -64,8 +64,9 @@ const Signup = ({ onSignup }) => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    const policy = validatePasswordPolicy(formData.password);
+    if (!policy.valid) {
+      setError(policy.errors[0]);
       return;
     }
 
@@ -100,18 +101,18 @@ const Signup = ({ onSignup }) => {
   const passwordStrength = useCallback(() => {
     const password = formData.password;
     if (!password) return { strength: 0, label: '', color: '' };
-    
+    const policy = validatePasswordPolicy(password);
+    const checks = policy.checks;
     let strength = 0;
-    if (password.length >= 6) strength++;
-    if (password.length >= 8) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    if (checks.minLength) strength++;
+    if (checks.uppercase) strength++;
+    if (checks.lowercase) strength++;
+    if (checks.number) strength++;
+    if (checks.special) strength++;
 
-    if (strength <= 2) return { strength, label: 'Weak', color: 'red' };
-    if (strength <= 4) return { strength, label: 'Medium', color: 'yellow' };
-    return { strength, label: 'Strong', color: 'green' };
+    if (strength <= 2) return { strength, label: 'Weak', color: 'red', checks };
+    if (strength <= 4) return { strength, label: 'Medium', color: 'yellow', checks };
+    return { strength, label: 'Strong', color: 'green', checks };
   }, [formData.password]);
 
   const strength = passwordStrength();
@@ -137,7 +138,7 @@ const Signup = ({ onSignup }) => {
         <section
           className={`hidden lg:flex flex-col justify-between p-10 text-white ${
             isExpert
-              ? 'bg-gradient-to-br from-indigo-900 via-violet-800 to-slate-900'
+              ? 'bg-gradient-to-br from-r2d-primaryDark via-r2d-primary to-slate-900'
               : 'bg-gradient-to-br from-r2d-primary via-r2d-primaryLight to-r2d-accent'
           }`}
         >
@@ -147,12 +148,12 @@ const Signup = ({ onSignup }) => {
               {hero.badge}
             </div>
             <h2 className="mt-6 text-3xl font-bold leading-tight">{hero.title}</h2>
-            <p className="mt-3 text-blue-100/90 text-sm leading-relaxed">{hero.body}</p>
+            <p className="mt-3 text-slate-100/90 text-sm leading-relaxed">{hero.body}</p>
           </div>
           <div className="space-y-3 text-sm">
             {hero.bullets.map(({ Icon, text }, i) => (
               <div key={i} className="flex items-center gap-2">
-                <Icon className="h-4 w-4 text-blue-100" />
+                <Icon className="h-4 w-4 text-slate-100" />
                 {text}
               </div>
             ))}
@@ -164,7 +165,7 @@ const Signup = ({ onSignup }) => {
             <div className="flex justify-center mb-4 lg:hidden">
               <div
                 className={`inline-flex items-center justify-center rounded-2xl p-4 text-white shadow-lg ${
-                  isExpert ? 'bg-gradient-to-br from-indigo-800 to-violet-700' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
+                  isExpert ? 'bg-gradient-to-br from-r2d-primary to-r2d-accent' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
                 }`}
               >
                 {isExpert ? <UserCheck className="h-7 w-7" aria-hidden="true" /> : <UserPlus className="h-7 w-7" aria-hidden="true" />}
@@ -250,13 +251,13 @@ const Signup = ({ onSignup }) => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    minLength={6}
+                    minLength={PASSWORD_POLICY.minLength}
                     className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-white border-slate-200 text-slate-900'
                     }`}
-                    placeholder="Create a password (min 6 characters)"
+                    placeholder={`Create a password (min ${PASSWORD_POLICY.minLength} characters)`}
                     autoComplete="new-password"
                   />
                   <button
@@ -287,9 +288,22 @@ const Signup = ({ onSignup }) => {
                           strength.color === 'yellow' ? 'bg-yellow-500' :
                           'bg-green-500'
                         }`}
-                        style={{ width: `${(strength.strength / 6) * 100}%` }}
+                        style={{ width: `${(strength.strength / 5) * 100}%` }}
                       />
                     </div>
+                    <ul className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                      {[
+                        ['At least 8 characters', strength.checks?.minLength],
+                        ['Uppercase letter (A-Z)', strength.checks?.uppercase],
+                        ['Lowercase letter (a-z)', strength.checks?.lowercase],
+                        ['Number (0-9)', strength.checks?.number],
+                        ['Special symbol (!@#$...)', strength.checks?.special],
+                      ].map(([label, ok]) => (
+                        <li key={label} className={ok ? 'text-green-600 dark:text-green-400' : 'text-slate-500 dark:text-slate-400'}>
+                          {ok ? '✓' : '•'} {label}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
@@ -307,7 +321,7 @@ const Signup = ({ onSignup }) => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
-                    minLength={6}
+                    minLength={PASSWORD_POLICY.minLength}
                     className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent transition-all ${
                       isDark 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
@@ -350,8 +364,8 @@ const Signup = ({ onSignup }) => {
 
               <button
                 type="submit"
-                disabled={isLoading || formData.password !== formData.confirmPassword}
-                className="w-full bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
+                disabled={isLoading || formData.password !== formData.confirmPassword || !validatePasswordPolicy(formData.password).valid}
+                className="w-full bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
               >
                 {isLoading ? 'Creating account...' : 'Sign Up'}
               </button>

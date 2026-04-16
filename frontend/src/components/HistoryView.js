@@ -146,7 +146,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
 
   return (
     <div className="max-w-7xl mx-auto animate-fade-in" role="main" aria-labelledby="history-heading">
-      <div className={`rounded-xl card-shadow p-6 md:p-8 border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
+      <div className={`rounded-xl card-shadow p-4 sm:p-6 md:p-8 border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
@@ -158,14 +158,14 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
               View and manage your previous inputs and generated SRS documents
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="text-sm" style={{ color: 'var(--muted)' }}>
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <div className="text-sm w-full sm:w-auto" style={{ color: 'var(--muted)' }}>
               <span className="font-semibold">{stats.inputsCount}</span> inputs • <span className="font-semibold">{stats.srsCount}</span> SRS • {stats.totalSizeMB} MB
             </div>
             {(inputs.length > 0 || srsList.length > 0) && (
               <button
                 onClick={handleClearAll}
-                className="text-red-500 hover:text-red-600 text-sm px-3 py-1.5 rounded border border-red-300 hover:border-red-400 transition-colors"
+                className="text-red-500 hover:text-red-600 text-sm px-3 py-1.5 rounded border border-red-300 hover:border-red-400 transition-colors w-full sm:w-auto"
               >
                 Clear All
               </button>
@@ -174,7 +174,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b" style={{ borderColor: 'var(--card-border)' }}>
+        <div className="flex flex-wrap gap-2 mb-6 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {[
             { id: 'srs', label: 'SRS Documents', count: srsList.length },
             { id: 'inputs', label: 'Inputs', count: inputs.length }
@@ -182,7 +182,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 font-medium transition-all duration-200 border-b-2 ${
+              className={`px-3 sm:px-4 py-2 font-medium transition-all duration-200 border-b-2 text-sm sm:text-base ${
                 activeTab === tab.id
                   ? 'border-r2d-accent text-r2d-accent'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -253,10 +253,10 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                         </p>
                       )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full md:w-auto">
                       <button
                         onClick={() => handleLoadSRS(srs)}
-                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="View SRS"
                       >
                         <Eye className="h-4 w-4" aria-hidden="true" />
@@ -264,7 +264,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                       </button>
                       <button
                         onClick={() => handleDownloadSRS(srs, 'pdf')}
-                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="Download SRS PDF"
                       >
                         <Download className="h-4 w-4" aria-hidden="true" />
@@ -272,7 +272,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                       </button>
                       <button
                         onClick={() => handleDownloadSRS(srs, 'docx')}
-                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="Download SRS Word"
                       >
                         <Download className="h-4 w-4" aria-hidden="true" />
@@ -280,7 +280,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                       </button>
                       <button
                         onClick={() => handleDeleteSRS(srs.document_id || srs.id)}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="Delete SRS"
                       >
                         <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -379,10 +379,10 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                         </div>
                       )}
                     </div>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex gap-2 flex-wrap w-full md:w-auto">
                       <button
                         onClick={() => handleLoadInput(input)}
-                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-r2d-primary hover:bg-r2d-primaryLight text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="Load Input"
                       >
                         <Eye className="h-4 w-4" aria-hidden="true" />
@@ -390,7 +390,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
                       </button>
                       <button
                         onClick={() => handleDeleteInput(input.id)}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center space-x-2 transition-all"
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center justify-center space-x-2 transition-all w-full sm:w-auto"
                         title="Delete Input"
                       >
                         <Trash2 className="h-4 w-4" aria-hidden="true" />

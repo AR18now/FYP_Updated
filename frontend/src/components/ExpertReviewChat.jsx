@@ -56,7 +56,7 @@ const ExpertReviewChat = ({ requestId, messages, senderRole, currentUser, onRefr
   return (
     <div className="rounded-xl border border-slate-200 dark:border-slate-600 bg-white/80 dark:bg-slate-950/40 overflow-hidden">
       <div className="flex items-center gap-2 px-3 py-2 border-b border-slate-200 dark:border-slate-700 bg-slate-50/90 dark:bg-slate-900/60">
-        <MessageCircle className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+        <MessageCircle className="h-4 w-4 text-r2d-primary dark:text-r2d-accentSoft shrink-0" />
         <span className="text-xs font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">
           Conversation
         </span>
@@ -75,7 +75,7 @@ const ExpertReviewChat = ({ requestId, messages, senderRole, currentUser, onRefr
                 key={m.id}
                 className={`rounded-lg px-3 py-2 text-sm ${
                   isExpert
-                    ? 'bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-900 text-slate-800 dark:text-slate-100'
+                    ? 'bg-r2d-accentMuted/45 dark:bg-r2d-accent/20 border border-r2d-accent/20 dark:border-r2d-accent/40 text-slate-800 dark:text-slate-100'
                     : 'bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100'
                 }`}
               >
@@ -114,7 +114,7 @@ const ExpertReviewChat = ({ requestId, messages, senderRole, currentUser, onRefr
             type="button"
             onClick={send}
             disabled={disabled || sending || !canSend || !text.trim()}
-            className="shrink-0 inline-flex items-center justify-center gap-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 text-sm font-medium disabled:opacity-50 self-end"
+            className="shrink-0 inline-flex items-center justify-center gap-1 rounded-lg bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-2 text-sm font-medium disabled:opacity-50 self-end"
           >
             {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Send

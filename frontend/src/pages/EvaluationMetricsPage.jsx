@@ -39,7 +39,7 @@ function MetricsComparisonChart({ entries }) {
   const valid = entries.filter((e) => typeof e.value === 'number' && !Number.isNaN(e.value));
   if (valid.length === 0) return null;
   return (
-    <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-6 shadow-card">
+    <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-4 sm:p-6 shadow-card">
       <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
         <BarChart3 className="h-4 w-4 text-r2d-accent" />
         Relative comparison
@@ -48,13 +48,13 @@ function MetricsComparisonChart({ entries }) {
         {valid.map(({ key, label, value }) => {
           const pct = Math.round(Math.max(0, Math.min(1, value)) * 100);
           return (
-            <div key={key} className="flex items-center gap-3">
-              <span className="w-36 shrink-0 text-xs font-medium text-slate-600 dark:text-slate-400 truncate" title={label}>
+            <div key={key} className="flex items-center gap-2 sm:gap-3">
+              <span className="w-28 sm:w-36 shrink-0 text-xs font-medium text-slate-600 dark:text-slate-400 truncate" title={label}>
                 {label}
               </span>
               <div className="flex-1 h-8 rounded-md bg-slate-100 dark:bg-slate-800 overflow-hidden flex">
                 <div
-                  className="h-full bg-gradient-to-r from-r2d-accent/90 to-blue-400/90 flex items-center justify-end pr-2 min-w-[2rem] transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-r2d-primary/90 to-r2d-accent/90 flex items-center justify-end pr-2 min-w-[2rem] transition-all duration-500"
                   style={{ width: `${pct}%` }}
                 >
                   <span className="text-[10px] font-bold text-white tabular-nums">{pct}</span>
@@ -103,8 +103,8 @@ const EvaluationMetricsPage = ({ srsData }) => {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
-      <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated px-6 py-5 shadow-card dark:bg-slate-900/85 dark:border-slate-700">
+    <div className="space-y-8 animate-fade-in max-w-7xl mx-auto px-1 sm:px-0">
+      <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated px-4 sm:px-6 py-5 shadow-card dark:bg-slate-900/85 dark:border-slate-700">
         <h1 className="text-2xl font-bold text-r2d-primary dark:text-slate-100 tracking-tight">SRS evaluation metrics</h1>
         <p className="mt-1 text-slate-600 dark:text-slate-400 text-sm">
           Engineering quality signals for the active session. Higher bars are better unless noted.
@@ -119,7 +119,7 @@ const EvaluationMetricsPage = ({ srsData }) => {
       />
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-6 shadow-card">
+        <div className="lg:col-span-2 rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-4 sm:p-6 shadow-card">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-6 flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             Manual metrics
@@ -132,7 +132,7 @@ const EvaluationMetricsPage = ({ srsData }) => {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-6 shadow-card">
+          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-4 sm:p-6 shadow-card">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
               <Shield className="h-4 w-4" />
               Conflicts
@@ -152,7 +152,7 @@ const EvaluationMetricsPage = ({ srsData }) => {
             )}
           </div>
 
-          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-6 shadow-card">
+          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-4 sm:p-6 shadow-card">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               NFR specificity
@@ -164,7 +164,7 @@ const EvaluationMetricsPage = ({ srsData }) => {
             )}
           </div>
 
-          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-6 shadow-card">
+          <div className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated dark:bg-slate-900/80 dark:border-slate-700 p-4 sm:p-6 shadow-card">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
               <AlertTriangle className="h-4 w-4" />
               Professional style

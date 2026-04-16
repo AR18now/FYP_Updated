@@ -65,7 +65,7 @@ const SRSMetricsPage = ({ srsData }) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-fade-in px-1">
+    <div className="max-w-4xl mx-auto space-y-6 animate-fade-in px-1 sm:px-0">
       <header className="border-b border-slate-200 dark:border-slate-700 pb-4">
         <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Generated SRS</p>
         <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mt-1 flex items-center gap-2">
@@ -108,12 +108,12 @@ const SRSMetricsPage = ({ srsData }) => {
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-          <table className="w-full text-sm text-left">
+          <table className="min-w-[760px] md:min-w-full text-sm text-left">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80">
-                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200 w-[28%]">Metric</th>
-                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200 w-[10%]">Score</th>
-                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200 w-[14%]">Count</th>
+                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200">Metric</th>
+                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200">Score</th>
+                <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200">Count</th>
                 <th className="px-3 py-2 font-medium text-slate-700 dark:text-slate-200">What it means</th>
               </tr>
             </thead>

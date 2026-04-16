@@ -6,6 +6,7 @@ import RoleProtectedRoute from './components/RoleProtectedRoute';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import WelcomePage from './pages/WelcomePage';
+import IntroSplashPage from './pages/IntroSplashPage';
 import SRSViewer from './components/SRSViewer';
 import ResultsView from './components/ResultsView';
 import HistoryView from './components/HistoryView';
@@ -28,6 +29,7 @@ function App() {
   const [srsData, setSrsData] = useState(null);
   const [useCaseData, setUseCaseData] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showIntroSplash, setShowIntroSplash] = useState(true);
 
   useEffect(() => {
     document.title = 'Req2Design';
@@ -69,11 +71,19 @@ function App() {
     onLogout: handleLogout,
   };
 
+  const handleSplashComplete = () => {
+    setShowIntroSplash(false);
+  };
+
   return (
     <ErrorBoundary>
       <Router>
+        {showIntroSplash ? (
+          <IntroSplashPage onComplete={handleSplashComplete} />
+        ) : (
         <div className="min-h-screen">
           <Routes>
+            <Route path="/" element={<Navigate to="/start" replace />} />
             <Route path="/start" element={<WelcomePage />} />
             <Route path="/login/:role" element={<Login onLogin={handleLogin} />} />
             <Route path="/signup/:role" element={<Signup onSignup={handleSignup} />} />
@@ -199,6 +209,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
+        )}
       </Router>
     </ErrorBoundary>
   );

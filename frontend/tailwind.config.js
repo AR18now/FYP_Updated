@@ -18,13 +18,13 @@ module.exports = {
         },
         /** Req2Design enterprise palette */
         r2d: {
-          primary: '#0f2744',
-          primaryLight: '#163a5e',
-          primaryDark: '#0a1929',
-          accent: '#2563eb',
-          accentSoft: '#93c5fd',
-          accentMuted: '#dbeafe',
-          surface: '#f1f5f9',
+          primary: '#334155',
+          primaryLight: '#475569',
+          primaryDark: '#0f172a',
+          accent: '#4f46e5',
+          accentSoft: '#a5b4fc',
+          accentMuted: '#e0e7ff',
+          surface: '#f8fafc',
           surfaceElevated: '#ffffff',
           border: '#e2e8f0',
           success: '#16a34a',
@@ -36,9 +36,9 @@ module.exports = {
         },
       },
       boxShadow: {
-        card: '0 1px 3px 0 rgb(15 39 68 / 0.06), 0 4px 12px -2px rgb(15 39 68 / 0.08)',
-        'card-hover': '0 4px 20px -4px rgb(15 39 68 / 0.12), 0 8px 24px -6px rgb(15 39 68 / 0.1)',
-        nav: '0 4px 24px -4px rgba(15, 39, 68, 0.25)',
+        card: '0 1px 3px 0 rgb(51 65 85 / 0.08), 0 4px 12px -2px rgb(79 70 229 / 0.08)',
+        'card-hover': '0 4px 20px -4px rgb(51 65 85 / 0.14), 0 8px 24px -6px rgb(79 70 229 / 0.12)',
+        nav: '0 4px 24px -4px rgba(51, 65, 85, 0.28)',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',

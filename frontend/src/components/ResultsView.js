@@ -407,8 +407,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
   }
 
   return (
-    <div className="max-w-6xl mx-auto animate-fade-in" role="main" aria-labelledby="results-heading">
-      <div className="rounded-xl card-shadow p-6 md:p-8 border" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
+    <div className="max-w-6xl mx-auto animate-fade-in overflow-x-hidden" role="main" aria-labelledby="results-heading">
+      <div className="rounded-xl card-shadow p-4 sm:p-6 md:p-8 border overflow-x-hidden" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
         <div className="mb-8 space-y-4">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
@@ -448,7 +448,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                   <button
                     type="button"
                     onClick={() => setSrsActionsOpen((o) => !o)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-r2d-primary/40 bg-gradient-to-r from-r2d-primary to-r2d-accent text-white font-medium shadow-md hover:shadow-lg hover:from-r2d-primaryLight hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-r2d-primary/40 bg-gradient-to-r from-r2d-primary to-r2d-accent text-white font-medium shadow-md hover:shadow-lg hover:from-r2d-primaryLight hover:to-r2d-accent focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 transition-all"
                     aria-expanded={srsActionsOpen}
                     aria-haspopup="menu"
                     aria-controls="srs-actions-menu"
@@ -553,7 +553,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                           setSrsActionsOpen(false);
                         }}
                       >
-                        <UserCheck className="h-4 w-4 shrink-0 text-indigo-600" />
+                        <UserCheck className="h-4 w-4 shrink-0 text-r2d-primary" />
                         Expert review
                       </button>
                       <Link
@@ -600,10 +600,10 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
         </div>
 
         {/* Results Summary */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/40 p-6 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-shadow duration-200">
-            <h3 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Status</h3>
-            <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+          <div className="bg-gradient-to-br from-r2d-accentMuted/50 to-r2d-accentMuted dark:from-r2d-primary/30 dark:to-r2d-accent/25 p-6 rounded-lg border border-r2d-accent/30 dark:border-r2d-primary/50 hover:shadow-lg transition-shadow duration-200">
+            <h3 className="text-sm font-medium text-r2d-primary dark:text-r2d-accentSoft mb-2">Status</h3>
+            <p className="text-2xl md:text-3xl font-bold text-r2d-primaryLight dark:text-r2d-accentSoft">
               {results.status || 'Completed'}
             </p>
           </div>
@@ -613,7 +613,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
           </div>
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-violet-950/40 dark:to-purple-900/30 p-6 rounded-lg border border-purple-200 dark:border-violet-800 hover:shadow-lg transition-shadow duration-200">
             <h3 className="text-sm font-medium text-purple-900 dark:text-violet-200 mb-2">Timestamp</h3>
-            <p className="text-sm font-bold text-r2d-accent dark:text-blue-300">
+            <p className="text-sm font-bold text-r2d-accent dark:text-r2d-accentSoft">
               {results.timestamp ? new Date(results.timestamp).toLocaleString() : 'N/A'}
             </p>
           </div>
@@ -700,7 +700,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
               <button
                 onClick={generateUseCases}
                 disabled={isGeneratingUseCases}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto"
               >
                 {isGeneratingUseCases ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
                 <span>{isGeneratingUseCases ? 'Generating...' : 'Generate Use Cases'}</span>
@@ -710,14 +710,14 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             {useCaseData && (
               <div className="grid lg:grid-cols-2 gap-6">
                 <div className="rounded-lg border p-4" style={{ borderColor: 'var(--card-border)', background: 'var(--card)' }}>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                     <h4 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
                       <FileText className="h-4 w-4" />
                       Textual Use Cases
                     </h4>
                     <button
                       onClick={() => downloadText(`textual_usecases_${srsData?.document_id || 'srs'}.txt`, useCaseData?.textual_usecases?.text || '')}
-                      className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded"
+                      className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded w-full sm:w-auto"
                     >
                       Download .txt
                     </button>
@@ -727,20 +727,20 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                   </pre>
                   <button
                     onClick={() => navigate('/textual-usecases')}
-                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded"
+                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded w-full sm:w-auto"
                   >
                     Open Full Textual Use Cases Page
                   </button>
                 </div>
 
                 <div className="rounded-lg border p-4" style={{ borderColor: 'var(--card-border)', background: 'var(--card)' }}>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                     <h4 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
                       <Workflow className="h-4 w-4" />
                       Use Case Diagram
                     </h4>
-                    <div className="flex flex-wrap items-center gap-2 justify-end">
-                      <div className="flex rounded-md border overflow-hidden text-xs" style={{ borderColor: 'var(--card-border)' }}>
+                    <div className="flex flex-wrap items-center gap-2 justify-start sm:justify-end w-full sm:w-auto">
+                      <div className="flex rounded-md border overflow-hidden text-xs w-full sm:w-auto" style={{ borderColor: 'var(--card-border)' }}>
                         <button
                           type="button"
                           onClick={() => setUseCaseDiagramLayout('vertical')}
@@ -793,7 +793,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                             useCaseDiagramPuml || ''
                           )
                         }
-                        className="text-sm bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded flex items-center gap-1"
+                        className="text-sm bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded flex items-center justify-center gap-1 w-full sm:w-auto"
                       >
                         <FileCode className="h-3.5 w-3.5" />
                         .puml
@@ -810,7 +810,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                           link.parentNode.removeChild(link);
                         }}
                         disabled={!useCaseDiagramB64}
-                        className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded"
+                        className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded w-full sm:w-auto"
                       >
                         Download .png
                       </button>
@@ -837,7 +837,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                   )}
                   <button
                     onClick={() => navigate('/usecase-diagram')}
-                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded"
+                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded w-full sm:w-auto"
                   >
                     Open Full Diagram Page
                   </button>
@@ -851,22 +851,22 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
       {/* SRS Display Modal - Enhanced Aesthetics */}
       {showSRS && srsData && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in" 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-fade-in" 
           onClick={() => setShowSRS(false)}
         >
           <div 
-            className="bg-gradient-to-br from-white via-slate-50 to-r2d-accentMuted/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col border border-slate-200/50 dark:border-slate-600 animate-scale-in" 
+            className="bg-gradient-to-br from-white via-slate-50 to-r2d-accentMuted/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 rounded-2xl shadow-2xl w-full max-w-[min(96vw,72rem)] max-h-[96dvh] overflow-hidden flex flex-col border border-slate-200/50 dark:border-slate-600 animate-scale-in" 
             onClick={(e) => e.stopPropagation()}
           >
             {/* Enhanced Header */}
-            <div className="bg-gradient-to-r from-r2d-primary via-r2d-primaryLight to-r2d-accent p-6 text-white">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
+            <div className="bg-gradient-to-r from-r2d-primary via-r2d-primaryLight to-r2d-accent p-4 sm:p-6 text-white">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
                   <h3 className="text-2xl md:text-3xl font-bold mb-2 flex items-center space-x-3">
                     <FileText className="h-7 w-7" aria-hidden="true" />
-                    <span>{srsData.title || 'SRS Document'}</span>
+                    <span className="truncate">{srsData.title || 'SRS Document'}</span>
                   </h3>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-blue-100 mt-2">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-slate-200 mt-2">
                     <span className="flex items-center space-x-1">
                       <span className="font-semibold">ID:</span>
                       <span className="font-mono">{srsData.document_id}</span>
@@ -896,10 +896,10 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             </div>
 
             {/* Enhanced Content Area */}
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 md:p-8 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950">
               {srsData.raw_text ? (
                 <div className="prose prose-slate dark:prose-invert max-w-none">
-                  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-inner border border-slate-200 dark:border-slate-600 p-6 md:p-8">
+                  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-inner border border-slate-200 dark:border-slate-600 p-3 sm:p-6 md:p-8">
                     <div
                       className="srs-doc-root text-slate-800 dark:text-slate-200"
                       style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
@@ -924,39 +924,39 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             </div>
 
             {/* Enhanced Footer */}
-            <div className="bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 p-6 border-t border-slate-200 dark:border-slate-600 flex flex-col sm:flex-row justify-between items-center gap-3">
-              <div className="text-sm text-slate-600 dark:text-slate-400">
+            <div className="bg-gradient-to-r from-slate-50 to-r2d-accentMuted/35 dark:from-slate-800 dark:to-slate-900 p-4 sm:p-6 border-t border-slate-200 dark:border-slate-600 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div className="text-sm text-slate-600 dark:text-slate-400 w-full sm:w-auto">
                 <span className="font-medium">Document generated on:</span>{' '}
                 {srsData.date || new Date().toLocaleDateString()}
               </div>
-              <div className="flex gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => {
                     setShowSRS(false);
                     setShowEditor(true);
                   }}
-                  className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium"
+                  className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium w-full"
                 >
                   <Edit3 className="h-5 w-5" aria-hidden="true" />
                   <span>Edit SRS</span>
                 </button>
                 <button
                   onClick={downloadSRSDocument}
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium"
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium w-full"
                 >
                   <Download className="h-5 w-5" aria-hidden="true" />
                   <span>Download SRS</span>
                 </button>
                 <button
                   onClick={downloadSRSWord}
-                  className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-blue-700 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 font-medium"
+                  className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 font-medium w-full"
                 >
                   <Download className="h-5 w-5" aria-hidden="true" />
                   <span>Download .docx</span>
                 </button>
                 <button
                   onClick={() => setShowSRS(false)}
-                  className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 font-medium"
+                  className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 sm:px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 font-medium w-full"
                 >
                   Close
                 </button>

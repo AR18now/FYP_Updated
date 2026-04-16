@@ -79,17 +79,17 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
   }, [enforceLtrEditing, content]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div 
-        className={`rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col border ${isDark ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'}`}
+        className={`rounded-2xl shadow-2xl w-full max-w-[min(96vw,72rem)] max-h-[96dvh] overflow-hidden flex flex-col border ${isDark ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-r2d-primary via-r2d-primaryLight to-r2d-accent p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+        <div className="bg-gradient-to-r from-r2d-primary via-r2d-primaryLight to-r2d-accent p-4 sm:p-6 text-white">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center space-x-3 min-w-0">
               <Edit3 className="h-6 w-6" aria-hidden="true" />
-              <h3 className="text-2xl font-bold">Edit SRS Document</h3>
+              <h3 className="text-lg sm:text-2xl font-bold truncate">Edit SRS Document</h3>
             </div>
             <button
               onClick={onClose}
@@ -102,7 +102,7 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
         </div>
 
         {/* Toolbar */}
-        <div className={`border-b p-4 flex items-center gap-2 flex-wrap ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'}`}>
+        <div className={`border-b p-3 sm:p-4 flex items-center gap-2 flex-wrap ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'}`}>
           <button
             onClick={handleUndo}
             className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-slate-700 text-slate-200' : 'hover:bg-gray-200 text-gray-700'} disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -169,13 +169,13 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
         </div>
 
         {/* Editor */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6">
           <div
             ref={editorRef}
             contentEditable
             onInput={handleContentChange}
             onFocus={enforceLtrEditing}
-            className={`min-h-[400px] p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
+            className={`min-h-[55vh] sm:min-h-[400px] p-3 sm:p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
               isDark 
                 ? 'bg-slate-900 border-slate-700 text-slate-100' 
                 : 'bg-white border-gray-200 text-slate-900'
@@ -196,17 +196,17 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
         </div>
 
         {/* Footer */}
-        <div className={`border-t p-6 flex justify-end gap-3 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'}`}>
+        <div className={`border-t p-3 sm:p-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'}`}>
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg transition-colors"
+            className="w-full sm:w-auto px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg flex items-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>

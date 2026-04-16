@@ -26,6 +26,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   /** Live debounced hint while typing: instruction-hijack lookalikes (not for normal “alerts/notifications” reqs). */
   const [liveInjectionHint, setLiveInjectionHint] = useState(null);
   const [projectInfoErrors, setProjectInfoErrors] = useState([]);
+  const [projectInfoSubmitAttempted, setProjectInfoSubmitAttempted] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   /** Clarification / live copilot — off by default to keep the flow simple */
   const [optionalToolsOpen, setOptionalToolsOpen] = useState(false);
@@ -69,6 +70,59 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
   const charCount = useMemo(() => {
     return (textInput || '').length;
+  }, [textInput]);
+
+  const requirementGuidance = useMemo(() => {
+    const raw = String(textInput || '');
+    const cleanedLines = raw
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const requirementLines = cleanedLines.filter((line) => /[A-Za-z]/.test(line));
+    const allText = requirementLines.join(' ');
+
+    const vagueTermPattern = /\b(good|bad|better|worse|fast|quick|user-friendly|efficient|easy)\b/gi;
+    const vagueMatches = allText.match(vagueTermPattern) || [];
+    const uniqueVague = Array.from(new Set(vagueMatches.map((t) => t.toLowerCase())));
+
+    const hasActor = /\b(user|users|admin|administrator|system|customer|student|teacher|manager|operator|staff)\b/i.test(allText);
+    const hasActionVerb = /\b(create|update|delete|view|submit|approve|reject|search|generate|track|notify|send|export|login|upload|download|validate)\b/i.test(allText);
+    const hasMeasurableConstraint = /\b(\d+(\.\d+)?\s?(ms|s|sec|seconds|minutes|hours|days|%|percent|kb|mb|gb|users|requests))\b/i.test(allText);
+    const hasPriorityWord = /\b(must|shall|should|may|could)\b/i.test(allText);
+
+    const criteria = [
+      { label: 'Actor is clear (who)', pass: hasActor },
+      { label: 'Action is clear (what)', pass: hasActionVerb },
+      { label: 'Uses measurable constraint', pass: hasMeasurableConstraint },
+      { label: 'Uses requirement wording (must/shall/should)', pass: hasPriorityWord },
+      { label: 'No vague adjectives', pass: uniqueVague.length === 0 },
+    ];
+
+    const suggestions = [];
+    if (requirementLines.length > 0 && !hasActor) {
+      suggestions.push('Add a clear actor in each requirement, such as "User", "Admin", or "System".');
+    }
+    if (requirementLines.length > 0 && !hasActionVerb) {
+      suggestions.push('Use explicit action verbs like create, approve, search, or export.');
+    }
+    if (requirementLines.length > 0 && !hasMeasurableConstraint) {
+      suggestions.push('Add at least one measurable condition (for example response time, limit, or percentage).');
+    }
+    if (uniqueVague.length > 0) {
+      suggestions.push(`Replace vague terms (${uniqueVague.join(', ')}) with testable wording.`);
+    }
+    if (requirementLines.length >= 3) {
+      const veryShort = requirementLines.filter((line) => line.split(/\s+/).length < 5).length;
+      if (veryShort >= 2) {
+        suggestions.push('Some lines are too short to be testable. Expand each line with condition and expected behavior.');
+      }
+    }
+
+    return {
+      hasInput: requirementLines.length > 0,
+      criteria,
+      suggestions,
+    };
   }, [textInput]);
 
   const minWords = 50;
@@ -215,42 +269,71 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
   const templates = useMemo(() => [
     {
-      label: 'User Management',
-      text: 'The system should allow users to register, log in, reset passwords, and update profiles. Administrators can manage user roles, permissions, and view audit logs. The platform must ensure strong security, including session management, rate limiting, and multi-factor authentication. Notifications should be sent for critical actions and profile changes. The system must scale to handle peak usage and maintain availability, and provide basic audit trails for compliance reviews.'
+      label: 'Telemedicine Platform',
+      text: 'Patients should search doctors by specialty, language, and availability, then book virtual appointments with secure video sessions. Doctors need appointment calendars, clinical notes, e-prescription tools, and controlled access to patient history. The system must send reminders, support rescheduling and cancellations, and prevent double booking. Admins should manage provider profiles, consultation fees, and dispute workflows. The platform must enforce role-based access, encrypted records, and reliable session logs for medico-legal audit.'
     },
     {
-      label: 'E-commerce',
-      text: 'Users can browse products, search by keywords and filters, add items to cart, and checkout. Payments must be processed securely with receipts sent via email. Administrators can add, edit, and remove products, manage inventory, and review orders. The site should be responsive, accessible, and support promotional discounts and coupon codes. The system must handle returns, refunds, and out-of-stock items gracefully without losing user carts.'
+      label: 'Smart Parking System',
+      text: 'Drivers should view nearby parking lots in real time, check available slots, reserve spaces, and pay digitally before arrival. Gate operators need QR validation, manual override, and incident reporting for blocked or damaged spots. The platform must manage reservation expiry, grace periods, and dynamic pricing by demand windows. Administrators should monitor occupancy analytics, revenue summaries, and maintenance schedules. The system should send alerts for overstay cases and keep immutable parking transaction history for operations review.'
     },
     {
-      label: 'Analytics Dashboard',
-      text: 'The application provides interactive charts, filters, and export options for business KPIs. Users can create custom dashboards, schedule reports, and share insights with teams. Data must refresh periodically and maintain accuracy. Access control should restrict sensitive metrics to authorized roles. The system should support drill-down views, anomaly highlights, and notify owners if data sources fail or become stale.'
+      label: 'Warehouse Inventory',
+      text: 'Warehouse staff should receive stock, scan barcodes, move items between bins, and process dispatch requests with pick lists. Supervisors need dashboards for stock aging, reorder thresholds, and damaged goods tracking. The system must support batch and serial number tracking, low stock alerts, and cycle count reconciliation. Procurement users should create purchase orders from approved shortages and monitor supplier lead times. All inventory adjustments must be logged with user identity and reason codes for audit accuracy.'
     },
     {
-      label: 'Hospital Appointment',
-      text: 'Patients should be able to find doctors by specialty, book appointments, and get reminders. Doctors need to block unavailable slots, view daily schedules, and mark completed visits. The system must handle walk-ins, rescheduling, cancellations, and avoid double booking. Basic patient history should be visible during booking. The platform should send SMS/email reminders and maintain a minimal audit of booking changes for staff.'
+      label: 'Online Exam Proctoring',
+      text: 'Students should authenticate, join exam sessions, and submit answers within the configured exam window. Invigilators need live candidate monitoring, suspicious activity flags, and evidence snapshots for review. The system must enforce exam rules like browser lockdown, timed sections, and auto-save recovery on connection loss. Academic admins should configure exam templates, grading schemes, and exception approvals for special cases. Final results should publish only after integrity checks and moderation workflows are completed.'
     },
     {
-      label: 'Food Delivery',
-      text: 'Customers can browse restaurants, customize orders, schedule deliveries, and track riders live. Restaurants receive orders, confirm preparation time, and mark orders ready. Drivers accept delivery tasks, navigate optimized routes, and report incidents. The system must retry failed payments and handle order substitutions. Users should get status notifications, and restaurants need a simple way to pause orders during rush hours or outages.'
+      label: 'Construction Project Tracker',
+      text: 'Project managers should create project plans, define milestones, assign teams, and track daily progress by site and contractor. Field engineers need mobile task updates, image uploads, and issue logs mapped to floor plans. The system must compare planned versus actual timelines, raise delay alerts, and capture change request approvals. Finance users should monitor budget burn, invoice verification, and procurement status. The platform should generate weekly progress reports with risk summaries and action owners.'
     },
     {
-      label: 'Learning Management',
-      text: 'Instructors can create courses, upload videos, add quizzes, and set grading rules. Learners enroll, track progress, take timed quizzes, and download certificates. The platform should support cohorts, discussion threads, announcements, and basic plagiarism checks for assignments. The system must handle assignment deadlines, late submissions with penalties, and allow instructors to export grades and feedback.'
+      label: 'Restaurant Management',
+      text: 'Front desk staff should manage table reservations, walk-in queues, and seating plans based on party size and availability. Waiters need digital order capture, kitchen routing, and bill split support for groups. Kitchen staff should receive prioritized tickets and mark preparation stages in real time. The system must handle out-of-stock menu items, discount rules, and void authorization by managers. Owners should view sales analytics, peak hour utilization, and customer feedback trends for service improvements.'
     },
     {
-      label: 'Facilities Maintenance',
-      text: 'Staff should log issues (HVAC, electrical, plumbing) with photos and priority. Managers assign tickets to technicians based on skill and availability. Technicians update status, add parts used, and record time spent. The system must send escalations for overdue tickets and produce weekly SLA reports. A simple mobile view is needed for technicians, and tickets should capture location and contact details for the requesting employee.'
+      label: 'Insurance Claim Processing',
+      text: 'Policy holders should submit claims with incident details, supporting documents, and bank information for reimbursement. Claim officers need case assignment, verification checklists, and fraud indicators before decision making. The platform must integrate policy validation, deductible computation, and approval workflows with escalation paths. Supervisors should review pending workloads, turnaround times, and rejection causes by product category. Customers must receive status notifications at each claim stage and downloadable settlement statements on closure.'
     },
     {
-      label: 'Banking Onboarding',
-      text: 'New customers submit KYC documents, perform liveness checks, and e-sign agreements. Compliance officers review flagged applications, request clarifications, and approve or reject. The system integrates with credit bureaus and must log every decision for audits. Users need status updates and secure in-app messaging. The flow should support retries for failed uploads and allow applicants to pick up where they left off.'
+      label: 'Public Transport Ticketing',
+      text: 'Passengers should plan routes, buy single or monthly passes, and validate tickets through QR or NFC at entry points. Conductors need offline validation capability and sync logs once connectivity is restored. The system must handle fare zones, concession categories, and penalty calculations for invalid travel. Operations teams should monitor route usage, peak traffic trends, and device health across stations. Refund workflows should support service cancellation scenarios with transparent policy-based calculations.'
     },
     {
-      label: 'Travel Booking',
-      text: 'Users search multi-city itineraries, compare fares, and filter by baggage and refund policies. They can reserve seats, add insurance, and receive e-tickets. The system must handle voucher redemptions, fare changes, and alternative options when inventory expires during checkout. The platform should offer trip reminders, simple changes/cancellations, and store passenger profiles for faster bookings.'
+      label: 'Freelance Marketplace',
+      text: 'Clients should post projects, shortlist proposals, negotiate milestones, and release payments based on approved deliverables. Freelancers need profile portfolios, bid management, and secure messaging for project clarification. The platform must support escrow holding, dispute handling, and deadline reminders for both parties. Admin teams should monitor trust signals, policy violations, and account verification status. Ratings and review workflows must prevent abuse and allow evidence-backed moderation for disputed feedback.'
+    },
+    {
+      label: 'Digital Library System',
+      text: 'Readers should search books by title, author, subject, and availability, then borrow physical or digital copies according to membership rules. Librarians need catalog management, issue and return workflows, and overdue fine controls. The system must support reservation queues, renewal limits, and damaged book reporting with replacement tracking. Administrators should manage memberships, borrowing policies, and analytics on category demand. Automated reminders should notify users for due dates, expirations, and hold availability updates.'
+    },
+    {
+      label: 'Event Management Portal',
+      text: 'Organizers should create events, manage ticket tiers, configure seating maps, and publish schedules with speaker details. Attendees need registration, secure payment, QR ticket download, and personalized agenda views. The system must handle capacity limits, waitlists, promo codes, and cancellation refunds under event policy rules. Venue staff should validate entry, track check-ins, and report onsite issues in real time. Post-event analytics must include attendance, revenue, engagement metrics, and sponsor visibility reports.'
+    },
+    {
+      label: 'Agriculture Advisory App',
+      text: 'Farmers should register land profiles, crop cycles, and receive localized advisories for irrigation, fertilization, and pest risks. Field officers need farmer visit logs, recommendation history, and follow-up reminders by village cluster. The platform must integrate weather forecasts, soil data, and seasonal alerts to suggest actionable interventions. Administrators should monitor advisory adoption rates, crop outcomes, and unresolved support requests. The system should support multilingual content, offline data capture, and later synchronization in low-connectivity areas.'
     }
   ], []);
+
+  const applyQuickTemplate = useCallback((templateText) => {
+    const cleanedTemplate = String(templateText || '').trim();
+    if (!cleanedTemplate) return;
+
+    // Preserve user-authored text and append template as an additional draft block.
+    const existing = String(textInput || '').trim();
+    const mergedText = existing
+      ? `${existing}\n\n---\nTemplate reference:\n${cleanedTemplate}`
+      : cleanedTemplate;
+
+    setTextInput(mergedText);
+    setClarification(null);
+    setError(null);
+    setValidationErrors([]);
+    setLiveInjectionHint(null);
+  }, [textInput]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -582,6 +665,129 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     return errors;
   }, []);
 
+  const getTextRepetitionMetrics = useCallback((text) => {
+    const raw = String(text || '');
+    const sentenceParts = raw
+      .split(/[.!?\n]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const normalizeSentence = (s) =>
+      s
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const meaningful = sentenceParts
+      .map(normalizeSentence)
+      .filter((s) => s && s.split(' ').filter(Boolean).length >= 4);
+
+    const canonicalSeq = meaningful.join(' || ');
+    const counts = new Map();
+    for (const sentence of meaningful) {
+      counts.set(sentence, (counts.get(sentence) || 0) + 1);
+    }
+
+    let repeatedInstances = 0;
+    let maxSentenceRepeat = 0;
+    for (const count of counts.values()) {
+      if (count > 1) repeatedInstances += count;
+      if (count > maxSentenceRepeat) maxSentenceRepeat = count;
+    }
+    const repeatedSentenceRatio = meaningful.length > 0 ? repeatedInstances / meaningful.length : 0;
+
+    let repeatedPairBlockRatio = 0;
+    if (meaningful.length >= 4) {
+      const pairCounts = new Map();
+      for (let i = 0; i < meaningful.length - 1; i += 1) {
+        const key = `${meaningful[i]} || ${meaningful[i + 1]}`;
+        pairCounts.set(key, (pairCounts.get(key) || 0) + 1);
+      }
+      let repeatedPairInstances = 0;
+      for (const count of pairCounts.values()) {
+        if (count > 1) repeatedPairInstances += count;
+      }
+      repeatedPairBlockRatio = (meaningful.length - 1) > 0 ? repeatedPairInstances / (meaningful.length - 1) : 0;
+    }
+
+    // Detect alternating two-sentence loops: A,B,A,B,... or B,A,B,A,...
+    let alternatingTwoStatementRatio = 0;
+    if (meaningful.length >= 6) {
+      let alternatingMatches = 0;
+      const comparisons = meaningful.length - 2;
+      for (let i = 2; i < meaningful.length; i += 1) {
+        if (meaningful[i] === meaningful[i - 2]) alternatingMatches += 1;
+      }
+      alternatingTwoStatementRatio = comparisons > 0 ? alternatingMatches / comparisons : 0;
+    }
+
+    const words = raw
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 3);
+    const uniqueWordRatio = words.length > 0 ? new Set(words).size / words.length : 1;
+
+    return {
+      meaningfulSentenceCount: meaningful.length,
+      repeatedSentenceRatio,
+      repeatedPairBlockRatio,
+      alternatingTwoStatementRatio,
+      maxSentenceRepeat,
+      uniqueWordRatio,
+    };
+  }, []);
+
+  const getTextNoiseMetrics = useCallback((text) => {
+    const raw = String(text || '');
+    const tokens = raw.split(/\s+/).map((t) => t.trim()).filter(Boolean);
+    if (tokens.length === 0) {
+      return {
+        tokenCount: 0,
+        alphaTokenRatio: 0,
+        readableWordRatio: 0,
+        noisyTokenRatio: 0,
+        severeNoiseRuns: 0,
+      };
+    }
+
+    let alphaTokens = 0;
+    let readableWordTokens = 0;
+    let noisyTokens = 0;
+
+    for (const token of tokens) {
+      const hasAlpha = /[A-Za-z]/.test(token);
+      const hasDigit = /\d/.test(token);
+      const symbolCount = (token.match(/[^A-Za-z0-9]/g) || []).length;
+      const alphaOnly = token.replace(/[^A-Za-z]/g, '');
+      const hasVowel = /[aeiouAEIOU]/.test(alphaOnly);
+      const compact = token.replace(/\s+/g, '');
+      const punctuationDensity = compact.length > 0 ? symbolCount / compact.length : 0;
+
+      if (hasAlpha) alphaTokens += 1;
+      if (/^[A-Za-z]+(?:'[A-Za-z]+)?$/.test(token) && token.length >= 2) readableWordTokens += 1;
+
+      const looksLikeNoise =
+        (hasAlpha && !hasVowel && alphaOnly.length >= 6) ||
+        punctuationDensity >= 0.3 ||
+        /([A-Za-z0-9])\1{3,}/.test(token) ||
+        (hasAlpha && hasDigit && symbolCount > 0) ||
+        (hasAlpha && symbolCount >= 2);
+      if (looksLikeNoise) noisyTokens += 1;
+    }
+
+    const severeNoiseRuns = (raw.match(/[A-Za-z0-9@#$%^&*_=+|~`<>./\\-]{20,}/g) || []).length;
+
+    return {
+      tokenCount: tokens.length,
+      alphaTokenRatio: alphaTokens / tokens.length,
+      readableWordRatio: readableWordTokens / tokens.length,
+      noisyTokenRatio: noisyTokens / tokens.length,
+      severeNoiseRuns,
+    };
+  }, []);
+
   // Project info validation
   const validateProjectInfo = useCallback(() => {
     const errors = [];
@@ -603,10 +809,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     return errors;
   }, [projectInfo]);
 
-  // Live-validate project info for immediate feedback
+  // Re-validate project info only after the user has attempted submission.
   useEffect(() => {
+    if (!projectInfoSubmitAttempted) return;
     setProjectInfoErrors(validateProjectInfo());
-  }, [projectInfo, validateProjectInfo]);
+  }, [projectInfo, validateProjectInfo, projectInfoSubmitAttempted]);
 
   // Debounced: warn while typing if text resembles hijacks (critical blocks submit; caution is advisory only).
   useEffect(() => {
@@ -676,9 +883,64 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       errors.push('Text must include at least one alphabetic character (A-Z)');
     }
 
+    // Detect gibberish/noisy mixed input (letters+digits+symbols without readable requirement text).
+    const noise = getTextNoiseMetrics(inputText);
+    const isLikelyGibberish =
+      words.length >= 12 && (
+        noise.alphaTokenRatio < 0.55 ||
+        noise.readableWordRatio < 0.4 ||
+        noise.noisyTokenRatio > 0.35 ||
+        noise.severeNoiseRuns >= 2
+      );
+    const isSevereNoise =
+      words.length >= minWords &&
+      (noise.readableWordRatio < 0.3 || noise.noisyTokenRatio > 0.45 || noise.severeNoiseRuns >= 3);
+    if (isLikelyGibberish || isSevereNoise) {
+      errors.push(
+        'Input quality is too low: text looks like random letters/numbers/symbols instead of clear English requirements. Please write meaningful requirement sentences.'
+      );
+    } else if (
+      words.length >= 12 &&
+      (noise.readableWordRatio < 0.55 || noise.noisyTokenRatio > 0.22 || noise.severeNoiseRuns >= 1)
+    ) {
+      warnings.push(
+        'Input contains many noisy tokens. Replace random or symbolic text with clear requirement statements.'
+      );
+    }
+
     // Check length
     if (inputText.length > maxChars) {
       warnings.push(`Input is very long (${inputText.length} characters). It will be truncated to ${maxChars} characters.`);
+    }
+
+    // Detect repeated/looped content that only inflates the word count.
+    const repetition = getTextRepetitionMetrics(inputText);
+    const isHighSentenceDuplication =
+      repetition.meaningfulSentenceCount >= 4 &&
+      (repetition.repeatedSentenceRatio >= 0.6 || repetition.maxSentenceRepeat >= 4);
+    const isRepeatedTwoStatementLoop =
+      repetition.meaningfulSentenceCount >= 6 &&
+      (repetition.repeatedPairBlockRatio >= 0.5 || repetition.alternatingTwoStatementRatio >= 0.65);
+    const isVeryLowLexicalVariety =
+      words.length >= minWords &&
+      repetition.uniqueWordRatio <= 0.28 &&
+      repetition.maxSentenceRepeat >= 3;
+    if (isHighSentenceDuplication || isRepeatedTwoStatementLoop || isVeryLowLexicalVariety) {
+      errors.push(
+        'Input appears highly repetitive (same statement repeated many times). Please add distinct requirements instead of duplicating lines to reach the word limit.'
+      );
+    } else if (
+      repetition.meaningfulSentenceCount >= 4 &&
+      (
+        repetition.repeatedSentenceRatio >= 0.45 ||
+        repetition.maxSentenceRepeat >= 3 ||
+        repetition.repeatedPairBlockRatio >= 0.35 ||
+        repetition.alternatingTwoStatementRatio >= 0.5
+      )
+    ) {
+      warnings.push(
+        'Your text contains significant repetition. Add more unique requirement details for better SRS quality.'
+      );
     }
 
     // Check for code blocks (warning, not error)
@@ -691,7 +953,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       errors,
       warnings
     };
-  }, [detectPromptInjection, minWords, maxChars]);
+  }, [detectPromptInjection, minWords, maxChars, getTextRepetitionMetrics, getTextNoiseMetrics]);
 
   const runClarification = useCallback(async () => {
     if (!textInput.trim()) {
@@ -766,6 +1028,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setLastSRSAvailable(false);
     setError(null);
     setValidationErrors([]);
+    setProjectInfoSubmitAttempted(true);
+
+    const currentProjectErrors = validateProjectInfo();
+    if (currentProjectErrors.length > 0) {
+      setProjectInfoErrors(currentProjectErrors);
+      setError('Please fix project information errors before processing');
+      setIsGeneratingDirectSRS(false);
+      return;
+    }
 
     try {
       let extension = 'webm';
@@ -795,7 +1066,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     } finally {
       setIsGeneratingDirectSRS(false);
     }
-  }, [backendReady, inputType, audioBlob, projectInfo, onSRSGenerated, setCurrentResults]);
+  }, [backendReady, inputType, audioBlob, projectInfo, onSRSGenerated, setCurrentResults, validateProjectInfo]);
 
   // Direct SRS generation from uploaded file (txt/pdf)
   const generateSRSFromFileDirect = useCallback(async () => {
@@ -818,6 +1089,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setLastSRSAvailable(false);
     setError(null);
     setValidationErrors([]);
+    setProjectInfoSubmitAttempted(true);
+
+    const currentProjectErrors = validateProjectInfo();
+    if (currentProjectErrors.length > 0) {
+      setProjectInfoErrors(currentProjectErrors);
+      setError('Please fix project information errors before processing');
+      setIsGeneratingDirectSRS(false);
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -842,7 +1122,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     } finally {
       setIsGeneratingDirectSRS(false);
     }
-  }, [backendReady, uploadedFiles, projectInfo, onSRSGenerated, setCurrentResults]);
+  }, [backendReady, uploadedFiles, projectInfo, onSRSGenerated, setCurrentResults, validateProjectInfo]);
 
   const processRequirements = useCallback(async () => {
     if (!backendReady) {
@@ -853,6 +1133,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setLastSRSAvailable(false);
     setError(null);
     setValidationErrors([]);
+    setProjectInfoSubmitAttempted(true);
 
     const currentProjectErrors = validateProjectInfo();
     if (currentProjectErrors.length > 0) {
@@ -1072,18 +1353,17 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setIsProcessing(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     }
-  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
     if (!backendReady) return false;
-    if (projectInfoErrors.length > 0) return false;
     if (inputType === 'text' && (!textInput.trim() || validationErrors.length > 0)) return false;
     if (inputType === 'text' && liveInjectionHint?.level === 'critical') return false;
     if (inputType === 'audio' && !audioBlob) return false;
     if (inputType === 'file' && uploadedFiles.length === 0) return false;
     return true;
-  }, [isProcessing, backendReady, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles, projectInfoErrors]);
+  }, [isProcessing, backendReady, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles]);
 
   return (
     <div className="relative max-w-5xl mx-auto animate-fade-in" role="main" aria-labelledby="input-heading">
@@ -1117,7 +1397,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   Project Title
                 </label>
                 {(() => {
-                  const titleError = projectInfoErrors.find(e => e.toLowerCase().includes('project title'));
+                  const titleError = projectInfoSubmitAttempted
+                    ? projectInfoErrors.find(e => e.toLowerCase().includes('project title'))
+                    : null;
                   return (
                     <>
                 <input
@@ -1150,7 +1432,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   Author
                 </label>
                 {(() => {
-                  const authorError = projectInfoErrors.find(e => e.toLowerCase().includes('author'));
+                  const authorError = projectInfoSubmitAttempted
+                    ? projectInfoErrors.find(e => e.toLowerCase().includes('author'))
+                    : null;
                   return (
                     <>
                 <input
@@ -1325,16 +1609,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                       <button
                         key={t.label}
                         type="button"
-                        onClick={() => {
-                          setTextInput(t.text);
-                          setError(null);
-                          setValidationErrors([]);
-                          setLiveInjectionHint(null);
-                        }}
+                        onClick={() => applyQuickTemplate(t.text)}
                         className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
                           isDark 
-                            ? 'bg-slate-900 text-slate-200 border-slate-700 hover:border-sky-400 hover:bg-slate-800'
-                            : 'bg-white text-slate-700 border-slate-200 hover:border-sky-400 hover:bg-sky-50'
+                            ? 'bg-slate-900 text-slate-200 border-slate-700 hover:border-r2d-accent hover:bg-slate-800'
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-r2d-accent hover:bg-r2d-accentMuted/35'
                         }`}
                         aria-label={`Use ${t.label} template`}
                       >
@@ -1344,8 +1623,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   </div>
 
                   {showHelp && (
-                    <div id="help-text" className={`mt-3 p-3 rounded-lg text-xs animate-slide-up border ${isDark ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-sky-50 border-sky-100 text-sky-800'}`}>
-                      Aim for clear, complete sentences. Mention actors (users/admins), actions, constraints (security/performance), and any integrations. Avoid ambiguous terms like "fast" or "user-friendly" without specifics.
+                    <div id="help-text" className={`mt-3 p-3 rounded-lg text-xs animate-slide-up border ${isDark ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-r2d-accentMuted/45 border-r2d-accentMuted text-r2d-primary'}`}>
+                      Templates are appended to your current text (they do not replace it). Aim for clear, complete sentences. Mention actors (users/admins), actions, constraints (security/performance), and any integrations. Avoid ambiguous terms like "fast" or "user-friendly" without specifics.
                     </div>
                   )}
                 </div>
@@ -1369,21 +1648,21 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 <div className={`mt-3 p-4 rounded-xl border ${isDark ? 'bg-slate-800/90 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
                   <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                     <div className="flex gap-3">
-                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${isDark ? 'bg-r2d-primary/40 text-blue-200' : 'bg-r2d-accentMuted text-r2d-primary'}`}>
+                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${isDark ? 'bg-r2d-primary/40 text-r2d-accentSoft' : 'bg-r2d-accentMuted text-r2d-primary'}`}>
                         <Sparkles className="h-5 w-5" aria-hidden="true" />
                       </div>
                       <div>
-                        <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDark ? 'text-slate-100' : 'text-indigo-950'}`}>
+                        <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDark ? 'text-slate-100' : 'text-r2d-primary'}`}>
                           Optional wording tools
                         </h4>
-                        <p className={`text-xs mt-1 max-w-xl ${isDark ? 'text-slate-300' : 'text-indigo-900/80'}`}>
+                        <p className={`text-xs mt-1 max-w-xl ${isDark ? 'text-slate-300' : 'text-r2d-primary/80'}`}>
                           Load suggestions or run full analysis only when you want. Processing does not require this.
                         </p>
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 shrink-0">
                       {isCopilotLoading && (
-                        <span className={`text-xs inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg ${isDark ? 'bg-slate-900 text-cyan-300' : 'bg-white text-cyan-800 border border-cyan-200'}`}>
+                        <span className={`text-xs inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg ${isDark ? 'bg-slate-900 text-r2d-accentSoft' : 'bg-white text-r2d-primary border border-r2d-accent/30'}`}>
                           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
                           Loading…
                         </span>
@@ -1410,8 +1689,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
                   {/* Live suggestions (loaded on demand) */}
                   {copilotData?.copilot && (
-                    <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'border-slate-600 bg-slate-900/50' : 'border-cyan-200/80 bg-white/80'}`}>
-                      <p className={`text-[11px] font-semibold uppercase tracking-wide mb-2 ${isDark ? 'text-cyan-300' : 'text-cyan-800'}`}>
+                    <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'border-slate-600 bg-slate-900/50' : 'border-r2d-accent/30 bg-white/80'}`}>
+                      <p className={`text-[11px] font-semibold uppercase tracking-wide mb-2 ${isDark ? 'text-r2d-accentSoft' : 'text-r2d-primary'}`}>
                         Live guidance
                       </p>
                       <div className="space-y-3">
@@ -1473,7 +1752,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                                   <button
                                     type="button"
                                     onClick={() => alert(`Why this suggestion?\n\n${s.reason || 'No reason provided.'}`)}
-                                    className="text-xs px-2.5 py-1 rounded bg-cyan-600 hover:bg-cyan-700 text-white"
+                                    className="text-xs px-2.5 py-1 rounded bg-r2d-accent hover:bg-r2d-primaryLight text-white"
                                   >
                                     Why this?
                                   </button>
@@ -1488,11 +1767,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
                   {/* Full analysis layer */}
                   {clarification && (
-                    <div className={`mt-4 space-y-4 ${copilotData?.copilot ? `pt-4 border-t ${isDark ? 'border-slate-600' : 'border-indigo-200'}` : ''}`}>
-                      <p className={`text-[11px] font-semibold uppercase tracking-wide ${isDark ? 'text-indigo-300' : 'text-indigo-800'}`}>
+                    <div className={`mt-4 space-y-4 ${copilotData?.copilot ? `pt-4 border-t ${isDark ? 'border-slate-600' : 'border-r2d-accent/30'}` : ''}`}>
+                      <p className={`text-[11px] font-semibold uppercase tracking-wide ${isDark ? 'text-r2d-accentSoft' : 'text-r2d-primary'}`}>
                         Full analysis
                       </p>
-                      <div className={`text-xs p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-indigo-200 text-indigo-900'}`}>
+                      <div className={`text-xs p-3 rounded border ${isDark ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-r2d-accent/30 text-r2d-primary'}`}>
                         <div className="flex flex-wrap gap-4">
                           <span><strong>Score:</strong> {Math.round((clarification.clarification_score || 0) * 100)}%</span>
                           <span><strong>Warning:</strong> {clarification.warning_level || 'low'}</span>
@@ -1602,6 +1881,36 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                     ))}
                   </div>
                 )}
+
+                {requirementGuidance.hasInput && (
+                  <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                    <p className={`text-sm font-semibold ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
+                      Requirement recommendations
+                    </p>
+                    <ul className="mt-2 space-y-1.5">
+                      {requirementGuidance.criteria.map((item, index) => (
+                        <li
+                          key={`criterion-${index}`}
+                          className={`text-xs ${item.pass ? (isDark ? 'text-emerald-300' : 'text-emerald-700') : (isDark ? 'text-amber-300' : 'text-amber-700')}`}
+                        >
+                          {item.pass ? 'PASS' : 'NEEDS WORK'}: {item.label}
+                        </li>
+                      ))}
+                    </ul>
+                    {requirementGuidance.suggestions.length > 0 && (
+                      <div className="mt-3">
+                        <p className={`text-xs font-semibold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>Suggested improvements</p>
+                        <ul className="mt-1 space-y-1">
+                          {requirementGuidance.suggestions.map((tip, index) => (
+                            <li key={`tip-${index}`} className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                              - {tip}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
@@ -1666,7 +1975,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                     
                     {/* Live Transcription Display (visible during and after recording) */}
                     {(isRecording || liveTranscription) && (
-                      <div className={`mt-6 p-4 rounded-lg border-2 ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-white border-blue-200'}`}>
+                      <div className={`mt-6 p-4 rounded-lg border-2 ${isDark ? 'bg-slate-800 border-slate-600' : 'bg-white border-r2d-accent/30'}`}>
                         <div className="flex items-center justify-between mb-2">
                           <label className={`text-sm font-semibold flex items-center space-x-2 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
                             <Sparkles className={`h-4 w-4 ${isTranscribing ? 'animate-pulse text-r2d-accent' : (isDark ? 'text-slate-500' : 'text-slate-400')}`} aria-hidden="true" />
@@ -1857,7 +2166,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               <button
                 onClick={generateSRSFromAudioDirect}
                 disabled={isGeneratingDirectSRS}
-                className="mt-4 bg-r2d-accent hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
+                className="mt-4 bg-r2d-accent hover:bg-r2d-primaryLight text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
                 aria-label="Generate SRS directly from audio"
                 aria-busy={isGeneratingDirectSRS}
               >

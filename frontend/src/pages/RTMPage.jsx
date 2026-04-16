@@ -57,7 +57,7 @@ const RTMPage = ({ srsData, useCaseData }) => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-6">
+      <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-4 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-r2d-primary dark:text-slate-100">Requirements Traceability Matrix</h1>
@@ -69,7 +69,7 @@ const RTMPage = ({ srsData, useCaseData }) => {
             type="button"
             onClick={runAnalysis}
             disabled={!canAnalyze || loading}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white text-sm"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white text-sm w-full sm:w-auto"
           >
             {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <GitCompareArrows className="h-4 w-4" />}
             {loading ? 'Analyzing...' : 'Run RTM Analysis'}
@@ -103,10 +103,10 @@ const RTMPage = ({ srsData, useCaseData }) => {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-4">
+          <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-3 sm:p-4">
             <h2 className="text-lg font-semibold text-r2d-primary dark:text-slate-100 mb-3">RTM Table</h2>
             <div className="overflow-auto">
-              <table className="min-w-full text-sm">
+              <table className="min-w-[860px] md:min-w-full text-sm">
                 <thead>
                   <tr className="text-left border-b border-slate-200 dark:border-slate-700">
                     <th className="py-2 pr-3">Req ID</th>
@@ -125,11 +125,11 @@ const RTMPage = ({ srsData, useCaseData }) => {
                       <td className="py-2 pr-3 font-mono text-xs">{r.req_id}</td>
                       <td className="py-2 pr-3">{r.type}</td>
                       <td className="py-2 pr-3 max-w-[340px]">
-                        <p className="line-clamp-3">{r.requirement}</p>
-                        <p className="text-xs text-slate-500 mt-1">{r.notes}</p>
+                        <p className="line-clamp-3 break-words">{r.requirement}</p>
+                        <p className="text-xs text-slate-500 mt-1 break-words">{r.notes}</p>
                       </td>
-                      <td className="py-2 pr-3 text-xs">{(r.textual_usecases || []).join(', ') || '—'}</td>
-                      <td className="py-2 pr-3 text-xs">{(r.diagram_usecases || []).join(', ') || '—'}</td>
+                      <td className="py-2 pr-3 text-xs whitespace-normal break-words">{(r.textual_usecase_names || []).join(', ') || '—'}</td>
+                      <td className="py-2 pr-3 text-xs whitespace-normal break-words">{(r.diagram_usecase_names || []).join(', ') || '—'}</td>
                       <td className="py-2 pr-3">
                         <span className={`inline-flex px-2 py-0.5 rounded border text-xs ${badgeClass(r.coverage_status)}`}>{r.coverage_status}</span>
                       </td>
@@ -151,7 +151,7 @@ const RTMPage = ({ srsData, useCaseData }) => {
               <p className="text-sm font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" /> Orphan Use Cases
               </p>
-              <p className="text-xs mt-2 text-amber-800 dark:text-amber-200">
+              <p className="text-xs mt-2 text-amber-800 dark:text-amber-200 break-words">
                 Textual: {(summary.orphan_textual_usecases || []).join(', ') || 'None'} | Diagram: {(summary.orphan_diagram_usecases || []).join(', ') || 'None'}
               </p>
             </section>

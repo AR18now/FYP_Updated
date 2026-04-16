@@ -66,17 +66,17 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
 
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">
-      <div className="bg-white dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-6 md:p-8">
+      <div className="bg-white dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 sm:p-5 md:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-slate-100">
             <FileText className="h-6 w-6" />
             Textual Use Cases
           </h2>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <button
               onClick={generateUseCases}
               disabled={isLoading}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
               {isLoading ? 'Generating...' : 'Generate / Refresh'}
@@ -85,7 +85,7 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               type="button"
               onClick={downloadPdf}
               disabled={!useCaseData?.textual_usecases?.text}
-              className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <Download className="h-4 w-4" />
               Download PDF
@@ -93,7 +93,7 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           </div>
         </div>
 
-        <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-6 bg-slate-50 dark:bg-slate-950/50 min-h-[70vh] overflow-auto">
+        <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-3 sm:p-4 md:p-6 bg-slate-50 dark:bg-slate-950/50 min-h-[50vh] sm:min-h-[62vh] lg:min-h-[70vh] overflow-auto">
           <div dangerouslySetInnerHTML={{ __html: textualHtml }} />
         </div>
       </div>

@@ -101,7 +101,7 @@ const Login = ({ onLogin }) => {
         <section
           className={`hidden lg:flex flex-col justify-between p-10 text-white ${
             isExpert
-              ? 'bg-gradient-to-br from-indigo-900 via-violet-800 to-slate-900'
+              ? 'bg-gradient-to-br from-r2d-primaryDark via-r2d-primary to-slate-900'
               : 'bg-gradient-to-br from-r2d-primary via-r2d-primaryLight to-r2d-accent'
           }`}
         >
@@ -111,15 +111,15 @@ const Login = ({ onLogin }) => {
               {hero.badge}
             </div>
             <h2 className="mt-6 text-3xl font-bold leading-tight">{hero.title}</h2>
-            <p className="mt-3 text-blue-100/90 text-sm leading-relaxed">{hero.body}</p>
+            <p className="mt-3 text-slate-100/90 text-sm leading-relaxed">{hero.body}</p>
           </div>
           <div className="space-y-3 text-sm">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-blue-100" />
+              <ShieldCheck className="h-4 w-4 text-slate-100" />
               Secure local session handling
             </div>
             <div className="flex items-center gap-2">
-              <ArrowRight className="h-4 w-4 text-blue-100" />
+              <ArrowRight className="h-4 w-4 text-slate-100" />
               Resume exactly where you left off
             </div>
           </div>
@@ -130,7 +130,7 @@ const Login = ({ onLogin }) => {
             <div className="flex justify-center mb-4 lg:hidden">
               <div
                 className={`inline-flex items-center justify-center rounded-2xl p-4 text-white shadow-lg ${
-                  isExpert ? 'bg-gradient-to-br from-indigo-800 to-violet-700' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
+                  isExpert ? 'bg-gradient-to-br from-r2d-primary to-r2d-accent' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
                 }`}
               >
                 <hero.Icon className="h-7 w-7" aria-hidden="true" />
@@ -213,7 +213,7 @@ const Login = ({ onLogin }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
+                className="w-full bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent disabled:from-gray-400 disabled:to-gray-400 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
               >
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </button>

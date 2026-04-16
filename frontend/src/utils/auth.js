@@ -16,6 +16,32 @@ export const ROLES = {
 
 const normalizeRole = (r) => (r === ROLES.EXPERT ? ROLES.EXPERT : ROLES.USER);
 
+export const PASSWORD_POLICY = {
+  minLength: 8,
+  requireUppercase: true,
+  requireLowercase: true,
+  requireNumber: true,
+  requireSpecial: true,
+};
+
+export const validatePasswordPolicy = (password) => {
+  const p = String(password || '');
+  const checks = {
+    minLength: p.length >= PASSWORD_POLICY.minLength,
+    uppercase: /[A-Z]/.test(p),
+    lowercase: /[a-z]/.test(p),
+    number: /\d/.test(p),
+    special: /[^A-Za-z0-9]/.test(p),
+  };
+  const errors = [];
+  if (!checks.minLength) errors.push(`Password must be at least ${PASSWORD_POLICY.minLength} characters.`);
+  if (!checks.uppercase) errors.push('Password must include at least one uppercase letter.');
+  if (!checks.lowercase) errors.push('Password must include at least one lowercase letter.');
+  if (!checks.number) errors.push('Password must include at least one number.');
+  if (!checks.special) errors.push('Password must include at least one special symbol.');
+  return { valid: errors.length === 0, checks, errors };
+};
+
 /**
  * Get all registered users
  */
@@ -53,8 +79,9 @@ export const signup = (username, email, password, role = ROLES.USER) => {
       return { success: false, error: 'Invalid email address' };
     }
 
-    if (!password || password.length < 6) {
-      return { success: false, error: 'Password must be at least 6 characters' };
+    const policy = validatePasswordPolicy(password);
+    if (!policy.valid) {
+      return { success: false, error: policy.errors[0] };
     }
 
     const newUser = {

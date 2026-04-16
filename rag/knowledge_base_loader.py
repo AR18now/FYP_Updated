@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -26,32 +27,42 @@ class KnowledgeBaseLoader:
             with path.open("r", encoding="utf-8") as handle:
                 payload = json.load(handle)
             if isinstance(payload, list):
-                return [
-                    {
-                        "id": f"{path.name}:{idx}",
-                        "text": str(item),
-                        "source_file": str(path),
-                        "source_type": source_type,
-                    }
-                    for idx, item in enumerate(payload)
-                ]
+                out: List[Dict[str, str]] = []
+                for idx, item in enumerate(payload):
+                    raw_text = str(item)
+                    cleaned, sec = self._sanitize_kb_text(raw_text)
+                    out.append(
+                        {
+                            "id": f"{path.name}:{idx}",
+                            "text": cleaned,
+                            "source_file": str(path),
+                            "source_type": source_type,
+                            "security_flags": sec,
+                        }
+                    )
+                return out
+            raw_text = json.dumps(payload, ensure_ascii=False)
+            cleaned, sec = self._sanitize_kb_text(raw_text)
             return [
                 {
                     "id": path.name,
-                    "text": json.dumps(payload, ensure_ascii=False),
+                    "text": cleaned,
                     "source_file": str(path),
                     "source_type": source_type,
+                    "security_flags": sec,
                 }
             ]
 
         with path.open("r", encoding="utf-8", errors="ignore") as handle:
             text = handle.read()
+        cleaned, sec = self._sanitize_kb_text(text)
         return [
             {
                 "id": path.name,
-                "text": text,
+                "text": cleaned,
                 "source_file": str(path),
                 "source_type": source_type,
+                "security_flags": sec,
             }
         ]
 
@@ -87,4 +98,34 @@ class KnowledgeBaseLoader:
         if "guideline" in name or "guide" in name or "requirements_engineering" in text:
             return "re_guideline"
         return "knowledge_base"
+
+    def _sanitize_kb_text(self, text: str) -> tuple[str, Dict[str, object]]:
+        """
+        Treat KB content as untrusted. Strip known control-token patterns and score
+        prompt-injection likelihood for retrieval-time filtering downstream.
+        """
+        raw = str(text or "")
+        lowered = raw.lower()
+        suspicious_patterns = [
+            r"\bignore\s+(?:all\s+)?previous\s+instructions?\b",
+            r"\bdisregard\s+(?:all\s+)?(?:previous\s+)?instructions?\b",
+            r"\bforget\s+all\s+(?:previous\s+)?instructions?\b",
+            r"\bact\s+as\b",
+            r"\bpretend\s+to\s+be\b",
+            r"\broleplay\s+as\b",
+            r"<\|[^|]+\|>",
+            r"\[inst\].*?\[/inst\]",
+            r"<\|im_start\|>.*?<\|im_end\|>",
+        ]
+        hits = [p for p in suspicious_patterns if re.search(p, lowered, flags=re.IGNORECASE | re.DOTALL)]
+
+        cleaned = raw
+        cleaned = re.sub(r"<\|.*?\|>", " ", cleaned)
+        cleaned = re.sub(r"\[INST\].*?\[/INST\]", " ", cleaned, flags=re.IGNORECASE | re.DOTALL)
+        cleaned = re.sub(r"<\|im_start\|>.*?<\|im_end\|>", " ", cleaned, flags=re.IGNORECASE | re.DOTALL)
+        cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+        cleaned = re.sub(r"[ \t]{3,}", " ", cleaned).strip()
+
+        score = min(1.0, len(hits) / 3.0)
+        return cleaned, {"pii_risk": "unknown", "prompt_injection_hits": hits, "injection_risk_score": score}
 

@@ -3,7 +3,7 @@ import { BookOpen, Database, FileText, Layers, Search } from 'lucide-react';
 
 const KnowledgeBasePage = () => {
   return (
-    <div className="max-w-4xl space-y-8 animate-fade-in">
+    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in px-1 sm:px-0">
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Knowledge base</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
@@ -14,8 +14,8 @@ const KnowledgeBasePage = () => {
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-6 shadow-sm">
-          <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-4">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-4 sm:p-6 shadow-sm">
+          <div className="h-10 w-10 rounded-xl bg-r2d-primary text-white flex items-center justify-center mb-4">
             <Database className="h-5 w-5" />
           </div>
           <h2 className="font-semibold text-slate-900 dark:text-slate-100">Storage</h2>
@@ -24,8 +24,8 @@ const KnowledgeBasePage = () => {
             similar project paths. PDF/DOCX content is normalized to text for chunking.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-6 shadow-sm">
-          <div className="h-10 w-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center mb-4">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-4 sm:p-6 shadow-sm">
+          <div className="h-10 w-10 rounded-xl bg-r2d-accent text-white flex items-center justify-center mb-4">
             <Search className="h-5 w-5" />
           </div>
           <h2 className="font-semibold text-slate-900 dark:text-slate-100">Retrieval</h2>
@@ -34,7 +34,7 @@ const KnowledgeBasePage = () => {
             injected as context for structure and terminology alignment.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-4 sm:p-6 shadow-sm">
           <div className="h-10 w-10 rounded-xl bg-slate-800 text-white flex items-center justify-center mb-4">
             <Layers className="h-5 w-5" />
           </div>
@@ -44,7 +44,7 @@ const KnowledgeBasePage = () => {
             generic or hallucinated requirements when used with strong prompts.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-4 sm:p-6 shadow-sm">
           <div className="h-10 w-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center mb-4">
             <FileText className="h-5 w-5" />
           </div>
@@ -56,7 +56,7 @@ const KnowledgeBasePage = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50/80 dark:bg-slate-900/50 p-6 flex gap-4">
+      <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50/80 dark:bg-slate-900/50 p-4 sm:p-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
         <BookOpen className="h-8 w-8 text-slate-400 dark:text-slate-500 shrink-0" />
         <div>
           <h2 className="font-semibold text-slate-800 dark:text-slate-200">Viewer note</h2>

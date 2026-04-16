@@ -21,7 +21,7 @@ const GenerateSRSPage = (props) => {
               full NLP and model pipeline.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs font-medium text-r2d-accent bg-r2d-accentMuted/60 dark:bg-blue-950/50 px-3 py-1.5 rounded-full border border-blue-200/60 dark:border-blue-800/60">
+          <div className="flex items-center gap-2 text-xs font-medium text-r2d-accent bg-r2d-accentMuted/60 dark:bg-r2d-primary/35 px-3 py-1.5 rounded-full border border-r2d-accent/30 dark:border-r2d-primary/60">
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             IEEE 830
           </div>

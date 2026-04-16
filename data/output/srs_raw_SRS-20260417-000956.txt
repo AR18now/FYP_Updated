@@ -1,0 +1,129 @@
+INTRODUCTION
+Purpose: To provide a Learning Management System (LMS) for educational purposes.
+Scope: The system will allow teachers to assign tasks to students and monitor their progress through quizzes. Students will have the ability to communicate with each other within the system.
+Definitions/Acronyms: LMS
+- Learning Management System; FR
+- Functional Requirement; NFR
+- Non-functional Requirement.
+References: IEEE Std 830-1998, IEEE Standard for Software Requirements Specifications.
+Overview: This document outlines the requirements for a simple LMS tailored for basic educational needs.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is designed for educators and students in a school setting.
+Product Functions: Teachers can create assignments and quizzes, grade student submissions, and facilitate peer-to-peer communication among students.
+User Characteristics: The primary users are teachers who need tools to manage classroom activities and students who require a platform for collaboration.
+Constraints: The system must operate without external dependencies and shall be compatible with standard web browsers.
+Assumptions/Dependencies: It is assumed that all users have access to a computer or mobile device with internet connectivity.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+- User Interface: The system shall have intuitive interfaces for both teachers and students.
+- Hardware: The system shall run on standard desktop computers and laptops.
+- Software: The system shall support common web browsers including Chrome, Firefox, Safari, and Edge.
+- Communication: The system shall enable real-time messaging between students.
+
+Functional Requirements
+FR-01: Teacher Assignment Creation
+- Input: Subject, assignment title, due date, list of students.
+- Processing: Generate a new assignment record with details provided by the teacher.
+- Output: Confirmation message displayed to the teacher.
+- Priority: High
+FR-02: Student Task Submission
+- Input: Assignment ID, submission file.
+- Processing: Store the submitted file and associate it with the relevant assignment.
+- Output: Confirmation message displayed to the student.
+- Priority: Medium
+FR-03: Quiz Administration
+- Input: Quiz questions, answers, scoring criteria.
+- Processing: Create a quiz record and make it available for students to take.
+- Output: Quiz results displayed to the teacher after grading.
+- Priority: High
+FR-04: Peer-to-Peer Messaging
+- Input: Sender, recipient, message content.
+- Processing: Send the message to the intended recipient.
+- Output: Message confirmation received by sender and recipient.
+- Priority: Low
+
+Non-functional Requirements
+Usability: The interface shall be easy to navigate and understand.
+Reliability: The system shall function consistently across different devices and browsers.
+Performance: The response time for actions shall be under 5 seconds.
+Portability: The application shall work on various operating systems and devices.
+
+SYSTEM FEATURES
+Feature 1: Assignment Management
+- Teachers can create and manage assignments.
+- Assignments can be graded automatically based on predefined criteria.
+
+Feature 2: Quizzes
+- Teachers can design and administer quizzes.
+- Quiz results are stored and accessible to teachers.
+
+Feature 3: Student Collaboration
+- Students can send messages to each other directly from the system.
+
+End of Document.INTRODUCTION
+Purpose: To provide a Learning Management System (LMS) for educational purposes.
+Scope: The system will allow teachers to assign tasks to students and monitor their progress through quizzes. Students will have the ability to communicate with each other within the system.
+Definitions/Acronyms: LMS
+- Learning Management System; FR
+- Functional Requirement; NFR
+- Non-functional Requirement.
+References: IEEE Std 830-1998, IEEE Standard for Software Requirements Specifications.
+Overview: This document outlines the requirements for a simple LMS tailored for basic educational needs.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is designed for educators and students in a school setting.
+Product Functions: Teachers can create assignments and quizzes, grade student submissions, and facilitate peer-to-peer communication among students.
+User Characteristics: The primary users are teachers who need tools to manage classroom activities and students who require a platform for collaboration.
+Constraints: The system must operate without external dependencies and shall be compatible with standard web browsers.
+Assumptions/Dependencies: It is assumed that all users have access to a computer or mobile device with internet connectivity.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+- User Interface: The system shall have intuitive interfaces for both teachers and students.
+- Hardware: The system shall run on standard desktop computers and laptops.
+- Software: The system shall support common web browsers including Chrome, Firefox, Safari, and Edge.
+- Communication: The system shall enable real-time messaging between students.
+
+Functional Requirements
+FR-01: Teacher Assignment Creation
+- Input: Subject, assignment title, due date, list of students.
+- Processing: Generate a new assignment record with details provided by the teacher.
+- Output: Confirmation message displayed to the teacher.
+- Priority: High
+FR-02: Student Task Submission
+- Input: Assignment ID, submission file.
+- Processing: Store the submitted file and associate it with the relevant assignment.
+- Output: Confirmation message displayed to the student.
+- Priority: Medium
+FR-03: Quiz Administration
+- Input: Quiz questions, answers, scoring criteria.
+- Processing: Create a quiz record and make it available for students to take.
+- Output: Quiz results displayed to the teacher after grading.
+- Priority: High
+FR-04: Peer-to-Peer Messaging
+- Input: Sender, recipient, message content.
+- Processing: Send the message to the intended recipient.
+- Output: Message confirmation received by sender and recipient.
+- Priority: Low
+
+Non-functional Requirements
+Usability: The interface shall be easy to navigate and understand.
+Reliability: The system shall function consistently across different devices and browsers.
+Performance: The response time for actions shall be under 5 seconds.
+Portability: The application shall work on various operating systems and devices.
+
+SYSTEM FEATURES
+Feature 1: Assignment Management
+- Teachers can create and manage assignments.
+- Assignments can be graded automatically based on predefined criteria.
+
+Feature 2: Quizzes
+- Teachers can design and administer quizzes.
+- Quiz results are stored and accessible to teachers.
+
+Feature 3: Student Collaboration
+- Students can send messages to each other directly from the system.
+
+End of Document.

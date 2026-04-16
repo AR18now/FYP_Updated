@@ -35,6 +35,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
+  const [pendingTranscript, setPendingTranscript] = useState('');
+  /** Full transcript after recording (shown in Recording Complete; user can edit before processing). */
+  const [recordingTranscript, setRecordingTranscript] = useState('');
+  const [isPostRecordingTranscribing, setIsPostRecordingTranscribing] = useState(false);
+  const [recordingTranscribeError, setRecordingTranscribeError] = useState(null);
   const [recordingTime, setRecordingTime] = useState(0);
   const [liveTranscription, setLiveTranscription] = useState('');
   const [isGeneratingDirectSRS, setIsGeneratingDirectSRS] = useState(false);
@@ -58,6 +63,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const transcriptionIntervalRef = useRef(null);
   const audioChunksRef = useRef([]);
   const injectionCheckTimerRef = useRef(null);
+  const liveTranscriptionRef = useRef('');
+  const speechRecognitionRef = useRef(null);
+  const speechRecognitionActiveRef = useRef(false);
 
   // Memoized computed values
   const wordCount = useMemo(() => {
@@ -467,7 +475,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
   }, []);
 
-  // Audio recording functions
+  // Audio recording & transcription functions
   const startRecording = useCallback(async () => {
     try {
       // Clear any previous errors
@@ -504,6 +512,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       });
       const chunks = [];
       audioChunksRef.current = [];
+      speechRecognitionActiveRef.current = false;
 
       mediaRecorder.ondataavailable = (event) => {
         if (event.data && event.data.size > 0) {
@@ -520,6 +529,16 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         }
         // Stop all tracks to release microphone
         stream.getTracks().forEach(track => track.stop());
+        // Stop speech recognition if running
+        try {
+          if (speechRecognitionRef.current && speechRecognitionActiveRef.current) {
+            speechRecognitionRef.current.stop();
+          }
+        } catch (e) {
+          // ignore
+        } finally {
+          speechRecognitionActiveRef.current = false;
+        }
         // Clear transcription interval
         if (transcriptionIntervalRef.current) {
           clearInterval(transcriptionIntervalRef.current);
@@ -540,61 +559,121 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setIsRecording(true);
       setRecordingTime(0);
       setLiveTranscription(''); // Reset transcription
+      liveTranscriptionRef.current = '';
+      setRecordingTranscribeError(null);
 
       // Start timer
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
 
-      // Start periodic transcription (every 5 seconds)
-      transcriptionIntervalRef.current = setInterval(async () => {
-        if (audioChunksRef.current.length > 0 && !isTranscribing) {
-          try {
-            setIsTranscribing(true);
-            // Create a blob from accumulated chunks
-            const currentBlob = new Blob(audioChunksRef.current, { type: mimeType });
-            
-            if (currentBlob.size > 0) {
-              // Determine file extension
-              let extension = 'webm';
-              if (mimeType.includes('mp4')) {
-                extension = 'm4a';
-              } else if (mimeType.includes('ogg')) {
-                extension = 'ogg';
-              } else if (mimeType.includes('wav')) {
-                extension = 'wav';
-              }
+      // 1) Try browser Speech Recognition for instant on-screen transcript (best UX)
+      try {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SR) {
+          const recognition = new SR();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = 'en-US';
 
-              const formData = new FormData();
-              formData.append('audio', currentBlob, `recording_chunk.${extension}`);
-              formData.append('project_info', JSON.stringify(projectInfo));
+          recognition.onresult = (event) => {
+            let interim = '';
+            let finalText = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+              const result = event.results[i];
+              const transcript = (result[0]?.transcript || '').trim();
+              if (!transcript) continue;
+              if (result.isFinal) finalText += transcript + ' ';
+              else interim += transcript + ' ';
+            }
 
-              const response = await axios.post(config.API_ENDPOINTS.TRANSCRIBE_AUDIO, formData, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                },
-                timeout: 30000 // 30 seconds for transcription
-              });
+            setLiveTranscription((prev) => {
+              const base = prev && prev.trim() ? prev.trim() + ' ' : '';
+              const merged = (base + finalText + interim).replace(/\s+/g, ' ').trim();
+              liveTranscriptionRef.current = merged;
+              return merged;
+            });
+          };
 
-              if (response.data && response.data.transcription) {
-                setLiveTranscription(prev => {
-                  // Append new transcription, avoiding duplicates
-                  const newText = response.data.transcription.trim();
-                  if (prev && !prev.includes(newText)) {
-                    return prev + ' ' + newText;
-                  }
-                  return newText || prev;
-                });
+          recognition.onerror = () => {
+            // fall back to Whisper chunking below
+            try {
+              recognition.stop();
+            } catch (e) {
+              // ignore
+            }
+            speechRecognitionActiveRef.current = false;
+          };
+
+          recognition.onend = () => {
+            // If still recording, restart to keep capturing (some browsers stop automatically)
+            if (speechRecognitionActiveRef.current && mediaRecorderRef.current?.state !== 'inactive') {
+              try {
+                recognition.start();
+              } catch (e) {
+                speechRecognitionActiveRef.current = false;
               }
             }
-          } catch (err) {
-            // Silently fail for live transcription - don't show errors
-            console.log('Live transcription update failed:', err.message);
-          } finally {
-            setIsTranscribing(false);
-          }
+          };
+
+          speechRecognitionRef.current = recognition;
+          speechRecognitionActiveRef.current = true;
+          recognition.start();
         }
-      }, 5000); // Transcribe every 5 seconds
+      } catch (e) {
+        speechRecognitionActiveRef.current = false;
+      }
+
+      // 2) Fallback: periodic Whisper transcription if Speech Recognition isn't available
+      if (!speechRecognitionActiveRef.current) {
+        transcriptionIntervalRef.current = setInterval(async () => {
+          if (audioChunksRef.current.length > 0 && !isTranscribing) {
+            try {
+              setIsTranscribing(true);
+              // Create a blob from accumulated chunks
+              const currentBlob = new Blob(audioChunksRef.current, { type: mimeType });
+
+              if (currentBlob.size > 0) {
+                // Determine file extension
+                let extension = 'webm';
+                if (mimeType.includes('mp4')) {
+                  extension = 'm4a';
+                } else if (mimeType.includes('ogg')) {
+                  extension = 'ogg';
+                } else if (mimeType.includes('wav')) {
+                  extension = 'wav';
+                }
+
+                const formData = new FormData();
+                formData.append('audio', currentBlob, `recording_chunk.${extension}`);
+                formData.append('project_info', JSON.stringify(projectInfo));
+
+                const response = await axios.post(config.API_ENDPOINTS.TRANSCRIBE_AUDIO, formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  },
+                  timeout: 30000 // 30 seconds for transcription
+                });
+
+                if (response.data && response.data.transcription) {
+                  setLiveTranscription((prev) => {
+                    const newText = response.data.transcription.trim();
+                    // Prefer "latest full" to avoid laggy duplication
+                    const merged = newText || prev || '';
+                    liveTranscriptionRef.current = merged;
+                    return merged;
+                  });
+                }
+              }
+            } catch (err) {
+              // Silently fail for live transcription - don't show errors
+              console.log('Live transcription update failed:', err.message);
+            } finally {
+              setIsTranscribing(false);
+            }
+          }
+        }, 2000); // Try every 2 seconds for better responsiveness
+      }
 
     } catch (error) {
       console.error('Error starting recording:', error);
@@ -618,6 +697,16 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       mediaRecorderRef.current.stop();
         }
       setIsRecording(false);
+        // Stop speech recognition immediately
+        try {
+          if (speechRecognitionRef.current) {
+            speechRecognitionRef.current.stop();
+          }
+        } catch (e) {
+          // ignore
+        } finally {
+          speechRecognitionActiveRef.current = false;
+        }
         if (timerRef.current) {
           clearInterval(timerRef.current);
           timerRef.current = null;
@@ -637,12 +726,114 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     }
     setRecordingTime(0);
     setLiveTranscription('');
+    liveTranscriptionRef.current = '';
+    try {
+      if (speechRecognitionRef.current) {
+        speechRecognitionRef.current.stop();
+      }
+    } catch (e) {
+      // ignore
+    } finally {
+      speechRecognitionActiveRef.current = false;
+    }
+    setPendingTranscript('');
+    setRecordingTranscript('');
+    setRecordingTranscribeError(null);
+    setIsPostRecordingTranscribing(false);
     audioChunksRef.current = [];
     if (transcriptionIntervalRef.current) {
       clearInterval(transcriptionIntervalRef.current);
       transcriptionIntervalRef.current = null;
     }
   }, [audioUrl]);
+
+  const transcribeFullRecording = useCallback(async () => {
+    if (!audioBlob || audioBlob.size === 0) {
+      throw new Error('Audio recording is empty. Please record again.');
+    }
+
+    // Determine file extension based on MIME type (reuse logic from processing)
+    let extension = 'webm';
+    if (audioBlob.type.includes('mp4')) {
+      extension = 'm4a';
+    } else if (audioBlob.type.includes('ogg')) {
+      extension = 'ogg';
+    } else if (audioBlob.type.includes('wav')) {
+      extension = 'wav';
+    }
+
+    const formData = new FormData();
+    formData.append('audio', audioBlob, `recording.${extension}`);
+    formData.append('project_info', JSON.stringify(projectInfo));
+
+    const response = await axios.post(config.API_ENDPOINTS.TRANSCRIBE_AUDIO, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      timeout: 60000 // 60 seconds for full transcription
+    });
+
+    if (response.data?.error) {
+      throw new Error(response.data.error);
+    }
+
+    const transcript = (response.data?.transcription || '').trim();
+    if (!transcript) {
+      throw new Error('No text was transcribed from the audio. Please record again.');
+    }
+
+    return transcript;
+  }, [audioBlob, projectInfo]);
+
+  useEffect(() => {
+    liveTranscriptionRef.current = liveTranscription || '';
+  }, [liveTranscription]);
+
+  // When a new recording is ready, transcribe the full clip and show it in the completion panel
+  useEffect(() => {
+    if (!audioBlob || audioBlob.size === 0) {
+      setRecordingTranscript('');
+      setIsPostRecordingTranscribing(false);
+      setRecordingTranscribeError(null);
+      return;
+    }
+
+    let cancelled = false;
+    setRecordingTranscribeError(null);
+    setIsPostRecordingTranscribing(true);
+    setPendingTranscript('');
+    setRecordingTranscript((prev) => {
+      if (prev && prev.trim()) return prev;
+      return liveTranscriptionRef.current || '';
+    });
+
+    (async () => {
+      try {
+        const transcript = await transcribeFullRecording();
+        if (!cancelled) {
+          setRecordingTranscript(transcript);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          console.error('Post-recording transcription:', e);
+          setRecordingTranscribeError(
+            getApiErrorMessage(e, 'Could not transcribe this recording. Edit the text below or try again.')
+          );
+          setRecordingTranscript((t) =>
+            t && t.trim() ? t : liveTranscriptionRef.current || ''
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setIsPostRecordingTranscribing(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [audioBlob, transcribeFullRecording]);
 
   const formatTime = useCallback((seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -1010,64 +1201,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setValidationErrors(validateTextInput(finalText));
   }, [refinedInputText, followupAnswers, validateTextInput, buildFinalTextWithFollowups]);
 
-  const generateSRSFromAudioDirect = useCallback(async () => {
-    if (!backendReady) {
-      setError('Backend is not reachable. Please start the API server and try again.');
-      return;
-    }
-    if (inputType !== 'audio') {
-      setError('Switch to audio mode and record/upload audio first.');
-      return;
-    }
-    if (!audioBlob || audioBlob.size === 0) {
-      setError('No audio available. Please record first.');
-      return;
-    }
-
-    setIsGeneratingDirectSRS(true);
-    setLastSRSAvailable(false);
-    setError(null);
-    setValidationErrors([]);
-    setProjectInfoSubmitAttempted(true);
-
-    const currentProjectErrors = validateProjectInfo();
-    if (currentProjectErrors.length > 0) {
-      setProjectInfoErrors(currentProjectErrors);
-      setError('Please fix project information errors before processing');
-      setIsGeneratingDirectSRS(false);
-      return;
-    }
-
-    try {
-      let extension = 'webm';
-      if (audioBlob.type.includes('mp4')) extension = 'm4a';
-      else if (audioBlob.type.includes('ogg')) extension = 'ogg';
-      else if (audioBlob.type.includes('wav')) extension = 'wav';
-
-      const formData = new FormData();
-      formData.append('audio', audioBlob, `recording.${extension}`);
-      formData.append('project_info', JSON.stringify(projectInfo));
-
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_SRS_FROM_AUDIO, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        timeout: 240000,
-      });
-
-      if (response.data) {
-        onSRSGenerated(response.data);
-        setResults(response.data);
-        if (setCurrentResults) setCurrentResults(response.data);
-        setLastSRSAvailable(true);
-        navigate('/results');
-      }
-    } catch (err) {
-      console.error('Direct SRS generation error:', err);
-      setError(getApiErrorMessage(err, 'Failed to generate SRS from audio.'));
-    } finally {
-      setIsGeneratingDirectSRS(false);
-    }
-  }, [backendReady, inputType, audioBlob, projectInfo, onSRSGenerated, setCurrentResults, validateProjectInfo]);
-
   // Direct SRS generation from uploaded file (txt/pdf)
   const generateSRSFromFileDirect = useCallback(async () => {
     if (!backendReady) {
@@ -1144,6 +1277,41 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     }
 
     try {
+      // For audio input, use the transcript from the Recording Complete panel (or transcribe if still empty)
+      if (inputType === 'audio' && audioBlob) {
+        try {
+          if (!pendingTranscript) {
+            if (isPostRecordingTranscribing) {
+              setError('Please wait until transcription finishes, or edit the text in the transcript box.');
+              setIsProcessing(false);
+              return;
+            }
+            let transcript = (recordingTranscript || '').trim();
+            if (!transcript) {
+              transcript = await transcribeFullRecording();
+              setRecordingTranscript(transcript);
+            }
+            setPendingTranscript(transcript);
+            setTextInput(transcript);
+            setInputType('text');
+            setError(
+              'Review the text on the Text Input tab (you can still edit there), then click "Process & Generate SRS" again to continue.'
+            );
+          }
+        } catch (transcriptionError) {
+          console.error('Full transcription error:', transcriptionError);
+          setError(
+            getApiErrorMessage(
+              transcriptionError,
+              'Failed to transcribe audio. Please try again or record again.'
+            )
+          );
+        } finally {
+          setIsProcessing(false);
+        }
+        return;
+      }
+
       // Validate and sanitize text input before processing
       if (inputType === 'text' && textInput.trim()) {
         const validation = validateInput(textInput);
@@ -1204,42 +1372,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         } else {
           srsFromCombined = combined.data.srs;
         }
-      } else if (inputType === 'audio' && audioBlob) {
-        // Validate audio blob exists and has content
-        if (!audioBlob || audioBlob.size === 0) {
-          setError('Audio recording is empty. Please record again.');
-          setIsProcessing(false);
-          if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-          return;
-        }
-
-        // Determine file extension based on MIME type
-        let extension = 'webm';
-        if (audioBlob.type.includes('mp4')) {
-          extension = 'm4a';
-        } else if (audioBlob.type.includes('ogg')) {
-          extension = 'ogg';
-        } else if (audioBlob.type.includes('wav')) {
-          extension = 'wav';
-        }
-
-        const formData = new FormData();
-        formData.append('audio', audioBlob, `recording.${extension}`);
-        formData.append('project_info', JSON.stringify(projectInfo));
-
-        console.log('Sending audio to backend:', {
-          blobSize: audioBlob.size,
-          blobType: audioBlob.type,
-          extension: extension,
-          projectInfo: projectInfo
-        });
-
-        response = await axios.post(config.API_ENDPOINTS.PROCESS_AUDIO, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          timeout: 240000, // 4 minutes timeout for longer recordings
-        });
       } else if (uploadedFiles.length > 0) {
         // Validate all uploaded files are txt or pdf
         const invalidFiles = uploadedFiles.filter(({ file }) => {
@@ -1353,7 +1485,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setIsProcessing(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     }
-  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
@@ -2001,20 +2133,28 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                     )}
                   </div>
                 ) : (
-                  <div className="bg-green-50 p-6 rounded-lg border border-green-200 animate-slide-up">
+                  <div
+                    className={`p-6 rounded-lg border animate-slide-up ${
+                      isDark ? 'bg-emerald-950/30 border-emerald-800' : 'bg-green-50 border-green-200'
+                    }`}
+                  >
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
                       <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-green-100 rounded-full">
-                          <CheckCircle className="h-6 w-6 text-green-600" aria-hidden="true" />
+                        <div className={`p-2 rounded-full ${isDark ? 'bg-emerald-900' : 'bg-green-100'}`}>
+                          <CheckCircle className={`h-6 w-6 ${isDark ? 'text-emerald-400' : 'text-green-600'}`} aria-hidden="true" />
                         </div>
                         <div>
-                          <p className="font-medium text-green-900">Recording Complete</p>
-                          <p className="text-sm text-green-700">Duration: {formatTime(recordingTime)}</p>
+                          <p className={`font-medium ${isDark ? 'text-emerald-100' : 'text-green-900'}`}>Recording Complete</p>
+                          <p className={`text-sm ${isDark ? 'text-emerald-300' : 'text-green-700'}`}>Duration: {formatTime(recordingTime)}</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         {audioUrl && audioBlob && (
-                          <audio controls className="mr-2" aria-label="Audio playback">
+                          <audio
+                            controls
+                            className="mr-2 max-w-full sm:max-w-xs"
+                            aria-label="Audio playback"
+                          >
                             <source src={audioUrl} type={audioBlob.type || 'audio/webm'} />
                             Your browser does not support the audio element.
                           </audio>
@@ -2028,8 +2168,47 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                         </button>
                       </div>
                     </div>
-                    <p className="text-sm text-green-700">
-                      Your audio recording is ready for processing. Click "Process Requirements" to analyze it.
+
+                    <div className="mb-3">
+                      <label
+                        htmlFor="recording-transcript"
+                        className={`block text-sm font-semibold mb-2 ${isDark ? 'text-emerald-100' : 'text-green-900'}`}
+                      >
+                        Transcript
+                        {isPostRecordingTranscribing && (
+                          <span className="ml-2 inline-flex items-center gap-1 text-xs font-normal text-r2d-accent">
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                            Updating…
+                          </span>
+                        )}
+                      </label>
+                      {recordingTranscribeError && (
+                        <p className="text-sm text-red-600 dark:text-red-400 mb-2" role="alert">
+                          {recordingTranscribeError}
+                        </p>
+                      )}
+                      <textarea
+                        id="recording-transcript"
+                        value={recordingTranscript}
+                        onChange={(e) => setRecordingTranscript(e.target.value)}
+                        disabled={isPostRecordingTranscribing}
+                        rows={8}
+                        className={`w-full rounded-lg border px-3 py-2 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
+                          isDark
+                            ? 'bg-slate-900 border-slate-600 text-slate-100 placeholder:text-slate-500'
+                            : 'bg-white border-green-200 text-slate-900 placeholder:text-slate-400'
+                        } disabled:opacity-70`}
+                        placeholder={
+                          isPostRecordingTranscribing
+                            ? 'Transcribing your recording…'
+                            : 'Transcript appears here. Edit if needed before you generate the SRS.'
+                        }
+                        aria-busy={isPostRecordingTranscribing}
+                      />
+                    </div>
+
+                    <p className={`text-sm ${isDark ? 'text-emerald-200' : 'text-green-700'}`}>
+                      When the transcript looks right, click <strong className="font-semibold">Process &amp; Generate SRS</strong> below. You can edit the text on the next step if needed, then run it again to finish.
                     </p>
                   </div>
                 )}
@@ -2162,27 +2341,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 </>
               )}
             </button>
-            {inputType === 'audio' && audioBlob && audioBlob.size > 0 && (
-              <button
-                onClick={generateSRSFromAudioDirect}
-                disabled={isGeneratingDirectSRS}
-                className="mt-4 bg-r2d-accent hover:bg-r2d-primaryLight text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-                aria-label="Generate SRS directly from audio"
-                aria-busy={isGeneratingDirectSRS}
-              >
-                {isGeneratingDirectSRS ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                    <span>Generating SRS...</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="h-5 w-5" aria-hidden="true" />
-                    <span>Generate SRS</span>
-                  </>
-                )}
-              </button>
-            )}
             {uploadedFiles.length > 0 && (
               <button
                 onClick={generateSRSFromFileDirect}

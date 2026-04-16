@@ -2226,13 +2226,13 @@ def transcribe_audio_only():
     temp_file_path = None
     try:
         audio_file = request.files.get('audio')
-        
+
         if not audio_file:
             return jsonify({'error': 'No audio file provided'}), 400
-        if (audio_file.content_length or 0) <= 0:
-            return jsonify({'error': 'Audio file is empty. Please record again.'}), 400
-        
-        logger.info(f"Transcription request: {audio_file.filename}, Size: {audio_file.content_length} bytes")
+
+        # Note: some browsers/clients don't set content_length on multipart parts,
+        # so rely on the saved temp file size check below instead of rejecting here.
+        logger.info(f"Transcription request: {audio_file.filename}, Size: {getattr(audio_file, 'content_length', None)} bytes")
         
         # Determine file extension
         original_filename = audio_file.filename or 'recording'

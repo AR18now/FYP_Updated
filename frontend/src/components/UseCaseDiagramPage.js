@@ -30,6 +30,16 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
     return d.plantuml_code_vertical || d.plantuml_code || '';
   }, [useCaseData?.diagram, diagramLayout]);
 
+  const diagramIssueMessage = useMemo(() => {
+    const d = useCaseData?.diagram || {};
+    const msg = String(d.message || '').trim();
+    const status = String(d.status || '').toLowerCase();
+    if (!msg && status !== 'saved_only') return '';
+    const issueLike = /(error|fail|failed|unavailable|not render|cannot|unable|exception|timeout|missing)/i;
+    if (status === 'saved_only' || issueLike.test(msg)) return msg || 'Diagram PNG was not rendered.';
+    return '';
+  }, [useCaseData?.diagram]);
+
   const downloadPuml = useCallback(() => {
     if (!activePlantUml) return;
     const blob = new Blob([activePlantUml], { type: 'text/plain;charset=utf-8' });
@@ -190,9 +200,9 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               <p className="text-gray-600 dark:text-slate-400">
                 No diagram generated yet. Click &quot;Generate / Refresh&quot;.
               </p>
-              {useCaseData?.diagram?.message ? (
+              {diagramIssueMessage ? (
                 <p className="text-sm text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800 rounded-lg p-3 bg-amber-50/90 dark:bg-amber-950/40">
-                  {useCaseData.diagram.message}
+                  {diagramIssueMessage}
                 </p>
               ) : null}
               {useCaseData?.diagram?.plantuml_log ? (

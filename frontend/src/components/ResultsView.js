@@ -152,6 +152,22 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
     return d.plantuml_code_vertical || d.plantuml_code || '';
   }, [useCaseData?.diagram, useCaseDiagramLayout]);
 
+  const hallAnalysis = useMemo(() => {
+    if (!srsData) return null;
+    return srsData.hallucination_analysis || srsData.sections?._hallucination_analysis || null;
+  }, [srsData]);
+
+  const hallucinationPct = useMemo(() => {
+    const score = Number(hallAnalysis?.confidence_score);
+    if (!Number.isFinite(score)) return null;
+    const clamped = Math.max(0, Math.min(1, score));
+    return Math.round(clamped * 100);
+  }, [hallAnalysis?.confidence_score]);
+
+  const lowConfidenceThreshold = 60;
+  const shouldSuggestExpertReview =
+    srsGenerated && hallucinationPct !== null && hallucinationPct < lowConfidenceThreshold;
+
   const downloadText = useCallback((filename, content, mimeType = 'text/plain') => {
     const blob = new Blob([content], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
@@ -422,6 +438,20 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
               </p>
             </div>
             <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 w-full md:w-auto md:justify-end">
+              {srsGenerated && hallucinationPct !== null ? (
+                <div
+                  className={`order-1 sm:order-none inline-flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
+                    hallucinationPct >= 70
+                      ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-100'
+                      : hallucinationPct >= 50
+                        ? 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-100'
+                        : 'border-red-200 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-900/30 dark:text-red-100'
+                  }`}
+                  title="Confidence overlap against your input text"
+                >
+                  Hallucination confidence: {hallucinationPct}%
+                </div>
+              ) : null}
               <button
                 type="button"
                 onClick={generateSRS}
@@ -578,6 +608,29 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             >
               <span className="font-medium">SRS error: </span>
               {srsGenError}
+            </div>
+          )}
+          {shouldSuggestExpertReview && srsData && (
+            <div
+              className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+              role="alert"
+            >
+              <p>
+                Hallucination confidence is <span className="font-semibold">{hallucinationPct}%</span> (below {lowConfidenceThreshold}% threshold).
+                Sending this SRS for expert review is recommended.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  navigate('/expert-review', {
+                    state: { preselectDocumentId: srsData.document_id || srsData.id },
+                  });
+                }}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 text-sm font-semibold"
+              >
+                <UserCheck className="h-4 w-4" />
+                Send to Expert Review
+              </button>
             </div>
           )}
           {(isGeneratingSRS || streamPreview) && (

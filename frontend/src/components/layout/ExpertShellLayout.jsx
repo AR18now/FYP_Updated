@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink, Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Inbox, UserCircle2, Menu, X, LogOut, User, Moon, Sun, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
@@ -15,8 +15,22 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth < 1280;
   });
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth >= 1024;
+  });
+  const isCollapsed = isDesktop && collapsed;
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const pageTitle = useMemo(() => {
     const map = {
@@ -42,15 +56,16 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
       <aside
         className={`
           fixed z-50 inset-y-0 left-0 flex flex-col overflow-y-auto
+          w-[85vw] max-w-sm
           bg-gradient-to-b from-r2d-primaryDark via-r2d-primary to-r2d-primaryDark text-slate-100 border-r border-r2d-primary/30 shadow-nav
           transform transition-all duration-200 ease-out
-          ${collapsed ? 'lg:w-[76px]' : 'lg:w-64'}
+          ${isCollapsed ? 'lg:w-[76px]' : 'lg:w-64'}
           lg:translate-x-0 lg:z-40 lg:h-dvh
-          ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'}
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${collapsed ? 'px-3 justify-end' : 'px-4 justify-between'}`}>
-          {!collapsed && (
+        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${isCollapsed ? 'px-3 justify-end' : 'px-4 justify-between'}`}>
+          {!isCollapsed && (
             <Link
               to="/expert"
               onClick={closeMobile}
@@ -82,7 +97,7 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
               title={label}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors
-                ${collapsed ? 'justify-center px-2' : ''}
+                ${isCollapsed ? 'justify-center px-2' : ''}
                 ${
                   isActive
                     ? 'bg-r2d-accent/25 text-white shadow-inner border border-r2d-accent/30'
@@ -91,19 +106,19 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
               }
             >
               <Icon className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
-              {!collapsed && <span className="truncate">{label}</span>}
+              {!isCollapsed && <span className="truncate">{label}</span>}
             </NavLink>
           ))}
         </nav>
 
-        <div className={`p-3 border-t border-white/10 text-[10px] text-slate-400/80 shrink-0 ${collapsed ? 'hidden lg:block' : ''}`}>
-          {!collapsed && <p className="px-1 leading-relaxed">Reviewer accounts only</p>}
+        <div className={`p-3 border-t border-white/10 text-[10px] text-slate-400/80 shrink-0 ${isCollapsed ? 'hidden lg:block' : ''}`}>
+          {!isCollapsed && <p className="px-1 leading-relaxed">Reviewer accounts only</p>}
         </div>
       </aside>
 
       <div
         className={`flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden bg-slate-100 dark:bg-slate-900 transition-[padding-left] duration-200 ${
-          collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
+          isCollapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
         }`}
       >
         <header

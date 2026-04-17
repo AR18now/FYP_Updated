@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink, Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -50,8 +50,22 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth < 1280;
   });
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth >= 1024;
+  });
+  const isCollapsed = isDesktop && collapsed;
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const pageTitle = useMemo(() => {
     const map = {
@@ -86,16 +100,16 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
 
       <aside
         className={`
-          fixed z-50 inset-y-0 left-0 flex flex-col w-64 overflow-y-auto
+          fixed z-50 inset-y-0 left-0 flex flex-col w-[85vw] max-w-sm overflow-y-auto
           bg-gradient-to-b from-r2d-primaryDark via-r2d-primary to-r2d-primaryDark text-zinc-100 border-r border-white/10 shadow-nav
           transform transition-all duration-200 ease-out
-          ${collapsed ? 'lg:w-[76px]' : 'lg:w-64'}
+          ${isCollapsed ? 'lg:w-[76px]' : 'lg:w-64'}
           lg:translate-x-0 lg:z-40 lg:h-dvh
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${collapsed ? 'px-3 justify-end' : 'px-4 justify-between'}`}>
-          {!collapsed && (
+        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${isCollapsed ? 'px-3 justify-end' : 'px-4 justify-between'}`}>
+          {!isCollapsed && (
             <Link
               to="/"
               onClick={closeMobile}
@@ -127,7 +141,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
               title={label}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors
-                ${collapsed ? 'justify-center px-2' : ''}
+                ${isCollapsed ? 'justify-center px-2' : ''}
                 ${
                   isActive
                     ? 'bg-white/12 text-white shadow-inner border border-white/10'
@@ -136,13 +150,13 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
               }
             >
               <Icon className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
-              {!collapsed && <span className="truncate">{label}</span>}
+              {!isCollapsed && <span className="truncate">{label}</span>}
             </NavLink>
           ))}
         </nav>
 
         <div className="px-2 pb-3">
-          {!collapsed && (
+          {!isCollapsed && (
             <p className="px-2.5 pb-2 text-[10px] uppercase tracking-wider text-zinc-400/90 font-semibold">
               Account
             </p>
@@ -156,7 +170,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                 title={label}
                 className={({ isActive }) =>
                   `flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors
-                  ${collapsed ? 'justify-center px-2' : ''}
+                  ${isCollapsed ? 'justify-center px-2' : ''}
                   ${
                     isActive
                       ? 'bg-white/12 text-white shadow-inner border border-white/10'
@@ -165,7 +179,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                 }
               >
                 <Icon className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
-                {!collapsed && <span className="truncate">{label}</span>}
+                {!isCollapsed && <span className="truncate">{label}</span>}
               </NavLink>
             ))}
           </div>
@@ -175,7 +189,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
 
       <div
         className={`flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden transition-[padding-left] duration-200 ${
-          collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
+          isCollapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
         }`}
       >
         <header

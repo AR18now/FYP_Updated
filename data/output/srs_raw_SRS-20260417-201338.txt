@@ -1,0 +1,146 @@
+INTRODUCTION
+Purpose: To define the system requirements for a warehouse management application.
+Scope: This document defines the requirements for a warehouse management system focusing on stock receiving, scanning, movement, dispatch processing, and supporting functionalities for supervisors and procurement users.
+Definitions/Acronyms:
+- WMS: Warehouse Management System
+References: IEEE Std 830-1998
+Overview: The system will manage all aspects of warehouse operations including incoming stock, inventory tracking, and outgoing shipments while providing tools for supervision and procurement functions.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is designed to streamline warehouse operations by automating key processes such as stock receiving, scanning, and dispatching.
+Product Functions:
+- Receive new stock and update inventory records.
+- Scan barcodes to track individual items.
+- Move items between storage locations.
+- Process dispatch requests based on pick lists.
+- Provide real-time dashboards for supervisors.
+- Support batch and serial number tracking.
+- Generate low stock alerts.
+- Reconcile cycle counts.
+- Allow creation and monitoring of purchase orders.
+- Log all inventory adjustments with detailed information.
+User Characteristics:
+- Warehouse staff who handle physical tasks like receiving, scanning, and moving items.
+- Supervisors responsible for overseeing operations and managing resources.
+- Procurement users involved in ordering supplies and managing vendor relationships.
+Constraints:
+- Must comply with barcode standards for accurate item identification.
+- Limited network connectivity may affect some features.
+Assumptions/Dependencies:
+- Barcode scanners and other hardware are available and functioning properly.
+- Internet access is reliable but limited bandwidth is expected.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Graphical interface for easy interaction with warehouse staff, supervisors, and procurement users.
+- Hardware Interfaces: Integration with barcode scanners, RFID readers, and conveyor systems.
+- Software Interfaces: Compatibility with existing ERP systems.
+- Communication Interfaces: Real-time updates via local area networks (LAN).
+Functional Requirements:
+FR-01: Stock Reception
+Input: Physical delivery notes, package contents list.
+Processing: Verify against delivery note, update inventory database.
+Output: Updated inventory record.
+Priority: High
+FR-02: Item Scanning
+Input: Barcoded items.
+Processing: Decode barcode, update location in inventory.
+Output: Confirmation message.
+Priority: High
+FR-03: Item Movement
+Input: Source bin ID, destination bin ID.
+Processing: Update inventory database, log transaction details.
+Output: Updated inventory status.
+Priority: Medium
+FR-04: Dispatch Processing
+Input: Pick list, customer order details.
+Processing: Select appropriate items from inventory, prepare shipment.
+Output: Shipment prepared for dispatch.
+Priority: High
+FR-05: Supervisor Dashboard
+Input: None.
+Processing: Aggregate current inventory levels, generate reports.
+Output: Dashboards displaying stock aging, reorder thresholds, damaged goods.
+Priority: Low
+FR-06: Batch Tracking
+Input: Batch identifier.
+Processing: Track batch through various stages of handling.
+Output: Detailed batch history.
+Priority: Medium
+FR-07: Serial Number Tracking
+Input: Serial number.
+Processing: Record serial number movements within the warehouse.
+Output: Serial number history.
+Priority: Medium
+FR-08: Low Stock Alerts
+Input: Inventory level threshold.
+Processing: Monitor inventory levels, trigger alerts when necessary.
+Output: Alert notification.
+Priority: Medium
+FR-09: Cycle Count Reconciliation
+Input: Bin ID, quantity.
+Processing: Compare actual vs recorded quantities, reconcile differences.
+Output: Reconciliation report.
+Priority: Medium
+FR-10: Purchase Order Creation
+Input: Approved shortage report, supplier details.
+Processing: Create PO, send to suppliers.
+Output: Sent purchase order confirmation.
+Priority: Low
+FR-11: Supplier Lead Time Monitoring
+Input: Supplier name, order date.
+Processing: Track time taken for deliveries.
+Output: Lead time statistics.
+Priority: Low
+Non-functional Requirements:
+Usability: The system shall provide intuitive interfaces for all user types.
+Reliability: The system shall operate without failure under normal conditions.
+Performance: The system shall respond to user actions within 2 seconds.
+Portability: The system shall run on Windows, Linux, and macOS operating systems.
+
+SYSTEM FEATURES
+Feature 1: Stock Reception
+- Handle incoming deliveries efficiently.
+- Automatically update inventory records upon receipt.
+
+Feature 2: Item Scanning
+- Enable quick and accurate item tracking.
+- Integrate seamlessly with barcode scanners.
+
+Feature 3: Item Movement
+- Facilitate smooth relocation of items within the warehouse.
+- Maintain up-to-date inventory statuses.
+
+Feature 4: Dispatch Processing
+- Streamline the preparation of shipments according to pick lists.
+- Ensure timely dispatches based on customer orders.
+
+Feature 5: Supervisor Dashboard
+- Offer comprehensive insights into warehouse operations.
+- Display critical metrics like stock aging and damaged goods.
+
+Feature 6: Batch Tracking
+- Track batches throughout their lifecycle.
+- Provide detailed historical records.
+
+Feature 7: Serial Number Tracking
+- Manage unique item identifiers effectively.
+- Maintain thorough documentation of serial numbers.
+
+Feature 8: Low Stock Alerts
+- Promptly notify stakeholders about potential stock issues.
+- Prevent stockouts and overstock situations.
+
+Feature 9: Cycle Count Reconciliation
+- Conduct periodic inventories accurately.
+- Identify discrepancies and correct them promptly.
+
+Feature 10: Purchase Order Creation
+- Simplify the process of requesting additional stock.
+- Coordinate with suppliers efficiently.
+
+Feature 11: Supplier Lead Time Monitoring
+- Track supplier performance consistently.
+- Optimize supply chain logistics.
+
+End of Document.

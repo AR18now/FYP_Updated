@@ -1390,8 +1390,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     <img src={brandUrl('/req2design-brand-mark.png')} alt="" className="h-5 w-5 object-contain" width="20" height="20" />
                     <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Req2Design</span>
                   </span>
-                  <span className="px-2 py-1 rounded-full border border-slate-300/80 dark:border-slate-600 text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/50">IEEE 830-1998 aligned</span>
-                  <span className="px-2 py-1 rounded-full border border-slate-300/80 dark:border-slate-600 text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/50">Generated draft for expert review</span>
                 </div>
               </section>
               <div

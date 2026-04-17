@@ -36,6 +36,16 @@ class TextualUseCaseGenerator:
         r"download|schedule|track|notify|assign|approve|reject|request|process|"
         r"generate|export|import|restore|backup|lock|unlock|grant|revoke)\b"
     )
+    _SRS_PHRASES = [
+        re.compile(r"(?i)\b(as|according)\s+to\s+the?\s*srs\b"),
+        re.compile(r"(?i)\bfrom\s+the?\s*srs\b"),
+        re.compile(r"(?i)\bper\s+the?\s*srs\b"),
+        re.compile(r"(?i)\bper\s+srs\b"),
+        re.compile(r"(?i)\bwithin\s+the?\s*srs\b"),
+        re.compile(r"(?i)\bin\s+the?\s*srs\b"),
+        re.compile(r"(?i)\bsrs[-\s]*(defined|based|driven)\b"),
+        re.compile(r"(?i)\bthe?\s*srs\s+(states|requires|defines)\s+that\b"),
+    ]
 
     def generate_from_srs(self, srs_sections: Dict[str, Any]) -> List[Dict[str, str]]:
         functional_requirements = (
@@ -108,10 +118,10 @@ class TextualUseCaseGenerator:
             output_data = ""
             priority = ""
 
-        description = self._strip_ui_jargon(description)
-        processing = self._strip_ui_jargon(processing)
-        input_data = self._strip_ui_jargon(input_data)
-        output_data = self._strip_ui_jargon(output_data)
+        description = self._sanitize_source_text(description)
+        processing = self._sanitize_source_text(processing)
+        input_data = self._sanitize_source_text(input_data)
+        output_data = self._sanitize_source_text(output_data)
 
         actor = self._normalize_actor_role(self._identify_actor(description, processing))
         use_case_name = self._derive_use_case_name(description, processing, index)
@@ -147,6 +157,19 @@ class TextualUseCaseGenerator:
             return text
         t = TextualUseCaseGenerator._UI_TERMS.sub("interface", text)
         return " ".join(t.split())
+
+    def _de_srsify(self, text: str) -> str:
+        if not text:
+            return text
+        cleaned = text
+        for pat in self._SRS_PHRASES:
+            cleaned = pat.sub("", cleaned)
+        cleaned = re.sub(r"(?i)\bSRS\b", "requirement", cleaned)
+        cleaned = re.sub(r"\s{2,}", " ", cleaned).strip(" ,;:-")
+        return cleaned
+
+    def _sanitize_source_text(self, text: str) -> str:
+        return self._de_srsify(self._strip_ui_jargon(text))
 
     def _annotate_shared_validation(self, use_cases: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """Note conceptual <<include>> where validation logic is clearly repeated (UML relationship hint)."""
@@ -262,20 +285,20 @@ class TextualUseCaseGenerator:
 
         if input_data:
             steps.append(
-                f"1. {actor} supplies inputs required by the SRS: {self._one_line(input_data)}."
+                f"1. {actor} provides the required inputs: {self._one_line(input_data)}."
             )
         else:
             steps.append(
-                f"1. {actor} initiates the goal of this use case as stated in the functional requirement."
+                f"1. {actor} initiates this use case."
             )
 
         if input_data:
             steps.append(
-                "2. System evaluates inputs against the rules implied by the SRS for this requirement."
+                "2. System validates the inputs against the requirement rules."
             )
         else:
             steps.append(
-                "2. System accepts the initiation and applies applicable consistency checks for this requirement."
+                "2. System accepts the request and applies consistency checks."
             )
 
         core = processing or description
@@ -291,12 +314,12 @@ class TextualUseCaseGenerator:
 
         if output_data:
             steps.append(
-                f"4. System produces the SRS-defined outcome: {self._one_line(output_data)}."
+                f"4. System produces the expected outcome: {self._one_line(output_data)}."
             )
         else:
             steps.append(
-                "4. System reaches a stable outcome: the requirement’s post-condition holds and "
-                f"{actor} receives confirmation where the SRS requires it."
+                "4. System reaches a stable outcome and confirms completion to "
+                f"{actor} where applicable."
             )
 
         return "\n".join(steps)
@@ -320,7 +343,7 @@ class TextualUseCaseGenerator:
     def _derive_preconditions(self, input_data: str, actor: str, description: str, fr_id: str) -> str:
         parts: List[str] = []
         if fr_id:
-            parts.append(f"SRS traceability: functional requirement {fr_id} is in scope.")
+            parts.append(f"Traceability: functional requirement {fr_id} is in scope.")
         low = description.lower()
         if "authenticated" in low or "logged in" in low or "login" in low:
             parts.append(f"{actor} holds a valid session for this capability.")
@@ -329,18 +352,18 @@ class TextualUseCaseGenerator:
         if input_data:
             parts.append(f"Inputs needed for the main flow are available: {self._one_line(input_data, 220)}.")
         if not parts:
-            parts.append("Preconditions stated in the SRS for this requirement are satisfied.")
+            parts.append("Preconditions for this requirement are satisfied.")
         return " ".join(parts)
 
     def _derive_postconditions(self, output_data: str, description: str) -> str:
         if output_data:
             return (
-                "Measurable system state: outputs match the SRS specification "
+                "Measurable system state: outputs match the requirement specification "
                 f"({self._one_line(output_data, 240)}); persistent data and session state remain consistent with that outcome."
             )
         return (
             "Measurable system state: the operation completes without inconsistent partial effects; "
-            "stored data and session attributes align with the SRS outcome for this requirement."
+            "stored data and session attributes align with the intended requirement outcome."
         )
 
     def _derive_extensions(
@@ -358,7 +381,7 @@ class TextualUseCaseGenerator:
         low = description.lower()
         if "optional" in low or " may " in low:
             alt.append(
-                "Where the SRS allows an optional branch, the system follows that branch and still reaches a valid end state."
+                "Where an optional branch is allowed, the system follows that branch and still reaches a valid end state."
             )
         if input_data:
             exc.append(
@@ -366,7 +389,7 @@ class TextualUseCaseGenerator:
             )
         if "payment" in low or "pay" in low or "transaction" in low:
             exc.append(
-                "Payment or authorization refusal: transaction does not commit; system records the failure state per SRS."
+                "Payment or authorization refusal: transaction does not commit; system records the failure state."
             )
         if processing:
             exc.append(
@@ -378,7 +401,7 @@ class TextualUseCaseGenerator:
                 "Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state."
             )
         if not alt:
-            alt.append("None beyond the exception flows below when the SRS defines no optional branches.")
+            alt.append("None beyond the exception flows below when no optional branch is defined.")
         if not exc:
             exc.append(
                 f"Validation failure: system rejects with a recoverable error; {actor} may correct inputs and resume at step 2."
@@ -403,7 +426,7 @@ class TextualUseCaseGenerator:
             secondary = "External notification or integration endpoint when the SRS delegates delivery outside the subject system."
 
         return (
-            f"Primary actor ({actor}): achieve “{use_case_name}” successfully and traceably to the SRS. "
+            f"Primary actor ({actor}): achieve “{use_case_name}” successfully and traceably to the requirement. "
             f"Product owner / sponsor: acceptance against the originating requirement. "
             f"Supporting actors (if any): {secondary}"
         )
@@ -413,34 +436,34 @@ class TextualUseCaseGenerator:
         attrs = spec.get("software_system_attributes") or {}
         if not isinstance(attrs, dict):
             return (
-                "Quality attributes for this capability are those recorded under the SRS specific requirements "
+                "Quality attributes for this capability are those recorded under the specific requirements "
                 "(performance, security, usability, reliability) — no additional behaviour."
             )
         bits: List[str] = []
         for key in ("security", "performance", "usability", "reliability"):
             val = attrs.get(key)
             if isinstance(val, str) and val.strip():
-                bits.append(f"{key.title()}: constrained by SRS statements.")
+                bits.append(f"{key.title()}: constrained by documented requirement statements.")
         if bits:
-            return " ".join(bits) + " Further NFRs apply only as documented in the SRS."
+            return " ".join(bits) + " Further NFRs apply only as documented in the requirements."
         return (
-            "Non-functional constraints are exactly those stated in the SRS; this use case does not add implementation detail."
+            "Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail."
         )
 
     def _derive_frequency(self, description: str, priority: str) -> str:
         low = description.lower()
         if any(w in low for w in ("report", "admin", "audit", "export")):
-            return "On demand or on a schedule implied by the SRS (typically low to moderate frequency)."
+            return "On demand or on an operational schedule (typically low to moderate frequency)."
         if priority.lower() in ("high", "critical"):
-            return "High frequency during active use; response remains within SRS timing expectations."
-        return "According to normal operational load implied by the SRS."
+            return "High frequency during active use; response remains within expected timing constraints."
+        return "According to normal operational load."
 
     def _derive_assumptions(self, actor: str, description: str) -> str:
         low = description.lower()
         parts = [
-            "The SRS is the sole authority on scope; this use case adds no latent requirements.",
-            f"{actor} behaviour is limited to what the SRS assigns to this actor.",
+            "The approved requirement set is the sole authority on scope; this use case adds no latent requirements.",
+            f"{actor} behaviour is limited to the responsibilities assigned to this actor.",
         ]
         if "network" in low or "online" in low:
-            parts.append("Connectivity matches the deployment context assumed in the SRS.")
+            parts.append("Connectivity matches the assumed deployment context.")
         return " ".join(parts)

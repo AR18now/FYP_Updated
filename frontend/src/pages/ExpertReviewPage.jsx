@@ -455,7 +455,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
               {pendingInbox.map((r) => {
                 const open = expandedId === r.id;
                 const snap = r.srs_snapshot || {};
-                const preview = (snap.raw_text || '').slice(0, 280);
+                const fullSrsText = snap.raw_text || '';
                 return (
                   <li
                     key={r.id}
@@ -485,10 +485,9 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                           </div>
                         )}
                         <div>
-                          <p className="text-xs font-semibold uppercase text-slate-500 mb-1">SRS preview</p>
-                          <pre className="text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-950 p-3 max-h-48 overflow-auto whitespace-pre-wrap text-slate-700 dark:text-slate-300">
-                            {preview || '(no raw text in snapshot)'}
-                            {(snap.raw_text || '').length > 280 ? '…' : ''}
+                          <p className="text-xs font-semibold uppercase text-slate-500 mb-1">SRS (full text)</p>
+                          <pre className="text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-950 p-3 max-h-[60vh] overflow-auto whitespace-pre-wrap text-slate-700 dark:text-slate-300">
+                            {fullSrsText || '(no raw text in snapshot)'}
                           </pre>
                         </div>
                         <ExpertReviewChat

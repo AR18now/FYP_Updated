@@ -57,12 +57,14 @@ class RAGSRSGenerator:
 
     def load_default_knowledge_base(self, project_root: str) -> int:
         """
-        Best-effort default KB discovery in common folders.
+        Best-effort default KB discovery in knowledge-base folders only.
+        Keep this narrow so deleting the KB does not cause unrelated files
+        (for example output artifacts under data/) to be indexed as retrieval context.
         """
         candidate_dirs = [
             Path(project_root) / "data" / "knowledge_base",
-            Path(project_root) / "docs",
-            Path(project_root) / "data",
+            Path(project_root) / "data" / "kb",
+            Path(project_root) / "knowledge_base",
         ]
         loaded: List[Dict[str, str]] = []
         for candidate in candidate_dirs:

@@ -5434,7 +5434,9 @@ def expert_review_post_message(rid):
 def expert_review_complete(rid):
     """
     Expert completes a review. Body: expert_feedback (str), verdict (optional: approved|needs_revision|rejected),
-    expert_name (optional). In production, restrict to authenticated expert roles.
+    expert_name (optional), edited_raw_text (optional), save_only (optional bool).
+    If save_only=true, only updates snapshot raw_text and keeps request pending.
+    In production, restrict to authenticated expert roles.
     """
     try:
         rid = str(rid or "").strip()
@@ -5443,15 +5445,24 @@ def expert_review_complete(rid):
         data = request.get_json(silent=True)
         if data is None or not isinstance(data, dict):
             return jsonify({"error": "Expected a JSON object body"}), 400
+        save_only = bool(data.get("save_only"))
         feedback = str(data.get("expert_feedback") or "").strip()
-        if len(feedback) < 3:
-            return jsonify({"error": "expert_feedback is required (at least a few characters)"}), 400
-        if len(feedback) > 16000:
-            feedback = feedback[:16000]
+        if not save_only:
+            if len(feedback) < 3:
+                return jsonify({"error": "expert_feedback is required (at least a few characters)"}), 400
+            if len(feedback) > 16000:
+                feedback = feedback[:16000]
         verdict = str(data.get("verdict") or "approved").strip().lower()
         if verdict not in {"approved", "needs_revision", "rejected"}:
             verdict = "approved"
         expert_name = str(data.get("expert_name") or "").strip() or "Expert"
+        edited_raw_text = data.get("edited_raw_text")
+        if edited_raw_text is not None:
+            edited_raw_text = str(edited_raw_text).strip()
+            if len(edited_raw_text) > 200_000:
+                edited_raw_text = edited_raw_text[:200_000] + "\n\n[truncated by review API]"
+            if not edited_raw_text:
+                edited_raw_text = None
 
         with _expert_reviews_lock:
             reviews = _load_expert_reviews()
@@ -5461,6 +5472,19 @@ def expert_review_complete(rid):
             item = _normalize_review_entry(dict(reviews[idx]))
             if not isinstance(item, dict):
                 return jsonify({"error": "Invalid record"}), 500
+            if edited_raw_text is not None:
+                snap = item.get("srs_snapshot") if isinstance(item.get("srs_snapshot"), dict) else {}
+                if isinstance(snap, dict):
+                    snap["raw_text"] = edited_raw_text
+                    item["srs_snapshot"] = snap
+            if save_only:
+                if item.get("status") != "pending":
+                    return jsonify({"error": "Cannot save draft text on a reviewed request"}), 409
+                reviews[idx] = item
+                if not _save_expert_reviews(reviews):
+                    return jsonify({"error": "Could not save edited text. Check server disk space and permissions."}), 500
+                return jsonify({"ok": True, "id": rid, "status": "pending", "saved_only": True})
+
             if item.get("status") != "pending":
                 return jsonify({"error": "This request is already reviewed"}), 409
             item["status"] = "reviewed"
@@ -5470,6 +5494,8 @@ def expert_review_complete(rid):
                 "expert_name": expert_name,
                 "reviewed_at": datetime.utcnow().isoformat() + "Z",
             }
+            if edited_raw_text is not None:
+                item["review"]["edited_raw_text"] = edited_raw_text
             reviews[idx] = item
             if not _save_expert_reviews(reviews):
                 return jsonify({"error": "Could not save review. Check server disk space and permissions."}), 500

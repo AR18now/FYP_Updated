@@ -73,6 +73,8 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
 
   const [reviewDrafts, setReviewDrafts] = useState({});
   const [savingId, setSavingId] = useState(null);
+  const [savingEditedTextId, setSavingEditedTextId] = useState(null);
+  const [editedSavedAt, setEditedSavedAt] = useState({});
 
   const currentUser = useMemo(() => getCurrentUser(), []);
 
@@ -193,6 +195,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
     const feedback = (draft.feedback || '').trim();
     const verdict = draft.verdict || 'approved';
     const expertName = (draft.expertName || currentUser?.username || 'Expert').trim();
+    const editedRawText = String(draft.editedRawText || '').trim();
     if (feedback.length < 3) {
       setListError('Please enter expert feedback before submitting.');
       return;
@@ -204,6 +207,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
         expert_feedback: feedback,
         verdict,
         expert_name: expertName,
+        edited_raw_text: editedRawText || null,
       });
       await refreshRequests();
       setExpandedId(null);
@@ -211,6 +215,29 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
       setListError(getApiErrorMessage(e, 'Could not save review.'));
     } finally {
       setSavingId(null);
+    }
+  };
+
+  const saveEditedSrsText = async (id) => {
+    const draft = reviewDrafts[id] || {};
+    const editedRawText = String(draft.editedRawText || '').trim();
+    if (!editedRawText) {
+      setListError('Edited SRS text is empty. Add text before saving.');
+      return;
+    }
+    setSavingEditedTextId(id);
+    setListError(null);
+    try {
+      await axios.patch(config.API_ENDPOINTS.expertReviewRequest(id), {
+        save_only: true,
+        edited_raw_text: editedRawText,
+      });
+      await refreshRequests({ silent: true });
+      setEditedSavedAt((prev) => ({ ...prev, [id]: new Date().toISOString() }));
+    } catch (e) {
+      setListError(getApiErrorMessage(e, 'Could not save edited SRS text.'));
+    } finally {
+      setSavingEditedTextId(null);
     }
   };
 
@@ -456,6 +483,10 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                 const open = expandedId === r.id;
                 const snap = r.srs_snapshot || {};
                 const fullSrsText = snap.raw_text || '';
+                const draft = reviewDrafts[r.id] || {};
+                const editedSrsText = Object.prototype.hasOwnProperty.call(draft, 'editedRawText')
+                  ? draft.editedRawText
+                  : fullSrsText;
                 return (
                   <li
                     key={r.id}
@@ -485,10 +516,35 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                           </div>
                         )}
                         <div>
-                          <p className="text-xs font-semibold uppercase text-slate-500 mb-1">SRS (full text)</p>
-                          <pre className="text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-950 p-3 max-h-[60vh] overflow-auto whitespace-pre-wrap text-slate-700 dark:text-slate-300">
-                            {fullSrsText || '(no raw text in snapshot)'}
-                          </pre>
+                          <div className="flex items-center justify-between gap-3 mb-1">
+                            <p className="text-xs font-semibold uppercase text-slate-500">SRS (editable)</p>
+                          </div>
+                          <textarea
+                            value={editedSrsText}
+                            onChange={(e) => updateDraft(r.id, 'editedRawText', e.target.value)}
+                            rows={20}
+                            className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-950 p-3 whitespace-pre-wrap text-slate-700 dark:text-slate-300 font-mono"
+                            placeholder="No raw text in snapshot"
+                          />
+                          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                            Order is preserved exactly as written. Save now, then submit with feedback when ready.
+                          </p>
+                          <div className="mt-2">
+                            <button
+                              type="button"
+                              onClick={() => saveEditedSrsText(r.id)}
+                              disabled={savingEditedTextId === r.id}
+                              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+                            >
+                              {savingEditedTextId === r.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
+                              {savingEditedTextId === r.id ? 'Saving...' : 'Resave edited SRS text'}
+                            </button>
+                            {editedSavedAt[r.id] ? (
+                              <p className="mt-1 text-[11px] text-emerald-700 dark:text-emerald-300">
+                                Saved at {new Date(editedSavedAt[r.id]).toLocaleString()}
+                              </p>
+                            ) : null}
+                          </div>
                         </div>
                         <ExpertReviewChat
                           requestId={r.id}
@@ -595,6 +651,16 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                               {r.review.expert_name} · {r.review.verdict?.replace(/_/g, ' ')}
                             </p>
                             <p className="mt-1 text-emerald-900/90 whitespace-pre-wrap">{r.review.expert_feedback}</p>
+                            {r.review.edited_raw_text ? (
+                              <div className="mt-3">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-900/90 dark:text-emerald-100 mb-1">
+                                  Expert-edited SRS text
+                                </p>
+                                <pre className="text-xs rounded-lg border border-emerald-200/80 dark:border-emerald-800/80 bg-white/90 dark:bg-slate-950 p-3 max-h-[45vh] overflow-auto whitespace-pre-wrap text-emerald-950 dark:text-emerald-100">
+                                  {r.review.edited_raw_text}
+                                </pre>
+                              </div>
+                            ) : null}
                           </div>
                         )}
                         <ExpertReviewChat

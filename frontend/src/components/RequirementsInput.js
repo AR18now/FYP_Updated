@@ -23,6 +23,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState([]);
+  const [structuredFeedback, setStructuredFeedback] = useState(null);
   /** Live debounced hint while typing: instruction-hijack lookalikes (not for normal “alerts/notifications” reqs). */
   const [liveInjectionHint, setLiveInjectionHint] = useState(null);
   const [projectInfoErrors, setProjectInfoErrors] = useState([]);
@@ -55,6 +56,10 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [copilotThread, setCopilotThread] = useState([]);
   const [backendReady, setBackendReady] = useState(true);
   const [backendStatusText, setBackendStatusText] = useState('Checking backend...');
+  const isRenderHost = useMemo(() => /onrender\.com$/i.test(window.location.hostname || ''), []);
+  const [liveTranscriptionProfile, setLiveTranscriptionProfile] = useState(() => (
+    /onrender\.com$/i.test(window.location.hostname || '') ? 'stable' : 'fast'
+  ));
   const navigate = useNavigate();
   const mediaRecorderRef = useRef(null);
   const timerRef = useRef(null);
@@ -65,6 +70,10 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const liveTranscriptionRef = useRef('');
   const finalSpeechTranscriptRef = useRef('');
   const lastChunkTranscriptRef = useRef('');
+  const isTranscribingRef = useRef(false);
+  const lastTranscribedChunkCountRef = useRef(0);
+  const projectInfoRef = useRef(projectInfo);
+  const liveTranscriptionBackoffMsRef = useRef(0);
   const speechRecognitionRef = useRef(null);
   const speechRecognitionActiveRef = useRef(false);
 
@@ -80,6 +89,29 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const charCount = useMemo(() => {
     return (textInput || '').length;
   }, [textInput]);
+
+  const liveTranscriptionModeConfig = useMemo(() => {
+    if (liveTranscriptionProfile === 'stable') {
+      return {
+        label: 'Stable',
+        pollMs: isRenderHost ? 5200 : 4200,
+        timeoutMs: isRenderHost ? 50000 : 36000,
+        minNewChunks: 4,
+        chunkWindow: 8,
+      };
+    }
+    return {
+      label: 'Fast',
+      pollMs: isRenderHost ? 3800 : 2400,
+      timeoutMs: isRenderHost ? 38000 : 24000,
+      minNewChunks: 3,
+      chunkWindow: 10,
+    };
+  }, [liveTranscriptionProfile, isRenderHost]);
+
+  useEffect(() => {
+    projectInfoRef.current = projectInfo;
+  }, [projectInfo]);
 
   const requirementGuidance = useMemo(() => {
     const raw = String(textInput || '');
@@ -134,6 +166,18 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     };
   }, [textInput]);
 
+  const extractStructuredAnalysis = useCallback((payload) => {
+    if (!payload) return null;
+    if (payload.structured_analysis) return payload.structured_analysis;
+    if (payload.processing?.structured_analysis) return payload.processing.structured_analysis;
+    if (payload.validation?.structured_analysis) return payload.validation.structured_analysis;
+    if (Array.isArray(payload.results) && payload.results.length > 0) {
+      const first = payload.results.find((r) => r?.structured_analysis);
+      return first?.structured_analysis || null;
+    }
+    return null;
+  }, []);
+
   const minWords = 50;
   const maxChars = 10000; // Maximum input length
 
@@ -158,7 +202,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       /\bdo\s+not\s+follow\s+(?:any\s+)?(?:previous\s+)?instructions?\b/i,
       /\bforget\s+all\s+(?:previous\s+)?instructions?\b/i,
       /\bforget\s+everything\b/i,
-      /\bprompt\s+injection\b/i,
       /\bignore\s+the\s+prompt\b/i,
       /\b(?:new|updated)\s+instructions\s*:\s*/i,
       /\bact\s+as\s+if\b/i,
@@ -192,6 +235,21 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     });
   }, []);
 
+  const isDefensivePromptInjectionContext = useCallback((text) => {
+    const lowered = String(text || '').toLowerCase();
+    if (!lowered.trim()) return false;
+    const domainTerms = ['prompt injection', 'jailbreak', 'adversarial prompt', 'prompt attack'];
+    const defensiveTerms = [
+      'detect', 'detection', 'prevent', 'prevention', 'mitigate', 'mitigation',
+      'protect', 'protection', 'defend', 'defense', 'guardrail', 'filter',
+      'sanitize', 'monitor', 'audit', 'test', 'testing', 'simulate', 'simulation',
+      'hardening', 'secure'
+    ];
+    const hasDomain = domainTerms.some((term) => lowered.includes(term));
+    const hasDefensive = defensiveTerms.some((term) => lowered.includes(term));
+    return hasDomain && hasDefensive;
+  }, []);
+
   /**
    * Same as server-side blocking list — used for submit validation.
    */
@@ -205,12 +263,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           detectedPatterns.push(pattern.toString());
         }
       }
+      if (detectedPatterns.length > 0 && isDefensivePromptInjectionContext(text)) {
+        return { hasInjection: false, patterns: [] };
+      }
       return {
         hasInjection: detectedPatterns.length > 0,
         patterns: detectedPatterns,
       };
     },
-    [injectionPatternsCritical]
+    [injectionPatternsCritical, isDefensivePromptInjectionContext]
   );
 
   const classifyInjectionWhileTyping = useCallback(
@@ -232,9 +293,17 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
             'Phrases like “from now on” or “system prompt” sometimes appear in attacks. If you are writing legitimate requirements—including a system that sends alerts, notifications, or security warnings—you can usually ignore this. We only block clear hijack patterns and special tokens when you submit.',
         };
       }
+      if (isDefensivePromptInjectionContext(text)) {
+        return {
+          level: 'caution',
+          title: 'Security-domain content detected',
+          body:
+            'This looks like defensive security requirements (for example, prompt-injection detection/prevention). It is allowed as long as you describe safeguards and legitimate behavior, not instructions to override model rules.',
+        };
+      }
       return null;
     },
-    [injectionPatternsCritical, injectionPatternsCaution, matchesAnyPattern]
+    [injectionPatternsCritical, injectionPatternsCaution, matchesAnyPattern, isDefensivePromptInjectionContext]
   );
 
   /**
@@ -543,7 +612,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         }
         // Clear transcription interval
         if (transcriptionIntervalRef.current) {
-          clearInterval(transcriptionIntervalRef.current);
+          clearTimeout(transcriptionIntervalRef.current);
           transcriptionIntervalRef.current = null;
         }
       };
@@ -564,6 +633,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       liveTranscriptionRef.current = '';
       finalSpeechTranscriptRef.current = '';
       lastChunkTranscriptRef.current = '';
+      isTranscribingRef.current = false;
+      lastTranscribedChunkCountRef.current = 0;
+      liveTranscriptionBackoffMsRef.current = 0;
       setRecordingTranscribeError(null);
 
       // Start timer
@@ -630,84 +702,107 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
       // 2) Fallback: periodic Whisper transcription if Speech Recognition isn't available
       if (!speechRecognitionActiveRef.current) {
-        transcriptionIntervalRef.current = setInterval(async () => {
-          if (audioChunksRef.current.length > 0 && !isTranscribing) {
-            try {
-              setIsTranscribing(true);
-              // Transcribe recent audio window to reduce server latency on mobile networks
-              const recentChunks = audioChunksRef.current.slice(-16);
-              const currentBlob = new Blob(recentChunks, { type: mimeType });
+        const basePollMs = liveTranscriptionModeConfig.pollMs;
+        const requestTimeoutMs = liveTranscriptionModeConfig.timeoutMs;
 
-              if (currentBlob.size > 0) {
-                // Determine file extension
-                let extension = 'webm';
-                if (mimeType.includes('mp4')) {
-                  extension = 'm4a';
-                } else if (mimeType.includes('ogg')) {
-                  extension = 'ogg';
-                } else if (mimeType.includes('wav')) {
-                  extension = 'wav';
+        const scheduleNextLivePoll = () => {
+          const delay = basePollMs + liveTranscriptionBackoffMsRef.current;
+          transcriptionIntervalRef.current = setTimeout(runLivePoll, delay);
+        };
+
+        const runLivePoll = async () => {
+          if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
+            return;
+          }
+          if (isTranscribingRef.current) {
+            scheduleNextLivePoll();
+            return;
+          }
+          const chunkCount = audioChunksRef.current.length;
+          const newChunkCount = chunkCount - lastTranscribedChunkCountRef.current;
+          if (chunkCount === 0 || newChunkCount < liveTranscriptionModeConfig.minNewChunks) {
+            scheduleNextLivePoll();
+            return;
+          }
+
+          try {
+            isTranscribingRef.current = true;
+            setIsTranscribing(true);
+
+            // Keep each live request light for Render latency/CPU limits.
+            const recentChunks = audioChunksRef.current.slice(-liveTranscriptionModeConfig.chunkWindow);
+            const currentBlob = new Blob(recentChunks, { type: mimeType });
+            if (currentBlob.size <= 0) {
+              scheduleNextLivePoll();
+              return;
+            }
+
+            let extension = 'webm';
+            if (mimeType.includes('mp4')) extension = 'm4a';
+            else if (mimeType.includes('ogg')) extension = 'ogg';
+            else if (mimeType.includes('wav')) extension = 'wav';
+
+            const formData = new FormData();
+            formData.append('audio', currentBlob, `recording_chunk.${extension}`);
+            formData.append('project_info', JSON.stringify(projectInfoRef.current || {}));
+            formData.append('live', '1');
+
+            const response = await axios.post(config.API_ENDPOINTS.TRANSCRIBE_AUDIO, formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+              timeout: requestTimeoutMs
+            });
+
+            if (response.data && response.data.transcription) {
+              setLiveTranscription((prev) => {
+                const newText = response.data.transcription.trim();
+                if (!newText) return prev || '';
+                const prevText = (prev || '').trim();
+                if (!prevText) {
+                  liveTranscriptionRef.current = newText;
+                  lastChunkTranscriptRef.current = newText;
+                  return newText;
                 }
-
-                const formData = new FormData();
-                formData.append('audio', currentBlob, `recording_chunk.${extension}`);
-                formData.append('project_info', JSON.stringify(projectInfo));
-
-                const response = await axios.post(config.API_ENDPOINTS.TRANSCRIBE_AUDIO, formData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  },
-                  timeout: 25000
-                });
-
-                if (response.data && response.data.transcription) {
-                  setLiveTranscription((prev) => {
-                    const newText = response.data.transcription.trim();
-                    if (!newText) return prev || '';
-                    const prevText = (prev || '').trim();
-                    if (!prevText) {
-                      liveTranscriptionRef.current = newText;
-                      lastChunkTranscriptRef.current = newText;
-                      return newText;
-                    }
-                    if (prevText === newText || lastChunkTranscriptRef.current === newText) {
-                      return prevText;
-                    }
-                    if (newText.includes(prevText)) {
-                      liveTranscriptionRef.current = newText;
-                      lastChunkTranscriptRef.current = newText;
-                      return newText;
-                    }
-                    if (prevText.includes(newText)) {
-                      return prevText;
-                    }
-                    // Overlap merge to avoid repeated append artifacts.
-                    const maxOverlap = Math.min(prevText.length, newText.length, 180);
-                    let overlap = 0;
-                    for (let i = maxOverlap; i >= 8; i -= 1) {
-                      if (prevText.slice(-i).toLowerCase() === newText.slice(0, i).toLowerCase()) {
-                        overlap = i;
-                        break;
-                      }
-                    }
-                    const merged = overlap > 0
-                      ? `${prevText}${newText.slice(overlap)}`
-                      : `${prevText} ${newText}`;
-                    const normalized = merged.replace(/\s+/g, ' ').trim();
-                    lastChunkTranscriptRef.current = newText;
-                    liveTranscriptionRef.current = normalized;
-                    return normalized;
-                  });
+                if (prevText === newText || lastChunkTranscriptRef.current === newText) {
+                  return prevText;
                 }
-              }
-            } catch (err) {
-              // Silently fail for live transcription - don't show errors
-              console.log('Live transcription update failed:', err.message);
-            } finally {
-              setIsTranscribing(false);
+                if (newText.includes(prevText)) {
+                  liveTranscriptionRef.current = newText;
+                  lastChunkTranscriptRef.current = newText;
+                  return newText;
+                }
+                if (prevText.includes(newText)) {
+                  return prevText;
+                }
+                const maxOverlap = Math.min(prevText.length, newText.length, 180);
+                let overlap = 0;
+                for (let i = maxOverlap; i >= 8; i -= 1) {
+                  if (prevText.slice(-i).toLowerCase() === newText.slice(0, i).toLowerCase()) {
+                    overlap = i;
+                    break;
+                  }
+                }
+                const merged = overlap > 0 ? `${prevText}${newText.slice(overlap)}` : `${prevText} ${newText}`;
+                const normalized = merged.replace(/\s+/g, ' ').trim();
+                lastChunkTranscriptRef.current = newText;
+                liveTranscriptionRef.current = normalized;
+                return normalized;
+              });
+              lastTranscribedChunkCountRef.current = chunkCount;
+              liveTranscriptionBackoffMsRef.current = 0;
+            }
+          } catch (err) {
+            console.log('Live transcription update failed:', err.message);
+            liveTranscriptionBackoffMsRef.current = Math.min(12000, (liveTranscriptionBackoffMsRef.current || 0) + 2000);
+          } finally {
+            isTranscribingRef.current = false;
+            setIsTranscribing(false);
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+              scheduleNextLivePoll();
             }
           }
-        }, 2500); // Slower polling reduces duplicate chunk overlap and server load
+        };
+
+        runLivePoll();
       }
 
     } catch (error) {
@@ -723,7 +818,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       }
       setIsRecording(false);
     }
-  }, []);
+  }, [liveTranscriptionModeConfig]);
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
@@ -777,9 +872,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setIsPostRecordingTranscribing(false);
     audioChunksRef.current = [];
     if (transcriptionIntervalRef.current) {
-      clearInterval(transcriptionIntervalRef.current);
+      clearTimeout(transcriptionIntervalRef.current);
       transcriptionIntervalRef.current = null;
     }
+    isTranscribingRef.current = false;
+    liveTranscriptionBackoffMsRef.current = 0;
   }, [audioUrl]);
 
   const transcribeFullRecording = useCallback(async () => {
@@ -1268,6 +1365,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setLastSRSAvailable(false);
     setError(null);
     setValidationErrors([]);
+    setStructuredFeedback(null);
     setProjectInfoSubmitAttempted(true);
 
     const currentProjectErrors = validateProjectInfo();
@@ -1418,6 +1516,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       }
 
       setResults(response.data);
+      setStructuredFeedback(extractStructuredAnalysis(response.data));
       onResultsGenerated(response.data);
 
       try {
@@ -1470,7 +1569,22 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         setError(`Network error: Could not connect to the server. Please ensure the backend server is running on ${config.API_BASE_URL}`);
       } else if (!err.response) {
         setError(`Connection error: ${err.message || 'Unable to reach the server. Please check if the backend is running.'}`);
+      } else if (err.response?.data?.policy_issue) {
+        setError(err.response?.data?.error || 'Blocked by safety policy.');
+        setStructuredFeedback(extractStructuredAnalysis(err.response?.data));
+        const policyValidation = err.response?.data?.validation_errors || err.response?.data?.errors;
+        if (Array.isArray(policyValidation) && policyValidation.length > 0) {
+          setValidationErrors(policyValidation);
+        }
+      } else if (err.response?.data?.security_issue) {
+        setError(err.response?.data?.error || 'Blocked: potential prompt-injection content detected.');
+        setStructuredFeedback(extractStructuredAnalysis(err.response?.data));
+        const securityValidation = err.response?.data?.validation_errors || err.response?.data?.errors;
+        if (Array.isArray(securityValidation) && securityValidation.length > 0) {
+          setValidationErrors(securityValidation);
+        }
       } else if (err.response?.data?.validation_errors) {
+        setStructuredFeedback(extractStructuredAnalysis(err.response?.data));
         const validationData = err.response.data.validation_errors;
         
         if (Array.isArray(validationData) && validationData.length > 0) {
@@ -1500,7 +1614,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setIsProcessing(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     }
-  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing, extractStructuredAnalysis]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
@@ -2028,6 +2142,57 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   </div>
                 )}
 
+                {structuredFeedback && (
+                  <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'bg-slate-900/60 border-slate-700' : 'bg-indigo-50/60 border-indigo-200'}`}>
+                    <p className={`text-sm font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
+                      Requirement Quality Panel
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                      <span className={`inline-flex items-center rounded-full border px-2 py-1 ${isDark ? 'border-slate-600 text-slate-200 bg-slate-800' : 'border-slate-300 text-slate-700 bg-white'}`}>
+                        Score: {Number(structuredFeedback.overall_score || 0).toFixed(1)}%
+                      </span>
+                      <span className={`inline-flex items-center rounded-full border px-2 py-1 ${
+                        (structuredFeedback.overall_score || 0) >= 60
+                          ? (isDark ? 'border-emerald-700 text-emerald-300 bg-emerald-950/40' : 'border-emerald-300 text-emerald-700 bg-emerald-50')
+                          : (isDark ? 'border-amber-700 text-amber-300 bg-amber-950/40' : 'border-amber-300 text-amber-700 bg-amber-50')
+                      }`}>
+                        {(structuredFeedback.overall_score || 0) >= 60 ? 'Ready for generation' : 'Needs improvement (min 60%)'}
+                      </span>
+                      {!!structuredFeedback.actors?.length && (
+                        <span className={`inline-flex items-center rounded-full border px-2 py-1 ${isDark ? 'border-slate-600 text-slate-300 bg-slate-800' : 'border-slate-300 text-slate-700 bg-white'}`}>
+                          Actors: {structuredFeedback.actors.join(', ')}
+                        </span>
+                      )}
+                    </div>
+
+                    {!!structuredFeedback.conflicts?.length && (
+                      <div className="mt-3">
+                        <p className={`text-xs font-semibold ${isDark ? 'text-rose-300' : 'text-rose-700'}`}>Potential conflicts</p>
+                        <ul className="mt-1 space-y-1">
+                          {structuredFeedback.conflicts.slice(0, 3).map((c, idx) => (
+                            <li key={`conf-${idx}`} className={`text-xs ${isDark ? 'text-rose-200' : 'text-rose-700'}`}>
+                              - {c.reason}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {!!structuredFeedback.suggestions?.length && (
+                      <div className="mt-3">
+                        <p className={`text-xs font-semibold ${isDark ? 'text-indigo-200' : 'text-indigo-700'}`}>Suggested improvements</p>
+                        <ul className="mt-1 space-y-1">
+                          {structuredFeedback.suggestions.slice(0, 5).map((tip, idx) => (
+                            <li key={`structured-tip-${idx}`} className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                              - {tip}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {requirementGuidance.hasInput && (
                   <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                     <p className={`text-sm font-semibold ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
@@ -2078,6 +2243,25 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                     <li>English input only (mixed languages are not supported)</li>
                     <li>Speak clearly and at a moderate pace</li>
                   </ul>
+                  <div className="mt-3 flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label htmlFor="live-transcription-mode" className="text-xs font-medium">
+                      Live transcription mode
+                    </label>
+                    <select
+                      id="live-transcription-mode"
+                      value={liveTranscriptionProfile}
+                      onChange={(e) => setLiveTranscriptionProfile(e.target.value)}
+                      className={`text-xs rounded border px-2 py-1 ${
+                        isDark ? 'bg-slate-900 border-slate-700 text-slate-100' : 'bg-white border-slate-300 text-slate-800'
+                      }`}
+                    >
+                      <option value="fast">Fast (local / low latency)</option>
+                      <option value="stable">Stable (Render / slow server)</option>
+                    </select>
+                    <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Active: {liveTranscriptionModeConfig.label}
+                    </span>
+                  </div>
                 </div>
                 
                 {!audioBlob ? (

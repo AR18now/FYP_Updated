@@ -893,7 +893,6 @@ SUSPICIOUS_PATTERNS = [
     r'\bdo\s+not\s+follow\s+(?:any\s+)?(?:previous\s+)?instructions?\b',
     r'\bforget\s+all\s+(?:previous\s+)?instructions?\b',
     r'\bforget\s+everything\b',
-    r'\bprompt\s+injection\b',
     r'\bignore\s+the\s+prompt\b',
     r'\b(?:new|updated)\s+instructions\s*:\s*',
     r'\bact\s+as\s+if\b',
@@ -905,6 +904,60 @@ SUSPICIOUS_PATTERNS = [
     r'<\|im_start\|>.*?<\|im_end\|>',
     r'<\|(user|assistant|system|eot_id)\|>',
 ]
+
+_DEFENSIVE_SECURITY_TERMS = (
+    "detect", "detection", "prevent", "prevention", "mitigate", "mitigation",
+    "protect", "protection", "defend", "defense", "guardrail", "filter",
+    "sanitize", "monitor", "audit", "testing", "test", "simulate", "simulation",
+    "red team", "red-team", "evaluation", "hardening",
+)
+
+_SECURITY_DOMAIN_TERMS = (
+    "prompt injection", "jailbreak", "adversarial prompt", "prompt attack",
+)
+
+_MALICIOUS_INTENT_PATTERNS = [
+    re.compile(
+        r"\b(create|build|develop|design|write|generate)\b.{0,80}\b"
+        r"(malware|ransomware|keylogger|botnet|exploit|phishing|credential\s+stealer)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(steal|exfiltrate|leak|dump|bypass|disable|evade|backdoor|hack|compromise)\b.{0,100}\b"
+        r"(database|credentials?|passwords?|tokens?|accounts?|system|server|security)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+]
+
+_AUTHORIZED_SECURITY_CONTEXT_TERMS = (
+    "prevent", "detection", "defense", "mitigation", "authorized", "permission",
+    "compliance", "audit", "secure", "hardening", "monitoring", "soc", "siem",
+    "training", "awareness", "red team", "penetration test", "pentest",
+)
+
+
+def _is_defensive_security_context(text: str) -> bool:
+    lowered = str(text or "").lower()
+    has_domain = any(term in lowered for term in _SECURITY_DOMAIN_TERMS)
+    has_defensive = any(term in lowered for term in _DEFENSIVE_SECURITY_TERMS)
+    return has_domain and has_defensive
+
+
+def _detect_malicious_intent(text: str) -> Optional[str]:
+    lowered = str(text or "").lower()
+    if not lowered.strip():
+        return None
+
+    if any(term in lowered for term in _AUTHORIZED_SECURITY_CONTEXT_TERMS):
+        return None
+
+    for pattern in _MALICIOUS_INTENT_PATTERNS:
+        if pattern.search(lowered):
+            return (
+                "Request appears to ask for offensive or unauthorized cyber abuse. "
+                "Only defensive, legal, and authorized requirement content is allowed."
+            )
+    return None
 
 def detect_prompt_injection(text: str) -> tuple[bool, list[str]]:
     """
@@ -941,6 +994,9 @@ def detect_prompt_injection(text: str) -> tuple[bool, list[str]]:
 
     # unique
     detected_patterns = sorted(set(detected_patterns))
+    if detected_patterns and _is_defensive_security_context(text):
+        # Allow legitimate SRS use-cases that discuss prompt-injection defense/testing.
+        return False, []
     if detected_patterns:
         _record_suspicious_input_event("prompt_injection_detected", text)
 
@@ -1120,6 +1176,16 @@ def validate_text_content(text: str) -> dict:
     if not text or not text.strip():
         return {'valid': False, 'errors': ['Text content is empty']}
     
+    # Block clearly malicious/offensive intent separately from prompt-injection checks.
+    malicious_intent_error = _detect_malicious_intent(text)
+    if malicious_intent_error:
+        errors.append(malicious_intent_error)
+        return {
+            'valid': False,
+            'errors': errors,
+            'policy_issue': True
+        }
+
     # Check for prompt injection attempts
     has_injection, detected_patterns = detect_prompt_injection(text)
     if has_injection:
@@ -1161,10 +1227,23 @@ def validate_text_content(text: str) -> dict:
     word_count = len([word for word in words if word])
     if word_count < 50:
         errors.append(f'Minimum 50 words required (current: {word_count} words)')
+
+    structured = analyze_structured_requirements(text)
+    if not structured.get("valid", False):
+        errors.extend(structured.get("errors", []))
+        if structured.get("overall_score", 0.0) < 60.0:
+            errors.append(
+                f"Requirement completeness score is too low ({structured.get('overall_score', 0.0)}%). Minimum required: 60%."
+            )
+        # Add actionable feedback without fully rejecting all imperfect lines.
+        if structured.get("suggestions"):
+            errors.append("Suggested improvements:")
+            errors.extend(structured.get("suggestions", [])[:8])
     
     return {
         'valid': len(errors) == 0,
-        'errors': errors
+        'errors': errors,
+        'structured_analysis': structured
     }
 
 
@@ -1209,6 +1288,223 @@ def _extract_text_for_generation_validation(results: list) -> str:
         )
         chunks.append(str(candidate))
     return "\n".join(chunks).strip()
+
+
+_ACTOR_TERMS = (
+    "user", "admin", "administrator", "customer", "teacher", "student", "manager",
+    "operator", "staff", "system", "api", "service", "client", "guest", "auditor",
+)
+
+_ACTION_VERBS = (
+    "login", "log in", "register", "sign up", "submit", "update", "create", "delete",
+    "view", "search", "generate", "upload", "download", "approve", "reject", "notify",
+    "track", "manage", "edit", "assign", "schedule", "cancel", "authenticate",
+    "authorize", "reset", "export", "import", "calculate", "process",
+)
+
+_OBJECT_HINTS = (
+    "account", "profile", "report", "assignment", "invoice", "record", "document",
+    "request", "order", "booking", "appointment", "ticket", "notification", "session",
+    "payment", "message", "dashboard", "file", "data",
+)
+
+_VAGUE_TERMS = ("fast", "efficient", "user-friendly", "easy", "quick", "reliable")
+_STRONG_TERMS = ("shall", "must")
+_WEAK_TERMS = ("may", "might", "could")
+_NFR_TERMS = (
+    "performance", "latency", "throughput", "availability", "uptime", "secure", "security",
+    "reliability", "scalability", "maintainability", "usability", "compliance", "privacy",
+)
+
+
+def _split_requirement_lines(text: str) -> list[str]:
+    rows = []
+    for line in re.split(r"[\n;]+", str(text or "")):
+        candidate = re.sub(r"^\s*(?:[-*]|\d+[.)])\s*", "", line).strip()
+        if candidate:
+            rows.append(candidate)
+    if rows:
+        return rows
+    fallback = [p.strip() for p in re.split(r"(?<=[.!?])\s+", str(text or "")) if p.strip()]
+    return fallback
+
+
+def _detect_actor(line: str) -> list[str]:
+    lowered = line.lower()
+    found = [term for term in _ACTOR_TERMS if re.search(rf"\b{re.escape(term)}\b", lowered)]
+    # Treat "User A/User B" style as actor roles and normalize to "user".
+    if re.search(r"\buser\s*[a-z0-9]+\b", lowered):
+        found.append("user")
+    return sorted(set(found))
+
+
+def _detect_action(line: str) -> list[str]:
+    lowered = line.lower()
+    return sorted(set(v for v in _ACTION_VERBS if re.search(rf"\b{re.escape(v)}\b", lowered)))
+
+
+def _infer_object(line: str) -> str:
+    lowered = line.lower()
+    for hint in _OBJECT_HINTS:
+        if re.search(rf"\b{re.escape(hint)}\b", lowered):
+            return hint
+    # Light syntax-based inference: actor + action + remaining object phrase.
+    m = re.search(r"\b(?:shall|must|can|may|should|could|will)\b\s+\b[a-z]+\b\s+(.+)$", lowered)
+    if m:
+        tail = re.sub(r"\b(?:if|when|where|while|within)\b.*$", "", m.group(1)).strip(" .,:;")
+        if tail and len(tail.split()) >= 1:
+            return tail[:80]
+    return ""
+
+
+def _classify_requirement_type(line: str) -> str:
+    lowered = line.lower()
+    if any(re.search(rf"\b{re.escape(t)}\b", lowered) for t in _NFR_TERMS):
+        return "Non-Functional Requirement"
+    return "Functional Requirement"
+
+
+def _requirement_clarity_score(line: str) -> float:
+    lowered = line.lower()
+    penalty = 0.0
+    if any(re.search(rf"\b{re.escape(term)}\b", lowered) for term in _VAGUE_TERMS):
+        penalty += 0.5
+    if any(re.search(rf"\b{re.escape(term)}\b", lowered) for term in _WEAK_TERMS):
+        penalty += 0.25
+    if re.search(r"\b(tbd|tbc|not defined|as appropriate)\b", lowered):
+        penalty += 0.35
+    return max(0.0, 1.0 - min(1.0, penalty))
+
+
+def _detect_conflicts(requirements: list[dict]) -> list[dict]:
+    conflicts: list[dict] = []
+    for i in range(len(requirements)):
+        for j in range(i + 1, len(requirements)):
+            a = requirements[i]
+            b = requirements[j]
+            if not a["actor_present"] or not b["actor_present"]:
+                continue
+            if not a["action_present"] or not b["action_present"]:
+                continue
+            shared_actor = bool(set(a["actors"]) & set(b["actors"]))
+            shared_action = bool(set(a["actions"]) & set(b["actions"]))
+            if not (shared_actor and shared_action):
+                continue
+            a_neg = bool(re.search(r"\b(cannot|must not|shall not|not allowed)\b", a["line"].lower()))
+            b_neg = bool(re.search(r"\b(cannot|must not|shall not|not allowed)\b", b["line"].lower()))
+            if a_neg != b_neg:
+                conflicts.append({
+                    "line_a": a["line"],
+                    "line_b": b["line"],
+                    "reason": "Potential contradiction for same actor-action pair",
+                })
+    return conflicts
+
+
+def analyze_structured_requirements(text: str) -> dict:
+    lines = _split_requirement_lines(text)
+    if not lines:
+        return {
+            "valid": False,
+            "overall_score": 0.0,
+            "requirements": [],
+            "errors": ["No requirement statements detected."],
+            "suggestions": ["Provide at least one requirement in Actor + Action + Object form."],
+            "actors": [],
+            "conflicts": [],
+        }
+
+    processed = []
+    normalized_actors: set[str] = set()
+    errors: list[str] = []
+    suggestions: list[str] = []
+    weak_terms_hits = 0
+    strong_terms_hits = 0
+
+    for line in lines:
+        actors = _detect_actor(line)
+        actions = _detect_action(line)
+        obj = _infer_object(line)
+        clarity = _requirement_clarity_score(line)
+        actor_present = len(actors) > 0
+        action_present = len(actions) > 0
+        object_present = bool(obj)
+
+        normalized_actors.update(actors)
+        weak_terms_hits += len(re.findall(r"\b(?:may|might|could)\b", line.lower()))
+        strong_terms_hits += len(re.findall(r"\b(?:shall|must)\b", line.lower()))
+
+        # Weighted completeness score per requirement
+        score = (
+            (0.30 if actor_present else 0.0)
+            + (0.30 if action_present else 0.0)
+            + (0.20 if object_present else 0.0)
+            + (0.20 * clarity)
+        )
+        processed.append({
+            "line": line,
+            "actors": actors,
+            "actions": actions,
+            "object": obj,
+            "actor_present": actor_present,
+            "action_present": action_present,
+            "object_present": object_present,
+            "clarity": round(clarity, 3),
+            "score": round(score * 100, 1),
+            "classification": _classify_requirement_type(line),
+        })
+
+    # Detect random noun-only / repeated-token-like input.
+    alpha_tokens = [t.lower() for t in re.findall(r"[A-Za-z][A-Za-z0-9_-]*", text)]
+    unique_ratio = (len(set(alpha_tokens)) / len(alpha_tokens)) if alpha_tokens else 1.0
+    has_action_any = any(p["action_present"] for p in processed)
+    if alpha_tokens and (unique_ratio < 0.25 or not has_action_any):
+        errors.append(
+            "Input looks unstructured (noun lists or repeated tokens). Use requirement sentences with actor, action, and object."
+        )
+
+    for p in processed:
+        if not p["actor_present"]:
+            suggestions.append(f"Add actor: '{p['line']}'")
+        if not p["action_present"]:
+            suggestions.append(f"Add action verb: '{p['line']}'")
+        if not p["object_present"]:
+            suggestions.append(f"Specify target object/entity: '{p['line']}'")
+        if p["clarity"] < 1.0:
+            suggestions.append(f"Replace vague terms with measurable criteria: '{p['line']}'")
+
+    conflicts = _detect_conflicts(processed)
+    if conflicts:
+        errors.append("Potentially conflicting requirements detected; please resolve contradictions.")
+
+    overall = (sum(p["score"] for p in processed) / len(processed)) if processed else 0.0
+    strong_modal_ratio = (strong_terms_hits / max(1, len(processed)))
+
+    return {
+        "valid": overall >= 60.0 and len(errors) == 0,
+        "overall_score": round(overall, 1),
+        "requirements": processed,
+        "actors": sorted(normalized_actors),
+        "conflicts": conflicts,
+        "imperative_analysis": {
+            "strong_terms_count": strong_terms_hits,
+            "weak_terms_count": weak_terms_hits,
+            "strong_modal_ratio": round(strong_modal_ratio, 3),
+        },
+        "errors": errors,
+        "suggestions": sorted(set(suggestions))[:20],
+    }
+
+
+def build_generation_structured_elements(structured_analysis: dict) -> dict:
+    reqs = list(structured_analysis.get("requirements") or [])
+    return {
+        "actors": list(structured_analysis.get("actors") or []),
+        "functional_requirements": [r for r in reqs if r.get("classification") == "Functional Requirement"],
+        "non_functional_requirements": [r for r in reqs if r.get("classification") == "Non-Functional Requirement"],
+        "conflicts": list(structured_analysis.get("conflicts") or []),
+        "quality_score": structured_analysis.get("overall_score", 0.0),
+    }
 
 
 _SENSITIVE_OUTPUT_PATTERNS = [
@@ -2018,7 +2314,8 @@ def process_single_requirement():
             error_status = 403 if validation.get('security_issue') else 400
             return jsonify({
                 'error': 'Text content validation failed', 
-                'validation_errors': validation['errors']
+                'validation_errors': validation['errors'],
+                'structured_analysis': validation.get('structured_analysis', {})
             }), error_status
 
         # Prepare input data with sanitized content
@@ -2029,6 +2326,8 @@ def process_single_requirement():
         
         # Process the requirement
         result = orchestrator.process_single_requirement(input_data)
+        result['structured_analysis'] = validation.get('structured_analysis', {})
+        result['structured_elements'] = build_generation_structured_elements(result['structured_analysis'])
         
         # Add project info to result
         result['project_info'] = project_info
@@ -2082,12 +2381,15 @@ def process_and_generate_srs():
             error_status = 403 if validation.get('security_issue') else 400
             return jsonify({
                 'error': 'Text content validation failed',
-                'validation_errors': validation['errors']
+                'validation_errors': validation['errors'],
+                'structured_analysis': validation.get('structured_analysis', {})
             }), error_status
 
         input_data = {'type': 'text', 'content': sanitized_content}
         result = orchestrator.process_single_requirement(input_data)
         result['project_info'] = project_info
+        result['structured_analysis'] = validation.get('structured_analysis', {})
+        result['structured_elements'] = build_generation_structured_elements(result['structured_analysis'])
 
         results_list = _coerce_results_list_for_srs(result)
         if not results_list:
@@ -2241,12 +2543,15 @@ def process_audio_requirement():
             return jsonify({
                 'error': 'Audio content validation failed',
                 'validation_errors': validation_result['errors'],
-                'transcribed_text': transcribed_text
+                'transcribed_text': transcribed_text,
+                'structured_analysis': validation_result.get('structured_analysis', {})
             }), 400
         
         # Add project info to result
         result['project_info'] = project_info
         result['source_type'] = 'audio_recording'
+        result['structured_analysis'] = validation_result.get('structured_analysis', {})
+        result['structured_elements'] = build_generation_structured_elements(result['structured_analysis'])
         
         logger.info(f"Audio processing completed successfully")
         return jsonify(result)
@@ -2270,8 +2575,10 @@ def process_audio_requirement():
 def transcribe_audio_only():
     """Transcribe audio without full processing - for live transcription during recording"""
     temp_file_path = None
+    started_at = time.time()
     try:
         audio_file = request.files.get('audio')
+        live_mode = str(request.form.get('live', '')).strip().lower() in {'1', 'true', 'yes'}
 
         if not audio_file:
             return jsonify({'error': 'No audio file provided'}), 400
@@ -2327,10 +2634,25 @@ def transcribe_audio_only():
                 orchestrator.processor._load_models()
             transcription = orchestrator.processor._transcribe_audio(temp_file_path)
             logger.info(f"Transcription successful, length: {len(transcription)} characters")
+
+            sanitized_transcription = sanitize_user_input(transcription)
+
+            # For live chunk polling, avoid blocking mid-sentence and keep latency lower.
+            if not live_mode:
+                has_inj, _ = detect_prompt_injection(sanitized_transcription)
+                if has_inj:
+                    return jsonify({
+                        'error': 'Blocked: prompt-injection content detected in transcript. Please provide genuine product requirements.',
+                        'transcription': '',
+                        'success': False,
+                        'security_issue': True
+                    }), 400
             
             return jsonify({
-                'transcription': transcription,
-                'success': True
+                'transcription': sanitized_transcription,
+                'success': True,
+                'live_mode': live_mode,
+                'processing_ms': int((time.time() - started_at) * 1000)
             })
         except Exception as transcribe_error:
             logger.error(f"Transcription error: {str(transcribe_error)}")
@@ -2448,11 +2770,14 @@ def process_batch_requirements():
                 if not validation_result['valid']:
                     validation_errors_list.append({
                         'file': file.filename,
-                        'errors': validation_result['errors']
+                        'errors': validation_result['errors'],
+                        'structured_analysis': validation_result.get('structured_analysis', {})
                     })
                 
                 result['source_file'] = file.filename
                 result['validation'] = validation_result
+                result['structured_analysis'] = validation_result.get('structured_analysis', {})
+                result['structured_elements'] = build_generation_structured_elements(result['structured_analysis'])
                 results.append(result)
             
             # If any validation errors, return them
@@ -2516,10 +2841,23 @@ def generate_srs():
         if not isinstance(results, list):
             results = [results]
 
+        results = sanitize_requirement_results(results)
+        project_info = sanitize_project_info(project_info)
+        inj = reject_payload_if_prompt_injection_in_results(results)
+        if inj:
+            raise RequirementSecurityError(inj, 403)
+
         combined_text = _extract_text_for_generation_validation(results)
         language_error = _english_only_validation_error(combined_text)
         if language_error:
             return jsonify({'error': language_error}), 400
+        quality_validation = validate_text_content(sanitize_user_input(combined_text))
+        if not quality_validation.get('valid', False):
+            return jsonify({
+                'error': 'Text content validation failed',
+                'validation_errors': quality_validation.get('errors', []),
+                'structured_analysis': quality_validation.get('structured_analysis', {}),
+            }), 400
 
         srs_dict = _build_srs_dict_from_results(results, project_info)
         return jsonify(srs_dict)
@@ -2559,6 +2897,13 @@ def generate_srs_stream():
         language_error = _english_only_validation_error(combined_text)
         if language_error:
             return jsonify({'error': language_error}), 400
+        quality_validation = validate_text_content(sanitize_user_input(combined_text))
+        if not quality_validation.get('valid', False):
+            return jsonify({
+                'error': 'Text content validation failed',
+                'validation_errors': quality_validation.get('errors', []),
+                'structured_analysis': quality_validation.get('structured_analysis', {}),
+            }), 400
 
         results = sanitize_requirement_results(results)
         project_info = sanitize_project_info(project_info)

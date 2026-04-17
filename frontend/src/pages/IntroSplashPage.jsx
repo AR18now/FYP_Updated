@@ -74,6 +74,9 @@ const IntroSplashPage = ({ onComplete }) => {
 
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-cyan-300/20 bg-slate-900/55 backdrop-blur-md p-8 shadow-2xl shadow-cyan-500/10 flex flex-col items-center text-center">
         <BrandFull className="w-28 h-28 sm:w-32 sm:h-32 select-none" alt="Req2Design" />
+        <h1 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-white splash-neon-text">
+          Req2Design
+        </h1>
 
         <p className="mt-5 text-sm sm:text-base text-zinc-300 max-w-sm leading-relaxed splash-neon-text">
           AI-powered Requirements Engineering Workspace

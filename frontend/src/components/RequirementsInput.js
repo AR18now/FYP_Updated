@@ -63,6 +63,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const audioChunksRef = useRef([]);
   const injectionCheckTimerRef = useRef(null);
   const liveTranscriptionRef = useRef('');
+  const finalSpeechTranscriptRef = useRef('');
+  const lastChunkTranscriptRef = useRef('');
   const speechRecognitionRef = useRef(null);
   const speechRecognitionActiveRef = useRef(false);
 
@@ -560,6 +562,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setRecordingTime(0);
       setLiveTranscription(''); // Reset transcription
       liveTranscriptionRef.current = '';
+      finalSpeechTranscriptRef.current = '';
+      lastChunkTranscriptRef.current = '';
       setRecordingTranscribeError(null);
 
       // Start timer
@@ -586,13 +590,13 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               if (result.isFinal) finalText += transcript + ' ';
               else interim += transcript + ' ';
             }
-
-            setLiveTranscription((prev) => {
-              const base = prev && prev.trim() ? prev.trim() + ' ' : '';
-              const merged = (base + finalText + interim).replace(/\s+/g, ' ').trim();
-              liveTranscriptionRef.current = merged;
-              return merged;
-            });
+            if (finalText.trim()) {
+              const nextFinal = `${finalSpeechTranscriptRef.current} ${finalText}`.replace(/\s+/g, ' ').trim();
+              finalSpeechTranscriptRef.current = nextFinal;
+            }
+            const merged = `${finalSpeechTranscriptRef.current} ${interim}`.replace(/\s+/g, ' ').trim();
+            liveTranscriptionRef.current = merged;
+            setLiveTranscription(merged);
           };
 
           recognition.onerror = () => {
@@ -653,23 +657,46 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   },
-                  timeout: 12000
+                  timeout: 25000
                 });
 
                 if (response.data && response.data.transcription) {
                   setLiveTranscription((prev) => {
                     const newText = response.data.transcription.trim();
                     if (!newText) return prev || '';
-                    if (!prev) {
+                    const prevText = (prev || '').trim();
+                    if (!prevText) {
                       liveTranscriptionRef.current = newText;
+                      lastChunkTranscriptRef.current = newText;
                       return newText;
                     }
-                    // Replace when backend returns a fuller hypothesis; append otherwise.
-                    const merged = newText.length >= prev.length
-                      ? newText
-                      : `${prev} ${newText}`.replace(/\s+/g, ' ').trim();
-                    liveTranscriptionRef.current = merged;
-                    return merged;
+                    if (prevText === newText || lastChunkTranscriptRef.current === newText) {
+                      return prevText;
+                    }
+                    if (newText.includes(prevText)) {
+                      liveTranscriptionRef.current = newText;
+                      lastChunkTranscriptRef.current = newText;
+                      return newText;
+                    }
+                    if (prevText.includes(newText)) {
+                      return prevText;
+                    }
+                    // Overlap merge to avoid repeated append artifacts.
+                    const maxOverlap = Math.min(prevText.length, newText.length, 180);
+                    let overlap = 0;
+                    for (let i = maxOverlap; i >= 8; i -= 1) {
+                      if (prevText.slice(-i).toLowerCase() === newText.slice(0, i).toLowerCase()) {
+                        overlap = i;
+                        break;
+                      }
+                    }
+                    const merged = overlap > 0
+                      ? `${prevText}${newText.slice(overlap)}`
+                      : `${prevText} ${newText}`;
+                    const normalized = merged.replace(/\s+/g, ' ').trim();
+                    lastChunkTranscriptRef.current = newText;
+                    liveTranscriptionRef.current = normalized;
+                    return normalized;
                   });
                 }
               }
@@ -680,7 +707,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               setIsTranscribing(false);
             }
           }
-        }, 1000); // Try every 1 second for better responsiveness
+        }, 2500); // Slower polling reduces duplicate chunk overlap and server load
       }
 
     } catch (error) {
@@ -778,7 +805,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       headers: {
         'Content-Type': 'multipart/form-data'
       },
-      timeout: 60000 // 60 seconds for full transcription
+      timeout: 180000 // Allow longer full-recording transcription on slower systems
     });
 
     if (response.data?.error) {
@@ -849,6 +876,24 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, []);
 
+  const detectLanguageIssue = useCallback((text) => {
+    const raw = String(text || '');
+    if (!raw.trim()) return null;
+
+    const letters = Array.from(raw).filter((ch) => /\p{L}/u.test(ch));
+    if (letters.length === 0) return null;
+
+    const latinLetters = letters.filter((ch) => /\p{Script=Latin}/u.test(ch));
+    const nonLatinCount = letters.length - latinLetters.length;
+    const latinRatio = latinLetters.length / letters.length;
+
+    // Allow normal English text (including accents), reject mixed/non-English dominant scripts.
+    if (nonLatinCount >= 3 && latinRatio < 0.9) {
+      return 'Please provide requirements in English only. Mixed-language or non-English input is not supported.';
+    }
+    return null;
+  }, []);
+
   // Validation function
   const validateTextInput = useCallback((text) => {
     const errors = [];
@@ -861,8 +906,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     if (wordCount < 50) {
       errors.push(`Minimum 50 words required (current: ${wordCount} words)`);
     }
+    const languageIssue = detectLanguageIssue(trimmed);
+    if (languageIssue) {
+      errors.push(languageIssue);
+    }
     return errors;
-  }, []);
+  }, [detectLanguageIssue]);
 
   const getTextRepetitionMetrics = useCallback((text) => {
     const raw = String(text || '');
@@ -1082,6 +1131,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       errors.push('Text must include at least one alphabetic character (A-Z)');
     }
 
+    const languageIssue = detectLanguageIssue(inputText);
+    if (languageIssue) {
+      errors.push(languageIssue);
+    }
+
     // Detect gibberish/noisy mixed input (letters+digits+symbols without readable requirement text).
     const noise = getTextNoiseMetrics(inputText);
     const isLikelyGibberish =
@@ -1152,7 +1206,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       errors,
       warnings
     };
-  }, [detectPromptInjection, minWords, maxChars, getTextRepetitionMetrics, getTextNoiseMetrics]);
+  }, [detectPromptInjection, minWords, maxChars, getTextRepetitionMetrics, getTextNoiseMetrics, detectLanguageIssue]);
 
   const runClarification = useCallback(async () => {
     if (!textInput.trim()) {
@@ -1210,10 +1264,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   }, [refinedInputText, followupAnswers, validateTextInput, buildFinalTextWithFollowups]);
 
   const processRequirements = useCallback(async () => {
-    if (!backendReady) {
-      setError('Backend is not reachable. Please start the API server and try again.');
-      return;
-    }
     setIsProcessing(true);
     setLastSRSAvailable(false);
     setError(null);
@@ -1454,13 +1504,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
-    if (!backendReady) return false;
     if (inputType === 'text' && (!textInput.trim() || validationErrors.length > 0)) return false;
     if (inputType === 'text' && liveInjectionHint?.level === 'critical') return false;
     if (inputType === 'audio' && !audioBlob) return false;
     if (inputType === 'file' && uploadedFiles.length === 0) return false;
     return true;
-  }, [isProcessing, backendReady, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles]);
+  }, [isProcessing, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles]);
 
   return (
     <div className="relative w-full animate-fade-in" role="main" aria-labelledby="input-heading">
@@ -1684,7 +1733,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 </div>
                 
                 <p className={`mt-2 text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Need at least 50 words and one letter. Symbols and numbers are fine.
+                  English-only requirements. At least 50 words with meaningful sentences (not numbers/symbols only).
                 </p>
 
                 {/* Quick templates */}
@@ -2026,6 +2075,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   </p>
                   <ul className="list-disc list-inside space-y-1 text-xs ml-5">
                     <li>Minimum 50 words required</li>
+                    <li>English input only (mixed languages are not supported)</li>
                     <li>Speak clearly and at a moderate pace</li>
                   </ul>
                 </div>
@@ -2190,6 +2240,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   </p>
                   <ul className="list-disc list-inside space-y-1 text-xs ml-5">
                     <li>Minimum 50 words required per file</li>
+                    <li>English content only (mixed languages are not supported)</li>
                     <li>Supported formats: .txt, .docx, .pdf</li>
                   </ul>
                 </div>

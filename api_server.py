@@ -25,6 +25,7 @@ import json
 import os
 import tempfile
 import time
+import unicodedata
 from datetime import datetime
 import logging
 import re
@@ -1150,9 +1151,11 @@ def validate_text_content(text: str) -> dict:
             errors.append(f"Input appears to be mostly repeated token '{most_common_word}' ({freq} of {total} tokens). Please provide meaningful requirements.")
             _record_suspicious_input_event("repeated_token_spam", text)
     
-    # Require at least one alphabetic character (allow numbers/symbols but not only them)
-    if not re.search(r'[A-Za-z]', text):
-        errors.append('Text must include at least one alphabetic character (A-Z).')
+    # English-only + character quality checks.
+    english_only_error = _english_only_validation_error(text)
+    if english_only_error:
+        errors.append(english_only_error)
+
     # Check minimum word count (50 words)
     words = text.strip().split()
     word_count = len([word for word in words if word])
@@ -1163,6 +1166,49 @@ def validate_text_content(text: str) -> dict:
         'valid': len(errors) == 0,
         'errors': errors
     }
+
+
+def _english_only_validation_error(text: str) -> Optional[str]:
+    raw = str(text or "")
+    if not raw.strip():
+        return None
+
+    # Reject numeric/symbol-only content.
+    if not re.search(r"[A-Za-z]", raw):
+        return 'Text must include at least one alphabetic character (A-Z).'
+
+    # Allow English in Latin script (including accented Latin); reject mixed/non-English scripts.
+    alpha_chars = [ch for ch in raw if ch.isalpha()]
+    if not alpha_chars:
+        return None
+
+    latin_alpha = 0
+    for ch in alpha_chars:
+        if "LATIN" in unicodedata.name(ch, ""):
+            latin_alpha += 1
+    non_latin_alpha = len(alpha_chars) - latin_alpha
+    latin_ratio = (latin_alpha / len(alpha_chars)) if alpha_chars else 1.0
+    if non_latin_alpha >= 3 and latin_ratio < 0.9:
+        return 'English input only: mixed-language or non-English content is not supported.'
+
+    return None
+
+
+def _extract_text_for_generation_validation(results: list) -> str:
+    chunks = []
+    for item in (results or []):
+        if not isinstance(item, dict):
+            chunks.append(str(item or ""))
+            continue
+        candidate = (
+            item.get("original_text")
+            or item.get("content")
+            or item.get("extracted_text")
+            or item.get("refined_text")
+            or ""
+        )
+        chunks.append(str(candidate))
+    return "\n".join(chunks).strip()
 
 
 _SENSITIVE_OUTPUT_PATTERNS = [
@@ -2470,6 +2516,11 @@ def generate_srs():
         if not isinstance(results, list):
             results = [results]
 
+        combined_text = _extract_text_for_generation_validation(results)
+        language_error = _english_only_validation_error(combined_text)
+        if language_error:
+            return jsonify({'error': language_error}), 400
+
         srs_dict = _build_srs_dict_from_results(results, project_info)
         return jsonify(srs_dict)
 
@@ -2503,6 +2554,11 @@ def generate_srs_stream():
             return jsonify({'error': 'No results provided'}), 400
         if not isinstance(results, list):
             results = [results]
+
+        combined_text = _extract_text_for_generation_validation(results)
+        language_error = _english_only_validation_error(combined_text)
+        if language_error:
+            return jsonify({'error': language_error}), 400
 
         results = sanitize_requirement_results(results)
         project_info = sanitize_project_info(project_info)
@@ -3750,6 +3806,13 @@ def generate_srs_from_audio():
 
         transcription = _dedupe_text(transcription)
 
+        validation_result = validate_text_content(sanitize_user_input(transcription))
+        if not validation_result.get('valid', False):
+            return jsonify({
+                'error': 'Input validation failed',
+                'validation_errors': validation_result.get('errors', [])
+            }), 400
+
         # Generate SRS directly from transcription
         results = [{'original_text': transcription}]
         srs = _generate_srs_document(results, project_info)
@@ -3814,6 +3877,13 @@ def generate_srs_from_file():
 
         if not text_content or len(text_content.strip().split()) < 10:
             return jsonify({'error': 'File content is too short or could not be extracted. Please provide a valid text or PDF.'}), 400
+
+        validation_result = validate_text_content(sanitize_user_input(text_content))
+        if not validation_result.get('valid', False):
+            return jsonify({
+                'error': 'Input validation failed',
+                'validation_errors': validation_result.get('errors', [])
+            }), 400
 
         results = [{'original_text': text_content}]
         srs = _generate_srs_document(results, project_info)

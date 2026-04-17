@@ -425,12 +425,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   }, [copilotAnswer, copilotData, textInput]);
 
   const onDrop = useCallback((acceptedFiles) => {
-    // Validate file types - only accept .txt and .pdf
+    // Validate file types - only accept .txt, .docx and .pdf
     const validFiles = acceptedFiles.filter(file => {
       const extension = file.name.toLowerCase().split('.').pop();
-      const isValid = extension === 'txt' || extension === 'pdf';
+      const isValid = extension === 'txt' || extension === 'pdf' || extension === 'docx';
       if (!isValid) {
-        setError(`Invalid file type: ${file.name}. Only .txt and .pdf files are accepted.`);
+        setError(`Invalid file type: ${file.name}. Only .txt, .docx and .pdf files are accepted.`);
       }
       return isValid;
     });
@@ -453,12 +453,13 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     onDrop,
     accept: {
       'text/plain': ['.txt'],
-      'application/pdf': ['.pdf']
+      'application/pdf': ['.pdf'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
     },
     multiple: true,
     onDropRejected: (rejectedFiles) => {
       const rejectedNames = rejectedFiles.map(f => f.file.name).join(', ');
-      setError(`Invalid file type(s). Only .txt and .pdf files are accepted. Rejected: ${rejectedNames}`);
+      setError(`Invalid file type(s). Only .txt, .docx and .pdf files are accepted. Rejected: ${rejectedNames}`);
     }
   });
 
@@ -466,7 +467,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   useEffect(() => {
     if (fileRejections && fileRejections.length > 0) {
       const rejectedNames = fileRejections.map(f => f.file.name).join(', ');
-      setError(`File(s) rejected: ${rejectedNames}. Only .txt and .pdf files are accepted.`);
+      setError(`File(s) rejected: ${rejectedNames}. Only .txt, .docx and .pdf files are accepted.`);
     }
   }, [fileRejections]);
 
@@ -1337,15 +1338,15 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           srsFromCombined = combined.data.srs;
         }
       } else if (uploadedFiles.length > 0) {
-        // Validate all uploaded files are txt or pdf
+        // Validate all uploaded files are txt, docx or pdf
         const invalidFiles = uploadedFiles.filter(({ file }) => {
           const extension = file.name.toLowerCase().split('.').pop();
-          return extension !== 'txt' && extension !== 'pdf';
+          return extension !== 'txt' && extension !== 'pdf' && extension !== 'docx';
         });
 
         if (invalidFiles.length > 0) {
           const invalidNames = invalidFiles.map(({ file }) => file.name).join(', ');
-          setError(`Invalid file type(s): ${invalidNames}. Only .txt and .pdf files are accepted.`);
+          setError(`Invalid file type(s): ${invalidNames}. Only .txt, .docx and .pdf files are accepted.`);
           setIsProcessing(false);
           if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
           return;
@@ -2189,7 +2190,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   </p>
                   <ul className="list-disc list-inside space-y-1 text-xs ml-5">
                     <li>Minimum 50 words required per file</li>
-                    <li>Supported formats: .txt, .pdf</li>
+                    <li>Supported formats: .txt, .docx, .pdf</li>
                   </ul>
                 </div>
                 
@@ -2214,7 +2215,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                         Drag & drop files here, or click to select
                       </p>
                       <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                        Supports: .txt, .pdf
+                        Supports: .txt, .docx, .pdf
                       </p>
                     </div>
                   )}
@@ -2226,7 +2227,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                     <h4 className={`text-sm font-medium mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Uploaded Files ({uploadedFiles.length}):</h4>
                     {uploadedFiles.map(({ file, id, status }) => {
                       const extension = file.name.toLowerCase().split('.').pop();
-                      const isValidType = extension === 'txt' || extension === 'pdf';
+                      const isValidType = extension === 'txt' || extension === 'pdf' || extension === 'docx';
                       
                       return (
                         <div key={id} className={`flex items-center justify-between p-3 rounded-lg transition-colors duration-200 ${

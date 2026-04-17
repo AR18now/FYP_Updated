@@ -2337,16 +2337,17 @@ def process_batch_requirements():
                     continue
                 
                 # Determine input type and read content for validation
-                if file.filename.lower().endswith(('.wav', '.mp3', '.m4a', '.flac')):
+                lower_name = file.filename.lower()
+                if lower_name.endswith(('.wav', '.mp3', '.m4a', '.flac')):
                     input_data = {'type': 'audio', 'file_path': file_path}
                     # Process first to get transcription
                     result = orchestrator.process_single_requirement(input_data)
                     content_to_validate = result.get('original_text', '')
-                else:
-                    # Read text file
+                elif lower_name.endswith('.txt'):
+                    # Read plain text file
                     with open(file_path, 'r', encoding='utf-8') as f:
                         content = f.read()
-                    
+
                     # Sanitize file content to prevent prompt injection
                     sanitized_content = sanitize_user_input(content)
                     if not sanitized_content or len(sanitized_content.strip()) < 10:
@@ -2360,6 +2361,40 @@ def process_batch_requirements():
                     input_data = {'type': 'text', 'content': sanitized_content}
                     # Process the requirement
                     result = orchestrator.process_single_requirement(input_data)
+                elif lower_name.endswith('.pdf'):
+                    content = _extract_text_from_pdf(file_path) or ""
+                    sanitized_content = sanitize_user_input(content)
+                    if not sanitized_content or len(sanitized_content.strip()) < 10:
+                        validation_errors_list.append({
+                            'file': file.filename,
+                            'errors': ['PDF content is invalid or too short after extraction/sanitization']
+                        })
+                        continue
+                    content_to_validate = sanitized_content
+                    input_data = {'type': 'text', 'content': sanitized_content}
+                    result = orchestrator.process_single_requirement(input_data)
+                elif lower_name.endswith('.docx'):
+                    try:
+                        doc = Document(file_path)
+                        content = "\n".join(p.text for p in doc.paragraphs if str(p.text).strip())
+                    except Exception:
+                        content = ""
+                    sanitized_content = sanitize_user_input(content)
+                    if not sanitized_content or len(sanitized_content.strip()) < 10:
+                        validation_errors_list.append({
+                            'file': file.filename,
+                            'errors': ['DOCX content is invalid or too short after extraction/sanitization']
+                        })
+                        continue
+                    content_to_validate = sanitized_content
+                    input_data = {'type': 'text', 'content': sanitized_content}
+                    result = orchestrator.process_single_requirement(input_data)
+                else:
+                    validation_errors_list.append({
+                        'file': file.filename,
+                        'errors': ['Unsupported file type. Allowed: .txt, .docx, .pdf']
+                    })
+                    continue
                 
                 # Validate the content
                 validation_result = validate_text_content(content_to_validate)
@@ -3735,7 +3770,7 @@ def generate_srs_from_audio():
 @app.route('/api/generate-srs-from-file', methods=['POST'])
 def generate_srs_from_file():
     """
-    Direct SRS generation from uploaded file (txt or pdf).
+    Direct SRS generation from uploaded file (txt, docx or pdf).
     - Saves file locally
     - Extracts text (best effort for PDF)
     - Generates SRS without preprocessing pipeline
@@ -3768,8 +3803,14 @@ def generate_srs_from_file():
                 text_content = f.read()
         elif ext == 'pdf':
             text_content = _extract_text_from_pdf(temp_file_path)
+        elif ext == 'docx':
+            try:
+                doc = Document(temp_file_path)
+                text_content = "\n".join(p.text for p in doc.paragraphs if str(p.text).strip())
+            except Exception:
+                text_content = ""
         else:
-            return jsonify({'error': 'Unsupported file type. Please upload .txt or .pdf'}), 400
+            return jsonify({'error': 'Unsupported file type. Please upload .txt, .docx or .pdf'}), 400
 
         if not text_content or len(text_content.strip().split()) < 10:
             return jsonify({'error': 'File content is too short or could not be extracted. Please provide a valid text or PDF.'}), 400

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2, FileText, RefreshCw, AlertTriangle } from 'lucide-react';
@@ -193,6 +193,13 @@ const HIGHLIGHTABLE_ARM_KEYS = new Set([
   'weak_phrase_count',
   'incomplete_quality',
   'incomplete_count',
+]);
+const HIGHLIGHTABLE_HALLUCINATION_KEYS = new Set([
+  'ai_hallucination_quality',
+  'has_hallucinations',
+  'confidence_score',
+  'term_overlap',
+  'total_original_terms',
 ]);
 
 const ARM_METRIC_TO_GROUP = {
@@ -392,7 +399,8 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   const [loading, setLoading] = useState(false);
   const [aiEval, setAiEval] = useState(null);
   const [selectedConflict, setSelectedConflict] = useState('');
-  const [selectedArmMetricKey, setSelectedArmMetricKey] = useState('');
+  const [selectedHighlightMetricKey, setSelectedHighlightMetricKey] = useState('');
+  const highlightSectionRef = useRef(null);
 
   const sectionMetrics = useMemo(() => sectionLevelMetrics(text), [text]);
   const armChecks = useMemo(() => computeArmChecks(text), [text]);
@@ -512,11 +520,51 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     return withFallbacks;
   }, [srsData, aiEval, rougeLScore, bertScoreProxy, sectionMetrics, armChecks, localCoreMetrics]);
 
-  const selectedArmGroup = ARM_METRIC_TO_GROUP[selectedArmMetricKey] || '';
+  const selectedArmGroup = ARM_METRIC_TO_GROUP[selectedHighlightMetricKey] || '';
   const selectedArmTerms = selectedArmGroup ? ARM_TERMS[selectedArmGroup] : [];
-  const armPreview = useMemo(
-    () => buildHighlightedHtmlByTerms(text, selectedArmTerms),
-    [text, selectedArmTerms]
+
+  const hallucinationEvidenceTerms = useMemo(() => {
+    const terms = [];
+    const hall = hallForFallback || {};
+    const flags = Array.isArray(hall?.flagged_sections) ? hall.flagged_sections : [];
+    flags.forEach((flag) => {
+      if (Array.isArray(flag?.terms)) {
+        flag.terms.forEach((t) => terms.push(String(t || '').trim()));
+      }
+      if (typeof flag?.message === 'string' && flag.message.trim()) {
+        terms.push(flag.message.trim().slice(0, 120));
+      }
+      if (Array.isArray(flag?.requirements)) {
+        flag.requirements.forEach((req) => {
+          const desc = String(req?.description || '').trim();
+          if (desc) terms.push(desc.slice(0, 120));
+        });
+      }
+    });
+
+    const aiHallMetric = Array.isArray(aiEval?.metrics)
+      ? aiEval.metrics.find((m) => m?.key === 'hallucination')
+      : null;
+    const examples = Array.isArray(aiHallMetric?.highlights?.examples)
+      ? aiHallMetric.highlights.examples
+      : [];
+    examples.forEach((ex) => {
+      const t = String(ex?.text || '').trim();
+      if (t) terms.push(t.slice(0, 140));
+    });
+
+    return Array.from(new Set(terms.filter((t) => t.length >= 4)));
+  }, [hallForFallback, aiEval]);
+
+  const selectedHighlightTerms = selectedArmGroup
+    ? selectedArmTerms
+    : HIGHLIGHTABLE_HALLUCINATION_KEYS.has(selectedHighlightMetricKey)
+      ? hallucinationEvidenceTerms
+      : [];
+
+  const highlightPreview = useMemo(
+    () => buildHighlightedHtmlByTerms(text, selectedHighlightTerms),
+    [text, selectedHighlightTerms]
   );
 
   const highlightedSrs = useMemo(() => {
@@ -528,6 +576,15 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     const idx = match.index || 0;
     return `${escapeHtml(text.slice(0, idx))}<mark>${escapeHtml(text.slice(idx, idx + match[0].length))}</mark>${escapeHtml(text.slice(idx + match[0].length))}`;
   }, [selectedConflict, text]);
+
+  useEffect(() => {
+    if (!selectedHighlightMetricKey) return;
+    const node = highlightSectionRef.current;
+    if (!node) return;
+    window.requestAnimationFrame(() => {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [selectedHighlightMetricKey]);
 
   if (!srsData) {
     return (
@@ -592,10 +649,10 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
                   className="border-b border-slate-100 dark:border-slate-800 last:border-0 align-top hover:bg-slate-50/80 dark:hover:bg-slate-800/40"
                 >
                   <td className="px-3 py-3 font-medium text-slate-900 dark:text-slate-100 font-mono whitespace-nowrap">
-                    {HIGHLIGHTABLE_ARM_KEYS.has(m.key) ? (
+                    {HIGHLIGHTABLE_ARM_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
                       <button
                         type="button"
-                        onClick={() => setSelectedArmMetricKey(m.key)}
+                        onClick={() => setSelectedHighlightMetricKey(m.key)}
                         className="underline decoration-dotted underline-offset-4 text-r2d-primary dark:text-cyan-300 hover:text-r2d-primaryLight"
                         title="Click to preview highlighted occurrences in SRS"
                       >
@@ -620,38 +677,39 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
         </div>
       )}
 
-      {selectedArmGroup && (
-        <div className="rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50/50 dark:bg-slate-900 p-4">
+      {(selectedArmGroup || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(selectedHighlightMetricKey)) && (
+        <div ref={highlightSectionRef} className="rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50/50 dark:bg-slate-900 p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-              Preview for <span className="font-mono">{selectedArmMetricKey}</span> ({selectedArmGroup})
+              Preview for <span className="font-mono">{selectedHighlightMetricKey}</span>{' '}
+              ({selectedArmGroup || 'hallucination'})
             </h2>
             <button
               type="button"
-              onClick={() => setSelectedArmMetricKey('')}
+              onClick={() => setSelectedHighlightMetricKey('')}
               className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-800 w-full sm:w-auto"
             >
               Close preview
             </button>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
-            Terms being checked: {selectedArmTerms.join(', ')}
+            Terms being checked: {selectedHighlightTerms.length ? selectedHighlightTerms.join(', ') : 'No flagged terms available'}
           </p>
           <p className="text-xs text-slate-700 dark:text-slate-300 mb-3">
-            Matches found: <span className="font-mono">{armPreview.hits.length}</span>
+            Matches found: <span className="font-mono">{highlightPreview.hits.length}</span>
           </p>
           <div className="grid lg:grid-cols-2 gap-4">
             <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-72 overflow-auto">
               <p
                 className="text-[11px] sm:text-xs leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ __html: armPreview.html }}
+                dangerouslySetInnerHTML={{ __html: highlightPreview.html }}
               />
             </div>
             <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-72 overflow-auto">
               <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Matched snippets</p>
-              {armPreview.hits.length ? (
+              {highlightPreview.hits.length ? (
                 <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                  {armPreview.hits.slice(0, 80).map((hit, idx) => (
+                  {highlightPreview.hits.slice(0, 80).map((hit, idx) => (
                     <li key={`arm-hit-${idx}`} className="font-mono break-words border-b border-slate-100 dark:border-slate-800 pb-1">
                       {hit}
                     </li>

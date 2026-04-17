@@ -11,7 +11,10 @@ const nav = [
 const ExpertShellLayout = ({ currentUser, onLogout }) => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 1280;
+  });
   const location = useLocation();
   const navigate = useNavigate();
 

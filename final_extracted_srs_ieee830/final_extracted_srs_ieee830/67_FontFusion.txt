@@ -1,0 +1,77 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: FontFusion - Raster to Vector Font Converter
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the problem, motivation, and proposed solution for FontFusion, a project aimed at converting outdated raster fonts into modern, scalable vector fonts. The solution automates feature extraction, classification, and matching to find suitable vector font equivalents.
+
+1.2 Scope
+The project's goal is to compare raster fonts with vector fonts, classify them by size, shape, and style, and predict font outlines. It aims to solve the visual and resolution issues of raster fonts on high-resolution screens by converting them to similar, scalable vector fonts.
+
+1.3 Definitions, Acronyms, Abbreviations
+- TTF: TrueType Font
+- OTF: OpenType Font
+- CNN: Convolutional Neural Network
+- SVM: Support Vector Machine
+
+1.4 References
+- [33] Application and Difference of Raster and Vector Graphics
+- [44] TrueType Transformer: Character and Font Style Recognition in Outline Format
+- [11] Large-Scale Font Identification from Document Images
+- [55] DeepFont: Identify Your Font from An Image
+- [22] Raster-to-Vector: Revisiting Floorplan Transformation
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system is developed to assist a client company in transitioning from old-fashioned raster fonts to modern vector fonts, maintaining visual consistency.
+
+2.2 Product Functions (Summary)
+- Feature extraction from raster and vector fonts.
+- Classification of fonts based on style, shape, and size.
+- Matching raster fonts to a library of TTF/OTF fonts.
+- A web interface for users to upload images and view the best vector font match.
+
+2.3 User Classes and Characteristics
+- Company Client: The primary stakeholder utilizing the system to modernize their fonts.
+- End-User: Users who will interact with the web interface to upload raster font images and receive vector font suggestions.
+
+2.4 Operating Environment
+Web-based application accessible via a modern browser.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Font Feature Extraction and Preprocessing
+FR1.1: The system shall generate raster font data programmatically using Python scripts.
+FR1.2: The system shall render characters at multiple resolutions and styles (bold, italic).
+FR1.3: The system shall apply data augmentations (rotation, noise) to ensure model robustness.
+FR1.4: The system shall parse TTF/OTF files to retrieve control points and outlines.
+FR1.5: The system shall extract features such as aspect ratio, stroke width, and curve smoothness.
+
+3.2 Classification of Fonts
+FR2.1: The system shall use a supervised machine learning algorithm (SVM/CNN) to classify fonts.
+FR2.2: The system shall train the classifier on labeled font datasets (type, size, style, shape).
+FR2.3: The system shall evaluate model performance using accuracy, precision, recall, and F1 score.
+
+3.3 Font Prediction Model
+FR3.1: The system shall define a similarity metric (Euclidean distance) to compare font feature vectors.
+FR3.2: The system shall implement a heuristic-based font matching algorithm to recommend the closest vector font.
+
+3.4 Website Development
+FR4.1: The system shall allow users to upload raster font images (PNG, JPEG).
+FR4.2: The system shall process uploaded images to isolate characters and remove noise.
+FR4.3: The system shall display the predicted vector font results to the user.
+FR4.4: The system shall provide additional information about the matched font (family, style, characteristics).
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance Requirements
+NFR1: The system shall give real-time results for font comparison.
+NFR2: The system shall efficiently handle a large number of fonts in its library.
+
+4.2 Usability Requirements
+NFR3: The system shall offer an easy interface without technical requirements from the user.
+
+4.3 Scalability Requirements
+NFR4: The system shall be upgradable to accommodate more fonts inputs and comparisons.
+
+================================================================================

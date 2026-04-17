@@ -1,0 +1,135 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: TracknRetrieve - Lost and Found Item Recovery Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for TracknRetrieve, a mobile application that simplifies the process of reporting and retrieving lost and found items by using description-based image retrieval, secure real-time messaging, geo-location tagging, voice-to-text, and proof of ownership verification.
+
+1.2 Scope
+The platform allows users to report lost items via description (system retrieves matching images from Google) or found items via upload (system generates description). Features include geo-location tagging, in-app messaging, notifications for matches, proof of ownership verification, reporting to authorities, privacy protection for finders, donation center for unclaimed items, rewards, community alerts, multilingual support, and reviews/ratings.
+
+1.3 Definitions, Acronyms, Abbreviations
+- API: Application Programming Interface
+- GPS: Global Positioning System
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+TracknRetrieve provides a secure and user-friendly alternative to traditional lost and found systems by allowing description-based reporting, privacy-preserving matching, and facilitating communication between finders and owners.
+
+2.2 Product Functions (Summary)
+- User Management: Profile management, view history, notifications.
+- Lost Item Reporting: Provide detailed description, image retrieval based on description, image modification.
+- Found Item Reporting and Description Matching: Upload image, system generates description, match with lost reports.
+- Voice-to-Text Conversion: Verbally describe lost items.
+- Geo-Location Tagging: Tag last known location of lost items.
+- In-App Messaging: Secure real-time communication between users and finders.
+- Notification System: Notify users of matches.
+- Proof of Ownership Verification: Verify item ownership, store ownership documents.
+- Reporting to Authorities: Report stolen/sensitive items directly to authorities.
+- Privacy Protection for Finders: Anonymous reporting, secure messaging.
+- Donation Center: Donate unclaimed items to charity, track donations.
+- Rewards: Offer rewards for return of lost items, track reward offers.
+- Community Alerts: Send alerts to nearby users.
+- Multilingual Support: Support multiple languages.
+- Provide Reviews and Ratings: Leave feedback on experience.
+
+2.3 User Classes and Characteristics
+- Item Owner/User: Reports lost items, receives notifications, communicates with finders, provides reviews.
+- Finder/User: Reports found items, uploads images, may remain anonymous, may receive rewards.
+- Admin: Manages system, user accounts, lost/found reports, Donation Center, handles disputes.
+- Authorities: Receive reports of stolen or sensitive items.
+- Donation Center: Processes unclaimed items for donation to charities.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Registration and Authentication
+FR1: The system shall allow users to register with unique credentials.
+FR2: The system shall authenticate users using email and password combinations.
+FR3: The system shall enforce password security measures.
+
+3.2 Report Lost Item
+FR1: Users shall be able to report lost items by providing item details (description, category, last seen location).
+FR2: The system shall store lost item details securely in the database.
+FR3: The system shall allow users to update or remove their lost item reports.
+
+3.3 Tag Geo-Location
+FR1: Users shall be able to tag the geo-location where the item was lost using a map or GPS data.
+FR2: The system shall save the tagged location to the lost item report.
+
+3.4 Report Found Item
+FR1: Users shall submit details and an optional image of a found item.
+FR2: The system shall store found item information securely in the database.
+FR3: The system shall notify the finder if there is a potential match.
+
+3.5 Receive Found Item Notifications
+FR1: The system shall notify users via email or in-app notifications when a potential match for their lost item is found.
+FR2: Users shall be able to configure notification preferences.
+
+3.6 Manage Profile
+FR1: Users shall be able to edit their profile, including contact information and preferences.
+FR2: The system shall securely store user profile information.
+
+3.7 Provide Reviews and Ratings
+FR1: Users shall be able to submit reviews and ratings based on their experience.
+FR2: The system shall display aggregated ratings and reviews.
+
+3.8 Submit Found Item to Store
+FR1: The system shall allow finders to submit found items to a designated store for safekeeping.
+FR2: The system shall update the store's inventory when new items are submitted.
+
+3.9 Manage User Accounts
+FR1: The Admin shall be able to create, update, or deactivate user accounts.
+FR2: The system shall securely store all user data.
+
+3.10 Manage Lost and Found Items
+FR1: The Admin shall be able to update the status of lost and found items (claimed, unclaimed, donated).
+FR2: The system shall ensure accurate tracking of item details.
+
+3.11 Handle Donation of Unclaimed Items
+FR1: The Admin shall be able to designate unclaimed items for donation.
+FR2: The system shall track the status of items through the donation process.
+
+3.12 Send Notifications
+FR1: The system shall automatically send notifications to users when item matches are found.
+FR2: The system shall allow users to view and manage their notifications.
+
+3.13 Process Item Matches
+FR1: The system shall match lost and found item reports based on description, category, and geo-location.
+FR2: The system shall notify the users involved in the match.
+
+3.14 Hold Unclaimed Items
+FR1: The store shall hold unclaimed items in inventory until claimed or designated for donation.
+FR2: The system shall update the status of held items as needed.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The application must respond quickly to user interactions.
+NFR2: Notifications for found items should be delivered promptly.
+
+4.2 Security and Privacy
+NFR3: User data must be securely encrypted and stored.
+NFR4: The system should provide privacy settings to manage profile and item report visibility.
+
+4.3 Reliability
+NFR5: The application should be accessible at all times, with minimal downtime.
+NFR6: Reporting processes must be reliable, ensuring data integrity and accuracy.
+
+4.4 Scalability
+NFR7: The application should accommodate a growing number of users, reports, and notifications.
+NFR8: Future enhancements and integrations must be feasible.
+
+4.5 Compatibility
+NFR9: The application must work seamlessly across major platforms (iOS, Android, web browsers).
+NFR10: Compatibility with various devices should be ensured.
+
+4.6 Usability
+NFR11: The user interface must be intuitive and easy to navigate.
+NFR12: Clear instructions should guide users through tasks.
+
+4.7 Maintainability
+NFR13: The codebase should be well-structured and documented.
+NFR14: Regular updates should address bugs and security vulnerabilities.
+
+================================================================================

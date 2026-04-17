@@ -1,0 +1,115 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: FearLESS
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This mid evaluation report defines the scope, system-level requirements, and first iteration deliverables for FearLESS, a VR-based application helping people overcome fears of heights (Acrophobia) and darkness (Nyctophobia) using VR, fear intensity gauging, and therapist/psychiatrist counseling connections.
+
+1.2 Scope
+FearLESS uses Virtual Reality Exposure Therapy (VRET) to help users confirm and overcome irrational fears/phobias. Users take questionnaires to determine fear severity, view simulations at varying intensities, and connect with therapists. Therapists can access simulations for exposure therapy from their offices/clinics.
+
+1.3 Definitions, Acronyms, Abbreviations
+- VR: Virtual Reality
+- VRET: Virtual Reality Exposure Therapy
+- CBT: Cognitive-Behavioral Therapy
+- XR: Extended Reality
+
+1.4 References
+- National Institute of Mental Health (NIMH) [3]
+- Cleveland Clinic [4, 8]
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+FearLESS addresses the problem that only 23% of people with phobias seek treatment. The application allows users to expose themselves to fears via simulations at varying intensities until they can conquer their reactions.
+
+2.2 Product Functions (Summary)
+- Phobia selection (Acrophobia, Nyctophobia)
+- Simulation levels (easy, medium, hard)
+- Professional counseling (text messaging, video chat)
+- Intensity confirmation questionnaire
+- Progress tracking questionnaire
+- Payment module for therapy sessions
+- User profile management
+- Feedback system
+
+2.3 User Classes and Characteristics
+- Acrophobic Users: Seek exposure therapy for fear of heights
+- Nyctophobic Users: Seek exposure therapy for fear of darkness
+- Inquisitive Users: Curious about whether they have a fear
+- Counselors (Therapists/Psychiatrists): Provide exposure therapy using simulations
+- VR Enthusiasts: Use application only for VR experience
+
+2.4 Operating Environment
+Desktop application with Oculus Rift headset support, Unity development environment.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Phobia Selection
+FR1.1: The system shall allow user access to nyctophobia simulation.
+FR1.2: The system shall allow user access to acrophobia simulation.
+FR1.3: The system shall allow therapist access to both simulations.
+
+3.2 Simulation Levels
+FR2.1: The system shall allow user access to easy level for acrophobia.
+FR2.2: The system shall allow user access to medium level for acrophobia.
+FR2.3: The system shall allow user access to hard level for acrophobia.
+FR2.4: The system shall allow user access to easy level for nyctophobia.
+FR2.5: The system shall allow user access to medium level for nyctophobia.
+FR2.6: The system shall allow user access to hard level for nyctophobia.
+
+3.3 Counseling
+FR3.1: The system shall allow user to chat with appointed therapist.
+FR3.2: The system shall allow user to video call with appointed therapist.
+FR3.3: The system shall assign users to therapists.
+FR3.4: The system shall allow therapist to view client's intensity test results.
+FR3.5: The system shall allow therapist to allow/deny client access to simulations.
+FR3.6: The system shall allow user to request therapist change.
+FR3.7: The system shall allow user to request therapist appointment.
+
+3.4 Intensity Confirmation
+FR4.1: The system shall allow user to take questionnaire before simulation.
+FR4.2: The system shall allow user to view intensity confirmation results.
+
+3.5 Progress Tracking
+FR5.1: The system shall allow registered user to take questionnaire after simulation.
+FR5.2: The system shall update fear intensity level based on progress questionnaire.
+FR5.3: The system shall change simulation level based on fear intensity.
+
+3.6 User Profile Management
+FR6.1: The system shall allow user to create an account.
+FR6.2: The system shall allow user to login using email/username and password.
+FR6.3: The system shall allow user to login using Google account.
+FR6.4: The system shall allow user to view profile.
+FR6.5: The system shall allow user to update profile.
+FR6.6: The system shall allow password reset.
+
+3.7 Payment
+FR7.1: The system shall allow therapist to set payment details.
+FR7.2: The system shall allow user to set payment details.
+FR7.3: The system shall allow user to pay using subscription.
+
+3.8 Feedback
+FR8.1: The system shall allow user to give application feedback.
+FR8.2: The system shall allow user to provide feedback to change therapist.
+FR8.3: The system shall allow user to view therapist feedback.
+FR8.4: The system shall allow user to view application feedback.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Organizational Requirements
+NFR1: The system shall be developed using Unity version 2023.2.7f1 LTS.
+NFR2: The system shall be developed in C#.
+NFR3: VR setup shall use XR Interaction Toolkit 2.5.2 and XR Plugin Management 4.4.0.
+
+4.2 Security Requirements
+NFR4: User authentication and authorization shall ensure authorized access.
+NFR5: Secure password recovery mechanisms shall be provided.
+
+4.3 Usability Requirements
+NFR6: Desktop application interface shall be intuitive and easy to navigate.
+NFR7: Simulations shall provide guidance during interactions.
+
+4.4 Portability Requirements
+NFR8: The system shall support compatibility with Oculus Rift Headset.
+
+================================================================================

@@ -1,0 +1,103 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: TheWeatherMind - AI-Driven Localized Weather Forecasting System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for TheWeatherMind, an AI-driven weather forecasting application designed to provide accurate, localized predictions for Pakistan, reducing reliance on external models and providing a revenue model through data purchase.
+
+1.2 Scope
+To build a system with four major phases: 1) Developing an AI model (LSTM) trained on local weather station, radar, and satellite data for Islamabad, Lahore, and Karachi. 2) Developing a user-friendly front-end for web and mobile. 3) Creating a content generation module (text, audio, video) using real-time data. 4) Integrating blockchain-based smart contracts for secure purchase of weather data.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- ML: Machine Learning
+- API: Application Programming Interface
+- NLP: Natural Language Processing
+- MTBF: Mean Time Between Failures
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+TheWeatherMind is a localized weather intelligence platform that combines AI prediction, engaging content generation, and a blockchain-based data marketplace.
+
+2.2 Product Functions (Summary)
+- Model training for precise weather prediction (integrating station, radar, satellite data)
+- Front-End Design (web and mobile apps for forecasts, news, data purchase)
+- Weather News Reporting (text, audio, video generation using LLMs and avatars)
+- Blockchain Based Transactions (smart contracts for secure data purchase, payment verification, audit trail)
+
+2.3 User Classes and Characteristics
+- Weather Enthusiasts: Interested in personal use (planning activities). Use mobile app.
+- Agriculture Professionals: Farmers/consultants relying on accurate predictions for irrigation/harvesting.
+- City Planners/Government Officials: Need forecasts for severe weather conditions. Likely use desktop web app.
+- Weather Data Purchasers: Companies/organizations buying localized data. Use web app.
+- Weather Reporters: Produce content for public. Use web/mobile app.
+
+2.4 Operating Environment
+Web and mobile applications with cloud-based backend.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Weather Prediction Engine
+FR1.1: The system shall collect real-time data from weather stations and radar.
+FR1.2: The AI model shall process and analyze data to generate accurate localized forecasts.
+FR1.3: The model shall provide predictions for specific geographic locations (Islamabad, Lahore, Karachi).
+FR1.4: The system shall update weather forecasts at hourly intervals.
+FR1.5: The model shall allow for continuous training and improvement as new data is collected.
+
+3.2 Forecast Interface
+FR2.1: The front-end shall display real-time weather forecasts (temperature, precipitation, humidity, dew).
+FR2.2: Users shall be able to select specific locations to view localized predictions.
+FR2.3: The design shall incorporate weather updates in textual, audio, and video formats.
+FR2.4: The design shall integrate blockchain-based transactions for data purchase.
+
+3.3 Weather Content Generator
+FR3.1: The system shall generate weather forecasts in text, audio, and video formats using real-time data.
+FR3.2: Text prompts shall be automatically generated based on weather data to create human-readable content.
+FR3.3: The audio and video generation shall provide accurate spoken forecasts using NLP.
+FR3.4: The module shall allow users to switch between content formats.
+
+3.4 Transaction System
+FR4.1: The system shall allow users to securely purchase localized weather data using blockchain technology.
+FR4.2: The blockchain shall record every transaction in an immutable ledger.
+FR4.3: Users shall be able to verify the authenticity of weather data transactions.
+FR4.4: The system shall provide a seamless and transparent process for data transactions.
+FR4.5: The transaction system shall support payments in local currency.
+FR4.6: The system shall notify users once transactions are successfully completed.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The system shall aim for an MTBF of at least 600 hours.
+NFR2: A failure is defined as providing inaccurate forecasts or failing to display information correctly.
+NFR3: The system shall implement monitoring and diagnostics for proactive issue identification.
+
+4.2 Usability Requirements
+NFR4: The system shall allow a user to access the localized weather forecast for their selected location within two clicks from the homepage.
+NFR5: The interface shall provide clear visual feedback (e.g., loading indicators).
+NFR6: The system shall enable users to switch to the weather news screen and generate a video within a minute.
+NFR7: The application shall allow users to search for weather data for any specified location within 7 seconds.
+NFR8: Users can select up to 5 specific weather parameters for a downloadable file and finalize selection within 3 clicks.
+NFR9: The blockchain-based purchase process shall provide confirmation within 10 seconds of payment initiation.
+
+4.3 Performance Requirements
+NFR10: 95% of weather forecast data shall be generated and displayed within 7 seconds of the user's request.
+NFR11: The system shall support at least 100 concurrent users without degradation.
+NFR12: Real-time updates shall be processed and delivered within 1 minute of data collection.
+NFR13: The system shall allow for weather data retrieval from the database with a maximum latency of 5 seconds.
+
+4.4 Security Requirements
+NFR14: Robust security measures shall protect sensitive data and ensure user privacy.
+NFR15: Regular security evaluations shall be conducted to identify vulnerabilities.
+
+4.5 Scalability Requirements
+NFR16: The system shall support up to 100 simultaneous users without degradation.
+NFR17: The infrastructure shall allow for horizontal scaling.
+
+4.6 Portability Requirements
+NFR18: The system shall be accessible from various platforms (web browsers, iOS, Android) without significant code changes.
+NFR19: The system shall work seamlessly on all modern web browsers.
+
+4.7 Extensibility Requirements
+NFR20: The system shall allow the integration of new weather data sources or third-party APIs with minimal modification.
+
+================================================================================

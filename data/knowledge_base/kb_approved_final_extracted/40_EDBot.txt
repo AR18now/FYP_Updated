@@ -1,0 +1,105 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: EDBot - AI-Powered Educational Content Generator
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Learners often face challenges without personalized learning experiences or timely feedback. When assessments aren't tailored to skill level, tasks become either too easy or too hard, making learning frustrating and less effective. Delayed feedback leaves students unsure of progress and where to improve.
+
+1.2 Scope
+EDBOT is an AI-driven educational content generation and assessment system. Features include generating tailored educational content based on user-provided keywords, creating assessments (multiple-choice, short answer, true/false) with difficulty levels adapting to student performance, and exporting content in multiple formats (PDF, DOCX, PPTX).
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- LLM: Large Language Model
+- MCQ: Multiple Choice Question
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+EDBOT streamlines content generation and assessment processes, making quality educational resources more accessible to all users using advanced AI technologies.
+
+2.2 Product Functions (Summary)
+- User authentication (signup, login, password recovery)
+- Content generation (auto-generated slides based on keywords)
+- Export options (DOCX, PDF, PPTX)
+- Adaptive assessment generation (MCQs, true/false, short answer)
+- Difficulty level adjustment based on performance
+- View/download generated slides
+- Take quizzes based on slides
+- View assessment results and progress
+- Admin dashboard for user and content management
+- Feedback system
+
+2.3 User Classes and Characteristics
+- Learner: Generate personalized content, take assessments, track progress
+- Admin: Manage user accounts, monitor content and assessments
+
+2.4 Operating Environment
+Web application, MongoDB for data storage, LLM integration.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Access Module
+FR1.1: The system shall display welcome message upon accessing application.
+FR1.2: The system shall provide navigation options to login and signup pages.
+FR1.3: The system shall support both guest mode and registered user access.
+FR1.4: The system shall offer brief overview of functionalities on welcome page.
+
+3.2 User Management Module
+FR2.1: The system shall allow new users to create account with email and password.
+FR2.2: The system shall allow users to login with previously registered credentials.
+FR2.3: The system shall allow users to recover password via email recovery link.
+FR2.4: The system shall validate user credentials upon login.
+FR2.5: The system shall provide option to login with third-party authentication.
+FR2.6: The system shall maintain session management.
+FR2.7: The system shall allow users to update account information.
+
+3.3 Content Generation Module
+FR3.1: The system shall allow users to input keyword for content generation.
+FR3.2: The system shall fetch and display relevant slides based on subject and topic input.
+FR3.3: The system shall allow users to navigate through different slides.
+FR3.4: The system shall generate educational slides in structured format (sections, key points, examples).
+FR3.5: The system shall allow users to download slides as PDF.
+FR3.6: The system shall automatically generate relevant images corresponding to content.
+FR3.7: The system shall provide option to mark important slides for later reference.
+FR3.8: The system shall auto-save user progress.
+
+3.4 Assessment Generation Module
+FR4.1: The system shall grade assessments based on selected topic.
+FR4.2: The system shall categorize questions into easy, medium, hard based on user performance.
+FR4.3: The system shall provide MCQs, true/false, and short answer types.
+FR4.4: The system shall allow users to take timed assessments.
+FR4.5: The system shall automatically score responses and include score report.
+FR4.6: The system shall allow users to retry assessments and view previous attempts.
+FR4.7: The system shall summarize assessment results with improvement areas.
+FR4.8: The system shall dynamically adjust difficulty based on performance.
+FR4.9: The system shall allow users to pause and resume assessments.
+FR4.10: The system shall allow users to flag questions for review.
+FR4.11: The system shall automatically generate relevant and appropriately challenging questions.
+FR4.12: The system shall use threshold-based grading for personalized feedback.
+
+3.5 Feedback Module
+FR5.1: The system shall provide detailed explanations for every question after assessment.
+FR5.2: The system shall deliver specific feedback based on performance.
+FR5.3: The system shall allow users to track progress over time.
+FR5.4: The system shall display performance metrics on visual dashboard.
+FR5.5: Immediately after assessment, system shall provide AI-driven feedback.
+FR5.6: The system shall allow users to submit feedback on difficult questions.
+
+3.6 Reporting Module
+FR6.1: The system shall allow users to export assessment results and feedback (PDF, DOCX).
+FR6.2: The system shall generate reports summarizing overall performance, time spent, suggested next steps.
+FR6.3: The system shall log user activity for administrative analytics.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Usability
+NFR1: Seamless and unintermittent flow for students and educators.
+NFR2: Simple navigation with plain language instructions.
+NFR3: Real-time feedback and adaptive assessments readily available.
+
+4.2 Performance
+NFR4: Optimized for quick response times and smooth processing.
+NFR5: Efficient resource management for content generation, slide rendering, assessment feedback.
+
+================================================================================

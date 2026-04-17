@@ -1,0 +1,68 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SoulSync - AI-Powered Digital Persona Creation from Digital Legacy
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for SoulSync, an AI platform that creates an artificial persona ("digital twin") based on a person's digital footprint (social media posts, emails, photos, videos), enabling loved ones to interact with and preserve the legacy of a deceased individual.
+
+1.2 Scope
+The system collects user-provided digital data (text, images, video, audio), processes it using NLP and CV, and creates an interactive persona. Features include data aggregation and categorization, analysis of communication style and emotional resonance, persona simulation (text, voice, video), and an engagement module for interactive conversation and memory sharing.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- NLP: Natural Language Processing
+- CV: Computer Vision
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+SoulSync addresses the growing need to preserve digital legacy meaningfully, using AI to replicate an individual's communication style, wisdom, and emotional resonance, providing comfort and connection for loved ones.
+
+2.2 Product Functions (Summary)
+- Legacy Data Aggregation: Collect and categorize user data (text, media) using AI.
+- Data Analysis and Modeling: Process text/audio (create memory bank, speech style) and visual data (face, speech style).
+- Persona Creation: Generate dynamic persona, provide communication interface (voice, text, video).
+- Engagement Module: Allow simulated conversation, enable sharing of personal memories.
+
+2.3 User Classes and Characteristics
+- User: Primary user who needs therapy, knowledge, or wants to connect with deceased loved ones.
+- Admin: Controls which models can be deployed publicly and monitors users.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Legacy Data Aggregation
+FR1: The system must allow users to add (text, media) type of data.
+FR2: The system must categorize data using artificial intelligence.
+
+3.2 Data Analysis and Modeling
+FR1: The system must process text in a meaningful manner to make the memory bank by storing meaningful data.
+FR2: The system must process images and videos to make the persona feel real by duplicating the real person's style.
+FR3: The system must process audio to store data in the memory bank and also to make the persona's voice.
+
+3.3 Persona Creation
+FR1: The system must generate a persona based on the data processed and analyzed.
+FR2: The system must allow users to interact with the artificial persona using a user-friendly conversational interface.
+
+3.4 Engagement Module
+FR1: The system must allow users to initiate and interact with the persona using text and voice.
+FR2: The system must enable users to share personal memories for better interaction.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Legacy Data Aggregation
+NFR1: The aggregation process should be efficient.
+NFR2: The aggregation process can handle large data within a few (1-4) hours.
+
+4.2 Data Analysis and Modeling
+NFR3: The system should support audio and visual media in different formats like MP4, etc.
+NFR4: The system must ensure privacy for user models.
+
+4.3 Persona Creation
+NFR5: The artificial persona's speech should be natural.
+NFR6: The artificial persona should provide a response in real-time with lag time < 1 second.
+
+4.4 Engagement Module
+NFR7: The artificial persona's emotional responses should feel natural to users.
+NFR8: The user interface should be user-friendly and accessible on all mobile devices with Android version >= 8.0.
+
+================================================================================

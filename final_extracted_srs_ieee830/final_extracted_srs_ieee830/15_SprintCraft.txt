@@ -1,0 +1,106 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SprintCraft - Context Aware User Story Generator
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+In agile development, converting client requirements into actionable user stories is time-consuming and error-prone. Manual user story creation risks inconsistencies, incomplete coverage, and miscommunication between stakeholders and development teams.
+
+1.2 Scope
+The system automates user story generation from Software Requirement Specification (SRS) documents and prompts. It includes self-evaluation mechanisms (completeness, clarity, feasibility, value), interaction history, user-friendly interface, and fine-tuned LLMs.
+
+1.3 Definitions, Acronyms, Abbreviations
+- SRS: Software Requirements Specification
+- NLP: Natural Language Processing
+- LLM: Large Language Model
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system streamlines conversion of client requirements into actionable user stories, which are core components in agile development lifecycle, with evaluation against pre-defined thresholds.
+
+2.2 Product Functions (Summary)
+- SRS document upload
+- Prompt field for user story specification
+- Input validation
+- Requirement extraction
+- Contextual understanding
+- Auto-generation of user stories (functional/non-functional)
+- User story editing
+- Acceptance criteria addition
+- Version history tracking
+- Story comparison between versions
+- Collaboration support
+- User authentication and role-based access control
+
+2.3 User Classes and Characteristics
+- Product Manager: Oversee product development, need detailed accurate user stories
+- Software Developer: Implement features, rely on clear technical stories
+- Business Analyst: Bridge stakeholders and development, refine SRS
+- QA Tester: Create test cases, need clearly defined acceptance criteria
+- Stakeholders: Review output at high level for alignment with project vision
+- Project Supervisor: Monitor progress, ensure stories align with defined goals
+
+2.4 Operating Environment
+Web application, backend engine with fine-tuned LLMs.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Input Module
+FR1.1: Users shall upload SRS documents (.doc, .docx, .pdf).
+FR1.2: Users shall browse local file system and select SRS document.
+FR1.3: System shall notify users upon successful upload or failure with appropriate messages.
+FR1.4: System shall provide prompt input field for user story specification.
+FR1.5: System shall validate uploaded SRS document and prompt input for required format and structure.
+
+3.2 Natural Language Processing (NLP) Engine
+FR2.1: NLP engine shall extract key requirements from uploaded SRS document.
+FR2.2: Engine shall identify functional and non-functional requirements, tag components (goals, constraints, assumptions).
+FR2.3: Engine shall understand context of SRS document to accurately interpret content.
+FR2.4: Engine shall interpret user prompt to generate tailored user stories.
+
+3.3 User Story Generation Module
+FR3.1: Module shall automatically generate user stories from extracted data (format: "As a [role], I want [goal], so that [benefit]").
+FR3.2: Module shall generate user stories for both functional and non-functional requirements.
+FR3.3: Module shall allow customization based on user prompt.
+
+3.4 Story Review and Editing Module
+FR4.1: Module shall allow users to review and edit generated user stories.
+FR4.2: Module shall provide mechanisms for user feedback and suggestions for generation rule adjustments.
+
+3.5 Version Control and Tracking Module
+FR5.1: Module shall track all changes to user stories, capturing each version as separate entity.
+FR5.2: Module shall provide functionality for users to compare different versions of user stories.
+
+3.6 Security and Authentication Module
+FR6.1: Module shall provide user authentication and login with multi-factor authentication.
+FR6.2: Module shall implement role-based access control (RBAC).
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: Processing from input to scoring shall complete in 10-15 seconds.
+NFR2: System shall allow simultaneous user activities without observable delay.
+
+4.2 Scalability
+NFR3: System shall support multiple concurrent users, adapt to increased workload via horizontal scaling.
+
+4.3 Security
+NFR4: All stored data shall be encrypted using AES-256.
+NFR5: Secure user authentication following OAuth 2.0 standards.
+NFR6: Role-based access control shall ensure appropriate access levels.
+
+4.4 Usability
+NFR7: User interface shall be intuitive and user-friendly.
+NFR8: Compliance with WCAG 2.1 accessibility standards.
+NFR9: Clear, actionable feedback for input corrections.
+
+4.5 Reliability
+NFR10: Service uptime ≥ 90%.
+NFR11: Automatic failover mechanisms shall restore services within 1-10 minutes.
+NFR12: Daily backups shall safeguard against data loss.
+
+4.6 Maintainability
+NFR13: Codebase shall adhere to SOLID design principles.
+NFR14: Scheduled updates with minimal disruption (downtime < 1 hour).
+
+================================================================================

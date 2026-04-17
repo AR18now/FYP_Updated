@@ -1,0 +1,121 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: AutoWise - Car Maintenance and Fuel Efficiency Tool
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for AutoWise, a mobile application designed to help car owners manage vehicle maintenance, monitor fuel efficiency, and improve overall driving experience by integrating real-time OBD-II data, machine learning, and data analytics.
+
+1.2 Scope
+The app connects to OBD-II adapters to capture real-time vehicle performance metrics (engine health, fuel consumption). Features include personalized maintenance reminders, diagnostic trouble code (DTC) explanation, fuel efficiency optimization (driving behavior analysis, tips), route planning and optimization (real-time traffic, driver communication), driver log, and machine learning for predictive maintenance and insights.
+
+1.3 Definitions, Acronyms, Abbreviations
+- OBD-II: On-Board Diagnostics II
+- ML: Machine Learning
+- DTC: Diagnostic Trouble Code
+- GPS: Global Positioning System
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+AutoWise empowers car owners with actionable insights from their vehicle's data, enabling proactive maintenance, improved fuel efficiency, and better driving decisions, reducing operational costs and preventing breakdowns.
+
+2.2 Product Functions (Summary)
+- User Interface Module: Dashboard, notifications, settings, driver log.
+- Vehicle Diagnostics Module: Real-time data monitoring, DTC detection and explanation, performance metrics.
+- Predictive Maintenance Module: Maintenance reminders, historical data analysis, custom recommendations.
+- Fuel Efficiency Optimization Module: Consumption tracking, driving behavior analysis, fuel efficiency tips, historical trends.
+- Route Planning and Optimization Module: Real-time traffic updates, route optimization, driver communication, alternative routes.
+- Machine Learning and Data Analytics Module: Model training, behavior analysis, performance insights.
+- OBD-II Integration Module: Data collection, parsing, compatibility management.
+- User Management and Authentication Module: Registration, login, account management.
+- Backend Services Module: Server infrastructure, data storage, APIs.
+
+2.3 User Classes and Characteristics
+- Car Owner: Primary user seeking real-time diagnostics, maintenance reminders, fuel optimization, route planning.
+- Mechanics/Repair Shops: Use diagnostic data to identify and resolve issues efficiently.
+- Fleet Managers: Use driving behavior insights to assess risk and offer personalized insurance plans.
+- Insurance Providers: Use driving behavior insights for risk assessment.
+- Drivers on Shared Routes: Benefit from communication for optimized route planning.
+- Data Scientists/Developers: Maintain and improve ML models.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Interface (UI) Module
+FR1: Provide a user-friendly dashboard displaying real-time vehicle health and maintenance information.
+FR2: Allow users to customize notification preferences.
+FR3: Provide easy navigation to access all features.
+FR4: Include a driver log feature for recording driving behavior and trip history.
+
+3.2 Vehicle Diagnostics Module
+FR1: Connect to the OBD-II adapter to capture real-time vehicle performance data.
+FR2: Display diagnostic trouble codes (DTCs) with explanations and recommended actions.
+FR3: Provide information on engine health, fuel consumption, and sensor status.
+FR4: Allow users to generate diagnostic reports based on collected data.
+
+3.3 Predictive Maintenance Module
+FR1: Analyze historical vehicle data to provide personalized maintenance reminders.
+FR2: Alert users to potential maintenance needs based on real-time diagnostics and usage patterns.
+FR3: Allow users to view their maintenance history and upcoming service requirements.
+FR4: Offer custom maintenance recommendations based on vehicle condition and usage.
+
+3.4 Fuel Efficiency Optimization Module
+FR1: Track real-time fuel consumption and efficiency metrics.
+FR2: Analyze driving behavior to provide recommendations for improved fuel efficiency.
+FR3: Display historical trends in fuel consumption.
+FR4: Provide tips and best practices for managing fuel consumption.
+
+3.5 Route Planning and Optimization Module
+FR1: Provide real-time traffic updates to assist in route planning.
+FR2: Suggest optimized routes to minimize travel time and avoid congestion.
+FR3: Allow users to save frequently used routes.
+FR4: Enable communication among drivers on the same route for sharing traffic information.
+
+3.6 Machine Learning and Data Analytics Module
+FR1: Use machine learning algorithms to analyze driving patterns and predict maintenance needs.
+FR2: Provide data-driven insights into vehicle performance and efficiency.
+FR3: Generate reports on the effectiveness of maintenance and driving practices.
+
+3.7 OBD-II Integration Module
+FR1: Ensure compatibility with various OBD-II adapters and vehicle types.
+FR2: Capture and interpret real-time OBD-II data accurately.
+FR3: Provide a user-friendly interface for viewing and analyzing OBD-II data.
+FR4: Allow users to view historical OBD-II data records.
+
+3.8 User Management and Authentication Module
+FR1: Provide secure user registration and login functionalities.
+FR2: Allow users to manage their account settings and preferences.
+FR3: Ensure the secure handling of user data and vehicle information.
+
+3.9 Backend Services Module
+FR1: Manage server infrastructure for reliable performance and scalability.
+FR2: Ensure secure storage of user and vehicle data.
+FR3: Provide APIs for connecting with external services and data sources.
+FR4: Monitor backend performance and optimize resource utilization.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall maintain a mean time between failures (MTBF) of at least 1,000 hours.
+NFR2: In the event of a software failure, the system shall provide an error message and log the error.
+NFR3: The system shall implement automatic error detection mechanisms that trigger alerts.
+NFR4: A rollback mechanism shall be in place to restore the last stable version.
+
+4.2 Usability
+NFR5: The system shall provide an intuitive interface allowing users to access maintenance reminders with no more than three clicks.
+NFR6: The system shall include a help section and tutorials for new users.
+NFR7: Users shall be able to retrieve their last diagnostic report with a single interaction.
+NFR8: The application shall comply with WCAG 2.1 Level AA.
+
+4.3 Performance
+NFR9: The system shall process and display real-time vehicle data within 2 seconds.
+NFR10: The system shall support at least 100 concurrent users without performance degradation.
+NFR11: The application shall generate diagnostic reports and maintenance reminders within 5 seconds.
+NFR12: At least 95% of notifications shall be delivered within 1 minute of the triggering event.
+
+4.4 Security
+NFR13: The system shall protect user data with encryption methods meeting industry standards.
+NFR14: The application shall implement session timeouts, automatically logging users out after 15 minutes of inactivity.
+NFR15: User authentication shall require a unique username and password with complexity rules.
+NFR16: The system shall undergo regular security assessments and penetration testing.
+
+================================================================================

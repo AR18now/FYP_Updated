@@ -191,7 +191,7 @@ function App() {
                 path="expert-review"
                 element={<ExpertReviewPage srsData={srsData} mode="user" />}
               />
-              <Route path="srs-metrics" element={<SRSMetricsPage srsData={srsData} />} />
+              <Route path="srs-metrics" element={<SRSMetricsPage srsData={srsData} currentResults={currentResults} />} />
             </Route>
 
             <Route

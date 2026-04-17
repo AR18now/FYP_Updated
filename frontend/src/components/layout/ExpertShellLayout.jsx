@@ -42,7 +42,7 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
           bg-gradient-to-b from-r2d-primaryDark via-r2d-primary to-r2d-primaryDark text-slate-100 border-r border-r2d-primary/30 shadow-nav
           transform transition-all duration-200 ease-out
           ${collapsed ? 'lg:w-[76px]' : 'lg:w-64'}
-          lg:translate-x-0 lg:static lg:z-0 lg:sticky lg:top-0 lg:h-screen
+          lg:translate-x-0 lg:z-40 lg:h-dvh
           ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'}
         `}
       >
@@ -98,7 +98,11 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden bg-slate-100 dark:bg-slate-900">
+      <div
+        className={`flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden bg-slate-100 dark:bg-slate-900 transition-[padding-left] duration-200 ${
+          collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'
+        }`}
+      >
         <header
           className="sticky top-0 z-30 relative min-h-16 flex flex-wrap items-center justify-between gap-2 sm:gap-3 px-3 sm:px-4 py-2 lg:px-8 border-b backdrop-blur-md shadow-sm"
           style={{ background: 'var(--card)', borderColor: 'var(--card-border)' }}
@@ -153,7 +157,7 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-r2d-accent/55 to-transparent" />
         </header>
 
-        <main className="flex-1 w-full p-2 sm:p-4 lg:p-8 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 w-full p-2 sm:p-4 lg:p-8 overflow-x-hidden">
           <Outlet />
         </main>
       </div>

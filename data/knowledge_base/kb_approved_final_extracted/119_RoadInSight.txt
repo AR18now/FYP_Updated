@@ -1,0 +1,75 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: RoadInSight - Road Surface Detection Using Inexpensive Cell Phone Sensors
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for RoadInSight, a system that uses smartphone sensors (accelerometer, gyroscope, magnetometer, GPS) to detect road anomalies like potholes and bumps, providing a cost-effective alternative to specialized vehicles.
+
+1.2 Scope
+The project involves developing mobile and web applications. The mobile app collects data from smartphone sensors, visualizes it, and displays road surface condition/elevation maps. The web app visualizes this data and insights. Data collection is limited to main roads in Islamabad/Rawalpindi. A cloud-based inference module uses ML models (initially trained on collected data) for detection.
+
+1.3 Definitions, Acronyms, Abbreviations
+- GPS: Global Positioning System
+- ML: Machine Learning
+- API: Application Programming Interface
+- NHA: National Highway Authority
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+RoadInSight addresses the inefficiencies of manual road inspections and the high cost of specialized vehicles by leveraging crowdsourced data from common smartphones to monitor road conditions.
+
+2.2 Product Functions (Summary)
+- Mobile App: Data collection (sensors), user authentication, data aggregation, dashboard, real-time sensor graphs, road condition map, road elevation map.
+- Web App: Visualization of road conditions and elevation on maps, user login, data dashboard.
+- Cloud-Based Inference: Model training, cloud deployment, scheduled batch inference for anomaly detection.
+
+2.3 User Classes and Characteristics
+- Government Authorities (RDA, CDA, NHA): Monitor conditions, plan maintenance.
+- Freight Companies: Avoid damage, optimize routes.
+- Everyday Drivers: Avoid hazards, prevent damage.
+- Emergency Responders: Plan fastest, safest routes.
+- Tourists: Navigate unfamiliar roads safely.
+- Data Contributors: Voluntarily share sensor data.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Mobile App Module
+FR1-001: The system shall allow users to create accounts, log in, and manage their profiles.
+FR1-002: The system shall aggregate sensor data from multiple users and store it in a central database.
+FR1-003: The system shall provide a dashboard in the mobile app showing an overview of collected sensor data.
+FR1-004: The system shall display real-time graphs of data from accelerometer, gyroscope, and magnetometer sensors.
+FR1-005: The system shall display a map highlighting road surface conditions based on collected data.
+FR1-006: The system shall display a road elevation map.
+
+3.2 Web App Module
+FR2-001: The web app shall provide functionality for users to create accounts, login, and manage their profiles.
+FR2-002: The system shall display a map on the web app visualizing road surface conditions.
+FR2-003: The system shall display a map on the web app showing road elevation.
+FR2-004: The system shall provide a dashboard offering insights and statistics from aggregated sensor data.
+
+3.3 Cloud-Based Inference Module
+FR3-001: The system shall train a machine learning model using user data to detect road anomalies (potholes, bumps, rough surfaces).
+FR3-002: The system shall deploy the trained model to a cloud environment to perform inference on data.
+FR3-003: The system shall schedule regular batch inferences using the trained model to analyze incoming data for road anomalies.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Accessibility
+NFR1: The application shall be accessible with a responsive GUI across various devices (computers, tablets, mobile phones).
+
+4.2 Adaptability
+NFR2: The system shall employ techniques to improve its performance over time, aiming to reduce prediction errors by 10% annually.
+
+4.3 Accuracy
+NFR3: The system’s AI algorithm shall achieve an accuracy of at least 90% in predicting road surface conditions.
+
+4.4 Availability
+NFR4: The system shall maintain an uptime of 98% or above.
+
+4.5 Response Time
+NFR5: The system’s database response time shall be less than 1 second for data retrieval.
+
+4.6 Data Security
+NFR6: The system shall encrypt user data both in transit and at rest using industry-standard security protocols.
+
+================================================================================

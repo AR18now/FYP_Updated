@@ -1,0 +1,77 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: EDA - Enhanced Driver Assist System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for the Enhanced Driver Assist (EDA) system, which aims to improve road safety by assisting drivers with real-time alerts and monitoring.
+
+1.2 Scope
+The EDA system integrates three primary modules: driver attention monitoring (via in-cabin camera), lane departure monitoring (via road camera), and driving pattern analysis (via OBD-II data). It provides voice alerts and is designed for highways and motorways in Pakistan.
+
+1.3 Definitions, Acronyms, Abbreviations
+- EDA: Enhanced Driver Assist
+- OBD-II: On-Board Diagnostics II
+- MTBF: Mean Time Between Failures
+- TPU: Tensor Processing Unit
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+EDA aims to reduce traffic accidents caused by driver fatigue, distraction, and lane departure by providing timely alerts and feedback, especially on highways.
+
+2.2 Product Functions (Summary)
+- Driver Attention Monitoring (drowsiness detection).
+- Lane Detection and Departure Warning.
+- Driving Pattern Monitoring (via OBD-II).
+- Voice Alerts.
+- Hardware Integration (Raspberry Pi/Nvidia Jetson Nano, Coral TPU, dashcams).
+
+2.3 User Classes and Characteristics
+- Driver: Primary user who receives alerts and feedback.
+- Fleet Manager: Oversees multiple vehicles and reviews aggregated data.
+
+2.4 Operating Environment
+In-vehicle hardware (Raspberry Pi/Nvidia Jetson Nano) with connected cameras and OBD-II sensor.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Driver Attention Monitoring
+FR1.1: The system shall detect driver drowsiness based on eye closure duration.
+FR1.2: The system shall issue an alert if the driver's attention is diverted for more than 5 seconds.
+
+3.2 Lane Departure Monitoring
+FR2.1: The system shall detect lane markers on highways and monitor the vehicle's position.
+FR2.2: The system shall warn the driver when the vehicle departs from its lane.
+
+3.3 Driving Pattern Analysis
+FR3.1: The system shall analyze OBD-II data for speed, acceleration, and rpm.
+FR3.2: The system shall generate reports for unsafe driving behavior (harsh acceleration, over-speeding).
+
+3.4 Voice Alert
+FR4.1: The system shall deliver voice alerts for potential hazards and driver assistance.
+FR4.2: The system shall process alerts locally on edge devices for minimal response time.
+
+3.5 Hardware Implementation and Integration
+FR5.1: The system shall integrate OBD-II sensors for vehicle data collection.
+FR5.2: The system shall stream videos from in-cabin and out-cabin cameras to the models.
+FR5.3: The system shall run lightweight models locally on the device.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall maintain an MTBF of at least 1000 hours.
+NFR2: The system shall perform regular self-checks and log errors.
+
+4.2 Usability
+NFR3: The system shall allow a driver to access driving behavior feedback.
+NFR4: The system shall enable fleet managers to generate reports on driving patterns.
+
+4.3 Performance
+NFR5: The system shall analyze OBD-II data and provide feedback within 4 seconds of data collection.
+NFR6: Voice alerts shall be processed and delivered within 4 seconds of detection.
+NFR7: Lane detection warnings shall have an approximate accuracy of 80% or higher.
+
+4.4 Security
+NFR8: The system shall limit access to sensitive data to authorized personnel only.
+NFR9: The system shall log all access attempts to sensitive data.
+
+================================================================================

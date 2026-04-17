@@ -1,0 +1,102 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Personix - Personalized 3D Avatar Creation and Animation Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This report outlines the development progress and requirements for Personix, a platform allowing users to create personalized 3D avatars from photos, customize them, and animate them with natural expressions for content creation.
+
+1.2 Scope
+To develop an Android application that enables users to create realistic 3D avatars from their own photos using computer vision and facial recognition. Features include: avatar customization (skin tone, hairstyle, facial structure), animation (text-to-speech, sentiment-based expressions), content creation (stickers, GIFs, short videos), cloud sync, and management of multiple avatars.
+
+1.3 Definitions, Acronyms, Abbreviations
+- 3D: Three-Dimensional
+- TTS: Text-to-Speech
+- GIF: Graphics Interchange Format
+- UI: User Interface
+- UX: User Experience
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Personix is a mobile application that empowers users to create a digital self-representation, enabling them to generate expressive content for social media while maintaining privacy.
+
+2.2 Product Functions (Summary)
+- Avatar creation from user photos (3D model generation)
+- Avatar customization (facial features, skin tone, hairstyles)
+- Animation and expression (real-time tracking, TTS with sentiment analysis, voice customization)
+- Content creation and sharing (stickers, GIFs, videos with face filters)
+- Cloud sync and storage (secure storage, cross-device sync)
+- User profile and settings (registration, preferences, notifications)
+
+2.3 User Classes and Characteristics
+- End User (Avatar Creator): Wants to create customized 3D avatars for personal or social media use; values privacy and creativity.
+- Content Creator: Advanced user who frequently generates shareable content (videos, GIFs) for social media.
+- Casual User: Interacts infrequently, may only use basic avatar creation features.
+- Tester/QA: Responsible for testing app features to identify bugs.
+- Developer: Responsible for technical development, updates, and bug fixes.
+
+2.4 Operating Environment
+Android mobile application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Avatar Creation and Customization
+FR1.1: The system shall allow users to upload photos for 3D avatar generation.
+FR1.2: The system shall generate a 3D avatar based on the uploaded photo.
+FR1.3: The system shall provide tools for facial feature customization (e.g., hairstyle, facial hair, facial features).
+FR1.4: The system shall allow users to save customized avatars for future use.
+FR1.5: The system shall support creating multiple avatars per user.
+
+3.2 Animation and Expression
+FR2.1: The system shall allow real-time tracking of user facial movements and map them to the 3D avatar.
+FR2.2: The system shall support text-to-speech conversion with avatar lip synchronization.
+FR2.3: The system shall provide sentiment analysis to adjust facial expressions based on the tone of the speech.
+FR2.4: The system shall allow voice customization, including pitch and tone adjustments.
+
+3.3 Content Creation and Sharing
+FR3.1: The system shall provide tools for users to create custom stickers using their avatars.
+FR3.2: The system shall allow users to generate GIFs with avatar animations.
+FR3.3: The system shall support recording videos with avatar face filters.
+FR3.4: The system shall provide integration with social media platforms for sharing created content.
+FR3.5: The system shall allow in-app sharing of content with other users.
+
+3.4 Cloud Sync and Storage
+FR4.1: The system shall securely store user avatars and content in the cloud.
+FR4.2: The system shall provide synchronization of avatars and content across multiple devices.
+FR4.3: The system shall allow users to manage cloud storage, including deleting avatars.
+FR4.4: The system shall support automatic backup of avatars.
+
+3.5 User Profile and Settings
+FR5.1: The system shall support user registration and authentication.
+FR5.2: The system shall allow users to customize their profiles, including avatar preferences.
+FR5.3: The system shall enable users to configure application preferences (notifications, privacy).
+FR5.4: The system shall allow users to manage notifications (email alerts, app notifications).
+
+3.6 App Development and Deployment
+FR6.1: The system shall provide a user-friendly and responsive interface for both mobile and web platforms (web platform optional).
+FR6.2: The system shall implement core features defined in the use cases.
+FR6.3: The system shall support app deployment and updates through the Android Play Store.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The system shall achieve a mean time between failures (MTBF) of at least 1,000 hours during avatar creation processes.
+NFR2: System failures during content sharing shall not result in data loss and shall automatically retry the operation.
+NFR3: The system shall implement error detection mechanisms to log failures and alert users.
+NFR4: In case of failure during avatar creation, the system shall save progress and allow resuming from the last saved state.
+
+4.2 Usability Requirements
+NFR5: The system shall allow a user to create and customize an avatar with no more than 3 interactions.
+NFR6: The system shall provide tooltip guidance for all customizable features.
+NFR7: The system shall allow users to recover from any customization mistake with a single undo action.
+NFR8: The system shall be optimized for performance on devices with limited resources.
+
+4.3 Performance Requirements
+NFR9: 90% of avatar customization actions shall be reflected on-screen within 3 seconds of interaction.
+NFR10: All content-sharing operations shall complete within 10 seconds over a 10 Mbps connection.
+NFR11: The system shall handle up to 100 concurrent users customizing avatars without performance degradation.
+
+4.4 Security Requirements
+NFR12: All user data, including avatar customizations and personal details, shall be encrypted using AES-256 during storage and transmission.
+NFR13: The system shall implement a two-factor authentication (2FA) mechanism for accessing user accounts.
+
+================================================================================

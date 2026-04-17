@@ -1,0 +1,87 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: BotForge - AI-Powered Custom Chatbot Creation Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document presents a detailed overview of BotForge, a web application that allows users to create and customize chatbots without any technical knowledge.
+
+1.2 Scope
+The platform enables users to upload data (PDF, text), which is used to train a custom chatbot. Users can customize the chatbot's behavior, appearance, and tone, and then generate integration links for deployment.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- PDF: Portable Document Format
+- API: Application Programming Interface
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+BotForge addresses the difficulty and cost small businesses face in creating AI-driven customer support chatbots by providing an easy, affordable platform to build and deploy them.
+
+2.2 Product Functions (Summary)
+- Data upload and management (PDF, text).
+- Automated data cleaning and vector embedding generation.
+- Chatbot customization (themes, styling, personality).
+- Live preview and testing.
+- Integration link generation.
+- Payment processing.
+
+2.3 User Classes and Characteristics
+- Small Business Owners/Entrepreneurs: Cost-effective, easy-to-deploy solutions.
+- Customer Support Managers: Efficient ways to handle frequent queries.
+- Non-Technical Users: Simple, intuitive interface to create chatbots.
+- Educational Institutions: Automated support for students and staff.
+- Technical Experts: May want more control over customization.
+
+2.4 Operating Environment
+Web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Data Management
+FR1.1: The system shall allow users to upload data in supported formats (PDF, Text).
+FR1.2: The system shall perform data preprocessing (filtering, cleaning) to prepare data for training.
+FR1.3: The system shall store processed data for future use.
+FR1.4: The system shall convert processed data into vector embeddings.
+
+3.2 Chatbot Customization
+FR2.1: The system shall provide pre-designed themes for chatbot outlook.
+FR2.2: Users shall be able to customize appearance (font, colors, text sizes, buttons).
+FR2.3: Users shall be able to customize the chatbot's conversational tone (formal, casual, friendly).
+
+3.3 Deployment and Integration
+FR3.1: The system shall create integration links (URLs/API endpoints) for chatbots.
+FR3.2: The system shall provide a live preview feature for users to test their chatbots before deployment.
+
+3.4 Payment Methods
+FR4.1: The system shall securely process payments for premium features using a payment gateway.
+FR4.2: The system shall allow users to select and manage their subscriptions.
+
+3.5 User Account Management
+FR5.1: The system shall allow users to register and login securely.
+FR5.2: The system shall handle user authentication and session management.
+FR5.3: The system shall allow users to manage their personal information and account settings.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Scalability
+NFR1: The system should be designed for horizontal scaling to add more servers/resources as user demand increases.
+NFR2: The system should have enough storage to run efficiently as uploaded data increases.
+
+4.2 Usability
+NFR3: The platform should be very easy to use, allowing anyone to navigate it easily.
+NFR4: The UI should be responsive across desktop, tablet, and mobile screen sizes.
+
+4.3 Performance
+NFR5: The system should provide results for chatbot customization and data uploads within 20 seconds.
+NFR6: The platform should be able to handle multiple side-by-side requests from at least 15 users at a time.
+
+4.4 Security
+NFR7: All sensitive data (name, email, phone number, payment details) must be secure with encryption.
+NFR8: Users must provide email and password before accessing the system.
+NFR9: The platform must guarantee the privacy of user data.
+
+4.5 Integration
+NFR10: The system should integrate with third-party APIs (e.g., payment gateways) smoothly.
+
+================================================================================

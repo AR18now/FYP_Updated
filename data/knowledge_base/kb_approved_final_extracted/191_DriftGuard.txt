@@ -1,0 +1,94 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: DriftGuard - Proactive Recurring Concept Drift Detection in Data Streams
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for DriftGuard, a research project focused on developing a framework for proactive detection and adaptation to recurring concept drift in data streams, particularly for domains like e-commerce and supply chain management.
+
+1.2 Scope
+The research aims to create a system that detects recurring drift patterns proactively, not just reactively. It includes a dashboard for visualizing real-time drift events, feature selection, historical drift data viewing, drift prediction alerts, customizable time windows, and report export. The core algorithm involves a temporal pattern graph, multi-modal drift handling, and adaptive forgetting mechanisms.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ML: Machine Learning
+- API: Application Programming Interface
+- UI: User Interface
+- CSV: Comma-Separated Values
+- PDF: Portable Document Format
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+DriftGuard addresses the limitation of existing concept drift detection methods that focus on abrupt or gradual drifts but fail to handle recurring patterns (e.g., seasonal sales cycles), providing a proactive and scalable solution.
+
+2.2 Product Functions (Summary)
+- Real-Time Drift Visualization: Display drift events on dashboard with graphs.
+- Feature Selection: User can select features to monitor drift patterns.
+- Historical Drift Data: View historical drift data for comparison.
+- Drift Prediction Alerts: Notify user when a drift is predicted.
+- Drift Details & Concept History: Display details on current/previous concepts.
+- Customizable Time Windows: Adjust monitoring time window.
+- Export Drift Reports: Export reports in CSV or PDF format.
+- Interactive Graphs and Tooltips: Hover for detailed drift information.
+
+2.3 User Classes and Characteristics
+- (The primary "user" is the system administrator or data analyst who monitors the dashboard for drift events in their data streams, e.g., in supply chain or e-commerce.)
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Real-Time Drift Visualization
+FR1: The dashboard should display real-time drift events based on the selected feature.
+FR2: Provide graphical representations (line graphs, bar charts) to show concept drift occurrence over time.
+
+3.2 Feature Selection
+FR1: The user can select one or more features from a dropdown to monitor drift patterns.
+FR2: Selected features will update visualizations accordingly.
+
+3.3 Historical Drift Data
+FR1: The dashboard should allow users to view historical drift data for comparison with the current stream.
+FR2: Users can toggle between real-time and historical views.
+
+3.4 Drift Prediction Alerts
+FR1: The dashboard should notify the user when a drift is predicted to occur, based on the sequence predictor.
+FR2: Alerts should include visual and textual notifications.
+
+3.5 Drift Details & Concept History
+FR1: The dashboard should display detailed information on current and previous concepts stored in the system.
+FR2: Users should be able to see metadata for each drift occurrence (date, time, affected feature, drift type).
+
+3.6 Customizable Time Windows
+FR1: The user should have the ability to adjust the time window for which drift data is being monitored (e.g., last hour, last day).
+
+3.7 Export Drift Reports
+FR1: The dashboard should allow users to export reports on drift patterns, predictions, and adaptations in CSV or PDF format.
+
+3.8 Interactive Graphs and Tooltips
+FR1: Users should be able to hover over graphs to see detailed information about each drift point (confidence, timestamp).
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The dashboard must process and display drift data with minimal latency (updates within 2 seconds).
+NFR2: It should handle high-volume data streams efficiently without performance degradation.
+
+4.2 Scalability
+NFR3: The dashboard should scale with increasing numbers of features and drift events.
+NFR4: It should accommodate multiple users monitoring different features simultaneously.
+
+4.3 Usability
+NFR5: The user interface should be intuitive and easy to navigate.
+NFR6: The feature selection dropdown should provide search and filter functionality.
+
+4.4 Reliability
+NFR7: The dashboard must ensure continuous uptime with fallback mechanisms during data stream interruptions.
+NFR8: It should maintain accurate drift data during temporary disruptions.
+
+4.5 Security
+NFR9: The dashboard should implement authentication to ensure only authorized users access the data.
+NFR10: Drift reports and data streams must be encrypted and transmitted securely.
+
+4.6 Compatibility
+NFR11: The dashboard should be accessible on major web browsers (Chrome, Firefox, Safari, Edge) and responsive to various screen sizes.
+
+4.7 Data Storage
+NFR12: The system must optimize data storage, ensuring relevant drift patterns and historical data are retained while minimizing memory usage.
+
+================================================================================

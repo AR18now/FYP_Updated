@@ -1,0 +1,78 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: RastaSaaz - AI-Driven Resume Refactoring and Job Application Automation
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document describes RastaSaaz, an automatic resume refactoring system designed to boost job placement by optimizing resumes for specific job requirements and automating the job application process.
+
+1.2 Scope
+The system will parse resumes, match skills with job descriptions, rank resumes, refactor high-ranking resumes to highlight relevant content, and automate the application process on LinkedIn.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ATS: Applicant Tracking System
+- AI: Artificial Intelligence
+- API: Application Programming Interface
+- PDF: Portable Document Format
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+RastaSaaz fills the gap in existing software by automatically refactoring resumes based on job descriptions, prioritizing relevant sections and removing irrelevant details to increase success in the job market.
+
+2.2 Product Functions (Summary)
+- Data collection and resume parsing.
+- Job post scraping (LinkedIn) and ranking.
+- Resume refactoring and regeneration.
+- Automation of job application (via Selenium).
+
+2.3 User Classes and Characteristics
+- Job Seekers: Individuals looking to maximize their chances of getting a job.
+
+2.4 Operating Environment
+Web-based application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Data Collection and Resume Parsing
+FR1.1: The system shall allow users to upload resumes in PDF format.
+FR1.2: The system shall convert the resume from PDF to JSON format.
+FR1.3: The system shall extract and categorize key details (education, experience, skills).
+FR1.4: The system shall store extracted details in a structured database.
+
+3.2 Job Posts Scraping and Ranking
+FR2.1: The system shall scrape IT-related jobs from LinkedIn based on filters.
+FR2.2: The system shall extract required skills and qualifications from job descriptions.
+FR2.3: The system shall compare resume details with job descriptions and assign a rank.
+FR2.4: The system shall analyze the resume and match with job description to identify skill gaps.
+FR2.5: The system shall store job requirements in a structured database.
+
+3.3 Refactoring of Resume
+FR3.1: The system shall prioritize relevant skills, projects, and experience based on job descriptions.
+FR3.2: The system shall automatically rearrange resume sections based on ATS standards.
+FR3.3: The system shall generate ATS-compliant resumes tailored to different job descriptions.
+FR3.4: The system shall allow users to download the resume in PDF.
+
+3.4 Automation of Job Application
+FR4.1: The system shall automate the job application process for relevant job postings on LinkedIn using Selenium.
+FR4.2: The system shall extract data from the resume to auto-fill job applications.
+FR4.3: The system shall be tested for automation and fully functional at launch.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have an MTBF of at least 400 hours.
+NFR2: Upon failure, the system shall maintain user data with no data loss.
+
+4.2 Usability
+NFR3: The system shall provide an intuitive dashboard.
+NFR4: Error messages shall be clear and concise with suggestions.
+NFR5: The system shall meet accessibility standards.
+
+4.3 Performance
+NFR6: The system shall parse and analyze a resume within 15 seconds of upload.
+NFR7: Job description parsing and resume matching shall complete within 10 seconds per job.
+
+4.4 Security
+NFR8: All sensitive user data shall be protected against unauthorized access.
+NFR9: Field-level encryption in MongoDB shall be used for sensitive data.
+
+================================================================================

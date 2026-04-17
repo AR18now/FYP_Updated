@@ -1,0 +1,48 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: NewsGuardX - Outcome-Oriented News Filtering and Safe Headline Generation
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+Understanding causal relationships in news headlines is critical for journalism, policy analysis, and automated misinformation detection. Traditional NLP techniques lack capability to map complex causal chains and interrelations in news headlines.
+
+1.2 Research Problem Statement
+This research addresses: enhancing extraction of multiple cause-and-effect relationships from news headlines, resolving ambiguities using Causal Graph RAG, organizing causal relationships into clear causal graphs, fine-tuning LLMs for interconnected causal relationships, combining rule-based heuristics with LLMs for complex causal detection, validating LLM-generated causal relationships, and overcoming challenges in validating multiple cause-and-effect relationships.
+
+1.3 Definitions, Acronyms, Abbreviations
+- NLP: Natural Language Processing
+- LLM: Large Language Model
+- RAG: Retrieval-Augmented Generation
+- KG: Knowledge Graph
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Related Research Analysis
+- Causal News Corpus using RoBERTa: RoBERTa-based classification of causal events; achieves F1-score of 0.77437; binary classification limitation.
+- The Causal News Corpus: Annotated corpus of 3,559 sentences; BERT achieves 81.20% F1-score; lacks detailed cause/effect tagging.
+- Constructing and Interpreting Causal Knowledge Graphs from News: BERT and pattern-based methods; improves graph connectivity.
+- Text to Causal Knowledge Graph: SpanBERT and BERT for business texts; relies on trigger words.
+- Causal Reasoning in Large Language Models using Causal Graph RAG: Combines causal graphs with RAG; fixed retrieval depth limitation.
+- Event Causality Extraction via Implicit Cause-Effect Interactions: ICE framework with 8.39% F1-score improvement.
+- Financial Document Causality Detection (FinCausal 2023): Bilingual causality detection; simpler models outperformed complex generative models.
+- CHEER: Centrality-aware event reasoning network; improves document-level causality identification.
+- Causal knowledge extraction from long text maintenance documents: Two-stage pipeline; high F1 scores for cause and effect recognition.
+
+3. PROPOSED APPROACH
+3.1 Overview
+NewsGuardX ensures safe and accurate headline generation by combining causal reasoning, LLMs, and graph-based validation, focusing on identification of single/multiple cause-effect-trigger relations and producing authentic, safe, correct headlines.
+
+3.2 Design Architecture Steps
+Step 1: Data Preparation and Cleaning - Clean raw news data from multiple sources including Causal News Corpus.
+Step 2: Annotate <cause>, <effect>, and <trigger> - Label causal events for LLM training.
+Step 3: Data Augmentation - Enhance training data using GPT-prompted data.
+Step 4: Advanced Prompt Engineering - Use customized prompts for causal link extraction.
+Step 5: LLM Model for Causal Extraction - Use Llama or Mistral to extract causes, effects, triggers.
+Step 6: Validation Layer - Verify correctness of extracted causal linkages.
+Step 7: Causal Validation Layer Insides - Validate using Pairwise Causal Discovery (PCD), Event Effect Classification, Causal Inference Accuracy.
+Step 8: Causal Graph RAG - Extract important causal facts from knowledge source (Neo4J graph database).
+Step 9: Causal Graph Construction - Build causal network with nodes (events) and edges (causal links) using graph embeddings (Node2Vec or TransE).
+Step 10: Synergizing Sentence and Graph Embeddings - Use SBERT for sentence embeddings.
+Final Step: Dynamic Safe Headline Generation via Active Learning Loop - Continuously update Causal Knowledge Base (Neo4j) with validated complex multiple cause linkages.
+
+================================================================================

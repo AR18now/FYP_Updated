@@ -31,7 +31,6 @@ import {
   formatPct01,
   flagTypeLabel,
 } from '../utils/srsQualityCopy';
-import SrsAiEvaluationMetrics from './SrsAiEvaluationMetrics';
 import { brandUrl } from './BrandLogo';
 
 /** Same contract as generate-srs-stream `results` body. */
@@ -69,9 +68,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   const [docQualityMetrics, setDocQualityMetrics] = useState(null);
   const [docQualityLoading, setDocQualityLoading] = useState(false);
   const [docQualityError, setDocQualityError] = useState(null);
-  const [isComparing, setIsComparing] = useState(false);
-  const [compareData, setCompareData] = useState(null);
-  const [compareError, setCompareError] = useState(null);
   /** PlantUML use case diagram layout variant */
   const [useCaseDiagramLayout, setUseCaseDiagramLayout] = useState('vertical');
 
@@ -157,35 +153,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
       }
     })();
   }, [location.state, currentResults, onSelectSrsVariant]);
-
-  const runModelComparison = useCallback(async () => {
-    const results = buildRequirementsArray(currentResults);
-    if (!results.length) {
-      setCompareError('No processed requirements found. Please run "Process & Generate SRS" first.');
-      return;
-    }
-    setCompareError(null);
-    setIsComparing(true);
-    try {
-      const response = await axios.post(
-        config.API_ENDPOINTS.GENERATE_SRS_COMPARE,
-        {
-          results,
-          project_info: {
-            title: srsData?.title || 'Project',
-            author: srsData?.author || 'System',
-          },
-        },
-        { timeout: 300000 }
-      );
-      setCompareData(response.data || null);
-    } catch (err) {
-      console.error('Model comparison failed:', err);
-      setCompareError(getApiErrorMessage(err, 'Could not run model comparison.'));
-    } finally {
-      setIsComparing(false);
-    }
-  }, [buildRequirementsArray, currentResults, srsData?.title, srsData?.author]);
 
   const srsFormattedHtml = useMemo(
     () => (srsData?.raw_text ? formatSrsToHtml(srsData.raw_text, { assignIds: true }) : ''),
@@ -951,26 +918,10 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                     {showValidation ? 'Hide checks' : 'Show checks'}
                   </button>
                 )}
-                <div className="border-t border-slate-100 dark:border-slate-700 my-1" />
-                <button
-                  type="button"
-                  role="menuitem"
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 disabled:opacity-50"
-                  disabled={isComparing || !buildRequirementsArray(currentResults).length}
-                  onClick={() => {
-                    runModelComparison();
-                    setActionsMenuOpen(false);
-                  }}
-                >
-                  <RefreshCw className={`h-4 w-4 text-r2d-accent shrink-0 ${isComparing ? 'animate-spin' : ''}`} />
-                  {isComparing ? 'Comparing models…' : 'Compare model outputs'}
-                </button>
               </div>
             )}
           </div>
         </div>
-
-        <SrsAiEvaluationMetrics srsData={srsData} currentResults={currentResults} />
 
         {showValidation && hasQualityChecks && (
           <div className="mb-6 space-y-4">
@@ -1187,56 +1138,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
             )}
           </div>
         )}
-
-        <div className="mb-6 rounded-lg border border-r2d-accent/30 dark:border-r2d-primary/60 bg-r2d-accentMuted/45 dark:bg-r2d-primary/20 p-4">
-          <div>
-            <h4 className="text-sm font-semibold text-r2d-primary dark:text-r2d-accentSoft">Testing Lab: Model comparison</h4>
-            <p className="text-xs text-r2d-primary/90 dark:text-slate-200/90 mt-1">
-              Run multiple generation approaches on the same input, compare scores, then load either output into this viewer. Start the run from{' '}
-              <strong className="text-r2d-primary dark:text-slate-100">Actions → Compare model outputs</strong> above.
-            </p>
-          </div>
-          {compareError && (
-            <p className="mt-3 text-sm text-rose-700 dark:text-rose-300">{compareError}</p>
-          )}
-          {compareData && (
-            <div className="mt-4 grid md:grid-cols-2 gap-3">
-              {[
-                { key: 'model_output', label: 'Fine-tuned Model' },
-                {
-                  key:
-                    Object.keys(compareData || {}).find(
-                      (k) => k !== 'model_output' && k.endsWith('_output')
-                    ) || 'alternate_output',
-                  label: 'Alternate Approach',
-                },
-              ].map(({ key, label }) => {
-                const item = compareData?.[key] || {};
-                const hall = item?.hallucination_analysis || {};
-                const flags = Array.isArray(hall?.flagged_sections) ? hall.flagged_sections.length : 0;
-                const conf = typeof hall?.confidence_score === 'number' ? `${Math.round(hall.confidence_score * 100)}%` : 'N/A';
-                const length = String(item?.raw_text || '').trim().length;
-                return (
-                  <div key={key} className="rounded-lg border border-r2d-accent/30 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
-                    <p className="font-semibold text-slate-900 dark:text-slate-100">{label}</p>
-                    <div className="mt-2 text-xs text-slate-700 dark:text-slate-300 space-y-1">
-                      <p>Confidence: <strong>{conf}</strong></p>
-                      <p>Flagged issues: <strong>{flags}</strong></p>
-                      <p>Text length: <strong>{length}</strong></p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onSelectSrsVariant && onSelectSrsVariant(item)}
-                      className="mt-3 text-xs px-3 py-1.5 rounded bg-r2d-primary hover:bg-r2d-primaryLight text-white"
-                    >
-                      Use this output
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
 
         {/* Document Metadata */}
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800/80 dark:to-slate-900 p-6 rounded-lg mb-8 border border-gray-200 dark:border-slate-600">

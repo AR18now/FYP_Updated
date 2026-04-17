@@ -1,0 +1,94 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Hifz Quran - Intelligent Quran Memorization Assistant
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for an intelligent Quran memorization assistant application that adapts to individual learning preferences, pace, and achievement levels, making the memorization process more efficient and engaging.
+
+1.2 Scope
+To develop a mobile application that helps users memorize the Quran. Features include: user profile and progress management, automatic ayah segmentation for easier memorization, personalized learning paths, interactive memorization modes (guided, recitation, listening), detection of similar verses (Mutashabihat), real-time recitation feedback, and notifications/reminders.
+
+1.3 Definitions, Acronyms, Abbreviations
+- Ayah: Verse of the Quran
+- Surah: Chapter of the Quran
+- Mutashabihat: Similar verses in the Quran
+- MVC: Model-View-Controller
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The application is a mobile-based, AI-powered assistant that provides a structured, personalized, and supportive environment for memorizing the Quran, leveraging speech recognition and adaptive learning techniques.
+
+2.2 Product Functions (Summary)
+- User Profile and Progress Management (registration, profile, tracking, goals)
+- Ayah Segmentation and Memorization (automatic segmentation, guided practice)
+- Personalized Learning Path (learning style analysis, adaptive repetition)
+- Interactive Memorization Modes (guided, recitation, listening)
+- Mutashabihat Detection and Management (detect, practice, differentiate)
+- Real-Time Recitation Feedback (speech recognition, error detection, suggestions)
+- Notifications and Reminders (daily reminders, progress alerts)
+
+2.3 User Classes and Characteristics
+- User (Memorizer): Person involved in the memorization process. Manages personal info, goals, and progress.
+- System: Manages the core functionality of the app.
+
+2.4 Operating Environment
+Mobile application (iOS and Android).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Profile and Progress Management
+FR1.1: The system shall allow users to register and log in using email/password or Gmail.
+FR1.2: The system shall support profile customization (profile picture).
+FR1.3: The system shall track the user's memorized verses and review history.
+FR1.4: The system shall display a personalized dashboard with analytics on performance and progress.
+FR1.5: Users shall be able to set memorization goals.
+FR1.6: The system shall send reminders based on these goals.
+
+3.2 Personalized Learning Path
+FR2.1: The system shall analyze users' learning styles (listening or reciting).
+FR2.2: The system shall adjust the repetition strategy based on the user's performance.
+FR2.3: The system shall generate a personalized memorization plan for each user.
+
+3.3 Ayah Segmentation and Memorization
+FR3.1: The system shall automatically segment Ayahs into manageable chunks according to user performance.
+FR3.2: The system shall be able to follow all Quran rules (waqf rules/Ayah stopping rules).
+
+3.4 Interactive Memorization Modes
+FR4.1: The system shall offer a mode where users follow guided steps to memorize verses.
+FR4.2: Users shall be able to recite verses in real time.
+FR4.3: The system shall provide a listening mode with playback and repeat functions.
+FR4.4: The system shall take a test to modify user performance.
+
+3.5 Real-Time Recitation Feedback
+FR5.1: The system shall use speech recognition to detect errors in real-time.
+FR5.2: Users shall receive feedback on their recitation, with errors highlighted and corrections suggested.
+
+3.6 Mutashabihat Detection and Management
+FR6.1: The system shall detect similar verses that could confuse users.
+FR6.2: The system shall offer a special practice for differentiating similar verses.
+
+3.7 Notifications and Reminders
+FR7.1: The system shall send daily, weekly, and monthly reminders for memorization goals.
+FR7.2: Users shall receive alerts when they achieve their goals.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance Requirements
+NFR1: The system shall provide real-time recitation feedback with minimal latency.
+NFR2: The system shall handle multiple users concurrently without degradation in performance.
+
+4.2 Usability Requirements
+NFR3: The interface shall be intuitive and easy to navigate for users of all ages.
+NFR4: The system shall be accessible for users with varying levels of technical proficiency.
+NFR5: The system shall work on mobile (iOS and Android).
+
+4.3 Reliability Requirements
+NFR6: The system shall ensure that user data is always consistent and accurate.
+NFR7: The system shall ensure availability for users at all times.
+
+4.4 Security Requirements
+NFR8: User data, including personal information and progress, shall be encrypted.
+NFR9: The system shall implement secure authentication.
+
+================================================================================

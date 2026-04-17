@@ -1,0 +1,101 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ASLi - American Sign Language Translation Mobile App
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+There exists no robust and real-time American Sign Language translation system bridging deaf and hearing communities. Without a solution, communication gap limits access to vital services, job opportunities, and educational advancements for 430 million people with disabling hearing loss, projected to reach 711 million by 2050.
+
+1.2 Scope
+ASLi is a conversational mobile app providing hearing-impaired individuals access to internet information. Features include real-time ASL-to-text translation using advanced ML models, text-to-ASL translation, 3D avatar for gesture display, and LLM integration for information retrieval.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ASL: American Sign Language
+- LLM: Large Language Model
+- ML: Machine Learning
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+ASLi enables smooth two-way communication between ASL and written language using gesture recognition, natural language processing, and 3D avatar presentations.
+
+2.2 Product Functions (Summary)
+- ASL gesture recording via camera
+- ASL-to-English translation using ML models
+- Information retrieval via LLM
+- Text-to-ASL conversion
+- 3D avatar display of ASL gestures
+- User-friendly interface
+
+2.3 User Classes and Characteristics
+- Deaf and Hard-of-Hearing Individuals: Primary users communicating through ASL
+- Educators and FYP Committee: Assess project quality and impact
+- Testers and QA Team: Ensure app works smoothly, identify bugs
+- Potential Investors: Assess project viability and market potential
+
+2.4 Operating Environment
+Mobile application, camera-enabled device, backend services with LLM integration.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1: Client Mobile Application
+FR1.1: The system shall allow users to activate camera to record ASL gestures.
+FR1.2: The system shall allow user to record 10-second video only.
+FR1.3: The system shall provide feedback indicating recording in progress.
+FR1.4: The system shall send recorded gestures for further processing.
+FR1.5: The system shall tell user to wait while results are generated.
+FR1.6: The system shall convert generated text response back to ASL grammar.
+FR1.7: The system shall map ASL grammar into appropriate ASL gestures and expressions.
+FR1.8: The system shall provide visual feedback while converting text to gestures.
+FR1.9: The system shall correctly map ASL gestures onto 3D Avatar Rig.
+FR1.10: The system shall display converted ASL gestures using 3D avatar in real-time.
+FR1.11: The system shall ensure 3D avatar remains responsive to user interactions.
+FR1.12: The system shall produce desired response through 3D avatar < 20 seconds.
+
+3.2 Module 2: Mobile Back-End Services
+FR2.1: The system shall automatically process recorded ASL gestures into corresponding ASL Grammar.
+FR2.2: The system shall map ASL Grammar to English Grammar.
+FR2.3: The system shall handle errors in gesture recognition and notify user.
+FR2.4: The system shall send translated text to LLM for generating response.
+FR2.5: The system shall ensure response is contextually correct.
+FR2.6: The system shall use NLP principles to increase response efficiency.
+FR2.7: The system shall handle and display errors returned from LLM.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: Users shall get response < 20 seconds.
+NFR2: No lag or glitch during 3D avatar display.
+NFR3: System shall optimize resource usage to minimize battery consumption.
+
+4.2 Scalability
+NFR4: System shall handle up to 500 concurrent users without degradation.
+NFR5: System shall support addition of new features without significant re-engineering.
+NFR6: Architecture shall allow horizontal scaling of backend services.
+NFR7: Users shall seamlessly use ASLi on any mobile phone device.
+
+4.3 Responsiveness
+NFR8: User interface shall respond to interactions within 200 milliseconds.
+NFR9: Visual feedback for all actions (recording, processing gestures).
+NFR10: System shall handle user inputs without noticeable delays.
+
+4.4 Reliability
+NFR11: System uptime ≥ 99.9%.
+NFR12: System shall produce accurate and contextually relevant results ≥ 80%.
+NFR13: Error logging for future analysis.
+
+4.5 Security
+NFR14: New user login capability.
+NFR15: Registered users sign-in easily.
+NFR16: Compliance with data protection regulations (GDPR, HIPAA).
+
+4.6 Accessibility for Deaf Users
+NFR17: Visual cues and instructions for effective application use.
+NFR18: Enhanced readability with accessible color schemes and fonts.
+NFR19: Accurate and easily recognizable ASL gestures on-screen.
+
+4.7 Availability
+NFR20: 24/7 service availability.
+NFR21: Fallback mechanism for basic functionalities during service disruptions.
+NFR22: Backup local/remote server for unexpected outages.
+
+================================================================================

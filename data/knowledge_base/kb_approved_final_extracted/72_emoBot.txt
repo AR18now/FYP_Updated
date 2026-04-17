@@ -1,0 +1,101 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: emoBot - AI-Driven Mental Health Support App
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document is the Software Requirements Specification for emoBot, an AI-driven mental health support app. The app uses emotion recognition and voice synthesis to deliver empathetic responses to users.
+
+1.2 Scope
+The project aims to develop an app that bridges the gap between users and text-based mental health solutions by introducing voice responses. It includes features like emotion detection, speech-to-text/text-to-speech, CBT tools, mood tracking, and crisis support.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- STT: Speech to Text
+- TTS: Text to Speech
+- CBT: Cognitive Behavioral Therapy
+- LLM: Large Language Model
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+emoBot is designed to provide a more empathetic and accessible mental health support tool by integrating advanced AI techniques for understanding user emotions and delivering responses in a preferred format.
+
+2.2 Product Functions (Summary)
+- AI chatbot for empathetic conversations.
+- Emotion recognition and mood tracking.
+- CBT tools and exercises.
+- Crisis detection and support.
+- User profile management.
+- Personalized content recommendations.
+- Feedback system.
+
+2.3 User Classes and Characteristics
+- End-Users: People seeking mental health support.
+- Admin: Person who manages users and chats.
+- Expert: Professional who provides help in times of need.
+- Developer: Responsible for design, development, and maintenance.
+
+2.4 Operating Environment
+Cross-platform (Android/iOS) mobile application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Start Conversation
+FR1.1: The system shall initiate a conversation with the user based on emotion detection and mood analysis.
+
+3.2 Give Feedback
+FR2.1: The system shall allow users to provide feedback about their experience with the chatbot.
+
+3.3 User Journal
+FR3.1: The system shall allow users to journal their thoughts about their daily lives.
+
+3.4 Manage User Profiles
+FR4.1: The system shall allow users to update profile information to ensure personalized content.
+
+3.5 Get Personalized Content
+FR5.1: The system shall provide personalized mental health content (articles, exercises) based on mood and behavior.
+
+3.6 Access CBT Tools
+FR6.1: The system shall provide access to Cognitive Behavioral Therapy (CBT) tools.
+
+3.7 Report Chatbot Misbehavior
+FR7.1: The system shall allow users to report inappropriate or inaccurate responses from the chatbot.
+
+3.8 Manage Feedback (Admin)
+FR8.1: The system shall allow the admin to review and manage user feedback.
+
+3.9 Manage Users (Admin)
+FR9.1: The system shall allow the admin to manage user accounts.
+
+3.10 Moderate Users (Expert)
+FR10.1: The system shall allow the expert to moderate user interactions by reviewing flagged conversations.
+
+3.11 Answer Queries/Feedback (Expert)
+FR11.1: The system shall allow the expert to provide direct responses to user queries.
+
+3.12 Evaluate Need for Crisis Support (System)
+FR12.1: The system shall monitor conversations for signs of emotional distress and initiate crisis support protocols.
+
+3.13 Backup Conversations (System)
+FR13.1: The system shall regularly back up user conversations to prevent data loss.
+
+3.14 Respond Based on Emotion (Chatbot)
+FR14.1: The system shall analyze the user's emotional state and provide empathetic responses.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The chatbot shall respond to user input within 1-2 seconds.
+
+4.2 Availability
+NFR2: The system shall be up and running 99.9% of the time.
+
+4.3 Accessibility
+NFR3: The app shall be accessible to users with disabilities (screen readers, voice commands).
+
+4.4 Data Privacy
+NFR4: All data shall be handled in line with privacy regulations like GDPR.
+
+4.5 Integration
+NFR5: The system shall integrate with third-party APIs for emotion recognition, STT, and TTS.
+
+================================================================================

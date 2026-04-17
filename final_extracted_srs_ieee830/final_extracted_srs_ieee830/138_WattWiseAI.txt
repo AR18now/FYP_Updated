@@ -1,0 +1,88 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: WattWiseAI - Intelligent Daily Electricity Demand Forecasting System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for WattWiseAI, an intelligent system for accurate daily electricity demand forecasting using a hybrid deep-learning model (ANN, EDLSTM, ICEEMDAN) to optimize supply, reduce wastage, and enhance energy management sustainability.
+
+1.2 Scope
+The project involves collecting historical electricity consumption and weather data, preprocessing it, training a hybrid deep learning model, and deploying it. The system includes a user interface for real-time predictions, scenario analysis, and reporting. It targets electricity grid operators, energy managers, and utility analysts.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ANN: Artificial Neural Network
+- EDLSTM: Encoder-Decoder Long Short-Term Memory
+- ICEEMDAN: Improved Complete Ensemble Empirical Mode Decomposition with Adaptive Noise
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+WattWiseAI addresses the limitations of traditional prediction models by using a hybrid deep learning approach that captures complex, nonlinear patterns in electricity demand data, leading to more accurate forecasts and improved grid stability.
+
+2.2 Product Functions (Summary)
+- Data Collection and Integration: Gather data from various sources, generate synthetic data.
+- Data Processing and Analysis: Clean data, handle outliers and missing values.
+- Model Training Module: Train hybrid model (ANN, EDLSTM, ICEEMDAN).
+- Prediction Module: Create forecasts using the trained model.
+- Model Deployment Module: Deploy model to real or simulated environment.
+- User Interface and Visualization Module: Web interface for predictions, time-series plots, error distributions, scenario analysis.
+
+2.3 User Classes and Characteristics
+- Users (Electricity Grid Operators, Energy Managers, Utility Analysts): Monitor demand, view predictions, generate reports.
+- Administrators: Oversee data operations, model training, and system performance; upload historical data; initiate model training.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Data Collection and Integration
+FR1: The system should be able to gather data from different sources like government sites, public datasets, and utility companies.
+FR2: The system should also be able to generate synthetic data to improve accuracy.
+
+3.2 Data Pre-processing
+FR1: The system should clean the data and handle outliers.
+FR2: The system should fill in any missing values.
+
+3.3 Hybrid Model Implementation
+FR1: The system shall implement a hybrid deep-learning model combining ANN, EDLSTM, and ICEEMDAN for predicting electricity demand.
+FR2: The system shall accurately decompose electricity demand data into high- and low-frequency components using ICEEMDAN.
+
+3.4 Model Training and Validation
+FR1: The system shall train the hybrid model using the processed data and validate its performance using cross-validation techniques.
+FR2: The system shall optimize the model's hyperparameters to achieve the best prediction accuracy.
+
+3.5 Prediction Module
+FR1: The system shall provide daily electricity demand predictions based on the trained model.
+FR2: The system shall visualize the prediction results in a user-friendly format via the web interface.
+
+3.6 Web Application Interface
+FR1: The system shall present prediction results and data visualizations through an interactive web interface built with React.js.
+FR2: The system shall allow users to query past predictions and compare them with actual demand data.
+
+3.7 Data Storage and Management
+FR1: The system shall store historical data, model outputs, and user queries in a SQL database.
+FR2: The system shall ensure secure and efficient retrieval of data for analysis and comparison.
+
+3.8 Version Control and Collaboration
+FR1: The system shall use GitHub for version control, enabling collaborative development and tracking changes in the codebase.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The system should provide electricity demand predictions with a response time of less than 2 seconds after data input.
+NFR2: The model training process should complete within a reasonable time frame, processing a typical daily dataset within 30 minutes.
+
+4.2 Scalability
+NFR3: The system should be able to handle increasing amounts of data without significant performance degradation.
+NFR4: The system should be able to serve multiple users simultaneously.
+
+4.3 Reliability
+NFR5: The system should be up 98% of the time.
+NFR6: The system should be able to recover from crashes efficiently and provide logs.
+
+4.4 Usability
+NFR7: The interface should be easy to use, with self-explanatory steps.
+NFR8: The system should display appropriate messages to guide users in case of mistakes.
+
+4.5 Security
+NFR9: The system should ensure data security using protocols and passwords to verify that data is given only to authorized users.
+NFR10: All communication should be secure and encrypted.
+
+================================================================================

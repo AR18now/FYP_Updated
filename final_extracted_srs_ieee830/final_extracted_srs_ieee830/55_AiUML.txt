@@ -1,0 +1,117 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: AiUML - AI-Powered UML Diagram Generator
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+AiUML is an artificially intelligent system for automated generation of UML diagrams from textual requirements in natural language using Large Language Models, supporting software development in object-oriented systems.
+
+1.2 Scope
+AiUML covers generation of PlantUML diagrams (Class, Use Case, Sequence, Entity Relationship) using natural language processing and program synthesis techniques, intended for software engineers, system architects, project managers, and academic community.
+
+1.3 Definitions, Acronyms, Abbreviations
+- UML: Unified Modeling Language
+- LLM: Large Language Model
+- DSL: Domain-Specific Language
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+AiUML improves software design workflow by providing prompt visual representation of systems, improving efficiency and quality of software development artifacts.
+
+2.2 Product Functions (Summary)
+- Unrestrictive textual input
+- Automated diagram generation
+- AI-driven diagram optimization
+- Diagram customizer and editor (DSL editor, themes, colors)
+- Multi-diagram support (Class, Use Case, Sequence, ERD)
+- Export diagrams in multiple formats (SVG, PNG)
+- Session and diagram code storage
+- User-friendly interface
+
+2.3 User Classes and Characteristics
+- Software Engineers: Proficient in software development, need quick reliable UML diagrams
+- System Architects: High-level system design, need well-structured diagrams
+- Project Managers: Need high-level overviews for tracking progress
+- Testers/QA Engineers: Need UML diagrams for developing test cases
+- Students & Educators: Need tools for learning UML
+- Documentation Writers: Need clear, concise visual diagrams
+- Business Analysts: Need visual representations for stakeholder communication
+
+2.4 Operating Environment
+Web application, client-server architecture, MongoDB for storage.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Unrestrictive Textual Requirements Input
+FR1.1: Users shall enter text requirements in any manner using natural language.
+FR1.2: System shall support user stories, functional requirements, case studies, software specifications.
+FR1.3: System shall identify ambiguous textual requirements during input processing.
+FR1.4: System shall detect anaphoric ambiguities within textual requirements.
+FR1.5: System shall provide mechanisms to resolve detected ambiguities.
+
+3.2 Automated Diagram Generation
+FR2.1: System shall generate code for diagrams based on natural language textual input.
+FR2.2: System shall automatically render diagrams on screen after generating code.
+FR2.3: System shall provide zoom in and zoom out options for rendered diagrams.
+
+3.3 AI Driven Diagram Optimization
+FR3.1: System shall generate well-structured, easy-to-understand diagrams per software design standards.
+FR3.2: System shall model complex relationships and produce accurate UML diagrams.
+FR3.3: System shall apply incremental changes based on user input while retaining context.
+FR3.4: System shall handle iterative modification requests preserving structure and context.
+
+3.4 Diagram Customizer and Editor
+FR4.1: Users shall edit diagram code directly in DSL editor.
+FR4.2: System shall allow alteration of diagram elements and structure using DSL editor.
+FR4.3: System shall provide customization options for applying different colors.
+FR4.4: Users shall choose and apply different themes to diagrams.
+FR4.5: System shall instantly render modified diagrams as changes are made.
+
+3.5 Multi Diagram Support
+FR5.1: System shall generate wide variety of diagram kinds.
+FR5.2: Users shall generate Class Diagrams using textual requirements.
+FR5.3: Users shall generate Use Case Diagrams using textual requirements.
+FR5.4: Users shall generate Sequence Diagrams using textual requirements.
+FR5.5: Users shall generate Entity Relationship Diagrams using textual requirements.
+
+3.6 Exporting Diagrams in Multiple Formats
+FR6.1: System shall provide multiple export options including SVG and PNG.
+FR6.2: System shall export diagrams in high-quality scalable vector graphics (SVG) format.
+FR6.3: System shall allow users to easily download exported diagrams.
+
+3.7 Session and Diagram Code Storage
+FR7.1: System shall store user's previous sessions.
+FR7.2: System shall save previous diagrams and corresponding code.
+FR7.3: System shall store diagram codes in PlantUML format.
+FR7.4: System shall maintain user workspaces by storing session data.
+FR7.5: Users shall access and edit previously stored diagrams.
+
+3.8 User Friendly Interface
+FR8.1: System shall provide comprehensive web-based platform integrating all modules.
+FR8.2: System shall offer minimalistic, easy-to-navigate interface.
+FR8.3: System shall provide real-time feedback and results in response to user input.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF ≥ 500 hours.
+NFR2: System reset within 30 seconds while keeping data saved upon failure.
+NFR3: Proper user notification and retry options for diagram generation failure.
+NFR4: Restore last stable state upon system failure.
+
+4.2 Usability
+NFR5: Diagram creation within three clicks.
+NFR6: User-friendly interface for all users.
+NFR7: Instructions to reduce user errors by 30%.
+
+4.3 Performance
+NFR8: Parse textual input and produce diagram ≤ 10 seconds.
+NFR9: Process at least 50 user queries simultaneously without lag.
+NFR10: Respond to diagram edits within 5 seconds.
+NFR11: Respond to optimization requests within 5 seconds.
+
+4.4 Security
+NFR12: Authentication to protect system and previous sessions.
+NFR13: Protection for personal and session data up to 90%.
+
+================================================================================

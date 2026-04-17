@@ -1,0 +1,79 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ScholarWatch - AI-Powered Learning Management System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines requirements for ScholarWatch, an AI-driven Learning Management System that integrates with Moodle to enhance teaching and learning by providing instructors with insights into student engagement and performance.
+
+1.2 Scope
+ScholarWatch features include real-time engagement tracking (gaze tracking, posture detection, facial expression recognition), automated assessment creation (personalized MCQ quizzes), activity monitoring (anti-cheating mechanisms), post-assessment adaptation, content creation tools, attendance monitoring, and insights analysis dashboard.
+
+1.3 Definitions, Acronyms, Abbreviations
+- LMS: Learning Management System
+- AI: Artificial Intelligence
+- MLP: Multi-Layer Perceptron
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Scholarwatch simplifies course management and improves overall learning experience by providing intelligent tools for monitoring student engagement, tracking progress, and offering personalized content.
+
+2.2 Product Functions (Summary)
+- Real-time engagement tracking (gaze, posture, facial expressions)
+- Automated assessment creation (MCQ quizzes)
+- Activity monitoring (tab-switch, copy-paste, split-screen detection)
+- Post-assessment adaptation
+- Content creation tools (automated lecture slides)
+- Attendance monitoring based on attentiveness
+- Insights analysis dashboard
+
+2.3 User Classes and Characteristics
+- Instructors: Create and manage content, track student progress, evaluate performance
+- Students: Access course materials, take quizzes, track progress
+- Researchers: Analyze student engagement data, learning outcomes
+
+2.4 Operating Environment
+Moodle-integrated platform, web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Attention Module
+FR1.1: The system shall use gaze tracking, posture (laying, slouching), and facial expression recognition (yawning, drowsy) to monitor student attention.
+FR1.2: Student attentiveness shall be monitored against attentiveness threshold set by instructor.
+
+3.2 Insights Module
+FR2.1: The system shall check gaze periods on specific slide areas to identify areas requiring extra focus.
+FR2.2: The instructor shall tag lectures as prerequisites for other lectures/topics.
+FR2.3: The instructor shall view class progress with filters (top scorers, below average, non-attentive).
+FR2.4: The student shall access individual dashboard showing attention span, weak areas, attendance, scores, progress.
+
+3.3 Generation Module
+FR3.1: Instructor shall upload PDF of chapter/topic or upload own PPT slides.
+FR3.2: Instructor shall receive PPT slides (textual only) from uploaded PDF with checkboxes for theme, lines per slide, total slides.
+FR3.3: Instructor shall tag lectures as prerequisites.
+FR3.4: Instructor shall create quizzes from chosen lectures/slides.
+FR3.5: Check boxes for number of questions and multiple choices per quiz.
+
+3.4 Activity Monitoring Module
+FR4.1: The system shall monitor student screen during quizzes.
+FR4.2: The system shall detect tab switching, split-screen windows, and gaze tracking to identify potential cheating.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: Uptime ≥ 90%, 24/7 availability for courses, quizzes, real-time tracking.
+
+4.2 Performance
+NFR2: Real-time student attention data processing with minimal latency.
+NFR3: Quiz generation ≤ 10 seconds.
+NFR4: Quiz grading ≤ 5 seconds.
+
+4.3 Scalability
+NFR5: Support up to 1,000,000 concurrent users.
+NFR6: Handle up to 50,000 courses with up to 5,000 users per course.
+NFR7: Accommodate up to 50 roles and 100 course categories nested up to 10 levels.
+
+4.4 Compliance
+NFR8: Comply with educational data privacy laws; all personal and academic data handled securely.
+
+================================================================================

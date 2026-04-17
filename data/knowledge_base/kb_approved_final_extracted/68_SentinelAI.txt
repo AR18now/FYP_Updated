@@ -1,0 +1,69 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Sentinel AI - AI-Driven Surveillance System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for Sentinel AI, an AI-driven intruder detection system designed to enhance existing CCTV infrastructure without costly hardware upgrades.
+
+1.2 Scope
+The project aims to develop an AI-driven intruder detection system that integrates facial recognition, liveness detection, and categorizes individuals into household members, frequent visitors, and intruders. It provides real-time alerts and can contact emergency services via an AI-driven response system. It will recognize faces even if partially covered.
+
+1.3 Definitions, Acronyms, Abbreviations
+- CCTV: Closed-Circuit Television
+- AI: Artificial Intelligence
+- MTBF: Mean Time Between Failures
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Sentinel AI is a Software as a Service (SAAS) product that enhances existing CCTV networks by providing smart notifications and AI-enabled emergency calling.
+
+2.2 Product Functions (Summary)
+- Face recognition from various angles and with partial coverings.
+- Liveliness detection to prevent spoofing.
+- Intruder detection and real-time alerts.
+- Automated calling to owners and emergency services.
+
+2.3 User Classes and Characteristics
+- Homeowner: Primary user responsible for setting up and managing security features.
+- Visitors: Frequent guests with limited access, recognized by the system.
+- Emergency Services: External responders who receive alerts from the system.
+
+2.4 Operating Environment
+Integrates with existing CCTV camera networks; includes web and mobile applications.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Face Recognition Module
+FR1.1: The system shall detect faces from various angles (front, left, right).
+FR1.2: The system shall perform facial recognition despite changes in hairstyle or partial face covering (mask, muffler).
+FR1.3: The system shall include liveliness detection to ensure the face is real.
+FR1.4: The system shall allow the owner to add known personnel’s faces to the database.
+FR1.5: The system shall trigger an intruder alert for unfamiliar faces and log the event.
+
+3.2 AI Caller Module
+FR2.1: The system shall automatically notify the owner via notifications when an intruder is detected.
+FR2.2: The system shall automatically contact emergency services in case of a confirmed intruder or emergency.
+
+3.3 Web/App Development Module
+FR3.1: The system shall provide a client web app for the owner to monitor real-time video feeds and review past events.
+FR3.2: The system shall provide a client mobile app with similar functionality, enabling on-the-go alerts.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have an MTBF of no less than 1000 hours.
+
+4.2 Usability
+NFR2: Users shall retrieve previous incident alerts with a single interaction.
+NFR3: The system shall be accessible without extensive training.
+
+4.3 Performance
+NFR4: 95% of intruder alerts shall be processed within 2 seconds of detection.
+NFR5: The system shall support a minimum of 100 concurrent users without performance degradation.
+
+4.4 Security
+NFR6: The effort to compromise the system shall be sufficiently high to deter unauthorized access.
+NFR7: The system shall regularly audit user access and alert administrators of suspicious activity.
+
+================================================================================

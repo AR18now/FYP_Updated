@@ -1,0 +1,120 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Sehat-e-Tafseel - Centralized Healthcare Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Pakistan's healthcare system lacks a centralized patient database, causing inefficiencies: repeated history taking, duplicated tests, un-standardized patient care, lost medical records, no collaboration between hospitals, and lack of cutting-edge tools like AI chatbots.
+
+1.2 Scope
+Sehat-e-Tafseel is a comprehensive healthcare web application connecting doctors and patients through a centralized platform. Features include healthbot for symptom analysis and disease prediction, skin disease detection via image upload, appointment booking, secure centralized database with unique patient IDs based on CNIC, and admin interface for hospital data management.
+
+1.3 Definitions, Acronyms, Abbreviations
+- CNIC: Computerized National Identity Card
+- AI: Artificial Intelligence
+- NLP: Natural Language Processing
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system provides a unique reference ID for every patient associated with their CNIC, enabling access to complete medical history across any hospital network, with AI-powered healthbot and skin disease detection.
+
+2.2 Product Functions (Summary)
+- Patient registration with unique ID based on CNIC
+- Healthbot for symptom analysis and disease identification
+- Doctor recommendation
+- Appointment booking
+- Skin disease detection via image upload
+- Centralized medical record storage
+- Admin role and permission management
+- Report generation
+- Prescription generation
+- Doctor schedule management
+
+2.3 User Classes and Characteristics
+- Patients: Seek medical assistance, use healthbot, upload skin images, retrieve medical history, book appointments
+- Doctors: Offer healthcare services, schedule appointments, access patient records, generate prescriptions
+- Admin: Manage system operations, maintain data security, manage accounts, generate reports
+
+2.4 Operating Environment
+Web application, cloud-based centralized database, mobile-responsive design.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Admin Module
+FR1.1: The system shall allow admins to assign roles (Doctor, Patient) to users.
+FR1.2: The system shall provide interface to modify or revoke user roles and permissions.
+FR1.3: The system shall allow admin to update and delete patient records.
+FR1.4: The system shall generate slips for patients with unique reference ID based on CNIC.
+FR1.5: The system shall allow admins to manage forms (application, operation, discharge, consent).
+FR1.6: The system shall allow admin to view and analyze medical data for predictive insights.
+FR1.7: The system shall provide graphical reports for trends and analysis.
+
+3.2 Patient Module
+FR2.1: The system shall allow patients to view medical history (diagnoses, treatments, medications, prescriptions, lab reports, surgeries).
+FR2.2: The system shall restrict access to only authenticated patient's medical records.
+FR2.3: The system shall allow patients to interact with Healthbot for symptom entry.
+FR2.4: The system shall provide possible disease diagnoses based on symptoms.
+FR2.5: The system shall allow patients to search for doctors by specialty.
+FR2.6: The system shall allow patients to view health blogs and articles.
+FR2.7: The system shall allow patients to book appointments with doctors.
+FR2.8: The system shall confirm booking and send appointment slip.
+FR2.9: The system shall allow patients to upload skin images for analysis.
+FR2.10: The system shall return possible skin disease/allergy diagnoses and recommend doctors.
+
+3.3 Doctor Module
+FR3.1: The system shall allow doctors to view medical records of assigned patients.
+FR3.2: The system shall restrict doctor access to only assigned patients.
+FR3.3: The system shall allow doctors to update patient records after consultation.
+FR3.4: The system shall keep log of all changes for auditing.
+FR3.5: The system shall allow doctors to add remarks or additional notes.
+FR3.6: The system shall allow doctors to generate prescriptions.
+
+3.4 Centralized Database Module
+FR4.1: The system shall store comprehensive patient data (diagnoses, treatment, prescriptions, surgeries, lab reports).
+FR4.2: The system shall ensure data integrity and consistency.
+FR4.3: The system shall allow hospitals to access patient records based on permissions.
+FR4.4: The system shall maintain real-time database for immediate access.
+FR4.5: The system shall enforce strict access control mechanisms.
+FR4.6: The system shall utilize encryption for data transmission and storage.
+
+3.5 Healthbot Module
+FR5.1: The system shall allow patients to input symptoms for analysis.
+FR5.2: The system shall analyze symptoms and suggest possible diseases based on pre-trained models.
+FR5.3: The system shall recommend doctors based on identified disease.
+
+3.6 Skin Disease Detection Module
+FR6.1: The system shall allow patients to upload images of skin conditions.
+FR6.2: The system shall ensure secure storage of uploaded images.
+FR6.3: The system shall use computer vision to analyze image and return possible diagnosis.
+FR6.4: The system shall recommend doctors based on analysis results.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: Automatic logs/alerts shall identify false detection immediately to admin.
+NFR2: Auto-recovery from minor failures within 2 minutes.
+NFR3: Backup recovery system within 10 minutes for critical failures.
+NFR4: Daily backup strategy to restore integrity.
+
+4.2 Usability
+NFR5: Users shall learn and navigate within 30 minutes.
+NFR6: Comprehensive help documentation with tooltips.
+NFR7: Real-time form input validation.
+NFR8: WCAG 2.1 Level AA accessibility compliance.
+NFR9: Doctors shall retrieve patient records within 3 clicks.
+
+4.3 Performance
+NFR10: Process user requests (view records, book appointments) ≤ 2 seconds.
+NFR11: Skin disease detection analysis ≤ 20 seconds.
+NFR12: System shall handle up to 10,000 concurrent users without degradation.
+NFR13: Centralized database shall support > 1 million records in < 1 second.
+NFR14: Real-time updates to patient records without noticeable delay (< 1 second).
+
+4.4 Security
+NFR15: Data encrypted (AES-256) for storage and transmission.
+NFR16: Multi-factor authentication for all users.
+NFR17: System logs for confidential data accessible to admin.
+NFR18: Strict role-based access control (RBAC).
+NFR19: Intrusion detection mechanisms within 1 minute of detection.
+
+================================================================================

@@ -1,0 +1,111 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ConvoShop - Conversational AI Shopping Assistant
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for ConvoShop, a conversational AI shopping assistant that helps users find and compare products across various e-commerce platforms through a text-based chat interface and a browser extension.
+
+1.2 Scope
+The system uses web scraping to collect real-time product data (prices, reviews, availability) from multiple platforms. A conversational interface (with LLM integration) understands user queries. Features include product comparison, sentiment analysis of reviews, review aggregation, price monitoring with alerts, personalized recommendations, and cross-platform analysis.
+
+1.3 Definitions, Acronyms, Abbreviations
+- LLM: Large Language Model
+- AI: Artificial Intelligence
+- API: Application Programming Interface
+- RAG: Retrieval-Augmented Generation
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+ConvoShop automates the tedious process of searching and comparing products across multiple websites, providing users with a single, convenient conversational interface to find the best deals and make informed purchase decisions.
+
+2.2 Product Functions (Summary)
+- LLM Interaction Module: Process user queries, handle ambiguities, communicate with other modules.
+- Web Scraping Agent Module: Real-time retrieval of product info (prices, reviews, availability) from multiple platforms.
+- Product Comparison Module: Aggregate and compare product data across sources.
+- Sentiment Analysis Module: Analyze user reviews to determine overall sentiment.
+- Review Aggregation & Analysis Module: Aggregate user and professional reviews.
+- Price Monitoring & Alert Module: Track product prices and notify users of changes.
+- Data Storage & Management Module: Store product data, user preferences, cached data.
+- Security & Web Scraping Control Module: Ensure safe operation and compliance.
+- User Management & Preferences Module: Handle user profiles, preferences, personalized suggestions.
+- Error Handling & Notifications Module: Catch errors, inform users, retry logic.
+
+2.3 User Classes and Characteristics
+- (User classes are implied: End-users who shop online. The document focuses on system functionality and modules.)
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 LLM Interaction Module
+FR1: The module shall handle ambiguous or incomplete input by asking for clarification or providing suggestions.
+FR2: It must integrate with LangChain to enhance conversational abilities.
+FR3: The module shall send product data requests to other modules.
+
+3.2 Web Scraping Agent Module
+FR1: It must scrape from multiple sources such as Daraz, Amazon, and eBay.
+FR2: The module shall retry scraping in case of timeouts or failures.
+FR3: Scraped data must be passed to comparison, sentiment analysis, and UI modules.
+
+3.3 Product Comparison Module
+FR1: It must handle missing or outdated data and notify users of issues.
+FR2: The module shall compare products based on price, reviews, and sales metrics.
+
+3.4 Sentiment Analysis Module
+FR1: The module shall aggregate sentiment ratings from multiple platforms and provide a comprehensive score.
+FR2: It should continue to provide reviews in case of analysis failure while notifying the user.
+
+3.5 Review Aggregation & Analysis Module
+FR1: It must generate an overall product rating based on aggregated reviews.
+FR2: The module shall handle scenarios where no professional reviews are available.
+
+3.6 Price Monitoring & Alert Module
+FR1: It shall notify users when there is a significant price drop or a change in product ratings.
+FR2: The module shall store price history for future reference.
+
+3.7 Data Storage & Management Module
+FR1: It must handle large datasets using MongoDB and Vector DB for efficient retrieval.
+FR2: The system shall cache data to prevent repetitive scraping.
+
+3.8 Security & Web Scraping Control Module
+FR1: It shall monitor security threats and handle rate-limiting or IP blocking.
+
+3.9 User Management & Preferences Module
+FR1: User accounts shall be secured, and preferences stored for personalized suggestions.
+
+3.10 Error Handling & Notifications Module
+FR1: The system shall catch and log errors across all modules.
+FR2: The system shall notify users in case of delays, missing data, or partial results.
+FR3: It must implement retry mechanisms for failed operations.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The system should return search results and product comparisons within 2-3 seconds on average.
+NFR2: Web scraping and sentiment analysis operations must complete within 5-10 seconds.
+
+4.2 Scalability
+NFR3: The system should scale to handle multiple concurrent user requests and web scraping operations.
+NFR4: MongoDB and Vector DB should support large datasets with efficient indexing.
+
+4.3 Security
+NFR5: User data must be encrypted both at rest and in transit.
+NFR6: Web scraping agents should avoid violating terms of service and respect rate limits.
+NFR7: Implement secure authentication (OAuth or JWT).
+
+4.4 Usability
+NFR8: The conversational UI must be intuitive, guiding users through product searches and comparisons.
+NFR9: The mobile app must have feature parity with the web app.
+
+4.5 Reliability
+NFR10: The system should have 99.9% uptime.
+NFR11: Web scraping agents must have a fallback system to handle platform downtime.
+
+4.6 Maintainability
+NFR12: The system must have modular and well-documented code.
+NFR13: Support automated tests and monitoring.
+
+4.7 Compliance
+NFR14: Ensure compliance with data privacy regulations such as GDPR.
+NFR15: Web scraping agents should comply with website terms.
+
+================================================================================

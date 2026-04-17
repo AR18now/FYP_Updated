@@ -1,0 +1,91 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: PhysioVision - AI-Driven Physiotherapy Assistant for Arthritis
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for PhysioVision, an AI-driven application that provides personalized physiotherapy routines and nutrition plans for arthritis recovery.
+
+1.2 Scope
+The app combines a chatbot for personalized exercise/nutrition recommendations with a computer vision system for real-time posture correction and feedback. It generates session reports and tracks progress.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- CV: Computer Vision
+- WHO: World Health Organization
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+PhysioVision addresses the limited access and high cost of physiotherapy in Pakistan by providing an at-home, AI-powered tool for arthritis management and recovery.
+
+2.2 Product Functions (Summary)
+- Vision Model: Real-time posture monitoring, correction, audio-bot, visual cues.
+- Chat Bot: Personalized exercise and nutrition recommendations.
+- Client Web App: User-friendly interface.
+
+2.3 User Classes and Characteristics
+- Patients: Individuals suffering from arthritis.
+- Physiotherapist: Healthcare professionals who use the app to track patient progress.
+- Caregiver: Family members assisting patients.
+- AI/ML Researcher: Analyze algorithms used in the app.
+
+2.4 Operating Environment
+Web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Vision Model
+FR1.1: The system shall generate a detailed report after each session, summarizing user performance, posture errors, and corrections made.
+FR1.2: The system shall track user progress over time by comparing session reports.
+FR1.3: The system shall provide visual graphs or data summaries on a weekly or monthly basis.
+FR1.4: The system shall use a computer vision model to detect key body joints and positions in real-time.
+FR1.5: The system shall analyze body positions to detect deviations from correct posture.
+FR1.6: The system shall provide real-time feedback for incorrect posture via audio or on-screen text.
+FR1.7: The system shall offer specific guidance to correct posture errors.
+
+3.2 Chat Bot
+FR2.1: The system shall allow users to input personal data (e.g., height, weight, arthritis severity).
+FR2.2: The system shall collect feedback from users on exercise difficulty, pain level, and progress.
+FR2.3: The system shall track exercise completion using data from the computer vision model.
+FR2.4: The system shall generate personalized physiotherapy routines based on user inputs.
+FR2.5: The system shall suggest tailored nutrition plans to support arthritis management.
+FR2.6: The system shall generate weekly or monthly reports on user progress.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Multilingual Support
+NFR1: The audio-bot and on-screen feedback must be available in English and Urdu.
+NFR2: Users should be able to select their preferred language.
+
+4.2 Performance
+NFR3: The system must provide real-time posture analysis and feedback within a maximum delay of 200 milliseconds.
+
+4.3 Compatibility
+NFR4: The system must be compatible with smartphones, tablets, and computers across iOS, Android, and Windows.
+NFR5: It should work seamlessly across different screen sizes.
+
+4.4 Scalability
+NFR6: The system should be scalable to accommodate future features (new exercises, languages).
+
+4.5 Real-Time Interaction
+NFR7: The chatbot must respond to user queries with minimal latency.
+
+4.6 User-Friendly Interface
+NFR8: The chatbot's UI must be intuitive, with easy navigation for all ages.
+
+4.7 Accessibility
+NFR9: The chatbot must support voice commands and text input for users with physical impairments.
+
+4.8 Error Handling
+NFR10: The chatbot should handle errors gracefully by providing appropriate feedback.
+
+4.9 User Authentication
+NFR11: Authentication must be secure, following industry standards (HTTPS, encryption).
+
+4.10 Availability
+NFR12: The Client Web Application must achieve high uptime.
+
+4.11 Concurrent User Access
+NFR13: The Client Web Application must support concurrent access by multiple users without performance degradation.
+
+================================================================================

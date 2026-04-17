@@ -1,0 +1,69 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SurgiGuide - AI-Driven Real-Time Surgical Guidance System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for SurgiGuide, an AI-based decision support system designed to address preventable surgical mistakes by providing real-time guidance to surgeons.
+
+1.2 Scope
+The research focuses on developing a system to identify surgical phases in real-time, suggest next steps, point out mistakes, and provide remedies. It aims to improve surgical decision-making and reduce errors.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- TEP: Totally Extraperitoneal Inguinal Hernia Repair
+- RARP: Robot-Assisted Radical Prostatectomy
+- CNN: Convolutional Neural Network
+- ViT: Vision Transformer
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+SurgiGuide seeks to increase awareness during surgery, improve outcomes, and enhance surgical growth by providing contextually relevant data and corrective feedback.
+
+2.2 Product Functions (Summary)
+- Real-time identification of surgical phases.
+- Prediction of the next surgical step.
+- Identification and flagging of mistakes.
+- Provision of corrective actions.
+
+2.3 User Classes and Characteristics
+- Surgeons: Primary users who will receive real-time guidance and feedback.
+- Surgical Trainees: Who will benefit from real-time feedback as an educational tool.
+
+2.4 Operating Environment
+Integrates with operating room video streams.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Surgical Phase Recognition
+FR1.1: The system shall analyze live surgical video streams.
+FR1.2: The system shall identify the current phase of surgery.
+FR1.3: The system shall use models like ViT and 3D CNN for accurate phase recognition.
+
+3.2 Next Step Suggestion
+FR2.1: Based on the current phase, the system shall predict the sequence of actions to be taken next.
+
+3.3 Mistake Identification
+FR3.1: The system shall compare actual surgical activities against a database of standards and mishaps.
+FR3.2: The system shall flag deviations from standard procedures.
+
+3.4 Remedy Provision
+FR4.1: The system shall provide recommendations for corrective adjustments when a mistake is indicated.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The system must process video and provide feedback with minimal latency for real-time application.
+
+4.2 Accuracy
+NFR2: The system must achieve high accuracy in phase and mistake recognition.
+
+4.3 Reliability
+NFR3: The system must be highly dependable and work in diverse surgical environments.
+
+4.4 Usability
+NFR4: The user interface must integrate smoothly into the workflow of surgeons and nurses without being intrusive.
+
+4.5 Validation
+NFR5: The system's performance must be validated in live and complex surgical scenarios.
+
+================================================================================

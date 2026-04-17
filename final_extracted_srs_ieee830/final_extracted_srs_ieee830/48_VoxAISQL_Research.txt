@@ -1,0 +1,44 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: VoxAISQL - Voice-Driven SQL Query Generation
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+Interacting with databases requires specialized SQL knowledge, making it challenging for non-technical users to access and manage data. Voice-controlled systems still rely on exact SQL syntax or rigid command templates. Speech recognition errors further complicate interactions.
+
+1.2 Research Problem Statement
+Develop an AI-powered chatbot capable of handling natural language queries to convert voice and text commands into SQL queries, allowing users to perform database operations without SQL expertise.
+
+1.3 Software Requirements Specifications
+The system includes NLP module for interpreting user queries, voice recognition module (whisper.cpp) for transcribing spoken language, SQL query generator (Transformer-based), database connectivity (MySQL), and user feedback module.
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Related Research Analysis
+- AI Model to Generate SQL Queries (Sawant, 2022): LSTM-based, 93.47% accuracy; struggles with complex queries.
+- Speech-to-SQL (Song, 2024): SpeechSQLNet with dual-attention, 54.70% accuracy; bypasses speech-to-text stage.
+- SpeakQL (Vraj Shah, 2020): Multimodal with voice and touch; human-in-the-loop.
+- VoiceQuerySystem (Yuanfeng Song, 2022): Supports both speech-to-text and direct speech-to-SQL.
+- TalkSQL (Obaido, 2020): Multi-step process; struggles with complex queries.
+- CHAT-SQL (MAJHADI Khadija, 2024): LSTM-based, 89% accuracy; struggles with ambiguous inputs.
+- Natural Language to SQL (Sri Lalitha Y., 2023): NLP techniques; struggles with nested clauses.
+- Database-Aware ASR Error Correction (Shao, Kumar, Nakashole, 2023): DBATI for error correction; improves accuracy.
+
+3. PROPOSED APPROACH
+3.1 System Architecture
+- Frontend (Next.js): Login, Register, Chat Page, Dashboard
+- Backend (Express.js): AuthRoute, UserRoute, DatabaseRoute, ChatRoute
+- AI Models: Voice-to-Text (whisper.cpp), SQL Generation (Transformer-based)
+
+3.2 Methodology Stages
+Stage 1: Voice-to-Text Conversion using whisper.cpp for diverse accents and speech patterns.
+Stage 2: Natural Language to SQL Conversion using custom Transformer-based model trained on text-to-SQL datasets.
+Stage 3: SQL Execution and Response Handling with validation against database schema.
+
+3.3 Data Storage
+- UserSchema: Registration, authentication, roles
+- DatabaseSchema: Connected databases, metadata, permissions
+- ChatSchema: User interactions, queries, SQL commands, results
+- MessageSchema: Details of each message exchanged
+
+================================================================================

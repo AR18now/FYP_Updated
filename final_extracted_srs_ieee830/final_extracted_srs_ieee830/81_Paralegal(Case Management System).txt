@@ -1,0 +1,101 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Legal Case Management System (Paralegal)
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document provides a comprehensive Software Requirements Specification for the development of a Legal Case Management System for Pakistan. It aims to streamline legal case management, reduce administrative burden, and improve efficiency.
+
+1.2 Scope
+The system provides functionalities for case tracking, document management, court scheduling, client communication, and reporting. It integrates with existing legal databases and supports multi-user access with role-based permissions.
+
+1.3 Definitions, Acronyms, Abbreviations
+- SRS: Software Requirements Specification
+- MERN: MongoDB, Express.js, React.js, Node.js
+- API: Application Programming Interface
+- GDPR: General Data Protection Regulation
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system is a comprehensive solution for law firms, courts, and government agencies, integrating modern technology with user-centric design to manage legal cases, documents, and communication.
+
+2.2 Product Functions (Summary)
+- Case Management: Creation, tracking, history.
+- Document Management: Storage, version control, access control.
+- Court Scheduling: Calendar, notifications, conflict management.
+- Client Communication: Secure messaging, client portal, appointment scheduling.
+- Reporting and Analytics: Customizable reports, data analytics.
+
+2.3 User Classes and Characteristics
+- Case Manager: Oversees case assignments, monitors progress, manages client interactions.
+- Social Worker: Conducts client interviews, tracks progress.
+- Client: Views case details, updates information, communicates.
+- Administrator: Manages user accounts, configures settings.
+- Supervisor: Monitors performance of case managers and social workers.
+- Program Coordinator: Manages specific programs or initiatives.
+- IT Support: Provides technical support and system maintenance.
+
+2.4 Operating Environment
+Web application (modern browsers) and mobile application (Android, iOS).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Case Creation and Management
+FR1.1: The system shall allow users to enter case details including title, description, priority, and status.
+FR1.2: The system shall allow users to assign a case to a specific team or individual.
+FR1.3: The system shall allow users to set deadlines and milestones for the case.
+FR1.4: The system shall store and display case creation date and time.
+FR1.5: The system shall display case details, history, and deadlines.
+FR1.6: The system shall allow users to update case details (status, priority, assignment).
+FR1.7: The system shall log all changes made to the case.
+
+3.2 Case Assignment and Tracking
+FR2.1: The system shall provide a list of available team members or departments for assignment.
+FR2.2: The system shall allow users to assign or reassign cases.
+FR2.3: The system shall notify assigned personnel of new case assignments.
+FR2.4: The system shall provide a visual representation of case progress.
+FR2.5: The system shall allow users to update progress of tasks and milestones.
+FR2.6: The system shall generate reports on case progress.
+
+3.3 Case Resolution and Closure
+FR3.1: The system shall allow users to mark a case as resolved.
+FR3.2: The system shall require users to provide a resolution summary or closure notes.
+FR3.3: The system shall update the case status to "Resolved" and lock further modifications.
+FR3.4: The system shall allow users to close a case once resolved.
+FR3.5: The system shall archive case details and related documents upon closure.
+FR3.6: The system shall generate a final report summarizing the case resolution.
+FR3.7: The system shall allow users to review case history and final resolution.
+FR3.8: The system shall provide tools for generating audit reports.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: Response time for user interactions shall be optimized to complete within 3 seconds.
+NFR2: The system shall process and display search results for up to 10,000 cases within 5 seconds.
+NFR3: The system shall handle up to 1,000 concurrent users while maintaining smooth interactions.
+NFR4: CPU usage shall not exceed 70% during peak load.
+NFR5: Average memory footprint shall not surpass 2 GB per active user session.
+
+4.2 Safety
+NFR6: The system shall incorporate transaction rollback and recovery procedures.
+NFR7: The system shall provide detailed error messages and logging.
+NFR8: The system shall maintain an uptime of 99.9%.
+
+4.3 Security
+NFR9: The system shall support multi-factor authentication (MFA).
+NFR10: The system shall implement role-based access control (RBAC).
+NFR11: The system shall utilize industry-standard encryption algorithms (AES-256) for data in transit and at rest.
+NFR12: The system shall maintain an audit trail of user actions and system events.
+NFR13: Regular security assessments and vulnerability scans shall be conducted.
+
+4.4 Software Quality Attributes
+NFR14: The system shall offer an intuitive and user-friendly interface.
+NFR15: The system shall be designed with a modular architecture for easy maintenance.
+NFR16: The system shall be designed to support future enhancements without major modifications.
+NFR17: The system shall be optimized for performance, executing operations efficiently.
+
+4.5 Business Rules
+NFR18: The system shall support case priority levels (Low, Medium, High, Urgent).
+NFR19: The system shall enforce case assignment rules based on expertise and availability.
+NFR20: The system shall ensure all required tasks are completed and approval is obtained before allowing a case to be closed.
+
+================================================================================

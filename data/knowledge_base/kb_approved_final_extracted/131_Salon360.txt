@@ -1,0 +1,76 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Salon360 - All-in-One Salon Management and Virtual Hair Try-On System
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for Salon360, a web application that integrates a virtual hair try-on system (hairstyles and colors) with a comprehensive salon management system.
+
+1.2 Scope
+The system consists of two main modules: Management Module (Admin Web App) for salon operations (POS, employee/customer records, bookings, automated deal generation, email reminders) and User Module (Client Web App) for virtual try-ons (hairstyles, hair colors, recommendations based on face shape) and booking integration.
+
+1.3 Definitions, Acronyms, Abbreviations
+- POS: Point of Sale
+- AI: Artificial Intelligence
+- 2D: Two-Dimensional
+- CRUD: Create, Read, Update, Delete
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Salon360 combines realistic virtual hair try-ons with backend salon management to create an efficient and unified experience for both salons and their clients.
+
+2.2 Product Functions (Summary)
+- Management Module: POS and management system, automated deal generation, email reminders for bookings.
+- User Module: Hair color try-on (basic to advanced), hairstyle try-on, facial feature-based recommendations.
+
+2.3 User Classes and Characteristics
+- Salon Clients: Use virtual try-on and recommendations before booking.
+- Salon Owners: Control managerial operations (bookings, employees, transactions) and integrate the system.
+- Salon Employees (Receptionists, Stylists): Use management/POS system and virtual try-on to assist customers.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Management Module (Admin Web App)
+FR1-001: The system shall provide login and signup authentication for employees and managers.
+FR1-002: The system shall provide the admin with CRUD functionality to manage salon operations (customers, orders, bookings, employees, services) via a centralized database.
+FR1-003: The system shall provide customers with a set of available services to select from and book appointments.
+FR1-004: The system shall provide management staff with the functionality of processing customer orders and generating invoices.
+FR1-005: The system shall provide the admin an option to generate monthly deals based on trending/most frequently purchased services.
+FR1-006: The system shall generate and send an email 24 hours prior to a customer's upcoming booking as a reminder.
+
+3.2 User Module (Client Web App)
+FR2-001: The system shall allow users to upload a clear image without obstructions on face and hair.
+FR2-002: The system shall allow users to virtually try on different hairstyles.
+FR2-003: The system shall allow users to virtually try on different hair colors (basic to advanced shades like highlights).
+FR2-004: The system shall analyze the uploaded image to provide personalized hairstyle recommendations based on facial features.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The recommendation system's success rate should be more than 90%.
+
+4.2 Usability
+NFR2: The system shall provide a user-friendly interface for clients to use the virtual try-on and booking system.
+
+4.3 Performance
+NFR3: The output of the virtual try-ons should be less than 10 seconds.
+
+4.4 Security
+NFR4: The system shall protect user data by encryption (AES-256).
+NFR5: The system shall provide user login functionality to ensure only authentic users have access.
+
+4.5 Availability
+NFR6: The system must be available to its users 100% of the time for a seamless flow.
+
+4.6 Maintainability
+NFR7: The source code must be modular and scalable with proper documentation.
+
+4.7 Compatibility
+NFR8: The system design must be compatible across multiple devices and browsers.
+
+4.8 Scalability
+NFR9: The system must be scalable to expand the user database and ensure a seamless experience during heavy traffic.
+
+4.9 Accessibility
+NFR10: The system must be accessible to all individuals, complying with standards to cater to individuals with disabilities.
+
+================================================================================

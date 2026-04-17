@@ -1,0 +1,40 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: TRank-IoT - Trust-Based Rank Attack Detection for RPL-Based IoT Networks
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+RPL (Routing Protocol for Low-Power and Lossy Networks) is vulnerable to rank attacks where malicious nodes advertise false lower ranks, tricking other nodes into selecting them as parents. This distorts network topology, creates routing loops, increases latency and energy consumption, and can lead to network failure.
+
+1.2 Research Problem Statement
+Existing rank attack detection mechanisms are either too computationally expensive or ineffective in IoT's resource-constrained environments. There is a pressing need for a robust, scalable, lightweight mechanism to detect and mitigate rank attacks.
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Key Research Items
+- A Trust-Based Model for Secure Routing against RPL Attacks (SMTrust): 46% increase in topology stability, 45% reduction in packet loss, 35% increase in throughput.
+- RPL-based routing protocols in IoT applications: Review highlighting RPL's flexibility, energy efficiency, but struggles with mobility, congestion, security.
+- Threats, Detection and Mitigation of Rank Attack: Survey categorizing rank attacks (increased, decreased, worst parent) and mitigation techniques.
+- Impact Analysis of Rank Attack: Packet reception decreases 10-13% for grid topologies, 8% for random topologies under attack.
+- A Trust-Based Intrusion Detection System for RPL Networks (SRF-IoT): PDR of 92.8%, 5x reduction in packet drop, 3x reduction in parental changes.
+- RPL-Based IoT Networks under Decreased Rank Attack: Performance analysis in static and mobile environments.
+- Rank and Wormhole Attack Detection Model Using Machine Learning (MC-MLGBM): 99.7% accuracy, 99% precision, 99.7% recall.
+- Detection and Verification of Decreased Rank Attack using Round-Trip Times: RTT-based detection with low false alarm rate.
+
+3. PROPOSED APPROACH
+3.1 Assumptions
+- Initially, all nodes authenticated and work cooperatively to construct DODAG using RPL.
+- All nodes have same energy, processing power, interface, and communication range.
+- All data exchanges protected by lightweight, efficient cryptographic method.
+- Single reliable and resource-rich server node.
+- All nodes either mobile or stationary other than server node.
+
+3.2 Phases
+1. Initialization Phase: Nodes configure initial parameters and form DODAG using RPL.
+2. Data Transmission Phase: Each node selects parent node after verifying against Malicious List.
+3. Data Reception Phase: All packets received at server node for processing.
+4. Trust Calculation Phase: Trustworthiness of participating nodes recalculated based on behavior.
+5. Rank Attack Detection Phase: Server continuously monitors trust values; nodes below threshold flagged as malicious and added to Malicious List.
+6. Trust Updating Phase: Trust values revised based on recalculations; malicious nodes prevented from future transmissions.
+
+================================================================================

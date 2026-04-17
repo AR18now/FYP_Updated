@@ -1,0 +1,119 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Modelosaurus - No-Code ML/DL Model Builder
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+Modelosaurus is a web-based application geared towards developers wanting a no-code environment to create custom ML/DL models suited for their specific needs, providing drag-and-drop model architecture customization, training, testing, and deployment.
+
+1.2 Scope
+Modelosaurus allows users to create custom models from scratch or fine-tune existing models, providing component library with customizable layers, activation functions, and hyperparameters, architecture analyzer assistant with dynamic feedback, model visualization, cloud-based training, inference visualization via XAI techniques, and deployment as API endpoints.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ML: Machine Learning
+- DL: Deep Learning
+- LLM: Large Language Model
+- XAI: Explainable AI
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Modelosaurus simplifies model creation, training, and deployment for developers who want custom models but lack extensive hardware resources or deep expertise.
+
+2.2 Product Functions (Summary)
+- No-code model architecture customization (drag-and-drop)
+- Architecture analyzer assistant (LLM-based feedback)
+- Fine-tune existing models
+- Model visualization (structure, layers, weights)
+- Inference visualization (XAI techniques)
+- Model training on cloud
+- Model testing via GUI
+- User profile management
+- Pay-as-you-go payment model
+- Deployment (API endpoints, embeddable components)
+- Dataset creation (supplementary)
+
+2.3 User Classes and Characteristics
+- Developers: Visualize existing models, learn to create custom models, efficiently create/train/deploy models
+- Researchers: Conduct experiments with custom models, analyze architectures, evaluate performance
+
+2.4 Operating Environment
+Web application, microservices architecture, Amazon S3 storage, MongoDB.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Authentication and Profile Management
+FR1.1: The system shall allow users to create accounts.
+FR1.2: The system shall allow users to login.
+FR1.3: The system shall allow users to update profile information.
+FR1.4: The system shall store history of models created by user.
+FR1.5: The system shall allow user to deactivate account.
+
+3.2 Custom Model Creation
+FR2.1: The system shall provide component library of model components (layers, activation functions).
+FR2.2: The system shall allow user to drag and drop components to build model architecture.
+FR2.3: The system shall provide suggestions to improve model architecture.
+FR2.4: The system shall provide feedback on model architecture.
+
+3.3 Dataset Management (Supplementary)
+FR3.1: The system shall provide option to build image dataset.
+FR3.2: The system shall allow users to add labels to dataset.
+FR3.3: The system shall allow users to remove labels.
+FR3.4: The system shall allow users to add images against labels.
+FR3.5: The system shall allow users to remove images from labels.
+FR3.6: The system shall provide option to upload dataset as ZIP file.
+FR3.7: The system shall provide option to integrate dataset from HuggingFace via URL.
+
+3.4 Prebuilt Model Fine-tuning
+FR4.1: The system shall allow user to select prebuilt model.
+FR4.2: The system shall allow user to adjust hyperparameters (epochs, batch size, learning rate, data augmentation).
+FR4.3: The system shall allow user to use HuggingFace dataset.
+FR4.4: The system shall allow user to specify column names for images.
+FR4.5: The system shall allow user to specify column name for labels.
+FR4.6: The system shall allow users to upload dataset for fine-tuning.
+
+3.5 Model Visualization
+FR5.1: The system shall process .h5 and .keras model files.
+FR5.2: The system shall provide user with visualization of model architecture.
+FR5.3: The system shall provide user with detailed information of each layer (input/output shape, layer module, weights).
+FR5.4: The system shall provide inference visualization for models.
+
+3.6 Model Training
+FR6.1: The system shall support training of custom models once ready.
+FR6.2: The system shall provide user progress report on training progress per epoch.
+FR6.3: The system shall allow user to disconnect while model training.
+
+3.7 Model Testing
+FR7.1: The system shall provide GUI for model testing.
+FR7.2: The system shall allow user to input data to test their model.
+
+3.8 Model Deployment (Supplementary)
+FR8.1: The system shall allow user to automatically deploy models as inference API endpoints.
+FR8.2: The system shall provide user with embeddable component.
+
+3.9 Payment Management
+FR9.1: The system shall implement pay-as-you-go pricing model.
+FR9.2: The system shall allow users to add payment information.
+
+3.10 Architecture Analyzer and Recommendation
+FR10.1: The system shall allow user to get feedback on model architecture.
+FR10.2: The system shall provide user with option to explain model architecture.
+FR10.3: The system shall provide user with suggestions for model architecture improvements.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Security
+NFR1: User authentication credentials stored encrypted.
+NFR2: User datasets stored securely.
+NFR3: API endpoints secured using HTTPS and token-based authentication.
+
+4.2 Maintainability
+NFR4: All system components thoroughly documented with comments and guidelines.
+NFR5: Modular design for ease of modification.
+
+4.3 Usability
+NFR6: Intuitive user interface without requiring extensive training.
+NFR7: Easy-to-access help guides and tutorials.
+NFR8: Clear and descriptive error messages.
+NFR9: Guidance through error resolution.
+
+================================================================================

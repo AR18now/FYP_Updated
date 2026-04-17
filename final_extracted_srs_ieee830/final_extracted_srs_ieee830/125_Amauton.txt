@@ -1,0 +1,84 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Amauton - Streamlining Amazon Seller Operations Through Advanced Automation and AI
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for Amauton, an automation system for Amazon Seller Accounts (focusing on the UK market) that helps sellers manage accounts, increase profitability, and make better decisions through automation and AI.
+
+1.2 Scope
+The system streamlines seller operations. Features include product discovery (niche-specific recommendations, market trend analysis), supplier sourcing (identifying suitable suppliers, AI consistency checks), profitability analysis and listing creation (auto-generate titles, descriptions, pricing), dynamic pricing and competitor analysis, and sales analytics dashboard.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- API: Application Programming Interface
+- DB: Database
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Amauton automates time-consuming seller operations like product hunting, pricing comparison, and profit calculation, enabling sellers to focus on strategic growth.
+
+2.2 Product Functions (Summary)
+- Product Discovery and Extraction: Search by keywords, apply filters, extract product data, analyze market trends.
+- Supplier Sourcing: Identify suitable suppliers, use AI to check product image/title consistency.
+- Profitability Analysis and Listings: Calculate profit margins, automatically create product listings.
+- Dynamic Pricing and Competitor Analysis: Real-time price adjustment and competitor monitoring.
+- Sales Analytics: Data visualization, actionable insights dashboard.
+
+2.3 User Classes and Characteristics
+- Amazon Sellers: Manage product listings, pricing, supplier relationships. Use the system for product discovery, pricing, and market alerts.
+- Data Analysts: Analyze sales data, profitability patterns, market dynamics using the system's analytics.
+- Retailers and Suppliers: Provide product information to the system for seller sourcing.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Product Discovery and Extraction
+FR1: System shall display current market trends in human-readable form with necessary information.
+FR2: System shall allow user to enter product details and cater to any style of input.
+FR3: System shall allow user to apply custom filters based on the options provided.
+FR4: System shall correctly apply filters and move from generalization to specialization for efficient sourcing.
+FR5: System shall search for the entered product on different stores and correctly retrieve required information.
+
+3.2 Supplier Sourcing
+FR1: System shall find the entered product on different stores specified in the scope.
+FR2: System shall identify suitable suppliers by refining based on profit margins.
+FR3: System shall retrieve required product information from selected suppliers.
+FR4: System shall efficiently compare and match relevant information (title, price, images).
+
+3.3 Profitability Analysis and Listings
+FR1: System shall calculate profit margins leveraging different sales and analytics techniques.
+FR2: System shall automatically manage the listing of products on the user's Amazon store.
+FR3: System shall generate required product information (title, description, price, image) and place it correctly.
+
+3.4 Dynamic Pricing and Competitor Analysis
+FR1: System shall relentlessly look for changing competitors' prices.
+FR2: System shall constantly adjust prices to be in the competitive race.
+FR3: The system shall drop the product if it lacks profitability or sales activity.
+
+3.5 Sales Analytics
+FR1: System shall present sales and profit of different products in an interactive manner.
+FR2: System shall generate effective insights from the user's sales history.
+FR3: The system shall provide different visualizations for easy and better understanding.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: In case of failure (fetching data, listing product, product hunting cycle), system must rollback and try 2-3 times before logging the error.
+NFR2: In case of continuous failure, system must notify the user or administrator through email.
+NFR3: The system shall have a minimum MTBF of 30 days.
+
+4.2 Usability
+NFR4: System should be user-friendly and interactive, features easily accessible and understandable.
+NFR5: System shall have a logical flow and each feature must perform what it is entitled to.
+NFR6: The system shall record repetitive tasks to increase efficiency of interaction.
+
+4.3 Performance
+NFR7: Website must load within 10 seconds along with text and graphics.
+NFR8: System shall perform specific tasks (pricing adjustments, product matching) in logical timeframes (e.g., within 2 minutes).
+
+4.4 Security
+NFR9: Website must be secure from attacks which might result in data leak.
+NFR10: It must use strong and secure methods to store passwords in the database.
+NFR11: User information must be handled efficiently, with no loss tolerance in case of a data breach.
+NFR12: It must support multi-factor authentication and email confirmations to manage access.
+
+================================================================================

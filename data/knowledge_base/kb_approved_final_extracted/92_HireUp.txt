@@ -1,0 +1,103 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: HireUp - Automated Hiring Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for HireUp, a web application designed to cut down the cost and time spent during hiring processes by automating CV filtration, video interview analysis, and test creation.
+
+1.2 Scope
+The system allows applicants to apply for jobs, search and receive recommendations, and schedule interviews/tests. Recruiters can post jobs and receive shortlisted candidates. It features CV filtration, video interview analysis, and knowledge-based tests.
+
+1.3 Definitions, Acronyms, Abbreviations
+- CV: Curriculum Vitae
+- MCQ: Multiple Choice Question
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+HireUp addresses the inefficiencies and biases in traditional hiring by automating the CV screening and initial assessment process, saving time and resources for companies.
+
+2.2 Product Functions (Summary)
+- CV Filtration using AI.
+- Video Interview Analysis (facial expressions, answer accuracy).
+- Knowledge-based Test creation and scoring.
+- Job Posting & Management.
+- Job Application Submission.
+- Job Search & Recommendations.
+- Interview & Test Scheduling.
+- Application Status Notifications.
+- Application Tracking.
+- Profile Management.
+
+2.3 User Classes and Characteristics
+- Applicant: Seeks a job and applies through the application.
+- Recruiter: Finds most eligible candidates for a job opening.
+
+2.4 Operating Environment
+Web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 CV Filtration
+FR1.1: The system shall provide a form to the applicant.
+FR1.2: The system shall extract information such as skills, experience, etc., from the provided data.
+FR1.3: The system shall verify experience through LinkedIn and GitHub.
+FR1.4: The system shall score the CV based on the requirements of the job description.
+
+3.2 Video Interview Analysis
+FR2.1: The system shall provide an option to assess shortlisted applicants via an automated video interview.
+FR2.2: The system shall take questions entered by the recruiter.
+FR2.3: The system shall question the applicants.
+FR2.4: The system shall record the interviews.
+FR2.5: The system shall process and analyze emotions from facial expressions.
+FR2.6: The system shall analyze the answers provided by the applicant.
+FR2.7: The system shall score the applicant based on facial expressions and answer accuracy.
+
+3.3 Test Creation
+FR3.1: The system shall provide an option to recruiters to create an MCQ-based test.
+FR3.2: The system shall score test answers based on the key given by recruiters.
+FR3.3: The system shall show the test scores to recruiters.
+
+3.4 Job Posting & Management
+FR4.1: The system shall provide recruiters with an option to post a job opening.
+FR4.2: The system shall show recruiters a history of all job openings they have posted.
+FR4.3: The system shall allow recruiters to view the CVs, recorded interviews, or test scores of shortlisted candidates.
+
+3.5 Job Application Submission
+FR5.1: The system shall allow applicants to apply for a job vacancy.
+FR5.2: The system shall allow applicants to upload CVs/resumes and other information.
+
+3.6 Job Search & Recommendations
+FR6.1: The system shall allow the applicant to search for jobs.
+FR6.2: The system shall display jobs tailored to the applicant's specified field.
+FR6.3: The system shall suggest jobs to applicants based on domain and location.
+
+3.7 Interview & Test Scheduling
+FR7.1: The system shall generate a schedule for applicants, listing all their interviews and tests with timings.
+
+3.8 Application Status Notifications
+FR8.1: The system shall notify applicants of any updates or changes in the status of their job applications.
+
+3.9 Application Tracking
+FR9.1: The system shall allow applicants to track the progress of jobs they have applied to.
+
+3.10 Profile Management
+FR10.1: The system shall provide access to recruiters or applicants through sign-up or login.
+FR10.2: The system shall send a verification email after sign-up.
+FR10.3: The system shall allow users to edit their profiles.
+FR10.4: The system shall allow users to delete their profiles.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Security
+NFR1: Only authenticated users can access the main functionalities.
+NFR2: User data will be encrypted using AES-256 encryption.
+
+4.2 Usability
+NFR3: Clear and informative error messages are provided.
+NFR4: The UI will be user-friendly, following User-Centered Design principles.
+
+4.3 Performance
+NFR5: The application should respond to user actions within 2 seconds under normal load conditions.
+
+================================================================================

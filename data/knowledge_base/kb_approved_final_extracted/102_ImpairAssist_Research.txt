@@ -1,0 +1,65 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ImpairAssist - Audio-Visual Speech Recognition for Hearing-Impaired
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document is a project proposal for ImpairAssist, an application that uses audio-visual speech recognition (AVSR) to generate real-time captions, helping audibly impaired people communicate with the general public.
+
+1.2 Scope
+The project focuses on combining audio (speech) and visual (lip movements) inputs to create a more robust speech-to-text system. It involves using separate models for audio and visual inputs and then fusing them.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AVSR: Audio-Visual Speech Recognition
+- NLP: Natural Language Processing
+- WER: Word Error Rate
+- CER: Character Error Rate
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+ImpairAssist addresses the shortcomings of traditional speech recognition systems that ignore visual cues, which are crucial for accurate communication, especially for the hearing impaired.
+
+2.2 Product Functions (Summary)
+- Audio and visual input processing.
+- Model fusion (combining audio and visual speech recognition models).
+- Real-time caption generation.
+- Noise reduction and error rectification.
+
+2.3 User Classes and Characteristics
+- Hearing-Impaired People: Primary users who will use the app to communicate.
+
+2.4 Operating Environment
+Application for real-time captioning.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Proposed Solution/Method
+FR1.1: The system shall receive input in the form of a video.
+FR1.2: The system shall extract the visual (frames) and audio aspects of speech.
+FR1.3: The visual input (lip movement) shall be fed to a visual speech recognition module.
+FR1.4: The audio input shall be fed to an audio speech recognition module.
+FR1.5: The results of both modules shall be passed to a cross-attention module that will combine them.
+FR1.6: The cross-attention module shall use model fusion, a bidirectional transformer, or a multi-modal architecture to combine results.
+FR1.7: The system shall perform preprocessing on both inputs to remove noise.
+FR1.8: The system shall generate a text caption for the speech.
+FR1.9: The system shall be evaluated using Word Error Rate (WER), Character Error Rate (CER), and Latency.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have a high Mean Time Between Failures (MTBF).
+NFR2: The system shall maintain reliability in generating accurate transcriptions.
+NFR3: The system shall detect and rectify errors.
+
+4.2 Performance
+NFR4: The system shall handle transcription efficiently, even with background noise.
+NFR5: The system shall ensure high accuracy in speech-to-text transcription, particularly in medical terminology (if applicable).
+NFR6: The system shall handle speaker diarization efficiently.
+
+4.3 Usability
+NFR7: The system shall be user-friendly.
+
+4.4 Security
+NFR8: The system shall implement strong user authentication mechanisms.
+NFR9: The system shall define user roles and permissions.
+
+================================================================================

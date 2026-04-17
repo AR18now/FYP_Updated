@@ -1,0 +1,112 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Syntra - Compliance Automation Tool (ISO 27001)
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Compliance management remains largely manual process globally, resulting in inefficiency, error, and delay, increasing risk of missing critical standards like ISO 27001. Compliance managers depend on spreadsheets, emails, and surveys, which are time-consuming and prone to human error. Existing solutions are expensive, inaccessible to smaller organizations.
+
+1.2 Scope
+Syntra automates key compliance tasks including control assignment, evidence collection, gap and risk analysis, and reporting for ISO 27001 standards. Organizations register, input domain, personnel, and services, receiving customized Statement of Applicability (SoA). Technical controls validated through MDM technology; non-technical controls by submitting evidence. Tool automates control assignments, sends email notifications, provides interface for evidence submission, triggers mitigation plans for non-compliance, and generates executive and technical reports.
+
+1.3 Definitions, Acronyms, Abbreviations
+- SoA: Statement of Applicability
+- MDM: Mobile Device Management
+- LLM: Large Language Model
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Syntra reduces time, effort, and errors in achieving compliance, making process more cost-effective for organizations.
+
+2.2 Product Functions (Summary)
+- Organization registration
+- Customized Statement of Applicability (SoA) generation
+- Control assignment (drag-and-drop)
+- Email notifications to control handlers
+- Evidence submission interface
+- Gap and risk assessment
+- Mitigation plan triggering
+- Executive and technical report generation
+- Admin panel for standards and user management
+- Model server for evidence validation
+
+2.3 User Classes and Characteristics
+- Compliance Manager: Oversee compliance initiatives, assign controls, track progress
+- Control Handler: Submit evidence, complete gap assessments
+- Admin: Manage system, update standards, control management
+- Tester: Test software on requirements
+- Developers: Develop, maintain, implement compliance tool
+- Auditors/Reviewers: Examine reports, verify evidence and controls
+
+2.4 Operating Environment
+Web application, client-server architecture, cloud storage.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 - Controller
+FR1.1: The system shall enable compliance managers to create and manage compliance campaigns.
+FR1.2: The system shall enable control owners, custodians, and testers assignment by compliance managers.
+FR1.3: The system shall have interactive interface for selection of controls.
+FR1.4: The system shall automate sending alerts/notifications and reminders to custodians and control owners.
+FR1.5: The system shall have interface for evidence submission with proper validation checks.
+FR1.6: The system shall allow submission of evidence by control handlers to assigned controls.
+FR1.7: The system shall enable mitigation phase in event of non-compliance identified.
+
+3.2 Module 2 - Evidence Analyzer Module
+FR2.1: The system shall accept submitted evidence and validate against chosen compliance standards (ISO 27001).
+FR2.2: The system shall perform real-time gap assessments from submitted evidence.
+FR2.3: The system shall analyze evidence about compliance and return compliance level.
+FR2.4: The system shall trigger mitigation phase with recommendations for action.
+FR2.5: The system shall display status on submitted evidence.
+
+3.3 Module 3 - Report Generation
+FR3.1: Technical reports for closer look at compliance status.
+FR3.2: The system shall produce executive reports summarizing total compliance status.
+FR3.3: The system shall export reports in different formats (PDF, CSV).
+
+3.4 Module 4 - Admin Panel Module
+FR4.1: The system shall support adding, updating, deletion of compliance controls based on standards changes.
+FR4.2: The system shall have admin approvals control with prior standard before storing in database.
+FR4.3: The system shall provide admin feature to review and validate results from model server.
+FR4.4: The system shall allow admin on user accounts management (create, update, deactivate user roles).
+
+3.5 Module 5 - Model Server Module
+FR5.1: Interface with other modules so compliance status triggers further activities.
+FR5.2: The system shall validate evidence and give output through feedback using input evidence.
+FR5.3: The system shall provide output giving feedback relating to controls and evidence needed through standards input.
+FR5.4: The system shall analyze evidence submission made and determine if follow-up action required.
+FR5.5: The system shall extract pertinent controls, evidence requirements, and other information from compliance standards (ISO 27001) using LLM models.
+
+3.6 Module 6 - Storage Module
+FR6.1: The system shall ensure secure file storage of evidence files submitted by user.
+FR6.2: The system shall allow retrieval of stored evidence files.
+FR6.3: The system shall ensure version control of evidence files to track changes.
+FR6.4: The system shall have data encryption in all stored evidence files.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF ≥ 1,000 hours.
+NFR2: Automatic recovery facility to restore last known stable state within 5 minutes upon failure.
+NFR3: Record all errors and failures in error log.
+NFR4: Error detection policy notifying administrators of failures within 2 minutes.
+
+4.2 Usability
+NFR5: Compliance managers accomplish tasks through ≤ 3 clicks.
+NFR6: Drag-and-drop interface for evidence submission.
+NFR7: Contextual help and tooltips on all user interface elements.
+NFR8: WCAG 2.1 Level AA accessibility standards.
+
+4.3 Performance
+NFR9: 95% of evidence submissions processed and validation results reported < 5 seconds.
+NFR10: Support ≥ 100 concurrent users without degradation.
+NFR11: Compliance reports generated < 10 seconds for average requests.
+NFR12: Response time < 3 seconds for all user interface actions.
+
+4.4 Security
+NFR13: Restrict access to highly classified information with 99.9% security against unauthorized access.
+NFR14: Multi-factor authentication for all users.
+NFR15: Protect all sensitive data through industry-standard encryption algorithms in transit and at rest.
+NFR16: Quarterly security audits of vulnerability.
+
+================================================================================

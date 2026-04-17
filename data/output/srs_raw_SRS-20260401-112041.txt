@@ -1,2 +1,0 @@
----
-Software Requirements Specification (SRS) for e-commerce Application Author:Michael Date:

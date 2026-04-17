@@ -1,0 +1,84 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: EcoDrive - Autonomous Waste Collection System with Smart Bins
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for EcoDrive, an innovative waste management system that uses smart bins with sensors and an autonomous vehicle (toy truck) to optimize waste collection routes and schedules, enabling on-demand collection when bins reach capacity.
+
+1.2 Scope
+The system includes smart bins (ultrasonic sensors, lid automation, communication subsystem), a central server for signal processing and task assignment, an autonomous vehicle (perception, navigation, decision-making), a web dashboard for monitoring and control, and safety/compliance modules. The initial deployment is in a controlled environment.
+
+1.3 Definitions, Acronyms, Abbreviations
+- IoT: Internet of Things
+- LiDAR: Light Detection and Ranging
+- RL: Reinforcement Learning
+- API: Application Programming Interface
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+EcoDrive addresses inefficiencies in traditional waste collection (fixed schedules) by enabling on-demand, optimized collection through smart bins and autonomous vehicles, reducing fuel consumption, labor costs, and environmental impact.
+
+2.2 Product Functions (Summary)
+- Smart Bin Module: Level sensors, lid automation, communication with central server.
+- Central Server and Communication Module: Signal processing, data aggregation, task assignment.
+- Autonomous Vehicle Module: Perception (cameras, LiDAR), navigation, decision-making (RL), communication.
+- Dashboard and User Interface Module: Real-time monitoring, user control, data visualization.
+- Safety and Compliance Module: ISO 26262 compliance, emergency handling.
+- Maintenance and Scalability Module: System maintenance, scalability.
+
+2.3 User Classes and Characteristics
+- Municipal Corporations, Development Authorities, Educational Institutions, Waste Management Companies, Environmental Agencies, Local Communities (all stakeholders with goals related to efficiency, sustainability, and clean environment).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Smart Bin Module
+FR1.1: The smart bin shall detect when it is approaching full capacity and trigger a notification when it reaches a pre-defined threshold (e.g., 90% full).
+FR1.2: The bin's lid shall automatically open when someone approaches to dispose of waste and close after a designated period.
+FR1.3: The bin shall transmit its capacity and operational status to the central server in real-time.
+
+3.2 Central Server and Communication Module
+FR2.1: The central system shall process signals from smart bins and determine which bins require collection.
+FR2.2: Upon receiving a full-bin signal, the system shall assign the waste collection task to the autonomous vehicle, optimizing based on location and priority.
+FR2.3: The system shall monitor communication with all smart bins and log their status.
+
+3.3 Autonomous Vehicle Module
+FR3.1: The vehicle shall autonomously navigate to designated bins using sensor inputs and predefined routes, avoiding obstacles dynamically.
+FR3.2: The vehicle shall align with the smart bin and collect waste efficiently after receiving a command from the central system.
+FR3.3: The vehicle shall continuously communicate its location and task status to the central system.
+
+3.4 Dashboard/Monitoring Module
+FR4.1: The dashboard shall display real-time status of all smart bins (fill level, operational state).
+FR4.2: The dashboard shall display the location and status of the autonomous vehicle.
+FR4.3: The system shall trigger alerts on the dashboard for full bins or system malfunctions.
+FR4.4: The system shall generate periodic reports on waste collection performance, vehicle operation, and bin usage trends.
+
+3.5 Data and System Management Module
+FR5.1: The system shall securely store data from smart bins and the vehicle (operational status, capacity, logs).
+FR5.2: The system shall implement role-based access control.
+FR5.3: The system shall allow administrators to perform over-the-air updates to smart bins, vehicle software, and dashboard.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have a Mean Time Between Failures (MTBF) of at least 200 hours.
+NFR2: In the event of a software failure, the system shall log the failure details and notify the maintenance team within 5 minutes.
+NFR3: The system shall implement automated error detection algorithms.
+NFR4: The system shall adhere to safety standards for self-driving vehicles (e.g., ISO 26262).
+
+4.2 Usability
+NFR5: The web dashboard shall allow users to monitor bin status and truck navigation with a user-friendly interface requiring no more than two clicks.
+NFR6: The system shall provide a tutorial for new users.
+NFR7: The interface shall support accessibility features (screen reader compatibility, high-contrast mode).
+
+4.3 Performance
+NFR8: The system shall respond to bin capacity signals and relay information to the truck within 2 seconds.
+NFR9: The autonomous vehicle shall process sensor data to make navigation decisions with latency of no more than 100 milliseconds.
+NFR10: The system shall successfully complete 90% of waste collection operations without human intervention within the first 30 minutes of deployment.
+
+4.4 Security
+NFR11: The system shall use encrypted communication for data transmitted between smart bins, the central server, and the autonomous truck.
+NFR12: The Jetson Nano shall have its own firewall configured to protect the autonomous truck.
+NFR13: An end-to-end decision-making approach shall be employed to reduce the chances of a security breach.
+
+================================================================================

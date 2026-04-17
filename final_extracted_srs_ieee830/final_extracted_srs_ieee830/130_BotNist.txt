@@ -1,0 +1,91 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: BotNist - Automated Customer Service Chatbot for Websites
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for Bot-Nist, a web application that allows medium-scale website owners to create an advanced, AI-powered customer support chatbot by simply providing their website URL.
+
+1.2 Scope
+The system scrapes relevant data from the user's website, processes it using NLP, stores it in databases (standard and vector), and uses a fine-tuned LLM with RAG to answer customer queries. It generates an API key for easy integration. Features include analytics on popular queries and a calling feature (future scope).
+
+1.3 Definitions, Acronyms, Abbreviations
+- LLM: Large Language Model
+- NLP: Natural Language Processing
+- RAG: Retrieval-Augmented Generation
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+BotNist replaces basic script-based chatbots with an intelligent AI agent that can answer complex queries based on the specific content of the user's website, reducing reliance on human support agents.
+
+2.2 Product Functions (Summary)
+- Web Scraping: Extract relevant info (contact, services, legal, etc.) from provided URL.
+- Data Processing and Structuring: Clean and organize raw data into structured format using NLP.
+- Fine-Tuning and Model Training: Fine-tune a pre-trained LLM on the structured data.
+- Retrieval-Augmented Generation (RAG): Fetch relevant data based on user query and generate contextual responses.
+- API-Based Isolation: Provide unique API keys per user for integration, ensuring data separation.
+- Web Interface: Simple UI for URL submission and API key generation.
+- Query Handling and Response Generation: Process user queries and provide real-time responses.
+- Security and Data Privacy: Ensure secure communication and data protection.
+
+2.3 User Classes and Characteristics
+- Website Owners: Integrate LLM-powered chatbot into their websites. Manage accounts, view analytics.
+- Consumers (End Users): Interact with chatbots on websites.
+- Admin (System Administrators): Manage users, monitor chatbot performance, respond to feedback.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Web Scraping Module
+FR1: The module shall accept a user-provided URL.
+FR2: The module shall extract all publicly available textual data including metadata.
+
+3.2 Data Processing and Structuring Module
+FR1: The module shall process the data to remove all unwanted text from scraped data.
+FR2: The module shall structure the processed data to store in the RAG system.
+
+3.3 Fine-Tuning and Model Training Module
+FR1: The module shall allow for fine-tuning of the language model.
+FR2: The module shall allow incremental training.
+
+3.4 Retrieval-Augmented Generation (RAG) Module
+FR1: The module shall allow querying of stored data to support quick response generation.
+FR2: The module shall maintain context to give relevant responses based on previous conversation.
+
+3.5 API-Based Isolation Module
+FR1: The module shall generate API keys for users to access chatbot functionality.
+FR2: The module shall limit the number of queries to prevent abuse.
+
+3.6 Web Interface Module
+FR1: The module shall allow the user to test the chatbot on our interface.
+FR2: The module shall provide a user-friendly interface for the user to enter URL and get an API key.
+
+3.7 Query Handling and Response Generation Module
+FR1: The module shall respond according to the context of the current conversation.
+FR2: The module shall get requests and respond to them in real time.
+
+3.8 Security and Data Privacy Module
+FR1: The module shall provide user authentication to limit access to data.
+FR2: The module shall provide encryption for sensitive data like passwords.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system should ensure data integrity and accuracy during processing and response.
+NFR2: The system should automatically try rescraping if a network failure or internal error occurs.
+
+4.2 Usability
+NFR3: Users should be able to enter the link and get an API key to integrate.
+NFR4: Users should get real-time updates on the working of the link and see progress.
+NFR5: Error messages should be clear.
+
+4.3 Performance
+NFR6: The system should be able to scrap data, process it, and provide the working API key within less than 30 minutes.
+NFR7: The chat bot response time should be less than 2 seconds when it has 10,000 concurrent users.
+NFR8: The system should be scalable with a response time degeneration of no more than 15% under high loads.
+
+4.4 Security
+NFR9: User accounts should be protected by multi-factor authentication.
+NFR10: The login session should expire after 15 minutes of login to ensure security.
+NFR11: The API Key should expire after every 12 months if not renewed by the user.
+
+================================================================================

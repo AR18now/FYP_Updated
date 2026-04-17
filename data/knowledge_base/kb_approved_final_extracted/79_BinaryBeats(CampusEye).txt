@@ -1,0 +1,90 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: CampusEye - Distributed Anomaly Detection for Campus Safety
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the framework for a real-time anomaly detection system to improve security on university campuses using CCTV footage.
+
+1.2 Scope
+The system aims to detect smoking, violence, and vandalism in real-time using machine learning. It uses distributed computing to spread the computational load across idle PCs on the university network, making it cost-effective and scalable.
+
+1.3 Definitions, Acronyms, Abbreviations
+- CCTV: Closed-Circuit Television
+- ML: Machine Learning
+- MTBF: Mean Time Between Failures
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system automates surveillance to provide proactive security, allowing for faster reaction to incidents compared to traditional manual monitoring.
+
+2.2 Product Functions (Summary)
+- Real-time video analysis.
+- Anomaly detection (smoking, violence, vandalism).
+- Alert and notification generation.
+- Distributed computing for load balancing.
+- Dashboard for security personnel.
+
+2.3 User Classes and Characteristics
+- Security Personnel: Monitor live feeds and react to alerts.
+- IT Administrators: Manage backend, nodes, and model updates.
+- University Administrators: Utilize the system for campus safety insights.
+- Maintenance Technicians: Oversee CCTV hardware and network.
+
+2.4 Operating Environment
+Integrates with existing university CCTV networks; uses idle PCs for distributed processing.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Dashboard & Monitoring Module
+FR1.1: The system shall display live video feeds and detected anomalies.
+FR1.2: The system shall provide options to view incident clips, analyze data, and generate reports.
+FR1.3: The system shall allow configuration of system parameters and alert thresholds.
+
+3.2 Video Input & Preprocessing Module
+FR2.1: The system shall capture and process real-time video streams.
+FR2.2: The system shall preprocess video data (resizing, normalization).
+FR2.3: The system shall handle multiple camera inputs and synchronize feeds.
+
+3.3 Distributed Computing Module
+FR3.1: The system shall allocate tasks to idle machines for parallel video processing.
+FR3.2: The system shall ensure load balancing across distributed nodes.
+FR3.3: The system shall monitor and optimize computational resource usage.
+
+3.4 Anomaly Detection Module
+FR4.1: The system shall apply fine-tuned pre-trained models to classify anomalies (smoking, vandalism, violence).
+FR4.2: The system shall support real-time analysis of streaming data.
+
+3.5 Alert and Notification Module
+FR5.1: The system shall generate instant notifications upon anomaly detection.
+FR5.2: The system shall send alerts via email or a dedicated dashboard.
+FR5.3: The system shall provide a timestamp and link to the detected video clip.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: The system ought to evaluate incoming video data promptly with little delay.
+NFR2: Available resources must be evenly divided across machines.
+
+4.2 Scalability
+NFR3: The system shall accommodate new video streams by increasing nodes while maintaining performance.
+
+4.3 Reliability
+NFR4: The system shall have low downtime and distribute tasks to other nodes upon failure.
+NFR5: The system needs to ensure maximum uptime at all times.
+
+4.4 Usability
+NFR6: The interface should be simple and intuitive for security personnel.
+NFR7: Alerts should be informative and offer easy interaction.
+
+4.5 Maintainability
+NFR8: The system should allow for updating detection models without prolonged interruptions.
+
+4.6 Compatibility
+NFR9: The system needs to align easily with the current CCTV video setup.
+NFR10: It should accommodate diverse hardware configurations.
+
+4.7 Fault Tolerance
+NFR11: The system needs to react to hardware/software breakdowns so that one failure does not affect overall efficiency.
+NFR12: When a node fails, the system shall re-assign duties to usable nodes.
+
+================================================================================

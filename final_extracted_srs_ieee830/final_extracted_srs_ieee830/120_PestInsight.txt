@@ -1,0 +1,100 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: PestInsight - AI-Driven Pest Detection System for Major Food Crops
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for PestInsight, an AI-driven system designed to detect pests in major food crops (wheat, rice, corn) using an ensemble model (YOLOv8, Faster R-CNN) and provide sustainable pest management advice.
+
+1.2 Scope
+The system focuses on 14 pest types in rice/wheat and 12 in corn using a subset of the IP-102 dataset. It uses a web app (Django, React, MySQL) where users upload images for pest detection, receive severity assessments, generate detailed reports, and interact with a chatbot for assistance.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- YOLO: You Only Look Once
+- R-CNN: Region-based Convolutional Neural Network
+- FAO: Food and Agriculture Organization
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+PestInsight automates pest detection and identification, providing farmers with fast, accurate, and actionable results to enable timely pest management and crop protection.
+
+2.2 Product Functions (Summary)
+- User Registration: Create accounts with unique username/password.
+- Image Upload for Pest Detection: Upload and enhance images, detect and count pests.
+- Generate Diagnosis Report: Compile pest types, counts, and severity into a downloadable report.
+- View Diagnosis History: Access previously generated reports.
+- Chat with Chatbot: Get assistance with pest-related queries and platform usage.
+- Display Pest Control Instructions: Provide pest-specific management tips.
+- Assess Pest Severity: Grade infestation as low, moderate, or severe.
+- User Profile Customization: Update personal information.
+
+2.3 User Classes and Characteristics
+- Farmer: Primary user who uploads images, receives pest identification, diagnosis, and management tips.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Registration
+FR1: The system shall allow users to register with a unique username, password, and personal information.
+FR2: The system shall validate the personal information provided.
+FR3: The system shall ask the user to re-enter details if the username is taken.
+FR4: The system shall require password complexity rules.
+
+3.2 Image Upload for Pest Detection
+FR1: The system shall allow logged-in users to upload images of crops suspected of pests.
+FR2: The system shall enhance the uploaded image for better pest recognition.
+FR3: The system shall employ pest identification models (YOLOv8, R-CNN) to classify pests and provide counts.
+FR4: The system shall support image formats like PNG and JPEG.
+
+3.3 Generate Diagnosis Report
+FR1: The system shall allow users to generate a detailed diagnostic report based on pest detection results.
+FR2: The system shall compile pest types, counts, and severity levels into a report.
+FR3: The system shall generate reports within 10 seconds.
+
+3.4 View Diagnosis History
+FR1: The system shall allow users to view previously generated diagnosis reports.
+FR2: The system shall retrieve and display all previous diagnosis results in the "History" section within 5 seconds.
+
+3.5 Chat with Chatbot
+FR1: The system shall include a chatbot to assist users with queries.
+FR2: The chatbot shall respond to user queries within 5 seconds.
+FR3: The chatbot shall ask for clarification if it does not understand the query.
+
+3.6 Display Pest Control Instructions
+FR1: The system shall display pest control instructions after pests are identified.
+FR2: The system shall retrieve instructions from a database.
+
+3.7 Image Enhancement
+FR1: The system shall upload photos after improving quality for accurate pest analysis.
+FR2: The image enhancement process shall not exceed 10 seconds.
+
+3.8 Assess Pest Intensity
+FR1: The system shall grade infestation intensity as low, moderate, or severe based on pest types and count.
+FR2: The system shall grade intensity within 10 seconds of pest detection.
+
+3.9 User Profile Customization
+FR1: The system shall allow users to update and change personal information.
+FR2: The system shall validate updated profile information before saving.
+FR3: The system shall update profile information securely in real time.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall log error messages with details for further analysis.
+NFR2: Error detection mechanisms will be provided to monitor system health and report failures to administrators.
+
+4.2 Usability
+NFR3: The application shall allow users to access past pest detection results through one interaction from the dashboard.
+NFR4: The system shall offer an intuitive interface with clear buttons and instructions.
+NFR5: The system shall require no more than three steps for uploading an image and getting pest detection.
+NFR6: The system shall ensure accessibility for people with disabilities.
+
+4.3 Performance
+NFR7: The application shall upload images and respond with pest detection results within 10 seconds.
+NFR8: 95% of generated reports shall be downloadable within 10 seconds of a user’s request.
+NFR9: The system shall maintain fast data retrieval for prior reports.
+
+4.4 Security
+NFR10: The system will implement role-based access control to prevent exposure of sensitive data.
+NFR11: The system shall undergo regular security audits and vulnerability assessments every 6 months.
+
+================================================================================

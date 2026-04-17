@@ -1,0 +1,64 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: EDIConnect - EDI File Mapping and Conversion Tool
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Companies using EDI (Electronic Data Interchange) must convert data into their own EDI standard and map that data into ERP systems. These mappings take significant time and human energy. The diversity of EDI standards and custom formats creates significant challenges for inter-company communication.
+
+1.2 Scope
+EDIConnect translates EDI data from one international standard or custom standard to another, and creates customizable mappings for EDI data into specific ERP system formats. Features include EDI standard identification, data preprocessing, standard-to-standard mapping, custom EDI-to-standard mapping, and EDI-to-ERP mapping.
+
+1.3 Definitions, Acronyms, Abbreviations
+- EDI: Electronic Data Interchange
+- ERP: Enterprise Resource Planning
+- NLP: Natural Language Processing
+- LLM: Large Language Model
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+EDIConnect reduces hindrances caused by differences in EDI standards and ERP systems, making it convenient for companies to apprehend messages and generate mappings for entering into respective ERP systems.
+
+2.2 Product Functions (Summary)
+- Identify EDI standard or custom EDI file
+- Data preprocessing of EDI files
+- Generate mappings across standards
+- Generate mappings from custom EDI to EDI standard
+- Generate mappings for EDI file to user's ERP system accepted format
+- User-friendly interface
+
+2.3 User Classes and Characteristics
+- Business Analytics: Manage business documents, need seamless system to map data
+- IT Administrators: Maintain, configure, troubleshoot system
+- Logistics Managers: Coordinate with suppliers, transportation providers, internal teams
+- Finance Department Employees: Ensure accurate exchange of transactional data
+- Warehouse Managers: Precisely describe information being exchanged
+- End Users: Non-technical employees interacting with EDI documents
+
+2.4 Operating Environment
+Web application, cloud storage, MongoDB.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 - EDI to EDI Mapping
+FR1.1: UI shall allow users to input EDI file to generate mappings between different EDI standards.
+FR1.2: UI shall ask user to enter mapping demand (EDI to EDI, non-EDI to EDI, or EDI to ERP).
+FR1.3: UI shall ask for standards for converting files from and to.
+FR1.4: If EDI file belongs to standards covered in scope, system shall give examples of standard-to-standard mappings based on predefined templates.
+FR1.5: System shall automatically detect standard and pre-process data.
+FR1.6: System shall start mapping from input standard to standard required by user.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: System shall generate clear error messages for upload issues or unsupported mappings.
+NFR2: System shall allow users to manually correct or add data into generated final mappings.
+
+4.2 Usability
+NFR3: Intuitive and user-friendly interface for input and visualization.
+NFR4: Display file entered side-by-side with mapping result.
+NFR5: Enable manual additions for missing information.
+
+4.3 Security
+NFR6: System shall secure user credentials for safe login and signup.
+
+================================================================================

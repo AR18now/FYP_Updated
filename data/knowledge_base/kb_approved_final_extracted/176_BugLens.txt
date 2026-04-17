@@ -1,0 +1,77 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: BugLens - Automated Game Bug Detection and Classification from Reviews
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for BugLens, a system that uses AI to streamline bug identification and reporting for games on the Steam platform, automating the process of review collection and classification.
+
+1.2 Scope
+To develop a system that accepts a Steam game link or a CSV file of reviews, scrapes or processes the data, uses Transformer-based AI models to identify and classify bugs into 16 predefined categories, and generates detailed reports with visualizations. The system includes user profiles, subscription plans, and an admin module.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- CSV: Comma-Separated Values
+- API: Application Programming Interface
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+BugLens is an automated analysis platform that helps game developers efficiently identify and prioritize bugs by processing user reviews through advanced machine learning models.
+
+2.2 Product Functions (Summary)
+- Dataset gathering and labeling (scraping Steam reviews for early access games, labeling by bug categories)
+- Model fine-tuning (sentiment analysis, bug identification, classification into 16 categories)
+- Report generation (data visualization, summaries)
+- User Profile Management and Admin Module (subscription plans, report history, user management)
+
+2.3 User Classes and Characteristics
+- Admin: Manages users, system statistics, and user feedback.
+- Users: Gamers or developers who want to know about bugs in specific games.
+- FYP Team: Responsible for fine-tuning models, platform development, and deployment/maintenance.
+
+2.4 Operating Environment
+Web application with backend AI processing.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Dataset Gathering and Labeling
+FR1.1: The team shall manually scrape early access game reviews from Steam.
+FR1.2: The team shall preprocess the data.
+FR1.3: The team shall label the reviews into 16 predefined categories for semi-supervised learning.
+
+3.2 Model Fine Tuning
+FR2.1: The system shall perform initial sentiment analysis of reviews, classifying them as positive or negative.
+FR2.2: The system shall identify whether the negative reviews have bugs or not.
+FR2.3: The system shall binary classify the reviews into separate predefined categories.
+
+3.3 Data Visualization and Report Generation
+FR3.1: The system shall enable a user to input a link to a specific game on Steam to generate a bug report.
+FR3.2: The system shall provide the user with the option to upload a CSV file containing game reviews.
+FR3.3: The system shall enable users to generate reports having classification of reviews in different categories.
+FR3.4: The system shall enable users to view data visualizations related to sentiment analysis.
+FR3.5: The system shall enable users to view data visualizations related to bug identification.
+FR3.6: The system shall enable users to export/download reports in multiple formats (e.g., PDF or Word).
+
+3.4 User Profile Management and Admin Module
+FR4.1: The system shall allow users to view and update their personal details securely.
+FR4.2: The system shall provide users with access to their previously generated reports.
+FR4.3: The system shall allow users to manage their subscription plans.
+FR4.4: The system shall allow the admin to manage user accounts (deactivate/reactivate).
+FR4.5: The system shall provide the admin with access to overall system statistics.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Security Requirements
+NFR1: The system will use AES-256 encryption for storing user data.
+
+4.2 Performance Requirements
+NFR2: The system shall process, classify reviews, and generate a report within a span of 5-10 minutes.
+
+4.3 Compatibility Requirements
+NFR3: The system shall support file format like CSV for upload.
+NFR4: The system shall be able to scrape data from STEAM directly from the link.
+
+4.4 Usability Requirements
+NFR5: The UI shall be evaluated using Miller's principle, ensuring it is Minimal, Intuitive, Consistent, Observable, and Learnable.
+
+================================================================================

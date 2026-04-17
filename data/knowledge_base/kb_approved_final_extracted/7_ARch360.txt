@@ -1,0 +1,86 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ARch360
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document officially presents ARch360, a new augmented reality solution aimed at complementing the architectural design process, facilitating communication between clients and architects through immersive visualizations in 3D for construction projects.
+
+1.2 Scope
+ARch360 uses AR technology (Unity and AI) to turn conventional architectural drawings into 1:1 scale interactive 3D holograms. Clients can navigate virtual representations of future homes or commercial spaces, interact with designs (wall colors, tile designs), and reduce uncertainty about design choices.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AR: Augmented Reality
+- AI: Artificial Intelligence
+- CAD: Computer-Aided Design
+- FPS: Frames Per Second
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The application bridges communication gaps between clients and professionals, reducing misunderstandings and costly revisions during construction phases.
+
+2.2 Product Functions (Summary)
+- Building instantiation from 3D models (AutoCAD files)
+- Area analysis using ARCore
+- Wall and floor customization
+- Virtual building tours with first-person controller
+- AI-powered design suggestions
+
+2.3 User Classes and Characteristics
+- Customers: Visualize future homes/spaces in AR, customize design elements
+- Architects: Showcase designs, make on-the-spot modifications
+- Interior Designers: Visualize and personalize interior features
+- Project Managers: Monitor project progress, track timelines and budgets
+
+2.4 Operating Environment
+Android mobile application, Unity development platform.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Building Instantiation Module
+FR1.1: The system shall import 3D models (.FBX, .OBJ, AutoCAD files) into AR environment.
+FR1.2: The system shall provide utilities to orient and place virtual models accurately in real space.
+FR1.3: The system shall automatically scale and align 3D models to real-world dimensions.
+
+3.2 Area Analysis Module
+FR2.1: The system shall use ARCore to scan user's environment, capturing spatial data.
+FR2.2: The system shall build a complete 3D map of scanned area for model integration.
+FR2.3: The system shall provide functionalities to measure distances and areas in scanned environment.
+
+3.3 Customization/Decoration Module
+FR3.1: The system shall allow users to select different wall colors for the 3D model.
+FR3.2: The system shall enable users to select tile designs and styles for floors.
+FR3.3: The system shall show selected customizations in real-time on the 3D model.
+
+3.4 Building Tour Module
+FR4.1: The system shall implement an FPS controller for users to move inside the virtual building.
+FR4.2: The system shall provide tools for navigation among floors and rooms.
+FR4.3: The system shall embed an overview map for navigation in large buildings.
+
+3.5 AI Expert Module
+FR5.1: The system shall use open-source tools for AI-driven design suggestions (wall colors, tile schemes).
+FR5.2: The system shall employ pre-trained language models for recommendations based on user preferences.
+FR5.3: The system shall enable users to accept, modify, or reject AI suggestions.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: Uptime ≥ 99.9%.
+NFR2: System shall automatically recover from crashes within 10 seconds, saving progress.
+NFR3: No data loss shall occur in case of system crashes.
+
+4.2 Usability
+NFR4: System shall be simple enough for users to perform simple tasks easily.
+NFR5: System shall resolve user errors with clear, user-friendly interface.
+NFR6: System shall be available 24/7.
+NFR7: Users shall upload CAD files and visualize in AR within two interactions.
+
+4.3 Performance
+NFR8: AR models shall load within 7-8 seconds on mobile devices, 5 seconds on desktops.
+NFR9: Frame rate shall be ≥ 30 FPS on both mobile and desktop.
+
+4.4 Security
+NFR10: Multi-factor authentication shall be required for high-privilege users.
+NFR11: All user data shall be encrypted in transit (TLS) and at rest (AES-256).
+NFR12: The system shall resist unauthorized access and maintain login attempt logs.
+
+================================================================================

@@ -1,0 +1,135 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: CyberQuest - VR-Based Cybersecurity Awareness Game
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for CyberQuest, a 3D game-based intervention designed to increase cybersecurity awareness among teenagers and young adults in the Indo-Pak region by simulating realistic scenarios and teaching preventive measures.
+
+1.2 Scope
+To design, develop, and implement a 3D game (with VR integration) that simulates real-world locations (homes, universities, restaurants) and cyberattacks (phishing, social engineering, malware). The game features a social life storyline, reputation and mood bar system, in-game economy (coins), and educational content. It covers common cyberattacks but excludes others like DDoS and SQL injection.
+
+1.3 Definitions, Acronyms, Abbreviations
+- VR: Virtual Reality
+- NPC: Non-Player Character
+- UI: User Interface
+- UX: User Experience
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+CyberQuest is an immersive educational game that uses VR and interactive storytelling to teach cybersecurity concepts, focusing on player decision-making and its consequences within a simulated daily life.
+
+2.2 Product Functions (Summary)
+- Game Mechanics (player movement, object interaction)
+- Game Elements (visual design of environments, game objects)
+- Assets Creation (environment, characters)
+- Game Scenarios (storylines, narrative building, scenario integration)
+- UI/UX (intuitive menus, game flow objects)
+- VR Integration (VR-ready controls, optimization)
+
+2.3 User Classes and Characteristics
+- Students: Primary users (16-25) who will face cybersecurity threats in virtual real-world locations.
+- Faculty Members: Cybersecurity professionals or experts who might use the game for training or evaluation.
+- Cybersecurity Experts: Evaluate the game's accuracy and effectiveness in teaching concepts; may provide feedback.
+- Game Administrator: Maintains the game, updates scenarios, and ensures VR platform functionality.
+
+2.4 Operating Environment
+PC game optimized for VR platforms, including Oculus Quest 2.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Interface (UI) & User Experience (UX)
+FR1.1: The system shall provide a simple, intuitive, and consistent UI for navigating menus, settings, and tutorials.
+FR1.2: The game shall offer real-time visual feedback in response to player actions.
+FR1.3: The game shall allow the player to view basic information about their overall performance, level, and scores.
+FR1.4: The system shall include a "Mood Bar" reflecting the player's social status with two states: "happy" and "dead inside".
+FR1.5: The system shall guide players through challenges with contextual prompts.
+FR1.6: The audio subsystem shall adjust ambient sounds and music based on player interactions.
+
+3.2 Virtual Reality Integration
+FR2.1: The system shall be compatible with VR headsets, including Oculus.
+FR2.2: VR environments shall simulate real-world locations (buses, universities, restaurants).
+FR2.3: The system shall allow players to interact with NPCs through dialogue and decision-making.
+FR2.4: Player decisions in virtual environments shall dynamically change the scenario and storyline.
+
+3.3 Cybersecurity Attack Simulation
+FR3.1: The game shall simulate cyberattacks (phishing, malware, ransomware) in daily life scenarios.
+FR3.2: The system shall provide educational content for each simulated attack, explaining its nature and preventive measures.
+FR3.3: After a successful attack, the system shall provide players with damage control strategies.
+
+3.4 Reputation & Social Points System
+FR4.1: The system shall adjust the player's reputation based on their responses to social interactions and cyberattacks.
+FR4.2: The game shall reward positive actions with social points and in-game currency (coins) and penalize negative actions.
+FR4.3: The "Mood Bar" shall visually reflect the player's accumulated social points.
+FR4.4: Losing all social points shall result in failure of the current level.
+
+3.5 Educational Content & Tutorials
+FR5.1: The game shall provide real-time feedback and hints to reinforce proper responses to cyberattacks.
+FR5.2: After an attack, the system shall give preventive tips to avoid similar attacks in future levels.
+
+3.6 Game Progression & Levels
+FR6.1: The game shall consist of multiple levels, each representing a different phase of life (e.g., university, early career).
+FR6.2: Players shall unlock new virtual environments by completing tasks and reaching milestones.
+FR6.3: Each level shall present increasingly complex challenges requiring application of cybersecurity knowledge.
+
+3.7 Coins & Rewards System
+FR7.1: The game shall reward players with coins for making good decisions (e.g., protecting personal data, avoiding attacks).
+FR7.2: Players shall use earned coins to unlock in-game items or progress.
+FR7.3: The system shall provide visual and auditory feedback when coins are earned.
+
+3.8 Decision-Making & Scenario Selection
+FR8.1: The system shall present players with decisions that impact the game's storyline and future challenges.
+FR8.2: The outcome of these decisions shall dynamically alter the next set of challenges.
+FR8.3: Player decisions shall influence the behavior of NPCs.
+
+3.9 Non-Player Characters (NPCs) Interaction
+FR9.1: NPCs shall exhibit different behaviors based on the player's decisions.
+FR9.2: NPCs shall act as attackers, mentors, or allies depending on the context.
+FR9.3: The player shall interact with NPCs through dialogues and decision points.
+
+3.10 Task & Milestone Management
+FR10.1: The game shall feature milestones like reaching academic or personal goals.
+FR10.2: The system shall present challenges and tasks in each level that must be completed to move forward.
+FR10.3: Each task must integrate a learning component related to cybersecurity.
+
+3.11 Level Failure & Restart Mechanism
+FR11.1: Players shall lose a level if they reach the "dead inside" state on the mood bar.
+FR11.2: The game shall provide checkpoints within levels.
+FR11.3: The system shall offer tips or guidance when players fail a level.
+
+3.12 Daily Life Simulation
+FR12.1: The game shall simulate daily activities (e.g., traveling on a bus, attending classes).
+FR12.2: Daily activities must be interwoven with cybersecurity education (e.g., using free Wi-Fi safely).
+
+3.13 Level Save Progression Management
+FR13.1: The game shall automatically save player progress at predefined checkpoints.
+FR13.2: Players shall have the option to manually save their current progress.
+FR13.3: The game shall allow players to load their saved progress.
+
+3.14 Performance
+FR14.1: The player shall be able to view their current performance.
+FR14.2: The player shall be able to interact with the updated gaming based on their performance.
+
+3.15 Ending
+FR15.1: The game shall end once the player successfully reaches their office milestone.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The game shall recover from unexpected crashes within 10 seconds and restore progress to the last saved checkpoint.
+
+4.2 Usability Requirements
+NFR2: The VR system shall allow users to easily navigate menus using simple hand gestures or VR controllers.
+NFR3: The game must be simple and have a user-friendly interactive interface.
+NFR4: The game shall provide on-screen prompts to guide players.
+NFR5: The game must display error messages related to gameplay.
+NFR6: The game must allow users to pause, save, and resume at any time.
+
+4.3 Performance Requirements
+NFR7: The game must load scenarios within 10 seconds.
+NFR8: System shall be responsive towards the user's actions.
+NFR9: The system shall ensure that all in-game data processing is completed within 1 second.
+
+4.4 Security Requirements
+NFR10: Profile of one user shall not be accessed by any other user.
+
+================================================================================

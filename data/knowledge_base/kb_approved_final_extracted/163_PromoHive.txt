@@ -1,0 +1,100 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: PromoHive - AI-Powered Promotion Engine for E-commerce
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document serves as a mid-evaluation report for PromoHive, an AI-powered promotion engine developed in collaboration with UpStart Commerce and KDD Lab. It provides insights into the scope, problem statement, and progress.
+
+1.2 Scope
+To develop a promotion engine that helps sellers create, manage, and automate promotional offers for different customer segments. Key features include: a promotional calendar, customer segmentation, selection of promotion type, calculation of optimal discount value, automated emails, and monitoring/reporting dashboards.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- ML: Machine Learning
+- API: Application Programming Interface
+- MACH: Microservices, API-first, Cloud-native, Headless
+- A/B Testing: Comparing two versions to see which performs better
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+PromoHive is a headless, AI-driven engine that integrates with e-commerce platforms to automate the creation and execution of personalized promotions based on customer segmentation and behavioral analysis.
+
+2.2 Product Functions (Summary)
+- AI-powered promotional calendar generation
+- Customer segmentation based on purchase history and behavior
+- Dynamic discount type classification (selecting the right qualifier)
+- Dynamic discount value calculation (optimizing the amount)
+- Automated promotion execution
+- Email campaigns for personalized promotions
+- Dashboard for monitoring promotion performance
+- Offline A/B testing on existing data
+- Marketer approval/rejection workflow for promotions
+
+2.3 User Classes and Characteristics
+- Marketers and Retailers: Review and approve promotions, access dashboards for performance analysis.
+- Development Team: Handles development, deployment, and maintenance of the engine.
+- Customers: End users who receive personalized promotions.
+- System Administrators: Responsible for overall system management.
+
+2.4 Operating Environment
+Cloud-native system designed for integration with various e-commerce platforms via APIs.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Promotion Creation
+FR1.1: The system shall analyze available data and generate promotions specifically for each customer segment.
+FR1.2: The system shall create a visually appealing and easy-to-understand promotional calendar showing promotion type and value for each segment.
+FR1.3: The system shall select the discount type and optimize the discount value by considering customer preferences, behavior, and purchasing patterns.
+
+3.2 Automated Emails and Analytics
+FR2.1: The system shall be able to send promotional emails automatically to the right customers based on the generated, approved promotional calendar.
+FR2.2: The system shall provide an insightful dashboard about each rolled-out promotion for marketer decision-making.
+
+3.3 System Integration and Deployment
+FR3.1: The system shall provide RESTful APIs for easy integration with numerous e-commerce platforms.
+FR3.2: The system shall provide a flexible engine, handling input data of different formats.
+FR3.3: The system shall be scalable, handling input data of different sizes/volumes.
+
+3.4 Testing and Optimization
+FR4.1: The system shall have the option for offline A/B testing, allowing users to run simulations on existing data before rollout.
+FR4.2: The system shall make sure all blocks/functions work as expected before deployment.
+FR4.3: The system shall allocate room for feedback-driven fine-tuning of AI models.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The system shall constantly maintain an uptime percentage of 99.5% and ensure MTBF is minimally 5 minutes.
+NFR2: The system shall automatically detect failures and recover with 0% data loss.
+NFR3: The system shall maintain logs of all critical processes, notifying the dev team within 3 minutes of a failure.
+
+4.2 Usability Requirements
+NFR4: The system shall allow the marketer to approve/disapprove any promotion with just a click.
+NFR5: The system shall allow the marketer to change promotion content within 5 minutes.
+NFR6: The system shall display KPIs in a user-friendly manner, understandable in under 30 seconds.
+NFR7: The system shall provide guides so a new user can be proficient within 1 hour of training.
+
+4.3 Performance Requirements
+NFR8: The system shall process and store generated promotions in the database within 5 seconds.
+NFR9: The system shall store changes made to promotions by marketers within 2 seconds of clicking 'save'.
+NFR10: The email promotion system shall be able to push 50,000 emails within 10 minutes.
+NFR11: The customer segmentation module shall process up to 10 million records and return results in under 8 minutes.
+
+4.4 Security Requirements
+NFR12: Data in transit and at rest shall be encrypted using standard procedures (e.g., AES-256).
+NFR13: The system shall use multi-factor authentication for marketers accessing sensitive information.
+NFR14: The system shall maintain logs for everyone using it for the past 1 year.
+
+4.5 Scalability Requirements
+NFR15: The system shall be able to handle input data of up to 1 million records/entries without performance degradation.
+
+4.6 Maintainability Requirements
+NFR16: The system shall be designed so new modules can be added or updates made without requiring a complete restart.
+NFR17: The code shall follow proper commenting procedures so other developers can contribute easily with an onboarding time of 3 days.
+
+4.7 MACH Principles Requirements
+NFR18 (Modularity): The system shall be divided into modules for easy addition/removal/updating.
+NFR19 (API First): The system shall make use of well-documented RESTful APIs.
+NFR20 (Cloud Native): The system shall be deployed on the cloud for easy scaling.
+NFR21 (Headless): The system's backend implementation shall be decoupled for compatibility with multiple interfaces.
+
+================================================================================

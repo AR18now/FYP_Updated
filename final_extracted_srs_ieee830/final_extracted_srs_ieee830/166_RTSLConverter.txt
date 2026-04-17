@@ -1,0 +1,102 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SIGNFUSION (RTSLConverter) - Real-Time Speech-to-Sign Language Converter
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document describes the requirements for SIGNFUSION, a Chrome extension that translates speech and text into animated sign language in real-time for multimedia content.
+
+1.2 Scope
+To develop a real-time software solution that converts speech and text into animated American Sign Language (ASL) for video content, primarily on YouTube. The system will be delivered as a Chrome extension, featuring: speech-to-text conversion, text-to-gesture mapping, animation rendering, avatar customization, and low-latency performance.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ASL: American Sign Language
+- STT: Speech-to-Text
+- API: Application Programming Interface
+- MTBF: Mean Time Between Failures
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+SIGNFUSION is a client-side Chrome extension that processes audio from videos and overlays animated ASL gestures, bridging the accessibility gap for the deaf and hearing-impaired community.
+
+2.2 Product Functions (Summary)
+- Speech-to-Text (STT) conversion
+- Text-to-gesture mapping
+- Animation rendering (with avatar customization)
+- Backend communication for data retrieval/storage
+- Chrome Extension API for audio capture and display
+- Dataset research for ASL gestures
+- Testing and debugging
+- Deployment
+
+2.3 User Classes and Characteristics
+- General User: Deaf or hearing-impaired individuals using the extension to view sign language translations.
+- Content Creator: Individuals who want to ensure their video content is accessible; may test the translation accuracy.
+- Administrators: Manage the backend system, update gesture datasets, and monitor system performance.
+- Testers: Ensure reliability and functionality across different environments.
+
+2.4 Operating Environment
+Chrome browser extension.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Speech-to-Text (STT) Module
+FR1.1: The system shall convert speech from video content into text in real-time.
+FR1.2: The system shall support various speech patterns, accents, and tones.
+FR1.3: The system shall handle background noise and filter out non-speech audio.
+
+3.2 Text-to-Gesture Mapping Module
+FR2.1: The system shall map recognized text to appropriate ASL gestures with high accuracy.
+FR2.2: The system shall support a comprehensive database of ASL signs.
+FR2.3: The system shall ensure gestures align with text and are contextually accurate.
+
+3.3 Animation Module
+FR3.1: The system shall generate sign language animations in near real-time.
+FR3.2: The system shall ensure animations are smooth and natural.
+FR3.3: The system shall support avatar customization, allowing users to personalize the appearance.
+
+3.4 Backend Communication Module
+FR4.1: The system shall facilitate real-time communication between the Chrome extension and backend servers.
+FR4.2: The system shall store and retrieve gesture data for accurate animations.
+FR4.3: The system shall ensure low-latency data transmission.
+
+3.5 Chrome Extension API Module
+FR5.1: The system shall capture audio input from video content using the Chrome Extension API.
+FR5.2: The system shall process audio and video input in real-time.
+FR5.3: The system shall provide an interface for users to enable/disable the extension's features.
+
+3.6 Dataset Research Module
+FR6.1: The system shall collect and maintain a dataset of ASL gestures.
+FR6.2: The system shall preprocess the ASL dataset for compatibility.
+FR6.3: The system shall continuously update and improve the dataset.
+
+3.7 Testing and Debugging Module
+FR7.1: The system shall be tested in multiple environments.
+FR7.2: The system shall identify and resolve issues related to transcription, gesture mapping, and animation.
+
+3.8 Deployment Module
+FR8.1: The system shall package the Chrome extension for easy installation.
+FR8.2: The system shall provide an intuitive setup and configuration process.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The system shall have an MTBF of at least 30 days.
+NFR2: In case of failure, the system shall recover within 5 minutes.
+NFR3: The system shall log all failures and performance issues.
+
+4.2 Usability Requirements
+NFR4: The user interface shall be simple and intuitive, allowing users to enable/disable features with a single click.
+NFR5: The system shall allow users to customize the avatar.
+NFR6: The system shall offer clear instructions and error messages.
+
+4.3 Performance Requirements
+NFR7: The system shall process speech-to-text and gesture mapping within 500 milliseconds.
+NFR8: The system shall support simultaneous translation of up to 5 video streams.
+NFR9: 95% of sign language animations shall be rendered without noticeable lag.
+
+4.4 Security Requirements
+NFR10: The system shall ensure no personal user data is collected or stored.
+NFR11: The system shall prevent unauthorized access to the backend data storage.
+NFR12: The system shall encrypt all communication between the extension and backend server.
+
+================================================================================

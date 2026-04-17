@@ -1,0 +1,67 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: WebCodeGen - LLM-Based Automatic Code Generation for Web Apps and APIs
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the research problem and proposed approach for WebCodeGen, a project focused on automating template and code generation for web applications and APIs using class diagrams.
+
+1.2 Scope
+The research aims to develop an automated tool that generates templates and code for web applications and APIs. It uses synthetically generated XML and template datasets as a case study.
+
+1.3 Definitions, Acronyms, Abbreviations
+- LLM: Large Language Model
+- CRUD: Create, Read, Update, Delete
+- ORM: Object-Relational Mapping
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The research addresses the inefficiency and inconsistency of manual code and template generation, which slows down development and can compromise quality.
+
+2.2 Product Functions (Summary)
+- Class Diagram drawing interface.
+- Class Diagram parsing to XML.
+- Template Generation Module.
+- Code Generation Module.
+- Testing and Validation.
+
+2.3 User Classes and Characteristics
+- Developers: End-users who will use the tool to automate code generation.
+
+2.4 Operating Environment
+Web-based tool.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Class Diagram Drawing Interface
+FR1.1: The system shall provide a facility to draw UML diagrams, mainly class diagrams, within the application.
+FR1.2: The drawing feature shall provide elements such as relationships, classes, functions, and attributes.
+
+3.2 Class Diagram Parsing
+FR2.1: The provided diagram shall be parsed into XML format.
+
+3.3 Template Generation Module
+FR3.1: Based on the XML input, the system shall generate foundation code for the web application and API.
+FR3.2: The system shall generate model functions, classes, controller actions, views, and API endpoints.
+FR3.3: The system shall allow users to provide their own templates.
+
+3.4 Code Generation Module
+FR4.1: The system shall generate actual runnable code and main business logic based on user requirements.
+
+3.5 Testing and Validation
+FR5.1: The system shall test and validate the generated code for both templates and business logic.
+FR5.2: The system shall automatically check generated templates for consistency, correctness, and adherence to coding standards.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Accuracy
+NFR1: The system shall parse class diagrams and generate code with high accuracy.
+NFR2: The system's performance will be evaluated using count of missing classes/functions, F1 score, and accuracy.
+
+4.2 Efficiency
+NFR3: The system shall significantly reduce the time and effort required to generate consistent and high-quality templates.
+
+4.3 Usability
+NFR4: The system shall provide an intuitive interface for drawing class diagrams and generating code.
+
+================================================================================

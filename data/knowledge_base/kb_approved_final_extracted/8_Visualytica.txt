@@ -1,0 +1,87 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Visualytica
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the development of Visualytica, a web platform for simplified graph visualization, reducing technical complexity and improving interactivity for users to analyze large datasets and extract meaningful insights.
+
+1.2 Scope
+Visualytica provides a web platform for visual analysis of graph databases, allowing users to build sophisticated graph visualizations with an intuitive interface. It includes a recommendation engine suggesting appropriate visualizations based on graph structure (e.g., trees, force-directed graphs), interactive navigation, dashboard capabilities, and a domain-specific chatbot.
+
+1.3 Definitions, Acronyms, Abbreviations
+- DAG: Directed Acyclic Graph
+- CSV: Comma-Separated Values
+- JSON: JavaScript Object Notation
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Visualytica simplifies graph visualization by reducing technical complexity and improving interactivity, enabling users to analyze large datasets easily.
+
+2.2 Product Functions (Summary)
+- Graph data input (Adjacency Matrix, Edge List, Adjacency List)
+- Graph visualization (directed, undirected)
+- Interactive graph navigation (zoom, pan, click nodes)
+- Graph analysis (shortest paths, node centrality)
+- Dashboard design with multiple chart views
+- Graph export (PNG, SVG)
+- Domain-specific chatbot for visualization concepts
+
+2.3 User Classes and Characteristics
+- Developers: Build and maintain application, need detailed documentation
+- Project Managers: Oversee progress, need high-level overviews
+- Marketing Staff: Promote application, need understanding of features
+- Users: Primary audience for graph creation/visualization
+- Testers: Check for bugs, ensure functionality
+- FYP Panel: Assess quality, innovation, and usability
+
+2.4 Operating Environment
+Web platform, compatible with major browsers (Chrome, Firefox, Edge).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Data Upload and Input Formats
+FR1.1: The system shall support Adjacency Matrix, Edge List, and Adjacency List formats.
+FR1.2: Users shall upload datasets via interface supporting CSV and JSON files.
+FR1.3: The system shall validate uploaded dataset structure for format compliance.
+FR1.4: Users shall receive error messages for invalid file formats.
+
+3.2 Data Visualization
+FR2.1: The system shall visualize graph data in directed and undirected formats.
+FR2.2: Users shall interact with graphs (zooming, panning, clicking nodes).
+FR2.3: The system shall allow users to apply filters based on node/edge attributes.
+
+3.3 Dashboarding
+FR3.1: The system shall provide a dashboard with key metrics and statistics.
+FR3.2: The dashboard shall display graphs, charts, and tables representing graph properties.
+FR3.3: Users shall customize dashboard by selecting displayed metrics and visualizations.
+FR3.4: The dashboard shall automatically update in real-time with new data or changes.
+
+3.4 Module 1 - Web Design/Plots/Area Graph
+FR4.1: The system shall implement web interface and backend data processing for input validation and analysis (tree, DAG, simple graph detection).
+FR4.2: The system shall generate and customize all graph types (trees, DAGs, other structures).
+
+3.5 Module 2 - End-to-End Dynamic Dashboard
+FR5.1: The system shall design dynamic dashboards for layout and presentation customization.
+FR5.2: The system shall perform final frontend and backend integration with comprehensive testing.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: System uptime ≥ 99.5%.
+NFR2: System shall automatically save user work and allow recovery within 30 seconds after failure.
+
+4.2 Usability
+NFR3: Users shall generate a graph from data within 3 steps.
+NFR4: Tooltips and tutorials shall explain graphing options.
+
+4.3 Performance
+NFR5: Graph visualization shall load within 5 seconds for datasets up to 10,000 nodes/edges.
+NFR6: Users shall zoom, pan, and interact without noticeable lag.
+
+4.4 Security
+NFR7: All user data shall be encrypted during storage and transmission.
+NFR8: User authentication shall be required for accessing saved graphs/dashboards.
+NFR9: Unsuccessful access attempts shall be logged and administrators alerted.
+
+================================================================================

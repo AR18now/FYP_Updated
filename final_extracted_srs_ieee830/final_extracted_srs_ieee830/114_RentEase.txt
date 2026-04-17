@@ -1,0 +1,108 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: RentEase - Rent Anything Safely!
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for the RentEase mobile application, a secure and efficient platform for renting, co-owning, and managing products using blockchain and machine learning.
+
+1.2 Scope
+The platform provides a secure, blockchain-enabled solution for product rentals and ownership validation. Features include user management, product listings, multi-step identity verification (CNIC forensics, ML), real-time communication and tracking, shared ownership, blockchain-based product validation, an assistant chatbot, and price negotiation.
+
+1.3 Definitions, Acronyms, Abbreviations
+- CNIC: Computerized National Identity Card
+- ML: Machine Learning
+- RAG: Retrieval-Augmented Generation
+- NLP: Natural Language Processing
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+RentEase is a mobile application that bridges the gap in the current market for a secure, transparent, and trustable renting platform by leveraging advanced technologies.
+
+2.2 Product Functions (Summary)
+- User Management: Create, modify, delete profiles, manage ratings.
+- Product Listings: List products for rent with predefined prices and durations.
+- Identity Verification: Multi-step verification using CNIC forensics and blockchain.
+- Real-Time Communication and Tracking: Allow communication and track product exchanges.
+- Shared Ownership: Enable multiple users to co-own products.
+- Blockchain-Based Product Validation: Validate product ownership with digital tokens.
+- Assistant Chatbot: Assist users with FAQs.
+
+2.3 User Classes and Characteristics
+- Renter: Uses the app to rent products short-term.
+- Owner: Lists products for rent, manages availability.
+- Administrator: Manages the blockchain system, verifies identities, resolves disputes.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Management
+FR2.1.1: The system shall allow users to create profiles using a valid email and password.
+FR2.1.2: The system shall allow users to update personal information (name, contact, address).
+FR2.1.3: The system shall allow users to permanently delete their profiles.
+FR2.1.4: The system shall allow users to leave ratings and reviews for transactions.
+FR2.1.5: The system shall allow users to reset passwords via secure email verification.
+
+3.2 Product Listings
+FR2.2.1: The system shall allow users to add new product listings (title, description, price, duration, condition).
+FR2.2.2: The system shall allow users to modify existing product details.
+FR2.2.3: The system shall allow users to remove their product listings.
+FR2.2.4: The system shall allow users to upload multiple images per listing.
+FR2.2.5: The system shall allow users to search for products based on categories, price, and location.
+
+3.3 Identity Verification
+FR2.3.1: The system shall verify user identities by scanning and analyzing CNIC documents.
+FR2.3.2: The system shall utilize facial recognition to match user faces with their CNIC photos.
+FR2.3.3: The system shall securely store verified identities in blockchain wallets.
+FR2.3.4: The system shall provide users with access to their verification status history.
+FR2.3.5: The system shall complete the identity verification process within 5 minutes.
+
+3.4 Real-Time Communication
+FR2.4.1: The system shall allow renters and owners to initiate and maintain real-time chat conversations.
+FR2.4.2: The system shall send notifications for new messages.
+FR2.4.3: The system shall allow users to share images and documents during chats.
+FR2.4.4: The system shall allow users to access their chat history.
+FR2.4.5: The system shall enable users to block or report other users.
+
+3.5 Real-Time Tracking of Renters
+FR2.5.1: The system shall track the geographical location of renters during product pickup and return.
+FR2.5.2: The system shall provide real-time updates on location and estimated time of arrival (ETA).
+FR2.5.3: The system shall maintain a history of tracking data for future reference.
+FR2.5.4: The system shall allow users to enable or disable location tracking at any time.
+
+3.6 Blockchain-Based Proof of Ownership
+FR2.6.1: The system shall verify product ownership using blockchain technology.
+FR2.6.2: The system shall securely store all transaction-related data on the blockchain.
+FR2.6.3: The system shall allow users to transfer product ownership via a secure blockchain transaction.
+FR2.6.4: The system shall allow users to view the complete ownership history of a product.
+FR2.6.5: The system shall provide a mechanism for resolving disputes regarding product ownership.
+
+3.7 Rent-to-Own Model
+FR2.7.1: The system shall allow users to set up payment plans for rent-to-own transactions.
+FR2.7.2: The system shall allow users to transfer ownership after fulfilling rent payments.
+FR2.7.3: The system shall allow users to view their remaining balance and payment history.
+FR2.7.4: The system shall send reminders for upcoming payments and confirmations upon successful payments.
+FR2.7.5: The system shall provide multiple payment options (credit cards, digital wallets).
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: RentEase must ensure high availability with a target uptime of 99.9%.
+NFR2: The platform must handle large volumes of concurrent transactions without downtime.
+NFR3: The system should provide backup and recovery solutions to prevent data loss.
+
+4.2 Usability
+NFR4: The system should provide an intuitive interface accommodating users with limited technical skills.
+NFR5: Clear instructions and tooltips must guide users through key features.
+NFR6: The application must support accessibility features to assist users with disabilities.
+
+4.3 Performance
+NFR7: Pages should load within 2 seconds for users with a 20Mbps connection.
+NFR8: Real-time communication and tracking data should update within 1 second.
+NFR9: The system must support at least 10,000 concurrent users without performance degradation.
+
+4.4 Security
+NFR10: RentEase must ensure user data protection through encryption during transmission and storage.
+NFR11: The application must comply with relevant data protection regulations (e.g., GDPR).
+NFR12: The system should implement multi-factor authentication (MFA) for user accounts.
+NFR13: Regular security audits must be conducted to identify vulnerabilities.
+
+================================================================================

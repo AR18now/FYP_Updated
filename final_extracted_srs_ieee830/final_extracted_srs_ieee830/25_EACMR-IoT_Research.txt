@@ -1,0 +1,43 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: EACMR-IoT - Efficient Authentication and Confidentiality for RPL-Based IoT Networks
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+IoT devices face critical security challenges due to resource limitations (processing power, memory, energy). RPL (Routing Protocol for Low-Power and Lossy Networks) lacks robust built-in security features, creating vulnerabilities in data integrity, authentication, and confidentiality.
+
+1.2 Research Problem Statement
+The absence of efficient and lightweight security mechanisms for RPL-based IoT networks, particularly for authentication and confidentiality, leaves networks susceptible to routing attacks that can lead to data interception and unauthorized access.
+
+1.3 Software Requirements Specifications
+The solution implements lightweight cryptographic mechanisms using Elliptic Curve Cryptography (ECC) for authentication and Simon/Speck algorithms for confidentiality in RPL-based networks.
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Related Research Analysis
+- Fuzzy Elliptic Curve Cryptography: Uses ECC with fuzzy logic for random number generation; outperforms shift register methods.
+- Lightweight Certificate-Based Authentication: Uses cryptographic hash functions and ECC for efficient authentication; formal verification with AVISPA.
+- Efficient Lightweight Privacy-Preserving Mechanism: ECC-based for Industry 4.0; reduced computational/communication costs.
+- Text Encryption Using Pell Sequence and Elliptic Curves: Innovative combination but high computational overhead.
+- Cryptography Algorithms for Enhancing IoT Security: Simon/Speck for hardware/software efficiency.
+- Lightweight Cryptography in IoT Networks: Comprehensive review of PRESENT, SIMON, RECTANGLE.
+- Lightweight Cryptography Algorithms for Resource-Constrained IoT Devices: Comparison of 50+ algorithms; Simon/Speck praised for compact design.
+- IoT Security: Implementation of Xtea, Simon/Speck: Real-world testing on ESP8266.
+
+3. PROPOSED APPROACH
+3.1 Objective
+Implement Secure RPL (SRPL) protocol in Contiki-NG operating system using Elliptic Curve Cryptography (ECC) for robust authentication and Simon/Speck lightweight block ciphers for confidentiality.
+
+3.2 Key Components
+- Authentication server/border router using ECC for robust authentication and key management
+- Secure distribution of global parameters via DIO message
+- Device registration: each IoT device generates public key and shares with server via DAO message
+- Authentication via nonce challenge-response using digital signatures
+- Forward and backward privacy for session key compromise protection
+- Symmetric key generation using SIMON and SPECK for confidentiality
+- Dynamic encryption keys for secure communication sessions
+
+3.3 Implementation Platform
+Contiki-NG operating system, Cooja Simulator for testing.
+
+================================================================================

@@ -1,0 +1,127 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Khaka - Sketching Companion for Starters
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for Khaka, an AI-based web application that helps artists and designers (especially beginners) create hand-drawn sketches by transforming images into detailed sketch layers and providing step-by-step instructions.
+
+1.2 Scope
+The system allows users to upload an image, apply artistic stylizations, and then generates multiple sketch layers (outlines, basic shapes, shading, details). It provides step-by-step instructions (text/audio) for drawing each layer, tool recommendations, interactive feedback, and an art gallery for sharing. Features also include export/saving and user gallery management.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- SVG: Scalable Vector Graphics
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Khaka simplifies the sketching process for beginners and intermediates by breaking down complex images into manageable layers and guiding them through the creation process, providing a structured path to improve drawing skills.
+
+2.2 Product Functions (Summary)
+- Image Upload and Processing: Upload images, auto-adjust quality.
+- Artistic Visualization and Previewing: Apply artistic styles (manual or AI), preview final sketch.
+- Sketch Layer Generation: Generate outline, basic shapes, shading, detail layers.
+- Layer Display and Navigation: Toggle layers, view progression.
+- Step-by-Step Drawing Instructions: Provide text and audio guidance.
+- Tool Recommendation System: Suggest pencils, pens, brushes for each layer.
+- Interactive Feedback: Compare user's drawn sketch with the original and provide tips.
+- Export and Sharing: Export individual layers or final result, share on social media.
+- User Gallery: View and share sketches.
+
+2.3 User Classes and Characteristics
+- Beginner Artists: New to drawing, seeking guidance.
+- Intermediate Artists: Looking to refine skills or try new techniques.
+- Professional Artists: Need features for complex sketches.
+- Art Educators: Use layered sketches for creating tutorials.
+- Casual Users: Browse the gallery or explore functionalities.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Art Gallery Management
+FR1: The system shall allow users to access their personal art gallery.
+FR2: The system shall display all saved sketches in a grid format.
+FR3: The system shall enable users to select an artwork to edit, update, or delete.
+FR4: If a user has no artwork, the system shall display a message and provide an option to add new sketches.
+
+3.2 Image Upload and Processing
+FR1: The system shall allow users to upload images from their devices.
+FR2: The system shall process the uploaded image and forward it to the layering system.
+FR3: If the user cancels the upload, the system shall discard the image and return to the previous state.
+FR4: If the uploaded image format is not supported, the system shall display an error message.
+FR5: If the uploaded image exceeds the allowed size limit, the system shall display an error message.
+FR6: The system shall support common image formats such as JPEG and PNG.
+
+3.3 Artistic Stylization
+FR1: The system shall allow users to apply artistic styles to the uploaded image.
+FR2: The system shall prompt users to specify the artistic style they wish to apply.
+FR3: The system shall display the stylized version of the image after processing.
+FR4: If the user cancels the stylization process, the system shall revert to the previous image view.
+FR5: If the selected artistic style fails to apply, the system shall display an error message.
+
+3.4 Sketch Preview
+FR1: The system shall allow users to preview the final sketch created from the stylized image.
+FR2: The system shall retrieve and display the stylized image when the user requests a preview.
+FR3: If the preview fails due to an error, the system shall display an error message.
+FR4: The user shall have the option to return to the stylization options after previewing.
+
+3.5 Layer Breakdown
+FR1: The system shall convert the uploaded image into multiple sketch layers.
+FR2: The system shall generate the Outline/Contour Layer, Basic Shapes Layer, Shading Layer, and Detail Layer.
+FR3: The system shall save the generated layers in the user session.
+FR4: If the image processing fails due to a system error, the system shall display an error message.
+
+3.6 Layer Management
+FR1: The system shall allow users to toggle between different sketch layers.
+FR2: The system shall display a list of all available layers for the user.
+FR3: If no layers are available, the system shall display an error message.
+
+3.7 Instruction and Guidance
+FR1: The system shall provide step-by-step instructions for the current layer.
+FR2: The system shall deliver instructions in textual or auditory format based on user preference.
+FR3: If no specific instructions are available, the system shall notify the user.
+
+3.8 Tool Recommendations
+FR1: The system shall analyze the current sketch layer and recommend specific tools.
+FR2: The user shall have the option to accept the recommended tools or choose their own.
+
+3.9 Feedback Mechanism
+FR1: The system shall allow users to receive feedback on their current sketch.
+FR2: The user shall upload an image of their sketch for analysis.
+FR3: The system shall analyze the sketch and generate feedback based on various parameters.
+FR4: If the system is unable to provide specific feedback, it shall display a general message encouraging the user to take another image with better light or dark background.
+
+3.10 Export Functionality
+FR1: The system shall allow users to export or save an individual sketch layer.
+FR2: The user shall select a file format and destination for saving the layer.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: Image layer generation should be processed within 60 seconds, even for high-resolution images.
+NFR2: File storage should be optimized to minimize load times.
+
+4.2 Usability
+NFR3: App's interface should be intuitive and user-friendly, guiding users through the sketching process with clear instructions.
+NFR4: The app should be responsive and functional on all devices.
+
+4.3 Security
+NFR5: The app should implement strong authentication measures such as two-factor authentication.
+NFR6: Uploaded images and sketches must be handled securely, with encryption for data in transit and storage.
+NFR7: The app should include content moderation to prevent sharing of inappropriate material.
+
+4.4 Scalability
+NFR8: The app must use cloud storage solutions to handle growing data volume.
+NFR9: Implement caching mechanisms to optimize frequently accessed content.
+NFR10: Load balancing should be in place to distribute traffic evenly.
+
+4.5 Reliability
+NFR11: The app should be available 24/7 and be fault-tolerant.
+NFR12: Backups should be created of users' uploaded images to protect against system failure.
+
+4.6 Maintainability
+NFR13: The app must be easy to maintain with modular code and thorough documentation.
+
+4.7 Compatibility
+NFR14: The app should be compatible with all types of browsers and be responsive for desktop and mobile viewing.
+
+================================================================================

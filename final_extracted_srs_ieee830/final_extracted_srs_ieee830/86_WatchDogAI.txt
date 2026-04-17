@@ -1,0 +1,63 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: WatchDog AI - Automated Violent Activity Detection and Criminal Recognition
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for WatchDog AI, an automatic violent activity detection and criminal recognition system that generates AI reports based on scene understanding and pinpoints the exact location of the offender.
+
+1.2 Scope
+The software will detect a broad range of criminal and violent activities (weapons, abuse, arson, burglary, shooting, stealing, vandalism, violence). It will detect/recognize criminals via facial recognition, pinpoint crime locations, and generate automatic reports.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- CCTV: Closed-Circuit Television
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+WatchDog AI automates the analysis of CCTV footage, overcoming limitations of manual monitoring and traditional AI systems by providing real-time detection, facial recognition, and automatic report generation.
+
+2.2 Product Functions (Summary)
+- Detection of violence and criminal activities.
+- Facial recognition for criminal detection.
+- Pin-pointing crime location in public/crowded places.
+- Scene understanding.
+- Automatic report generation.
+- Real-time alerts to users/authorities.
+- Web-based app for monitoring.
+
+2.3 User Classes and Characteristics
+- Violence: The class for training models to detect weapons and violence.
+- Facial Detection: The class for detecting and recognizing criminals.
+- Scene Understanding: The class incorporating large vision models.
+- Report Generation: The class using scene understanding results.
+- Web App: The class for user monitoring.
+
+2.4 Operating Environment
+Integrates with existing CCTV systems; accessed via a web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 (Model Training)
+FR1.1: The system shall train multiple models to detect criminal and violent activities.
+FR1.2: The system shall implement facial recognition to recognize and detect criminals.
+
+3.2 Module 2 (Scene Understanding & Report Generation)
+FR2.1: The system shall implement scene understanding and integrate automatic report generation.
+FR2.2: The system shall create a user-friendly web app for users to monitor CCTV footage.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system may fail for a few seconds due to hardware issues or power outages.
+
+4.2 Usability
+NFR2: The system will be easy to use for anyone, with a simple web interface.
+
+4.3 Performance
+NFR3: For faster detections and to avoid delays, a system with at least 16GB of RAM and a GPU is recommended.
+
+4.4 Security
+NFR4: User credentials must be kept confidential.
+NFR5: The criminal dataset should not be exposed, and its database access should be restricted.
+
+================================================================================

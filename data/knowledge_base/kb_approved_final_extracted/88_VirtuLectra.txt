@@ -1,0 +1,79 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: VirtuLectra - AI-Powered Interactive Learning Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the high-level needs and features of VirtuLectra, a web-based application geared towards teachers who want to lessen their burden and students who would benefit from interactive lectures.
+
+1.2 Scope
+The platform supports real-time interaction between the system and students, automated content creation (lecture notes, quizzes), and student monitoring (engagement tracking). It is built for Programming Fundamentals as a proof of concept.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- LLM: Large Language Model
+- MCQ: Multiple Choice Question
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+VirtuLectra aims to provide a truly interactive learning experience by using AI to automate content creation and provide real-time feedback, reducing teacher workload and increasing student engagement.
+
+2.2 Product Functions (Summary)
+- Real-time voice interaction (Conversational Voice Exchanges, Q&A).
+- Automated generation of lecture scripts and notes.
+- Automated generation of MCQs and grading.
+- Student engagement tracking via pop-up questions.
+
+2.3 User Classes and Characteristics
+- Teachers: Want to decrease their burden.
+- Students: Want more interactive and engaging learning.
+
+2.4 Operating Environment
+Web application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Real-Time Interaction
+FR1.1: The system shall enable natural, interactive voice conversations between the system and students.
+FR1.2: The system shall address student questions in real-time using an LLM.
+
+3.2 Automated Content Creation
+FR2.1: The system shall automatically generate comprehensive lecture scripts and notes from course content.
+FR2.2: The system shall create customized quizzes (MCQs) aligned with the course material.
+FR2.3: The system shall automate the grading of quizzes.
+
+3.3 Student Monitoring
+FR3.1: The system shall use LLM and scheduled pop-up questions to track student attention levels and participation.
+
+3.4 Web Portal
+FR4.1: The system shall provide a Teacher Dashboard with tools to manage lectures, review student progress, and generate content.
+FR4.2: The system shall provide a Student Interface to access learning materials, quizzes, and real-time lectures.
+FR4.3: The portal shall integrate all other modules.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall provide a notification to administrators in case of downtime.
+NFR2: The system shall ensure data consistency during transfers.
+NFR3: The system shall perform daily backups.
+
+4.2 Usability
+NFR4: The system shall provide a simple, intuitive UI with self-explanatory labels.
+NFR5: The UI shall be fully responsive.
+NFR6: The system shall provide visual/auditory confirmation for user actions.
+NFR7: The system shall provide access to a help section.
+NFR8: The system shall communicate errors with actionable suggestions.
+
+4.3 Performance
+NFR9: User inputs (voice/text) shall be processed with minimal latency.
+NFR10: Any page within the dashboard shall load in less than 3 seconds.
+NFR11: The system shall allow course materials of up to 100 MB to be uploaded.
+
+4.4 Security
+NFR12: The system shall require strong passwords.
+NFR13: The system shall encrypt all sensitive data.
+NFR14: The system shall enforce RBAC.
+NFR15: The system shall implement automatic account lockout after multiple failed login attempts.
+NFR16: The system shall implement protection against common security threats (SQL injection, XSS, CSRF).
+
+================================================================================

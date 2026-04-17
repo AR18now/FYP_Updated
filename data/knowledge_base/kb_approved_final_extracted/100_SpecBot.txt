@@ -1,0 +1,92 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SpecBot - Automated Code Parallelization Tool
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for SpecBot, an automated tool that converts sequential C/C++ code to parallel code with performance optimization based on specific hardware specifications.
+
+1.2 Scope
+SpecBot will be available as a Visual Studio Code extension and a standalone website. It analyzes C/C++ code, examines hardware specs, identifies parallelizable segments, generates data dependency graphs, and automates code parallelization.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AST: Abstract Syntax Tree
+- API: Application Programming Interface
+- JSON: JavaScript Object Notation
+- MTBF: Mean Time Between Failures
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+SpecBot aims to close the gap between sequential code and modern multi-core processors by automating the parallelization process based on hardware capabilities, improving performance for computationally demanding tasks.
+
+2.2 Product Functions (Summary)
+- Hardware specification extraction.
+- Static code analysis (AST generation).
+- Data dependency analysis.
+- Thread enhancement.
+- Parallelization algorithm (OpenMP/OpenACC).
+- VSCode Integration.
+- Web-based deployment.
+
+2.3 User Classes and Characteristics
+- High-Performance Computing Centers: Speed up big computational tasks.
+- Data Scientists: Make ML training faster using fewer resources.
+- Research Institutes: Improve algorithm and simulation performance.
+- Programming Library Maintainers: Boost performance of C/C++ libraries.
+
+2.4 Operating Environment
+VSCode extension and standalone website.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Hardware Specification Module
+FR1.1: The system shall extract and analyze hardware information from Unix-based systems (CPU cores, threads, available RAM).
+FR1.2: The system shall provide a mechanism to extract system information using the browser for web-based deployments.
+FR1.3: The system shall store and utilize the extracted hardware information for optimizing code parallelization.
+
+3.2 Static Code Analysis Module
+FR2.1: The system shall generate Abstract Syntax Trees (AST) for input C/C++ code.
+FR2.2: The system shall analyze the AST to identify regions suitable for parallelization.
+FR2.3: The system shall determine whether to use static or dynamic AST analysis based on code complexity and size.
+
+3.3 Data Dependency Analysis Module
+FR3.1: The system shall identify shared data structures within the input code.
+FR3.2: The system shall analyze dependencies between identified data structures.
+FR3.3: The system shall highlight data structures that must be shared across threads for proper parallelization.
+
+3.4 Thread Enhancement Module
+FR4.1: The system shall develop algorithms to determine optimal thread size for each parallelizable loop.
+FR4.2: The system shall implement mechanisms for dynamic thread adjustment during runtime.
+FR4.3: The system shall investigate and implement methods for prioritizing process threads in the system queue.
+
+3.5 Parallelization Algorithm Module
+FR5.1: The system shall integrate libraries for parallel computing (OpenMP and OpenACC).
+FR5.2: The system shall identify code regions independent of data dependencies and suitable for parallelization.
+FR5.3: The system shall manage data-dependent regions by determining efficient data-sharing mechanisms.
+FR5.4: The system shall select between OpenMP and OpenACC libraries based on code structure and hardware capabilities.
+
+3.6 Deployment and Integration Module
+FR6.1: The system shall be developed as a Visual Studio Code extension.
+FR6.2: The system shall be deployed as a standalone website for broader accessibility.
+FR6.3: The system shall benchmark the parallelized code output against competitor solutions.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have an MTBF of at least 720 hours.
+NFR2: In the event of failure, the system shall automatically save the current state of code analysis and notify the user.
+
+4.2 Usability
+NFR3: The VSCode extension shall allow users to initiate code parallelization with no more than three mouse clicks or keyboard shortcuts.
+NFR4: The web interface shall be intuitive, requiring no more than 10 minutes for a new user to understand.
+NFR5: SpecBot shall provide clear, concise error messages and suggestions for resolution.
+
+4.3 Performance
+NFR6: SpecBot shall complete analysis and parallelization of code snippets up to 1000 lines within 30 seconds on a standard desktop computer (quad-core processor, 8GB RAM).
+NFR7: The system shall be capable of handling multiple simultaneous user requests on the web platform, with a maximum response time of 5 seconds for initiating the parallelization process.
+
+4.4 Security
+NFR8: All user-submitted code and generated parallel code shall be encrypted during transmission and storage using industry-standard encryption (e.g., AES-256).
+NFR9: The system shall implement user authentication for the web platform, requiring strong passwords.
+NFR10: The system shall isolate and sandbox code execution environments to prevent potential security breaches.
+
+================================================================================

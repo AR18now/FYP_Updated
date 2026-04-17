@@ -1,0 +1,84 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: DigiTransacFraudDetect - Credit Card Fraud Detection using GNN
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines development of a software system for credit card fraud detection using Graph Neural Networks (GNNs) with a novel encoder-decoder architecture, mapping connections between customers and merchants to improve fraud detection accuracy.
+
+1.2 Scope
+The system generates synthetic datasets mimicking real-life transaction scenarios, performs feature engineering, constructs graph-based models (customers and merchants as nodes, transactions as edges), trains GNN-based fraud detector, implements batch normalization for faster training, provides user-friendly interface with visualization and dashboards, and enables integration with existing banking systems.
+
+1.3 Definitions, Acronyms, Abbreviations
+- GNN: Graph Neural Network
+- ML: Machine Learning
+- CSV: Comma-Separated Values
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+The system uses GNN-based approach to learn complex patterns within transaction data, leading to higher fraud detection rates while being scalable for real-time fraud detection.
+
+2.2 Product Functions (Summary)
+- Synthetic data generation
+- Feature engineering
+- Data cleaning and preprocessing
+- Graph generation (customers, merchants as nodes; transactions as edges)
+- GNN model training and evaluation
+- Real-time fraudulent transaction detection
+- Batch processing for manually uploaded transactions
+- Fraud detection reports
+- Dashboard with performance metrics
+
+2.3 User Classes and Characteristics
+- Financial Institution Employees: Monitor flagged transactions, respond effectively (≈200 users)
+- System Administrators: Manage backend systems, databases, integrations (10-15 administrators)
+- Fraud Detection Software Developers: Modify/adapt system for unique requirements (≈50 developers)
+- Executives and Regulatory Auditors: View performance dashboards and reports (10-20 senior users)
+
+2.4 Operating Environment
+Web application, backend processing, real-time streaming capabilities.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 - Synthetic Data Generation and Preprocessing
+FR1.1: The system shall generate synthetic transaction data including transaction amount, time, customer ID, merchant ID, and fraud labels.
+FR1.2: The system shall support generation of data at different scales mimicking real-world transaction volumes.
+FR1.3: The system shall generate fraudulent and non-fraudulent transactions in proportions reflecting real-world data.
+FR1.4: The system shall clean and preprocess generated synthetic data, removing invalid or inconsistent entries.
+FR1.5: The system shall normalize transaction data to ensure consistency across all features.
+FR1.6: The system shall split dataset into training, validation, and test sets.
+
+3.2 Module 2 - Graph Generation and GNN Model Training
+FR2.1: The system shall convert transaction data into graph structure (customers and merchants as nodes, transactions as edges).
+FR2.2: The system shall ensure graph generation process scales to handle large transaction datasets efficiently.
+FR2.3: The system shall visualize graph structure for easier understanding of relationships.
+FR2.4: The system shall implement encoder-decoder Graph Neural Network to train on graph-structured data.
+FR2.5: The system shall integrate batch normalization techniques to optimize GNN training.
+FR2.6: The system shall fine-tune GNN hyperparameters (learning rate, epochs) to maximize fraud detection accuracy.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF ≥ 1,000 hours.
+NFR2: Automatic recovery attempt within 5 minutes upon failure.
+NFR3: Continuous monitoring; users notified within 30 seconds of failure.
+NFR4: Preservation of transaction data and automatic resumption from failure point.
+
+4.2 Usability
+NFR5: Flag and investigate fraudulent transaction within 5 clicks.
+NFR6: New user complete fraud investigation tasks without training within 1 hour.
+NFR7: Real-time visual feedback (loading indicators, transaction status).
+NFR8: Clear, actionable error messages with steps to resolve within 10 seconds.
+
+4.3 Performance
+NFR9: Process up to 1,000 transactions per second (TPS) in real-time.
+NFR10: GNN model detect fraudulent transactions with response time ≤ 1 minute per transaction.
+NFR11: Maximum latency of 10 seconds for real-time dashboard updates.
+NFR12: Automatic scaling to handle 5x normal load without manual intervention.
+
+4.4 Security
+NFR13: All transaction data encrypted in transit and at rest using 256-bit encryption.
+NFR14: Multi-factor authentication for all users accessing critical components.
+NFR15: Auto logout after 10 minutes of inactivity.
+
+================================================================================

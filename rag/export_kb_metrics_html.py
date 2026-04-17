@@ -5,6 +5,17 @@ import json
 from pathlib import Path
 
 
+def _unique_preserve_order(items: list[str]) -> list[str]:
+    seen = set()
+    unique = []
+    for item in items:
+        if item in seen:
+            continue
+        seen.add(item)
+        unique.append(item)
+    return unique
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export KB metrics JSON to an HTML table report.")
     parser.add_argument("--input_json", default="data/output/kb_quality_report_all232.json")
@@ -59,6 +70,7 @@ def main() -> None:
         "requirements_detected",
     ]
 
+    metric_columns = _unique_preserve_order(metric_columns)
     header_cells = ["file_name", "passed", *metric_columns]
     header_html = "".join(f"<th>{html.escape(col)}</th>" for col in header_cells)
 
@@ -145,7 +157,16 @@ def main() -> None:
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc, encoding="utf-8")
-    print(json.dumps({"output_html": str(out), "rows": len(rows)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "output_html": str(out),
+                "rows": len(rows),
+                "metric_columns": len(metric_columns),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

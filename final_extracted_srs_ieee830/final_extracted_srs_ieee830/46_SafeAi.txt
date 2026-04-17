@@ -1,0 +1,46 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SafeAi - AI-Based Aerial Surveillance for Object Detection, Tracking, and Re-identification
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+Aerial surveillance faces limitations in handling small object detection, tracking, and re-identification in complex environments. High altitudes, occlusion, changing lighting conditions, and weather variability complicate effective monitoring.
+
+1.2 Research Problem Statement
+Develop robust AI-based system for real-time object detection, tracking, and re-identification in aerial footage from UAVs operating at high altitudes, addressing challenges of small object detection under varying conditions.
+
+1.3 Software Requirements Specifications
+The system uses deep learning models: YOLOv8 and Faster R-CNN for detection, DeepSORT for tracking, SAHI (Slicing Aided Hyper Inference) for small object detection, and CNN-based feature extraction for re-identification.
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Related Research Analysis
+- UAVDT Benchmark (2018): Comprehensive UAV dataset with 80,000 annotated frames; highlights small object detection and real-time performance challenges.
+- Object Detection, Recognition, Re-identification (2015): CENTROG descriptor for thermal imagery; multi-view object recognition.
+- Object Tracking with YOLOv4, DeepSORT (2021): Real-time tracking with zonal counting; computational intensity concerns.
+- Clustered Object Detection (2019): ClusDet network using CPNet and ScaleNet for clustered objects; limited performance in non-clustered environments.
+- Vehicle Detection on Aerial Imagery (2020): Faster R-CNN best for small objects; SSD poor performance.
+
+3. PROPOSED APPROACH
+3.1 Step 1: High-Altitude Image Processing and Preprocessing
+- SAHI (Slicing Aided Hyper Inference): Divide large-scale images into smaller patches for accurate small object detection.
+- Image Preprocessing: Normalize lighting, remove noise, enhance contrast.
+
+3.2 Step 2: Object Detection
+- YOLOv8: Fast and accurate detection optimized for small objects.
+- Faster R-CNN: High precision for crowded or occluded environments.
+
+3.3 Step 3: Object Tracking
+- DeepSORT: Real-time tracking with appearance descriptor to reduce identity switching.
+- Kalman Filters: Motion prediction for tracking through occlusions.
+
+3.4 Step 4: Object Re-identification
+- CNNs: Extract distinctive features (color, texture, shape) for re-identification across frames.
+- Metric Learning: Distance metric to compare objects across frames.
+
+3.5 Step 5: Real-time Processing and System Optimization
+- Hardware Optimization: Edge devices and UAV hardware with GPUs; lighter models (YOLOv4-tiny) for resource-constrained UAVs.
+- Parallel Processing: GPU cores for multiple image streams simultaneously.
+- Frame Skipping: Dynamic frame rate adjustment during low-activity periods.
+
+================================================================================

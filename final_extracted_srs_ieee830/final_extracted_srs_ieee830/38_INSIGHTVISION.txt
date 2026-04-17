@@ -1,0 +1,73 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: INSIGHTVISION - AI-Driven Video Summarization System
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Manual review of pre-recorded CCTV footage is inefficient for security teams, causing time-consuming video analysis, missed critical events, increased labor costs, and delayed responses to security threats.
+
+1.2 Scope
+INSIGHTVISION is an AI system that automatically reviews pre-recorded video, detects motion, identifies important events, labels objects, and creates brief summaries with timestamps. Features include event-based video chunking, timestamp generation, object tracking, action recognition, summarized video compilation, and LLM-generated textual summaries.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- LLM: Large Language Model
+- CCTV: Closed-Circuit Television
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+INSIGHTVISION automates event detection, reduces workload for security personnel, improves response times, and enhances overall effectiveness of surveillance operations.
+
+2.2 Product Functions (Summary)
+- Event-based video chunking (dividing long footage into manageable chunks)
+- Timestamp generation for key events
+- Action recognition and labeling (walking, running, sitting)
+- Object identification and tracking
+- Summarized video compilation
+- Event identification and highlighting
+- LLM-generated textual captions
+
+2.3 User Classes and Characteristics
+- Security Personnel: Monitor surveillance footage, respond to incidents
+- System Administrators: Manage system, oversee user access, software updates
+- Testers: Test application for bugs, usability issues
+- End Users: Managers or executives reviewing footage occasionally
+
+2.4 Operating Environment
+Web application, backend processing with LLM integration.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1: Event Detection and Analysis
+FR1.1: The system shall detect movements in video footage and classify them as events.
+FR1.2: The system shall differentiate between significant and insignificant movements.
+FR1.3: The system shall generate timestamps for each detected event (accurate to within 1 second).
+FR1.4: The system shall recognize different actions based on object classification.
+FR1.5: The system shall label identified actions (walking, running, sitting).
+FR1.6: The system shall track moving objects within video footage.
+FR1.7: The system shall maintain identity of tracked objects throughout footage.
+
+3.2 Module 2: Summarization and Adaptive Reporting
+FR2.1: The system shall compile detected events into summarized video.
+FR2.2: Summary video shall condense footage based on key moments while maintaining chronological order.
+FR2.3: The system shall identify and highlight significant events during playback.
+FR2.4: Highlighted events shall be visually distinguishable from other parts.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF shall ensure consistent performance.
+NFR2: System shall provide error logs and facilitate recovery within 1 hour.
+
+4.2 Usability
+NFR3: Users shall navigate interface without prior training, functionalities accessible within 3 clicks.
+NFR4: Contextual help and error messages for input errors.
+
+4.3 Performance
+NFR5: ≥ 95% of detected events accurately identified within first processing attempt.
+
+4.4 Security
+NFR6: All video uploads secured to prevent unauthorized access.
+NFR7: User access restricted based on roles.
+NFR8: System shall log all access attempts and modifications for audit trail.
+
+================================================================================

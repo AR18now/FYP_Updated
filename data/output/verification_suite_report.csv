@@ -1,4 +1,0 @@
-id,name,clarity,ambiguity,conflict_score,conflict_count,status
-TC-001,Vague performance wording,1.0,0.727,1.0,0,PASS
-TC-002,Conflicting access behavior,1.0,1.0,0.85,1,PASS
-TC-003,Measurable NFRs,1.0,1.0,1.0,0,PASS

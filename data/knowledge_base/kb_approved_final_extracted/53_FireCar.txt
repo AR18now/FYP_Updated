@@ -1,0 +1,75 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: FireCar - Autonomous Indoor Firefighting Robot
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+FireCar is an autonomous indoor firefighting robot designed for environments like server rooms and data centers where constant human supervision is not feasible, patrolling fixed areas for fire occurrence and extinguishing before spreading.
+
+1.2 Scope
+FireCar is a four-wheeled vehicle with sensors, motors, cameras, and actuators controlled by Raspberry Pi 4, featuring room mapping, obstacle avoidance, fire detection, communication via Wi-Fi, and fire suppression using CO2/water mist.
+
+1.3 Definitions, Acronyms, Abbreviations
+- BO: Battery Operated
+- ML: Machine Learning
+- GUI: Graphical User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+FireCar automates fire detection and control, reducing human involvement and risk, providing targeted suppression to minimize damage from traditional methods like sprinklers.
+
+2.2 Product Functions (Summary)
+- Camera-based room mapping
+- Obstacle identification
+- Path planning
+- Fire detection using ML models
+- Fire suppression mechanism
+- User interface for monitoring and manual control
+- Fire logs and reporting
+
+2.3 User Classes and Characteristics
+- Admin/User: Monitor automatic operations, manage manual control
+- Building Maintenance Team: Oversee room mapping and gas detection
+- Emergency Response Team: Respond to fire or gas leak alerts
+- Building Inhabitants: Rely on system's alerts for safety
+
+2.4 Operating Environment
+Embedded system (Raspberry Pi 4), web application, Wi-Fi communication.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 - Camera-Based Room Mapping and Obstacle Identification
+FR1.1: The system shall create 2D map of the room using camera input and recognize all obstacles.
+FR1.2: The system shall refresh the room map in real-time as new obstacles are identified.
+FR1.3: The system shall actively steer clear of obstacles based on detected locations.
+FR1.4: The system shall show room map including obstacles on user interface for monitoring.
+FR1.5: The system shall compute and follow optimal path for navigation based on real-time map updates.
+
+3.2 Module 2 - Fire Detection and Response Mechanisms
+FR2.1: The system shall detect fire and smoke in real-time using camera and machine learning models.
+FR2.2: The system shall automatically navigate to fire location, avoiding obstacles, and activate fire suppression mechanism.
+FR2.3: The system shall create log entry for each fire detection and suppression event with time, location, and method.
+FR2.4: The system shall enable admin to manually control fire suppression mechanism in special circumstances.
+FR2.5: The system shall offer admin ability to review logs and fire events through user interface.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF ≥ 1,000 hours in stable environment.
+NFR2: System shall alert administrator and stop operations upon camera or fire detection sensor failure.
+
+4.2 Usability
+NFR3: Room map and obstacle locations accessible within three clicks.
+NFR4: Admin shall manually operate fire suppression system within two clicks.
+NFR5: Fire event logs retrievable in structured format with ≤ two interactions.
+
+4.3 Performance
+NFR6: Fire or smoke identification ≤ 2 seconds of appearance in camera's field of view.
+NFR7: Room map refresh with updated obstacle information ≤ 1 second.
+NFR8: Fire suppression commencement ≤ 5 seconds of detection; small fires extinguished within 5 minutes.
+
+4.4 Security
+NFR9: Multi-factor authentication for manual fire suppression controls access.
+NFR10: All logs and event data encrypted during transmission.
+NFR11: Manual control automatically disabled if security breach detected.
+
+================================================================================

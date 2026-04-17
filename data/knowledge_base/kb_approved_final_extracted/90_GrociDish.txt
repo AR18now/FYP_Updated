@@ -1,0 +1,105 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: GrociDish - Personalized Grocery and Meal Planning App
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document provides an in-depth overview of GrociDish, a personalized grocery and meal planning app with nutritional management features, tailored for Pakistani cuisine and dietary habits.
+
+1.2 Scope
+The app features personalized grocery list generation based on budget and preferences, recipe suggestions based on available ingredients, nutritional recommendations, and daily caloric tracking for family members.
+
+1.3 Definitions, Acronyms, Abbreviations
+- BMI: Body Mass Index
+- IBW: Ideal Body Weight
+- JWT: JSON Web Token
+- API: Application Programming Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+GrociDish addresses the challenges of maintaining a healthy lifestyle in Pakistan by providing tools for budget-friendly, nutritionally balanced grocery planning and meal preparation, with a focus on local cuisine.
+
+2.2 Product Functions (Summary)
+- Personalized grocery list generation (preferences, budget, brands).
+- Grocery list modification via chatbot.
+- Ingredient-based recipe suggestions.
+- Meal recommendation for health conditions.
+- Calorie recommendation based on BMI/IBW.
+- Daily caloric tracking.
+
+2.3 User Classes and Characteristics
+- Pakistani Families: Primary users looking for convenient, budget-conscious meal planning.
+- Home Cooks: Need assistance in planning nutritionally balanced meals.
+- Individuals with Dietary Restrictions: Require specialized recipes.
+- Health-Conscious Individuals: Track daily caloric intake.
+
+2.4 Operating Environment
+Mobile application (cross-platform).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Manage Account
+FR1.1: The system shall allow users to register with valid email, username, and password.
+FR1.2: The system shall validate and securely store user registration data.
+FR1.3: The system shall allow users to add family members and assign permissions.
+FR1.4: The system shall confirm account creation and family member addition.
+FR1.5: The system shall allow users to log in using their registered credentials.
+FR1.6: The system shall allow users to update and delete their account.
+
+3.2 Manage Profile
+FR2.1: The system shall allow family members to view and edit their profile details.
+FR2.2: The system shall allow users to change their password.
+FR2.3: The system shall allow the Master User to update family member details and manage roles.
+
+3.3 Personalized Grocery List Generation
+FR3.1: The system shall allow authorized users to create personalized grocery lists based on preferences.
+FR3.2: The system shall incorporate budget constraints to generate cost-effective lists.
+FR3.3: The system shall provide options for brand preferences.
+
+3.4 Grocery List Modification
+FR4.1: The system shall allow users to add/remove items to their grocery list via a chat interface.
+FR4.2: The system shall retrieve the current grocery list.
+FR4.3: The system shall incorporate NLP to enhance user interaction with the chatbot.
+
+3.5 Meal Recommendation
+FR5.1: The system shall suggest recipes based on ingredients from the user's grocery list.
+FR5.2: The system shall allow users to select meal suggestions by health conditions (diabetes, hypertension, obesity).
+FR5.3: The system shall include alternative meal options for variety.
+FR5.4: The system shall perform nutritional calculations (total calories).
+FR5.5: The system shall provide access to a comprehensive database of pre-existing recipes.
+
+3.6 Nutritional Recommendation
+FR6.1: The system shall take user input (age, weight, height, gender, activity level).
+FR6.2: The system shall calculate BMI and IBW.
+FR6.3: The system shall use the Harris-Benedict equation to calculate daily calorie needs.
+FR6.4: The system shall recommend daily caloric, carbohydrate, protein, and fat intake for each family member.
+
+3.7 Daily Caloric Tracking
+FR7.1: The system shall allow each family member to have a password-protected calorie tracker.
+FR7.2: The system shall track daily caloric intake.
+FR7.3: The system shall provide a visual breakdown of calorie sources.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall manage expected and unexpected errors efficiently, providing clear error messages.
+NFR2: The system shall handle failures by using retries and backups for key processes.
+
+4.2 Usability
+NFR3: The app interface must be intuitive and user-friendly.
+NFR4: The system shall be designed to be accessible for all users.
+
+4.3 Performance
+NFR5: The system shall generate a personalized grocery list within 10 seconds.
+NFR6: Updates to the grocery list shall be reflected in less than 10 seconds.
+NFR7: The chatbot shall respond to user queries within 5 seconds.
+NFR8: Meal plan suggestions shall be within 10 seconds.
+NFR9: Calorie recommendations shall be processed within 5 seconds.
+NFR10: BMI and IBW calculations shall achieve 95% accuracy.
+NFR11: Calorie breakdowns shall be displayed within 5 seconds.
+NFR12: Login requests shall be processed within 3 seconds.
+
+4.4 Security
+NFR13: Only authorized users should generate grocery lists or select meal plans.
+NFR14: The system should implement secure login with JWT, ensuring token expiration and revocation.
+
+================================================================================

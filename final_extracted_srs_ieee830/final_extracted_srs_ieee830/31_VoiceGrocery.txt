@@ -1,0 +1,111 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: VoiceGrocery - Voice-Based Grocery Shopping App
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Illiterate people and elderly individuals find grocery shopping difficult because existing grocery apps rely heavily on text-based guidance. This increases difficulty for such people when shopping for food online.
+
+1.2 Scope
+VoiceGrocery offers voice-based navigation and virtual assistant where users control the whole process through simple voice commands in English or Urdu. Features include voice-based product search, cart management, checkout, audio feedback, and voice recognition for non-literate users.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ASR: Automatic Speech Recognition
+- TTS: Text-to-Speech
+- NLP: Natural Language Processing
+- UI/UX: User Interface/User Experience
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+VoiceGrocery bridges the accessibility gap for non-literate and elderly users, promoting independence and autonomy in daily grocery shopping through voice-based interface.
+
+2.2 Product Functions (Summary)
+- Voice Assistant Module (ASR, TTS, intent recognition)
+- Speech-to-Text conversion
+- Text-to-Speech response
+- Shopping cart management via voice
+- Checkout process via voice commands
+- Order assignment to delivery personnel
+- Order tracking via voice
+- Delivery confirmation
+- Admin product management
+- Admin order management
+- User management
+
+2.3 User Classes and Characteristics
+- Primary Users: Illiterate people, elderly folks
+- Development Team: Design and maintain app functionality
+- Supervisors and Project Sponsors: Provide guidance, ensure completion
+- Retailers and Businesses: Provide grocery products, coordinate pickup/delivery
+- End Users: People preferring voice-based assistance
+- Investors: Financial stakeholders
+
+2.4 Operating Environment
+Mobile application (Android and iOS), cross-platform framework (Flutter), SQLite for offline access.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Voice Assistant Module
+FR1.1: The system shall recognize and process voice commands in Urdu and English.
+FR1.2: The system shall convert speech to text accurately.
+FR1.3: The system shall interpret user intents from converted text.
+FR1.4: The system shall generate appropriate responses based on user intents.
+FR1.5: The system shall convert text responses to speech in Urdu.
+
+3.2 Client Module
+FR2.1: The system shall provide simple visual UI for basic functions (registration, settings).
+FR2.2: The system shall allow users to manage shopping cart using voice commands.
+FR2.3: The system shall guide users through checkout process using voice instructions.
+FR2.4: The system shall confirm order details and total cost verbally before finalizing.
+
+3.3 Delivery Module
+FR3.1: The system shall automatically assign orders to nearest available delivery person.
+FR3.2: The system shall provide real-time order tracking information upon user request.
+FR3.3: The system shall prompt users for delivery confirmation upon order completion.
+
+3.4 Admin Module
+FR4.1: The system shall allow administrators to add, edit, and remove products from catalog.
+FR4.2: The system shall provide tools for managing and monitoring orders.
+FR4.3: The system shall allow administrators to manage user accounts and analyze usage patterns.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Voice Recognition Accuracy
+NFR1: Speech recognition accuracy ≥ 95% in normal speaking conditions.
+NFR2: System shall process voice commands and generate responses within 2 seconds.
+NFR3: System shall support variety of Urdu accents and dialects.
+
+4.2 Usability
+NFR4: UI accessible to users with low literacy levels.
+NFR5: Support for both Android and iOS devices.
+NFR6: App usable by 90% of test users without prior training.
+
+4.3 Delivery Module Performance
+NFR7: Order status update maximum delay ≤ 30 seconds.
+NFR8: Order assignment algorithm optimized for shortest delivery time.
+
+4.4 Admin Security
+NFR9: Admin interface secure with multi-factor authentication.
+NFR10: All administrative actions logged for auditing.
+
+4.5 Availability
+NFR11: System uptime ≥ 99.9%.
+NFR12: Backend services with robust failover mechanisms.
+
+4.6 Error Handling
+NFR13: Clear voice feedback for misunderstood commands.
+NFR14: Clear error messages for connectivity issues.
+
+4.7 Data Integrity
+NFR15: Consistent backups for transactions, order data, user profiles.
+
+4.8 Security
+NFR16: All data transmissions encrypted (TLS).
+NFR17: User passwords hashed and salted.
+NFR18: Secure login methods (OAuth, MFA).
+NFR19: Auto logout after 15 minutes of inactivity.
+
+4.9 Performance
+NFR20: Voice command processing ≤ 1-2 seconds for common tasks.
+NFR21: System shall scale efficiently for multiple simultaneous users.
+
+================================================================================

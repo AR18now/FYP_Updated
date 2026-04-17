@@ -1,0 +1,111 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Digi-Guard - Parental Control Application
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for Digi-Guard, a parental control mobile application that enables parents to manage and track their children's digital activities, providing real-time monitoring, location tracking, app restrictions, and screen time management.
+
+1.2 Scope
+To build a platform for parents to control and safeguard their child's digital presence. The app will block/limit indecent content, monitor real-time device usage, track location, and allow remote control of device features (e.g., microphone, camera) and keylogging. The scope is defined by functions like app restrictions, screen time management, location tracking, and real-time monitoring.
+
+1.3 Definitions, Acronyms, Abbreviations
+- GPS: Global Positioning System
+- SOS: Emergency signal
+- MTBF: Mean Time Between Failures
+- RBAC: Role-Based Access Control
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Digi-Guard is a comprehensive mobile solution for parents to ensure their children's online safety by providing detailed, real-time insights and controls.
+
+2.2 Product Functions (Summary)
+- Real-time device monitoring (live screen, activity logs, keylogging)
+- Location tracking (GPS-based tracking, geofencing)
+- App restrictions (app blocking, time-based restrictions)
+- Screen time management (daily/weekly limits, automatic locking)
+- Remote controls (remote device locking, app enable/disable)
+- Notifications and alerts (geofence, screen time alerts)
+- Emergency SOS feature (SOS button with location sharing)
+
+2.3 User Classes and Characteristics
+- Parent: Primary user who wants to monitor and control their child's device usage. May vary in tech-savviness.
+- Child: Secondary user whose device is monitored. Has limited access, primarily receiving alerts.
+
+2.4 Operating Environment
+Android mobile application communicating with a backend service (Firebase/Google Maps API).
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1: Real-Time Device Monitoring
+FR1.1: The application shall allow the parent to see a live feed of the child's screen.
+FR1.2: The application shall provide real-time indications of active applications.
+FR1.3: The application shall log the child's app usage for review.
+FR1.4: The application shall allow parents to access the activity log and review app usage history.
+FR1.5: The application shall log keystrokes and provide reports to the parent.
+
+3.2 Module 2: Location Tracking Feature
+FR2.1: The application shall display the child's real-time location on a map.
+FR2.2: The application shall use GPS to provide exact location tracking.
+FR2.3: The application shall allow parents to define geofencing areas (safe zones).
+FR2.4: The application shall notify the parent if the child leaves or enters a geofenced area.
+
+3.3 Module 3: App Restrictions
+FR3.1: The application shall allow parents to block specific applications on the child's device.
+FR3.2: The application shall implement time-based restrictions for specific apps.
+FR3.3: The application shall notify in real-time if the child attempts to use a restricted app.
+FR3.4: The application shall record each blocked attempt for the parent to view.
+
+3.4 Module 4: Screen Time Management
+FR4.1: The application shall allow setting daily or weekly limits on screen time.
+FR4.2: The application shall automatically lock the child's device when the screen time limit is exceeded.
+FR4.3: The application shall provide an overview of the child's screen usage (daily/weekly).
+FR4.4: The application shall alert the parent when the child approaches or exceeds the limit.
+
+3.5 Module 5: Remote Controls
+FR5.1: The application shall allow parents to remotely lock the child's device.
+FR5.2: The application shall allow parents to remotely enable or disable specific applications.
+FR5.3: The application shall notify the parent when a remote control action is activated.
+FR5.4: The application shall log all remote control operations.
+
+3.6 Module 6: Notifications and Alerts
+FR6.1: The application shall send geofence alerts when the child leaves or returns to a safe area.
+FR6.2: The application shall send screen time alerts when the child approaches or exceeds the limit.
+FR6.3: The application shall alert the parent if the child breaches app restrictions or screen time limits.
+FR6.4: The application shall provide a notification history.
+
+3.7 Module 7: Emergency SOS Feature
+FR7.1: The application shall provide an SOS button that, when pressed, sends an emergency signal with GPS coordinates to the parent.
+FR7.2: The system shall automatically send the child's location to the parent at a specified interval (e.g., every minute) upon SOS activation.
+FR7.3: The system shall display the child's location on a map in real-time upon SOS receipt.
+FR7.4: The application shall automatically cease sending location updates after the parent reports the emergency is resolved.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The system shall have an MTBF of at least 6 months.
+NFR2: The system must automatically detect and classify failures (minor/major). For major failures, the parent shall be notified immediately.
+NFR3: In case of a major failure, the system shall attempt to restart affected services within 10 seconds.
+
+4.2 Usability Requirements
+NFR4: First-time users shall accomplish simple tasks (e.g., setting screen time limits) within 10 minutes.
+NFR5: Key features must be accessible from the home screen within 3 taps.
+NFR6: The system shall confirm all critical operations (e.g., locking the device).
+NFR7: The app shall display clear error messages and offer a way to correct them.
+NFR8: The app shall allow parents to set app restrictions within 1 minute.
+
+4.3 Performance Requirements
+NFR9: Real-time monitoring latency shall be within 3 seconds.
+NFR10: Location data shall be retrieved and displayed within 3 seconds, with accuracy within a 10-meter radius under optimal conditions.
+NFR11: Geofencing alerts shall be sent within 5 seconds after the child crosses a boundary.
+NFR12: App restrictions or device locks shall be enforced within 5 seconds of the parent's command.
+NFR13: Data sync and backup shall occur every 15 minutes and complete within 2 minutes.
+NFR14: Notifications and alerts shall be delivered within 5 seconds of the trigger event.
+NFR15: The app shall load completely and be ready for use within 5 seconds.
+
+4.4 Security Requirements
+NFR16: The system shall allow access only to authorized users, locking accounts after 5 failed login attempts.
+NFR17: Sensitive data (location, activity logs) shall be stored and transmitted securely.
+NFR18: Data related to a child shall only be accessible by the authenticated parent.
+NFR19: Backup data shall be encrypted and require high-level authentication for access.
+
+================================================================================

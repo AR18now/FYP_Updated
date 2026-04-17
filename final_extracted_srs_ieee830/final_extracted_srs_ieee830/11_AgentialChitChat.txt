@@ -1,0 +1,41 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: AgentialChitChat
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Domain
+In multi-agent systems (MAS), agents often need to collaborate or compete. A critical aspect is communication, as agents must share information and coordinate actions efficiently. The emergence of communication in MAS, especially in zero-shot scenarios where agents interact with novel partners, remains challenging.
+
+1.2 Research Problem Statement
+This research addresses: How can a common emergent language be developed among independent agents without changing the agent's underlying policies? The study explores how agents can develop a transferable and generalizable communication system focusing on language emergence and transferability.
+
+1.3 Definitions, Acronyms, Abbreviations
+- MAS: Multi-Agent Systems
+- QED: Quasi-Equivalence Discovery
+- FCP: Fictitious Co-Play
+- VQ-VIB: Vector Quantized Variational Information Bottleneck
+
+2. LITERATURE REVIEW SUMMARY
+2.1 Related Research Analysis
+- Quasi-Equivalence Discovery (QED): Focuses on policy symmetry mappings for zero-shot communication; limited exploration of language emergence.
+- Multi-lingual agents through multi-headed neural networks: Scalability issues due to quadratic growth; assumes agents know communication partners.
+- Towards Human-Agent Communication via Information Bottleneck: Optimizes communication for human understanding but constrained by task-specific utility.
+- Emergent Discrete Communication in Semantic Spaces: Lacks shared semantic framework, potentially creating divergent interpretations.
+- Collaborating with Humans without Human Data: Uses fictitious co-play for zero-shot coordination but neglects communication role.
+- Compositionality and Capacity in Emergent Languages: Trade-off between bandwidth and language compositionality.
+
+3. PROPOSED APPROACH
+3.1 Objective
+Develop a common language allowing agents to first create their own language and then transfer this language to other agents by analyzing how agents communicate ideas and send messages to convey plans effectively.
+
+3.2 Methodology
+Introduce a penalty term in the loss function, leveraging a trained agent to guide learning. This penalty encourages agents to adhere to a communication protocol, ensuring consistent language rather than random messages.
+
+3.3 Policy Independence
+Maintain policy independence while establishing shared communication protocol. Teacher agent critiques child agent based on the policy the new agent follows, rather than solely relying on original training policy.
+
+3.4 Significance
+Facilitates meaningful communication among agents in zero-shot scenarios, enhancing collaborative capabilities while preserving individual learning processes.
+
+================================================================================

@@ -1,0 +1,93 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: GenFlex - AI-Powered Automated Examination and Evaluation Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for GenFlex, a digital platform designed to automate the complete examination process for educational institutions, from creation to grading, using AI technologies.
+
+1.2 Scope
+The system automates exam creation and evaluation. Features include digital exam paper generation (MCQs, essays, coding, math questions) using AI, lecture note generation from uploaded materials, automated grading using LLMs and specialized libraries, and a secure web interface for teachers and students.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- LLM: Large Language Model
+- MCQ: Multiple Choice Question
+- ITS: Intelligent Tutoring System (contextual, but not the primary focus)
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+GenFlex addresses the time-consuming and error-prone nature of manual exam processes by providing a seamless digital platform that automates exam creation, delivery, and grading, allowing teachers to focus more on instruction.
+
+2.2 Product Functions (Summary)
+- Teacher Module: Generate exam papers (MCQs, essay, coding) from uploaded materials, generate lecture notes.
+- Student Module: Attempt exams digitally via web interface, receive quick grades.
+- AI Evaluation Module: Use LLMs for essay evaluation, coding/math libraries for respective questions.
+- Security and Authentication Module: Secure login, role-based access, data encryption.
+
+2.3 User Classes and Characteristics
+- Teacher: Creates exams, generates lecture notes, reviews automated evaluations, can adjust grades.
+- Student: Attempts exams online, receives quick, accurate grades.
+- IT Staff: Maintains system security, database, and resolves technical issues.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Teacher Module
+FR1: The system shall allow teachers to create multiple-choice questions (MCQs).
+FR2: The system shall enable teachers to create essay-type questions.
+FR3: The system shall provide functionality for teachers to make coding-related questions.
+FR4: The system shall allow teachers to upload PDF documents for course materials.
+FR5: The system shall enable teachers to upload presentation slides for lecture notes.
+FR6: The system shall allow teachers to create and manage an exam question bank.
+FR7: The system shall provide facilities for teachers to generate lecture notes from uploaded materials.
+FR8: The system shall offer a user-friendly interface for teachers to create exams.
+FR9: The system shall allow teachers to compile exam papers from the question bank.
+
+3.2 Student Module
+FR1: The system shall provide a web interface for students to attempt exams digitally.
+FR2: The system shall support various question displays (MCQs, essay-type, coding) in the exam.
+FR3: The system shall provide quick grading/marks to students after they attempt exams.
+FR4: The system shall display detailed feedback for each question type to students.
+
+3.3 AI Evaluation Module
+FR1: The system shall use Large Language Models (LLMs) to evaluate descriptive or essay-type questions after submission by students.
+FR2: The system shall utilize coding libraries to evaluate coding-related question answers submitted by students.
+FR3: The system shall support programming languages for coding evaluations.
+FR4: The system shall use math libraries to deal with mathematical questions.
+
+3.4 Security and Authentication Module
+FR1: The system shall provide secure login functionality for user authentication.
+FR2: The system shall implement role-based access control to show teachers and students their corresponding screens.
+FR3: The system shall implement encryption for exam data during transmission when submitted by students.
+FR4: The system shall ensure the security of stored exam questions and student responses in the database.
+FR5: The system shall ensure and strengthen database security as it contains sensitive information.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have a Mean Time Between Failures (MTBF) of at least 168 hours (7 days) during the initial prototype phase.
+NFR2: In the case of failure, the system will automatically save all user progress made in the last 2 minutes.
+NFR3: The system will keep track of errors and performance problems for manual review.
+NFR4: If a failure occurs, the system will automatically recover and restore services within 30 minutes.
+
+4.2 Usability
+NFR5: The system shall allow teachers to create a standard exam with at least 20 questions within 60 minutes on their first use.
+NFR6: Students shall be able to navigate and start an assigned exam within 5 clicks from the main dashboard.
+NFR7: The system shall provide basic error messages if the user puts wrong inputs.
+NFR8: The system will let users easily undo their last action in form fields.
+
+4.3 Performance
+NFR9: The system shall support up to 100 concurrent users simultaneously during the initial phase.
+NFR10: 80 percent of all database queries shall complete in less than 1 second.
+NFR11: The AI evaluation module shall complete grading of a standard 50-question exam (MCQs and short answers only) within 5 minutes.
+NFR12: The system shall render the user interface for exam-taking within 5 seconds of a page request under normal load conditions.
+NFR13: Auto-saving of responses during exams shall occur every 60 seconds.
+
+4.4 Security
+NFR14: The system shall use TLS 1.2 or higher for data transmission, with AES-128 encryption for stored sensitive data.
+NFR15: Teachers and administrators shall use single-factor authentication initially, with MFA planned for later.
+NFR16: The system shall be designed to handle common security issues following OWASP Top 10 instructions.
+NFR17: All user actions shall be held for audits.
+NFR18: The system shall lock accounts after 10 failed login attempts within 30 minutes.
+NFR19: The system shall enforce strong password policies (min 12 characters, mix of character types).
+
+================================================================================

@@ -1,0 +1,98 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: NutriGen - Genetic-Based Personalized Nutrition App
+================================================================================
+
+1. INTRODUCTION
+1.1 Problem Statement
+Eating right is hard because advice that works for one person might not work for another due to genetic differences. Most people don't know how to use genetic information to eat better.
+
+1.2 Scope
+NutriGen is a mobile app that uses genetic information to create personalized meal plans. Features include genetic data upload and analysis, personalized meal plan generation, daily food intake tracking, goal tracking, allergy management (identifying potential food sensitivities based on genetics), health dashboard, monthly reports, nutritionist platform, and gamification (badges for health goals).
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- AES: Advanced Encryption Standard
+- ERD: Entity-Relationship Diagram
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+NutriGen uses science to help people eat in a way that's right for their unique body by analyzing genetic information.
+
+2.2 Product Functions (Summary)
+- Genetic data upload and analysis
+- Personalized meal plan generation
+- Meal plan customization
+- Daily food intake tracking
+- Health goal setting and tracking
+- Allergy prediction based on genetics
+- Health dashboard with nutrition and activity metrics
+- Monthly reports with personalized advice
+- Nutritionist platform with profiles and reviews
+- Gamification with badges for achievements
+
+2.3 User Classes and Characteristics
+- Regular Users: Most common users, use app daily for meal plans and tracking
+- Health-Conscious Users: Know health/nutrition, use advanced features
+- Users with Health Conditions: Need meal plans managing specific conditions
+- Nutritionists: Food and health experts, profiles visible to users
+- Casual Users: Beginning to think about eating better
+
+2.4 Operating Environment
+Mobile application (iOS and Android), three-tier architecture.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Genetic Data Integration Module
+FR1.1: The app shall let users upload their genetic test results.
+FR1.2: The app shall analyze genetic information to find insights about food and health.
+FR1.3: The app shall tell users what their genes say about their food needs.
+
+3.2 Meal Planning Module
+FR4.1: The app shall make meal plans based on user's genetic information.
+FR4.2: The app shall let users change their meal plans.
+FR4.3: The app shall suggest other meals that are also good for the user.
+
+3.3 Goal Tracking Module
+FR7.1: The app shall let users set health and eating goals.
+FR7.2: The app shall track what users eat each day.
+FR7.3: The app shall show users how close they are to reaching their goals.
+
+3.4 Allergy Management Module
+FR10.1: The app shall use genetic information to guess what foods might cause problems.
+FR10.2: The app shall change meal plans to avoid foods that might be bad for the user.
+FR10.3: The app shall warn users about foods that might make them sick.
+
+3.5 Health Dashboard Module
+FR13.1: The app shall show what kinds of nutrients the user is eating.
+FR13.2: The app shall show how much the user is moving and exercising.
+FR13.3: The app shall show other important health information.
+
+3.6 Reporting Module
+FR16.1: The app shall make a report each month to show how the user is doing.
+FR16.2: The app shall give personal advice about how to be healthier.
+FR16.3: The app shall show how the user's health is changing over time.
+
+3.7 Nutritionist Platform Module
+FR19.1: The app shall show users information about different food experts.
+FR19.2: The app shall let users rate food experts.
+FR19.3: The app shall help users set up times to talk to food experts.
+
+3.8 Gamification Module
+FR22.1: The app shall give users badges when they reach health goals.
+FR22.2: The app shall set up a system for earning and showing badges.
+FR22.3: The app shall make fun challenges to keep users interested.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Usability
+NFR1: Users must see latest meal plan with ≤ 2 taps from main screen.
+NFR2: New users must set up account and upload genetic information ≤ 10 minutes.
+
+4.2 Performance
+NFR3: The app must make personalized meal plan within 3 minutes after getting genetic information.
+NFR4: The app must show health dashboard within 3 seconds of opening.
+
+4.3 Security
+NFR5: All user information, especially genetic information, shall be encrypted using AES-256.
+NFR6: The app shall require re-login before changing important settings or viewing sensitive health information.
+
+================================================================================

@@ -1,0 +1,105 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: VocalCraft - AI-Driven Pamphlet Creation Through Voice Commands
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document clarifies the architectural and modular structure of VocalCraft, an AI-driven pamphlet creation application that helps users create promotional and menu pamphlets using voice commands, addressing issues of incorrect text generation in current AI models.
+
+1.2 Scope
+To develop a system that allows users to create print-ready pamphlets via voice commands. Features include: voice recognition and transcription, prompt engineering and NER, image generation and inpainting using diffusion models, segmentation for text/image placeholders, image resizing/optimization, a mobile app front-end, and cloud-based backend.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- NER: Named Entity Recognition
+- ASR: Automatic Speech Recognition
+- API: Application Programming Interface
+- DBMS: Database Management System
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+VocalCraft is a mobile application that leverages multiple AI models (Whisper, Stable Diffusion) to convert user voice commands into professionally designed pamphlets with correctly placed text.
+
+2.2 Product Functions (Summary)
+- Voice input and transcription (using Whisper)
+- Prompt engineering and NER for extracting design entities (colors, text, layout)
+- Image generation and inpainting (using diffusion models)
+- Segmentation and binary mask generation for text/image areas
+- Image resizing and optimization for printing
+- Mobile app front-end for voice input, editing, and printing
+- Backend and cloud integration for processing and model inference
+
+2.3 User Classes and Characteristics
+- End User (Regular User): A person wanting to create posters for individual use, advertising, or aesthetics. May range from non-technical to designers.
+- Admin: Manages the entire system, including performance, accounts, error handling, model updates, and security.
+
+2.4 Operating Environment
+Mobile application with cloud-based backend services for heavy processing.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Authentication
+FR1.1: Users will sign up using their email, password, and username.
+FR1.2: The system will authenticate the user.
+FR1.3: The system shall allow users to log out of their accounts.
+
+3.2 Voice-to-Text Processing
+FR2.1: The system shall use the user's microphone for voice input.
+FR2.2: The system shall convert voice input into text using a speech recognition model (Whisper).
+FR2.3: The system shall display the text to the user for confirmation or editing.
+
+3.3 Text Input
+FR3.1: The system shall allow users to input text prompts for poster generation manually.
+FR3.2: The system shall validate the text input to ensure it is not empty and has necessary info.
+
+3.4 Poster Generation
+FR4.1: The system shall generate a poster based on user's voice or text prompts using an image generation model (Stable Diffusion).
+FR4.2: The system shall present the generated poster to the user for preview.
+
+3.5 Poster Editing
+FR5.1: The system shall allow users to edit the generated poster (e.g., move text, change colors, fonts, resize elements).
+FR5.2: The system shall apply user edits to the poster in real-time.
+FR5.3: The system shall allow users to undo changes made during the editing process.
+
+3.6 Save and Load Prompts
+FR6.1: The system shall enable users to save their voice or text prompts for later use.
+FR6.2: The system shall allow users to retrieve previously saved prompts and reuse them.
+
+3.7 Save and Share Posters
+FR7.1: The system shall permit users to download generated or edited posters in conventional formats (PNG, JPEG).
+FR7.2: The system shall allow users to share generated posters directly via social media, email, or messaging apps.
+
+3.8 System Monitoring and Management (Admin)
+FR8.1: The system shall enable an admin to monitor system performance (usage, user activity).
+FR8.2: The system shall enable an admin to create, delete, and modify user profiles and access permissions.
+FR8.3: The system shall log errors and enable the admin to view logs for troubleshooting.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability Requirements
+NFR1: The MTBF should not be below 1000 hours of uninterrupted usage.
+NFR2: A system failure is defined as inability to generate a poster or respond to user input.
+NFR3: The system must have automatic recovery mechanisms (retries, fallback strategies).
+NFR4: The system must produce and store failure logs.
+NFR5: The admin must be informed of consecutive failures.
+
+4.2 Usability Requirements
+NFR6: The system shall allow users to generate a poster from a prompt with no more than 3 interactions.
+NFR7: The interface must allow users to preview and edit posters with drag-and-drop functionality.
+NFR8: The system must provide real-time visual feedback during poster generation (progress bars).
+NFR9: The system shall allow users to undo or reset any edits with a single interaction.
+NFR10: The system must provide tips for first-time users.
+
+4.3 Performance Requirements
+NFR11: 95% of posters shall be completed within 30 seconds of the user's request.
+NFR12: 90% of voice-to-text conversions shall be processed and displayed within 5 seconds.
+NFR13: The system must support at least 100 concurrent users without noticeable degradation.
+NFR14: The system shall allow the user to save or share posters within 5 seconds after confirmation.
+NFR15: Under heavy load (>100 concurrent users), response time must be less than 60 seconds for 80% of requests.
+
+4.4 Security Requirements
+NFR16: The system shall prevent unauthorized access to user data and poster generation history.
+NFR17: The system shall detect and log unauthorized access attempts and notify the admin within 5 minutes.
+NFR18: The system shall ensure user data is protected against unauthorized modifications.
+NFR19: The system shall maintain the integrity of poster data during transmission and storage.
+
+================================================================================

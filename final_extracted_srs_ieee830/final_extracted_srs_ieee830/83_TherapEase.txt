@@ -1,0 +1,73 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: TherapEase - Virtual Therapist Assistant Digital Twin
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document specifies the requirements for TherapEase, a web-based application serving as a therapist assistant for individuals with Autism Spectrum Disorder (ASD). It features a 3D digital twin, emotion detection, and Automated Diagnostic Decision Support (ADDS) scores.
+
+1.2 Scope
+The app includes a 3D digital twin for engagement, emotion detection (happiness, sadness, anger, surprise, fear, disgust), and ADDS scores based on interactive questions. Therapists have a dashboard to monitor patient data, emotions, and scores.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ASD: Autism Spectrum Disorder
+- ADDS: Automated Diagnostic Decision Support
+- ESDM: Early Start Denver Model
+- VB-MAPP: Verbal Behavior Milestones Assessment Placement Program
+- 3D: Three-Dimensional
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+TherapEase assists therapists in monitoring the progress of autistic individuals by automating assessments and providing an engaging, interactive environment for patients to express their emotions.
+
+2.2 Product Functions (Summary)
+- 3D digital twin interaction.
+- Emotion detection via video.
+- ADDS score calculation.
+- Therapist dashboard with session data.
+- Secure database storage.
+
+2.3 User Classes and Characteristics
+- Therapists: Professionals who use the dashboard to monitor progress.
+- Patients (Autistic Individuals, 12+): Interact with the digital twin.
+- Developer/Administrators: Manage the platform, user access, and data privacy.
+- Researchers: Use the platform to explore trends and outcomes.
+
+2.4 Operating Environment
+Web-based application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Interaction with 3D Digital Twin
+FR1.1: The digital twin shall engage users with interactive prompts (e.g., selecting shapes, colors) and guide them through therapy sessions.
+
+3.2 Emotion Detection
+FR2.1: The system shall use a facial emotion detection model to capture the user's emotional state (happiness, sadness, confusion, etc.).
+FR2.2: Emotion data shall be updated and stored for therapist review.
+
+3.3 ADDS Score Calculation
+FR3.1: The system shall calculate ADDS scores using predefined algorithms based on user responses and performance.
+FR3.2: Scores shall be generated and stored automatically at the end of each session.
+
+3.4 Database Storage
+FR4.1: All data (user responses, emotion results, ADDS scores) shall be stored securely in compliance with privacy standards.
+FR4.2: Therapists shall have access to historical data for review and analysis.
+
+3.5 Therapist Dashboard
+FR5.1: The dashboard shall show trends in the user's emotional state and ADDS scores across multiple sessions.
+FR5.2: Therapists shall be able to filter data based on session dates or specific tasks.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The web app must have an uptime of at least 99%.
+
+4.2 Usability
+NFR2: The interface shall be intuitive and accessible for users with cognitive impairments.
+
+4.3 Performance
+NFR3: The system must be capable of processing and storing large amounts of data (video streams, emotion data).
+
+4.4 Security
+NFR4: The system must contain only users (Patients) that have admin (Therapist) permissions to protect user data.
+
+================================================================================

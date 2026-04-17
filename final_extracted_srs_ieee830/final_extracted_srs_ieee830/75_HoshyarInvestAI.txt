@@ -1,0 +1,90 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: HoshyarInvestAI - AI-Powered Investment Platform for Pakistan's Tech Sector
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for HoshyarInvestAI, an AI-powered investment platform designed to help investors in Pakistan's tech sector by providing real-time market insights, sentiment analysis, and risk management tools.
+
+1.2 Scope
+The project aims to collect and integrate financial data, public opinion, and trends to provide users with buy, hold, and sell investment signals. It includes modules for data collection, feature engineering, analysis and modeling, a dashboard, and backtesting.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- NLP: Natural Language Processing
+- PSX: Pakistan Stock Exchange
+- TFT: Temporal Fusion Transformer
+- RL: Reinforcement Learning
+- EGARCH: Exponential GARCH model
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+HoshyarInvestAI bridges the gap between traditional investment models and the tech industry by factoring in innovation, scale, and positioning to provide actionable insights for investors.
+
+2.2 Product Functions (Summary)
+- Data collection from PSX, financial reports, and news.
+- Feature engineering for model training.
+- Advanced analysis using TFT, RL, and EGARCH models.
+- User dashboard for portfolio monitoring.
+- Backtesting for strategy validation.
+
+2.3 User Classes and Characteristics
+- Investor: Tech investors in Pakistan seeking data-driven decisions.
+- Admin: Manages system performance and user access.
+- Data Analyst: Interprets data and refines investment strategies.
+
+2.4 Operating Environment
+Web and mobile application.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1: Data Collection and Integration
+FR1.1: The system shall gather real-time stock market data from PSX.
+FR1.2: The system shall gather financial reports from publicly listed companies.
+FR1.3: The system shall analyze market sentiment using news and journal sources.
+FR1.4: The system shall integrate world market trends and economic indicators.
+
+3.2 Module 2: Feature Engineering
+FR2.1: The system shall preprocess raw stock market and financial data.
+FR2.2: The system shall extract relevant features for machine learning models.
+FR2.3: The system shall allow feature selection based on investment strategies.
+FR2.4: The system shall encode and scale the data for model optimization.
+FR2.5: The system shall validate features through backtesting and simulation.
+
+3.3 Module 3: Advanced Analysis and Modeling
+FR3.1: The system shall utilize deep learning models to predict stock price movements.
+FR3.2: The system shall generate a detailed risk assessment report for each stock.
+FR3.3: The system shall identify critical financial trends for tech companies.
+FR3.4: The system shall provide recommendations based on risk level.
+
+3.4 Module 4: Dashboard and User Interface
+FR4.1: The system shall visualize stock performance in a dynamic dashboard.
+FR4.2: The system shall allow users to monitor their investment portfolio performance.
+FR4.3: The system shall provide comparison options between different tech companies.
+FR4.4: The system shall allow real-time interaction with market data.
+
+3.5 Module 5: Backtesting and Strategy Validation
+FR5.1: The system shall backtest historical stock data to validate investment strategies.
+FR5.2: The system shall provide users with suggestions for strategy improvement.
+FR5.3: The system shall simulate different market scenarios to assess strategy effectiveness.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall have a Mean Time Between Failures (MTBF) of at least 1000 hours.
+NFR2: The system shall have failover mechanisms to recover data within 1 hour of failure.
+
+4.2 Usability
+NFR3: The system shall allow users to view stock data with a single click.
+NFR4: The user interface shall require less than 10 minutes of training for new users.
+NFR5: The system shall have built-in error recovery mechanisms for incorrect inputs.
+
+4.3 Performance
+NFR6: The system shall respond to user queries (e.g., stock trend analysis) within 3 seconds.
+NFR7: The system shall support up to 500 simultaneous user queries without performance degradation.
+
+4.4 Security
+NFR8: The system shall encrypt all financial data in transit and at rest using AES-256 encryption.
+NFR9: The system shall require multi-factor authentication for all user logins.
+NFR10: The system shall log all user activities and notify the admin of suspicious behavior.
+
+================================================================================

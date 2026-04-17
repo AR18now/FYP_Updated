@@ -1,0 +1,122 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: ArenaX - Gaming Social and Professional Networking Platform
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines requirements for ArenaX, a cross-platform social-professional networking app designed for the gaming community, providing centralized platform for gamers, esports organizations, and game companies.
+
+1.2 Scope
+ArenaX includes desktop application (user profile module) and mobile application (user profile, networking system, PowerPlay, targeted ads). Features include screen-time tracking, playtime analytics, interest-based user feed, synergy (connection system), threads (chats), organization profile management, battlegrounds (tournaments), talentXchange (staff recruitment), and sponsored posts.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ML: Machine Learning
+- API: Application Programming Interface
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+ArenaX serves as centralized networking platform for gaming industry, providing recognition to casual gamers and e-athletes while serving as professional platform for esports industry.
+
+2.2 Product Functions (Summary)
+- User profile management (desktop and mobile)
+- Playtime analytics dashboard
+- Post gameplay and achievements
+- Interest-based user feed
+- Synergy (connection system) with recommender system
+- Threads (chats)
+- Organization profile management
+- Battlegrounds (tournament/event listings)
+- TalentXchange (staff recruitment listings)
+- Sponsored posts and targeted advertisements
+
+2.3 User Classes and Characteristics
+- Casual Gamer: Maintain player portfolio, network with similar interests
+- Content Creator: Build audience, share gameplay content
+- Esports Athlete: Build portfolio, discover tournaments, connect with teams
+- Esports Organization: Build company portfolio, recruit players and staff, manage events
+- Game Company: Post game updates, marketing
+- Advertiser: Increase reach of content using targeted advertisements
+
+2.4 Operating Environment
+Desktop application (Windows/Linux), mobile application (iOS/Android), PostgreSQL database, Firebase authentication.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Module 1 - User Profile (Desktop App)
+FR1.1: The system shall allow users to register, create, and edit profiles.
+FR1.2: The system shall allow users to upload content (text, photos, videos) on profile.
+FR1.3: The system shall allow users to list games on dashboards.
+FR1.4: The system shall fetch screen time and generate analytics for games played.
+FR1.5: The system shall record and maintain user's game-time analytics.
+FR1.6: The system shall track and display total hours across all games.
+FR1.7: The system shall rank users based on total playtime across all games.
+
+3.2 Module 2 - User Profile (Mobile App)
+FR2.1: The system shall allow users to register, create, and edit profiles.
+FR2.2: The system shall allow users to upload content (text, photos, videos) on profile.
+FR2.3: The system shall allow users to list games on dashboards.
+FR2.4: The system shall fetch screen time and generate analytics for games played.
+FR2.5: The system shall record and maintain user's game-time analytics.
+FR2.6: The system shall allow users to view profiles, posts, and stats of other users.
+FR2.7: The system shall track and display total hours across all games.
+FR2.8: The system shall rank users based on total playtime across all games.
+
+3.3 Module 3 - Networking System (Mobile App)
+FR3.1: The system shall display personalized feed for users according to gaming interests.
+FR3.2: The system shall update user feed in real-time upon arrival of new posts.
+FR3.3: The system shall recommend potential connections based on similar gaming interests and region.
+FR3.4: The system shall allow users to send, accept, or reject synergy requests.
+FR3.5: The system shall allow users to view synergy list.
+FR3.6: The system shall allow users to start conversations with connections.
+FR3.7: The system shall allow users to send text, photos, or videos in messages.
+FR3.8: The system shall allow users to delete conversations.
+FR3.9: The system shall allow real-time messaging between users.
+
+3.4 Module 4 - PowerPlay (Mobile App)
+FR4.1: The system shall allow users to register organization, create and edit organizational profile.
+FR4.2: The system shall allow organization admin to manage staff (adding, removing, role assignment).
+FR4.3: The system shall allow organization admin to post content (text, photos, videos).
+FR4.4: The system shall allow organizations to create, list, and manage tournaments.
+FR4.5: The system shall display personalized list of tournaments and events based on gaming interests and geo-location.
+FR4.6: The system shall allow app users to view and register in tournaments.
+FR4.7: The system shall allow organizations to post job openings.
+FR4.8: The system shall display personalized list of job opportunities based on interests and region.
+FR4.9: The system shall allow users to view and apply for jobs.
+
+3.5 Module 5 - Targeted Ads (Mobile App)
+FR5.1: The system shall allow users to create sponsored posts.
+FR5.2: The system shall allow users to select target audience and view count while sponsoring posts.
+FR5.3: The system shall ensure enhanced visibility and reach of sponsored posts.
+FR5.4: The system shall allow users to view analytics of sponsored posts.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Performance
+NFR1: Handle up to 1,000 users without performance degradation.
+NFR2: Response time for posting and profile management ≤ 4 seconds.
+NFR3: Smooth navigation within 1 second of event.
+
+4.2 Availability
+NFR4: Uptime ≥ 99.99%.
+NFR5: Profile management, game-time tracking, messaging always available.
+
+4.3 Accessibility
+NFR6: App requires stable internet connection.
+
+4.4 Scalability
+NFR7: Handle influx of new users, at least 5,000.
+NFR8: Analytics system handle large amounts of fetched data.
+
+4.5 Security
+NFR9: User data secured using Firebase security; credentials hashed using SHA-256.
+
+4.6 Usability
+NFR10: User-friendly interface.
+NFR11: Easy navigation for all user classes.
+NFR12: All features accessible with minimal effort and learning curve.
+
+4.7 Reliability
+NFR13: Recovery without data loss after system crash.
+NFR14: Playtime tracking and analytics calculations accurate and reliable.
+
+================================================================================

@@ -1,0 +1,45 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Instructo - An AI-Powered Educational Video Creator
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for Instructo, an AI-powered educational video creator that generates instructional videos from input materials.
+
+1.2 Scope
+The system automates the creation of educational videos by integrating various AI components. The workflow includes data collection, LLM-RAG integration, visual generation, and system testing. The output includes features like voice input, real-time captions, basic 3D slides, and a database setup.
+
+1.3 Definitions, Acronyms, Abbreviations
+- AI: Artificial Intelligence
+- LLM: Large Language Model
+- RAG: Retrieval-Augmented Generation
+- 3D: Three-Dimensional
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Instructo aims to simplify the creation of educational videos by leveraging AI to generate content, visuals, and audio, reducing the manual effort required for video production.
+
+2.2 Product Functions (Summary)
+- Data Collection: Gather input materials.
+- LLM-RAG Integration: Process and augment text using language models.
+- Visuals Generation: Generate basic 3D slides and other visuals.
+- System Testing: Deploy, add features, fix bugs, and refine UI/UX.
+
+2.3 User Classes and Characteristics
+- (User classes are implied: Educators, content creators, students who would use the tool to create or consume educational videos.)
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Modules (from poster)
+FR1: Data Collection: The system shall collect input data for video generation.
+FR2: LLM-RAG Integration: The system shall use a Large Language Model with Retrieval-Augmented Generation to process and structure content.
+FR3: Visuals Generation: The system shall generate visual elements, including basic 3D slides.
+FR4: System Testing: The system shall undergo testing including deployment, feature addition, bug fixing, and UI/UX refinement.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Non-Functional Requirements (implied from modules)
+NFR1: The system should have a user-friendly interface (UI/UX refinement).
+NFR2: The system should be reliable with real-time capabilities (voice input, real-time captions).
+NFR3: The system should be scalable to add new features.
+
+================================================================================

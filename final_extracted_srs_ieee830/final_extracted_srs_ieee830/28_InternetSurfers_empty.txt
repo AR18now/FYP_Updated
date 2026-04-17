@@ -1,0 +1,10 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: InternetSurfers
+================================================================================
+
+NOTE: The provided file for this project contains no substantive content. The file appears to be empty or contains only blank lines/formatting characters with no actual project information.
+
+Unable to extract SRS content. Please verify the source file contains the complete project documentation.
+
+================================================================================

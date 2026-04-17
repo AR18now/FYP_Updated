@@ -1,0 +1,99 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: SkillBazaar - Blue Collar Job Marketplace
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+SkillBazaar revolutionizes the blue collar job marketplace by integrating automation and AI to build a platform where illiterate people can easily sell their services, decreasing unemployment caused by informal networks of word-of-mouth.
+
+1.2 Scope
+SkillBazaar is a bilingual platform empowering illiterate and poor blue collar workers (gardeners, plumbers, electricians, daily wage laborers, women in handicraft) with features including automated profile building using CNIC and voice input, job postings, bookings, ratings, multilingual support, voice-based conversational bot, geo-location services, voice-based searches, and user analytics.
+
+1.3 Definitions, Acronyms, Abbreviations
+- OCR: Optical Character Recognition
+- ASR: Automatic Speech Recognition
+- AI: Artificial Intelligence
+- UI: User Interface
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+SkillBazaar automates the blue collar job marketplace, allowing daily wage workers to get profiles created and find suitable jobs with minimal input.
+
+2.2 Product Functions (Summary)
+- Automated profile creation using OCR (CNIC) and voice input
+- Multilingual support (English, Urdu)
+- Conversational bot with ASR technology
+- Service/job posting
+- Service/job matching using AI algorithm
+- Profile matching and maintenance
+- Geo-location services
+- Booking and confirmations
+- Rating and feedback system
+- In-app messaging
+
+2.3 User Classes and Characteristics
+- Blue Collar Worker: Daily wage worker offering labor-intensive services, limited literacy, prefers voice input
+- Employers: Individuals, businesses, organizations needing blue collar workers
+- Job Seekers: Skilled people wanting to sell services
+- Non-Literate Users: Cannot read/write English, need multilingual and voice support
+
+2.4 Operating Environment
+Mobile application (Android/iOS), backend services with AI matching algorithm.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Profile Creation
+FR1.1: English text detection from CNIC using OCR.
+FR1.2: Urdu text detection from CNIC using OCR.
+FR1.3: Speech recognition and understanding.
+FR1.4: Extraction of important information from voice input.
+FR1.5: Retrieved information stored in database.
+
+3.2 Multilingual Support
+FR2.1: Support for English language.
+FR2.2: Support for Urdu language.
+
+3.3 Conversational Bot
+FR3.1: Speech recognition and understanding.
+FR3.2: Urdu voice-based conversation and correct interpretation.
+FR3.3: Quick and easy-to-understand replies.
+
+3.4 Service/Job Posting and Matching
+FR4.1: Services posted by workers seeking jobs.
+FR4.2: Jobs posted by people looking for blue collar workers.
+FR4.3: Application shall manage both types of postings.
+FR4.4: AI algorithm shall match services and jobs according to user/worker preferences.
+FR4.5: Geo-location shall be matched along with other preferences.
+FR4.6: Voice-based conversational bot for this module.
+
+3.5 Profile Matching and Maintenance
+FR5.1: Profile matching based on rating, reviews, geo-location, and other preferences.
+FR5.2: Profile matching allows voice input.
+FR5.3: System shall manage profiles for workers to add new information.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: MTBF ≥ 500 hours for profile creation and job posting modules.
+NFR2: Recovery and resume normal operations within 2 minutes after failure detection.
+NFR3: Error detection mechanisms for failed job postings or profile updates, notify user within 5 seconds.
+NFR4: Store incomplete user sessions and restore upon next login.
+
+4.2 Usability
+NFR5: Profile creation using CNIC and text/voice input ≤ 3 interactions.
+NFR6: Multilingual navigation with options for Urdu and English, switch languages within 1 click.
+NFR7: Job posting ≤ 1 minute via simple form or voice command.
+NFR8: All screens screen-reader compatible for accessibility.
+NFR9: Clear on-screen guidance and error recovery prompts for invalid inputs.
+
+4.3 Performance
+NFR10: 95% of screens (profile creation, job searches, bookings) load ≤ 3 seconds under 4G network.
+NFR11: Job search queries return results within 2 seconds for workers within 50km radius.
+NFR12: OCR extract and process text from images ≤ 4 seconds for 1920x1080 resolution.
+NFR13: Support up to 10,000 concurrent users during peak hours.
+
+4.4 Security
+NFR14: One-time login; one person operates account on one device only.
+NFR15: Encrypt sensitive data (CNIC details, job information) using AES-256.
+NFR16: All uploaded documents and images scanned for malware before storage.
+
+================================================================================

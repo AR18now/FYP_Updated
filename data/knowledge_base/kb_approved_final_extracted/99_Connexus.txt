@@ -1,0 +1,78 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: Connexus - VR Social Skills Training for Introverts
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for Connexus, a Virtual Reality (VR) platform designed to help introverts enhance their social and personal skills through realistic simulations.
+
+1.2 Scope
+The app features predefined scenarios for overthinking, public speaking, and teamwork. Users interact with virtual characters via voice input, receive real-time feedback on speech patterns, get daily tasks, and track progress via gamification.
+
+1.3 Definitions, Acronyms, Abbreviations
+- VR: Virtual Reality
+- LLM: Large Language Model
+- MBTI: Myers-Briggs Type Indicator
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+Connexus provides a controlled, less pressured environment for introverts to practice social interactions, building confidence and reducing anxiety in a way traditional methods fail to do.
+
+2.2 Product Functions (Summary)
+- User profiling via questionnaire.
+- Interactive VR scenarios with virtual characters.
+- Real-time speech analysis (pitch, tone, pauses).
+- Personalized dialogue management via LLM.
+- Real-time feedback.
+- Daily task assignment.
+- Progress tracking and gamification.
+
+2.3 User Classes and Characteristics
+- Teenagers: Navigating social circles, experiencing social anxiety.
+- Adults: Working in professional settings, needing efficient solutions to enhance social skills.
+
+2.4 Operating Environment
+Mobile application with VR headset support.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 User Profiling Module
+FR1.1: The system shall allow new users to register.
+FR1.2: The system shall present users with a questionnaire for the analysis of introversion and personal preferences.
+FR1.3: The system shall save questionnaire responses and use them to personalize the user experience.
+FR1.4: The system shall allow users to update their personal information and preferences.
+
+3.2 Simulation and Interaction Module
+FR2.1: The system shall allow users to select and access predefined scenarios.
+FR2.2: The system shall provide real-time feedback to users during simulations.
+FR2.3: The system shall display tips and suggestions to improve social interaction.
+FR2.4: The system shall allow users to interact with virtual characters through voice input.
+FR2.5: The system shall allow the virtual characters to respond dynamically based on the user's speech.
+FR2.6: The system shall analyze the user's speech for pitch, tone, pauses, and filler words.
+FR2.7: The system shall customize dialogues based on the user's responses for realistic conversations.
+
+3.3 Progress Tracking and Gamification Module
+FR3.1: The system shall generate daily tasks for users.
+FR3.2: The system shall allow users to mark their tasks as completed.
+FR3.3: The system shall award points to users based on their performance.
+FR3.4: The system shall track the user's overall progress over time.
+FR3.5: The system shall present progress visually through charts and reports.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall automatically save user progress (every 5 seconds).
+NFR2: The system shall be able to recover all user data and progress from the last saved state in case of failure.
+NFR3: System uptime should be above 90%.
+
+4.2 Usability
+NFR4: The user interface should be intuitive and easy to use so that new users can navigate without any training.
+
+4.3 Performance
+NFR5: The system should efficiently process user input and respond within 10 seconds.
+NFR6: The system should load predefined scenarios within 6-7 seconds.
+
+4.4 Security
+NFR7: The system must implement robust security measures to protect user data.
+NFR8: The system should log all user interactions.
+
+================================================================================

@@ -1,0 +1,75 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: AtlasPredict - Real-Time Disaster Prediction System for Pakistan
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for AtlasPredict, a real-time disaster prediction system for Pakistan that integrates geospatial data from authoritative sources (NASA, NDMA) and applies advanced machine learning models to predict floods, heavy rainfall, and landslides.
+
+1.2 Scope
+The system ingests data from NASA and NDMA (with future plans for SUPARCO, PMD), preprocesses it, and uses ML models (Random Forest, CNN for initial flood prediction; LSTM, SVM planned) to provide localized predictions. Key features include real-time data streaming, automated alerts, an interactive web-based Pakistan Atlas for visualization, and community reporting.
+
+1.3 Definitions, Acronyms, Abbreviations
+- ML: Machine Learning
+- CNN: Convolutional Neural Network
+- LSTM: Long Short-Term Memory
+- NDMA: National Disaster Management Authority (Pakistan)
+- SUPARCO: Space and Upper Atmosphere Research Commission (Pakistan)
+- PMD: Pakistan Meteorological Department
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+AtlasPredict bridges the technological gap in Pakistan's disaster management framework by providing a centralized, real-time platform that offers precise, timely warnings and localized risk analysis to enhance disaster preparedness and response.
+
+2.2 Product Functions (Summary)
+- Client Web Application: User dashboard with predictions and alerts, interactive Pakistan Atlas, alert notification system.
+- Admin Web Application: Data management interface, machine learning model management, system monitoring.
+- Machine Learning and Prediction Engine: Data preprocessing, predictive modeling (Random Forest, CNN), model retraining, real-time data integration.
+
+2.3 User Classes and Characteristics
+- Government Authorities (NDMA, PDMA): Need real-time data and forecasts for resource allocation, evacuation strategies.
+- Emergency Responders (Rescue 1122): Need real-time alerts and predictive data to mobilize quickly.
+- General Public: Citizens in disaster-prone areas who access region-specific alerts and visualizations.
+- System Administrators: Manage data integrity, model training, and system performance.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 Client Web Application
+FR1: The web application shall display real-time disaster predictions (floods, heavy rainfall) based on satellite and weather data.
+FR2: The system shall provide users with localized, customizable alerts.
+FR3: The system shall allow users to access the interactive Pakistan Atlas for real-time data visualizations of high-risk areas.
+FR4: Users shall receive region-specific advisories, including evacuation instructions based on risk classification.
+FR5: The system shall allow users to review past predictions and advisories via an alert history.
+
+3.2 Admin Web Application
+FR1: The admin interface shall allow administrators to validate and integrate datasets from sources such as NASA and NDMA.
+FR2: The system shall enable administrators to retrain machine learning models based on new data inputs.
+FR3: The system shall allow administrators to monitor system performance, data integrity, and prediction accuracy in real-time.
+FR4: Administrators shall be able to manually trigger alerts or override automated predictions when necessary.
+FR5: The admin web application shall support multi-factor authentication for secure access.
+
+3.3 Machine Learning and Prediction Engine
+FR1: The system shall ingest geospatial datasets (satellite imagery, weather data) from NASA and NDMA, and preprocess the data for analysis.
+FR2: The machine learning models (Random Forest, CNN) shall generate predictions of floods and heavy rainfall.
+FR3: The system shall automatically retrain models based on new data for improved accuracy.
+FR4: The prediction engine shall trigger alerts when the risk threshold for a disaster is crossed.
+FR5: The system shall validate and incorporate community-reported data in real-time to refine predictions.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall maintain an availability of 99.9% with an MTBF of 12 months.
+NFR2: Errors in data ingestion or model execution shall trigger alerts in the admin dashboard.
+
+4.2 Usability
+NFR3: The system's user interface shall allow users to navigate to real-time disaster predictions and alerts within three interactions.
+NFR4: The interface shall be mobile-compatible.
+
+4.3 Performance
+NFR5: The system shall process incoming satellite data within 10-30 seconds, updating predictions in real-time.
+NFR6: The client web application shall display prediction results and visualizations within 5-10 seconds on a standard internet connection.
+
+4.4 Security
+NFR7: All data transmissions between the web application and backend servers shall be encrypted using SSL/TLS.
+NFR8: Multi-factor authentication (MFA) shall be required for administrators accessing the data management and machine learning modules.
+
+================================================================================

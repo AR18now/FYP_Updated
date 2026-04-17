@@ -1,0 +1,120 @@
+================================================================================
+SOFTWARE REQUIREMENTS SPECIFICATION (IEEE 830)
+Project: HaloSight - Worker Safety and Compliance System for Construction Sites
+================================================================================
+
+1. INTRODUCTION
+1.1 Purpose
+This document outlines the requirements for HaloSight, a real-time worker monitoring web application for construction sites that uses video analytics and AI to detect Personal Protective Equipment (PPE) violations, analyze worker stress/fatigue via facial emotion recognition, and provide alerts and reports to improve safety and productivity.
+
+1.2 Scope
+The system uses object detection (PPE detection), facial recognition/emotion analysis (stress, fatigue), a reward system for compliance, data history and report generation, and a user-friendly web interface. It aims to enhance workforce management, reduce accidents, and improve overall site safety.
+
+1.3 Definitions, Acronyms, Abbreviations
+- PPE: Personal Protective Equipment
+- AI: Artificial Intelligence
+- ML: Machine Learning
+- API: Application Programming Interface
+- RBAC: Role-Based Access Control
+- OSHA: Occupational Safety and Health Administration
+
+2. OVERALL DESCRIPTION
+2.1 Product Perspective
+HaloSight addresses the challenges of construction site workforce management by providing real-time, AI-driven monitoring of safety compliance (PPE) and worker well-being (stress/fatigue), enabling proactive interventions and data-driven improvements.
+
+2.2 Product Functions (Summary)
+- PPE Detection and Alerts: Real-time video analytics for PPE detection, alerts to supervisors and workers, compliance status dashboard, historical logs.
+- Facial Emotion and Stress Analysis: Real-time analysis of facial expressions to detect stress/fatigue, alerts to supervisors, personal dashboard for workers, historical data.
+- Reward and Recognition System: Track compliance, assign reward points, allow supervisors to manage and distribute rewards.
+- Data History and Report Generation: Collect and store historical safety and emotional data, automatically generate reports on trends.
+- Web Interface Development: User-friendly web interface for workers and administrators, responsive design.
+- System Integration and Performance: Integrate all components, optimize for real-time performance and low latency.
+
+2.3 User Classes and Characteristics
+- Admins/Supervisors: Oversee daily operations, receive alerts, monitor compliance and emotional health, manage rewards, generate reports.
+- Construction Workers: Perform tasks, receive alerts, access personal emotional health data, participate in reward system.
+- Construction Company: Deploys software, monitors safety compliance reports, manages administrative functions.
+
+3. FUNCTIONAL REQUIREMENTS
+3.1 PPE Detection and Alerts
+FR1: The system shall use real-time video analytics to detect if a worker is missing any required PPE (helmets, gloves, etc.).
+FR2: The system shall alert the supervisor immediately if a PPE violation is detected.
+FR3: The system shall send a notification to the worker in case of a PPE violation.
+FR4: The system shall display real-time PPE compliance status on the supervisor's dashboard.
+FR5: The system shall maintain a historical log of all PPE violations and corresponding actions taken.
+FR6: The system shall allow the supervisor to generate reports on PPE compliance trends over time.
+
+3.2 Facial Emotion and Stress Analysis
+FR1: The system shall analyze workers' facial expressions in real-time to detect signs of stress, fatigue, and discomfort.
+FR2: The system shall send an automatic alert to the supervisor if high stress or fatigue levels are detected.
+FR3: The system shall display the emotional state of workers on the supervisor's dashboard.
+FR4: The system shall provide workers with access to their own emotional state through a personal dashboard.
+FR5: The system shall store emotional state data in a historical log for trend analysis.
+FR6: The system shall notify workers if their emotional state indicates high levels of stress or fatigue.
+
+3.3 Reward and Recognition System
+FR1: The system shall track each worker's compliance with safety protocols.
+FR2: The system shall assign reward points to workers who consistently follow safety protocols.
+FR3: The system shall allow supervisors to manage and distribute rewards based on compliance status.
+FR4: The system shall provide workers with access to their compliance score and reward status.
+
+3.4 Data History and Report Generation
+FR1: The system shall collect and store historical data related to worker safety and emotional states.
+FR2: The system shall automatically generate reports highlighting trends in PPE compliance and emotional health.
+FR3: The system shall allow supervisors to view and customize historical data reports based on time periods, worker compliance, and safety trends.
+FR4: The system shall allow workers to view their personal historical data.
+
+3.5 Web Interface Development
+FR1: The system shall provide a user-friendly web application interface for both workers and administrators.
+FR2: The system shall ensure a responsive design that works seamlessly across desktops, tablets, and mobile devices.
+FR3: The system shall allow users to access the system from any location via a web interface.
+FR4: The system shall allow real-time updates on worker compliance, emotional health, and alerts.
+
+3.6 System Integration and Performance
+FR1: The system shall integrate all components into one unified platform.
+FR2: The system shall ensure that all integrated components function in real-time.
+FR3: The system shall be optimized for performance, ensuring low latency in real-time video processing, notifications, and data updates.
+FR4: The system shall support scalability, allowing multiple construction sites and numerous workers to be monitored.
+
+4. NON-FUNCTIONAL REQUIREMENTS
+4.1 Reliability
+NFR1: The system shall operate with no less than 1,000 Mean Time Between Failure (MTBF) operational hours.
+NFR2: Failure in one module shall not affect the performance of other modules.
+NFR3: The system shall log failures automatically and resume work within 1 minute of failure detection.
+
+4.2 Usability
+NFR4: New users shall accomplish simple operations within five minutes of first use.
+NFR5: The interface shall be designed to minimize errors and allow recovery within three clicks.
+NFR6: The system shall be available via mobile devices, tablets, and desktops with an adaptive layout conforming to WCAG 2.1 standards.
+NFR7: Critical actions shall be performed in two or fewer mouse clicks.
+
+4.3 Performance
+NFR8: The system shall process PPE detection and facial emotion recognition with input-to-alert generation time of less than 2 seconds.
+NFR9: The system shall support up to 1,000 concurrent users without noticeable performance degradation.
+NFR10: The system shall generate a report for the past month in less than 5 seconds.
+NFR11: The system shall be capable of streaming data from multiple construction sites simultaneously with less than 3% downtime over a year.
+
+4.4 Security
+NFR12: The system shall encrypt all user data, including video feeds, using AES-256 encryption.
+NFR13: Admin accounts shall require multi-factor authentication.
+NFR14: The system shall log all user activities with logs retained for 6 months.
+NFR15: The system shall be resistant to security breaches, with a Time-to-Break (TTB) of at least 6 hours for a skilled White Hat hacker.
+NFR16: The system shall lock accounts after three failed login attempts.
+
+4.5 Availability
+NFR17: The system shall have an availability of 99.9%.
+NFR18: Critical services shall be accessible during working hours with no more than 1 minute of downtime.
+
+4.6 Scalability
+NFR19: The system shall scale to accommodate a 50% increase in workers and construction sites without major modifications.
+NFR20: The system shall handle data from up to 50 construction sites simultaneously.
+
+4.7 Maintainability
+NFR21: The system shall allow updates to components while the system is operational, with updates taking no longer than 10 minutes.
+NFR22: The system shall be modular, allowing individual components to be updated without impacting others.
+
+4.8 Compliance
+NFR23: The system shall comply with OSHA regulations.
+NFR24: The system shall comply with GDPR standards for data storage, access, and deletion.
+
+================================================================================

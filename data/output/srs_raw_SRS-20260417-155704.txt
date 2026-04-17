@@ -1,0 +1,144 @@
+INTRODUCTION
+Purpose: To provide a digital solution for managing parking lot reservations and transactions.
+Scope: This document outlines the requirements for a parking management system that includes functionalities for drivers to view parking lots, reserve spaces, and make payments; gate operators to validate reservations and report incidents; and administrators to monitor and manage the system.
+Definitions/Acronyms:
+- PMS: Parking Management System
+References: IEEE Std 830-1998
+Overview: The PMS will enable efficient parking space utilization through real-time information sharing and automated processes.
+
+OVERALL DESCRIPTION
+Product Perspective: The product is a web-based application designed for both mobile and desktop access.
+Product Functions:
+- Real-time display of parking lot status.
+- Reservation of parking spaces.
+- Digital payment processing.
+- QR validation for gate operators.
+- Manual override for gate operators.
+- Incident reporting for gate operators.
+- Reservation expiry management.
+- Grace period handling.
+- Dynamic pricing based on demand.
+- Occupancy analytics monitoring.
+- Revenue summary generation.
+- Maintenance schedule tracking.
+User Characteristics: Users include drivers, gate operators, and administrators who require different levels of functionality.
+Constraints:
+- Limited bandwidth support for mobile devices.
+- No external APIs for third-party integrations.
+Assumptions/Dependencies:
+- Internet connectivity for all users.
+- Standard web browser compatibility across platforms.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+- User Interface: Web-based interface accessible via standard browsers on various devices.
+- Hardware Interface: None specified.
+- Software Interface: Compatibility with common operating systems and web browsers.
+- Communication Interface: Secure HTTP/HTTPS for data transmission.
+
+Functional Requirements
+FR-01: Real-Time Display of Parking Lot Status
+Input: User requests current parking lot status.
+Processing: Retrieve real-time data from connected sensors and update the UI accordingly.
+Output: Updated list of parking lots showing available slots and other relevant details.
+Priority: High
+FR-02: Space Reservation
+Input: Driver selects desired parking slot.
+Processing: Validate user authentication, allocate slot if available, set expiration timer.
+Output: Confirmation message indicating successful reservation or denial due to unavailability.
+Priority: High
+FR-03: Digital Payment Processing
+Input: Driver initiates payment process after reserving a spot.
+Processing: Process payment through secure gateway, deduct fees from driver's account.
+Output: Receipt sent to driver confirming payment and reservation details.
+Priority: High
+FR-04: QR Validation for Gate Operators
+Input: Gate operator scans QR code at entrance.
+Processing: Verify reservation against stored data, open gate if valid.
+Output: Notification to gate operator about whether entry was allowed.
+Priority: Medium
+FR-05: Manual Override for Gate Operators
+Input: Gate operator needs to manually allow entry when QR fails.
+Processing: Allow entry without scanning, log event for later review.
+Output: Notification logged for administrative review.
+Priority: Medium
+FR-06: Incident Reporting for Gate Operators
+Input: Gate operator reports an issue.
+Processing: Record incident details, notify relevant personnel for action.
+Output: Acknowledgment message and record of reported incident.
+Priority: Low
+FR-07: Reservation Expiry Management
+Input: Reservation reaches end time.
+Processing: Automatically invalidate expired reservations.
+Output: Notification to affected drivers.
+Priority: Medium
+FR-08: Grace Period Handling
+Input: Driver exceeds reserved time but within grace period.
+Processing: Extend reservation temporarily until grace period ends.
+Output: Notification to driver about extended reservation.
+Priority: Medium
+FR-09: Dynamic Pricing Based on Demand Windows
+Input: Changes in demand affect parking prices.
+Processing: Adjust prices dynamically according to predefined rules.
+Output: Updated price displayed to users.
+Priority: Medium
+FR-10: Occupancy Analytics Monitoring
+Input: Administrator requests occupancy statistics.
+Processing: Aggregate data from all connected parking lots.
+Output: Summary report displaying usage trends.
+Priority: Low
+FR-11: Revenue Summary Generation
+Input: Administrator requests financial overview.
+Processing: Calculate total income from reservations.
+Output: Detailed revenue report including breakdown by date and location.
+Priority: Low
+FR-12: Maintenance Schedule Tracking
+Input: Administrator sets up maintenance tasks.
+Processing: Schedule and track completion of maintenance activities.
+Output: Report on task progress and completion dates.
+Priority: Low
+
+Non-functional Requirements
+Usability: The system shall be easy to navigate and understand for all types of users.
+Reliability: The system shall ensure minimal downtime and recover quickly from failures.
+Performance: The system shall respond to user actions within 2 seconds under normal load conditions.
+Portability: The system shall be deployable on multiple server environments and adaptable to future changes in technology.
+
+SYSTEM FEATURES
+Feature 1: Real-time display of parking lot status
+Description: Displays live updates on parking lot availability and other pertinent information.
+
+Feature 2: Space reservation
+Description: Allows users to book parking spaces online and receive confirmation.
+
+Feature 3: Digital payment processing
+Description: Facilitates secure transactions for parking reservations.
+
+Feature 4: QR validation for gate operators
+Description: Enables gate operators to verify reservations using QR codes.
+
+Feature 5: Manual override for gate operators
+Description: Provides alternative means for allowing entry when QR validation fails.
+
+Feature 6: Incident reporting for gate operators
+Description: Supports documentation of issues encountered during operation.
+
+Feature 7: Reservation expiry management
+Description: Automates invalidation of expired reservations and notifies users.
+
+Feature 8: Grace period handling
+Description: Temporarily extends reservations for users exceeding their allotted time within a defined period.
+
+Feature 9: Dynamic pricing based on demand windows
+Description: Adjusts parking rates automatically according to current demand patterns.
+
+Feature 10: Occupancy analytics monitoring
+Description: Tracks and analyzes usage trends across all parking facilities.
+
+Feature 11: Revenue summary generation
+Description: Produces detailed financial reports summarizing earnings from parking reservations.
+
+Feature 12: Maintenance schedule tracking
+Description: Manages and monitors planned maintenance activities for parking infrastructure.
+
+End of Document.

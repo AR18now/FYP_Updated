@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FileText, LogOut, User } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
+import { BrandMark } from './BrandLogo';
 
 const Header = ({ theme = 'dark', onToggleTheme, currentUser, onLogout }) => {
   const navigate = useNavigate();
@@ -30,9 +31,7 @@ const Header = ({ theme = 'dark', onToggleTheme, currentUser, onLogout }) => {
             className="flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-600 rounded-lg p-1 transition-transform duration-200 hover:scale-105"
             aria-label="Home - Req2Design"
           >
-            <div className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-white/20 flex items-center justify-center shadow-inner group-hover:bg-white/30 transition-colors duration-200">
-              <FileText className="h-5 w-5 md:h-6 md:w-6" aria-hidden="true" />
-            </div>
+            <BrandMark className="h-10 w-10 md:h-12 md:w-12 border border-white/25 shadow-inner group-hover:border-white/40 transition-colors duration-200" imgClassName="h-full w-full object-contain" />
             <div className="hidden sm:block">
               <h1 className="text-xl md:text-2xl font-bold leading-tight">Req2Design</h1>
             </div>

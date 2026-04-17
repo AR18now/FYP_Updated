@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Sparkles, User, UserCheck, LogIn, UserPlus, ArrowLeft, ArrowRight, Moon, Sun, CheckCircle2 } from 'lucide-react';
+import { User, UserCheck, LogIn, UserPlus, ArrowLeft, ArrowRight, Moon, Sun, CheckCircle2 } from 'lucide-react';
+import { BrandFull } from '../components/BrandLogo';
 import { useTheme } from '../context/ThemeContext';
 import { isAuthenticated, getCurrentUser, ROLES } from '../utils/auth';
 
@@ -39,10 +40,9 @@ const WelcomePage = () => {
       </button>
 
       <div className="w-full max-w-4xl space-y-10">
-        <header className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-r2d-primary/10 border border-r2d-primary/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-r2d-primary dark:text-r2d-accentSoft">
-            <Sparkles className="h-3.5 w-3.5" />
-            Req2Design
+        <header className="text-center space-y-5">
+          <div className="flex justify-center">
+            <BrandFull className="h-14 sm:h-16 w-auto max-w-[min(280px,85vw)] object-contain mx-auto" alt="Req2Design" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold font-display text-r2d-primary dark:text-slate-100">
             Choose your workspace

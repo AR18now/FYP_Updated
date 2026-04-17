@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, Twitter, Linkedin } from 'lucide-react';
+import { BrandMark } from './BrandLogo';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -43,9 +44,12 @@ const Footer = () => {
             </a>
           </div>
 
-          <div className="text-center md:text-right space-y-1">
-            <div className="font-medium">
-              Copyright © {year} Req2Design • Final Year Project - FAST NUCES
+          <div className="flex flex-col items-center md:items-end gap-3 text-center md:text-right">
+            <div className="flex items-center gap-3">
+              <BrandMark className="h-8 w-8 border border-slate-600/40 shrink-0" imgClassName="h-full w-full object-contain" />
+              <div className="font-medium">
+                Copyright © {year} Req2Design • Final Year Project - FAST NUCES
+              </div>
             </div>
             <div className="space-x-2 text-slate-500" style={{ color: 'var(--muted)' }}>
               <a href="#" className="hover:text-slate-700 transition-colors">Privacy Policy</a>

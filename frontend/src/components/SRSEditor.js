@@ -206,7 +206,7 @@ const SRSEditor = ({ srsData, onSave, onClose, theme = 'dark' }) => {
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white rounded-lg flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="h-4 w-4" />
             <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>

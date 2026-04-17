@@ -4,19 +4,39 @@
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#18181b" />
     <meta
       name="description"
       content="Req2Design"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Req2Design</title>
+    <style>
+      #r2d-boot-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483646;
+        background: radial-gradient(circle at 20% 20%, #0b1d33 0%, #020617 55%, #000000 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+      #r2d-boot-splash img {
+        max-width: min(380px, 88vw);
+        height: auto;
+        display: block;
+      }
+    </style>
   </head>
   <body>
+    <div id="r2d-boot-splash" aria-hidden="true">
+      <img src="%PUBLIC_URL%/req2design-brand-full.png" alt="" />
+    </div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

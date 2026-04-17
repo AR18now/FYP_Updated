@@ -85,7 +85,7 @@ const RTMPage = ({ srsData, useCaseData }) => {
 
       {report && (
         <>
-          <section className="grid md:grid-cols-3 gap-4">
+          <section className="grid md:grid-cols-2 gap-4">
             <div className="rounded-xl border border-r2d-border bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
               <p className="text-xs uppercase text-slate-500">Coverage</p>
               <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(summary.coverage_ratio)}</p>
@@ -95,11 +95,6 @@ const RTMPage = ({ srsData, useCaseData }) => {
               <p className="text-xs uppercase text-slate-500">Consistency</p>
               <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(summary.consistency_ratio)}</p>
               <p className="text-xs text-slate-500 mt-1">Textual and diagram links agree</p>
-            </div>
-            <div className="rounded-xl border border-r2d-border bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
-              <p className="text-xs uppercase text-slate-500">Testability</p>
-              <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(summary.testability_ratio)}</p>
-              <p className="text-xs text-slate-500 mt-1">{summary.testable_requirements}/{summary.total_requirements} measurable</p>
             </div>
           </section>
 
@@ -116,7 +111,6 @@ const RTMPage = ({ srsData, useCaseData }) => {
                     <th className="py-2 pr-3">Diagram Use Cases</th>
                     <th className="py-2 pr-3">Coverage</th>
                     <th className="py-2 pr-3">Consistency</th>
-                    <th className="py-2 pr-3">Testability</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,9 +129,6 @@ const RTMPage = ({ srsData, useCaseData }) => {
                       </td>
                       <td className="py-2 pr-3">
                         <span className={`inline-flex px-2 py-0.5 rounded border text-xs ${badgeClass(r.consistency_status)}`}>{r.consistency_status}</span>
-                      </td>
-                      <td className="py-2 pr-3">
-                        <span className={`inline-flex px-2 py-0.5 rounded border text-xs ${badgeClass(r.testability_status)}`}>{r.testability_status}</span>
                       </td>
                     </tr>
                   ))}

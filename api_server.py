@@ -54,7 +54,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Pt
+from docx.shared import Pt, RGBColor
 
 # CRA emits assets under frontend/build/static/; disable Flask's default /static -> ./static
 # (would otherwise serve empty /app/static from Dockerfile and return 404 for JS/CSS).
@@ -3457,73 +3457,70 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
         run2._r.append(fld_char_end2)
 
     doc = Document()
+    normal = doc.styles['Normal']
+    normal.font.name = 'Times New Roman'
+    normal.font.size = Pt(12)
+
     if doc.sections and doc.sections[0].footer.paragraphs:
         footer_p = doc.sections[0].footer.paragraphs[0]
     else:
         footer_p = doc.sections[0].footer.add_paragraph()
     _add_page_number(footer_p)
 
-    project_label = (title or '').strip()
-    if not project_label or project_label.lower() == 'software requirements specification':
-        project_label = 'Project'
-    author_label = (author or '').strip() or 'author'
-    org_label = 'organization'
+    display_title = (title or '').strip() or 'Untitled Project'
+    author_label = (author or '').strip() or 'System'
     version_label = (version or '').strip() or '1.0'
     created_label = (date_value or '').strip() or datetime.now().strftime('%Y-%m-%d')
+    doc_id_display = (document_id or '').strip() or '-'
 
-    cover_rule = doc.add_paragraph('_' * 86)
-    cover_rule.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    kicker = doc.add_paragraph('Software Requirements Specification')
+    kicker.runs[0].font.size = Pt(9)
+    kicker.runs[0].font.bold = True
+    kicker.runs[0].font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+    kicker.paragraph_format.space_after = Pt(4)
 
-    cover_title = doc.add_paragraph()
-    cover_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title_run = cover_title.add_run('Software Requirements\nSpecification')
-    title_run.bold = True
-    title_run.font.size = Pt(24)
+    h_title = doc.add_heading(display_title, level=1)
+    h_title.runs[0].font.size = Pt(22)
+    h_title.runs[0].font.bold = True
 
-    doc.add_paragraph('')
-    for_line = doc.add_paragraph('for')
-    for_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    for_line.runs[0].bold = True
-
-    project_line = doc.add_paragraph(f"<{project_label}>")
-    project_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    project_run = project_line.runs[0]
-    project_run.bold = True
-    project_run.font.size = Pt(22)
-
-    version_line = doc.add_paragraph(f"Version {version_label} approved")
-    version_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    version_line.runs[0].bold = True
-
-    doc.add_paragraph('')
-    prepared_line = doc.add_paragraph(f"Prepared by <{author_label}>")
-    prepared_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    prepared_line.runs[0].bold = True
-
-    org_line = doc.add_paragraph(f"<{org_label}>")
-    org_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    org_line.runs[0].bold = True
-
-    date_line = doc.add_paragraph(f"<{created_label}>")
-    date_line.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    date_line.runs[0].bold = True
-
-    doc.add_paragraph('')
-    footer_line = doc.add_paragraph(
-        "Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document."
+    sub = doc.add_paragraph(
+        'Structured technical document aligned for formal review, sign-off, and handover.'
     )
-    footer_line.runs[0].italic = True
+    sub.runs[0].font.size = Pt(11)
+    sub.runs[0].font.color.rgb = RGBColor(0x33, 0x41, 0x55)
+    sub.paragraph_format.space_after = Pt(10)
+
+    meta_tbl = doc.add_table(rows=2, cols=4)
+    meta_tbl.style = 'Table Grid'
+    hdr = meta_tbl.rows[0].cells
+    hdr[0].text = 'Document ID'
+    hdr[1].text = 'Version'
+    hdr[2].text = 'Date'
+    hdr[3].text = 'Author'
+    for c in hdr:
+        for run in c.paragraphs[0].runs:
+            run.font.bold = True
+            run.font.size = Pt(8)
+            run.font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
+    row = meta_tbl.rows[1].cells
+    row[0].text = doc_id_display
+    row[1].text = version_label
+    row[2].text = created_label
+    row[3].text = author_label
+    doc.add_paragraph('')
+
+    badges = doc.add_paragraph()
+    badges.add_run('Req2Design').font.size = Pt(8)
+    badges.add_run('   ')
+    badges.add_run('IEEE 830-1998 aligned').font.size = Pt(8)
+    badges.add_run('   ')
+    badges.add_run('Generated draft for expert review').font.size = Pt(8)
+    for r in badges.runs:
+        r.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+
+    doc.add_paragraph('')
 
     doc.add_page_break()
-
-    doc.add_heading('Software Requirements Specification', 0)
-    meta = doc.add_paragraph()
-    meta.add_run(f"Document ID: {document_id or 'N/A'}\n")
-    meta.add_run(f"Version: {version or '1.0'}\n")
-    meta.add_run(f"Date: {date_value or datetime.now().strftime('%Y-%m-%d')}\n")
-    meta.add_run(f"Author: {author or 'System'}")
-
-    doc.add_paragraph('')
 
     source_text = str(raw_text or '').strip()
     if not source_text and isinstance(sections, dict):
@@ -3592,6 +3589,20 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
             continue
 
         doc.add_paragraph(line)
+
+    doc.add_paragraph('')
+    end_hdr = doc.add_paragraph()
+    end_run = end_hdr.add_run('End of document')
+    end_run.bold = True
+    end_run.font.size = Pt(10)
+    end_run.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+    end_hdr.paragraph_format.space_after = Pt(4)
+    end_note = doc.add_paragraph(
+        'Generated by Req2Design – AI SRS Engineering Platform. This footer is added by the application '
+        '(not the model) to keep exports consistent.'
+    )
+    end_note.runs[0].font.size = Pt(9)
+    end_note.runs[0].font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
 
     safe_title = re.sub(r'[\\/:*?"<>|]+', '', str(title or 'SRS')).strip() or 'SRS'
     safe_title = re.sub(r'\s+', '_', safe_title)
@@ -4346,17 +4357,13 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     )
 
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    project_label = (title or '').strip()
-    if not project_label or project_label.lower() == 'software requirements specification':
-        project_label = 'Project'
-    author_label = (author or '').strip() or 'author'
-    org_label = "organization"
+    author_label = (author or '').strip() or 'System'
     version_label = (version or '').strip() or '1.0'
     created_label = (date or '').strip() or datetime.now().strftime("%Y-%m-%d")
     return f"""<!DOCTYPE html>
 <html>
 <head>
-    <title>{title}</title>
+    <title>{html.escape(title)}</title>
     <meta charset="UTF-8">
     <style>
         @page {{
@@ -4381,59 +4388,79 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             overflow: hidden;
             margin-bottom: 16px;
         }}
-        .cover {{
-            min-height: 250mm;
-            box-sizing: border-box;
-            page-break-after: always;
-            padding: 8mm 4mm 6mm;
-            position: relative;
-        }}
-        .cover-top-rule {{
-            border-top: 2px solid #111827;
-            margin: 0 0 20mm;
-        }}
-        .cover-main-title {{
-            margin: 0;
-            text-align: center;
-            font-size: 22pt;
-            line-height: 1.15;
-            font-weight: 800;
-            color: #000;
-        }}
-        .cover-right {{
-            width: 62%;
-            margin-left: auto;
-            margin-top: 24mm;
-            text-align: right;
-            color: #000;
-        }}
-        .cover-for {{
-            margin: 0 0 10mm;
-            font-size: 19pt;
-            font-weight: 700;
-        }}
-        .cover-project {{
+        /* Title page — matches Req2Design SRS viewer export styling */
+        .pdf-title-cover {{
+            border: 1px solid #d7e0ee;
+            border-radius: 14px;
+            padding: 12mm 10mm;
             margin: 0 0 12mm;
-            font-size: 32pt;
+            page-break-after: always;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(15, 23, 42, 0.03)), #f8fbff;
+            box-sizing: border-box;
+        }}
+        .srs-cover-kicker {{
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-size: 9pt;
+            font-weight: 700;
+            color: #475569;
+            margin: 0 0 6pt;
+        }}
+        .srs-cover-title {{
+            font-size: 22pt;
             font-weight: 800;
+            margin: 0 0 8pt;
+            color: #0f172a;
+            line-height: 1.15;
         }}
-        .cover-version {{
-            margin: 0 0 14mm;
-            font-size: 15pt;
-            font-weight: 700;
+        .srs-cover-sub {{
+            font-size: 11pt;
+            color: #334155;
+            margin: 0 0 12pt;
+            line-height: 1.45;
         }}
-        .cover-prepared, .cover-org, .cover-date {{
-            margin: 0 0 8mm;
-            font-size: 13pt;
-            font-weight: 700;
-        }}
-        .cover-footnote {{
-            position: absolute;
-            left: 4mm;
-            bottom: 4mm;
-            margin: 0;
+        .srs-cover-meta-table {{
+            width: 100%;
+            border-collapse: collapse;
             font-size: 10pt;
-            color: #374151;
+            margin-top: 6pt;
+        }}
+        .srs-cover-meta-table th,
+        .srs-cover-meta-table td {{
+            border: 1px solid #d7e0ee;
+            padding: 7pt 8pt;
+            text-align: left;
+            vertical-align: top;
+        }}
+        .srs-cover-meta-table th {{
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            background: rgba(255, 255, 255, 0.9);
+            font-weight: 700;
+        }}
+        .srs-cover-meta-table td {{
+            font-weight: 600;
+            color: #0f172a;
+        }}
+        .badge-row {{
+            margin-top: 10pt;
+            font-size: 8pt;
+            color: #475569;
+        }}
+        .badge {{
+            display: inline-block;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            padding: 4pt 8pt;
+            margin: 4pt 6pt 0 0;
+            background: rgba(255, 255, 255, 0.88);
+        }}
+        .pdf-title-foot {{
+            margin-top: 12pt;
+            font-size: 9pt;
+            color: #64748b;
             font-style: italic;
         }}
         .doc-header-top {{
@@ -4495,12 +4522,49 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             padding-left: 4px;
         }}
         .srs-list li {{ margin: 4px 0; }}
+        .srs-doc-root {{
+            font-size: 12pt;
+            line-height: 1.92;
+        }}
+        .req-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10.2pt;
+            margin: 8px 0 14px;
+        }}
+        .req-table th, .req-table td {{
+            border: 1px solid #d7e0ee;
+            padding: 6px 7px;
+            text-align: left;
+            vertical-align: top;
+        }}
+        .req-table th {{
+            background: rgba(248, 250, 252, 0.95);
+            font-weight: 700;
+            color: #334155;
+        }}
         .doc-footer {{
-            margin-top: 22px;
-            border-top: 1px solid #cbd5e1;
-            padding-top: 10px;
+            margin-top: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.96);
             color: #64748b;
-            font-size: 10pt;
+            font-size: 9.5pt;
+            line-height: 1.45;
+        }}
+        .doc-footer-title {{
+            margin: 0 0 6px;
+            font-size: 10.5pt;
+            color: #0f172a;
+        }}
+        .doc-footer-note {{
+            margin: 0;
+        }}
+        .doc-footer-ts {{
+            margin: 8px 0 0;
+            font-size: 9pt;
+            color: #94a3b8;
         }}
         .page-number {{
             position: fixed;
@@ -4558,7 +4622,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
         }}
         .toc-list li.d2 {{ margin-left: 10px; }}
         .toc-list li.d3, .toc-list li.d4, .toc-list li.d5 {{ margin-left: 20px; }}
-        .content {{ page-break-before: always; max-width: 180mm; }}
+        .content {{ page-break-before: always; }}
         .revision-box {{
             margin: 0 0 18px;
             page-break-after: always;
@@ -4582,18 +4646,33 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     </style>
 </head>
 <body>
-    <section class="cover">
-      <div class="cover-top-rule"></div>
-      <h1 class="cover-main-title">Software Requirements<br/>Specification</h1>
-      <div class="cover-right">
-        <p class="cover-for">for</p>
-        <p class="cover-project">&lt;{html.escape(project_label)}&gt;</p>
-        <p class="cover-version">Version {html.escape(version_label)} approved</p>
-        <p class="cover-prepared">Prepared by &lt;{html.escape(author_label)}&gt;</p>
-        <p class="cover-org">&lt;{html.escape(org_label)}&gt;</p>
-        <p class="cover-date">&lt;{html.escape(created_label)}&gt;</p>
+    <section class="pdf-title-cover">
+      <p class="srs-cover-kicker">Software Requirements Specification</p>
+      <h1 class="srs-cover-title">{html.escape((title or '').strip() or 'Untitled Project')}</h1>
+      <p class="srs-cover-sub">Structured technical document aligned for formal review, sign-off, and handover.</p>
+      <table class="srs-cover-meta-table" role="presentation">
+        <thead>
+          <tr>
+            <th style="width: 28%;">Document ID</th>
+            <th style="width: 18%;">Version</th>
+            <th style="width: 22%;">Date</th>
+            <th style="width: 32%;">Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{html.escape((document_id or '').strip() or '-')}</td>
+            <td>{html.escape(version_label)}</td>
+            <td>{html.escape(created_label)}</td>
+            <td>{html.escape(author_label)}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="badge-row">
+        <span class="badge">Req2Design</span>
+        <span class="badge">IEEE 830-1998 aligned</span>
+        <span class="badge">Generated draft for expert review</span>
       </div>
-      <p class="cover-footnote">Copyright © 1999 by Karl E. Wiegers. Permission is granted to use, modify, and distribute this document.</p>
     </section>
     <pdf:nextpage />
 
@@ -4630,10 +4709,17 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     </section>
     <pdf:nextpage />
 
-    <div class="content">{body_html}</div>
-
-    <div class="doc-footer">
-      <strong>End of document.</strong> Generated by Req2Design – AI SRS Engineering Platform · {generated_at}
+    <div class="content srs-paper-shell">
+      <div class="srs-paper">
+        <div class="srs-doc-root">
+          {body_html}
+        </div>
+        <div class="doc-footer">
+          <p class="doc-footer-title"><strong>End of document</strong></p>
+          <p class="doc-footer-note">Generated by <strong>Req2Design – AI SRS Engineering Platform</strong>. This footer is added by the application (not the model) to keep exports consistent.</p>
+          <p class="doc-footer-ts">{html.escape(generated_at)}</p>
+        </div>
+      </div>
     </div>
     <div class="page-number">Page <pdf:pagenumber /> of <pdf:pagecount /></div>
 </body>

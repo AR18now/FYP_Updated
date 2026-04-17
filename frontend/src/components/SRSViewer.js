@@ -32,6 +32,7 @@ import {
   flagTypeLabel,
 } from '../utils/srsQualityCopy';
 import SrsAiEvaluationMetrics from './SrsAiEvaluationMetrics';
+import { brandUrl } from './BrandLogo';
 
 /** Same contract as generate-srs-stream `results` body. */
 function buildRequirementsArrayForSrs(resultsData) {
@@ -157,7 +158,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     })();
   }, [location.state, currentResults, onSelectSrsVariant]);
 
-  const runModelVsRagComparison = useCallback(async () => {
+  const runModelComparison = useCallback(async () => {
     const results = buildRequirementsArray(currentResults);
     if (!results.length) {
       setCompareError('No processed requirements found. Please run "Process & Generate SRS" first.');
@@ -179,8 +180,8 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
       );
       setCompareData(response.data || null);
     } catch (err) {
-      console.error('Model vs RAG comparison failed:', err);
-      setCompareError(getApiErrorMessage(err, 'Could not run model vs RAG comparison.'));
+      console.error('Model comparison failed:', err);
+      setCompareError(getApiErrorMessage(err, 'Could not run model comparison.'));
     } finally {
       setIsComparing(false);
     }
@@ -957,12 +958,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 disabled:opacity-50"
                   disabled={isComparing || !buildRequirementsArray(currentResults).length}
                   onClick={() => {
-                    runModelVsRagComparison();
+                    runModelComparison();
                     setActionsMenuOpen(false);
                   }}
                 >
                   <RefreshCw className={`h-4 w-4 text-r2d-accent shrink-0 ${isComparing ? 'animate-spin' : ''}`} />
-                  {isComparing ? 'Comparing models…' : 'Compare Fine-tuned vs RAG'}
+                  {isComparing ? 'Comparing models…' : 'Compare model outputs'}
                 </button>
               </div>
             )}
@@ -1189,10 +1190,10 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
 
         <div className="mb-6 rounded-lg border border-r2d-accent/30 dark:border-r2d-primary/60 bg-r2d-accentMuted/45 dark:bg-r2d-primary/20 p-4">
           <div>
-            <h4 className="text-sm font-semibold text-r2d-primary dark:text-r2d-accentSoft">Testing Lab: Fine-tuned vs RAG</h4>
+            <h4 className="text-sm font-semibold text-r2d-primary dark:text-r2d-accentSoft">Testing Lab: Model comparison</h4>
             <p className="text-xs text-r2d-primary/90 dark:text-slate-200/90 mt-1">
-              Run both approaches on the same input, compare scores, then load either output into this viewer. Start the run from{' '}
-              <strong className="text-r2d-primary dark:text-slate-100">Actions → Compare Fine-tuned vs RAG</strong> above.
+              Run multiple generation approaches on the same input, compare scores, then load either output into this viewer. Start the run from{' '}
+              <strong className="text-r2d-primary dark:text-slate-100">Actions → Compare model outputs</strong> above.
             </p>
           </div>
           {compareError && (
@@ -1202,7 +1203,13 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
             <div className="mt-4 grid md:grid-cols-2 gap-3">
               {[
                 { key: 'model_output', label: 'Fine-tuned Model' },
-                { key: 'rag_output', label: 'RAG Approach' },
+                {
+                  key:
+                    Object.keys(compareData || {}).find(
+                      (k) => k !== 'model_output' && k.endsWith('_output')
+                    ) || 'alternate_output',
+                  label: 'Alternate Approach',
+                },
               ].map(({ key, label }) => {
                 const item = compareData?.[key] || {};
                 const hall = item?.hallucination_analysis || {};
@@ -1447,59 +1454,48 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
         </div>
 
         {srsData.raw_text ? (
-          <div className="mt-8">
-            <div className="bg-gray-50 dark:bg-slate-800/50 p-3 sm:p-6 rounded-lg border border-gray-200 dark:border-slate-600 overflow-x-hidden">
-              <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/70 shadow-sm mb-6 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-700">
-                  <h2 className="text-lg font-bold text-r2d-primary dark:text-slate-100 tracking-tight">
-                    Document Overview
-                  </h2>
-                  <div className="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-slate-600 dark:text-slate-300">
-                    <div><span className="font-semibold">Document ID:</span> <span className="font-mono">{srsData.document_id}</span></div>
-                    <div><span className="font-semibold">Version:</span> {srsData.version}</div>
-                    <div><span className="font-semibold">Date:</span> {srsData.date}</div>
-                    <div><span className="font-semibold">Author:</span> {srsData.author}</div>
-                  </div>
-                </div>
-                <div className="px-5 py-3 bg-slate-50/80 dark:bg-slate-950/40 text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap gap-x-3 gap-y-1">
-                  <span className="font-semibold text-slate-600 dark:text-slate-300">Req2Design</span>
-                  <span>IEEE 830-1998 aligned</span>
-                  <span>Generated output · verify before sign-off</span>
-                </div>
-              </div>
-              <section className="mb-6 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 p-3 sm:p-5">
-                <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400 mb-2">
-                  Software Requirements Specification
-                </p>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight mb-3">
+          <div className="mt-8 srs-paper-shell">
+            <div className="srs-paper p-3 sm:p-6 overflow-x-hidden">
+              <section className="srs-doc-cover mb-6 p-4 sm:p-6">
+                <p className="srs-cover-kicker mb-2">Software Requirements Specification</p>
+                <h2 className="srs-cover-title text-2xl sm:text-[2rem] text-slate-900 dark:text-slate-100 leading-tight">
                   {srsData.title || 'Untitled Project'}
                 </h2>
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Document Control</p>
-                <div className="overflow-x-auto">
-                  <table className="min-w-[520px] w-full border-collapse text-sm">
+                <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                  Structured technical document aligned for formal review, sign-off, and handover.
+                </p>
+                <div className="srs-cover-meta mt-4 overflow-x-auto">
+                  <table className="min-w-[560px] w-full border-collapse text-sm">
                     <thead>
-                      <tr className="bg-slate-50 dark:bg-slate-800/70">
+                      <tr>
+                        <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Document ID</th>
                         <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Version</th>
                         <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Date</th>
                         <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Author</th>
-                        <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 text-left font-semibold">Change Summary</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
+                        <td className="border border-slate-300 dark:border-slate-600 px-3 py-2 font-mono text-xs">{srsData.document_id || '-'}</td>
                         <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">{srsData.version || '1.0'}</td>
                         <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">{srsData.date || '-'}</td>
                         <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">{srsData.author || 'System'}</td>
-                        <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Initial generated draft for structured review.</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full border border-slate-300/80 dark:border-slate-600 bg-black dark:bg-slate-900/50">
+                    <img src={brandUrl('/req2design-brand-mark.png')} alt="" className="h-5 w-5 object-contain" width="20" height="20" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Req2Design</span>
+                  </span>
+                  <span className="px-2 py-1 rounded-full border border-slate-300/80 dark:border-slate-600 text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/50">IEEE 830-1998 aligned</span>
+                  <span className="px-2 py-1 rounded-full border border-slate-300/80 dark:border-slate-600 text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/50">Generated draft for expert review</span>
+                </div>
               </section>
               <div
                 ref={docRootRef}
-                className="srs-doc-root text-gray-800 dark:text-slate-200"
-                style={{ fontFamily: 'system-ui, Segoe UI, Arial, sans-serif' }}
+                className="srs-doc-root"
                 dangerouslySetInnerHTML={{ __html: srsFormattedHtml }}
               />
               <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/70 shadow-sm overflow-hidden">

@@ -21,9 +21,9 @@ import {
   UserCircle2,
   UserCheck,
   BarChart3,
-  Search,
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { BrandMark } from '../BrandLogo';
 
 const primaryNav = [
   { to: '/', label: 'Workspace Home', icon: LayoutDashboard, end: true },
@@ -35,6 +35,9 @@ const primaryNav = [
   { to: '/textual-usecases', label: 'Textual use cases', icon: ClipboardList },
   { to: '/usecase-diagram', label: 'Use case diagram', icon: GitBranch },
   { to: '/rtm', label: 'RTM matrix', icon: Table2 },
+];
+
+const secondaryNav = [
   { to: '/profile', label: 'Profile', icon: UserCircle2 },
   { to: '/history', label: 'History', icon: History },
   { to: '/settings', label: 'Settings', icon: Settings },
@@ -68,11 +71,11 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-sky-100 via-cyan-50 to-emerald-100 text-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-slate-100 via-blue-50/80 to-indigo-50/70 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
       {sidebarOpen && (
         <button
           type="button"
-          className="fixed inset-0 z-40 bg-r2d-primary/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-zinc-900/55 backdrop-blur-sm lg:hidden"
           aria-label="Close menu"
           onClick={closeMobile}
         />
@@ -81,33 +84,29 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
       <aside
         className={`
           fixed z-50 inset-y-0 left-0 flex flex-col w-64 overflow-y-auto
-          bg-gradient-to-b from-teal-700 via-cyan-700 to-emerald-700 text-slate-100 border-r border-white/10 shadow-nav
+          bg-gradient-to-b from-r2d-primaryDark via-r2d-primary to-r2d-primaryDark text-zinc-100 border-r border-white/10 shadow-nav
           transform transition-all duration-200 ease-out
           ${collapsed ? 'lg:w-[76px]' : 'lg:w-64'}
           lg:translate-x-0 lg:static lg:z-0 lg:sticky lg:top-0 lg:h-screen
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${collapsed ? 'px-3 justify-between' : 'px-4'}`}>
-          <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center shadow-lg shrink-0 overflow-hidden border border-white/20">
-            <img
-              src={`${process.env.PUBLIC_URL}/req2design_logo_clean_2x.png`}
-              alt="Req2Design logo"
-              className="h-7 w-7 object-contain"
-            />
-          </div>
+        <div className={`h-16 flex items-center gap-3 border-b border-white/10 shrink-0 ${collapsed ? 'px-3 justify-end' : 'px-4 justify-between'}`}>
           {!collapsed && (
-            <div className="min-w-0 flex-1">
-              <Link to="/" className="font-semibold text-white tracking-tight text-sm leading-tight block truncate" onClick={closeMobile}>
-                Req2Design
-              </Link>
-              <p className="text-[10px] text-slate-400 mt-0.5 leading-tight">AI SRS Engineering</p>
-            </div>
+            <Link
+              to="/"
+              onClick={closeMobile}
+              className="min-w-0 flex-1 flex flex-col justify-center gap-0.5"
+              aria-label="Req2Design home"
+            >
+              <p className="text-sm font-semibold text-white tracking-tight leading-tight">Req2Design</p>
+              <p className="text-[10px] text-zinc-400 leading-tight">AI SRS Engineering</p>
+            </Link>
           )}
           <button
             type="button"
             onClick={() => setCollapsed((c) => !c)}
-            className="hidden lg:inline-flex p-1.5 rounded-md text-slate-300 hover:text-white hover:bg-white/10"
+            className="hidden lg:inline-flex p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/10"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!collapsed}
           >
@@ -129,7 +128,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                 ${
                   isActive
                     ? 'bg-white/12 text-white shadow-inner border border-white/10'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    : 'text-zinc-300 hover:bg-white/5 hover:text-white'
                 }`
               }
             >
@@ -139,39 +138,64 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
           ))}
         </nav>
 
-        <div className={`p-3 border-t border-white/10 text-[10px] text-slate-500 shrink-0 ${collapsed ? 'hidden lg:block' : ''}`}>
-          {!collapsed && <p className="px-1 leading-relaxed">IEEE 830 · RAG · Quality metrics</p>}
+        <div className="px-2 pb-3">
+          {!collapsed && (
+            <p className="px-2.5 pb-2 text-[10px] uppercase tracking-wider text-zinc-400/90 font-semibold">
+              Account
+            </p>
+          )}
+          <div className="space-y-0.5 border-t border-white/10 pt-2">
+            {secondaryNav.map(({ to, label, icon: Icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                onClick={closeMobile}
+                title={label}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors
+                  ${collapsed ? 'justify-center px-2' : ''}
+                  ${
+                    isActive
+                      ? 'bg-white/12 text-white shadow-inner border border-white/10'
+                      : 'text-zinc-300 hover:bg-white/5 hover:text-white'
+                  }`
+                }
+              >
+                <Icon className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                {!collapsed && <span className="truncate">{label}</span>}
+              </NavLink>
+            ))}
+          </div>
         </div>
+
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0 min-h-dvh overflow-x-hidden">
-        <header className="sticky top-0 z-30 h-16 flex flex-wrap items-center justify-between gap-3 px-4 lg:px-8 border-b border-r2d-border bg-r2d-surfaceElevated/95 backdrop-blur-md shadow-sm dark:bg-slate-900/95 dark:border-slate-700/80">
-          <div className="flex items-center gap-3 min-w-0 flex-1">
+        <header
+          className="sticky top-0 z-30 relative min-h-16 flex flex-wrap items-center justify-between gap-2 sm:gap-3 px-3 sm:px-4 py-2 lg:px-10 border-b backdrop-blur-md shadow-sm"
+          style={{ background: 'var(--card)', borderColor: 'var(--card-border)' }}
+        >
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
             <button
               type="button"
-              className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="lg:hidden p-2 rounded-lg text-zinc-600 hover:bg-blue-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
               onClick={() => setSidebarOpen((o) => !o)}
               aria-label="Toggle navigation"
             >
               {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <div className="min-w-0">
-              <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold dark:text-slate-400 hidden sm:block">
-                Req2Design – AI SRS Engineering Platform
-              </p>
-              <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold sm:hidden">Req2Design</p>
-              <p className="text-sm font-semibold text-r2d-primary truncate dark:text-slate-100">{pageTitle}</p>
+              <div className="inline-flex items-center px-0.5 py-0.5">
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.08em] text-r2d-primary dark:text-r2d-accentSoft truncate max-w-[52vw] sm:max-w-none">
+                  {pageTitle}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
-            <Search className="h-3.5 w-3.5" />
-            Quick search coming soon
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {currentUser && (
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-600 bg-r2d-surface px-2.5 py-1 rounded-full border border-r2d-border dark:text-slate-300 dark:bg-slate-800 dark:border-slate-600">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-zinc-600 bg-zinc-100 px-2.5 py-1 rounded-full border border-zinc-200/90 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-600">
                 <User className="h-3.5 w-3.5" />
                 {currentUser.username}
               </span>
@@ -180,7 +204,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
               type="button"
               onClick={toggleTheme}
               title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-r2d-border text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-zinc-200 text-zinc-600 hover:bg-blue-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
             </button>
@@ -191,30 +215,28 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                   onLogout();
                   navigate('/start');
                 }}
-                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight dark:bg-r2d-accent dark:hover:bg-r2d-primaryLight"
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-lg bg-r2d-accent text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Logout</span>
               </button>
             )}
           </div>
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-r2d-accent/55 to-transparent" />
         </header>
 
-        <main className="flex-1 p-2 sm:p-4 lg:p-8 max-w-[1680px] w-full mx-auto flex flex-col overflow-y-auto overflow-x-hidden">
-          <div className="flex-1 rounded-2xl border border-white/70 bg-white/80 p-3 sm:p-4 shadow-xl backdrop-blur-sm dark:border-slate-700/70 dark:bg-slate-900/75 overflow-x-hidden">
+        <main className="flex-1 w-full p-2 sm:p-4 lg:p-8 flex flex-col overflow-y-auto overflow-x-hidden">
+          <div className="flex-1 rounded-2xl border border-zinc-200/80 bg-white/92 p-3 sm:p-5 lg:p-6 shadow-xl shadow-zinc-900/5 backdrop-blur-sm dark:border-zinc-700/70 dark:bg-zinc-900/78 dark:shadow-black/30 overflow-x-hidden">
             <Outlet />
           </div>
-          <footer className="mt-10 pt-8 border-t border-r2d-border dark:border-slate-700">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-              <div>
-                <p className="font-semibold text-r2d-primary dark:text-slate-200">Req2Design — AI SRS Engineering Platform</p>
-                <p className="mt-1 max-w-xl leading-relaxed">
-                  Final Year Project · IEEE 830-1998 compliant SRS generation, RAG-assisted context, and verification
-                  metrics for software engineers and requirements analysts.
-                </p>
+          <footer className="mt-6 sm:mt-10 pt-5 sm:pt-8 border-t border-zinc-200 dark:border-zinc-700">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="flex items-center gap-3">
+                <BrandMark className="h-8 w-8 border border-zinc-300/60 dark:border-zinc-600" imgClassName="h-full w-full object-contain" />
+                <p className="font-semibold text-zinc-800 dark:text-zinc-200">Req2Design — AI SRS Engineering Platform</p>
               </div>
               <div className="text-right md:text-left space-y-1">
-                <p className="font-mono text-[11px] text-slate-400">© {new Date().getFullYear()} Req2Design</p>
+                <p className="font-mono text-[11px] text-zinc-400">© {new Date().getFullYear()} Req2Design</p>
               </div>
             </div>
           </footer>

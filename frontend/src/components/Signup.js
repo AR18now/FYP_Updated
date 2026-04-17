@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, Link, Navigate, useParams } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Sparkles, Rocket, ArrowRight, UserCheck } from 'lucide-react';
+import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Rocket, ArrowRight, UserCheck } from 'lucide-react';
+import { BrandFull } from './BrandLogo';
 import { signup, isAuthenticated, getCurrentUser, ROLES, validatePasswordPolicy, PASSWORD_POLICY } from '../utils/auth';
 import { useTheme } from '../context/ThemeContext';
 
@@ -143,8 +144,8 @@ const Signup = ({ onSignup }) => {
           }`}
         >
           <div>
+            <BrandFull className="h-12 w-auto max-w-[220px] object-contain object-left mb-6 drop-shadow-md" alt="Req2Design" />
             <div className="inline-flex items-center gap-2 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-              <Sparkles className="h-3.5 w-3.5" />
               {hero.badge}
             </div>
             <h2 className="mt-6 text-3xl font-bold leading-tight">{hero.title}</h2>
@@ -162,14 +163,8 @@ const Signup = ({ onSignup }) => {
 
         <section className="p-6 sm:p-8 md:p-10">
           <div className="max-w-md mx-auto">
-            <div className="flex justify-center mb-4 lg:hidden">
-              <div
-                className={`inline-flex items-center justify-center rounded-2xl p-4 text-white shadow-lg ${
-                  isExpert ? 'bg-gradient-to-br from-r2d-primary to-r2d-accent' : 'bg-gradient-to-br from-r2d-primary to-r2d-accent'
-                }`}
-              >
-                {isExpert ? <UserCheck className="h-7 w-7" aria-hidden="true" /> : <UserPlus className="h-7 w-7" aria-hidden="true" />}
-              </div>
+            <div className="flex justify-center mb-5 lg:hidden">
+              <BrandFull className="h-12 w-auto max-w-[240px] object-contain" alt="Req2Design" />
             </div>
             <h1 className="text-3xl font-bold mb-2 text-r2d-primary dark:text-slate-100 text-center lg:text-left">
               {isExpert ? 'Expert sign up' : 'Create account'}

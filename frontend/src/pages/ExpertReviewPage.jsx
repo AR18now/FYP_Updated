@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
-  UserCheck,
   Send,
   Inbox,
   ListChecks,
@@ -224,10 +223,6 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
           <div className="absolute inset-0 opacity-25 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-r2d-accent/30 via-transparent to-transparent" />
           <div className="relative flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-100">
-                <UserCheck className="h-3.5 w-3.5" />
-                Human in the loop
-              </div>
               <h1 className="mt-3 text-2xl lg:text-3xl font-bold font-display tracking-tight">
                 {isExpertPanel ? 'Expert review queue' : 'Expert review'}
               </h1>

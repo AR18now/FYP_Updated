@@ -145,7 +145,7 @@ def render_html(srs: SRSDocument) -> str:
 <html>
 <head>
   <meta charset=\"utf-8\" />
-  <title>{srs.title}</title>
+  <title>{escape(srs.title)}</title>
   <style>
     @page {{
       size: A4;
@@ -162,55 +162,133 @@ def render_html(srs: SRSDocument) -> str:
     h3 {{ font-size: 16pt; margin: 14px 0 6px; font-weight: 800; }}
     h4 {{ font-size: 14pt; margin: 12px 0 5px; font-weight: 700; }}
     p {{ margin: 4px 0 10px; }}
-    .cover {{ border: 1px solid #94a3b8; border-radius: 8px; padding: 14px 16px; margin: 0 0 14px; page-break-after: avoid; }}
-    .cover-kicker {{ margin: 0 0 6px; font-size: 10pt; letter-spacing: 1pt; text-transform: uppercase; color: #475569; }}
-    .cover-title {{ margin: 0 0 10px; font-size: 22pt; line-height: 1.25; font-weight: 700; color: #0f172a; border: 0; padding: 0; }}
-    .rev-title {{ margin: 8px 0 5px; font-size: 11pt; font-weight: 700; color: #0f172a; }}
-    .rev-table {{ width: 100%; border-collapse: collapse; font-size: 10.5pt; }}
-    .rev-table th, .rev-table td {{ border: 1px solid #cbd5e1; padding: 6px 7px; text-align: left; vertical-align: top; }}
-    .rev-table th {{ background: #f8fafc; font-weight: 700; }}
-    .meta {{ background: #f8fafc; padding: 10px 12px; border: 1px solid #dbe3ee; border-radius: 6px; margin-bottom: 14px; }}
-    .meta div {{ margin: 3px 0; }}
+    .pdf-title-cover {{
+      border: 1px solid #d7e0ee;
+      border-radius: 14px;
+      padding: 12mm 10mm;
+      margin: 0 0 14px;
+      page-break-after: avoid;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(15, 23, 42, 0.03)), #f8fbff;
+    }}
+    .srs-cover-kicker {{
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #475569;
+      margin: 0 0 6pt;
+    }}
+    .srs-cover-title {{
+      font-size: 22pt;
+      font-weight: 800;
+      margin: 0 0 8pt;
+      color: #0f172a;
+      line-height: 1.15;
+      border: 0;
+      padding: 0;
+    }}
+    .srs-cover-sub {{ font-size: 11pt; color: #334155; margin: 0 0 12pt; line-height: 1.45; }}
+    .srs-cover-meta-table {{ width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 6pt; }}
+    .srs-cover-meta-table th, .srs-cover-meta-table td {{
+      border: 1px solid #d7e0ee;
+      padding: 7pt 8pt;
+      text-align: left;
+      vertical-align: top;
+    }}
+    .srs-cover-meta-table th {{
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      background: rgba(255, 255, 255, 0.9);
+      font-weight: 700;
+    }}
+    .badge-row {{ margin-top: 10pt; font-size: 8pt; color: #475569; }}
+    .badge {{
+      display: inline-block;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 4pt 8pt;
+      margin: 4pt 6pt 0 0;
+      background: rgba(255, 255, 255, 0.88);
+    }}
+    .srs-paper-shell {{ max-width: 100%; margin: 0 auto; }}
+    .srs-paper {{
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      border: 1px solid #d8e1ee;
+      border-radius: 12px;
+      padding: 10mm 9mm;
+      box-sizing: border-box;
+    }}
+    .srs-doc-root {{ line-height: 1.92; }}
     ul {{ margin: 4px 0 10px 20px; padding-left: 4px; }}
     li {{ margin: 4px 0; }}
-    .fr-table {{ width: 100%; border-collapse: collapse; font-size: 10.2pt; margin: 4px 0 12px; }}
-    .fr-table th, .fr-table td {{ border: 1px solid #cbd5e1; padding: 6px 7px; text-align: left; vertical-align: top; }}
-    .fr-table th {{ background: #f8fafc; font-weight: 700; }}
+    .fr-table, .req-table {{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.2pt;
+      margin: 8px 0 14px;
+    }}
+    .fr-table th, .fr-table td, .req-table th, .req-table td {{
+      border: 1px solid #d7e0ee;
+      padding: 6px 7px;
+      text-align: left;
+      vertical-align: top;
+    }}
+    .fr-table th, .req-table th {{
+      background: rgba(248, 250, 252, 0.95);
+      font-weight: 700;
+      color: #334155;
+    }}
     h3.fr-section-start {{ page-break-before: always; }}
+    .doc-footer {{
+      margin-top: 18px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #64748b;
+      font-size: 9.5pt;
+      line-height: 1.45;
+    }}
+    .doc-footer-title {{ margin: 0 0 6px; font-size: 10.5pt; color: #0f172a; }}
+    .doc-footer-note {{ margin: 0; }}
+    .doc-footer-ts {{ margin: 8px 0 0; font-size: 9pt; color: #94a3b8; }}
   </style>
   </head>
 <body>
-  <section class="cover">
-    <p class="cover-kicker">Software Requirements Specification</p>
-    <h1 class="cover-title">{srs.title}</h1>
-    <p class="rev-title">Document Control</p>
-    <table class="rev-table" role="presentation">
+  <section class="pdf-title-cover">
+    <p class="srs-cover-kicker">Software Requirements Specification</p>
+    <h1 class="srs-cover-title">{escape((srs.title or "").strip() or "Untitled Project")}</h1>
+    <p class="srs-cover-sub">Structured technical document aligned for formal review, sign-off, and handover.</p>
+    <table class="srs-cover-meta-table" role="presentation">
       <thead>
         <tr>
+          <th style="width: 28%;">Document ID</th>
           <th style="width: 18%;">Version</th>
-          <th style="width: 20%;">Date</th>
-          <th style="width: 24%;">Author</th>
-          <th>Change Summary</th>
+          <th style="width: 22%;">Date</th>
+          <th style="width: 32%;">Author</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>{srs.version}</td>
-          <td>{srs.date}</td>
-          <td>{srs.author}</td>
-          <td>Initial generated draft for structured review.</td>
+          <td>{escape((srs.document_id or "").strip() or "-")}</td>
+          <td>{escape(srs.version)}</td>
+          <td>{escape(srs.date)}</td>
+          <td>{escape(srs.author)}</td>
         </tr>
       </tbody>
     </table>
+    <div class="badge-row">
+      <span class="badge">Req2Design</span>
+      <span class="badge">IEEE 830-1998 aligned</span>
+      <span class="badge">Generated draft for expert review</span>
+    </div>
   </section>
 
-  <h1>{srs.title}</h1>
-  <div class=\"meta\">
-    <div><strong>Document ID:</strong> {srs.document_id}</div>
-    <div><strong>Version:</strong> {srs.version}</div>
-    <div><strong>Date:</strong> {srs.date}</div>
-    <div><strong>Author:</strong> {srs.author}</div>
-  </div>
+  <div class="srs-paper-shell">
+    <div class="srs-paper">
+      <div class="srs-doc-root">
 
   <h2>1. Introduction</h2>
   <h3>1.1 Purpose</h3>
@@ -282,6 +360,15 @@ def render_html(srs: SRSDocument) -> str:
 
   <h3>3.4 General Constraints</h3>
   <ul>{''.join(f'<li>{escape(item)}</li>' for item in _to_list(overall.get('constraints')))}</ul>
+
+      </div>
+      <div class="doc-footer">
+        <p class="doc-footer-title"><strong>End of document</strong></p>
+        <p class="doc-footer-note">Generated by <strong>Req2Design – AI SRS Engineering Platform</strong>. This footer is added by the application (not the model) to keep exports consistent.</p>
+        <p class="doc-footer-ts">{escape(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))}</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 """

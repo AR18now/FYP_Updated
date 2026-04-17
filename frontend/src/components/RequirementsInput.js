@@ -42,7 +42,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [recordingTranscribeError, setRecordingTranscribeError] = useState(null);
   const [recordingTime, setRecordingTime] = useState(0);
   const [liveTranscription, setLiveTranscription] = useState('');
-  const [isGeneratingDirectSRS, setIsGeneratingDirectSRS] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [lastSRSAvailable, setLastSRSAvailable] = useState(false);
   const [clarification, setClarification] = useState(null);
@@ -555,7 +554,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       };
 
       mediaRecorderRef.current = mediaRecorder;
-      mediaRecorder.start(1000); // Collect data every second
+      mediaRecorder.start(500); // Collect data twice per second for faster live updates
       setIsRecording(true);
       setRecordingTime(0);
       setLiveTranscription(''); // Reset transcription
@@ -630,8 +629,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           if (audioChunksRef.current.length > 0 && !isTranscribing) {
             try {
               setIsTranscribing(true);
-              // Create a blob from accumulated chunks
-              const currentBlob = new Blob(audioChunksRef.current, { type: mimeType });
+              // Transcribe recent audio window to reduce server latency on mobile networks
+              const recentChunks = audioChunksRef.current.slice(-16);
+              const currentBlob = new Blob(recentChunks, { type: mimeType });
 
               if (currentBlob.size > 0) {
                 // Determine file extension
@@ -652,14 +652,21 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   },
-                  timeout: 30000 // 30 seconds for transcription
+                  timeout: 12000
                 });
 
                 if (response.data && response.data.transcription) {
                   setLiveTranscription((prev) => {
                     const newText = response.data.transcription.trim();
-                    // Prefer "latest full" to avoid laggy duplication
-                    const merged = newText || prev || '';
+                    if (!newText) return prev || '';
+                    if (!prev) {
+                      liveTranscriptionRef.current = newText;
+                      return newText;
+                    }
+                    // Replace when backend returns a fuller hypothesis; append otherwise.
+                    const merged = newText.length >= prev.length
+                      ? newText
+                      : `${prev} ${newText}`.replace(/\s+/g, ' ').trim();
                     liveTranscriptionRef.current = merged;
                     return merged;
                   });
@@ -672,7 +679,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               setIsTranscribing(false);
             }
           }
-        }, 2000); // Try every 2 seconds for better responsiveness
+        }, 1000); // Try every 1 second for better responsiveness
       }
 
     } catch (error) {
@@ -1201,62 +1208,6 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     setValidationErrors(validateTextInput(finalText));
   }, [refinedInputText, followupAnswers, validateTextInput, buildFinalTextWithFollowups]);
 
-  // Direct SRS generation from uploaded file (txt/pdf)
-  const generateSRSFromFileDirect = useCallback(async () => {
-    if (!backendReady) {
-      setError('Backend is not reachable. Please start the API server and try again.');
-      return;
-    }
-    if (uploadedFiles.length === 0) {
-      setError('Please upload a txt or pdf file first.');
-      return;
-    }
-    const firstFile = uploadedFiles[0].file;
-    const extension = firstFile.name.toLowerCase().split('.').pop();
-    if (extension !== 'txt' && extension !== 'pdf') {
-      setError('Unsupported file type. Please upload .txt or .pdf.');
-      return;
-    }
-
-    setIsGeneratingDirectSRS(true);
-    setLastSRSAvailable(false);
-    setError(null);
-    setValidationErrors([]);
-    setProjectInfoSubmitAttempted(true);
-
-    const currentProjectErrors = validateProjectInfo();
-    if (currentProjectErrors.length > 0) {
-      setProjectInfoErrors(currentProjectErrors);
-      setError('Please fix project information errors before processing');
-      setIsGeneratingDirectSRS(false);
-      return;
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append('file', firstFile);
-      formData.append('project_info', JSON.stringify(projectInfo));
-
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_SRS_FROM_FILE, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        timeout: 180000,
-      });
-
-      if (response.data) {
-        onSRSGenerated(response.data);
-        setResults(response.data);
-        if (setCurrentResults) setCurrentResults(response.data);
-        setLastSRSAvailable(true);
-        navigate('/results');
-      }
-    } catch (err) {
-      console.error('Direct SRS from file error:', err);
-      setError(getApiErrorMessage(err, 'Failed to generate SRS from file.'));
-    } finally {
-      setIsGeneratingDirectSRS(false);
-    }
-  }, [backendReady, uploadedFiles, projectInfo, onSRSGenerated, setCurrentResults, validateProjectInfo]);
-
   const processRequirements = useCallback(async () => {
     if (!backendReady) {
       setError('Backend is not reachable. Please start the API server and try again.');
@@ -1281,15 +1232,28 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       if (inputType === 'audio' && audioBlob) {
         try {
           if (!pendingTranscript) {
-            if (isPostRecordingTranscribing) {
-              setError('Please wait until transcription finishes, or edit the text in the transcript box.');
-              setIsProcessing(false);
-              return;
-            }
             let transcript = (recordingTranscript || '').trim();
             if (!transcript) {
+              if (isPostRecordingTranscribing) {
+                setError('Live transcript is still preparing. Speak for a few more seconds or wait briefly.');
+                setIsProcessing(false);
+                return;
+              }
               transcript = await transcribeFullRecording();
               setRecordingTranscript(transcript);
+            }
+            const transcriptValidation = validateInput(transcript);
+            if (!transcriptValidation.valid) {
+              setValidationErrors(transcriptValidation.errors);
+              if (transcriptValidation.securityIssue) {
+                setError(
+                  'Blocked: instruction-hijack wording detected in audio transcript. Remove unsafe text and try again.'
+                );
+              } else {
+                setError('Please fix validation errors in the transcript before processing');
+              }
+              setIsProcessing(false);
+              return;
             }
             setPendingTranscript(transcript);
             setTextInput(transcript);
@@ -1498,13 +1462,13 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   }, [isProcessing, backendReady, inputType, textInput, validationErrors, liveInjectionHint, audioBlob, uploadedFiles]);
 
   return (
-    <div className="relative max-w-5xl mx-auto animate-fade-in" role="main" aria-labelledby="input-heading">
+    <div className="relative w-full animate-fade-in" role="main" aria-labelledby="input-heading">
       <div className={`relative rounded-2xl overflow-hidden border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
-        <div className="relative rounded-2xl p-6 md:p-8">
-          <div className="flex items-center justify-center mb-8">
+        <div className="relative rounded-2xl p-4 sm:p-6 md:p-8">
+          <div className="flex items-center justify-center mb-6 sm:mb-8">
             <h2 
               id="input-heading"
-              className={`text-2xl md:text-3xl lg:text-4xl font-extrabold text-center ${isDark ? 'text-slate-100' : 'text-slate-900'}`}
+              className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-center ${isDark ? 'text-slate-100' : 'text-slate-900'}`}
             >
               Input Requirements
             </h2>
@@ -1614,7 +1578,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   role="tab"
                   aria-selected={inputType === type}
                   aria-controls={`${type}-panel`}
-                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 ${
+                  className={`w-full sm:w-auto justify-center flex items-center space-x-2 px-4 py-2.5 rounded-lg transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 ${
                     inputType === type 
                       ? 'bg-r2d-primary text-white shadow-md border border-r2d-primary' 
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
@@ -2148,11 +2112,11 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                           <p className={`text-sm ${isDark ? 'text-emerald-300' : 'text-green-700'}`}>Duration: {formatTime(recordingTime)}</p>
                         </div>
                       </div>
-                      <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
                         {audioUrl && audioBlob && (
                           <audio
                             controls
-                            className="mr-2 max-w-full sm:max-w-xs"
+                            className="max-w-[100%] sm:max-w-xs"
                             aria-label="Audio playback"
                           >
                             <source src={audioUrl} type={audioBlob.type || 'audio/webm'} />
@@ -2161,10 +2125,10 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                         )}
                         <button
                           onClick={clearRecording}
-                          className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+                          className="px-3 py-1.5 text-xs font-medium text-red-600 border border-red-300 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
                           aria-label="Clear recording"
                         >
-                          <X className="h-5 w-5" aria-hidden="true" />
+                          Clear
                         </button>
                       </div>
                     </div>
@@ -2191,13 +2155,12 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                         id="recording-transcript"
                         value={recordingTranscript}
                         onChange={(e) => setRecordingTranscript(e.target.value)}
-                        disabled={isPostRecordingTranscribing}
                         rows={8}
                         className={`w-full rounded-lg border px-3 py-2 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
                           isDark
                             ? 'bg-slate-900 border-slate-600 text-slate-100 placeholder:text-slate-500'
                             : 'bg-white border-green-200 text-slate-900 placeholder:text-slate-400'
-                        } disabled:opacity-70`}
+                        }`}
                         placeholder={
                           isPostRecordingTranscribing
                             ? 'Transcribing your recording…'
@@ -2325,7 +2288,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
             <button
               onClick={processRequirements}
               disabled={!canProcess}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
+              className="w-full sm:w-auto bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
               aria-label="Process requirements"
               aria-busy={isProcessing}
             >
@@ -2341,28 +2304,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 </>
               )}
             </button>
-            {uploadedFiles.length > 0 && (
-              <button
-                onClick={generateSRSFromFileDirect}
-                disabled={isGeneratingDirectSRS}
-                className="mt-4 bg-r2d-primary hover:bg-r2d-primaryLight text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 mx-auto shadow-md hover:shadow-lg disabled:bg-slate-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2"
-                aria-label="Generate SRS directly from file"
-                aria-busy={isGeneratingDirectSRS}
-              >
-                {isGeneratingDirectSRS ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                    <span>Generating SRS...</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="h-5 w-5" aria-hidden="true" />
-                    <span>Generate SRS (File)</span>
-                  </>
-                )}
-              </button>
-            )}
-            {lastSRSAvailable && !isGeneratingDirectSRS && (
+            {lastSRSAvailable && (
               <details className="mt-4 max-w-sm mx-auto text-left [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl cursor-pointer list-none font-medium border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/90 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
                   <FileText className="h-4 w-4 shrink-0 text-r2d-primary" aria-hidden="true" />

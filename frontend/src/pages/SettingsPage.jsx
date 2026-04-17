@@ -1,6 +1,7 @@
 import React from 'react';
 import config from '../config';
 import { useTheme } from '../context/ThemeContext';
+import { BrandFull } from '../components/BrandLogo';
 
 const SettingsPage = () => {
   const { theme, toggleTheme } = useTheme();
@@ -49,13 +50,18 @@ const SettingsPage = () => {
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-900">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+          <BrandFull className="h-12 w-auto max-w-[200px] object-contain shrink-0" alt="Req2Design" />
+          <div className="min-w-0">
         <h2 className="font-semibold text-slate-900 dark:text-slate-100">About Req2Design</h2>
         <p className="mt-2 text-sm text-slate-600 leading-relaxed dark:text-slate-400">
-          AI-assisted requirements pipeline: clarification, RAG-backed SRS generation, verification metrics,
+          AI-assisted requirements pipeline: clarification, SRS generation, verification metrics,
           textual use cases (Cockburn), and PlantUML diagrams. Built for software engineering course and
           professional demos.
         </p>
         <p className="mt-4 text-xs text-slate-400 dark:text-slate-500">Req2Design · SRS Generator</p>
+          </div>
+        </div>
       </div>
     </div>
   );

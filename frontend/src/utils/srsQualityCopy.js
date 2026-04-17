@@ -1,6 +1,6 @@
 /**
  * Layman-friendly labels for SRS quality signals (hallucination heuristics + document-quality scores).
- * Numeric keys match rag/evaluate_srs_kb.py (0 = poor, 1 = best).
+ * Numeric keys match the backend quality evaluator (0 = poor, 1 = best).
  */
 
 export const HALLUCINATION_HELP = {

@@ -611,8 +611,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
             <h3 className="text-sm font-medium text-green-900 dark:text-emerald-200 mb-2">Requirements</h3>
             <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-emerald-400">{items.length}</p>
           </div>
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-violet-950/40 dark:to-purple-900/30 p-6 rounded-lg border border-purple-200 dark:border-violet-800 hover:shadow-lg transition-shadow duration-200">
-            <h3 className="text-sm font-medium text-purple-900 dark:text-violet-200 mb-2">Timestamp</h3>
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/40 dark:to-indigo-900/30 p-6 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-shadow duration-200">
+            <h3 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Timestamp</h3>
             <p className="text-sm font-bold text-r2d-accent dark:text-r2d-accentSoft">
               {results.timestamp ? new Date(results.timestamp).toLocaleString() : 'N/A'}
             </p>
@@ -700,7 +700,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
               <button
                 onClick={generateUseCases}
                 disabled={isGeneratingUseCases}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto"
+              className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent disabled:from-gray-400 disabled:to-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto"
               >
                 {isGeneratingUseCases ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
                 <span>{isGeneratingUseCases ? 'Generating...' : 'Generate Use Cases'}</span>
@@ -727,7 +727,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                   </pre>
                   <button
                     onClick={() => navigate('/textual-usecases')}
-                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded w-full sm:w-auto"
+                    className="mt-3 text-sm bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-3 py-1.5 rounded w-full sm:w-auto"
                   >
                     Open Full Textual Use Cases Page
                   </button>
@@ -837,7 +837,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                   )}
                   <button
                     onClick={() => navigate('/usecase-diagram')}
-                    className="mt-3 text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded w-full sm:w-auto"
+                    className="mt-3 text-sm bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-3 py-1.5 rounded w-full sm:w-auto"
                   >
                     Open Full Diagram Page
                   </button>
@@ -935,14 +935,14 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                     setShowSRS(false);
                     setShowEditor(true);
                   }}
-                  className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium w-full"
+                  className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 font-medium w-full"
                 >
                   <Edit3 className="h-5 w-5" aria-hidden="true" />
                   <span>Edit SRS</span>
                 </button>
                 <button
                   onClick={downloadSRSDocument}
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium w-full"
+                  className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-4 sm:px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-r2d-accent focus:ring-offset-2 font-medium w-full"
                 >
                   <Download className="h-5 w-5" aria-hidden="true" />
                   <span>Download SRS</span>

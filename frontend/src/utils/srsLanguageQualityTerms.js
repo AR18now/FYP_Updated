@@ -39,6 +39,11 @@ export const HIGHLIGHTABLE_ARM_KEYS = new Set([
   'incomplete_count',
 ]);
 
+/** ARM *_quality rows only — metrics table uses these for in-page SRS highlighting (not *_count). */
+export const HIGHLIGHTABLE_ARM_QUALITY_KEYS = new Set(
+  [...HIGHLIGHTABLE_ARM_KEYS].filter((k) => k.endsWith('_quality'))
+);
+
 export const HIGHLIGHTABLE_HALLUCINATION_KEYS = new Set([
   'ai_hallucination_quality',
   'has_hallucinations',

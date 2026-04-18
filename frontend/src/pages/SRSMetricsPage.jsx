@@ -6,7 +6,7 @@ import config from '../config';
 import {
   ARM_TERMS,
   ARM_METRIC_TO_GROUP,
-  HIGHLIGHTABLE_ARM_KEYS,
+  HIGHLIGHTABLE_ARM_QUALITY_KEYS,
   HIGHLIGHTABLE_HALLUCINATION_KEYS,
   collectHallucinationMetricTerms,
 } from '../utils/srsLanguageQualityTerms';
@@ -490,6 +490,9 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     if (!f || !dedupedMetrics.some((e) => e.key === f)) {
       return;
     }
+    if (!HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(f) && !HIGHLIGHTABLE_HALLUCINATION_KEYS.has(f)) {
+      return;
+    }
     setSelectedHighlightMetricKey(f);
     setSelectedConflict('');
   }, [searchParams, dedupedMetrics]);
@@ -512,6 +515,10 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     () => buildHighlightedHtmlByTerms(text, selectedHighlightTerms),
     [text, selectedHighlightTerms]
   );
+
+  const showHighlightPreview =
+    HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(selectedHighlightMetricKey) ||
+    HIGHLIGHTABLE_HALLUCINATION_KEYS.has(selectedHighlightMetricKey);
 
   const highlightedSrs = useMemo(() => {
     if (!selectedConflict || !text) return escapeHtml(text);
@@ -597,14 +604,18 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
                   className="border-b border-slate-100 dark:border-slate-800 last:border-0 align-top hover:bg-slate-50/80 dark:hover:bg-slate-800/40"
                 >
                   <td className="px-3 py-3 font-medium text-slate-900 dark:text-slate-100 font-mono whitespace-nowrap">
-                    {HIGHLIGHTABLE_ARM_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
-                      <Link
-                        to={`/srs?metricFocus=${encodeURIComponent(m.key)}`}
-                        className="underline decoration-dotted underline-offset-4 text-r2d-primary dark:text-cyan-300 hover:text-r2d-primaryLight"
-                        title="Open the formatted SRS with matching phrases highlighted"
+                    {HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedHighlightMetricKey(m.key);
+                          setSelectedConflict('');
+                        }}
+                        className="font-mono text-left underline decoration-dotted underline-offset-4 text-r2d-primary dark:text-cyan-300 hover:text-r2d-primaryLight cursor-pointer bg-transparent border-0 p-0"
+                        title="Highlight matching phrases in the SRS excerpt below"
                       >
                         {m.label}
-                      </Link>
+                      </button>
                     ) : (
                       m.label
                     )}
@@ -624,28 +635,20 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
         </div>
       )}
 
-      {(selectedArmGroup || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(selectedHighlightMetricKey)) && (
+      {showHighlightPreview && (
         <div ref={highlightSectionRef} className="rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50/50 dark:bg-slate-900 p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-              Preview for <span className="font-mono">{selectedHighlightMetricKey}</span>{' '}
-              ({selectedArmGroup || 'hallucination'})
+              SRS excerpt — <span className="font-mono">{selectedHighlightMetricKey}</span>{' '}
+              <span className="text-slate-500 dark:text-slate-400 font-normal">({selectedArmGroup || 'hallucination'})</span>
             </h2>
-            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-              <Link
-                to={`/srs?metricFocus=${encodeURIComponent(selectedHighlightMetricKey)}`}
-                className="text-center text-xs px-2 py-1 rounded bg-r2d-primary text-white hover:bg-r2d-primaryLight"
-              >
-                Show in formatted SRS
-              </Link>
-              <button
-                type="button"
-                onClick={() => setSelectedHighlightMetricKey('')}
-                className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-800"
-              >
-                Close preview
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedHighlightMetricKey('')}
+              className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-800 w-full sm:w-auto"
+            >
+              Close preview
+            </button>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
             Terms being checked: {selectedHighlightTerms.length ? selectedHighlightTerms.join(', ') : 'No flagged terms available'}
@@ -654,13 +657,13 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
             Matches found: <span className="font-mono">{highlightPreview.hits.length}</span>
           </p>
           <div className="grid lg:grid-cols-2 gap-4">
-            <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-72 overflow-auto">
+            <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-[min(52vh,560px)] min-h-[200px] overflow-auto">
               <p
                 className="text-[11px] sm:text-xs leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ __html: highlightPreview.html }}
               />
             </div>
-            <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-72 overflow-auto">
+            <div className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 p-3 max-h-[min(52vh,560px)] min-h-[200px] overflow-auto">
               <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Matched snippets</p>
               {highlightPreview.hits.length ? (
                 <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">

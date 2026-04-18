@@ -15,6 +15,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import ExpertReviewChat from '../components/ExpertReviewChat';
+import ExpertSrsSnapshotMetrics from '../components/ExpertSrsSnapshotMetrics';
 import config from '../config';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import { getStoredSRS } from '../utils/storage';
@@ -22,6 +23,7 @@ import { getCurrentUser } from '../utils/auth';
 
 function buildSrsPayload(srs) {
   if (!srs || typeof srs !== 'object') return null;
+  const hall = srs.hallucination_analysis || srs.sections?._hallucination_analysis;
   return {
     document_id: srs.document_id || srs.id,
     title: srs.title,
@@ -31,6 +33,10 @@ function buildSrsPayload(srs) {
     raw_text: srs.raw_text,
     sections: srs.sections,
     edited_html: srs.edited_html,
+    generation_meta: srs.generation_meta,
+    verification_report: srs.verification_report,
+    srs_dashboard_snapshot: srs.srs_dashboard_snapshot,
+    ...(hall && typeof hall === 'object' ? { hallucination_analysis: hall } : {}),
   };
 }
 
@@ -515,6 +521,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                             {r.requester_notes}
                           </div>
                         )}
+                        <ExpertSrsSnapshotMetrics snapshot={snap} />
                         <div>
                           <div className="flex items-center justify-between gap-3 mb-1">
                             <p className="text-xs font-semibold uppercase text-slate-500">SRS (editable)</p>
@@ -645,6 +652,7 @@ const ExpertReviewPage = ({ srsData: sessionSrs, mode = 'user' }) => {
                     </button>
                     {open && (
                       <div className="px-4 pb-4 pt-0 border-t border-slate-200 dark:border-slate-700 space-y-4">
+                        <ExpertSrsSnapshotMetrics snapshot={snap} />
                         {r.review && (
                           <div className="rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50/80 dark:bg-emerald-950/30 p-3 text-sm">
                             <p className="font-semibold text-emerald-900 dark:text-emerald-100">

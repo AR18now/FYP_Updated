@@ -16,7 +16,8 @@ import {
 import axios from 'axios';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import config from '../config';
-import { saveSRS } from '../utils/storage';
+import { saveSRS, patchStoredSRSById } from '../utils/storage';
+import { postSrsDashboardWithFallback, collectPromptFromResults } from '../utils/srsDashboardClient';
 import { consumeSrsGenerateStream } from '../utils/srsStream';
 import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
 import { formatSrsToHtml, buildSrsMajorSectionCards } from '../utils/documentFormatter';
@@ -39,39 +40,6 @@ function buildRequirementsArrayForSrs(resultsData) {
   if (resultsData.results && Array.isArray(resultsData.results)) return resultsData.results;
   if (resultsData.status) return [resultsData];
   return [resultsData];
-}
-
-async function postSrsDashboardWithFallback(body) {
-  const urls = [config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS, config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS_ALT].filter(
-    Boolean
-  );
-  const uniq = [...new Set(urls)];
-  let lastErr = null;
-  for (const url of uniq) {
-    try {
-      return await axios.post(url, body);
-    } catch (e) {
-      lastErr = e;
-      const st = e?.response?.status;
-      if (st === 404 || st === 405) continue;
-      throw e;
-    }
-  }
-  throw lastErr;
-}
-
-function collectPromptFromResults(resultsData) {
-  if (!resultsData) return '';
-  const list = Array.isArray(resultsData)
-    ? resultsData
-    : Array.isArray(resultsData.results)
-      ? resultsData.results
-      : [resultsData];
-  return list
-    .map((item) => item?.original_text || item?.content || item?.text || item?.requirement || '')
-    .map((s) => String(s).trim())
-    .filter(Boolean)
-    .join('\n\n');
 }
 
 function srsEvalMetricFocusKey(metric) {
@@ -243,6 +211,14 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
         if (cancelled) return;
         setSrsDashboard(res.data);
         setSrsDashboardLoading(false);
+        const docId = srsData?.document_id;
+        if (docId && res.data) {
+          try {
+            patchStoredSRSById(docId, { srs_dashboard_snapshot: res.data });
+          } catch (e) {
+            console.warn('Could not persist SRS dashboard snapshot to local history:', e);
+          }
+        }
       })
       .catch((err) => {
         if (cancelled) return;

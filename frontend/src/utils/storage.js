@@ -127,6 +127,10 @@ export const saveSRS = (srsData) => {
       sections: srsData.sections || {},
       textual_usecases: srsData.textual_usecases || null,
       edited_html: srsData.edited_html || null,
+      generation_meta: srsData.generation_meta || null,
+      hallucination_analysis: srsData.hallucination_analysis || null,
+      verification_report: srsData.verification_report || null,
+      srs_dashboard_snapshot: srsData.srs_dashboard_snapshot || null,
       // Store preview for quick view
       preview: srsData.raw_text ? srsData.raw_text.substring(0, 200) + '...' : ''
     };
@@ -171,6 +175,26 @@ export const getSRSById = (documentId) => {
   } catch (error) {
     console.error('Error getting SRS by ID:', error);
     return null;
+  }
+};
+
+/**
+ * Merge fields into an existing stored SRS (e.g. attach dashboard snapshot after async load).
+ */
+export const patchStoredSRSById = (documentId, partial) => {
+  if (documentId == null || String(documentId).trim() === '' || !partial || typeof partial !== 'object') {
+    return false;
+  }
+  try {
+    const srsList = getStoredSRS();
+    const idx = srsList.findIndex((s) => s.document_id === documentId || s.id === documentId);
+    if (idx < 0) return false;
+    srsList[idx] = { ...srsList[idx], ...partial };
+    localStorage.setItem(STORAGE_KEYS.SRS_DOCUMENTS, JSON.stringify(srsList));
+    return true;
+  } catch (error) {
+    console.error('Error patching stored SRS:', error);
+    return false;
   }
 };
 

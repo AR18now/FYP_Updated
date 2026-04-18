@@ -1,0 +1,118 @@
+INTRODUCTION
+Purpose: To define the software requirements for a warehouse management system that supports receiving, storing, moving, and dispatching inventory while providing necessary reporting and monitoring functionalities.
+Scope: This Software Requirements Specification (SRS) defines the requirements for the Warehouse Inventory Management System (WIMS).
+Definitions/Acronyms:
+- WIMS: Warehouse Inventory Management System
+- PO: Purchase Order
+- SKU: Stock Keeping Unit
+References:
+- IEEE Standard for Software Requirements Specifications (IEEE 830-1998)
+- Project Charter
+- User Requirements Document
+Overview: The WIMS is designed to streamline operations by automating key processes such as receiving, scanning, and dispatching inventory. It also provides real-time visibility through dashboards and detailed logs for auditing purposes.
+
+OVERALL DESCRIPTION
+Perspective: The perspective of the system is from the end-user's viewpoint, focusing on ease-of-use, efficiency, and compliance with industry standards.
+
+Functions:
+- Receive new stock
+- Scan barcodes for incoming and outgoing items
+- Move items within storage areas
+- Generate pick lists based on dispatch requests
+- Provide dashboard views for supervisors
+- Support batch and serial number tracking
+- Issue low stock alerts
+- Log all changes with user identity and reason codes
+- Reconcile cycle counts
+
+Users:
+- Warehouse staff
+- Supervisors
+- Procurement personnel
+Constraints:
+- Must comply with relevant industry regulations
+- Limited budget for development and deployment
+- Existing infrastructure limitations
+Assumptions/Dependencies:
+- Adequate hardware resources available
+- Network connectivity sufficient for real-time updates
+- Users trained on basic computer skills
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Barcode scanner interface
+- Dashboard display interface
+- Pick list printer interface
+- Database connection interface
+Functional Requirements:
+FR-01
+- Receive New Stock
+Input: Supplier information, product details, quantity
+Processing: Verify against purchase order, update inventory records, log transaction
+Output: Confirmation message, updated inventory database
+Priority: High
+FR-02
+- Scan Barcodes
+Input: Item barcode
+Processing: Match barcode to inventory record, update status
+Output: Updated item status, confirmation message
+Priority: High
+FR-03
+- Move Items Between Bins
+Input: Source bin ID, destination bin ID, item barcode
+Processing: Update source and destination bin records, log movement
+Output: Confirmation message, updated bin records
+Priority: Medium
+FR-04
+- Generate Pick Lists Based on Dispatch Requests
+Input: Customer order details, requested items
+Processing: Select appropriate items from inventory, prepare pick list
+Output: Pick list document, updated inventory records
+Priority: High
+FR-05
+- Provide Dashboard Views for Supervisors
+Input: Supervisor login credentials
+Processing: Display current stock levels, aging reports, reorder thresholds, damaged goods count
+Output: Real-time dashboard view
+Priority: Medium
+FR-06
+- Support Batch and Serial Number Tracking
+Input: Batch or serial number identifier
+Processing: Track movements and statuses throughout lifecycle
+Output: Detailed tracking report
+Priority: High
+FR-07
+- Issue Low Stock Alerts
+Input: Minimum stock level threshold
+Processing: Monitor inventory levels, trigger alert when threshold reached
+Output: Alert notification
+Priority: High
+FR-08
+- Log All Changes With User Identity and Reason Codes
+Input: Change type, user action
+Processing: Record change history including timestamp, user name, and reason code
+Output: Audit trail
+Priority: High
+FR-09
+- Reconcile Cycle Counts
+Input: Physical inventory count results
+Processing: Compare physical count with recorded inventory, identify discrepancies
+Output: Discrepancy report
+Priority: Medium
+Non-Functional Requirements:
+Usability:
+- Intuitive user interface for easy navigation and operation
+Reliability:
+- System shall operate continuously without failure under normal conditions
+Performance:
+- Response time for critical actions shall not exceed 5 seconds
+Portability:
+- System shall run on multiple operating systems (Windows, Linux)
+System Features:
+- Real-time inventory tracking
+- Automated alerts for low stock and other issues
+- Comprehensive reporting capabilities
+- Secure logging and auditing
+- Integration with existing warehouse equipment
+
+End of Document.Appendix

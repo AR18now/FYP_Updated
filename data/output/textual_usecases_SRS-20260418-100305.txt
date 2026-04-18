@@ -1,0 +1,156 @@
+Use Case: FR-01 - Create and manage project plans
+Primary Actor: Project Manager
+Stakeholders: All project stakeholders
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Enter project details, resource allocation, and schedule parameters.
+2. Validate input data.
+3. Save project information.
+Extensions:
+- If invalid data is entered, display error messages and prompt corrections.
+Postconditions: Project plan created successfully, saved in database.
+Trace to FR: FR-01
+
+Use Case: FR-02 - Define and track milestones
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Enter milestone descriptions, due dates, and responsible parties.
+2. Store milestone data.
+3. Retrieve and display milestone status.
+Extensions:
+- If milestone is missed, send notification to relevant parties.
+Postconditions: Milestones defined and tracked effectively.
+Trace to FR: FR-02
+
+Use Case: FR-03 - Assign and manage teams
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Enter team member names, roles, and contact information.
+2. Assign tasks to team members.
+3. Display task assignment list and progress dashboard.
+Extensions:
+- If task is not completed, notify assigned team member.
+Postconditions: Teams managed effectively.
+Trace to FR: FR-03
+
+Use Case: FR-04 - Track daily progress by site and contractor
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Contractors
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Log site-specific activities and contractor work logs.
+2. Aggregate and analyze activity data.
+3. Generate progress summary reports.
+Extensions:
+- If significant delays occur, trigger manual review by senior management.
+Postconditions: Daily progress accurately tracked.
+Trace to FR: FR-04
+
+Use Case: FR-05 - Provide mobile task updates and image uploads for field engineers
+Primary Actor: Field Engineer
+Stakeholders: Project Manager, Team Members
+Preconditions: User has a compatible mobile device and network connection.
+Main Success Scenario:
+1. Update task status and upload images.
+2. Sync changes with the central system.
+3. Receive updated task list and visual records.
+Extensions:
+- If no internet connection, allow offline mode with sync at next available opportunity.
+Postconditions: Task updates and images uploaded successfully.
+Trace to FR: FR-05
+
+Use Case: FR-06 - Generate floor plan-mapped issue logs
+Primary Actor: Field Engineer
+Stakeholders: Project Manager, Team Members
+Preconditions: User has a compatible mobile device and network connection.
+Main Success Scenario:
+1. Describe issues and provide location coordinates.
+2. Map issues onto floor plans.
+3. View generated issue log map.
+Extensions:
+- If new issues arise during ongoing work, add them immediately.
+Postconditions: Issues logged and visualized effectively.
+Trace to FR: FR-06
+
+Use Case: FR-07 - Compare planned vs. actual timelines
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Input planned timeline data and actual progress data.
+2. Calculate differences and trends over time.
+3. Display timeliness comparison charts and graphs.
+Extensions:
+- If significant deviations are detected, initiate corrective actions.
+Postconditions: Timelines compared and analyzed effectively.
+Trace to FR: FR-07
+
+Use Case: FR-08 - Raise delay alerts based on timeline comparisons
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Identify timeline discrepancies.
+2. Generate delay alerts based on predefined thresholds.
+3. Send alerts via email or SMS.
+Extensions:
+- If alerts are ignored, escalate to higher management levels.
+Postconditions: Delays addressed proactively.
+Trace to FR: FR-08
+
+Use Case: FR-09 - Capture and approve change requests
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Submit change request form.
+2. Validate request data.
+3. Initiate approval workflow.
+4. Confirm approval and update project documents.
+Extensions:
+- If approval is denied, provide reasons and resubmit options.
+Postconditions: Change requests captured and approved.
+Trace to FR: FR-09
+
+Use Case: FR-10 - Monitor budget burn and verify invoices
+Primary Actor: Finance User
+Stakeholders: Finance User, Project Manager
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Review budget allocations.
+2. Verify invoice details.
+3. Generate invoicing status reports.
+Extensions:
+- If discrepancies exist, flag for further investigation.
+Postconditions: Budget monitored and verified accurately.
+Trace to FR: FR-10
+
+Use Case: FR-11 - Manage procurement status
+Primary Actor: Finance User
+Stakeholders: Finance User, Project Manager
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Track procurement orders.
+2. Monitor delivery schedules.
+3. Display procurement status dashboards.
+Extensions:
+- If delays occur, notify relevant personnel.
+Postconditions: Procurement status managed effectively.
+Trace to FR: FR-11
+
+Use Case: FR-12 - Generate weekly progress reports with risk summaries and action owners
+Primary Actor: Project Manager
+Stakeholders: Project Manager, Team Members
+Preconditions: User is logged into the system with appropriate permissions.
+Main Success Scenario:
+1. Compile weekly project metrics.
+2. Summarize identified risks.
+3. Generate comprehensive progress and risk assessment reports.
+Extensions:
+- If critical risks are identified, escalate to senior management.
+Postconditions: Weekly progress reported comprehensively.
+Trace to FR: FR-12

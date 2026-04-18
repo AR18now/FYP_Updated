@@ -125,6 +125,7 @@ export const saveSRS = (srsData) => {
       author: srsData.author || '',
       raw_text: srsData.raw_text || '',
       sections: srsData.sections || {},
+      textual_usecases: srsData.textual_usecases || null,
       edited_html: srsData.edited_html || null,
       // Store preview for quick view
       preview: srsData.raw_text ? srsData.raw_text.substring(0, 200) + '...' : ''

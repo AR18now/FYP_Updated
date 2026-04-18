@@ -1,0 +1,83 @@
+Use Case Name: Validate User Inputs and Generate Unique User Ids
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Validate User Inputs and Generate Unique User Ids” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-01 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: User registration details..
+Postconditions: Measurable system state: outputs match the requirement specification (Confirmation message upon successful registration.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User provides the required inputs: User registration details..
+2. System validates the inputs against the requirement rules.
+3. System validate user inputs and generate unique user IDs.
+4. System produces the expected outcome: Confirmation message upon successful registration..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within expected timing constraints.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to the responsibilities assigned to this actor.
+
+Use Case Name: Store Service Details in Database and Associate With User Id
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Store Service Details in Database and Associate With User Id” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-02 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Service description, price, duration, contact information..
+Postconditions: Measurable system state: outputs match the requirement specification (Confirmation message indicating listing success.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User provides the required inputs: Service description, price, duration, contact information..
+2. System validates the inputs against the requirement rules.
+3. System store service details in database and associate with user ID.
+4. System produces the expected outcome: Confirmation message indicating listing success..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to the responsibilities assigned to this actor.
+
+Use Case Name: Query Database for Matching Services and Display Results
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Query Database for Matching Services and Display Results” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-03 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Search parameters such as skill set, location, price range..
+Postconditions: Measurable system state: outputs match the requirement specification (List of available services meeting specified criteria.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User provides the required inputs: Search parameters such as skill set, location, price range..
+2. System validates the inputs against the requirement rules.
+3. System query database for matching services and display results.
+4. System produces the expected outcome: List of available services meeting specified criteria..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within expected timing constraints.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to the responsibilities assigned to this actor.
+
+Use Case Name: Verify Funds Transfer and Update Transaction Records
+Primary Actor: Customer
+Stakeholders and Interests: Primary actor (Customer): achieve “Verify Funds Transfer and Update Transaction Records” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-04 is in scope. Customer is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Payment amount, recipient's user ID..
+Postconditions: Measurable system state: outputs match the requirement specification (Transaction confirmation and updated balance notifications.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. Customer provides the required inputs: Payment amount, recipient's user ID..
+2. System validates the inputs against the requirement rules.
+3. System verify funds transfer and update transaction records.
+4. System produces the expected outcome: Transaction confirmation and updated balance notifications..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; Customer may correct data and resume at step 1. Payment or authorization refusal: transaction does not commit; system records the failure state. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. Customer behaviour is limited to the responsibilities assigned to this actor.
+
+Use Case Name: Create and Deploy Smart Contract, Monitor Transactions
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Create and Deploy Smart Contract, Monitor Transactions” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-05 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Deposit amounts from both parties..
+Postconditions: Measurable system state: outputs match the requirement specification (Escrow release according to predefined conditions.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User provides the required inputs: Deposit amounts from both parties..
+2. System validates the inputs against the requirement rules.
+3. System create and deploy smart contract, monitor transactions.
+4. System produces the expected outcome: Escrow release according to predefined conditions..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. Service timeout or unavailability: system preserves integrity and signals unavailability without corrupting state. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: High frequency during active use; response remains within expected timing constraints.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to the responsibilities assigned to this actor.
+
+Use Case Name: Mediate Dispute Resolution Process
+Primary Actor: User
+Stakeholders and Interests: Primary actor (User): achieve “Mediate Dispute Resolution Process” successfully and traceably to the requirement. Product owner / sponsor: acceptance against the originating requirement. Supporting actors (if any): None stated in the SRS excerpt.
+Preconditions: Traceability: functional requirement FR-06 is in scope. User is permitted to invoke this capability under the SRS. Inputs needed for the main flow are available: Dispute report, evidence..
+Postconditions: Measurable system state: outputs match the requirement specification (Resolution outcome communicated to all parties involved.); persistent data and session state remain consistent with that outcome.
+Main Success Scenario: 1. User provides the required inputs: Dispute report, evidence..
+2. System validates the inputs against the requirement rules.
+3. System mediate dispute resolution process.
+4. System produces the expected outcome: Resolution outcome communicated to all parties involved..
+Extensions: Alternate flows — None beyond the exception flows below when no optional branch is defined. Exception flows — Invalid or incomplete inputs: system rejects with a clear reason; User may correct data and resume at step 1. Processing failure: system avoids inconsistent commits, notifies the actor, and records diagnostics as required. UML note: Where the same mandatory sub-behaviour appears in multiple use cases, model it once and apply <<include>> from each affected use case (per SRS, not by inventing new scope).
+Special Requirements: Non-functional constraints are exactly those stated in the requirements; this use case does not add implementation detail.
+Frequency of Occurrence: According to normal operational load.
+Assumptions: The approved requirement set is the sole authority on scope; this use case adds no latent requirements. User behaviour is limited to the responsibilities assigned to this actor.

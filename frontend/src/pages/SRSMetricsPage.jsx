@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2, FileText, RefreshCw, AlertTriangle } from 'lucide-react';
 import config from '../config';
@@ -26,8 +26,10 @@ const METRIC_DESCRIPTIONS = {
   conflict_score: 'Shows how free the SRS is from contradictory statements.',
   nfr_specificity: 'Shows whether non-functional requirements are specific and domain-grounded.',
   professional_style: 'Shows formality and technical writing quality.',
-  has_hallucinations: 'Flags if generated parts look weakly grounded in your original input.',
-  confidence_score: 'Confidence that generated content stays grounded in your source requirements.',
+  has_hallucinations:
+    'Review-tier alignment: true when monitoring suggests comparing specific spots (e.g. FR wording) to your input—not “the SRS hallucinated.”',
+  confidence_score:
+    'Heuristic vocabulary overlap between your input and the SRS, adjusted for review-tier notes (not a statistical confidence interval).',
   term_overlap: 'Count of important source terms found again in generated SRS.',
   total_original_terms: 'Total important source terms used as grounding reference.',
   instruction_adherence: 'How well the SRS follows expected SRS-style instruction behavior.',
@@ -394,6 +396,7 @@ function buildHighlightedHtmlByTerms(text, terms) {
 }
 
 const SRSMetricsPage = ({ srsData, currentResults }) => {
+  const [searchParams] = useSearchParams();
   const text = useMemo(() => srsPlainText(srsData), [srsData]);
   const prompt = useMemo(() => collectPromptFromResults(currentResults), [currentResults]);
   const [loading, setLoading] = useState(false);
@@ -519,6 +522,15 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
 
     return withFallbacks;
   }, [srsData, aiEval, rougeLScore, bertScoreProxy, sectionMetrics, armChecks, localCoreMetrics]);
+
+  useEffect(() => {
+    const f = searchParams.get('focus');
+    if (!f || !dedupedMetrics.some((e) => e.key === f)) {
+      return;
+    }
+    setSelectedHighlightMetricKey(f);
+    setSelectedConflict('');
+  }, [searchParams, dedupedMetrics]);
 
   const selectedArmGroup = ARM_METRIC_TO_GROUP[selectedHighlightMetricKey] || '';
   const selectedArmTerms = selectedArmGroup ? ARM_TERMS[selectedArmGroup] : [];

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CheckCircle2, AlertTriangle, GitCompareArrows, RefreshCw } from 'lucide-react';
 import config from '../config';
 import { getApiErrorMessage } from '../utils/apiErrors';
+import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
 
 const pct = (v) => `${Math.round((Number(v) || 0) * 100)}%`;
 
@@ -29,16 +30,21 @@ const RTMPage = ({ srsData, useCaseData }) => {
     setLoading(true);
     setError(null);
     try {
-      let useCasePayload = useCaseData || {};
+      let useCasePayload = { ...(useCaseData || {}) };
+      if (!useCasePayload.textual_usecases?.text && hasModelTextualUseCases(srsData)) {
+        useCasePayload = {
+          ...useCasePayload,
+          textual_usecases: srsData.textual_usecases,
+        };
+      }
       const hasTextual = !!useCasePayload?.textual_usecases?.text;
       const hasDiagram = !!useCasePayload?.diagram?.plantuml_code || !!useCasePayload?.diagram?.diagram_base64;
-      if (!hasTextual || !hasDiagram) {
-        const ucResp = await axios.post(config.API_ENDPOINTS.GENERATE_USECASES, {
-          document_id: srsData?.document_id,
-          title: srsData?.title,
-          sections: srsData?.sections || {},
-        });
-        useCasePayload = ucResp.data || {};
+      if ((!hasTextual || !hasDiagram) && hasModelTextualUseCases(srsData)) {
+        const ucResp = await axios.post(
+          config.API_ENDPOINTS.GENERATE_USECASES,
+          buildGenerateUseCasesRequestBody(srsData)
+        );
+        useCasePayload = { ...useCasePayload, ...(ucResp.data || {}) };
       }
       const res = await axios.post(config.API_ENDPOINTS.RTM_ANALYZE, {
         srs_data: srsData,

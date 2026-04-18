@@ -5,6 +5,7 @@ import config from '../config';
 import { formatTextualUseCasesToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
+import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
 
 const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,11 +14,10 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
     if (!srsData?.sections) return;
     setIsLoading(true);
     try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_USECASES, {
-        document_id: srsData.document_id,
-        title: srsData.title,
-        sections: srsData.sections
-      });
+      const response = await axios.post(
+        config.API_ENDPOINTS.GENERATE_USECASES,
+        buildGenerateUseCasesRequestBody(srsData)
+      );
       if (onUseCaseDataChange) onUseCaseDataChange(response.data);
     } catch (error) {
       console.error('Failed to generate use cases', error);
@@ -27,9 +27,15 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
     }
   }, [srsData, onUseCaseDataChange]);
 
+  const modelUcText = useMemo(() => {
+    const fromSaved = useCaseData?.textual_usecases?.text;
+    const fromSrs = srsData?.textual_usecases?.text;
+    return String(fromSaved || fromSrs || '').trim();
+  }, [useCaseData, srsData]);
+
   const textualHtml = useMemo(() => {
-    return formatTextualUseCasesToHtml(useCaseData?.textual_usecases?.text || '');
-  }, [useCaseData]);
+    return formatTextualUseCasesToHtml(modelUcText);
+  }, [modelUcText]);
 
   const downloadPdf = useCallback(async () => {
     const rawTitle = String(srsData?.title || '').trim();
@@ -41,7 +47,7 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
       const resp = await axios.post(
         config.API_ENDPOINTS.DOWNLOAD_TEXTUAL_USECASES_PDF,
         {
-          text: useCaseData?.textual_usecases?.text || '',
+          text: modelUcText,
           title: rawTitle || 'Project',
         },
         { responseType: 'blob' }
@@ -54,7 +60,7 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
       const msg = await messageFromAxiosBlobError(error);
       alert(msg);
     }
-  }, [srsData, useCaseData]);
+  }, [srsData, modelUcText]);
 
   if (!srsData) {
     return (
@@ -75,16 +81,21 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <button
               onClick={generateUseCases}
-              disabled={isLoading}
+              disabled={isLoading || !hasModelTextualUseCases(srsData)}
+              title={
+                hasModelTextualUseCases(srsData)
+                  ? 'Build PlantUML diagram from SRS use case appendix'
+                  : 'Regenerate SRS to obtain the model textual use case appendix first'
+              }
               className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-              {isLoading ? 'Generating...' : 'Generate / Refresh'}
+              {isLoading ? 'Generating...' : 'Generate diagram'}
             </button>
             <button
               type="button"
               onClick={downloadPdf}
-              disabled={!useCaseData?.textual_usecases?.text}
+              disabled={!modelUcText}
               className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <Download className="h-4 w-4" />
@@ -94,6 +105,11 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
         </div>
 
         <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-3 sm:p-4 md:p-6 bg-slate-50 dark:bg-slate-950/50 min-h-[50vh] sm:min-h-[62vh] lg:min-h-[70vh] overflow-auto">
+          {!hasModelTextualUseCases(srsData) && (
+            <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+              Regenerate the SRS so the model outputs the textual use case appendix (delimiters in the SRS prompt). This page no longer builds use cases from SRS sections on the server.
+            </p>
+          )}
           <div dangerouslySetInnerHTML={{ __html: textualHtml }} />
         </div>
       </div>

@@ -66,8 +66,12 @@ const API_ENDPOINTS = {
   GENERATE_SRS_STREAM: `${API_BASE_URL}/api/generate-srs-stream`,
   GENERATE_SRS_COMPARE: `${API_BASE_URL}/api/generate-srs-compare`,
   RTM_ANALYZE: `${API_BASE_URL}/api/rtm-analyze`,
-  /** Document quality metrics: POST { raw_text } to /api/evaluate-srs-kb-metrics (not stored on generate-srs JSON) */
+  /** Optional extra doc-style scores (NOT RAG/KB retrieval). Off by default; see `ENABLE_SRS_DOC_QUALITY_POST`. */
   EVALUATE_SRS_QUALITY_METRICS: `${API_BASE_URL}/api/evaluate-srs-kb-metrics`,
+  /** POST { srs, prompt } — bundled KB metrics, optional srs_eval, hallucination block, summary for SRS page */
+  SRS_DASHBOARD_INSIGHTS: `${API_BASE_URL}/api/srs-dashboard-insights`,
+  /** Same handler as SRS_DASHBOARD_INSIGHTS; used as fallback if the primary path returns 404/405 */
+  SRS_DASHBOARD_INSIGHTS_ALT: `${API_BASE_URL}/api/evaluate-srs-dashboard`,
   GENERATE_USECASES: `${API_BASE_URL}/api/generate-usecases`,
   DOWNLOAD_TEXTUAL_USECASES_PDF: `${API_BASE_URL}/api/download-textual-usecases-pdf`,
   DOWNLOAD_USECASE_DIAGRAM_PDF: `${API_BASE_URL}/api/download-usecase-diagram-pdf`,
@@ -88,9 +92,18 @@ const API_ENDPOINTS = {
   SRS_EVAL_HEALTH: `${SRS_EVAL_BASE_URL}/health`,
 };
 
+/**
+ * Extra POST to /api/evaluate-srs-kb-metrics from SRS viewer (structural/wording scores only).
+ * Generation already returns verification_report / manual_metrics — set REACT_APP_ENABLE_SRS_DOC_QUALITY=true to enable this panel.
+ */
+const ENABLE_SRS_DOC_QUALITY_POST =
+  typeof process.env.REACT_APP_ENABLE_SRS_DOC_QUALITY === 'string' &&
+  process.env.REACT_APP_ENABLE_SRS_DOC_QUALITY.toLowerCase() === 'true';
+
 export default {
   API_BASE_URL,
   SRS_EVAL_BASE_URL,
   API_ENDPOINTS,
+  ENABLE_SRS_DOC_QUALITY_POST,
 };
 

@@ -11,13 +11,10 @@ import {
   X,
   Edit3,
   Workflow,
-  FileCode,
   UserCheck,
   BarChart3,
   ExternalLink,
   FileDown,
-  ArrowDown,
-  ArrowRight,
 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -28,6 +25,8 @@ import { formatSrsToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import { consumeSrsGenerateStream } from '../utils/srsStream';
+import { hasModelTextualUseCases } from '../utils/useCaseRequest';
+import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
 
 /**
  * Summarize pipeline steps for the UI (no raw tab dumps).
@@ -82,7 +81,7 @@ function buildPreprocessingBullets(items) {
   return bullets;
 }
 
-const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData, onUseCaseDataChange }) => {
+const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
     const cleaned = String(value || fallback)
       .trim()
@@ -128,29 +127,9 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
 
   const [showSRS, setShowSRS] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
-  const [isGeneratingUseCases, setIsGeneratingUseCases] = useState(false);
   const [srsGenError, setSrsGenError] = useState(null);
   /** Raw SRS text accumulated from the streaming endpoint (append-only; improves perceived latency). */
   const [streamPreview, setStreamPreview] = useState('');
-  const [useCaseDiagramLayout, setUseCaseDiagramLayout] = useState('vertical');
-
-  const useCaseDiagramB64 = useMemo(() => {
-    const d = useCaseData?.diagram;
-    if (!d) return '';
-    if (useCaseDiagramLayout === 'horizontal') {
-      return d.diagram_base64_horizontal || d.diagram_base64 || '';
-    }
-    return d.diagram_base64_vertical || d.diagram_base64 || '';
-  }, [useCaseData?.diagram, useCaseDiagramLayout]);
-
-  const useCaseDiagramPuml = useMemo(() => {
-    const d = useCaseData?.diagram;
-    if (!d) return '';
-    if (useCaseDiagramLayout === 'horizontal') {
-      return d.plantuml_code_horizontal || d.plantuml_code || '';
-    }
-    return d.plantuml_code_vertical || d.plantuml_code || '';
-  }, [useCaseData?.diagram, useCaseDiagramLayout]);
 
   const hallAnalysis = useMemo(() => {
     if (!srsData) return null;
@@ -166,7 +145,9 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
 
   const lowConfidenceThreshold = 60;
   const shouldSuggestExpertReview =
-    srsGenerated && hallucinationPct !== null && hallucinationPct < lowConfidenceThreshold;
+    srsGenerated &&
+    hallucinationPct !== null &&
+    (hallucinationPct < lowConfidenceThreshold || hallAnalysis?.has_hallucinations === true);
 
   const downloadText = useCallback((filename, content, mimeType = 'text/plain') => {
     const blob = new Blob([content], { type: mimeType });
@@ -273,24 +254,6 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
       alert(msg);
     }
   }, [srsData, toSafeFilename]);
-
-  const generateUseCases = useCallback(async () => {
-    if (!srsData?.sections) return;
-    setIsGeneratingUseCases(true);
-    try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_USECASES, {
-        document_id: srsData.document_id,
-        title: srsData.title,
-        sections: srsData.sections
-      });
-      if (onUseCaseDataChange) onUseCaseDataChange(response.data);
-    } catch (error) {
-      console.error('Use case generation failed:', error);
-      alert(getApiErrorMessage(error, 'Failed to generate textual use cases and diagram.'));
-    } finally {
-      setIsGeneratingUseCases(false);
-    }
-  }, [srsData, onUseCaseDataChange]);
 
   const generateHTMLContent = useCallback((data) => {
     return `<!DOCTYPE html>
@@ -423,6 +386,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
   }
 
   return (
+    <>
+    <SrsGenerationLoaderOverlay active={isGeneratingSRS} streamPreview={streamPreview} />
     <div className="max-w-6xl mx-auto animate-fade-in overflow-x-hidden" role="main" aria-labelledby="results-heading">
       <div className="rounded-xl card-shadow p-4 sm:p-6 md:p-8 border overflow-x-hidden" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
         <div className="mb-8 space-y-4">
@@ -447,9 +412,9 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                         ? 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-100'
                         : 'border-red-200 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-900/30 dark:text-red-100'
                   }`}
-                  title="Confidence overlap against your input text"
+                  title="Vocabulary overlap between your input and this SRS (heuristic, not a literal error rate)"
                 >
-                  Hallucination confidence: {hallucinationPct}%
+                  Grounding overlap: {hallucinationPct}%
                 </div>
               ) : null}
               <button
@@ -616,8 +581,9 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
               role="alert"
             >
               <p>
-                Hallucination confidence is <span className="font-semibold">{hallucinationPct}%</span> (below {lowConfidenceThreshold}% threshold).
-                Sending this SRS for expert review is recommended.
+                Grounding overlap is <span className="font-semibold">{hallucinationPct}%</span> (below {lowConfidenceThreshold}%){' '}
+                {hallAnalysis?.has_hallucinations ? 'and alignment monitoring suggested a review-tier check. ' : ''}
+                Consider expert review if this draft must be contract-grade.
               </p>
               <button
                 type="button"
@@ -631,23 +597,6 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
                 <UserCheck className="h-4 w-4" />
                 Send to Expert Review
               </button>
-            </div>
-          )}
-          {(isGeneratingSRS || streamPreview) && (
-            <div
-              className="rounded-xl border p-4 mt-2"
-              style={{ borderColor: 'var(--card-border)', background: 'var(--bg)' }}
-              aria-live="polite"
-            >
-              <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: 'var(--muted)' }}>
-                Live SRS output (streaming)
-              </p>
-              <pre
-                className="max-h-56 overflow-y-auto text-xs leading-relaxed whitespace-pre-wrap font-mono p-3 rounded-lg border"
-                style={{ borderColor: 'var(--card-border)', color: 'var(--text)', background: 'var(--card)' }}
-              >
-                {streamPreview}
-              </pre>
             </div>
           )}
         </div>
@@ -740,161 +689,61 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
 
         {srsGenerated && (
           <div className="mt-8 border rounded-xl p-6" style={{ borderColor: 'var(--card-border)', background: 'var(--bg)' }}>
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
               <div>
                 <h3 className="text-xl font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
                   <Workflow className="h-5 w-5" />
                   Use Case Outputs
                 </h3>
                 <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                  Generate structured textual use cases and a rendered use case diagram after SRS creation.
+                  Textual use cases and the PlantUML diagram are derived from the SRS appendix. Open a page below for the full view and exports—the diagram is built automatically when the appendix is present.
                 </p>
               </div>
-              <button
-                onClick={generateUseCases}
-                disabled={isGeneratingUseCases}
-              className="bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent disabled:from-gray-400 disabled:to-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 w-full sm:w-auto"
-              >
-                {isGeneratingUseCases ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
-                <span>{isGeneratingUseCases ? 'Generating...' : 'Generate Use Cases'}</span>
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => navigate('/textual-usecases')}
+                  className="text-sm bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-4 py-2 rounded-lg"
+                >
+                  Textual use cases
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate('/usecase-diagram')}
+                  className="text-sm bg-slate-700 hover:bg-slate-600 dark:bg-slate-600 dark:hover:bg-slate-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Use case diagram
+                </button>
+              </div>
             </div>
 
-            {useCaseData && (
-              <div className="grid lg:grid-cols-2 gap-6">
-                <div className="rounded-lg border p-4" style={{ borderColor: 'var(--card-border)', background: 'var(--card)' }}>
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <h4 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
-                      <FileText className="h-4 w-4" />
-                      Textual Use Cases
-                    </h4>
-                    <button
-                      onClick={() => downloadText(`textual_usecases_${srsData?.document_id || 'srs'}.txt`, useCaseData?.textual_usecases?.text || '')}
-                      className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded w-full sm:w-auto"
-                    >
-                      Download .txt
-                    </button>
-                  </div>
-                  <pre className="whitespace-pre-wrap text-sm rounded border p-3 max-h-96 overflow-auto" style={{ borderColor: 'var(--card-border)', color: 'var(--text)' }}>
-                    {useCaseData?.textual_usecases?.text || 'No textual use cases generated.'}
-                  </pre>
+            {hasModelTextualUseCases(srsData) && (
+              <div className="rounded-lg border p-4" style={{ borderColor: 'var(--card-border)', background: 'var(--card)' }}>
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <h4 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                    <FileText className="h-4 w-4" />
+                    Appendix preview
+                  </h4>
                   <button
-                    onClick={() => navigate('/textual-usecases')}
-                    className="mt-3 text-sm bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-3 py-1.5 rounded w-full sm:w-auto"
+                    type="button"
+                    onClick={() =>
+                      downloadText(
+                        `textual_usecases_${srsData?.document_id || 'srs'}.txt`,
+                        useCaseData?.textual_usecases?.text || srsData?.textual_usecases?.text || ''
+                      )
+                    }
+                    className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded w-full sm:w-auto"
                   >
-                    Open Full Textual Use Cases Page
+                    Download .txt
                   </button>
                 </div>
-
-                <div className="rounded-lg border p-4" style={{ borderColor: 'var(--card-border)', background: 'var(--card)' }}>
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <h4 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text)' }}>
-                      <Workflow className="h-4 w-4" />
-                      Use Case Diagram
-                    </h4>
-                    <div className="flex flex-wrap items-center gap-2 justify-start sm:justify-end w-full sm:w-auto">
-                      <div className="flex rounded-md border overflow-hidden text-xs w-full sm:w-auto" style={{ borderColor: 'var(--card-border)' }}>
-                        <button
-                          type="button"
-                          onClick={() => setUseCaseDiagramLayout('vertical')}
-                          disabled={
-                            !useCaseData?.diagram?.diagram_base64_vertical &&
-                            !useCaseData?.diagram?.diagram_base64
-                          }
-                          className={`px-2.5 py-1.5 flex items-center gap-1 disabled:opacity-50 ${
-                            useCaseDiagramLayout === 'vertical' ? 'bg-r2d-primary text-white' : ''
-                          }`}
-                          style={
-                            useCaseDiagramLayout === 'vertical'
-                              ? {}
-                              : { background: 'var(--card)', color: 'var(--text)' }
-                          }
-                          title="Top-to-bottom (PlantUML)"
-                        >
-                          <ArrowDown className="h-3.5 w-3.5" />
-                          Vertical
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setUseCaseDiagramLayout('horizontal')}
-                          disabled={
-                            !useCaseData?.diagram?.diagram_base64_horizontal &&
-                            !useCaseData?.diagram?.diagram_base64
-                          }
-                          className={`px-2.5 py-1.5 flex items-center gap-1 border-l disabled:opacity-50 ${
-                            useCaseDiagramLayout === 'horizontal' ? 'bg-r2d-primary text-white' : ''
-                          }`}
-                          style={
-                            useCaseDiagramLayout === 'horizontal'
-                              ? {}
-                              : {
-                                  background: 'var(--card)',
-                                  color: 'var(--text)',
-                                  borderColor: 'var(--card-border)',
-                                }
-                          }
-                          title="Left-to-right (PlantUML)"
-                        >
-                          <ArrowRight className="h-3.5 w-3.5" />
-                          Horizontal
-                        </button>
-                      </div>
-                      <button
-                        onClick={() =>
-                          downloadText(
-                            `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.puml`,
-                            useCaseDiagramPuml || ''
-                          )
-                        }
-                        className="text-sm bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded flex items-center justify-center gap-1 w-full sm:w-auto"
-                      >
-                        <FileCode className="h-3.5 w-3.5" />
-                        .puml
-                      </button>
-                      <button
-                        onClick={() => {
-                          const b64 = useCaseDiagramB64;
-                          if (!b64) return;
-                          const link = document.createElement('a');
-                          link.href = `data:image/png;base64,${b64}`;
-                          link.download = `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.png`;
-                          document.body.appendChild(link);
-                          link.click();
-                          link.parentNode.removeChild(link);
-                        }}
-                        disabled={!useCaseDiagramB64}
-                        className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded w-full sm:w-auto"
-                      >
-                        Download .png
-                      </button>
-                    </div>
-                  </div>
-                  {useCaseDiagramB64 ? (
-                    <img
-                      src={`data:image/png;base64,${useCaseDiagramB64}`}
-                      alt={`Use case diagram (${useCaseDiagramLayout})`}
-                      className="w-full rounded border"
-                      style={{ borderColor: 'var(--card-border)' }}
-                    />
-                  ) : (
-                    <div className="text-sm space-y-2">
-                      <div className="p-3 rounded border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 text-amber-950 dark:text-amber-100">
-                        Diagram PNG was not rendered. {useCaseData?.diagram?.message || 'PlantUML rendering may be unavailable.'}
-                      </div>
-                      {useCaseData?.diagram?.plantuml_log ? (
-                        <pre className="text-xs whitespace-pre-wrap font-mono p-3 rounded border border-slate-600 bg-slate-900 text-green-400 max-h-64 overflow-auto">
-                          {useCaseData.diagram.plantuml_log}
-                        </pre>
-                      ) : null}
-                    </div>
-                  )}
-                  <button
-                    onClick={() => navigate('/usecase-diagram')}
-                    className="mt-3 text-sm bg-gradient-to-r from-r2d-primary to-r2d-accent hover:from-r2d-primaryLight hover:to-r2d-accent text-white px-3 py-1.5 rounded w-full sm:w-auto"
-                  >
-                    Open Full Diagram Page
-                  </button>
-                </div>
+                <pre
+                  className="whitespace-pre-wrap text-sm rounded border p-3 max-h-48 overflow-auto"
+                  style={{ borderColor: 'var(--card-border)', color: 'var(--text)' }}
+                >
+                  {(useCaseData?.textual_usecases?.text || srsData?.textual_usecases?.text || '').trim() ||
+                    'No textual use cases from the SRS model appendix.'}
+                </pre>
               </div>
             )}
           </div>
@@ -1039,6 +888,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData,
         />
       )}
     </div>
+    </>
   );
 };
 

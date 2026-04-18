@@ -1,0 +1,118 @@
+INTRODUCTION
+Purpose: To specify the requirements for a construction management software system designed to streamline project planning, execution, tracking, and reporting processes.
+Scope: This Software Requirements Specification (SRS) covers the functionalities required for managing construction projects including project planning, team assignments, progress tracking, financial monitoring, and report generation.
+Definitions/Acronyms:
+- PPM: Project Planning Module
+- TTM: Team Tracking Module
+- GTM: Ground Truth Management
+- FUM: Financial User Module
+- RSM: Risk Summary Module
+References: IEEE Std 830-1998, ISO/IEC/IEEE 29148-2011
+Overview: This document outlines the detailed requirements necessary for developing a comprehensive construction management system.
+
+OVERALL DESCRIPTION
+Perspective: From the perspective of various user roles such as project managers, field engineers, finance users, and other stakeholders involved in construction projects.
+Functions:
+- Create and manage project plans.
+- Define and track milestones.
+- Assign and manage teams.
+- Track daily progress by site and contractor.
+- Provide mobile task updates and image uploads for field engineers.
+- Generate floor plan-mapped issue logs.
+- Compare planned vs. actual timelines.
+- Raise delay alerts based on timeline comparisons.
+- Capture and approve change requests.
+- Monitor budget burn and verify invoices.
+- Manage procurement status.
+- Generate weekly progress reports with risk summaries and action owners.
+Users: Project managers, field engineers, finance users, and other stakeholders.
+Constraints: The system must be usable, reliable, performant, and portable across different devices and platforms.
+Assumptions/Dependencies: Users will have access to internet connectivity and compatible devices for using the application.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Web interface for project managers and finance users.
+- Mobile app interface for field engineers.
+Functional Requirements:
+FR-01
+- Create and manage project plans.
+Input: Project details, resource allocation, schedule parameters.
+Processing: Validation of input data, storage of project information.
+Output: Confirmation message upon successful creation/update.
+Priority: High
+FR-02
+- Define and track milestones.
+Input: Milestone descriptions, due dates, responsible parties.
+Processing: Storage and retrieval of milestone data, comparison against current date.
+Output: Status update notifications when milestones are met or missed.
+Priority: High
+FR-03
+- Assign and manage teams.
+Input: Team member names, roles, contact information.
+Processing: Assignment of tasks to team members, tracking of task completion.
+Output: Task assignment list and progress dashboard.
+Priority: Medium
+FR-04
+- Track daily progress by site and contractor.
+Input: Site-specific activities, contractor work logs.
+Processing: Aggregation and analysis of activity data.
+Output: Progress summary reports.
+Priority: Low
+FR-05
+- Provide mobile task updates and image uploads for field engineers.
+Input: Task updates, images.
+Processing: Real-time synchronization between web and mobile applications.
+Output: Updated task lists and visual records stored in the system.
+Priority: Medium
+FR-06
+- Generate floor plan-mapped issue logs.
+Input: Issue descriptions, location coordinates.
+Processing: Mapping issues onto floor plans.
+Output: Visualized issue log maps.
+Priority: Medium
+FR-07
+- Compare planned vs. actual timelines.
+Input: Planned timeline data, actual progress data.
+Processing: Calculation of differences and trends over time.
+Output: Timeliness comparison charts and graphs.
+Priority: High
+FR-08
+- Raise delay alerts based on timeline comparisons.
+Input: Timeline discrepancies.
+Processing: Alert generation logic based on predefined thresholds.
+Output: Delay alert notifications sent via email or SMS.
+Priority: High
+FR-09
+- Capture and approve change requests.
+Input: Change request forms, approval signatures.
+Processing: Request validation, approval workflow.
+Output: Approval confirmation messages and updated project documents.
+Priority: Medium
+FR-10
+- Monitor budget burn and verify invoices.
+Input: Budget allocations, invoice details.
+Processing: Comparison of budgeted amounts with actual expenditures.
+Output: Invoicing status reports.
+Priority: Medium
+FR-11
+- Manage procurement status.
+Input: Procurement orders, delivery schedules.
+Processing: Tracking of procurement items and delivery statuses.
+Output: Procurement status dashboards.
+Priority: Medium
+FR-12
+- Generate weekly progress reports with risk summaries and action owners.
+Input: Weekly project metrics, identified risks.
+Processing: Compilation of data into structured reports.
+Output: Comprehensive progress and risk assessment reports.
+Priority: High
+Non-Functional Requirements:
+Usability: The system shall provide intuitive navigation and clear feedback mechanisms.
+Reliability: The system shall ensure consistent operation without unexpected failures.
+Performance: The system shall process data efficiently within specified time limits.
+Portability: The system shall support multiple operating systems and device types.
+
+SYSTEM FEATURES
+The system includes modules for project planning, team tracking, ground truth management, and financial user management. Each module is designed to cater to specific needs of its target audience while ensuring seamless integration and easy accessibility through both web and mobile interfaces.
+
+End of Document.

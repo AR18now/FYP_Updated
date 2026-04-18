@@ -31,7 +31,7 @@ import logging
 import re
 import binascii
 from urllib.parse import unquote_plus
-from collections import defaultdict, deque
+from collections import Counter, defaultdict, deque
 import replicate
 
 # Import our existing modules
@@ -40,7 +40,6 @@ from srs_generator import SRSGenerator
 from generation.srs_generator import RAGSRSGenerator
 from json_to_srs_pdf import load_srs_from_json, render_html, save_pdf_or_html
 from srs_model_generator import SRSModelGenerator
-from generation.textual_usecase_generator import TextualUseCaseGenerator
 from generation.usecase_diagram_generator import UseCaseDiagramGenerator
 from input_processing.ambiguity_detection import AmbiguityDetector
 from input_processing.requirement_refinement import RequirementRefiner
@@ -427,6 +426,429 @@ def evaluate_srs_kb_metrics():
     except Exception as e:
         logger.error("evaluate-srs-kb-metrics failed: %s", e, exc_info=True)
         return jsonify({"error": str(e), "metrics": {}, "srs_quality_table": []}), 500
+
+
+def _srs_plain_text_for_dashboard(srs: dict) -> str:
+    """Same plain-text contract as the SRS metrics page (raw_text, else JSON sections)."""
+    if not isinstance(srs, dict):
+        return ""
+    raw = str(srs.get("raw_text") or "").strip()
+    if len(raw) >= 80:
+        return raw
+    try:
+        return json.dumps(srs.get("sections") or {}, ensure_ascii=False)
+    except (TypeError, ValueError):
+        return raw
+
+
+def _try_run_srs_eval_on_text(prompt: str, srs_text: str) -> Optional[dict]:
+    """Run bundled srs_eval pipeline (same as srs_eval_service) when package is importable."""
+    eval_root = Path(__file__).resolve().parent / "srs_eval_service"
+    if not eval_root.is_dir():
+        return None
+    import sys
+
+    root_str = str(eval_root)
+    if root_str not in sys.path:
+        sys.path.insert(0, root_str)
+    try:
+        from srs_eval.pipeline import run_evaluation_on_provided_srs
+    except Exception as e:
+        logger.warning("srs_eval import failed (dashboard insights): %s", e)
+        return None
+    p = (prompt or "").strip()
+    if len(p) < 1:
+        p = "Original requirements were not sent with this request; metrics that need a prompt may be weaker."
+    t = (srs_text or "").strip()
+    if len(t) < 40:
+        return None
+    try:
+        return run_evaluation_on_provided_srs(p, t)
+    except Exception as e:
+        logger.warning("srs_eval run failed (dashboard insights): %s", e)
+        return None
+
+
+def _dashboard_summary_line(
+    kb_metrics: dict,
+    hall: dict,
+    srs_eval_result: Optional[dict],
+) -> str:
+    """Short user-facing line for the SRS page (heuristic, not a grade)."""
+    arm = 0.0
+    try:
+        if isinstance(kb_metrics, dict) and kb_metrics.get("arm_overall_score") is not None:
+            arm = float(max(0.0, min(1.0, float(kb_metrics["arm_overall_score"]))))
+    except (TypeError, ValueError):
+        arm = 0.0
+
+    conf = 0.55
+    try:
+        if isinstance(hall, dict) and hall.get("confidence_score") is not None:
+            conf = float(max(0.0, min(1.0, float(hall["confidence_score"]))))
+    except (TypeError, ValueError):
+        pass
+    has_hall = bool((hall or {}).get("has_hallucinations"))
+
+    ai_scores: list[float] = []
+    if isinstance(srs_eval_result, dict) and isinstance(srs_eval_result.get("metrics"), list):
+        for m in srs_eval_result["metrics"]:
+            if not isinstance(m, dict) or m.get("skipped"):
+                continue
+            s = m.get("score")
+            if isinstance(s, (int, float)) and not isinstance(s, bool):
+                try:
+                    fv = float(s)
+                    if fv == fv:  # not NaN
+                        ai_scores.append(max(0.0, min(1.0, fv)))
+                except (TypeError, ValueError):
+                    continue
+    ai_avg = sum(ai_scores) / len(ai_scores) if ai_scores else None
+
+    blend = arm * 0.5 + conf * 0.5
+    if ai_avg is not None:
+        blend = blend * 0.55 + ai_avg * 0.45
+    blend = max(0.0, min(1.0, blend))
+
+    if has_hall:
+        return (
+            "Automatic checks flagged a few areas to compare with your original input—review the "
+            "scores below, then open the full metrics page if you want line-by-line detail."
+        )
+    if blend >= 0.72:
+        return (
+            "Your SRS looks good overall: wording and structure signals are in a healthy range, "
+            "and grounding against your input looks acceptable for a first draft."
+        )
+    if blend >= 0.52:
+        return (
+            "Your SRS is usable but has room to improve—tighten vague requirements and double-check "
+            "sections with lower scores below."
+        )
+    return (
+        "Your SRS may need another pass—automatic scores and grounding look weak; use the breakdown "
+        "below and the full metrics page to strengthen it."
+    )
+
+
+def _interpret_model_performance(m: dict) -> str:
+    """One or two short sentences for the UI; wall time is provider-side, not model FLOPs."""
+    if not isinstance(m, dict) or not m:
+        return ""
+    lat = m.get("latency_seconds")
+    sw = m.get("stream_wall_seconds")
+    secs = None
+    for v in (lat, sw):
+        if isinstance(v, (int, float)) and not isinstance(v, bool) and v > 0:
+            secs = float(v)
+            break
+    out_chars = m.get("parsed_srs_characters")
+    if out_chars is None:
+        out_chars = m.get("output_characters")
+    if out_chars is None:
+        out_chars = m.get("raw_model_output_characters")
+
+    a, b = "", ""
+    if secs is not None:
+        if secs < 45:
+            a = (
+                "End-to-end latency is on the quick side for a hosted full-document run (mostly network "
+                "and provider queue time, not a formal benchmark)."
+            )
+        elif secs < 180:
+            a = (
+                "Latency is in a typical band for remote generation—larger max tokens or busier "
+                "infrastructure can push this higher without implying lower model quality."
+            )
+        else:
+            a = (
+                "This run was slow on the clock—often due to provider load or a very long completion; "
+                "retry later if you need a faster turnaround."
+            )
+    if isinstance(out_chars, int) and out_chars > 0:
+        approx_k = max(1, round(out_chars / 1000))
+        b = (
+            f"The cleaned SRS body is about {approx_k}k characters—enough substance to review structure "
+            "and requirements density on the metrics page."
+        )
+    text = " ".join(x for x in (a, b) if x).strip()
+    if len(text) > 400:
+        text = text[:397] + "…"
+    return text
+
+
+def _srs_section_heading_prf1(srs_text: str) -> dict:
+    """
+    IEEE-ish heading coverage: precision/recall/F1 over detected line headings vs expected section names.
+    Mirrors the frontend SRS metrics page (not gold-standard retrieval metrics).
+    """
+    expected = (
+        "introduction",
+        "overall description",
+        "specific requirements",
+        "functional requirements",
+        "non-functional requirements",
+    )
+    text = str(srs_text or "")
+    normalized: list[str] = []
+    for m in re.finditer(
+        r"^\s*(?:(\d+(?:\.\d+)*)\s+)?([a-z][a-z -]{2,})\s*:?\s*$",
+        text,
+        re.IGNORECASE | re.MULTILINE,
+    ):
+        line = m.group(0).strip().lower()
+        line = re.sub(r"^\s*\d+(?:\.\d+)*\s+", "", line)
+        line = line.rstrip(":").strip()
+        if line:
+            normalized.append(line)
+    found: set[str] = set()
+    for k in expected:
+        if any(k in h for h in normalized):
+            found.add(k)
+    prec = len(found) / len(normalized) if normalized else 0.0
+    rec = len(found) / len(expected) if expected else 0.0
+    f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) > 0 else 0.0
+    return {
+        "section_heading_precision": round(prec, 4),
+        "section_heading_recall": round(rec, 4),
+        "section_heading_f1": round(f1, 4),
+        "section_headings_detected": len(normalized),
+        "expected_sections_matched": len(found),
+    }
+
+
+def _input_token_grounding_prf1(source_text: str, srs_text: str) -> dict:
+    """Token overlap (4+ letter words), same spirit as SRS grounding heuristics."""
+    sl = str(source_text or "").lower()
+    tl = str(srs_text or "").lower()
+    orig = set(re.findall(r"\b[a-z]{4,}\b", sl))
+    gen = set(re.findall(r"\b[a-z]{4,}\b", tl))
+    inter = orig & gen
+    to = len(inter)
+    prec = to / len(gen) if gen else 0.0
+    rec = to / len(orig) if orig else 0.0
+    f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) > 0 else 0.0
+    return {
+        "input_token_precision": round(prec, 4),
+        "input_token_recall": round(rec, 4),
+        "input_token_f1": round(f1, 4),
+        "input_term_overlap_count": to,
+        "source_token_count": len(orig),
+        "srs_token_count": len(gen),
+    }
+
+
+def _compute_generation_quality_scores(
+    source_text: str,
+    raw_text: str,
+    hallucination_analysis: dict,
+) -> dict:
+    """
+    Bundle precision/recall/F1-style heuristics + flexible grounding/alignment summary for generation_meta.
+    """
+    srs_body = str(raw_text or "").strip()
+    st = str(source_text or "").strip()
+    sec = _srs_section_heading_prf1(srs_body)
+    tok = _input_token_grounding_prf1(st, srs_body)
+    hall = hallucination_analysis if isinstance(hallucination_analysis, dict) else {}
+    flagged = hall.get("flagged_sections") or []
+    n_flag = len(flagged) if isinstance(flagged, list) else 0
+    info_sigs = hall.get("informational_signals") or []
+    n_info = len(info_sigs) if isinstance(info_sigs, list) else 0
+    mon = hall.get("monitoring") if isinstance(hall.get("monitoring"), dict) else {}
+    gc = hall.get("confidence_score")
+    try:
+        gc_f = float(gc) if gc is not None else None
+    except (TypeError, ValueError):
+        gc_f = None
+    if gc_f is not None:
+        gc_f = max(0.0, min(1.0, gc_f))
+
+    section_f1 = float(sec.get("section_heading_f1") or 0.0)
+    token_f1 = float(tok.get("input_token_f1") or 0.0)
+    parts = [section_f1, token_f1]
+    if gc_f is not None:
+        parts.append(gc_f)
+    heuristic_accuracy = round(sum(parts) / len(parts), 4) if parts else None
+
+    return {
+        "notes": (
+            "Heuristic scores against your pasted requirements—not human-labeled benchmark "
+            "precision/recall/F1."
+        ),
+        **sec,
+        "input_token_precision": tok["input_token_precision"],
+        "input_token_recall": tok["input_token_recall"],
+        "input_token_f1": tok["input_token_f1"],
+        "input_term_overlap_count": tok["input_term_overlap_count"],
+        "source_token_count": tok["source_token_count"],
+        "srs_token_count": tok["srs_token_count"],
+        "alignment_review_recommended": bool(hall.get("has_hallucinations")),
+        "alignment_review_notes_count": n_flag,
+        "alignment_informational_notes_count": n_info,
+        "grounding_monitoring_strictness": mon.get("strictness")
+        or str(os.environ.get("SRS_GROUNDING_STRICTNESS") or "relaxed").strip().lower(),
+        # Legacy keys — same semantics as alignment_review_* (review-tier only)
+        "hallucination_has_potential": bool(hall.get("has_hallucinations")),
+        "hallucination_grounding_confidence": hall.get("confidence_score"),
+        "hallucination_flags_count": n_flag,
+        "heuristic_accuracy": heuristic_accuracy,
+    }
+
+
+def _interpret_quality_scores(qs: dict) -> str:
+    if not isinstance(qs, dict) or not qs:
+        return ""
+    acc = qs.get("heuristic_accuracy")
+    flagged = qs.get("alignment_review_recommended")
+    if flagged is None:
+        flagged = qs.get("hallucination_has_potential")
+    n_info = qs.get("alignment_informational_notes_count")
+    p = qs.get("input_token_precision")
+    r = qs.get("input_token_recall")
+    f1 = qs.get("input_token_f1")
+    a = ""
+    if isinstance(acc, (int, float)) and not isinstance(acc, bool):
+        a = (
+            f"Heuristic accuracy (mean of section-heading F1, input-token F1, and grounding confidence) "
+            f"is about {round(float(acc) * 100)}%—use it only as a quick sanity check."
+        )
+    token_line = ""
+    try:
+        if all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in (p, r, f1)):
+            token_line = (
+                f"Input-token precision/recall/F1 (4+ letter word overlap with your text) are about "
+                f"{int(round(float(p) * 100))}% / {int(round(float(r) * 100))}% / {int(round(float(f1) * 100))}%."
+            )
+    except (TypeError, ValueError):
+        token_line = ""
+    if flagged is True:
+        b = (
+            "Alignment monitoring suggests a focused review (for example FR wording weakly tied to your input). "
+            + (token_line or "Open the SRS and compare highlighted themes to your source.")
+        )
+    else:
+        b = "No review-tier alignment issues were raised. "
+        if isinstance(n_info, int) and n_info > 0:
+            b += (
+                f"{n_info} informational note(s) only (typical when a model expands a short brief)—"
+                "optional context, not an error verdict. "
+            )
+        b += token_line
+        b = b.strip()
+    text = " ".join(x for x in (a, b) if x).strip()
+    if len(text) > 420:
+        text = text[:417] + "…"
+    return text
+
+
+@app.route("/api/srs-dashboard-insights", methods=["GET", "POST", "OPTIONS"])
+@app.route("/api/evaluate-srs-dashboard", methods=["GET", "POST", "OPTIONS"])
+def srs_dashboard_insights():
+    """
+    Single bundle for the SRS document page: KB-style wording metrics, optional srs_eval metrics,
+    hallucination block from the SRS payload, and a plain-language summary line.
+    """
+    if request.method == "OPTIONS":
+        return ("", 204)
+    if request.method == "GET":
+        return jsonify(
+            {
+                "endpoint": "srs-dashboard-insights / evaluate-srs-dashboard",
+                "methods": ["POST"],
+                "body": {"srs": "object (document payload)", "prompt": "string (original requirements)"},
+            }
+        )
+    try:
+        data = request.get_json(silent=True) or {}
+        srs = data.get("srs") if isinstance(data.get("srs"), dict) else {}
+        prompt = sanitize_user_input(str(data.get("prompt", "") or ""), max_length=50_000)
+
+        text = _srs_plain_text_for_dashboard(srs)
+        text = text.strip()
+        if len(text) < 40:
+            return (
+                jsonify(
+                    {
+                        "error": "SRS text too short for insights (need at least ~40 characters).",
+                        "summary_line": "",
+                        "overall_score": None,
+                        "hallucination_analysis": {},
+                        "kb_metrics": {},
+                        "srs_quality_table": [],
+                        "srs_eval": None,
+                        "verification_report": srs.get("verification_report"),
+                    }
+                ),
+                400,
+            )
+
+        has_inj, _ = detect_prompt_injection(text)
+        if has_inj:
+            return (
+                jsonify(
+                    {
+                        "error": "Content validation failed for SRS text.",
+                        "security_issue": True,
+                        "summary_line": "",
+                        "overall_score": None,
+                        "hallucination_analysis": {},
+                        "kb_metrics": {},
+                        "srs_quality_table": [],
+                        "srs_eval": None,
+                    }
+                ),
+                403,
+            )
+
+        max_chars = 200_000
+        if len(text) > max_chars:
+            text = text[:max_chars]
+
+        kb_metrics: dict = {}
+        kb_table: list = []
+        if len(text) >= 80:
+            kb_metrics = _compute_kb_quality_metrics(text) or {}
+            kb_table = _build_srs_quality_detail_table(kb_metrics)
+
+        sec = srs.get("sections") if isinstance(srs.get("sections"), dict) else {}
+        hall = srs.get("hallucination_analysis") if isinstance(srs.get("hallucination_analysis"), dict) else {}
+        if not hall and isinstance(sec, dict):
+            ha = sec.get("_hallucination_analysis")
+            if isinstance(ha, dict):
+                hall = ha
+
+        srs_eval = _try_run_srs_eval_on_text(prompt, text)
+
+        summary = _dashboard_summary_line(kb_metrics, hall, srs_eval)
+
+        overall = None
+        try:
+            arm = float(kb_metrics.get("arm_overall_score")) if kb_metrics else None
+            conf = float(hall.get("confidence_score")) if hall else None
+            if arm is not None and conf is not None:
+                overall = round(max(0.0, min(1.0, arm * 0.55 + conf * 0.45)), 3)
+            elif arm is not None:
+                overall = round(max(0.0, min(1.0, arm)), 3)
+            elif conf is not None:
+                overall = round(max(0.0, min(1.0, conf)), 3)
+        except (TypeError, ValueError):
+            overall = None
+
+        return jsonify(
+            {
+                "summary_line": summary,
+                "overall_score": overall,
+                "hallucination_analysis": hall,
+                "kb_metrics": kb_metrics,
+                "srs_quality_table": kb_table,
+                "srs_eval": srs_eval,
+                "verification_report": srs.get("verification_report"),
+            }
+        )
+    except Exception as e:
+        logger.error("srs-dashboard-insights failed: %s", e, exc_info=True)
+        return jsonify({"error": str(e)}), 500
 
 
 def _rtm_tokenize(text: str) -> set:
@@ -1209,7 +1631,6 @@ def validate_text_content(text: str) -> dict:
     # Detect excessive repetition (e.g., "hi hi hi ..." spam)
     words = text.strip().split()
     if words:
-        from collections import Counter
         counts = Counter(w.lower() for w in words if w.strip())
         total = sum(counts.values())
         most_common_word, freq = counts.most_common(1)[0]
@@ -1292,7 +1713,9 @@ def _extract_text_for_generation_validation(results: list) -> str:
 
 _ACTOR_TERMS = (
     "user", "admin", "administrator", "customer", "teacher", "student", "manager",
-    "operator", "staff", "system", "api", "service", "client", "guest", "auditor",
+    "operator", "staff", "system", "api", "service", "client", "clients", "guest", "auditor",
+    "freelancer", "freelancers", "buyer", "buyers", "seller", "sellers", "vendor", "vendors",
+    "merchant", "merchants", "platform", "stakeholder", "stakeholders", "moderator", "moderators",
 )
 
 _ACTION_VERBS = (
@@ -1300,12 +1723,23 @@ _ACTION_VERBS = (
     "view", "search", "generate", "upload", "download", "approve", "reject", "notify",
     "track", "manage", "edit", "assign", "schedule", "cancel", "authenticate",
     "authorize", "reset", "export", "import", "calculate", "process",
+    # Common marketplace / SRS prose (previously missing → false "no action" flags)
+    "post", "publish", "negotiate", "release", "pay", "refund", "transfer", "settle",
+    "support", "monitor", "verify", "validate", "prevent", "allow", "enable", "disable",
+    "display", "list", "filter", "sort", "rank", "shortlist", "bid", "send", "receive",
+    "deliver", "complete", "hold", "handle", "resolve", "escalate", "archive", "restore",
+    "sync", "reconcile", "capture", "store", "fetch", "render", "encrypt", "decrypt",
+    "message", "remind", "review", "moderate", "flag", "suspend", "resume", "audit",
 )
 
 _OBJECT_HINTS = (
     "account", "profile", "report", "assignment", "invoice", "record", "document",
     "request", "order", "booking", "appointment", "ticket", "notification", "session",
     "payment", "message", "dashboard", "file", "data",
+    "project", "projects", "proposal", "proposals", "milestone", "milestones", "deliverable",
+    "deliverables", "portfolio", "portfolios", "escrow", "dispute", "disputes", "deadline",
+    "deadlines", "rating", "ratings", "workflow", "workflows", "feedback", "evidence",
+    "messaging",
 )
 
 _VAGUE_TERMS = ("fast", "efficient", "user-friendly", "easy", "quick", "reliable")
@@ -1340,7 +1774,20 @@ def _detect_actor(line: str) -> list[str]:
 
 def _detect_action(line: str) -> list[str]:
     lowered = line.lower()
-    return sorted(set(v for v in _ACTION_VERBS if re.search(rf"\b{re.escape(v)}\b", lowered)))
+    found = sorted(set(v for v in _ACTION_VERBS if re.search(rf"\b{re.escape(v)}\b", lowered)))
+    if found:
+        return found
+    # Modal + verb-shaped word (e.g. "Clients should post projects", "platform must support escrow")
+    for m in re.finditer(
+        r"\b(?:shall|must|should|will|could|may)\s+([a-z]{3,})\b",
+        lowered,
+    ):
+        token = m.group(1)
+        if token in {"be", "not", "have", "been", "being", "the", "any", "all", "only", "also"}:
+            continue
+        if len(token) >= 4:
+            return [token]
+    return []
 
 
 def _infer_object(line: str) -> str:
@@ -1401,6 +1848,24 @@ def _detect_conflicts(requirements: list[dict]) -> list[dict]:
     return conflicts
 
 
+def _content_looks_like_repetition_or_spam(text: str) -> bool:
+    """True when input is dominated by one token or has very low lexical diversity (e.g. spam)."""
+    words = re.findall(r"[A-Za-z][A-Za-z0-9_-]*", str(text).lower())
+    if not words:
+        return False
+    n = len(words)
+    uniq = len(set(words))
+    if uniq / n < 0.35:
+        return True
+    if n >= 20:
+        top_freq = Counter(words).most_common(1)[0][1]
+        if top_freq / n >= 0.45:
+            return True
+    if uniq <= 8 and n >= 30:
+        return True
+    return False
+
+
 def analyze_structured_requirements(text: str) -> dict:
     lines = _split_requirement_lines(text)
     if not lines:
@@ -1409,7 +1874,10 @@ def analyze_structured_requirements(text: str) -> dict:
             "overall_score": 0.0,
             "requirements": [],
             "errors": ["No requirement statements detected."],
-            "suggestions": ["Provide at least one requirement in Actor + Action + Object form."],
+            "suggestions": [
+                "Write one testable sentence per idea, e.g. **The registered user shall log in with email and password.**",
+                "Include who (actor), what they do (action), and on what (object/data), e.g. **The system shall store the order in the database.**",
+            ],
             "actors": [],
             "conflicts": [],
         }
@@ -1457,21 +1925,56 @@ def analyze_structured_requirements(text: str) -> dict:
     # Detect random noun-only / repeated-token-like input.
     alpha_tokens = [t.lower() for t in re.findall(r"[A-Za-z][A-Za-z0-9_-]*", text)]
     unique_ratio = (len(set(alpha_tokens)) / len(alpha_tokens)) if alpha_tokens else 1.0
-    has_action_any = any(p["action_present"] for p in processed)
-    if alpha_tokens and (unique_ratio < 0.25 or not has_action_any):
+    # Only treat as "unstructured/spam" when diversity is very low or repetition heuristics fire.
+    # Do NOT use `not has_action_any` here — whitelisted verbs miss many valid requirement verbs.
+    spam_like = _content_looks_like_repetition_or_spam(text)
+    if alpha_tokens and (unique_ratio < 0.25 or spam_like):
         errors.append(
             "Input looks unstructured (noun lists or repeated tokens). Use requirement sentences with actor, action, and object."
         )
 
-    for p in processed:
-        if not p["actor_present"]:
-            suggestions.append(f"Add actor: '{p['line']}'")
-        if not p["action_present"]:
-            suggestions.append(f"Add action verb: '{p['line']}'")
-        if not p["object_present"]:
-            suggestions.append(f"Specify target object/entity: '{p['line']}'")
-        if p["clarity"] < 1.0:
-            suggestions.append(f"Replace vague terms with measurable criteria: '{p['line']}'")
+    n_req = len(processed)
+
+    if spam_like:
+        # Do not echo user lines — give IEEE-style sentence patterns they can copy or adapt.
+        suggestions.extend(
+            [
+                "**Actor (who):** Start with a role, e.g. *The registered user shall …*, *The system shall …*, *The administrator shall …*",
+                "**Action (what):** Use strong verbs, e.g. *… shall authenticate the session*, *… shall submit the order*, *… shall export results to CSV*.",
+                "**Object (on what):** Name the data or interface, e.g. *… the payment record in the database*, *… the uploaded PDF to cloud storage*, *… the REST API response to the client*.",
+                "**Measurable:** Replace vague words with numbers, e.g. *within 2 seconds*, *99.9% monthly uptime*, *up to 5 failed login attempts before lockout*.",
+                "**One idea per line:** Write separate sentences; avoid pasting the same word or token many times.",
+            ]
+        )
+    elif n_req:
+        missing_actor = sum(1 for p in processed if not p["actor_present"])
+        missing_action = sum(1 for p in processed if not p["action_present"])
+        missing_object = sum(1 for p in processed if not p["object_present"])
+        low_clarity = sum(1 for p in processed if p["clarity"] < 1.0)
+
+        if missing_actor:
+            suggestions.append(
+                f"{missing_actor} of {n_req} statement(s) need a clear actor. "
+                "Example: **The customer shall place an order through the catalog.** "
+                "Example: **The system shall generate a receipt after payment succeeds.**"
+            )
+        if missing_action:
+            suggestions.append(
+                f"{missing_action} of {n_req} statement(s) need an explicit action. "
+                "Example: **The user shall upload a profile photo in JPEG or PNG format.** "
+                "Example: **The service shall validate each request against the published schema.**"
+            )
+        if missing_object:
+            suggestions.append(
+                f"{missing_object} of {n_req} statement(s) should name what is acted on. "
+                "Example: **The clerk shall update the inventory record for the scanned SKU.** "
+                "Example: **The backend shall persist the session token in the secure cookie store.**"
+            )
+        if low_clarity:
+            suggestions.append(
+                f"{low_clarity} line(s) use vague or weak wording (e.g. may/might/could or “fast/easy”). "
+                "Prefer **shall/must** and testable limits, e.g. **The API shall return a response within 300 ms for 95% of calls under normal load.**"
+            )
 
     conflicts = _detect_conflicts(processed)
     if conflicts:
@@ -2130,10 +2633,11 @@ def _generate_srs_document(results: list, project_info: dict, mode_override=None
     Runtime generation switch.
     Env variables:
       - SRS_GENERATION_MODE=rag|model      (default: model)
-      - RAG_KB_PATH=<path>                 (optional; default auto-discovery)
+      - RAG_KB_PATH=<path>                 (optional; if unset, uses ``final_extracted_srs_ieee830`` under project root)
       - RAG_TOP_K=<int>                    (default: 6)
       - RAG_VECTOR_BACKEND=faiss|chroma    (default: faiss)
     """
+    project_root = str(Path(__file__).resolve().parent)
     mode = str(mode_override or os.environ.get("SRS_GENERATION_MODE", "model")).strip().lower()
     if mode not in {"rag", "model"}:
         logger.warning("Unknown SRS_GENERATION_MODE=%s; using model.", mode)
@@ -2160,13 +2664,20 @@ def _generate_srs_document(results: list, project_info: dict, mode_override=None
                     loaded_docs,
                 )
             else:
-                loaded_docs = rag.load_default_knowledge_base(str(Path(__file__).resolve().parent))
-                logger.info(
-                    "SRS generation mode=rag backend=%s top_k=%s kb_path=<default> loaded_docs=%s",
-                    vector_backend,
-                    top_k,
-                    loaded_docs,
-                )
+                loaded_docs = rag.load_final_extracted_ieee830_kb(project_root)
+                if loaded_docs > 0:
+                    logger.info(
+                        "SRS generation mode=rag backend=%s top_k=%s kb=final_extracted_srs_ieee830 loaded_docs=%s",
+                        vector_backend,
+                        top_k,
+                        loaded_docs,
+                    )
+                else:
+                    logger.warning(
+                        "RAG mode: final_extracted_srs_ieee830 missing or produced no chunks under %s. "
+                        "Set RAG_KB_PATH to a KB folder or use SRS_GENERATION_MODE=model.",
+                        project_root,
+                    )
 
             if loaded_docs <= 0:
                 logger.warning("RAG mode requested but KB is empty; falling back to model mode.")
@@ -2206,6 +2717,7 @@ def _build_srs_dict_from_results(results: list, project_info: dict, mode_overrid
 
     resolved_mode = str(mode_override or os.environ.get("SRS_GENERATION_MODE", "model")).strip().lower()
     if resolved_mode not in {"rag", "model"}:
+        logger.warning("Unknown SRS_GENERATION_MODE in build payload; using model.")
         resolved_mode = "model"
 
     srs = _generate_srs_document(results, project_info, mode_override=resolved_mode)
@@ -2266,11 +2778,33 @@ def _srs_document_to_api_dict(srs, results: list, project_info: dict, resolved_m
             "mode": resolved_mode,
         },
     }
+    srs_text_for_quality = raw_text or json.dumps(srs.sections, ensure_ascii=False)
+    quality_scores = _compute_generation_quality_scores(source_text, srs_text_for_quality, hallucination_analysis)
+    gm = srs_dict["generation_meta"]
+    gm["quality_scores"] = quality_scores
+    gm["quality_scores_interpretation"] = _interpret_quality_scores(quality_scores)
+
+    mp = getattr(srs, "model_performance_metrics", None)
+    if isinstance(mp, dict) and mp:
+        gm["model_performance"] = mp
+        gm["model_performance_interpretation"] = _interpret_model_performance(mp)
+
+    co_bundle = getattr(srs, "textual_usecases_bundle", None)
+    if isinstance(co_bundle, dict) and (co_bundle.get("text") or co_bundle.get("use_cases")):
+        srs_dict["textual_usecases"] = _sanitize_output_payload(
+            {
+                "use_cases": co_bundle.get("use_cases") or [],
+                "text": co_bundle.get("text") or "",
+                "co_generated": bool(co_bundle.get("co_generated")),
+                "generated_with_document_id": co_bundle.get("document_id") or srs.document_id,
+                "source": co_bundle.get("source") or "",
+            }
+        )
 
     if hallucination_analysis.get("has_hallucinations"):
         logger.warning(
-            f"SRS {srs.document_id} has potential hallucinations. "
-            f"Confidence: {hallucination_analysis.get('confidence_score', 'N/A')}"
+            f"SRS {srs.document_id}: alignment monitoring suggests review-tier checks "
+            f"(grounding score {hallucination_analysis.get('confidence_score', 'N/A')})."
         )
 
     return _sanitize_output_payload(srs_dict)
@@ -2876,7 +3410,7 @@ def generate_srs_stream():
     Stream SRS generation over Server-Sent Events (SSE).
 
     Emits JSON lines in SSE `data:` frames:
-      - {"type": "delta", "text": "..."} — append to the live preview (token/chunk-level or chunked RAG text).
+      - {"type": "delta", "text": "..."} — append to the live preview (model token stream or chunked final text).
       - {"type": "done", "srs": {...}} — same payload shape as POST /api/generate-srs.
       - {"type": "error", "message": "..."} on failure.
 
@@ -2947,10 +3481,16 @@ def generate_srs_stream():
                 model_gen = SRSModelGenerator()
                 req_text, prompt, chunk_it = model_gen.stream_srs_text_chunks(results, project_info)
                 parts = []
+                _t_stream = time.perf_counter()
                 for piece in chunk_it:
                     parts.append(piece)
                     yield _sse_srs_event({"type": "delta", "text": piece})
                 full_raw = "".join(parts)
+                model_gen._streaming_aggregate_metrics = {
+                    "delivery": "streamed_chunks",
+                    "stream_wall_seconds": round(time.perf_counter() - _t_stream, 3),
+                    "raw_model_output_characters": len(full_raw),
+                }
                 srs_doc = model_gen._document_from_replicate_output(full_raw, prompt, req_text, project_info)
                 out = _srs_document_to_api_dict(srs_doc, results, project_info, "model")
                 gm = dict(out.get("generation_meta") or {})
@@ -3048,7 +3588,10 @@ def rtm_analyze():
 
 @app.route('/api/generate-usecases', methods=['POST'])
 def generate_usecases():
-    """Generate textual use cases and optional use case diagram from SRS sections."""
+    """
+    Build use case diagram (and echo textual use cases) using ONLY text produced during SRS generation
+    (same Replicate completion / model appendix). No server-side generation from SRS sections.
+    """
     try:
         data = request.get_json() or {}
         sections = data.get('sections') or {}
@@ -3063,11 +3606,35 @@ def generate_usecases():
         safe_id = re.sub(r'[^A-Za-z0-9_.-]', '_', document_id)
 
         textual_output = output_dir / f"textual_usecases_{safe_id}.txt"
-        textual_gen = TextualUseCaseGenerator()
-        textual_result = textual_gen.generate_and_save(
-            srs_sections=sections,
-            output_path=str(textual_output),
+        incoming_uc = data.get("textual_usecases") if isinstance(data.get("textual_usecases"), dict) else {}
+        gw = str(incoming_uc.get("generated_with_document_id", "") or "")
+        dw = str(document_id or "")
+        id_ok = not gw or gw == dw
+        use_model_uc = (
+            bool(incoming_uc.get("co_generated"))
+            and str(incoming_uc.get("source", "")).strip() == "model_prompt_appendix"
+            and str(incoming_uc.get("text", "")).strip()
+            and id_ok
         )
+        if not use_model_uc:
+            return jsonify(
+                {
+                    "error": (
+                        "Textual use cases are only available from SRS generation (model appendix). "
+                        "Regenerate the SRS, then try again. Generating use cases from parsed sections is disabled."
+                    )
+                }
+            ), 400
+
+        textual_result = {
+            "use_cases": incoming_uc.get("use_cases") or [],
+            "text": incoming_uc.get("text") or "",
+            "output_file": str(textual_output),
+        }
+        try:
+            textual_output.write_text(textual_result["text"], encoding="utf-8")
+        except OSError:
+            pass
 
         diagram_gen = UseCaseDiagramGenerator()
         diagram_bundle = diagram_gen.generate_both_layouts_and_render(
@@ -5534,17 +6101,33 @@ def cleanup_system():
         return jsonify({'error': str(e)}), 500
 
 # Serve React frontend in production (FRONTEND_BUILD_DIR set at app init)
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+# Allow POST so unknown /api/* requests get JSON instead of Flask's HTML 405 when only GET was allowed.
+@app.route("/", defaults={"path": ""}, methods=["GET", "HEAD", "POST", "OPTIONS"])
+@app.route("/<path:path>", methods=["GET", "HEAD", "POST", "OPTIONS"])
 def serve_frontend(path):
     """Serve React frontend static files"""
+    safe = path or ""
+    if safe == "api" or safe.startswith("api/"):
+        return (
+            jsonify(
+                {
+                    "error": "Unknown API route, or the API process needs a restart to register new endpoints.",
+                    "path": f"/{safe}",
+                    "method": request.method,
+                }
+            ),
+            404,
+        )
+    if request.method == "OPTIONS":
+        return ("", 204)
+    if request.method not in ("GET", "HEAD"):
+        return jsonify({"error": "Only GET is supported for static or SPA paths."}), 405
     if path != "" and os.path.exists(os.path.join(FRONTEND_BUILD_DIR, path)):
         return send_from_directory(FRONTEND_BUILD_DIR, path)
-    else:
-        # Serve index.html for all non-API routes (React Router)
-        if os.path.exists(os.path.join(FRONTEND_BUILD_DIR, 'index.html')):
-            return send_from_directory(FRONTEND_BUILD_DIR, 'index.html')
-        return jsonify({'error': 'Frontend not built. Run: cd frontend && npm run build'}), 404
+    # Serve index.html for all non-API routes (React Router)
+    if os.path.exists(os.path.join(FRONTEND_BUILD_DIR, "index.html")):
+        return send_from_directory(FRONTEND_BUILD_DIR, "index.html")
+    return jsonify({"error": "Frontend not built. Run: cd frontend && npm run build"}), 404
 
 if __name__ == '__main__':
     print("Starting Requirements Engineering API Server...")
@@ -5566,6 +6149,8 @@ if __name__ == '__main__':
     print("  POST /api/expert-review/requests/<id>/messages - Append expert/user chat message")
     print("  PATCH /api/expert-review/requests/<id> - Complete expert review")
     print("  POST /api/evaluate-srs-kb-metrics - KB-style quality scores for raw SRS text (app use)")
+    print("  POST /api/srs-dashboard-insights - bundled KB + srs_eval + summary for SRS document page")
+    print("  POST /api/evaluate-srs-dashboard - same handler as srs-dashboard-insights (alternate URL)")
     print("  POST /api/download-srs/<format> - Download SRS")
     print("  GET  /api/stats - Get system statistics")
     print("  POST /api/cleanup - Clean up system")

@@ -8,9 +8,12 @@ Layout follows common UML 2 teaching/practice:
 
 References: UML 2.x Use Case Diagram (subject, actor, use case, association).
 """
+import os
 import re
 import shutil
 import subprocess
+import urllib.error
+import urllib.request
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
@@ -70,6 +73,9 @@ class UseCaseDiagramGenerator:
         for sa in secondary:
             if sa not in actors:
                 actors.append(sa)
+
+        if not use_cases:
+            return self._extract_fallback_from_non_cockburn(textual_use_cases)
 
         return {
             "actors": actors,
@@ -229,19 +235,45 @@ class UseCaseDiagramGenerator:
                     continue
                 lines.append(f"{uc_alias[ext_name]} ..> {uc_alias[base_name]} : extend")
 
-        lines.extend(
-            [
-                "",
-                "note bottom",
-                "  UML 2 use case view: subject boundary, actors, use cases, associations.",
-                "  Include and extend dependencies use standard UML stereotypes on the links.",
-                "end note",
-                "",
-                "@enduml",
-                "",
-            ]
-        )
+        lines.extend(["", "@enduml", ""])
         return "\n".join(lines)
+
+    def _render_png_via_http(self, plantuml_code: str, png_path: Path) -> Tuple[bool, str]:
+        """
+        Fallback when the PlantUML JAR/CLI is missing (common on Windows): POST source to Kroki
+        (default https://kroki.io/plantuml/png) and save returned PNG bytes.
+        Set DISABLE_KROKI_FALLBACK=1 to disable. Override URL with PLANTUML_HTTP_RENDER_URL.
+        """
+        if os.environ.get("DISABLE_KROKI_FALLBACK", "").strip().lower() in ("1", "true", "yes"):
+            return False, "Kroki HTTP fallback disabled (DISABLE_KROKI_FALLBACK)."
+        url = (os.environ.get("PLANTUML_HTTP_RENDER_URL") or "https://kroki.io/plantuml/png").strip()
+        if not url:
+            return False, "No PLANTUML_HTTP_RENDER_URL."
+        try:
+            req = urllib.request.Request(
+                url,
+                data=plantuml_code.encode("utf-8"),
+                method="POST",
+                headers={"Content-Type": "text/plain; charset=utf-8"},
+            )
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                body = resp.read()
+                ct = (resp.headers.get("Content-Type") or "").lower()
+            if not body or len(body) < 64:
+                return False, "HTTP render returned empty or tiny body."
+            if "image" not in ct and not body.startswith(b"\x89PNG"):
+                return False, f"Unexpected Content-Type from renderer: {ct!r}"
+            png_path.write_bytes(body)
+            return True, f"PNG via HTTP ({url})"
+        except urllib.error.HTTPError as e:
+            err_body = ""
+            try:
+                err_body = e.read().decode("utf-8", errors="replace")[:800]
+            except Exception:
+                pass
+            return False, f"HTTP {e.code}: {err_body or e.reason}"
+        except Exception as exc:
+            return False, str(exc)
 
     def render_diagram(
         self,
@@ -252,7 +284,8 @@ class UseCaseDiagramGenerator:
         """
         Render PlantUML diagram.
         - Saves .puml file always.
-        - If `plantuml` CLI exists, renders PNG.
+        - If `plantuml` CLI exists, renders PNG locally.
+        - Otherwise (or on failure) POSTs source to Kroki for PNG unless DISABLE_KROKI_FALLBACK=1.
         """
         out_dir = Path(output_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -262,6 +295,7 @@ class UseCaseDiagramGenerator:
         puml_path.write_text(plantuml_code, encoding="utf-8")
 
         plantuml_cmd = shutil.which("plantuml")
+        cli_log = ""
         if plantuml_cmd:
             try:
                 proc = subprocess.run(
@@ -270,6 +304,7 @@ class UseCaseDiagramGenerator:
                     text=True,
                 )
                 combined_log = f"{proc.stderr or ''}\n{proc.stdout or ''}"
+                cli_log = combined_log.strip()[:1200]
                 cl = combined_log.lower()
                 # PlantUML still writes a PNG for syntax errors (green text on black). Treat as failure.
                 syntax_failed = "syntax error" in cl or "error line" in cl or "cannot find graph" in cl
@@ -282,34 +317,39 @@ class UseCaseDiagramGenerator:
                     png_ok = False
                 # Some Windows PlantUML wrappers return non-zero (e.g. 200) even when PNG is written.
                 if png_ok:
-                    msg = combined_log.strip()[:1200] if combined_log.strip() else ""
+                    msg = cli_log if cli_log else ""
                     return {
                         "status": "rendered",
                         "puml_file": str(puml_path),
                         "diagram_file": str(png_path),
                         "plantuml_log": msg,
                     }
-                err_detail = combined_log.strip() or f"exit code {proc.returncode}"
-                return {
-                    "status": "saved_only",
-                    "puml_file": str(puml_path),
-                    "diagram_file": "",
-                    "message": f"PlantUML render failed: {err_detail[:1200]}",
-                    "plantuml_log": err_detail[:1200],
-                }
             except OSError as exc:
-                return {
-                    "status": "saved_only",
-                    "puml_file": str(puml_path),
-                    "diagram_file": "",
-                    "message": f"PlantUML render failed: {exc}",
-                }
+                cli_log = str(exc)
 
+        ok_http, http_msg = self._render_png_via_http(plantuml_code, png_path)
+        if ok_http and png_path.exists() and png_path.stat().st_size > 0:
+            return {
+                "status": "rendered",
+                "puml_file": str(puml_path),
+                "diagram_file": str(png_path),
+                "plantuml_log": (cli_log + "\n" + http_msg).strip()[:2000],
+            }
+
+        detail_parts = []
+        if plantuml_cmd:
+            detail_parts.append(f"Local CLI did not produce a valid PNG. {cli_log[:600] if cli_log else ''}")
+        else:
+            detail_parts.append("PlantUML CLI not found in PATH.")
+        detail_parts.append(http_msg)
+        combined_detail = " ".join(p for p in detail_parts if p).strip()
         return {
             "status": "saved_only",
             "puml_file": str(puml_path),
             "diagram_file": "",
-            "message": "PlantUML CLI not found. Install PlantUML to render PNG automatically.",
+            "message": combined_detail[:1600]
+            or "PlantUML PNG not available. Install PlantUML locally or allow HTTPS fallback to Kroki.",
+            "plantuml_log": combined_detail[:2000],
         }
 
     def generate_and_render(
@@ -410,8 +450,159 @@ class UseCaseDiagramGenerator:
     def _split_use_case_blocks(self, text: str) -> List[str]:
         if not text or not text.strip():
             return []
-        parts = re.split(r"\n\s*\n(?=Use Case Name:)", text.strip())
-        return [part.strip() for part in parts if part.strip()]
+        t = text.strip()
+        # Allow multiple "Use Case Name:" blocks without a blank line between them
+        parts = re.split(r"(?i)(?=\bUse Case Name\s*:)", t)
+        blocks = [
+            p.strip() for p in parts if p.strip() and re.search(r"(?i)Use Case Name\s*:", p)
+        ]
+        if blocks:
+            return blocks
+        parts2 = re.split(r"\n\s*\n(?=Use Case Name:)", t, flags=re.IGNORECASE)
+        return [p.strip() for p in parts2 if p.strip()]
+
+    def _extract_fallback_from_non_cockburn(self, text: str) -> Dict[str, object]:
+        """
+        When strict Cockburn fields are missing, infer actors and use cases from
+        FR- labels, loose "Use Case" headings, or short numbered lists.
+        """
+        text = (text or "").strip()
+        if not text:
+            return {
+                "actors": ["User"],
+                "use_cases": ["Interact with system"],
+                "relation_pairs": [("User", "Interact with system")],
+                "secondary_actors": [],
+                "structured": [
+                    {
+                        "name": "Interact with system",
+                        "actor": "User",
+                        "main_scenario": "",
+                        "extensions": "",
+                        "stakeholders": "",
+                    }
+                ],
+                "relations": ["User ..> (Interact with system)"],
+            }
+
+        default_actor = "User"
+        m = re.search(
+            r"(?:^|\n)\s*(?:Primary\s+)?Actor\s*:\s*([^\n]+)",
+            text,
+            re.IGNORECASE | re.MULTILINE,
+        )
+        if m:
+            default_actor = self._normalize_actor(m.group(1).strip())
+
+        use_cases: List[str] = []
+        relation_pairs: List[Tuple[str, str]] = []
+        structured: List[Dict[str, str]] = []
+        seen_uc: Set[str] = set()
+
+        for m in re.finditer(r"(?im)^\s*(FR-\d+)\s*[:\-]?\s*([^\n]*)", text):
+            fid = m.group(1).upper()
+            tail = (m.group(2) or "").strip()
+            if re.match(
+                r"^(precondition|postcondition|main|extension|stakeholder|assumption)\b",
+                tail,
+                re.I,
+            ):
+                tail = ""
+            if tail and len(tail) > 2:
+                short = tail[: max(8, self._MAX_LABEL_LEN - 6)]
+                uc = self._normalize_use_case(f"{fid}: {short}")
+            else:
+                uc = self._normalize_use_case(fid)
+            if uc in seen_uc:
+                continue
+            seen_uc.add(uc)
+            use_cases.append(uc)
+            relation_pairs.append((default_actor, uc))
+            structured.append(
+                {
+                    "name": uc,
+                    "actor": default_actor,
+                    "main_scenario": "",
+                    "extensions": "",
+                    "stakeholders": "",
+                }
+            )
+
+        if not use_cases:
+            for m in re.finditer(
+                r"(?im)^\s*(?:\*\*)?\s*Use\s+Case(?:\s+Name)?\s*:\s*([^\n]+)", text
+            ):
+                title = (m.group(1) or "").strip()
+                title = re.sub(r"^\*+\s*|\s*\*+$", "", title)
+                if not title or len(title) < 2:
+                    continue
+                uc = self._normalize_use_case(title[: self._MAX_LABEL_LEN])
+                if uc in seen_uc:
+                    continue
+                seen_uc.add(uc)
+                use_cases.append(uc)
+                relation_pairs.append((default_actor, uc))
+                structured.append(
+                    {
+                        "name": uc,
+                        "actor": default_actor,
+                        "main_scenario": "",
+                        "extensions": "",
+                        "stakeholders": "",
+                    }
+                )
+
+        if not use_cases:
+            for m in re.finditer(r"(?im)^\s*\d+[\).\s]+\s*([A-Za-z][^\n]{3,120})", text):
+                title = m.group(1).strip()
+                if re.match(r"^(FR-|UC-|precondition|introduction)\b", title, re.I):
+                    continue
+                uc = self._normalize_use_case(title[: self._MAX_LABEL_LEN])
+                if uc in seen_uc:
+                    continue
+                seen_uc.add(uc)
+                use_cases.append(uc)
+                relation_pairs.append((default_actor, uc))
+                structured.append(
+                    {
+                        "name": uc,
+                        "actor": default_actor,
+                        "main_scenario": "",
+                        "extensions": "",
+                        "stakeholders": "",
+                    }
+                )
+                if len(use_cases) >= 12:
+                    break
+
+        actors: List[str] = [default_actor]
+        if not use_cases:
+            uc = "Interact with system"
+            use_cases = [uc]
+            relation_pairs = [(default_actor, uc)]
+            structured = [
+                {
+                    "name": uc,
+                    "actor": default_actor,
+                    "main_scenario": "",
+                    "extensions": "",
+                    "stakeholders": "",
+                }
+            ]
+
+        secondary = self._secondary_actors_from_stakeholders(structured)
+        for sa in secondary:
+            if sa not in actors:
+                actors.append(sa)
+
+        return {
+            "actors": actors,
+            "use_cases": use_cases,
+            "relation_pairs": relation_pairs,
+            "secondary_actors": secondary,
+            "structured": structured,
+            "relations": [f"{a} ..> ({uc})" for a, uc in relation_pairs],
+        }
 
     def _extract_field(self, block: str, field_name: str) -> str:
         # First line only for multiline fields; tolerate ** markdown

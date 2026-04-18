@@ -91,6 +91,8 @@ class KnowledgeBaseLoader:
     def _infer_source_type(self, path: Path) -> str:
         name = path.name.lower()
         text = str(path).lower()
+        if "final_extracted_srs_ieee830" in text:
+            return "ieee830_extracted_corpus"
         if "ieee" in name or "template" in name or "template" in text:
             return "ieee_830_template"
         if "sample" in name or "example" in name:

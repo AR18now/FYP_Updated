@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import config from './config';
+import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from './utils/useCaseRequest';
 import AppShellLayout from './components/layout/AppShellLayout';
 import ExpertShellLayout from './components/layout/ExpertShellLayout';
 import RoleProtectedRoute from './components/RoleProtectedRoute';
@@ -30,6 +33,7 @@ function App() {
   const [useCaseData, setUseCaseData] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [showIntroSplash, setShowIntroSplash] = useState(true);
+  const useCaseAutoFetchAttempted = useRef(new Set());
 
   useEffect(() => {
     document.title = 'Req2Design';
@@ -50,12 +54,49 @@ function App() {
     }
   }, [srsData]);
 
+  useEffect(() => {
+    const id = srsData?.document_id;
+    if (!id || !hasModelTextualUseCases(srsData)) {
+      return;
+    }
+    const hasPng =
+      useCaseData?.diagram?.diagram_base64 ||
+      useCaseData?.diagram?.diagram_base64_vertical ||
+      useCaseData?.diagram?.diagram_base64_horizontal;
+    if (hasPng) {
+      return;
+    }
+    if (useCaseAutoFetchAttempted.current.has(id)) {
+      return;
+    }
+    useCaseAutoFetchAttempted.current.add(id);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await axios.post(
+          config.API_ENDPOINTS.GENERATE_USECASES,
+          buildGenerateUseCasesRequestBody(srsData)
+        );
+        if (!cancelled) {
+          setUseCaseData(res.data);
+        }
+      } catch (e) {
+        console.warn('Auto use case diagram request failed', e);
+        useCaseAutoFetchAttempted.current.delete(id);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [srsData, useCaseData?.diagram]);
+
   const handleLogout = () => {
     logout();
     setCurrentUser(null);
     setCurrentResults(null);
     setSrsData(null);
     setUseCaseData(null);
+    useCaseAutoFetchAttempted.current.clear();
   };
 
   const handleLogin = (user) => {
@@ -130,7 +171,6 @@ function App() {
                     srsData={srsData}
                     onGenerateSRS={setSrsData}
                     useCaseData={useCaseData}
-                    onUseCaseDataChange={setUseCaseData}
                   />
                 }
               />
@@ -141,7 +181,6 @@ function App() {
                     srsData={srsData}
                     currentResults={currentResults}
                     onSelectSrsVariant={setSrsData}
-                    useCaseData={useCaseData}
                     onUseCaseDataChange={setUseCaseData}
                   />
                 }

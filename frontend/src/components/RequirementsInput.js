@@ -7,6 +7,7 @@ import { saveInput, saveSRS } from '../utils/storage';
 import config from '../config';
 import { useTheme } from '../context/ThemeContext';
 import { getApiErrorMessage } from '../utils/apiErrors';
+import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
 
 const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themeProp, setCurrentResults = () => {} }) => {
   const { theme: themeFromContext } = useTheme();
@@ -19,6 +20,8 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
     author: ''
   });
   const [isProcessing, setIsProcessing] = useState(false);
+  /** Full-screen overlay only during real network work (avoids flash on client-side validation errors). */
+  const [showProcessPipelineOverlay, setShowProcessPipelineOverlay] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
@@ -1388,6 +1391,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 setIsProcessing(false);
                 return;
               }
+              setShowProcessPipelineOverlay(true);
               transcript = await transcribeFullRecording();
               setRecordingTranscript(transcript);
             }
@@ -1421,6 +1425,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           );
         } finally {
           setIsProcessing(false);
+          setShowProcessPipelineOverlay(false);
         }
         return;
       }
@@ -1467,6 +1472,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           add_suggestions_count: clarification.add_suggestions?.length || 0,
           followup_answers_count: Object.values(followupAnswers || {}).filter(v => String(v || '').trim()).length,
         } : null;
+        setShowProcessPipelineOverlay(true);
         const combined = await axios.post(
           config.API_ENDPOINTS.PROCESS_AND_GENERATE_SRS,
           {
@@ -1506,6 +1512,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         });
         formData.append('project_info', JSON.stringify(projectInfo));
 
+        setShowProcessPipelineOverlay(true);
         response = await axios.post(config.API_ENDPOINTS.PROCESS_BATCH, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -1612,6 +1619,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       }
     } finally {
       setIsProcessing(false);
+      setShowProcessPipelineOverlay(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     }
   }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing, extractStructuredAnalysis]);
@@ -1627,6 +1635,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
   return (
     <div className="relative w-full animate-fade-in" role="main" aria-labelledby="input-heading">
+      <SrsGenerationLoaderOverlay active={showProcessPipelineOverlay} variant="processing" />
       <div className={`relative rounded-2xl overflow-hidden border ${isDark ? 'border-slate-800 bg-slate-900/80' : 'border-slate-200 bg-white/90'}`}>
         <div className="relative rounded-2xl p-4 sm:p-6 md:p-8">
           <div className="flex items-center justify-center mb-6 sm:mb-8">

@@ -1,21 +1,25 @@
 /**
- * Layman-friendly labels for SRS quality signals (hallucination heuristics + document-quality scores).
+ * Layman-friendly labels for SRS quality signals (flexible alignment monitoring + document-quality scores).
  * Numeric keys match the backend quality evaluator (0 = poor, 1 = best).
  */
 
 export const HALLUCINATION_HELP = {
   confidence:
-    'Roughly how much of the wording from your original requirements shows up again in the generated SRS. It is not a guarantee the text is correct—only how much overlap there is.',
+    'Roughly how much vocabulary from your original requirements also appears in the generated SRS. It measures overlap, not factual correctness.',
+  /** Shown when confidence_score is low — overlaps with grounding penalties for review-tier signals. */
+  confidenceLowExample:
+    'A low score usually means little word overlap with your input and/or review-tier monitoring notes (for example FR lines that look weakly tied to your text). It is not a literal “error probability.” Expanding a short brief into a full SRS is normal—use this to choose where to read carefully, not as a pass/fail verdict.',
   termOverlap:
-    'Count of meaningful words from your input that also appear in the SRS. Higher overlap usually means the model stayed closer to what you wrote.',
+    'Count of meaningful words from your input that also appear in the SRS. Higher overlap usually means the draft stayed closer to your wording.',
   flagged:
-    'Automatic checks that might deserve a second look—for example the SRS being much longer than your input, or extra technical terms you did not mention.',
+    'Review-tier prompts: places the monitor suggests comparing to your source. Informational-only notes (length, a few extra tech words) are typical for generated specs and do not imply mistakes.',
 };
 
 export const FLAG_TYPE_LABELS = {
-  excessive_detail: 'Length vs your input',
-  unspecified_technical_details: 'Technical terms not in your input',
-  unsupported_functional_requirements: 'Requirements weakly tied to your text',
+  expansion_vs_input: 'Length vs your input (usually expected)',
+  excessive_detail: 'Length vs your input (usually expected)',
+  unspecified_technical_details: 'Extra technical vocabulary',
+  unsupported_functional_requirements: 'FR text vs your input',
 };
 
 /** Subset of scores to show in the SRS viewer panel (labels + short help). */

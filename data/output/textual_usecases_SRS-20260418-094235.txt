@@ -1,0 +1,60 @@
+Use Case: FR-01 - User Registration
+Primary Actor: Farmer/Field Officer/Administrator
+Stakeholders: All registered users
+Preconditions: Basic digital literacy
+Main Success Scenario:
+1. Enter personal information into the form.
+2. Submit the form.
+3. Receive a confirmation message.
+Extensions:
+- If validation fails, show appropriate error messages and allow resubmission.
+Postconditions: User account created and verified.
+Trace to FR ID: FR-01
+
+Use Case: FR-02 - Land Profile Management
+Primary Actor: Farmer/Field Officer
+Stakeholders: Farmers, Field Officers, Administrators
+Preconditions: Access to GPS-enabled device
+Main Success Scenario:
+1. Input geographical coordinates, soil type, crop types, and planting dates.
+2. Save the data.
+3. View interactive maps displaying land profiles.
+Extensions:
+- If data entry errors occur, prompt user to correct before saving.
+Postconditions: Land profile stored and displayed visually.
+Trace to FR ID: FR-02
+
+Use Case: FR-03 - Advisory Services
+Primary Actor: Farmer/Field Officer
+Stakeholders: Farmers, Field Officers, Administrators
+Preconditions: Real-time weather data available
+Main Success Scenario:
+1. Provide current weather forecast, soil test results, and crop health status.
+2. Receive recommended actions for irrigation, fertilization, and pest control.
+Extensions:
+- If no suitable recommendations can be made, notify user accordingly.
+Postconditions: Actionable recommendations provided.
+Trace to FR ID: FR-03
+
+Use Case: FR-04 - Field Officer Tasks
+Primary Actor: Field Officer
+Stakeholders: Farmers, Field Officers, Administrators
+Preconditions: Access to GPS-enabled device
+Main Success Scenario:
+1. Record farmer identification, location, and task description.
+2. Confirm task completion or set up follow-up reminders.
+3. Receive task completion confirmation or reminder sent.
+Extensions:
+- If task cannot be completed, log the issue and send a notification.
+Postconditions: Task logged and updated in system.
+Trace to FR ID: FR-04
+
+Use Case: FR-05 - Administrative Monitoring
+Primary Actor: Administrator
+Stakeholders: All registered users
+Preconditions: Access to administrative dashboard
+Main Success Scenario:
+1. Review advisory usage statistics, crop yield reports, and support request statuses.
+2. Generate dashboards showing key metrics.
+Postconditions: Key metrics aggregated and presented.
+Trace to FR ID: FR-05

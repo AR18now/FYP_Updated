@@ -7,31 +7,24 @@ import {
   CheckCircle,
   Printer,
   AlertTriangle,
-  Info,
   Workflow,
-  FileCode,
   RefreshCw,
   UserCheck,
   BarChart3,
-  Sparkles,
-  ArrowDown,
-  ArrowRight,
+  Timer,
 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import config from '../config';
 import { saveSRS } from '../utils/storage';
 import { consumeSrsGenerateStream } from '../utils/srsStream';
-import { formatSrsToHtml } from '../utils/documentFormatter';
+import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
+import { formatSrsToHtml, buildSrsMajorSectionCards } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
-import {
-  HALLUCINATION_HELP,
-  DOC_QUALITY_METRIC_ROWS,
-  formatPct01,
-  flagTypeLabel,
-} from '../utils/srsQualityCopy';
+import { HALLUCINATION_HELP, formatPct01, flagTypeLabel } from '../utils/srsQualityCopy';
 import { brandUrl } from './BrandLogo';
+import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
 
 /** Same contract as generate-srs-stream `results` body. */
 function buildRequirementsArrayForSrs(resultsData) {
@@ -42,7 +35,46 @@ function buildRequirementsArrayForSrs(resultsData) {
   return [resultsData];
 }
 
-const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, onUseCaseDataChange }) => {
+async function postSrsDashboardWithFallback(body) {
+  const urls = [config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS, config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS_ALT].filter(
+    Boolean
+  );
+  const uniq = [...new Set(urls)];
+  let lastErr = null;
+  for (const url of uniq) {
+    try {
+      return await axios.post(url, body);
+    } catch (e) {
+      lastErr = e;
+      const st = e?.response?.status;
+      if (st === 404 || st === 405) continue;
+      throw e;
+    }
+  }
+  throw lastErr;
+}
+
+function collectPromptFromResults(resultsData) {
+  if (!resultsData) return '';
+  const list = Array.isArray(resultsData)
+    ? resultsData
+    : Array.isArray(resultsData.results)
+      ? resultsData.results
+      : [resultsData];
+  return list
+    .map((item) => item?.original_text || item?.content || item?.text || item?.requirement || '')
+    .map((s) => String(s).trim())
+    .filter(Boolean)
+    .join('\n\n');
+}
+
+function srsEvalMetricFocusKey(metric) {
+  if (!metric || metric.skipped) return '';
+  if (metric.key === 'hallucination') return 'ai_hallucination_quality';
+  return metric.key || '';
+}
+
+const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataChange }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
     const cleaned = String(value || fallback)
       .trim()
@@ -63,13 +95,15 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   const actionsMenuRef = useRef(null);
   const [expandedSections, setExpandedSections] = useState({});
   const [showValidation, setShowValidation] = useState(false);
-  const [isGeneratingUseCases, setIsGeneratingUseCases] = useState(false);
-  /** Document quality scores (see config `EVALUATE_SRS_QUALITY_METRICS`); not embedded in generate-srs JSON. */
-  const [docQualityMetrics, setDocQualityMetrics] = useState(null);
-  const [docQualityLoading, setDocQualityLoading] = useState(false);
-  const [docQualityError, setDocQualityError] = useState(null);
-  /** PlantUML use case diagram layout variant */
-  const [useCaseDiagramLayout, setUseCaseDiagramLayout] = useState('vertical');
+  const [srsDashboard, setSrsDashboard] = useState(null);
+  const [srsDashboardLoading, setSrsDashboardLoading] = useState(false);
+  const [srsDashboardError, setSrsDashboardError] = useState(null);
+  const [genTextualUcLoading, setGenTextualUcLoading] = useState(false);
+  /** SRS body: section cards vs single scroll */
+  const [srsDocLayout, setSrsDocLayout] = useState('cards');
+  const [activeSrsSectionId, setActiveSrsSectionId] = useState(null);
+  /** Full model-metrics panel (P/R/F1, alignment monitoring, provider timings)—closed by default; resets per SRS. */
+  const [modelMetricsOpen, setModelMetricsOpen] = useState(false);
 
   const buildRequirementsArray = useCallback((resultsData) => {
     if (!resultsData) return [];
@@ -159,39 +193,61 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     [srsData?.raw_text]
   );
 
+  const srsSectionCards = useMemo(
+    () => buildSrsMajorSectionCards(srsData?.raw_text || ''),
+    [srsData?.raw_text]
+  );
+
   useEffect(() => {
-    const text = srsData?.raw_text;
+    const m = buildSrsMajorSectionCards(srsData?.raw_text || '');
+    const first = m.sections[0]?.id;
+    if (first) setActiveSrsSectionId(first);
+  }, [srsData?.document_id, srsData?.raw_text]);
+
+  useEffect(() => {
     const id = srsData?.document_id;
-    if (!text || !id || text.trim().length < 80) {
-      setDocQualityMetrics(null);
-      setDocQualityLoading(false);
-      setDocQualityError(null);
+    const raw = String(srsData?.raw_text || '').trim();
+    const fallback = (() => {
+      try {
+        return JSON.stringify(srsData?.sections || {}, null, 0);
+      } catch {
+        return '';
+      }
+    })();
+    const text = raw.length >= 40 ? raw : String(fallback || '').trim();
+    if (!id || text.length < 40) {
+      setSrsDashboard(null);
+      setSrsDashboardLoading(false);
+      setSrsDashboardError(null);
       return;
     }
     let cancelled = false;
-    setDocQualityLoading(true);
-    setDocQualityError(null);
-    setDocQualityMetrics(null);
-    axios
-      .post(config.API_ENDPOINTS.EVALUATE_SRS_QUALITY_METRICS, { raw_text: text })
+    setSrsDashboardLoading(true);
+    setSrsDashboardError(null);
+    postSrsDashboardWithFallback({
+      srs: {
+        raw_text: srsData.raw_text,
+        sections: srsData.sections,
+        hallucination_analysis: srsData.hallucination_analysis,
+        verification_report: srsData.verification_report,
+      },
+      prompt: collectPromptFromResults(currentResults),
+    })
       .then((res) => {
         if (cancelled) return;
-        const m = res.data?.metrics;
-        setDocQualityMetrics(m && typeof m === 'object' ? m : {});
-        setDocQualityLoading(false);
+        setSrsDashboard(res.data);
+        setSrsDashboardLoading(false);
       })
       .catch((err) => {
         if (cancelled) return;
-        setDocQualityMetrics(null);
-        setDocQualityError(
-          err.response?.data?.error || err.message || 'Could not load document quality metrics.'
-        );
-        setDocQualityLoading(false);
+        setSrsDashboard(null);
+        setSrsDashboardError(getApiErrorMessage(err, 'Could not load SRS quality insights.'));
+        setSrsDashboardLoading(false);
       });
     return () => {
       cancelled = true;
     };
-  }, [srsData?.document_id, srsData?.raw_text]);
+  }, [srsData?.document_id, srsData?.raw_text, srsData?.sections, srsData?.hallucination_analysis, srsData?.verification_report, currentResults]);
 
   const interactiveQualityFlags = useMemo(() => {
     const flags = [];
@@ -230,49 +286,114 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
       }
     }
 
-    if (docQualityMetrics && typeof docQualityMetrics === 'object') {
-      const low = [
-        ['completeness', 0.6, 'Completeness score is low; some requirement details may be missing.'],
-        ['verifiability', 0.6, 'Verifiability is low; add measurable criteria and thresholds.'],
-        ['consistency', 0.6, 'Consistency score is low; wording may conflict across sections.'],
-      ];
-      low.forEach(([k, th, msg]) => {
-        const v = Number(docQualityMetrics[k]);
-        if (!Number.isNaN(v) && v < th) add('metric_low', msg, '', [String(k)]);
-      });
+    const kb = srsDashboard?.kb_metrics;
+    if (kb && typeof kb === 'object') {
+      const arm = Number(kb.arm_overall_score);
+      if (!Number.isNaN(arm) && arm < 0.62) {
+        add(
+          'metric_low',
+          'Automated wording/structure score (arm_overall) is on the low side; tighten shall/must statements and reduce vague phrases.',
+          '',
+          ['shall', 'must']
+        );
+      }
     }
     return flags.slice(0, 20);
-  }, [srsData?.raw_text, docQualityMetrics]);
+  }, [srsData?.raw_text, srsDashboard?.kb_metrics]);
+
+  const hallForDashboard = useMemo(
+    () =>
+      srsDashboard?.hallucination_analysis ||
+      srsData?.hallucination_analysis ||
+      srsData?.sections?._hallucination_analysis ||
+      {},
+    [srsDashboard, srsData]
+  );
+
+  const modelRunSummary = useMemo(() => {
+    const gm = srsData?.generation_meta;
+    if (!gm || typeof gm !== 'object') return null;
+    const mp = gm.model_performance;
+    const qs = gm.quality_scores;
+    const interp =
+      typeof gm.model_performance_interpretation === 'string' ? gm.model_performance_interpretation.trim() : '';
+    const qInterp =
+      typeof gm.quality_scores_interpretation === 'string' ? gm.quality_scores_interpretation.trim() : '';
+    const hasMp = mp && typeof mp === 'object' && Object.keys(mp).length > 0;
+    const hasQs = qs && typeof qs === 'object' && Object.keys(qs).length > 0;
+    if (!hasMp && !interp && !hasQs && !qInterp) return null;
+    return { mp: hasMp ? mp : {}, qs: hasQs ? qs : {}, interp, qInterp };
+  }, [srsData?.generation_meta]);
+
+  useEffect(() => {
+    setModelMetricsOpen(false);
+  }, [srsData?.document_id]);
+
+  const dashboardTiles = useMemo(() => {
+    const tiles = [];
+    const hall = hallForDashboard;
+    if (typeof hall.confidence_score === 'number') {
+      tiles.push({
+        focus: 'confidence_score',
+        title: 'Grounding confidence',
+        subtitle: 'How much of your input wording reappears in the SRS',
+        display: formatPct01(hall.confidence_score),
+      });
+    }
+    if (typeof hall.has_hallucinations === 'boolean') {
+      const nInfo = Array.isArray(hall.informational_signals) ? hall.informational_signals.length : 0;
+      tiles.push({
+        focus: 'has_hallucinations',
+        title: 'Alignment review',
+        subtitle:
+          nInfo > 0 && !hall.has_hallucinations
+            ? `${nInfo} FYI note(s) only — expansion is normal`
+            : 'Review-tier vs your input (SRS detail alone is OK)',
+        display: hall.has_hallucinations ? 'Review suggested' : 'Clear',
+      });
+    }
+    const kb = srsDashboard?.kb_metrics;
+    if (kb && typeof kb.arm_overall_score === 'number') {
+      tiles.push({
+        focus: '',
+        title: 'Requirement wording',
+        subtitle: 'Imperatives, weak phrases, placeholders (KB score)',
+        display: formatPct01(kb.arm_overall_score),
+      });
+    }
+    const ev = srsDashboard?.srs_eval;
+    if (ev && Array.isArray(ev.metrics)) {
+      const want = ['instruction_adherence', 'hallucination', 'context_understanding', 'coherence'];
+      for (const key of want) {
+        const m = ev.metrics.find((x) => x && x.key === key);
+        if (!m || m.skipped || typeof m.score !== 'number') continue;
+        const focus = srsEvalMetricFocusKey(m);
+        const title =
+          key === 'hallucination'
+            ? 'AI grounding check'
+            : key === 'instruction_adherence'
+              ? 'Instruction adherence'
+              : key === 'context_understanding'
+                ? 'Context fit'
+                : 'Coherence';
+        tiles.push({
+          focus,
+          title,
+          subtitle: String(m.name || '').slice(0, 72),
+          display: formatPct01(m.score),
+        });
+      }
+    }
+    return tiles.slice(0, 8);
+  }, [srsDashboard, hallForDashboard]);
 
   const hasQualityChecks =
     !!srsData?.hallucination_analysis ||
     !!(srsData?.verification_report?.conflict_analysis?.conflicts?.length) ||
-    docQualityLoading ||
-    !!(docQualityMetrics && Object.keys(docQualityMetrics).length > 0) ||
-    !!docQualityError ||
+    srsDashboardLoading ||
+    !!srsDashboard ||
+    !!srsDashboardError ||
     interactiveQualityFlags.length > 0;
-
-  const qualityPanelDocumentKey = useMemo(() => {
-    const h = srsData?.hallucination_analysis;
-    const k = docQualityMetrics;
-    return [
-      srsData?.document_id,
-      h?.confidence_score,
-      h?.term_overlap,
-      h?.total_original_terms,
-      k?.overall_score,
-      interactiveQualityFlags.length,
-      docQualityLoading,
-      docQualityError,
-    ].join('|');
-  }, [
-    srsData?.document_id,
-    srsData?.hallucination_analysis,
-    docQualityMetrics,
-    interactiveQualityFlags.length,
-    docQualityLoading,
-    docQualityError,
-  ]);
 
   const highlightAndScrollTo = useCallback((snippet) => {
     const root = docRootRef.current;
@@ -394,12 +515,15 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
       clearInlineMarks();
       return;
     }
-    const flagged = srsData?.hallucination_analysis?.flagged_sections || [];
+    const flagged =
+      srsData?.hallucination_analysis?.flagged_sections ||
+      srsData?.sections?._hallucination_analysis?.flagged_sections ||
+      [];
     const terms = [];
     flagged.forEach((f) => {
       (f?.terms || []).forEach((t) => terms.push(t));
       // Also try to highlight the indicator type label where it might appear as wording.
-      if (f?.type === 'excessive_detail') terms.push('response time', 'performance');
+      if (f?.type === 'excessive_detail' || f?.type === 'expansion_vs_input') terms.push('response time', 'performance');
     });
     // Add first few conflict sentences as highlight needles (shortened)
     const conflicts = srsData?.verification_report?.conflict_analysis?.conflicts || [];
@@ -478,64 +602,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     }
   }, [srsData, toSafeFilename]);
 
-  const downloadTextualUseCasesPdf = useCallback(async () => {
-    try {
-      const resp = await axios.post(
-        config.API_ENDPOINTS.DOWNLOAD_TEXTUAL_USECASES_PDF,
-        {
-          text: useCaseData?.textual_usecases?.text || '',
-          title: `${srsData?.title || 'SRS'} - Textual Use Cases`,
-        },
-        { responseType: 'blob' }
-      );
-      await saveBlobResponseAsDownload(resp, {
-        defaultFilename: `textual_usecases_${srsData?.document_id || 'srs'}`,
-      });
-    } catch (err) {
-      console.error('Failed to download textual use cases PDF', err);
-      const msg = await messageFromAxiosBlobError(err);
-      alert(msg);
-    }
-  }, [srsData, useCaseData]);
-
-  const useCaseDiagramB64 = useMemo(() => {
-    const d = useCaseData?.diagram;
-    if (!d) return '';
-    if (useCaseDiagramLayout === 'horizontal') {
-      return d.diagram_base64_horizontal || d.diagram_base64 || '';
-    }
-    return d.diagram_base64_vertical || d.diagram_base64 || '';
-  }, [useCaseData?.diagram, useCaseDiagramLayout]);
-
-  const useCaseDiagramPuml = useMemo(() => {
-    const d = useCaseData?.diagram;
-    if (!d) return '';
-    if (useCaseDiagramLayout === 'horizontal') {
-      return d.plantuml_code_horizontal || d.plantuml_code || '';
-    }
-    return d.plantuml_code_vertical || d.plantuml_code || '';
-  }, [useCaseData?.diagram, useCaseDiagramLayout]);
-
-  const downloadUsecaseDiagramPdf = useCallback(async () => {
-    try {
-      const resp = await axios.post(
-        config.API_ENDPOINTS.DOWNLOAD_USECASE_DIAGRAM_PDF,
-        {
-          diagram_base64: useCaseDiagramB64,
-          title: `${srsData?.title || 'SRS'} - Use Case Diagram (${useCaseDiagramLayout})`,
-        },
-        { responseType: 'blob' }
-      );
-      await saveBlobResponseAsDownload(resp, {
-        defaultFilename: `usecase_diagram_${srsData?.document_id || 'srs'}`,
-      });
-    } catch (err) {
-      console.error('Failed to download use case diagram PDF', err);
-      const msg = await messageFromAxiosBlobError(err);
-      alert(msg);
-    }
-  }, [srsData, useCaseDiagramB64, useCaseDiagramLayout]);
-
   const downloadText = useCallback((filename, content, mimeType = 'text/plain') => {
     const blob = new Blob([content], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
@@ -548,23 +614,23 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
     window.URL.revokeObjectURL(url);
   }, []);
 
-  const generateUseCases = useCallback(async () => {
-    if (!srsData?.sections) return;
-    setIsGeneratingUseCases(true);
+  const generateTextualUseCase = useCallback(async () => {
+    if (!hasModelTextualUseCases(srsData)) return;
+    setGenTextualUcLoading(true);
     try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_USECASES, {
-        document_id: srsData.document_id,
-        title: srsData.title,
-        sections: srsData.sections
-      });
-      if (onUseCaseDataChange) onUseCaseDataChange(response.data);
-    } catch (error) {
-      console.error('Use case generation failed:', error);
-      alert(getApiErrorMessage(error, 'Failed to generate textual use cases and diagram.'));
+      const res = await axios.post(
+        config.API_ENDPOINTS.GENERATE_USECASES,
+        buildGenerateUseCasesRequestBody(srsData)
+      );
+      if (onUseCaseDataChange) onUseCaseDataChange(res.data);
+      navigate('/textual-usecases');
+    } catch (err) {
+      console.error('Generate textual use cases failed', err);
+      alert(getApiErrorMessage(err, 'Could not generate textual use cases.'));
     } finally {
-      setIsGeneratingUseCases(false);
+      setGenTextualUcLoading(false);
     }
-  }, [srsData, onUseCaseDataChange]);
+  }, [srsData, onUseCaseDataChange, navigate]);
 
   const printSRS = useCallback(() => {
     if (!srsData) return;
@@ -731,19 +797,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   }
 
   if (hasPipelineState && !currentResults && !srsData && !pipelineError && !isStreamingSrs) {
-    return (
-      <div className="max-w-4xl mx-auto text-center py-16 animate-fade-in" role="status">
-        <div className="rounded-xl card-shadow p-12 border" style={{ background: 'var(--card)', color: 'var(--text)', borderColor: 'var(--card-border)' }}>
-          <RefreshCw className="h-12 w-12 mx-auto mb-4 animate-spin text-r2d-primary" aria-hidden="true" />
-          <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--text)' }}>
-            Loading processed requirements…
-          </h2>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>
-            Preparing the SRS view.
-          </p>
-        </div>
-      </div>
-    );
+    return <SrsGenerationLoaderOverlay active variant="waiting" />;
   }
 
   if (pipelineError && !srsData && !isStreamingSrs) {
@@ -764,36 +818,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
   }
 
   if ((isStreamingSrs || streamPreview) && !srsData) {
-    return (
-      <div className="max-w-6xl mx-auto animate-fade-in px-4" role="main" aria-labelledby="srs-live-heading">
-        <div className="bg-white dark:bg-slate-900 rounded-xl card-shadow p-6 md:p-8 border border-slate-200 dark:border-slate-700">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
-            <div>
-              <h2 id="srs-live-heading" className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-1 flex items-center gap-2">
-                <Sparkles className="h-7 w-7 text-r2d-primary shrink-0" aria-hidden="true" />
-                SRS document
-              </h2>
-              <p className="text-sm text-amber-800 dark:text-amber-200/90">
-                Streaming live — text below updates as the model generates (lower perceived wait than loading the full document at once).
-              </p>
-            </div>
-            <div className="relative shrink-0">
-              <button
-                type="button"
-                disabled
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 text-sm font-medium text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400 cursor-not-allowed"
-              >
-                <span>Actions</span>
-                <ChevronDown className="h-4 w-4" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-          <pre className="text-xs leading-relaxed whitespace-pre-wrap font-mono max-h-[min(70vh,720px)] overflow-y-auto rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-950 p-4 text-slate-900 dark:text-slate-100">
-            {streamPreview}
-          </pre>
-        </div>
-      </div>
-    );
+    return <SrsGenerationLoaderOverlay active streamPreview={streamPreview} />;
   }
 
   if (!srsData) {
@@ -991,151 +1016,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                 </ul>
               </div>
             )}
-            {(srsData.hallucination_analysis ||
-              docQualityLoading ||
-              (docQualityMetrics && Object.keys(docQualityMetrics).length > 0) ||
-              docQualityError) && (
-              <div
-                key={qualityPanelDocumentKey}
-                className="p-4 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/40 dark:border-amber-700"
-              >
-                <div className="flex items-start space-x-3">
-                  <Info className="h-5 w-5 text-amber-700 dark:text-amber-300 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <div className="flex-1 space-y-4 text-sm text-amber-900 dark:text-amber-100/95">
-                    <div>
-                      <h4 className="font-semibold text-amber-950 dark:text-amber-50 text-base">
-                        Hallucination checks &amp; document quality
-                      </h4>
-                      <p className="text-xs text-amber-800/90 dark:text-amber-200/80 mt-1">
-                        Values below apply to this generated SRS only
-                        {srsData.document_id ? (
-                          <span className="font-mono text-amber-950 dark:text-amber-100"> · {srsData.document_id}</span>
-                        ) : null}
-                        . Regenerate the SRS to refresh them.
-                      </p>
-                    </div>
-
-                    {srsData.hallucination_analysis && (
-                      <div className="space-y-3 border-b border-amber-200/70 dark:border-amber-800/60 pb-4">
-                        <h5 className="text-xs font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
-                          Compared to your input text
-                        </h5>
-                        <div>
-                          <div className="flex flex-wrap justify-between gap-2">
-                            <span className="font-medium">Overlap confidence</span>
-                            <span className="tabular-nums font-semibold">
-                              {formatPct01(srsData.hallucination_analysis.confidence_score)}
-                            </span>
-                          </div>
-                          <p className="text-xs text-amber-800/85 dark:text-amber-200/75 mt-1 leading-snug">
-                            {HALLUCINATION_HELP.confidence}
-                          </p>
-                        </div>
-                        <div>
-                          <div className="flex flex-wrap justify-between gap-2">
-                            <span className="font-medium">Matching words</span>
-                            <span className="tabular-nums font-semibold">
-                              {typeof srsData.hallucination_analysis.term_overlap === 'number'
-                                ? `${srsData.hallucination_analysis.term_overlap} / ${
-                                    srsData.hallucination_analysis.total_original_terms ?? '—'
-                                  }`
-                                : '—'}
-                            </span>
-                          </div>
-                          <p className="text-xs text-amber-800/85 dark:text-amber-200/75 mt-1 leading-snug">
-                            {HALLUCINATION_HELP.termOverlap}
-                          </p>
-                        </div>
-                        {srsData.hallucination_analysis.flagged_sections?.length > 0 ? (
-                          <div>
-                            <p className="font-medium text-amber-950 dark:text-amber-50 mb-1">Flagged for review</p>
-                            <p className="text-xs text-amber-800/85 dark:text-amber-200/75 mb-2">{HALLUCINATION_HELP.flagged}</p>
-                            <ul className="list-disc list-inside space-y-2">
-                              {srsData.hallucination_analysis.flagged_sections.map((flag, idx) => (
-                                <li key={idx}>
-                                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                                    <div>
-                                      <span className="font-medium">{flagTypeLabel(flag.type)}:</span>{' '}
-                                      {flag.message}
-                                      {flag.terms && flag.terms.length > 0 && (
-                                        <span className="ml-1 text-xs opacity-90">
-                                          ({flag.terms.slice(0, 5).join(', ')})
-                                        </span>
-                                      )}
-                                    </div>
-                                    {(flag?.terms?.length > 0 || flag?.message) && (
-                                      <button
-                                        type="button"
-                                        onClick={() => pinpointFlagInSrs(flag)}
-                                        className="shrink-0 text-[11px] px-2 py-1 rounded bg-amber-700 text-white hover:bg-amber-800"
-                                      >
-                                        Pinpoint in SRS
-                                      </button>
-                                    )}
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : (
-                          <p className="text-green-800 dark:text-green-300/90">No automatic flags on these checks.</p>
-                        )}
-                        {srsData.hallucination_analysis &&
-                          !srsData.hallucination_analysis.has_hallucinations &&
-                          Number(srsData.hallucination_analysis.confidence_score) < 0.7 && (
-                            <p className="text-xs text-amber-900/90 dark:text-amber-100/80 border border-amber-200/80 dark:border-amber-700/60 rounded-md p-2 bg-amber-100/50 dark:bg-amber-950/50">
-                              Overlap confidence is under 70%—read the SRS carefully to ensure it matches what you
-                              intended.
-                            </p>
-                          )}
-                      </div>
-                    )}
-
-                    {(docQualityLoading || docQualityError || (docQualityMetrics && Object.keys(docQualityMetrics).length > 0)) && (
-                      <div className="space-y-2">
-                        <h5 className="text-xs font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
-                          Document quality scores (this SRS)
-                        </h5>
-                        <p className="text-xs text-amber-800/85 dark:text-amber-200/75 leading-snug">
-                          Computed when you view this page (not stored on the SRS download). Same 0–100% scale as the
-                          offline document-quality evaluation. Describes structure and wording—not whether your business
-                          idea is correct.
-                        </p>
-                        {docQualityLoading && (
-                          <p className="text-sm text-amber-900 dark:text-amber-100/90">Loading document quality scores…</p>
-                        )}
-                        {docQualityError && (
-                          <p className="text-sm text-amber-950 dark:text-amber-50 bg-amber-200/40 dark:bg-amber-900/40 rounded px-2 py-1.5">
-                            {docQualityError}
-                          </p>
-                        )}
-                        {!docQualityLoading && docQualityMetrics && Object.keys(docQualityMetrics).length > 0 && (
-                          <ul className="space-y-3 mt-2">
-                            {DOC_QUALITY_METRIC_ROWS.map(({ key, label, help }) => {
-                              const raw = docQualityMetrics[key];
-                              return (
-                                <li
-                                  key={key}
-                                  className="border-b border-amber-200/50 dark:border-amber-800/40 pb-2 last:border-0 last:pb-0"
-                                >
-                                  <div className="flex flex-wrap justify-between gap-2">
-                                    <span className="font-medium">{label}</span>
-                                    <span className="tabular-nums font-semibold">{formatPct01(raw)}</span>
-                                  </div>
-                                  <p className="text-xs text-amber-800/85 dark:text-amber-200/75 mt-0.5 leading-snug">
-                                    {help}
-                                  </p>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -1162,196 +1042,313 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
               </p>
             </div>
           </div>
-          {/* Confidence Score in Metadata */}
-          {srsData.hallucination_analysis && (
-            <div className="mt-4 pt-4 border-t border-gray-300 dark:border-slate-600">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-gray-600 dark:text-slate-400 uppercase tracking-wide">Content Confidence</span>
-                <div className="flex items-center space-x-2">
-                  <div className="h-2 w-24 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full ${
-                        srsData.hallucination_analysis.confidence_score >= 0.7 ? 'bg-green-500' :
-                        srsData.hallucination_analysis.confidence_score >= 0.5 ? 'bg-yellow-500' :
-                        'bg-red-500'
-                      }`}
-                      style={{ width: `${srsData.hallucination_analysis.confidence_score * 100}%` }}
-                    />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900 dark:text-slate-100">
-                    {(srsData.hallucination_analysis.confidence_score * 100).toFixed(0)}%
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Display Raw Text if Available */}
-        <div className="mt-8 border border-gray-200 dark:border-slate-600 rounded-lg p-6 bg-gray-50 dark:bg-slate-800/50">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
+        {modelRunSummary && (
+          <div className="mb-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+              <div className="flex items-start gap-2">
+                <Timer className="h-5 w-5 text-r2d-primary shrink-0 mt-0.5" aria-hidden />
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Model run</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Heuristic precision/recall/F1, flexible alignment monitoring, and provider timings for{' '}
+                    <span className="font-mono text-slate-600 dark:text-slate-300">{srsData.document_id || 'this SRS'}</span>
+                    . Open metrics after each generation—the panel resets when you switch documents.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <button
+                  type="button"
+                  aria-expanded={modelMetricsOpen}
+                  onClick={() => setModelMetricsOpen((v) => !v)}
+                  className="text-sm px-4 py-2.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight font-medium shadow-sm"
+                >
+                  {modelMetricsOpen ? 'Hide model metrics' : 'Model metrics'}
+                </button>
+                <Link
+                  to="/srs-metrics"
+                  className="text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 inline-flex items-center"
+                >
+                  Open SRS quality metrics
+                </Link>
+              </div>
+            </div>
+            {!modelMetricsOpen ? (
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-4">
+                Metrics are loaded from this SRS object only (no extra request). Generate again or pick another
+                document to refresh numbers.
+              </p>
+            ) : null}
+            {modelMetricsOpen ? (
+              <div className="mt-5 pt-5 border-t border-slate-200 dark:border-slate-600 space-y-5">
+                <p className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                  generation_meta snapshot · {srsData.document_id || '—'}
+                </p>
+                {modelRunSummary.qInterp ? (
+                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed border-l-4 border-emerald-600/70 dark:border-emerald-400/80 pl-3">
+                    {modelRunSummary.qInterp}
+                  </p>
+                ) : null}
+                {modelRunSummary.interp ? (
+                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed border-l-4 border-r2d-primary pl-3">
+                    {modelRunSummary.interp}
+                  </p>
+                ) : null}
+                {Object.keys(modelRunSummary.qs).length > 0 ? (
+                  <div className="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50/60 dark:bg-slate-800/40 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
+                      Precision / recall / F1 (heuristic)
+                    </p>
+                    {modelRunSummary.qs.notes ? (
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-3 leading-snug">{modelRunSummary.qs.notes}</p>
+                    ) : null}
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Section heading precision</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.section_heading_precision)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Section heading recall</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.section_heading_recall)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Section heading F1</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.section_heading_f1)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Input-token precision</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.input_token_precision)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Input-token recall</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.input_token_recall)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Input-token F1</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.input_token_f1)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Heuristic accuracy</dt>
+                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                          {formatPct01(modelRunSummary.qs.heuristic_accuracy)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2 sm:col-span-2">
+                        <dt className="text-slate-600 dark:text-slate-400">Alignment (review-tier)</dt>
+                        <dd className="text-right text-slate-900 dark:text-slate-100 text-sm">
+                          {(modelRunSummary.qs.alignment_review_recommended ??
+                            modelRunSummary.qs.hallucination_has_potential) ? (
+                            <span>Review suggested</span>
+                          ) : (
+                            <span>None required</span>
+                          )}
+                          {typeof modelRunSummary.qs.hallucination_grounding_confidence === 'number' ? (
+                            <span className="block font-mono text-xs mt-0.5 text-slate-600 dark:text-slate-400">
+                              Grounding overlap {formatPct01(modelRunSummary.qs.hallucination_grounding_confidence)} ·
+                              review notes {modelRunSummary.qs.alignment_review_notes_count ?? modelRunSummary.qs.hallucination_flags_count ?? 0}
+                              {typeof modelRunSummary.qs.alignment_informational_notes_count === 'number' &&
+                              modelRunSummary.qs.alignment_informational_notes_count > 0 ? (
+                                <span>
+                                  {' '}
+                                  · FYI only {modelRunSummary.qs.alignment_informational_notes_count}
+                                </span>
+                              ) : null}
+                              {modelRunSummary.qs.grounding_monitoring_strictness ? (
+                                <span> · monitor={String(modelRunSummary.qs.grounding_monitoring_strictness)}</span>
+                              ) : null}
+                            </span>
+                          ) : null}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                ) : null}
+                {Object.keys(modelRunSummary.mp).length > 0 || Object.keys(modelRunSummary.qs).length > 0 ? (
+                  <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-600">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 px-3 pt-3">
+                      All raw fields
+                    </p>
+                    <table className="min-w-full text-sm">
+                      <thead className="bg-slate-50 dark:bg-slate-800/80 text-left text-xs uppercase text-slate-500 dark:text-slate-400">
+                        <tr>
+                          <th className="px-3 py-2 font-medium">Metric</th>
+                          <th className="px-3 py-2 font-medium">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 dark:divide-slate-600">
+                        {Object.entries({
+                          ...Object.fromEntries(
+                            Object.entries(modelRunSummary.qs).filter(([k]) => k !== 'notes')
+                          ),
+                          ...modelRunSummary.mp,
+                        })
+                          .sort(([a], [b]) => a.localeCompare(b))
+                          .map(([k, v]) => (
+                            <tr key={k} className="text-slate-800 dark:text-slate-100">
+                              <td className="px-3 py-2 font-mono text-xs text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                                {k}
+                              </td>
+                              <td className="px-3 py-2 break-all">
+                                {typeof v === 'boolean' ? (v ? 'yes' : 'no') : String(v)}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        )}
+
+        <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 flex items-center gap-2">
-                <Workflow className="h-5 w-5" />
-                Use Case Outputs
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-r2d-primary shrink-0" />
+                SRS quality snapshot
               </h3>
-              <p className="text-sm text-gray-600 dark:text-slate-400">
-                Generate structured textual use cases and use case diagram from this SRS.
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                Computed on the server from this document (and your requirements when available). Click a tile to open
+                the full metrics page with that row highlighted.
               </p>
             </div>
             <button
-              onClick={generateUseCases}
-              disabled={isGeneratingUseCases}
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+              type="button"
+              onClick={generateTextualUseCase}
+              disabled={genTextualUcLoading || !hasModelTextualUseCases(srsData)}
+              title={
+                hasModelTextualUseCases(srsData)
+                  ? 'Build textual use cases and diagram from the model appendix'
+                  : 'Regenerate the SRS so the model includes the textual use case appendix'
+              }
+              className="shrink-0 bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
             >
-              {isGeneratingUseCases ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
-              <span>{isGeneratingUseCases ? 'Generating...' : 'Generate Use Cases'}</span>
+              {genTextualUcLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
+              Generate textual use case!
             </button>
           </div>
 
-          {useCaseData && (
-            <div className="grid lg:grid-cols-2 gap-6">
-              <div className="rounded-lg border border-gray-200 dark:border-slate-600 p-4 bg-white dark:bg-slate-900">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    Textual Use Cases
-                  </h4>
-                  <button
-                    onClick={() => downloadText(`textual_usecases_${srsData?.document_id || 'srs'}.txt`, useCaseData?.textual_usecases?.text || '')}
-                    className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded"
-                  >
-                    Download .txt
-                  </button>
-                </div>
-                <pre className="whitespace-pre-wrap text-sm rounded border border-gray-200 dark:border-slate-600 dark:bg-slate-950 dark:text-slate-100 p-3 max-h-96 overflow-auto">
-                  {useCaseData?.textual_usecases?.text || 'No textual use cases generated.'}
-                </pre>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => navigate('/textual-usecases')}
-                    className="text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded"
-                  >
-                    Open Full Textual Use Cases Page
-                  </button>
-                  <button
-                    onClick={downloadTextualUseCasesPdf}
-                    className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded"
-                  >
-                    Download PDF
-                  </button>
-                </div>
-              </div>
+          {srsDashboardLoading && (
+            <p className="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2">
+              <RefreshCw className="h-4 w-4 animate-spin text-r2d-primary" />
+              Loading quality insights…
+            </p>
+          )}
+          {srsDashboardError && (
+            <p className="text-sm text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/40 rounded-lg px-3 py-2 border border-amber-200 dark:border-amber-800">
+              {srsDashboardError}
+            </p>
+          )}
 
-              <div className="rounded-lg border border-gray-200 dark:border-slate-600 p-4 bg-white dark:bg-slate-900">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 flex items-center gap-2">
-                    <Workflow className="h-4 w-4" />
-                    Use Case Diagram
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-2 justify-end">
-                    <div className="flex rounded-md border border-slate-300 dark:border-slate-600 overflow-hidden text-xs">
-                      <button
-                        type="button"
-                        onClick={() => setUseCaseDiagramLayout('vertical')}
-                        disabled={
-                          !useCaseData?.diagram?.diagram_base64_vertical &&
-                          !useCaseData?.diagram?.diagram_base64
-                        }
-                        className={`px-2.5 py-1.5 flex items-center gap-1 disabled:opacity-50 ${
-                          useCaseDiagramLayout === 'vertical'
-                            ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
-                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
-                        }`}
-                        title="Top-to-bottom (PlantUML)"
-                      >
-                        <ArrowDown className="h-3.5 w-3.5" />
-                        Vertical
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setUseCaseDiagramLayout('horizontal')}
-                        disabled={
-                          !useCaseData?.diagram?.diagram_base64_horizontal &&
-                          !useCaseData?.diagram?.diagram_base64
-                        }
-                        className={`px-2.5 py-1.5 flex items-center gap-1 border-l border-slate-300 dark:border-slate-600 disabled:opacity-50 ${
-                          useCaseDiagramLayout === 'horizontal'
-                            ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
-                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'
-                        }`}
-                        title="Left-to-right (PlantUML)"
-                      >
-                        <ArrowRight className="h-3.5 w-3.5" />
-                        Horizontal
-                      </button>
-                    </div>
-                    <button
-                      onClick={() =>
-                        downloadText(
-                          `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.puml`,
-                          useCaseDiagramPuml || ''
-                        )
-                      }
-                      className="text-sm bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded flex items-center gap-1"
-                    >
-                      <FileCode className="h-3.5 w-3.5" />
-                      .puml
-                    </button>
-                    <button
-                      onClick={() => {
-                        const b64 = useCaseDiagramB64;
-                        if (!b64) return;
-                        const link = document.createElement('a');
-                        link.href = `data:image/png;base64,${b64}`;
-                        link.download = `usecase_${srsData?.document_id || 'srs'}_${useCaseDiagramLayout}.png`;
-                        document.body.appendChild(link);
-                        link.click();
-                        link.parentNode.removeChild(link);
-                      }}
-                      disabled={!useCaseDiagramB64}
-                      className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded"
-                    >
-                      Download .png
-                    </button>
-                  </div>
-                </div>
-                {useCaseDiagramB64 ? (
-                  <img
-                    src={`data:image/png;base64,${useCaseDiagramB64}`}
-                    alt={`Use case diagram (${useCaseDiagramLayout})`}
-                    className="w-full rounded border border-gray-200 dark:border-slate-600"
-                  />
-                ) : (
-                  <div className="text-sm space-y-2">
-                    <p className="p-3 rounded border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/30 text-amber-950 dark:text-amber-100">
-                      Diagram PNG was not rendered. {useCaseData?.diagram?.message || 'PlantUML rendering may be unavailable.'}
+          {!srsDashboardLoading && srsDashboard?.summary_line && (
+            <p className="text-sm sm:text-base text-slate-800 dark:text-slate-100 leading-relaxed border-l-4 border-r2d-primary pl-3 py-1 mb-4">
+              {srsDashboard.summary_line}
+            </p>
+          )}
+
+          {!srsDashboardLoading && dashboardTiles.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {dashboardTiles.map((tile, idx) =>
+                tile.focus ? (
+                  <Link
+                    key={`tile-${idx}-${tile.focus}`}
+                    to={`/srs-metrics?focus=${encodeURIComponent(tile.focus)}`}
+                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary"
+                  >
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      {tile.title}
                     </p>
-                    {useCaseData?.diagram?.plantuml_log ? (
-                      <pre className="text-xs whitespace-pre-wrap font-mono p-3 rounded border border-slate-200 dark:border-slate-600 bg-slate-900 text-green-400 max-h-64 overflow-auto">
-                        {useCaseData.diagram.plantuml_log}
-                      </pre>
-                    ) : null}
-                  </div>
-                )}
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => navigate('/usecase-diagram')}
-                    className="text-sm bg-r2d-primary hover:bg-r2d-primaryLight text-white px-3 py-1.5 rounded"
+                    <p className="text-2xl font-semibold tabular-nums text-slate-900 dark:text-slate-50 mt-1">
+                      {tile.display}
+                    </p>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-snug">{tile.subtitle}</p>
+                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Open in metrics →</p>
+                  </Link>
+                ) : (
+                  <Link
+                    key={`tile-${idx}-full`}
+                    to="/srs-metrics"
+                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary"
                   >
-                    Open Full Diagram Page
-                  </button>
-                  <button
-                    onClick={downloadUsecaseDiagramPdf}
-                    disabled={!useCaseDiagramB64}
-                    className="text-sm bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-3 py-1.5 rounded"
-                  >
-                    Download PDF
-                  </button>
-                </div>
-              </div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      {tile.title}
+                    </p>
+                    <p className="text-2xl font-semibold tabular-nums text-slate-900 dark:text-slate-50 mt-1">
+                      {tile.display}
+                    </p>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-snug">{tile.subtitle}</p>
+                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Full metrics table →</p>
+                  </Link>
+                )
+              )}
             </div>
           )}
+
+          {Object.keys(hallForDashboard).length > 0 && (
+            <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-600">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
+                Generation-time alignment
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm text-slate-700 dark:text-slate-200">
+                {typeof hallForDashboard.term_overlap === 'number' && (
+                  <span>
+                    Word overlap:{' '}
+                    <span className="font-mono font-semibold">
+                      {hallForDashboard.term_overlap} / {hallForDashboard.total_original_terms ?? '—'}
+                    </span>
+                  </span>
+                )}
+                {hallForDashboard.monitoring?.strictness ? (
+                  <span className="text-slate-600 dark:text-slate-400 font-mono text-xs">
+                    Monitor: {hallForDashboard.monitoring.strictness}
+                  </span>
+                ) : null}
+                {hallForDashboard.flagged_sections?.length > 0 && (
+                  <span className="text-amber-800 dark:text-amber-200">
+                    {hallForDashboard.flagged_sections.length} review note(s) — see{' '}
+                    <Link to="/srs-metrics?focus=has_hallucinations" className="underline text-r2d-primary">
+                      metrics
+                    </Link>
+                  </span>
+                )}
+                {Array.isArray(hallForDashboard.informational_signals) &&
+                  hallForDashboard.informational_signals.length > 0 && (
+                    <span className="text-slate-600 dark:text-slate-400">
+                      {hallForDashboard.informational_signals.length} FYI note(s){' '}
+                      {hallForDashboard.flagged_sections?.length > 0 ? '(plus review notes above)' : '(expansion/detail is expected)'}
+                    </span>
+                  )}
+              </div>
+              {Number(hallForDashboard.confidence_score) < 0.5 && (
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">{HALLUCINATION_HELP.confidenceLowExample}</p>
+              )}
+            </div>
+          )}
+
+          <div className="mt-4">
+            <Link
+              to="/srs-metrics"
+              className="text-sm text-r2d-primary dark:text-cyan-300 hover:underline font-medium"
+            >
+              Open full SRS metrics page
+            </Link>
+          </div>
         </div>
 
         {srsData.raw_text ? (
@@ -1392,11 +1389,77 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, useCaseData, o
                   </span>
                 </div>
               </section>
-              <div
-                ref={docRootRef}
-                className="srs-doc-root"
-                dangerouslySetInnerHTML={{ __html: srsFormattedHtml }}
-              />
+
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Choose a section card or open the full continuous document.
+                </p>
+                <div className="flex rounded-lg border border-slate-200 dark:border-slate-600 overflow-hidden text-sm">
+                  <button
+                    type="button"
+                    onClick={() => setSrsDocLayout('cards')}
+                    className={`px-4 py-2 font-medium transition-colors ${
+                      srsDocLayout === 'cards'
+                        ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    Section cards
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSrsDocLayout('full')}
+                    className={`px-4 py-2 font-medium border-l border-slate-200 dark:border-slate-600 transition-colors ${
+                      srsDocLayout === 'full'
+                        ? 'bg-r2d-primary text-white dark:bg-r2d-accent'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    Full document
+                  </button>
+                </div>
+              </div>
+
+              {srsDocLayout === 'full' ? (
+                <div
+                  ref={docRootRef}
+                  className="srs-doc-root"
+                  dangerouslySetInnerHTML={{ __html: srsFormattedHtml }}
+                />
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+                    {srsSectionCards.sections.map((s) => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setActiveSrsSectionId(s.id)}
+                        className={`text-left rounded-xl border p-4 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-r2d-accent ${
+                          activeSrsSectionId === s.id
+                            ? 'border-r2d-primary ring-2 ring-r2d-primary/25 bg-r2d-accentMuted/30 dark:bg-r2d-accent/15 dark:border-r2d-accent'
+                            : 'border-slate-200 dark:border-slate-600 bg-white/90 dark:bg-slate-900/50 hover:border-r2d-primary/50'
+                        }`}
+                      >
+                        <span className="font-semibold text-slate-900 dark:text-slate-100 block">{s.title}</span>
+                        <span className="mt-2 block text-xs text-slate-500 dark:text-slate-400">
+                          {activeSrsSectionId === s.id ? 'Showing below' : 'Click to open'}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    ref={docRootRef}
+                    className="srs-doc-root rounded-xl border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-950/40 p-4 sm:p-6 min-h-[36vh] overflow-auto"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        srsSectionCards.sections.find((sec) => sec.id === activeSrsSectionId)?.html ||
+                        srsSectionCards.sections[0]?.html ||
+                        srsSectionCards.fullHtml,
+                    }}
+                  />
+                </>
+              )}
+
               <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/70 shadow-sm overflow-hidden">
                 <div className="px-5 py-4">
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">End of document</p>

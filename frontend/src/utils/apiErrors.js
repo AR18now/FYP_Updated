@@ -35,6 +35,16 @@ export function getApiErrorMessage(error, fallback = 'Something went wrong. Plea
   }
 
   if (typeof data === 'string' && data.trim()) {
+    const s = data.trim();
+    if (/<!doctype html>|<html[\s>]/i.test(s)) {
+      if (status === 404) {
+        return 'The server returned an HTML page instead of JSON—check REACT_APP_API_URL and that the Flask API is running.';
+      }
+      if (status === 405) {
+        return 'The API returned “method not allowed” as an HTML page. That usually means POST hit the SPA/catch-all route: restart `python api_server.py` after pulling updates, and set REACT_APP_API_URL=http://localhost:8000 when using `npm start` on port 3000.';
+      }
+      return 'The server returned an HTML error page instead of JSON. Check REACT_APP_API_URL and that the Flask API is running.';
+    }
     return truncate(data);
   }
 
@@ -70,6 +80,9 @@ export function getApiErrorMessage(error, fallback = 'Something went wrong. Plea
   }
   if (status === 404 && error.config?.url) {
     return `Resource not found (${truncate(error.config.url)}).`;
+  }
+  if (status === 405) {
+    return 'The API rejected this request (HTTP 405). Restart the Flask server after updating, or set REACT_APP_API_URL=http://localhost:8000 so the browser does not POST to the React dev server by mistake.';
   }
   if (status === 502 || status === 503) {
     return 'Service temporarily unavailable. Try again shortly.';

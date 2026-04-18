@@ -1,0 +1,53 @@
+Textual Use Case for FR-01 - Route Planning
+Primary Actor: Passenger
+Stakeholders: Passengers, Operations Teams
+Precondition: Passenger has entered valid start and end locations.
+Main Success Scenario:
+1. Passenger selects 'Plan Route' option.
+2. System prompts for origin and destination.
+3. System generates and displays optimized routes.
+Extensions:
+- If no routes found due to road closures, system suggests alternative paths.
+Postconditions: Routes are displayed with estimated costs and travel times.
+Trace to FR: FR-01
+
+Textual Use Case for FR-02 - Ticket Purchase
+Primary Actor: Passenger
+Stakeholders: Passengers, Administrative Personnel
+Precondition: Passenger has selected a route and chosen a ticket type.
+Main Success Scenario:
+1. Passenger initiates purchase request.
+2. System validates input and calculates cost.
+3. Transaction processed successfully.
+4. Unique ticket ID generated and communicated to passenger.
+Extensions:
+- If insufficient funds detected, system provides refund options.
+Postconditions: Passenger receives confirmation and ticket ID.
+Trace to FR: FR-02
+
+Textual Use Case for FR-03 - Ticket Validation
+Primary Actor: Passenger
+Stakeholders: Passengers, Conductors
+Precondition: Passenger holds a valid ticket near the scanner.
+Main Success Scenario:
+1. Passenger approaches the scanner.
+2. Scanner reads the ticket.
+3. System verifies the ticket’s validity.
+4. Access granted or denied based on verification results.
+Extensions:
+- If ticket is expired, system alerts the conductor.
+Postconditions: Access is either granted or denied.
+Trace to FR: FR-03
+
+Textual Use Case for FR-04 - Offline Conductor Validation
+Primary Actor: Conductor
+Stakeholders: Conductors, Operations Teams
+Precondition: Conductor has scanned a ticket using the handheld device.
+Main Success Scenario:
+1. Conductor uses the device to scan the ticket.
+2. Device checks local database for ticket information.
+3. Result indicating validity is displayed on the device.
+Extensions:
+- If no record found, system prompts for additional information.
+Postconditions: Validity result is shown to the conductor.
+Trace to FR: FR-04

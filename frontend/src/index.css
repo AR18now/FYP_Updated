@@ -156,6 +156,21 @@ code {
   }
 }
 
+/* SRS generation overlay — indeterminate progress */
+@keyframes srsGenIndeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+.srs-gen-indeterminate-inner {
+  width: 36%;
+  animation: srsGenIndeterminate 1.35s ease-in-out infinite;
+}
+
 .animate-scale-in {
   animation: scaleIn 0.3s ease-out;
 }
@@ -710,6 +725,24 @@ html.dark .srs-doc-root mark.srs-mark--warn {
   margin: 5px 0;
   line-height: 1.7;
 }
+.tuc-ol {
+  margin: 6px 0 10px 22px;
+  padding-left: 6px;
+  color: #1e293b;
+  list-style-type: decimal;
+}
+.tuc-ol li {
+  margin: 6px 0;
+  line-height: 1.7;
+  padding-left: 4px;
+}
+.tuc-row--section {
+  margin-top: 14px;
+  margin-bottom: 4px;
+}
+.tuc-row--section:first-of-type {
+  margin-top: 4px;
+}
 .tuc-empty {
   color: #64748b;
   font-style: italic;
@@ -724,7 +757,8 @@ html.dark .tuc-title {
 }
 html.dark .tuc-row,
 html.dark .tuc-para,
-html.dark .tuc-list {
+html.dark .tuc-list,
+html.dark .tuc-ol {
   color: #cbd5e1;
 }
 html.dark .tuc-key {

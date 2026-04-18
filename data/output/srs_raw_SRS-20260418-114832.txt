@@ -1,0 +1,82 @@
+INTRODUCTION
+Purpose: To define the software requirements for a public transport ticketing system that supports passenger self-service, conductor validation, and operational monitoring functionalities.
+Scope: This Software Requirements Specification (SRS) covers the core functionalities required by passengers, conductors, and operations staff within the context of a public transport network.
+Definitions/Acronyms:
+- PTT: Public Transport Ticketing
+- QR: Quick Response code
+- NFC: Near Field Communication
+References: IEEE Std 830-1998, IEEE Standard for Software Requirements Specifications
+Overview: This document outlines the detailed requirements for the PTT system, including user interactions, system behaviors, and non-functional requirements.
+
+OVERALL DESCRIPTION
+Perspective: The perspective of this specification is to provide a comprehensive set of requirements for the PTT system, ensuring it meets the needs of all stakeholders involved.
+Functions: The system will perform the following key functions:
+- Route planning
+- Ticket purchase (single and monthly)
+- Ticket validation using QR/NFC
+- Offline validation by conductors
+- Fare zone management
+- Concession category handling
+- Penalty calculation
+- Monitoring of route usage and traffic patterns
+- Device health tracking
+- Refund workflow
+Users: Primary users include passengers, conductors, and operations teams. Secondary users may include administrative personnel responsible for setting policies and managing the system.
+Constraints: The system must operate reliably under varying environmental conditions and ensure data integrity during synchronization processes.
+Assumptions/Dependencies: Assumptions include stable internet connectivity for most transactions but allowance for offline functionality. Dependencies include integration with existing infrastructure such as payment gateways and station hardware.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Passenger interface via mobile app/web portal
+- Conductor handheld devices
+- Station kiosks
+- Backend servers for processing and storage
+Functional Requirements:
+FR-01
+- Route Planning
+Input: User's origin and destination locations.
+Processing: Generate optimal routes considering available transportation modes and fare zones.
+Output: Displayed routes along with estimated costs and travel times.
+Priority: High
+- Users can select preferred travel options based on cost, time, and mode of transport.
+- Real-time updates reflecting current traffic conditions.
+FR-02
+- Ticket Purchase
+Input: Passenger details, selected route, chosen ticket type (single or monthly pass), payment method.
+Processing: Validate input, calculate total cost, process transaction, generate unique ticket identifier.
+Output: Confirmation message displayed on screen, ticket ID sent via SMS/email.
+Priority: High
+- Support multiple payment methods including cash, credit cards, and digital wallets.
+- Provide clear error messages for invalid inputs.
+FR-03
+- Ticket Validation
+Input: Passenger presents ticket via QR/NFC reader.
+Processing: Verify ticket validity, check against fare zones and concession categories.
+Output: Validated status displayed on reader, access granted or denied.
+Priority: Medium
+- Ensure seamless validation experience without requiring manual intervention.
+- Handle various types of tickets including single rides, day passes, etc.
+FR-04
+- Offline Conductor Validation
+Input: Conductor scans ticket barcode.
+Processing: Check ticket information locally stored on device.
+Output: Validity result shown on device display.
+Priority: Medium
+- Allow quick validation even when no internet connection is available.
+- Sync validation records upon re-establishment of network connection.
+Non-Functional Requirements:
+Usability: The system shall be intuitive and easy to navigate for both passengers and operators.
+Reliability: The system must function correctly despite potential disruptions in network connectivity.
+Performance: The system shall respond promptly to user actions and complete tasks efficiently.
+Portability: The system components must be deployable across different environments and devices.
+
+SYSTEM FEATURES
+- Mobile application for passenger self-service
+- Web portal for advanced queries and account management
+- Handheld devices for conductors to scan tickets and log activities
+- Kiosk terminals at stations for purchasing and validating tickets
+- Centralized backend server for data storage and analytics
+- Integration with third-party payment systems
+- Data synchronization mechanisms between offline and online states
+
+End of Document.

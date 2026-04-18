@@ -1,0 +1,80 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+left to right direction
+
+title UML 2.x Use Case Diagram (horizontal)\n<size:12><i>Construction Project</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject boundary) ---
+actor "Project Manager" as act_0
+
+' --- Subject (system boundary) & use cases ---
+rectangle "Construction Project" {
+  usecase "FR-01 - Create and manage project plans" as uc_0
+  usecase "FR-02 - Define and track milestones" as uc_1
+  usecase "FR-03 - Assign and manage teams" as uc_2
+  usecase "FR-04 - Track daily progress by site and contractor" as uc_3
+  usecase "FR-05 - Provide mobile task updates and image uploads for field engineer" as uc_4
+  usecase "FR-06 - Generate floor plan-mapped issue logs" as uc_5
+  usecase "FR-07 - Compare planned vs. actual timelines" as uc_6
+  usecase "FR-08 - Raise delay alerts based on timeline comparisons" as uc_7
+  usecase "FR-09 - Capture and approve change requests" as uc_8
+  usecase "FR-10 - Monitor budget burn and verify invoices" as uc_9
+  usecase "FR-11 - Manage procurement status" as uc_10
+  usecase "FR-12 - Generate weekly progress reports with risk summaries and action" as uc_11
+  ' use case ordering hint (horizontal)
+  uc_0 -[hidden]right- uc_1
+  uc_1 -[hidden]right- uc_2
+  uc_2 -[hidden]right- uc_3
+  uc_3 -[hidden]right- uc_4
+  uc_4 -[hidden]right- uc_5
+  uc_5 -[hidden]right- uc_6
+  uc_6 -[hidden]right- uc_7
+  uc_7 -[hidden]right- uc_8
+  uc_8 -[hidden]right- uc_9
+  uc_9 -[hidden]right- uc_10
+  uc_10 -[hidden]right- uc_11
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_0 -- uc_2
+act_0 -- uc_3
+act_0 -- uc_4
+act_0 -- uc_5
+act_0 -- uc_6
+act_0 -- uc_7
+act_0 -- uc_8
+act_0 -- uc_9
+act_0 -- uc_10
+act_0 -- uc_11
+
+@enduml

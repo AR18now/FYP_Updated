@@ -1,0 +1,77 @@
+INTRODUCTION
+Purpose: To define the requirements for a freelance market place web application.
+Scope: This document outlines the specific requirements for the freelance market place including external interfaces, functional and non-functional requirements.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- IPFS: InterPlanetary File System
+- RBAC: Role-Based Access Control
+References: IEEE Std 830-1998
+Overview: The freelance market place aims to facilitate transactions between freelancers and clients through a web-based application utilizing smart contracts and IPFS for secure and tamper-proof storage.
+
+OVERALL DESCRIPTION
+Product Perspective: A decentralized freelance market place where freelancers can list their services and clients can find suitable candidates for projects.
+Product Functions:
+- Facilitate trades via smart contracts.
+- Store product listings and reviews on IPFS.
+- Provide dispute resolution mechanisms.
+User Characteristics: Freelancers seeking work and clients looking for services.
+Constraints: No security, scalability, maintainability, or availability concerns.
+Assumptions/Dependencies: Users have internet access and basic computer literacy.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User Interface: Must be intuitive and easy to navigate.
+- Hardware Interface: Compatible with standard desktop and mobile devices.
+- Software Interface: Requires browser compatibility across major platforms.
+- Communication Interface: Utilizes HTTPS for secure communications.
+Functional Requirements:
+FR-01: Allow users to create accounts.
+Input: User registration details.
+Processing: Validate user inputs and generate unique user IDs.
+Output: Confirmation message upon successful registration.
+Priority: High
+FR-02: Enable users to list services.
+Input: Service description, price, duration, contact information.
+Processing: Store service details in database and associate with user ID.
+Output: Confirmation message indicating listing success.
+Priority: Medium
+FR-03: Permit clients to search for services based on criteria.
+Input: Search parameters such as skill set, location, price range.
+Processing: Query database for matching services and display results.
+Output: List of available services meeting specified criteria.
+Priority: High
+FR-04: Support direct payments between users.
+Input: Payment amount, recipient's user ID.
+Processing: Verify funds transfer and update transaction records.
+Output: Transaction confirmation and updated balance notifications.
+Priority: Low
+FR-05: Implement a 2-of-2 multisignature smart contract for double-deposit escrow.
+Input: Deposit amounts from both parties.
+Processing: Create and deploy smart contract, monitor transactions.
+Output: Escrow release according to predefined conditions.
+Priority: High
+FR-06: Provide a mechanism for handling disputes.
+Input: Dispute report, evidence.
+Processing: Mediate dispute resolution process.
+Output: Resolution outcome communicated to all parties involved.
+Priority: Medium
+Non-functional Requirements:
+Usability: Ensure the interface is accessible and user-friendly.
+Reliability: Maintain system integrity and prevent unauthorized access.
+Performance: Respond to requests within 2 seconds under normal load.
+Portability: Function correctly across different browsers and devices.
+
+SYSTEM FEATURES
+Feature 1: Account Management
+Description: Allows users to register, log in, and manage personal information.
+Feature 2: Service Listings
+Description: Enables freelancers to post detailed descriptions of their services along with pricing and other relevant information.
+Feature 3: Service Searching
+Description: Provides functionality for clients to search for services based on various criteria.
+Feature 4: Direct Payments
+Description: Supports seamless fund transfers between users.
+Feature 5: Smart Contract Escrow
+Description: Implements automated escrow systems using 2-of-2 multisignature smart contracts.
+Feature 6: Dispute Resolution
+Description: Offers mediation processes for resolving conflicts between users.
+End of Document.

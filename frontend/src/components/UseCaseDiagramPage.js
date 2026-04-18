@@ -4,6 +4,7 @@ import { Download, RefreshCw, Workflow, Maximize2, ArrowDown, ArrowRight, FileCo
 import config from '../config';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
+import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
 
 const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,11 +58,10 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
     if (!srsData?.sections) return;
     setIsLoading(true);
     try {
-      const response = await axios.post(config.API_ENDPOINTS.GENERATE_USECASES, {
-        document_id: srsData.document_id,
-        title: srsData.title,
-        sections: srsData.sections
-      });
+      const response = await axios.post(
+        config.API_ENDPOINTS.GENERATE_USECASES,
+        buildGenerateUseCasesRequestBody(srsData)
+      );
       if (onUseCaseDataChange) onUseCaseDataChange(response.data);
     } catch (error) {
       console.error('Failed to generate use case diagram', error);
@@ -109,18 +109,23 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
               Use Case Diagram
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
-              <strong>UML 2.x</strong> use case view: subject boundary, actors, use cases, and associations. Rendered with{' '}
-              <strong>PlantUML</strong> from your Cockburn textual use cases.
+              <strong>UML 2.x</strong> diagram from your model appendix. The server saves <strong>.puml</strong> and tries local{' '}
+              <strong>PlantUML</strong>; if the CLI is missing it falls back to an HTTPS renderer (e.g. Kroki) for PNG.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             <button
               onClick={generateUseCases}
-              disabled={isLoading}
+              disabled={isLoading || !hasModelTextualUseCases(srsData)}
+              title={
+                hasModelTextualUseCases(srsData)
+                  ? 'Render diagram from model appendix text'
+                  : 'Regenerate SRS so the model includes the textual use case appendix'
+              }
               className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-              {isLoading ? 'Generating...' : 'Generate / Refresh'}
+              {isLoading ? 'Generating...' : 'Generate diagram'}
             </button>
             <button
               type="button"

@@ -1,0 +1,80 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+top to bottom direction
+
+title UML 2.x Use Case Diagram (vertical)\n<size:12><i>PUBLIC TRANSPORT TICKETING</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject boundary) ---
+actor "Passenger" as act_0
+
+' --- Subject (system boundary) & use cases ---
+rectangle "PUBLIC TRANSPORT TICKETING" {
+  usecase "Passenger selects 'Plan Route' option." as uc_0
+  usecase "System prompts for origin and destination." as uc_1
+  usecase "System generates and displays optimized routes." as uc_2
+  usecase "Passenger initiates purchase request." as uc_3
+  usecase "System validates input and calculates cost." as uc_4
+  usecase "Transaction processed successfully." as uc_5
+  usecase "Unique ticket ID generated and communicated to passenger." as uc_6
+  usecase "Passenger approaches the scanner." as uc_7
+  usecase "Scanner reads the ticket." as uc_8
+  usecase "System verifies the ticket’s validity." as uc_9
+  usecase "Access granted or denied based on verification results." as uc_10
+  usecase "Conductor uses the device to scan the ticket." as uc_11
+  ' use case ordering hint (vertical)
+  uc_0 -[hidden]down- uc_1
+  uc_1 -[hidden]down- uc_2
+  uc_2 -[hidden]down- uc_3
+  uc_3 -[hidden]down- uc_4
+  uc_4 -[hidden]down- uc_5
+  uc_5 -[hidden]down- uc_6
+  uc_6 -[hidden]down- uc_7
+  uc_7 -[hidden]down- uc_8
+  uc_8 -[hidden]down- uc_9
+  uc_9 -[hidden]down- uc_10
+  uc_10 -[hidden]down- uc_11
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_0 -- uc_2
+act_0 -- uc_3
+act_0 -- uc_4
+act_0 -- uc_5
+act_0 -- uc_6
+act_0 -- uc_7
+act_0 -- uc_8
+act_0 -- uc_9
+act_0 -- uc_10
+act_0 -- uc_11
+
+@enduml

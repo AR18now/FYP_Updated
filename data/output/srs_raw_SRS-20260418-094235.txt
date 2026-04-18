@@ -1,0 +1,80 @@
+INTRODUCTION
+Purpose: To specify the software requirements for an application designed to assist farmers in managing agricultural activities through personalized advisories based on local conditions.
+Scope: This Software Requirements Specification (SRS) covers the functionalities required for the Agriculture App, including user registration, land profile management, advisory services, field officer tasks, administrative monitoring, and system support capabilities.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- GIS: Geographic Information System
+- IoT: Internet of Things
+References: IEEE Std 830-1998, ISO/IEC/IEEE 29148-2015
+Overview: The Agriculture App aims to provide tailored recommendations to farmers using real-time data such as weather forecasts, soil analysis, and historical farming practices.
+
+OVERALL DESCRIPTION
+Perspective: The perspective is from the end-users' point of view, focusing on how they will interact with the system to achieve their goals.
+Functions:
+- User Registration
+- Land Profile Management
+- Advisory Services
+- Field Officer Tasks
+- Administrative Monitoring
+Users:
+- Farmers
+- Field Officers
+- Administrators
+Constraints:
+- Data accuracy and timeliness are critical due to the dynamic nature of agricultural conditions.
+- Offline functionality must be robust to cater to rural areas with limited connectivity.
+Assumptions/Dependencies:
+- The app will leverage existing APIs for weather forecasting, soil testing, and other relevant services.
+- Users have basic digital literacy skills necessary to operate mobile devices.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Web-based portal for administrators
+- Mobile application interface for farmers and field officers
+Functional Requirements:
+FR-01
+- User Registration
+Input: Farmer/Field Officer/Administrator details
+Processing: Validate input against predefined criteria
+Output: Confirmation message or error notification
+Priority: High
+FR-02
+- Land Profile Management
+Input: Geographical coordinates, soil type, crop types, planting dates
+Processing: Store in database and generate visual representations
+Output: Interactive map displaying land profiles
+Priority: High
+FR-03
+- Advisory Services
+Input: Current weather forecast, soil test results, crop health status
+Processing: Analyze data and recommend actions
+Output: Irrigation schedule, fertilizer dosage, pest control measures
+Priority: High
+FR-04
+- Field Officer Tasks
+Input: Farmer identification, location, task description
+Processing: Log activity and send notifications
+Output: Task completion confirmation or reminder sent
+Priority: Medium
+FR-05
+- Administrative Monitoring
+Input: Advisory usage statistics, crop yield reports, support request statuses
+Processing: Aggregate data and display analytics
+Output: Dashboards showing key metrics
+Priority: Low
+Non-Functional Requirements:
+Usability:
+- Intuitive navigation and clear feedback messages
+Reliability:
+- Error handling and recovery mechanisms
+Performance:
+- Quick response times even when operating in low-connectivity environments
+Portability:
+- Cross-platform compatibility across different device types
+
+SYSTEM FEATURES
+- Multilingual support
+- Offline data collection and synchronization
+- Integration with external APIs for real-time data updates
+
+End of Document.

@@ -1,0 +1,113 @@
+INTRODUCTION
+Purpose: To document the requirements for a library system that supports readers' searches, borrows, and returns of books; librarians' catalog management and workflow operations; and administrators' management of memberships, policies, and analytics.
+Scope: This SRS covers the functionalities related to reader searches, book borrowing and returning, librarian tasks, and administrative functions. It does not cover security, scalability, maintainability, or availability aspects.
+Definitions/Acronyms:
+- Reader: Any individual who has access to the library system through a valid membership.
+- Librarian: Staff member responsible for managing the library’s collection and conducting transactions.
+- Administrator: System administrator tasked with managing overall system settings and monitoring usage statistics.
+References:
+- IEEE Standard for Software Requirements Specification, IEEE Std 830-1998
+- Project documentation and design guidelines
+Overview: This section outlines the key components and their interactions within the library system.
+
+OVERALL DESCRIPTION
+Product Perspective: The library system aims to provide a seamless experience for all stakeholders involved – readers, librarians, and administrators. It will facilitate efficient book management, transaction processing, and statistical analysis.
+Product Functions:
+- Reader functions: Search for books by various criteria, borrow both physical and digital copies based on membership status, renew loans, report lost/damaged items, check reservation statuses, and receive notifications about due dates and hold availability.
+- Librarian functions: Manage the library’s catalog, process issues and returns, handle fines, track reservations, manage renewals, and report damaged items along with replacement tracking.
+- Administrative functions: Manage memberships, set borrowing policies, analyze category-wise demand trends, and send automated reminders for due dates, expirations, and hold availability updates.
+User Characteristics:
+- Readers can have varying levels of familiarity with technology but generally expect ease of use and quick responses.
+- Librarians require detailed tools for inventory control and transaction handling.
+- Administrators need comprehensive oversight capabilities without needing extensive technical skills.
+Constraints:
+- The system must comply with local laws regarding privacy and data protection.
+- Performance optimizations are limited to improving response times during peak usage periods.
+- Usability improvements focus on reducing complexity for less tech-savvy users while maintaining robustness for power users.
+Assumptions/Dependencies:
+- Users will adhere to established borrowing and membership rules.
+- Data integrity and accuracy are maintained across all database entries.
+- Network connectivity is sufficient for real-time updates and communications between different parts of the system.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements:
+- User interface: Intuitive graphical interface accessible via web browser or mobile application.
+- Hardware: Compatible with standard desktop computers and tablets.
+- Software: Supports operating systems commonly used by libraries (Windows, macOS, Linux).
+- Communication: Secure HTTP(S) connections for data transmission.
+Functional Requirements:
+FR-01: Book Search
+- Input: Keywords (title, author, subject), filters (availability, format type).
+- Processing: Query the database, retrieve matching records, rank results based on relevance.
+- Output: List of books meeting the search criteria, including details such as title, author, subject, availability, and format.
+- Priority: High
+FR-02: Borrow Books
+- Input: Member ID, book IDs, preferred format (physical or digital).
+- Processing: Validate member eligibility, check book availability, update loan information in the database.
+- Output: Confirmation message indicating successful borrowing or reasons for failure.
+- Priority: Medium
+FR-03: Return Books
+- Input: Member ID, book IDs, return date.
+- Processing: Verify borrower identity, update loan record, calculate any applicable fees.
+- Output: Receipt confirming return and any associated charges.
+- Priority: Medium
+FR-04: Renew Loans
+- Input: Member ID, book ID.
+- Processing: Check if eligible for renewal, extend loan period if possible.
+- Output: Notification to borrower of renewed loan status.
+- Priority: Low
+FR-05: Report Lost/Damaged Items
+- Input: Member ID, book ID, reason for damage.
+- Processing: Record incident, initiate replacement process.
+- Output: Acknowledgment of receipt and estimated timeline for replacement.
+- Priority: Low
+FR-06: Reservation Management
+- Input: Member ID, book ID.
+- Processing: Add reservation to queue, notify when available.
+- Output: Confirmation of reservation and expected wait time.
+- Priority: Low
+FR-07: Fine Control
+- Input: Member ID, amount, reason.
+- Processing: Apply fine to account, generate payment notification.
+- Output: Receipt showing fine applied and payment options.
+- Priority: Medium
+FR-08: Catalog Management
+- Input: New book details, existing book edits, deletion requests.
+- Processing: Update database accordingly, ensure consistency checks.
+- Output: Updated catalog display reflecting changes.
+- Priority: High
+FR-09: Issue and Return Workflows
+- Input: Transactional data (issue date, return date, borrower info).
+- Processing: Process transactions, update loan history, generate reports.
+- Output: Summary of issued and returned items, financial summaries.
+- Priority: High
+FR-10: Overdue Fine Calculation
+- Input: Loan start date, current date, number of days late.
+- Processing: Calculate fine based on predefined rates.
+- Output: Fine amount displayed to borrower.
+- Priority: Medium
+FR-11: Membership Management
+- Input: New membership applications, updates, cancellations.
+- Processing: Validate information, update database, generate confirmation letters.
+- Output: Membership card or electronic confirmation.
+- Priority: High
+FR-12: Analytics Reporting
+- Input: Category-wise demand queries.
+- Processing: Aggregate data, produce visualizations.
+- Output: Reports highlighting popular genres, authors, and other metrics.
+- Priority: Medium
+Non-functional Requirements:
+Usability: The system shall be easy to navigate and understand, with minimal training needed for basic operations.
+Reliability: The system must operate correctly under normal conditions and recover gracefully from errors.
+Performance: Response times shall be fast enough to meet user expectations, especially during peak usage hours.
+Portability: The system shall run on multiple platforms without requiring significant modifications.
+
+SYSTEM FEATURES
+Feature 1: User-friendly interface for searching, borrowing, returning, and managing reservations.
+Feature 2: Comprehensive catalog management tools for librarians.
+Feature 3: Robust membership administration and policy setting.
+Feature 4: Real-time analytics dashboard for administrators.
+Feature 5: Automated reminder system for borrowers and staff.
+Feature 6: Detailed logging and audit trails for accountability.
+
+End of Document.

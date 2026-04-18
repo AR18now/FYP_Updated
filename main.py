@@ -2,8 +2,8 @@
 """
 Full SRS pipeline controller.
 
-Flow: input → clean → ambiguity → refine → RAG retrieve → generate SRS
-      → evaluate → textual use cases → use case diagram.
+Flow: input → clean → ambiguity → refine → generate SRS (model, no RAG)
+      → evaluate → use case appendix (model output) → use case diagram.
 """
 from __future__ import annotations
 
@@ -15,8 +15,7 @@ from typing import Any, Dict, List
 
 from evaluation.evaluation_engine import SRSEvaluationEngine
 from evaluation.manual_metrics_engine import ManualMetricsEngine
-from generation.srs_generator import RAGSRSGenerator
-from generation.textual_usecase_generator import TextualUseCaseGenerator
+from srs_model_generator import SRSModelGenerator
 from generation.usecase_diagram_generator import UseCaseDiagramGenerator
 from input_processing.ambiguity_detection import AmbiguityDetector
 from input_processing.requirement_refinement import RequirementRefiner
@@ -55,10 +54,7 @@ def _load_requirements(args: argparse.Namespace) -> List[Dict[str, Any]]:
 def run_pipeline(
     vague_requirements: str,
     project_info: Dict[str, str],
-    kb_path: str | None,
     project_root: Path,
-    rag_top_k: int,
-    vector_backend: str,
 ) -> Dict[str, Any]:
     """Execute all steps; returns aggregated result dict."""
     results: Dict[str, Any] = {}
@@ -98,38 +94,23 @@ def run_pipeline(
     print(json.dumps(refined, indent=2, ensure_ascii=False))
     results["step4_structured_requirements"] = refined
 
-    # Text passed to RAG/SRS: prefer ambiguity suggestion else cleaned
+    # Text passed to the model: prefer ambiguity suggestion else cleaned
     text_for_generation = str(ambiguity.get("suggestion") or cleaned).strip() or vague_requirements
     results["text_for_generation"] = text_for_generation
 
-    # --- Step 5: RAG — load KB and retrieve ---
-    _separator("STEP 5: Retrieve knowledge (RAG)")
-    rag = RAGSRSGenerator(vector_backend=vector_backend)
-    n_docs = 0
-    if kb_path:
-        n_docs = rag.load_knowledge_base(kb_path)
-        print(f"Loaded knowledge base from: {kb_path} ({n_docs} chunks)")
-    else:
-        n_docs = rag.load_default_knowledge_base(str(project_root))
-        print(f"Loaded default KB under project ({n_docs} chunks)")
-
-    retrieved = rag.retrieve_context(text_for_generation, top_k=rag_top_k)
-    if not retrieved:
-        print("(No retrieval results — empty KB or no matches.)")
-    for i, hit in enumerate(retrieved, 1):
-        doc = hit.get("document", {})
-        score = float(hit.get("score", 0.0))
-        snippet = str(doc.get("text", ""))[:400].replace("\n", " ")
-        if len(str(doc.get("text", ""))) > 400:
-            snippet += "..."
-        print(f"\n  [{i}] score={score:.4f} type={doc.get('source_type')} file={doc.get('source_file')}")
-        print(f"      {snippet}")
-    results["step5_retrieved_context"] = retrieved
+    # --- Step 5: Knowledge retrieval (disabled — use API SRS_GENERATION_MODE=rag for RAG) ---
+    _separator("STEP 5: Knowledge retrieval")
+    print(
+        "Skipped. This CLI uses direct model SRS generation only. "
+        "For retrieval-augmented generation, run the web API with SRS_GENERATION_MODE=rag in `.env`."
+    )
+    results["step5_retrieved_context"] = []
 
     # --- Step 6: Generate SRS ---
-    _separator("STEP 6: Generate SRS (with RAG context)")
+    _separator("STEP 6: Generate SRS (Replicate model, no RAG)")
     generation_input = [{"original_text": text_for_generation}]
-    srs = rag.generate(generation_input, project_info=project_info, top_k=rag_top_k)
+    model_gen = SRSModelGenerator()
+    srs = model_gen.generate_srs(generation_input, project_info=project_info)
     sections = srs.sections
     raw_text = getattr(srs, "raw_text", None) or sections.get("_raw_text", "") or ""
     print(f"Document ID: {srs.document_id}")
@@ -176,57 +157,67 @@ def run_pipeline(
         "manual_metrics": metrics_manual,
     }
 
-    # --- Step 8: Textual use cases ---
-    _separator("STEP 8: Generate textual use cases (Cockburn format)")
-    textual_uc_gen = TextualUseCaseGenerator()
-    textual_payload = textual_uc_gen.generate_and_save(
-        sections,
-        output_path=str(project_root / "outputs" / "textual_usecases.txt"),
-    )
-    textual_uc = textual_payload["text"]
-    print(textual_uc)
-    print(f"\nSaved file: {textual_payload['output_file']}")
-    results["step8_textual_use_cases"] = textual_uc
-    results["step8_usecase_file"] = textual_payload["output_file"]
-    results["step8_structured_usecases"] = textual_payload["use_cases"]
+    # --- Step 8: Textual use cases (same Replicate completion as SRS — model appendix only) ---
+    _separator("STEP 8: Textual use cases (from SRS model output)")
+    bundle = getattr(srs, "textual_usecases_bundle", None) or {}
+    uc_text = str(bundle.get("text") or "").strip()
+    uc_source = str(bundle.get("source") or "").strip()
+    out_uc = project_root / "outputs" / "textual_usecases.txt"
+    results["step8_textual_use_cases"] = ""
+    results["step8_usecase_file"] = ""
+    results["step8_structured_usecases"] = []
+    if uc_text and uc_source == "model_prompt_appendix":
+        out_uc.parent.mkdir(parents=True, exist_ok=True)
+        out_uc.write_text(uc_text, encoding="utf-8")
+        print(uc_text)
+        print(f"\nSaved file: {out_uc}")
+        results["step8_textual_use_cases"] = uc_text
+        results["step8_usecase_file"] = str(out_uc)
+    else:
+        print(
+            "(No textual use case appendix from the model. Regenerate SRS or check delimiter output "
+            "for <<<TEXTUAL_USE_CASES_APPENDIX>>> … <<<END_TEXTUAL_USE_CASES_APPENDIX>>>.)"
+        )
 
     # --- Step 9: Use case diagram ---
     _separator("STEP 9: Generate use case diagram (PlantUML)")
     diagram_gen = UseCaseDiagramGenerator()
-    diagram_result = diagram_gen.generate_and_render(
-        textual_uc,
-        system_name=project_info.get("title", "System")[:40] or "System",
-        output_dir=str(project_root / "data" / "output"),
-        output_name=f"usecase_{srs.document_id.replace('-', '_')}",
-    )
-    print("PlantUML code:\n")
-    print(diagram_result.get("plantuml_code", ""))
-    print(f"\nStatus: {diagram_result.get('status')}")
-    print(f"PUML file: {diagram_result.get('puml_file')}")
-    if diagram_result.get("diagram_file"):
-        print(f"PNG file: {diagram_result.get('diagram_file')}")
-    if diagram_result.get("message"):
-        print(f"Note: {diagram_result.get('message')}")
-    results["step9_diagram"] = {
-        k: v for k, v in diagram_result.items() if k != "plantuml_code"
-    }
-    results["step9_plantuml_code"] = diagram_result.get("plantuml_code", "")
+    if uc_text and uc_source == "model_prompt_appendix":
+        diagram_result = diagram_gen.generate_and_render(
+            uc_text,
+            system_name=project_info.get("title", "System")[:40] or "System",
+            output_dir=str(project_root / "data" / "output"),
+            output_name=f"usecase_{srs.document_id.replace('-', '_')}",
+        )
+        print("PlantUML code:\n")
+        print(diagram_result.get("plantuml_code", ""))
+        print(f"\nStatus: {diagram_result.get('status')}")
+        print(f"PUML file: {diagram_result.get('puml_file')}")
+        if diagram_result.get("diagram_file"):
+            print(f"PNG file: {diagram_result.get('diagram_file')}")
+        if diagram_result.get("message"):
+            print(f"Note: {diagram_result.get('message')}")
+        results["step9_diagram"] = {
+            k: v for k, v in diagram_result.items() if k != "plantuml_code"
+        }
+        results["step9_plantuml_code"] = diagram_result.get("plantuml_code", "")
+    else:
+        print("(Skipped: no model textual use case text.)")
+        results["step9_diagram"] = {}
+        results["step9_plantuml_code"] = ""
 
     return results
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Full pipeline: clean → ambiguity → refine → RAG → SRS → evaluate → use cases → diagram"
+        description="Full pipeline: clean → ambiguity → refine → model SRS → evaluate → use cases → diagram (no RAG)"
     )
     parser.add_argument("--input_file", help="JSON file with requirements list or results")
     parser.add_argument("--input_text", help="Single vague requirements string")
-    parser.add_argument("--kb_path", help="Knowledge base root (folder) for RAG")
     parser.add_argument("--project_title", default="Software Requirements Specification")
     parser.add_argument("--project_author", default="Module 1 Pipeline")
     parser.add_argument("--project_version", default="1.0")
-    parser.add_argument("--rag_top_k", type=int, default=6)
-    parser.add_argument("--vector_backend", default="faiss", choices=["faiss", "chroma"])
     parser.add_argument("--dump_json", help="Optional path to save full pipeline JSON result")
     args = parser.parse_args()
 
@@ -258,10 +249,7 @@ def main() -> None:
         full_result = run_pipeline(
             vague_requirements=merged_vague,
             project_info=project_info,
-            kb_path=args.kb_path,
             project_root=project_root,
-            rag_top_k=args.rag_top_k,
-            vector_backend=args.vector_backend,
         )
     except Exception as exc:
         _separator("PIPELINE ERROR")

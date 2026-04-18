@@ -135,31 +135,22 @@ const splitFeatureDashes = (clean) => {
 };
 
 /**
- * @param {string} rawText
- * @param {{ assignIds?: boolean }} options — paragraph ids for "jump to check" in SRS viewer
+ * Canonical SRS body for UI: layout cleanup, trim to INTRODUCTION … End of Document.
  */
-export const formatSrsToHtml = (rawText = '', options = {}) => {
-  const assignIds = options.assignIds === true;
-  // Normalize the raw text into a more document-like body (the model often emits --- separators).
+export const normalizeSrsDocumentBody = (rawText = '') => {
   let normalized = polishClosingText(normalizeSrsLayout(String(rawText || '')));
-  // Drop common "title/author/date" header blocks so our UI header is the canonical one.
   normalized = normalized.replace(
     /^\s*(?:Software Requirements Specification\s*\(SRS\)[^\n]*\n+)?(?:Author\s*:[^\n]*\n+)?(?:Date\s*:[^\n]*\n+)?\s*/i,
     ''
   );
-  // Some models start with "---" then title/author in one line.
   normalized = normalized.replace(/^\s*-{3,}\s*\n+/, '');
   normalized = normalized.trim();
 
-  // Drop prompt-instruction lines (e.g. "End with: 'End of Document.'") — they are not body text.
-  // If left in place, the "End of Document." truncation below would cut the document too early.
   normalized = normalized
     .split('\n')
-    .filter((line) => !( /End\s+with\s*:/i.test(line) && /End\s+of\s+Document/i.test(line)))
+    .filter((line) => !(/End\s+with\s*:/i.test(line) && /End\s+of\s+Document/i.test(line)))
     .join('\n');
 
-  // Keep only one canonical SRS document body in UI:
-  // start at first INTRODUCTION and stop at the *last* End of Document. (closing line; avoids early false matches).
   const firstIntroIdx = normalized.search(/(^|\n)\s*INTRODUCTION\s*(\n|$)/i);
   if (firstIntroIdx >= 0) {
     normalized = normalized.slice(firstIntroIdx).trim();
@@ -173,8 +164,69 @@ export const formatSrsToHtml = (rawText = '', options = {}) => {
   if (endCut >= 0) {
     normalized = normalized.slice(0, endCut).trim();
   }
+  return normalized;
+};
 
-  const text = normalized;
+const SECTION_LABELS = {
+  INTRODUCTION: 'Introduction',
+  'OVERALL DESCRIPTION': 'Overall description',
+  'SPECIFIC REQUIREMENTS': 'Specific requirements',
+  'SYSTEM FEATURES': 'System features',
+};
+
+const MAJOR_SECTION_LINE =
+  /^(?:\d+\.\s*)?(INTRODUCTION|OVERALL DESCRIPTION|SPECIFIC REQUIREMENTS|SYSTEM FEATURES)\s*$/i;
+
+/**
+ * Split SRS into top-level IEEE sections for card navigation. Falls back to one block if headings missing.
+ * @returns {{ sections: Array<{ id: string, title: string, html: string }>, fullHtml: string }}
+ */
+export const buildSrsMajorSectionCards = (rawText = '') => {
+  const fullHtml = formatSrsToHtml(rawText, { assignIds: true });
+  const normalized = normalizeSrsDocumentBody(rawText);
+  if (!normalized.trim()) {
+    return { sections: [], fullHtml };
+  }
+  const lines = normalized.split('\n');
+  const hits = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const t = lines[i].trim();
+    const m = t.match(MAJOR_SECTION_LINE);
+    if (m) {
+      const key = m[1].toUpperCase();
+      hits.push({
+        line: i,
+        id: key.toLowerCase().replace(/\s+/g, '-'),
+        title: SECTION_LABELS[key] || m[1].replace(/\b\w/g, (c) => c.toUpperCase()),
+      });
+    }
+  }
+  if (hits.length === 0) {
+    return {
+      sections: [{ id: 'full', title: 'Document', html: fullHtml }],
+      fullHtml,
+    };
+  }
+  const sections = hits.map((h, idx) => {
+    const start = h.line;
+    const end = idx + 1 < hits.length ? hits[idx + 1].line : lines.length;
+    const chunk = lines.slice(start, end).join('\n');
+    return {
+      id: h.id,
+      title: h.title,
+      html: formatSrsToHtml(chunk, { assignIds: true }),
+    };
+  });
+  return { sections, fullHtml };
+};
+
+/**
+ * @param {string} rawText
+ * @param {{ assignIds?: boolean }} options — paragraph ids for "jump to check" in SRS viewer
+ */
+export const formatSrsToHtml = (rawText = '', options = {}) => {
+  const assignIds = options.assignIds === true;
+  const text = normalizeSrsDocumentBody(rawText);
   const lines = text.split('\n');
   const out = [];
   let pIndex = 0;
@@ -307,45 +359,95 @@ export const formatTextualUseCasesToHtml = (text = '') => {
 
   const renderBlock = (block, idx) => {
     let caseName = `Use Case ${idx + 1}`;
-    const fields = [];
-    const bullets = [];
-    const free = [];
+    /** @type {{type:'kv',key:string,value:string}|{type:'ul',items:string[]}|{type:'ol',items:string[]}|{type:'para',text:string}}[]} */
+    const segments = [];
+
+    const pushPara = (text) => {
+      const t = String(text || '').trim();
+      if (!t) return;
+      segments.push({ type: 'para', text: t });
+    };
 
     for (const line of block) {
-      const kv = line.match(/^([^:]{2,60})\s*:\s*(.+)$/);
+      const raw = String(line || '').trim();
+      if (!raw) continue;
+
+      // Numbered steps (Cockburn main success / extensions) — not "Key: value" lines
+      if (/^\d+\.\s+\S/.test(raw)) {
+        const stepText = raw.replace(/^\d+\.\s+/, '').trim();
+        const prev = segments[segments.length - 1];
+        if (prev && prev.type === 'ol') {
+          prev.items.push(stepText);
+        } else {
+          segments.push({ type: 'ol', items: [stepText] });
+        }
+        continue;
+      }
+
+      if (/^[-*]\s+/.test(raw)) {
+        const item = raw.replace(/^[-*]\s+/, '').trim();
+        const prev = segments[segments.length - 1];
+        if (prev && prev.type === 'ul') {
+          prev.items.push(item);
+        } else {
+          segments.push({ type: 'ul', items: [item] });
+        }
+        continue;
+      }
+
+      // Label: value OR section heading with nothing on the same line (.* allows empty)
+      const kv = raw.match(/^([^:]+?)\s*:\s*(.*)$/);
       if (kv) {
         const key = kv[1].trim();
         const value = kv[2].trim();
-        if (/^use case name$/i.test(key)) caseName = value || caseName;
-        fields.push({ key, value });
+        if (key.length < 2) {
+          pushPara(raw);
+          continue;
+        }
+        if (/^use case name$/i.test(key)) {
+          caseName = value || caseName;
+          continue;
+        }
+        segments.push({ type: 'kv', key, value });
         continue;
       }
-      if (/^[-*]\s+/.test(line)) {
-        bullets.push(line.replace(/^[-*]\s+/, '').trim());
-      } else {
-        free.push(line);
-      }
+
+      pushPara(raw);
     }
 
-    const fieldsHtml = fields
-      .filter((f) => !/^use case name$/i.test(f.key))
-      .map(
-        (f) =>
-          `<p class="tuc-row"><span class="tuc-key">${escapeHtml(f.key)}:</span> <span class="tuc-value">${escapeHtml(f.value)}</span></p>`
-      )
-      .join('');
+    const knownSectionLine = (t) =>
+      /^(Main Success Scenario|Extensions|Alternate Flows?|Special Requirements?|Preconditions|Postconditions|Scope|Stakeholders|Primary Actor)\b/i.test(
+        t
+      );
 
-    const bulletsHtml = bullets.length
-      ? `<ul class="tuc-list">${bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join('')}</ul>`
-      : '';
-    const freeHtml = free.map((f) => `<p class="tuc-para">${escapeHtml(f)}</p>`).join('');
+    const segmentsHtml = segments
+      .map((seg) => {
+        if (seg.type === 'kv') {
+          const hasVal = Boolean(seg.value && seg.value.trim());
+          const sectionClass = !hasVal ? ' tuc-row--section' : '';
+          const valHtml = hasVal
+            ? ` <span class="tuc-value">${escapeHtml(seg.value)}</span>`
+            : '';
+          return `<p class="tuc-row${sectionClass}"><span class="tuc-key">${escapeHtml(seg.key)}:</span>${valHtml}</p>`;
+        }
+        if (seg.type === 'ul') {
+          return `<ul class="tuc-list">${seg.items.map((b) => `<li>${escapeHtml(b)}</li>`).join('')}</ul>`;
+        }
+        if (seg.type === 'ol') {
+          return `<ol class="tuc-ol">${seg.items.map((b) => `<li>${escapeHtml(b)}</li>`).join('')}</ol>`;
+        }
+        const t = seg.text;
+        if (knownSectionLine(t) && !t.includes(':')) {
+          return `<p class="tuc-row tuc-row--section"><span class="tuc-key">${escapeHtml(t)}</span></p>`;
+        }
+        return `<p class="tuc-para">${escapeHtml(t)}</p>`;
+      })
+      .join('');
 
     return `
 <section class="tuc-card">
   <h3 class="tuc-title">${escapeHtml(caseName)}</h3>
-  ${fieldsHtml}
-  ${bulletsHtml}
-  ${freeHtml}
+  ${segmentsHtml}
 </section>`;
   };
 

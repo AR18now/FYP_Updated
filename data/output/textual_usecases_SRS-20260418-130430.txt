@@ -1,0 +1,111 @@
+Use Case: FR-01 - Receive New Stock
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Supplier has delivered goods, purchase order exists
+Main Success Scenario:
+1. Enter supplier information, product details, and quantity
+2. Verify against purchase order
+3. Update inventory records
+4. Log transaction
+Extensions: None
+Postcondition: Inventory database updated, confirmation message displayed
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Scan Barcodes
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Item has barcode, item is in inventory
+Main Success Scenario:
+1. Scan item barcode
+2. Match barcode to inventory record
+3. Update status
+4. Display confirmation message
+Extensions: None
+Postcondition: Item status updated, confirmation message displayed
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Move Items Between Bins
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Source and destination bins exist, item is in source bin
+Main Success Scenario:
+1. Enter source bin ID, destination bin ID, and item barcode
+2. Update source and destination bin records
+3. Log movement
+4. Display confirmation message
+Extensions: None
+Postcondition: Bin records updated, confirmation message displayed
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Generate Pick Lists Based on Dispatch Requests
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Customer order details and requested items known
+Main Success Scenario:
+1. Enter customer order details and requested items
+2. Select appropriate items from inventory
+3. Prepare pick list
+4. Display pick list document and update inventory records
+Extensions: None
+Postcondition: Pick list prepared, inventory records updated
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Provide Dashboard Views for Supervisors
+Primary Actor: Supervisors
+Stakeholders: Supervisors, Warehouse Staff, Procurement Personnel
+Preconditions: Supervisor logs in successfully
+Main Success Scenario:
+1. Log in using supervisor credentials
+2. View current stock levels, aging reports, reorder thresholds, and damaged goods count
+3. Navigate through different sections of the dashboard
+Extensions: None
+Postcondition: Supervisor has access to real-time dashboard view
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Support Batch and Serial Number Tracking
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Batch or serial number identifier known
+Main Success Scenario:
+1. Enter batch or serial number identifier
+2. Track movements and statuses throughout lifecycle
+3. Generate detailed tracking report
+Extensions: None
+Postcondition: Detailed tracking report generated
+Trace to FR Id: FR-06
+
+Use Case: FR-07 - Issue Low Stock Alerts
+Primary Actor: System
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Minimum stock level threshold set
+Main Success Scenario:
+1. Monitor inventory levels
+2. Trigger alert when minimum stock level threshold is reached
+3. Notify relevant parties via alert notification
+Extensions: None
+Postcondition: Low stock alert issued
+Trace to FR Id: FR-07
+
+Use Case: FR-08 - Log All Changes With User Identity and Reason Codes
+Primary Actor: System
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Change type and user action known
+Main Success Scenario:
+1. Record change history including timestamp, user name, and reason code
+2. Maintain audit trail
+Extensions: None
+Postcondition: Audit trail maintained
+Trace to FR Id: FR-08
+
+Use Case: FR-09 - Reconcile Cycle Counts
+Primary Actor: Warehouse Staff
+Stakeholders: Warehouse Staff, Procurement Personnel
+Preconditions: Physical inventory count results available
+Main Success Scenario:
+1. Enter physical inventory count results
+2. Compare physical count with recorded inventory
+3. Identify discrepancies
+4. Generate discrepancy report
+Extensions: None
+Postcondition: Discrepancy report generated
+Trace to FR Id: FR-09

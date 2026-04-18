@@ -1,0 +1,71 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+top to bottom direction
+
+title UML 2.x Use Case Diagram (vertical)\n<size:12><i>warehouse inventory</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject boundary) ---
+actor "Warehouse Staff" as act_0
+
+' --- Subject (system boundary) & use cases ---
+rectangle "warehouse inventory" {
+  usecase "FR-01 - Receive New Stock" as uc_0
+  usecase "FR-02 - Scan Barcodes" as uc_1
+  usecase "FR-03 - Move Items Between Bins" as uc_2
+  usecase "FR-04 - Generate Pick Lists Based on Dispatch Requests" as uc_3
+  usecase "FR-05 - Provide Dashboard Views for Supervisors" as uc_4
+  usecase "FR-06 - Support Batch and Serial Number Tracking" as uc_5
+  usecase "FR-07 - Issue Low Stock Alerts" as uc_6
+  usecase "FR-08 - Log All Changes With User Identity and Reason Codes" as uc_7
+  usecase "FR-09 - Reconcile Cycle Counts" as uc_8
+  ' use case ordering hint (vertical)
+  uc_0 -[hidden]down- uc_1
+  uc_1 -[hidden]down- uc_2
+  uc_2 -[hidden]down- uc_3
+  uc_3 -[hidden]down- uc_4
+  uc_4 -[hidden]down- uc_5
+  uc_5 -[hidden]down- uc_6
+  uc_6 -[hidden]down- uc_7
+  uc_7 -[hidden]down- uc_8
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_0 -- uc_2
+act_0 -- uc_3
+act_0 -- uc_4
+act_0 -- uc_5
+act_0 -- uc_6
+act_0 -- uc_7
+act_0 -- uc_8
+
+@enduml

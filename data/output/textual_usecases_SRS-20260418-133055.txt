@@ -1,0 +1,39 @@
+Use Case: FR-01 - Login Functionality
+Primary Actor: User
+Stakeholders: Warehouse Manager, Clerk, Administrator
+Preconditions: User has valid login credentials.
+Main Success Scenario:
+1. User enters username and password.
+2. System checks credentials against database.
+3. If correct, user gains access to the system.
+Extensions:
+- If incorrect credentials are entered, user receives error message and is prompted to try again.
+Postcondition: User is either authenticated or denied access.
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Item Tracking
+Primary Actor: User
+Stakeholders: Warehouse Manager, Clerk, Administrator
+Preconditions: User has logged in successfully.
+Main Success Scenario:
+1. User selects search criteria.
+2. System retrieves and displays list of matching items.
+3. User reviews results.
+Extensions:
+- If no matches found, system provides feedback to user.
+Postcondition: User views detailed information about matched items.
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Stock Level Management
+Primary Actor: User
+Stakeholders: Warehouse Manager, Clerk, Administrator
+Preconditions: User has logged in successfully and sufficient permissions.
+Main Success Scenario:
+1. User inputs item ID and new quantity.
+2. System updates stock level.
+3. System triggers alert if threshold crossed.
+4. User receives confirmation message.
+Extensions:
+- If update fails due to invalid input, system prompts user to correct entry.
+Postcondition: Stock level updated and alerts triggered appropriately.
+Trace to FR Id: FR-03

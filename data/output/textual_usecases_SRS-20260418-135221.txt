@@ -1,0 +1,65 @@
+Use Case: FR-01 - User Registration & Login
+Primary Actor: Farmer, Field Officer, Administrator
+Stakeholders: All registered users of the system
+Preconditions: None specified
+Main Success Scenario:
+1. Enter username, password, email address, contact number, select role
+2. Submit form
+3. System validates credentials and creates profile
+Postcondition: User receives successful login message or error notification
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Land Profile Management
+Primary Actor: Farmer, Field Officer
+Stakeholders: All registered users interested in land management
+Preconditions: User has logged in and selected appropriate permissions
+Main Success Scenario:
+1. Provide location coordinates, land size, soil type, crop types, historical yield data
+2. System stores data and generates geospatial map
+3. User reviews displayed map with land parcel attributes
+Postcondition: Map shows land parcels with relevant attributes
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Crop Cycle Tracking
+Primary Actor: Farmer, Field Officer
+Stakeholders: All registered users involved in crop management
+Preconditions: User has logged in and selected appropriate permissions
+Main Success Scenario:
+1. Enter start date, expected harvest date, update current status
+2. System calculates growth stages, predicts maturity dates, generates progress reports
+3. User views graphical representation of crop lifecycle phases
+Postcondition: Graph displays crop lifecycle phases
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Advisory Generation & Notification
+Primary Actor: System, Expert Advisor
+Stakeholders: Farmers, Field Officers, Administrators
+Preconditions: Relevant data available in system
+Main Success Scenario:
+1. System analyzes weather forecast, soil conditions, crop health indicators
+2. Identifies potential issues, formulates recommendations
+3. Advisories sent via SMS/email to users
+Postcondition: Users receive timely advisories
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Log Keeping & Follow-Up Reminders
+Primary Actor: Field Officer
+Stakeholders: Farmers, Administrators
+Preconditions: User has logged in and selected appropriate permissions
+Main Success Scenario:
+1. Record visit date, add notes, list action items, set next follow-up due date
+2. System records visit and generates reminder notifications for future dates
+3. User receives summary report of recent activities and pending tasks
+Postcondition: Report summarizes recent activities and pending tasks
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Monitoring & Reporting
+Primary Actor: Administrator
+Stakeholders: All registered users requiring oversight and analytics
+Preconditions: User has logged in and selected appropriate permissions
+Main Success Scenario:
+1. Query historical data, current metrics, generate custom reports
+2. System aggregates data points, performs trend analysis, prepares visual reports
+3. User views dashboards displaying KPIs and insights
+Postcondition: Dashboards show key performance indicators and insights
+Trace to FR Id: FR-06

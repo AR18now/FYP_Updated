@@ -59,6 +59,49 @@ const polishClosingText = (s) => {
 };
 
 /**
+ * Remove IEEE-style References blocks from plain-text SRS (aligned with backend strip_srs_references_section).
+ */
+const stripSrsReferencesSection = (value = '') => {
+  const lines = String(value || '').split('\n');
+  const out = [];
+  let skipUntilBreak = false;
+
+  const isSectionBreak = (stripped) => {
+    if (!stripped) return false;
+    if (/^(INTRODUCTION|OVERALL DESCRIPTION|SPECIFIC REQUIREMENTS|SYSTEM FEATURES)\b/i.test(stripped))
+      return true;
+    if (/^\d+(?:\.\d+)*\s+(?!References\b)[A-Z]/.test(stripped)) return true;
+    if (
+      /^(Purpose|Scope|Definitions\/Acronyms|Definitions|Acronyms|Overview|Product Perspective|Product Functions|User Characteristics|Constraints|Assumptions\/Dependencies|External Interface Requirements|Functional Requirements|Non-functional Requirements|System Features)\s*:/i.test(
+        stripped
+      )
+    )
+      return true;
+    if (/^\d+\.\d+\s*:\s*(?!References\b)/i.test(stripped)) return true;
+    return false;
+  };
+
+  for (const line of lines) {
+    const stripped = line.trim();
+    if (skipUntilBreak) {
+      if (isSectionBreak(stripped)) {
+        skipUntilBreak = false;
+        out.push(line);
+      }
+      continue;
+    }
+    if (/^\d+(?:\.\d+)*(?:\s*:\s*|\.\s+|\s+)References\b/i.test(stripped)) continue;
+    if (/^References\s*:/i.test(stripped)) {
+      const rest = stripped.replace(/^References\s*:\s*/i, '').trim();
+      if (!rest) skipUntilBreak = true;
+      continue;
+    }
+    out.push(line);
+  }
+  return out.join('\n').trim();
+};
+
+/**
  * Normalize model raw text layout by injecting newlines before known section labels
  * and numbered headings when the model emits them in a single long line.
  */
@@ -78,7 +121,6 @@ const normalizeSrsLayout = (value = '') => {
     'Purpose:',
     'Scope:',
     'Definitions/Acronyms:',
-    'References:',
     'Overview:',
     'Product Perspective:',
     'Product Functions:',
@@ -134,19 +176,38 @@ const splitFeatureDashes = (clean) => {
   return parts;
 };
 
+const TEXTUAL_UC_APPENDIX_START = '<<<TEXTUAL_USE_CASES_APPENDIX>>>';
+const TEXTUAL_UC_APPENDIX_END = '<<<END_TEXTUAL_USE_CASES_APPENDIX>>>';
+
 /**
  * Canonical SRS body for UI: layout cleanup, trim to INTRODUCTION … End of Document.
+ * Preserves the model textual-use-case appendix after "End of Document." when delimiters are present.
  */
 export const normalizeSrsDocumentBody = (rawText = '') => {
-  let normalized = polishClosingText(normalizeSrsLayout(String(rawText || '')));
-  normalized = normalized.replace(
+  let work = polishClosingText(
+    normalizeSrsLayout(stripSrsReferencesSection(String(rawText || '')))
+  );
+  work = work.replace(
     /^\s*(?:Software Requirements Specification\s*\(SRS\)[^\n]*\n+)?(?:Author\s*:[^\n]*\n+)?(?:Date\s*:[^\n]*\n+)?\s*/i,
     ''
   );
-  normalized = normalized.replace(/^\s*-{3,}\s*\n+/, '');
-  normalized = normalized.trim();
+  work = work.replace(/^\s*-{3,}\s*\n+/, '');
+  work = work.trim();
 
-  normalized = normalized
+  let appendix = '';
+  const apx0 = work.indexOf(TEXTUAL_UC_APPENDIX_START);
+  if (apx0 >= 0) {
+    const apx1 = work.indexOf(TEXTUAL_UC_APPENDIX_END, apx0 + TEXTUAL_UC_APPENDIX_START.length);
+    if (apx1 >= 0) {
+      appendix = work.slice(apx0, apx1 + TEXTUAL_UC_APPENDIX_END.length).trim();
+      work = `${work.slice(0, apx0).trimEnd()}\n${work.slice(apx1 + TEXTUAL_UC_APPENDIX_END.length).trimStart()}`.trim();
+    } else {
+      appendix = work.slice(apx0).trim();
+      work = work.slice(0, apx0).trimEnd();
+    }
+  }
+
+  let normalized = work
     .split('\n')
     .filter((line) => !(/End\s+with\s*:/i.test(line) && /End\s+of\s+Document/i.test(line)))
     .join('\n');
@@ -163,6 +224,9 @@ export const normalizeSrsDocumentBody = (rawText = '') => {
   }
   if (endCut >= 0) {
     normalized = normalized.slice(0, endCut).trim();
+  }
+  if (appendix) {
+    normalized = `${normalized.trimEnd()}\n\n${appendix}`;
   }
   return normalized;
 };

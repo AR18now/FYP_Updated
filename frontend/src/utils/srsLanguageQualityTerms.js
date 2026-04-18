@@ -24,25 +24,25 @@ export const ARM_TERMS = {
   incomplete: ['tbd', 'tbs', 'tbe', 'tbc', 'tbr', 'not defined', 'not determined', 'but not limited to', 'as a minimum', '######'],
 };
 
-export const HIGHLIGHTABLE_ARM_KEYS = new Set([
-  'imperative_quality',
-  'imperative_count',
-  'continuance_quality',
-  'continuance_count',
-  'directive_quality',
-  'directive_count',
-  'option_quality',
-  'option_count',
-  'weak_phrase_quality',
-  'weak_phrase_count',
-  'incomplete_quality',
-  'incomplete_count',
+/** ARM score rows (0–1) that open the term-highlight preview on the metrics page. */
+export const HIGHLIGHTABLE_ARM_SCORE_KEYS = new Set([
+  'imperative',
+  'continuance',
+  'directive',
+  'option',
+  'weak_phrase',
+  'incomplete',
 ]);
 
-/** ARM *_quality rows only — metrics table uses these for in-page SRS highlighting (not *_count). */
-export const HIGHLIGHTABLE_ARM_QUALITY_KEYS = new Set(
-  [...HIGHLIGHTABLE_ARM_KEYS].filter((k) => k.endsWith('_quality'))
-);
+export const HIGHLIGHTABLE_ARM_KEYS = new Set([
+  ...HIGHLIGHTABLE_ARM_SCORE_KEYS,
+  'imperative_count',
+  'continuance_count',
+  'directive_count',
+  'option_count',
+  'weak_phrase_count',
+  'incomplete_count',
+]);
 
 export const HIGHLIGHTABLE_HALLUCINATION_KEYS = new Set([
   'ai_hallucination_quality',
@@ -53,17 +53,17 @@ export const HIGHLIGHTABLE_HALLUCINATION_KEYS = new Set([
 ]);
 
 export const ARM_METRIC_TO_GROUP = {
-  imperative_quality: 'imperative',
+  imperative: 'imperative',
   imperative_count: 'imperative',
-  continuance_quality: 'continuance',
+  continuance: 'continuance',
   continuance_count: 'continuance',
-  directive_quality: 'directive',
+  directive: 'directive',
   directive_count: 'directive',
-  option_quality: 'option',
+  option: 'option',
   option_count: 'option',
-  weak_phrase_quality: 'weakPhrase',
+  weak_phrase: 'weakPhrase',
   weak_phrase_count: 'weakPhrase',
-  incomplete_quality: 'incomplete',
+  incomplete: 'incomplete',
   incomplete_count: 'incomplete',
 };
 

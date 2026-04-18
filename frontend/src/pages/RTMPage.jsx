@@ -61,6 +61,29 @@ const RTMPage = ({ srsData, useCaseData }) => {
   const summary = useMemo(() => report?.summary || {}, [report]);
   const rows = useMemo(() => report?.rows || [], [report]);
 
+  const frRows = useMemo(() => {
+    return rows.filter((r) => {
+      const typ = String(r?.type || '').toUpperCase();
+      const rid = String(r?.req_id || '').toUpperCase();
+      return typ === 'FR' || /^FR-\d+$/.test(rid);
+    });
+  }, [rows]);
+
+  const frSummary = useMemo(() => {
+    const total = frRows.length;
+    if (!total) {
+      return { coverage_ratio: 0, consistency_ratio: 0, covered_requirements: 0, total_requirements: 0 };
+    }
+    const covered = frRows.filter((r) => String(r?.coverage_status || '').toLowerCase() === 'covered').length;
+    const good = frRows.filter((r) => String(r?.consistency_status || '').toLowerCase() === 'good').length;
+    return {
+      coverage_ratio: covered / total,
+      consistency_ratio: good / total,
+      covered_requirements: covered,
+      total_requirements: total,
+    };
+  }, [frRows]);
+
   return (
     <div className="space-y-6 animate-fade-in">
       <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-4 sm:p-6">
@@ -68,7 +91,7 @@ const RTMPage = ({ srsData, useCaseData }) => {
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-r2d-primary dark:text-slate-100">Requirements Traceability Matrix</h1>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-              Cross-checks FR/NFR coverage across SRS, textual use cases, and use case diagram.
+              Cross-checks functional requirements (FR) across SRS, textual use cases, and use case diagram.
             </p>
           </div>
           <button
@@ -93,19 +116,21 @@ const RTMPage = ({ srsData, useCaseData }) => {
         <>
           <section className="grid md:grid-cols-2 gap-4">
             <div className="rounded-xl border border-r2d-border bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
-              <p className="text-xs uppercase text-slate-500">Coverage</p>
-              <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(summary.coverage_ratio)}</p>
-              <p className="text-xs text-slate-500 mt-1">{summary.covered_requirements}/{summary.total_requirements} requirements linked</p>
+              <p className="text-xs uppercase text-slate-500">Coverage (FR only)</p>
+              <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(frSummary.coverage_ratio)}</p>
+              <p className="text-xs text-slate-500 mt-1">
+                {frSummary.covered_requirements}/{frSummary.total_requirements} functional requirements linked
+              </p>
             </div>
             <div className="rounded-xl border border-r2d-border bg-white dark:bg-slate-900 dark:border-slate-700 p-4">
-              <p className="text-xs uppercase text-slate-500">Consistency</p>
-              <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(summary.consistency_ratio)}</p>
-              <p className="text-xs text-slate-500 mt-1">Textual and diagram links agree</p>
+              <p className="text-xs uppercase text-slate-500">Consistency (FR only)</p>
+              <p className="text-2xl font-bold text-r2d-primary dark:text-slate-100 mt-1">{pct(frSummary.consistency_ratio)}</p>
+              <p className="text-xs text-slate-500 mt-1">Textual and diagram links agree for listed FRs</p>
             </div>
           </section>
 
           <section className="rounded-2xl border border-r2d-border bg-r2d-surfaceElevated shadow-card dark:bg-slate-900/85 dark:border-slate-700 p-3 sm:p-4">
-            <h2 className="text-lg font-semibold text-r2d-primary dark:text-slate-100 mb-3">RTM Table</h2>
+            <h2 className="text-lg font-semibold text-r2d-primary dark:text-slate-100 mb-3">RTM Table — functional requirements</h2>
             <div className="overflow-auto">
               <table className="min-w-[860px] md:min-w-full text-sm">
                 <thead>
@@ -120,8 +145,8 @@ const RTMPage = ({ srsData, useCaseData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((r) => (
-                    <tr key={r.req_id} className="align-top border-b border-slate-100 dark:border-slate-800">
+                  {frRows.map((r, idx) => (
+                    <tr key={`${r.req_id}-${idx}`} className="align-top border-b border-slate-100 dark:border-slate-800">
                       <td className="py-2 pr-3 font-mono text-xs">{r.req_id}</td>
                       <td className="py-2 pr-3">{r.type}</td>
                       <td className="py-2 pr-3 max-w-[340px]">

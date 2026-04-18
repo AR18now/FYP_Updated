@@ -1,0 +1,76 @@
+INTRODUCTION
+Purpose: To specify the software requirements for an agricultural management information system designed to assist farmers, field officers, and administrators in optimizing crop yields through informed decision-making based on real-time data and expert advice.
+Scope: This Software Requirements Specification (SRS) outlines the detailed requirements for the core functionalities of the system, including user registration, land profile management, crop cycle tracking, advisory generation, log keeping, monitoring, and reporting mechanisms. It does not cover external systems integration beyond basic data exchange protocols.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- GIS: Geographic Information System
+- IoT: Internet of Things
+Overview: The system will enable stakeholders to manage agricultural operations efficiently using digital tools, thereby enhancing productivity and sustainability.
+
+OVERALL DESCRIPTION
+Perspective: The perspective is from the end-users' point of view, focusing on how they interact with the system to achieve specific goals related to agriculture management.
+Functions:
+- User Registration & Login
+- Land Profile Management
+- Crop Cycle Tracking
+- Advisory Generation & Notification
+- Log Keeping & Follow-Up Reminders
+- Monitoring & Reporting
+Users: Farmers, field officers, and administrators.
+Constraints: Limited connectivity in rural areas, need for multilingual support, adherence to local regulatory standards.
+Assumptions/Dependencies:
+- Users have access to mobile devices or computers.
+- Data privacy and security measures are in place.
+- Integration with third-party services such as weather APIs and soil sensors.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Web-based interface for web browsers
+- Mobile application interface for smartphones
+Functional Requirements:
+FR-01
+- User Registration & Login
+Input: Username, password, email address, contact number, role selection
+Processing: Validation of credentials against database, creation of user profile
+Output: Successful login message or error notification
+Priority: High
+FR-02
+- Land Profile Management
+Input: Location coordinates, land size, soil type, crop types, historical yield data
+Processing: Storage of land details in database, geospatial mapping, analysis of suitability for crops
+Output: Displayed map showing land parcels with relevant attributes
+Priority: High
+FR-03
+- Crop Cycle Tracking
+Input: Start date, expected harvest date, current status updates
+Processing: Calculation of growth stages, prediction of maturity dates, generation of progress reports
+Output: Graphical representation of crop lifecycle phases
+Priority: Medium
+FR-04
+- Advisory Generation & Notification
+Input: Weather forecast, soil conditions, crop health indicators
+Processing: Analysis of environmental factors, identification of potential issues, formulation of recommendations
+Output: Advisories sent via SMS/email to users
+Priority: High
+FR-05
+- Log Keeping & Follow-Up Reminders
+Input: Visit date, notes, action items, next follow-up due date
+Processing: Recording visits, generating reminder notifications for future dates
+Output: Summary report of recent activities and pending tasks
+Priority: Low
+FR-06
+- Monitoring & Reporting
+Input: Historical data, current metrics, user queries
+Processing: Aggregation of data points, trend analysis, preparation of visual reports
+Output: Dashboards displaying key performance indicators and insights
+Priority: Medium
+Non-Functional Requirements:
+Usability: The system shall provide intuitive navigation and clear feedback messages to enhance user experience.
+Reliability: The system shall ensure minimal downtime and quick recovery times in case of failures.
+Performance: The system shall handle large volumes of data efficiently within acceptable time limits.
+Portability: The system shall function across multiple platforms and device types.
+
+SYSTEM FEATURES
+The system will feature a combination of web and mobile applications allowing users to perform various tasks such as registering, managing land profiles, tracking crop cycles, receiving personalized advisories, maintaining activity logs, and generating comprehensive reports. These features aim to streamline agricultural practices and improve operational efficiency.
+
+End of Document.Appendix

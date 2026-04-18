@@ -297,9 +297,7 @@ def render_html(srs: SRSDocument) -> str:
   <p>{intro.get('scope','')}</p>
   <h3>1.3 Definitions</h3>
   <ul>{''.join(f'<li>{d}</li>' for d in intro.get('definitions', []))}</ul>
-  <h3>1.4 References</h3>
-  <ul>{''.join(f'<li>{r}</li>' for r in intro.get('references', []))}</ul>
-  <h3>1.5 Overview</h3>
+  <h3>1.4 Overview</h3>
   <p>{intro.get('overview','')}</p>
 
   <h2>2. Overall Description</h2>

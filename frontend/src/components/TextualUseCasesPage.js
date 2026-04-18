@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Download, RefreshCw, FileText } from 'lucide-react';
+import { Download, RefreshCw, FileText, FileDown } from 'lucide-react';
 import config from '../config';
 import { formatTextualUseCasesToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
@@ -36,9 +36,10 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   }, [srsData, onUseCaseDataChange, navigate]);
 
   const modelUcText = useMemo(() => {
-    const fromSaved = useCaseData?.textual_usecases?.text;
-    const fromSrs = srsData?.textual_usecases?.text;
-    return String(fromSaved || fromSrs || '').trim();
+    const fromSaved = String(useCaseData?.textual_usecases?.text || '');
+    const fromSrs = String(srsData?.textual_usecases?.text || '');
+    if (fromSrs.length > fromSaved.length) return fromSrs;
+    return fromSaved || fromSrs;
   }, [useCaseData, srsData]);
 
   const textualHtml = useMemo(() => {
@@ -57,6 +58,7 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
         {
           text: modelUcText,
           title: rawTitle || 'Project',
+          html_body: textualHtml,
         },
         { responseType: 'blob' }
       );
@@ -68,6 +70,23 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
       const msg = await messageFromAxiosBlobError(error);
       alert(msg);
     }
+  }, [srsData, modelUcText, textualHtml]);
+
+  const downloadPlainText = useCallback(() => {
+    const rawTitle = String(srsData?.title || '').trim();
+    const safeTitle = (rawTitle || 'Project')
+      .replace(/[\\/:*?"<>|]+/g, '')
+      .replace(/\s+/g, '_')
+      .replace(/[._\s]+$/g, '') || 'Project';
+    const blob = new Blob([modelUcText], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `textual_usecases_${safeTitle}.txt`);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
   }, [srsData, modelUcText]);
 
   if (!srsData) {
@@ -103,11 +122,20 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
             <button
               type="button"
               onClick={downloadPdf}
-              disabled={!modelUcText}
+              disabled={!modelUcText.trim()}
               className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <Download className="h-4 w-4" />
               Download PDF
+            </button>
+            <button
+              type="button"
+              onClick={downloadPlainText}
+              disabled={!modelUcText.trim()}
+              className="bg-slate-700 hover:bg-slate-800 dark:bg-slate-600 dark:hover:bg-slate-500 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
+            >
+              <FileDown className="h-4 w-4" />
+              Download .txt (full)
             </button>
           </div>
         </div>

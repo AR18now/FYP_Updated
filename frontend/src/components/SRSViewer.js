@@ -315,11 +315,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
     const tiles = [];
     const hall = hallForDashboard;
     if (typeof hall.confidence_score === 'number') {
+      const score = hall.confidence_score;
       tiles.push({
         focus: 'confidence_score',
         title: 'Grounding confidence',
         subtitle: 'How much of your input wording reappears in the SRS',
-        display: formatPct01(hall.confidence_score),
+        pass: score >= 0.35,
       });
     }
     if (typeof hall.has_hallucinations === 'boolean') {
@@ -331,16 +332,17 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
           nInfo > 0 && !hall.has_hallucinations
             ? `${nInfo} FYI note(s) only — expansion is normal`
             : 'Review-tier vs your input (SRS detail alone is OK)',
-        display: hall.has_hallucinations ? 'Review suggested' : 'Clear',
+        pass: !hall.has_hallucinations,
       });
     }
     const kb = srsDashboard?.kb_metrics;
     if (kb && typeof kb.arm_overall_score === 'number') {
+      const score = kb.arm_overall_score;
       tiles.push({
-        focus: '',
+        focus: 'weak_phrase',
         title: 'Requirement wording',
         subtitle: 'Imperatives, weak phrases, placeholders (KB score)',
-        display: formatPct01(kb.arm_overall_score),
+        pass: score >= 0.62,
       });
     }
     const ev = srsDashboard?.srs_eval;
@@ -362,7 +364,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
           focus,
           title,
           subtitle: String(m.name || '').slice(0, 72),
-          display: formatPct01(m.score),
+          pass: m.score >= 0.7,
         });
       }
     }
@@ -1233,7 +1235,8 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
           </div>
         )}
 
-        <div className="mt-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
+        <div className="flex flex-col w-full">
+        <div className="order-2 mt-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
             <div>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
@@ -1241,8 +1244,8 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
                 SRS quality snapshot
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Computed on the server from this document (and your requirements when available). Click a tile to open
-                the full metrics page with that row highlighted.
+                The SRS document is shown above. Green means pass, red means review on the metrics page. Click any
+                tile to open the full metrics table with that row highlighted.
               </p>
             </div>
             <button
@@ -1281,39 +1284,35 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
 
           {!srsDashboardLoading && dashboardTiles.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {dashboardTiles.map((tile, idx) =>
-                tile.focus ? (
+              {dashboardTiles.map((tile, idx) => {
+                const href = tile.focus
+                  ? `/srs-metrics?focus=${encodeURIComponent(tile.focus)}`
+                  : '/srs-metrics';
+                const pass = tile.pass === true;
+                const label = pass ? 'Pass' : 'Review';
+                return (
                   <Link
-                    key={`tile-${idx}-${tile.focus}`}
-                    to={`/srs-metrics?focus=${encodeURIComponent(tile.focus)}`}
-                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary"
+                    key={`tile-${idx}-${tile.focus || 'full'}`}
+                    to={href}
+                    aria-label={`${tile.title}: ${label}. Open SRS metrics.`}
+                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary cursor-pointer"
                   >
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                       {tile.title}
                     </p>
-                    <p className="text-2xl font-semibold tabular-nums text-slate-900 dark:text-slate-50 mt-1">
-                      {tile.display}
-                    </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-snug">{tile.subtitle}</p>
-                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Open in metrics →</p>
+                    <div className="mt-3 flex items-center" aria-hidden="true">
+                      <span
+                        title={label}
+                        className={`inline-block h-5 w-5 rounded-full shrink-0 ${
+                          pass ? 'bg-emerald-500 ring-2 ring-emerald-500/40' : 'bg-red-500 ring-2 ring-red-500/40'
+                        }`}
+                      />
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-snug">{tile.subtitle}</p>
+                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Open metrics →</p>
                   </Link>
-                ) : (
-                  <Link
-                    key={`tile-${idx}-full`}
-                    to="/srs-metrics"
-                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary"
-                  >
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      {tile.title}
-                    </p>
-                    <p className="text-2xl font-semibold tabular-nums text-slate-900 dark:text-slate-50 mt-1">
-                      {tile.display}
-                    </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-snug">{tile.subtitle}</p>
-                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Full metrics table →</p>
-                  </Link>
-                )
-              )}
+                );
+              })}
             </div>
           )}
 
@@ -1369,7 +1368,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
         </div>
 
         {srsData.raw_text ? (
-          <div className="mt-8 srs-paper-shell">
+          <div className="order-1 mt-8 srs-paper-shell">
             <div className="srs-paper p-3 sm:p-6 overflow-x-hidden">
               <section className="srs-doc-cover mb-6 p-4 sm:p-6">
                 <p className="srs-cover-kicker mb-2">Software Requirements Specification</p>
@@ -1489,7 +1488,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
             </div>
           </div>
         ) : (
-          <>
+          <div className="order-1 w-full">
         {/* Expand/Collapse Controls */}
         <div className="mb-6 flex flex-wrap gap-2">
           <button
@@ -1675,8 +1674,9 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
             </div>
           )}
         </div>
-        </>
+        </div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,68 @@
+INTRODUCTION
+The purpose of this Software Requirements Specification (SRS) is to define the requirements for a Warehouse Inventory Management System. This system will allow warehouse managers to efficiently manage stock levels, track incoming and outgoing items, and perform various administrative tasks related to inventory management. The scope of this specification covers the core functionalities required by the system. Definitions and acronyms used throughout this document are provided in Section
+3. References include relevant standards and previous documentation related to similar systems.
+
+OVERALL DESCRIPTION
+Perspective: The perspective of this system is to provide a comprehensive solution for managing warehouse inventories. It aims to streamline operations and improve accuracy through automated processes.
+
+Functions:
+- Track item movements within the warehouse.
+- Manage stock levels and reorder points.
+- Generate reports on inventory status.
+- Support multiple users with different access levels.
+
+Users:
+- Warehouse Managers
+- Clerks
+- Administrators
+Constraints:
+- Real-time updates must be supported.
+- Data integrity and consistency are critical.
+
+Assumptions and Dependencies:
+- Users have appropriate hardware and network connectivity.
+- Database compatibility with existing systems.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- User Interface: GUI-based application accessible via web browser.
+- Network Interface: Secure communication over HTTPS.
+- Database Interface: Integration with SQL database.
+Functional Requirements:
+FR-01
+- Login Functionality
+Input: Username and password entered by the user.
+Processing: Authentication against stored credentials.
+Output: Access granted or denied message.
+Priority: High
+FR-02
+- Item Tracking
+Input: Search criteria such as item ID, name, category.
+Processing: Retrieve and display information about tracked items.
+Output: List of matching items with details.
+Priority: High
+FR-03
+- Stock Level Management
+Input: Item ID and new quantity value.
+Processing: Update stock level and trigger alerts based on predefined thresholds.
+Output: Confirmation message indicating success or failure.
+Priority: Medium
+Non-Functional Requirements:
+NFR-01
+- Usability
+- The system shall be intuitive and easy to navigate for all users.
+- Error messages shall be clear and helpful.
+NFR-02
+- Reliability
+- The system must ensure data integrity and prevent unauthorized access.
+- Regular backups shall be performed.
+NFR-03
+- Performance
+- Response times shall not exceed 2 seconds under normal load conditions.
+- Scalability shall support up to 100 concurrent users.
+System Features:
+- Real-time tracking of item locations.
+- Automated reordering when stock levels fall below minimum thresholds.
+- Customizable reports generation based on user-defined parameters.
+
+End of Document.Appendix

@@ -6,7 +6,7 @@ import config from '../config';
 import {
   ARM_TERMS,
   ARM_METRIC_TO_GROUP,
-  HIGHLIGHTABLE_ARM_QUALITY_KEYS,
+  HIGHLIGHTABLE_ARM_SCORE_KEYS,
   HIGHLIGHTABLE_HALLUCINATION_KEYS,
   collectHallucinationMetricTerms,
 } from '../utils/srsLanguageQualityTerms';
@@ -48,12 +48,12 @@ const METRIC_DESCRIPTIONS = {
   section_precision: 'Share of detected SRS headings that match expected IEEE heading set.',
   section_recall: 'Share of expected IEEE headings actually present in the SRS.',
   section_f1: 'Balanced score combining section precision and recall.',
-  imperative_quality: 'How strongly requirements use enforceable wording such as shall/must.',
-  continuance_quality: 'Lower use of continuation-dependent phrasing (below/as follows/following).',
-  directive_quality: 'Lower use of external-reference directives (e.g., figures/tables/notes).',
-  option_quality: 'Lower optionality language (can/may/optionally).',
-  weak_phrase_quality: 'Lower use of weak/non-testable wording.',
-  incomplete_quality: 'Lower use of placeholders or incomplete requirement markers.',
+  imperative: 'How strongly requirements use enforceable wording such as shall/must.',
+  continuance: 'Lower use of continuation-dependent phrasing (below/as follows/following).',
+  directive: 'Lower use of external-reference directives (e.g., figures/tables/notes).',
+  option: 'Lower optionality language (can/may/optionally).',
+  weak_phrase: 'Lower use of weak/non-testable wording.',
+  incomplete: 'Lower use of placeholders or incomplete requirement markers.',
   imperative_count: 'Raw count of imperative terms found in the SRS.',
   continuance_count: 'Raw count of continuance phrases found in the SRS.',
   directive_count: 'Raw count of directive phrases found in the SRS.',
@@ -85,12 +85,12 @@ const EXPECTED_METRIC_KEYS = [
   'section_precision',
   'section_recall',
   'section_f1',
-  'imperative_quality',
-  'continuance_quality',
-  'directive_quality',
-  'option_quality',
-  'weak_phrase_quality',
-  'incomplete_quality',
+  'imperative',
+  'continuance',
+  'directive',
+  'option',
+  'weak_phrase',
+  'incomplete',
   'imperative_count',
   'continuance_count',
   'directive_count',
@@ -98,6 +98,16 @@ const EXPECTED_METRIC_KEYS = [
   'weak_phrase_count',
   'incomplete_count',
 ];
+
+/** Old `?focus=` values from when ARM score rows used a `_quality` suffix. */
+const LEGACY_SRS_METRICS_FOCUS = {
+  imperative_quality: 'imperative',
+  continuance_quality: 'continuance',
+  directive_quality: 'directive',
+  option_quality: 'option',
+  weak_phrase_quality: 'weak_phrase',
+  incomplete_quality: 'incomplete',
+};
 
 function scoreToPct(v) {
   if (typeof v !== 'number' || Number.isNaN(v)) return '—';
@@ -365,6 +375,7 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   const [aiEval, setAiEval] = useState(null);
   const [selectedConflict, setSelectedConflict] = useState('');
   const [selectedHighlightMetricKey, setSelectedHighlightMetricKey] = useState('');
+  const [focusedTableRowKey, setFocusedTableRowKey] = useState('');
   const highlightSectionRef = useRef(null);
 
   const sectionMetrics = useMemo(() => sectionLevelMetrics(text), [text]);
@@ -441,12 +452,12 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     push('section_precision', 'section_precision', sectionMetrics.precision);
     push('section_recall', 'section_recall', sectionMetrics.recall);
     push('section_f1', 'section_f1', sectionMetrics.f1);
-    push('imperative_quality', 'imperative_quality', armChecks.imperativeQuality);
-    push('continuance_quality', 'continuance_quality', armChecks.continuanceQuality);
-    push('directive_quality', 'directive_quality', armChecks.directiveQuality);
-    push('option_quality', 'option_quality', armChecks.optionQuality);
-    push('weak_phrase_quality', 'weak_phrase_quality', armChecks.weakPhraseQuality);
-    push('incomplete_quality', 'incomplete_quality', armChecks.incompleteQuality);
+    push('imperative', 'imperative', armChecks.imperativeQuality);
+    push('continuance', 'continuance', armChecks.continuanceQuality);
+    push('directive', 'directive', armChecks.directiveQuality);
+    push('option', 'option', armChecks.optionQuality);
+    push('weak_phrase', 'weak_phrase', armChecks.weakPhraseQuality);
+    push('incomplete', 'incomplete', armChecks.incompleteQuality);
     push('imperative_count', 'imperative_count', armChecks.imperativeCount, 'count');
     push('continuance_count', 'continuance_count', armChecks.continuanceCount, 'count');
     push('directive_count', 'directive_count', armChecks.directiveCount, 'count');
@@ -486,16 +497,30 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   }, [srsData, aiEval, rougeLScore, bertScoreProxy, sectionMetrics, armChecks, localCoreMetrics]);
 
   useEffect(() => {
-    const f = searchParams.get('focus');
+    const raw = searchParams.get('focus') || '';
+    const f = LEGACY_SRS_METRICS_FOCUS[raw] || raw;
     if (!f || !dedupedMetrics.some((e) => e.key === f)) {
+      setFocusedTableRowKey('');
       return;
     }
-    if (!HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(f) && !HIGHLIGHTABLE_HALLUCINATION_KEYS.has(f)) {
-      return;
-    }
-    setSelectedHighlightMetricKey(f);
+    setFocusedTableRowKey(f);
     setSelectedConflict('');
+    if (HIGHLIGHTABLE_ARM_SCORE_KEYS.has(f) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(f)) {
+      setSelectedHighlightMetricKey(f);
+    } else {
+      setSelectedHighlightMetricKey('');
+    }
   }, [searchParams, dedupedMetrics]);
+
+  useEffect(() => {
+    if (!focusedTableRowKey || loading) return;
+    const id = `srs-metric-row-${focusedTableRowKey}`;
+    const node = typeof document !== 'undefined' ? document.getElementById(id) : null;
+    if (!node) return;
+    window.requestAnimationFrame(() => {
+      node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }, [focusedTableRowKey, loading, dedupedMetrics]);
 
   const selectedArmGroup = ARM_METRIC_TO_GROUP[selectedHighlightMetricKey] || '';
   const selectedArmTerms = selectedArmGroup ? ARM_TERMS[selectedArmGroup] : [];
@@ -517,7 +542,7 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   );
 
   const showHighlightPreview =
-    HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(selectedHighlightMetricKey) ||
+    HIGHLIGHTABLE_ARM_SCORE_KEYS.has(selectedHighlightMetricKey) ||
     HIGHLIGHTABLE_HALLUCINATION_KEYS.has(selectedHighlightMetricKey);
 
   const highlightedSrs = useMemo(() => {
@@ -601,10 +626,15 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
               {dedupedMetrics.map((m) => (
                 <tr
                   key={m.key}
-                  className="border-b border-slate-100 dark:border-slate-800 last:border-0 align-top hover:bg-slate-50/80 dark:hover:bg-slate-800/40"
+                  id={`srs-metric-row-${m.key}`}
+                  className={`border-b border-slate-100 dark:border-slate-800 last:border-0 align-top hover:bg-slate-50/80 dark:hover:bg-slate-800/40 ${
+                    focusedTableRowKey === m.key
+                      ? 'bg-cyan-50/90 dark:bg-cyan-950/40 ring-2 ring-inset ring-r2d-primary dark:ring-cyan-400'
+                      : ''
+                  }`}
                 >
                   <td className="px-3 py-3 font-medium text-slate-900 dark:text-slate-100 font-mono whitespace-nowrap">
-                    {HIGHLIGHTABLE_ARM_QUALITY_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
+                    {HIGHLIGHTABLE_ARM_SCORE_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
                       <button
                         type="button"
                         onClick={() => {

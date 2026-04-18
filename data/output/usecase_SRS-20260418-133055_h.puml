@@ -1,0 +1,53 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+left to right direction
+
+title UML 2.x Use Case Diagram (horizontal)\n<size:12><i>warehouse inventory</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject boundary) ---
+actor "User" as act_0
+
+' --- Subject (system boundary) & use cases ---
+rectangle "warehouse inventory" {
+  usecase "FR-01 - Login Functionality" as uc_0
+  usecase "FR-02 - Item Tracking" as uc_1
+  usecase "FR-03 - Stock Level Management" as uc_2
+  ' use case ordering hint (horizontal)
+  uc_0 -[hidden]right- uc_1
+  uc_1 -[hidden]right- uc_2
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_0 -- uc_2
+
+@enduml

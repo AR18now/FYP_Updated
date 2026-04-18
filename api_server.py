@@ -39,7 +39,7 @@ from main_orchestrator import RequirementsOrchestrator
 from srs_generator import SRSGenerator
 from generation.srs_generator import RAGSRSGenerator
 from json_to_srs_pdf import load_srs_from_json, render_html, save_pdf_or_html
-from srs_model_generator import SRSModelGenerator
+from srs_model_generator import SRSModelGenerator, strip_srs_references_section
 from generation.usecase_diagram_generator import UseCaseDiagramGenerator
 from input_processing.ambiguity_detection import AmbiguityDetector
 from input_processing.requirement_refinement import RequirementRefiner
@@ -3807,14 +3807,27 @@ def download_srs(format):
         return jsonify({'error': str(e)}), 500
 
 
+def _sanitize_client_html_for_pdf(fragment: str, max_len: int = 3_000_000) -> str:
+    """Strip active content from UI-supplied HTML before embedding in a PDF."""
+    s = str(fragment or "")
+    if len(s) > max_len:
+        s = s[:max_len]
+    s = re.sub(r"(?is)<script\b[^>]*>.*?</script>", "", s)
+    s = re.sub(r"(?is)<style\b[^>]*>.*?</style>", "", s)
+    s = re.sub(r"(?is)<iframe\b[^>]*>.*?</iframe>", "", s)
+    s = re.sub(r"(?i)javascript:", "unsafe-removed:", s)
+    s = re.sub(r"(?i)\son\w+\s*=", " data-no-on=", s)
+    return s
+
+
 @app.route('/api/download-textual-usecases-pdf', methods=['POST'])
 def download_textual_usecases_pdf():
     """Render textual use cases as PDF (or HTML fallback)."""
     try:
         data = request.get_json() or {}
-        text_payload = str(data.get('text', '')).strip()
+        text_raw = str(data.get("text", "") or "")
         title = str(data.get('title', 'Textual Use Cases')).strip() or 'Textual Use Cases'
-        if not text_payload:
+        if not text_raw.strip():
             return jsonify({'error': 'No textual use case content provided'}), 400
 
         import html
@@ -3980,17 +3993,47 @@ def download_textual_usecases_pdf():
 
             return ''.join(rendered), toc_items
 
-        body_html, toc_items = _format_textual_usecases_html(text_payload)
-        toc_html = ''.join(
-            f'<li><a href="#{html.escape(anchor)}">{html.escape(label)}</a></li>'
-            for label, anchor in toc_items
-        )
+        client_html = _sanitize_client_html_for_pdf(str(data.get("html_body") or ""))
+        tuc_export_css = """
+    .tuc-export-root.tuc-doc { width: 100%; display: block; font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.65; color: #0f172a; }
+    .tuc-export-root .tuc-doc { max-width: none; margin: 0; display: block; }
+    .tuc-export-root .tuc-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; background: #fff; page-break-inside: avoid; }
+    .tuc-export-root .tuc-title { margin: 0 0 10px; font-size: 13pt; font-weight: 700; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+    .tuc-export-root .tuc-row, .tuc-export-root .tuc-para { margin: 5px 0; }
+    .tuc-export-root .tuc-key { font-weight: 700; }
+    .tuc-export-root ul.tuc-list, .tuc-export-root ol.tuc-ol { margin: 4px 0 8px 20px; padding-left: 6px; }
+    .tuc-export-root .tuc-list li, .tuc-export-root .tuc-ol li { margin: 3px 0; }
+    .uc-verbatim .tuc-verbatim { white-space: pre-wrap; word-wrap: break-word; font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; line-height: 1.45; margin: 0; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc; }
+        """
+
+        total_uc_display = "—"
+        if len(client_html) > 40:
+            body_html = f'<div class="tuc-export-root tuc-doc">{client_html}</div>'
+            toc_items = []
+            card_marks = len(re.findall(r'class=["\']tuc-card["\']', client_html))
+            total_uc_display = str(card_marks) if card_marks > 0 else "—"
+            toc_html = '<li><em>Same formatted view as the Textual Use Cases page.</em></li>'
+        else:
+            body_html, toc_items = _format_textual_usecases_html(text_raw)
+            if not toc_items and len(text_raw.strip()) > 80:
+                body_html = (
+                    '<section class="uc-verbatim"><pre class="tuc-verbatim">'
+                    + html.escape(text_raw)
+                    + "</pre></section>"
+                )
+                toc_items = []
+            total_uc_display = str(len(toc_items)) if toc_items else "—"
+            toc_html = "".join(
+                f'<li><a href="#{html.escape(anchor)}">{html.escape(label)}</a></li>'
+                for label, anchor in toc_items
+            )
         html_doc = f"""<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>{html.escape(title)}</title>
   <style>
+    {tuc_export_css}
     @page {{
       size: A4;
       margin: 24mm 18mm 20mm 18mm;
@@ -4126,7 +4169,7 @@ def download_textual_usecases_pdf():
     <div class="meta">
       <p><strong>Document Type:</strong> Textual Use Cases</p>
       <p><strong>Generated On:</strong> {html.escape(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}</p>
-      <p><strong>Total Use Cases:</strong> {len(toc_items)}</p>
+      <p><strong>Total Use Cases:</strong> {html.escape(str(total_uc_display))}</p>
     </div>
   </section>
   <pdf:nextpage />
@@ -4397,10 +4440,28 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
         intro_match = re.search(r'(?im)^\s*INTRODUCTION\s*$', x)
         if intro_match:
             x = x[intro_match.start():]
+
+        _UC_A = "<<<TEXTUAL_USE_CASES_APPENDIX>>>"
+        _UC_B = "<<<END_TEXTUAL_USE_CASES_APPENDIX>>>"
+        _docx_appendix = [""]
+        _p0 = x.find(_UC_A)
+        if _p0 >= 0:
+            _p1 = x.find(_UC_B, _p0 + len(_UC_A))
+            if _p1 >= 0:
+                _docx_appendix[0] = x[_p0 : _p1 + len(_UC_B)]
+                x = (x[:_p0].rstrip() + "\n" + x[_p1 + len(_UC_B) :].lstrip()).strip()
+            else:
+                _docx_appendix[0] = x[_p0:]
+                x = x[:_p0].rstrip()
+
         end_marker = re.search(r'(?i)\bEnd of Document\.', x)
         if end_marker:
             x = x[:end_marker.end()]
-        return _apply_ieee_numbering(x.strip())
+        x = strip_srs_references_section(x.strip())
+        x = _apply_ieee_numbering(x.strip())
+        if _docx_appendix[0].strip():
+            x = (x.rstrip() + "\n\n" + _docx_appendix[0].strip()).strip()
+        return x
 
     def _apply_ieee_numbering(text: str) -> str:
         lines = [ln.strip() for ln in text.splitlines()]
@@ -4415,7 +4476,7 @@ def _build_srs_docx(document_id: str, title: str, version: str, date_value: str,
             "system features": (4, "System Features"),
         }
         sub_map = {
-            1: {"purpose": (1, "Purpose"), "scope": (2, "Scope"), "definitions/acronyms": (3, "Definitions/Acronyms"), "references": (4, "References"), "overview": (5, "Overview")},
+            1: {"purpose": (1, "Purpose"), "scope": (2, "Scope"), "definitions/acronyms": (3, "Definitions/Acronyms"), "overview": (4, "Overview")},
             2: {"product perspective": (1, "Product Perspective"), "product functions": (2, "Product Functions"), "user characteristics": (3, "User Characteristics"), "constraints": (4, "Constraints"), "assumptions/dependencies": (5, "Assumptions/Dependencies")},
             3: {"external interface requirements": (1, "External Interface Requirements"), "functional requirements": (2, "Functional Requirements"), "non-functional requirements": (3, "Non-Functional Requirements")},
         }
@@ -4918,6 +4979,19 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     if intro_match:
         text = text[intro_match.start():]
 
+    _UC_START = "<<<TEXTUAL_USE_CASES_APPENDIX>>>"
+    _UC_END = "<<<END_TEXTUAL_USE_CASES_APPENDIX>>>"
+    _tuc_appendix = ""
+    _i0 = text.find(_UC_START)
+    if _i0 >= 0:
+        _i1 = text.find(_UC_END, _i0 + len(_UC_START))
+        if _i1 >= 0:
+            _tuc_appendix = text[_i0 : _i1 + len(_UC_END)]
+            text = (text[:_i0].rstrip() + "\n" + text[_i1 + len(_UC_END) :].lstrip()).strip()
+        else:
+            _tuc_appendix = text[_i0:]
+            text = text[:_i0].rstrip()
+
     # If the model accidentally appends a second SRS after "End of Document.",
     # keep only the first complete document block.
     end_marker = re.search(r'(?i)\bEnd of Document\.', text)
@@ -4928,7 +5002,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     text = text.strip()
 
     def _normalize_layout(t: str) -> str:
-        y = t
+        y = strip_srs_references_section(t)
         # Fix cases like "1Introduction" / "1.1Purpose" by inserting space after numeric prefix.
         y = re.sub(r'(?m)^(\d+(?:\.\d+)*)([A-Za-z])', r'\1 \2', y)
         # Rejoin hyphenated words split across line breaks (e.g., "Non-\nfunctional").
@@ -4944,7 +5018,6 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             "Purpose:",
             "Scope:",
             "Definitions/Acronyms:",
-            "References:",
             "Overview:",
             "Product Perspective:",
             "Product Functions:",
@@ -4977,7 +5050,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
         for lbl in labels:
             y = re.sub(rf'\s+(?={re.escape(lbl)})', '\n', y, flags=re.IGNORECASE)
         y = re.sub(r'\s+-\s+', '\n- ', y)
-        y = re.sub(r'(?<!\n)(Input|Processing|Output|Priority|Purpose|Scope|Definitions/Acronyms|References|Overview|Product Perspective|Product Functions|User Characteristics|Constraints|Assumptions/Dependencies|External Interface Requirements|Functional Requirements|Non-functional Requirements|System Features)\s*:', r'\n\1:', y, flags=re.IGNORECASE)
+        y = re.sub(r'(?<!\n)(Input|Processing|Output|Priority|Purpose|Scope|Definitions/Acronyms|Overview|Product Perspective|Product Functions|User Characteristics|Constraints|Assumptions/Dependencies|External Interface Requirements|Functional Requirements|Non-functional Requirements|System Features)\s*:', r'\n\1:', y, flags=re.IGNORECASE)
         y = re.sub(r'\n{3,}', '\n\n', y)
         # Remove stray single-dash lines introduced by model formatting.
         y = re.sub(r'(?m)^\s*-\s*$', '', y)
@@ -4999,7 +5072,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             "system features": (4, "System Features"),
         }
         sub_map = {
-            1: {"purpose": (1, "Purpose"), "scope": (2, "Scope"), "definitions/acronyms": (3, "Definitions/Acronyms"), "references": (4, "References"), "overview": (5, "Overview")},
+            1: {"purpose": (1, "Purpose"), "scope": (2, "Scope"), "definitions/acronyms": (3, "Definitions/Acronyms"), "overview": (4, "Overview")},
             2: {"product perspective": (1, "Product Perspective"), "product functions": (2, "Product Functions"), "user characteristics": (3, "User Characteristics"), "constraints": (4, "Constraints"), "assumptions/dependencies": (5, "Assumptions/Dependencies")},
             3: {"external interface requirements": (1, "External Interface Requirements"), "functional requirements": (2, "Functional Requirements"), "non-functional requirements": (3, "Non-Functional Requirements")},
         }
@@ -5158,7 +5231,6 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
                         "Purpose",
                         "Scope",
                         "Definitions/Acronyms",
-                        "References",
                         "Overview",
                         "Product Perspective",
                         "Product Functions",
@@ -5427,6 +5499,14 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
         return ''.join(out), toc
 
     body_html, toc_entries = _format_srs_html_body(text)
+    appendix_section = ""
+    if _tuc_appendix.strip():
+        appendix_section = (
+            '<pdf:nextpage /><section class="srs-appendix">'
+            '<h2 class="srs-h d2">Textual use cases (model appendix)</h2>'
+            f'<pre class="tuc-verbatim">{html.escape(_tuc_appendix.strip())}</pre>'
+            "</section>"
+        )
     toc_items = [
         (1, "Table of Contents", "table-of-contents"),
         (1, "Revision History", "revision-history"),
@@ -5731,6 +5811,18 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
             text-align: left;
             vertical-align: top;
         }}
+        .srs-appendix .tuc-verbatim {{
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 9.5pt;
+            line-height: 1.45;
+            margin: 0;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: #f8fafc;
+        }}
     </style>
 </head>
 <body>
@@ -5800,7 +5892,7 @@ def _convert_raw_text_to_html(raw_text: str, document_id: str, title: str, versi
     <div class="content srs-paper-shell">
       <div class="srs-paper">
         <div class="srs-doc-root">
-          {body_html}
+          {body_html}{appendix_section}
         </div>
         <div class="doc-footer">
           <p class="doc-footer-title"><strong>End of document</strong></p>

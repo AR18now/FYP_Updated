@@ -67,6 +67,64 @@ TEXTUAL_UC_APPENDIX_START = "<<<TEXTUAL_USE_CASES_APPENDIX>>>"
 TEXTUAL_UC_APPENDIX_END = "<<<END_TEXTUAL_USE_CASES_APPENDIX>>>"
 
 
+def strip_srs_references_section(text: str) -> str:
+    """
+    Remove the IEEE-style References subsection from a plain-text SRS body
+    (numbered heading, References: label, or merged lines like "3. References …").
+    """
+    if not text or not str(text).strip():
+        return text
+
+    def _is_section_break(stripped: str) -> bool:
+        if not stripped:
+            return False
+        if re.match(
+            r"^(INTRODUCTION|OVERALL DESCRIPTION|SPECIFIC REQUIREMENTS|SYSTEM FEATURES)\b",
+            stripped,
+            re.IGNORECASE,
+        ):
+            return True
+        if re.match(r"^\d+(?:\.\d+)*\s+(?!References\b)[A-Z]", stripped):
+            return True
+        if re.match(
+            r"^(Purpose|Scope|Definitions/Acronyms|Definitions|Acronyms|Overview|Product Perspective|"
+            r"Product Functions|User Characteristics|Constraints|Assumptions/Dependencies|"
+            r"External Interface Requirements|Functional Requirements|Non-functional Requirements|"
+            r"System Features)\s*:",
+            stripped,
+            re.IGNORECASE,
+        ):
+            return True
+        if re.match(r"^\d+\.\d+\s*:\s*(?!References\b)", stripped, re.IGNORECASE):
+            return True
+        return False
+
+    lines = str(text).replace("\r\n", "\n").split("\n")
+    out: List[str] = []
+    skip_until_break = False
+    for line in lines:
+        stripped = line.strip()
+        if skip_until_break:
+            if _is_section_break(stripped):
+                skip_until_break = False
+                out.append(line)
+            continue
+        # Numbered References-only heading or merged line (e.g. "1.4: References", "3. References include …")
+        if re.match(
+            r"^\d+(?:\.\d+)*(?:\s*:\s*|\.\s+|\s+)References\b",
+            stripped,
+            re.IGNORECASE,
+        ):
+            continue
+        if re.match(r"^References\s*:", stripped, re.IGNORECASE):
+            rest = re.sub(r"^References\s*:\s*", "", stripped, flags=re.IGNORECASE).strip()
+            if not rest:
+                skip_until_break = True
+            continue
+        out.append(line)
+    return "\n".join(out).strip()
+
+
 class SRSModelGenerator:
     """Generates SRS sections using Replicate-hosted model."""
 
@@ -323,7 +381,7 @@ Format rules:
 - Major section headings on their own lines, in order: INTRODUCTION, OVERALL DESCRIPTION, SPECIFIC REQUIREMENTS, SYSTEM FEATURES. One sub-topic per line where labeled.
 - Functional requirements: blocks FR-01… with lines Input: / Processing: / Output: / Priority: High|Medium|Low. Bullets as single lines starting "- ".
 - NFRs only for: usability, reliability, performance, portability (omit security, scalability, maintainability, availability as NFR headings).
-- SRS body content once each: Intro (purpose, scope, definitions/acronyms, references, overview); Overall (perspective, functions, users, constraints, assumptions/deps); Specific (external interfaces, functional FRs, NFRs); System Features.
+- SRS body content once each: Intro (purpose, scope, definitions/acronyms, overview); Overall (perspective, functions, users, constraints, assumptions/deps); Specific (external interfaces, functional FRs, NFRs); System Features. Do not include a References subsection.
 
 End the SRS narrative with exactly: End of Document.
 
@@ -361,7 +419,6 @@ Context (do not repeat as a document header): project "{title}", author "{author
             "Purpose:",
             "Scope:",
             "Definitions/Acronyms:",
-            "References:",
             "Overview:",
             "Product Perspective:",
             "Product Functions:",
@@ -606,6 +663,7 @@ Context (do not repeat as a document header): project "{title}", author "{author
         srs_body, uc_appendix_inner = self._split_textual_use_cases_appendix(cleaned_raw_text)
 
         cleaned_raw_text = self._normalize_generated_layout(srs_body)
+        cleaned_raw_text = strip_srs_references_section(cleaned_raw_text)
         cleaned_raw_text = self._enforce_professional_tone(cleaned_raw_text)
 
         document_id_temp = f"SRS-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
@@ -902,7 +960,7 @@ Context (do not repeat as a document header): project "{title}", author "{author
                         break
         
         # Extract definitions (list items)
-        def_match = re.search(r'1\.3\s+Definitions?\s+(.+?)(?=1\.4|Acronyms|1\.5|References|1\.6|Overview|2\.|$)', para, re.IGNORECASE | re.DOTALL)
+        def_match = re.search(r'1\.3\s+Definitions?\s+(.+?)(?=1\.4|Acronyms|1\.5|Overview|2\.|$)', para, re.IGNORECASE | re.DOTALL)
         if def_match:
             def_text = def_match.group(1).strip()
             # Split by dashes, bullets, or newlines

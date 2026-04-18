@@ -86,8 +86,6 @@ const API_ENDPOINTS = {
   expertReviewRequest: (id) => `${API_BASE_URL}/api/expert-review/requests/${encodeURIComponent(id)}`,
   expertReviewMessages: (id) =>
     `${API_BASE_URL}/api/expert-review/requests/${encodeURIComponent(id)}/messages`,
-  /** GET — HTML table of offline KB batch evaluation (default JSON under data/output/) */
-  KB_CORPUS_METRICS_REPORT: `${API_BASE_URL}/api/knowledge-base-corpus-metrics-report`,
   /** POST { prompt, srs_text } — metrics on SRS already generated in the app */
   SRS_EVAL_EXISTING: `${SRS_EVAL_BASE_URL}/api/evaluate-existing`,
   SRS_EVAL_HISTORY: `${SRS_EVAL_BASE_URL}/api/history`,

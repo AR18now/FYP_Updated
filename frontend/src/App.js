@@ -23,7 +23,6 @@ import RTMPage from './pages/RTMPage';
 import ProfilePage from './pages/ProfilePage';
 import ExpertReviewPage from './pages/ExpertReviewPage';
 import SRSMetricsPage from './pages/SRSMetricsPage';
-import KbCorpusMetricsPage from './pages/KbCorpusMetricsPage';
 import { isAuthenticated, getCurrentUser, logout } from './utils/auth';
 import { getStoredSRS } from './utils/storage';
 import './App.css';
@@ -232,7 +231,6 @@ function App() {
                 element={<ExpertReviewPage srsData={srsData} mode="user" />}
               />
               <Route path="srs-metrics" element={<SRSMetricsPage srsData={srsData} currentResults={currentResults} />} />
-              <Route path="kb-corpus-metrics" element={<KbCorpusMetricsPage />} />
             </Route>
 
             <Route

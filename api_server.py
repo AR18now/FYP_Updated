@@ -1076,10 +1076,36 @@ def _extract_diagram_usecases_for_rtm(use_case_data: dict) -> list:
         uc_ref_map.setdefault(alias, set()).update(_extract_req_ids(note_txt))
     for uc in names:
         alias = uc["id"].replace("DUC-", "", 1)
-        refs = sorted(uc_ref_map.get(alias, set()))
-        if refs:
-            uc["req_ids"] = refs
+        refs = set(uc_ref_map.get(alias, set()))
+        # Oval titles often embed FR/NFR ids (e.g. "FR-01 - Route Planning"); notes are optional.
+        refs.update(_extract_req_ids(uc.get("name", "")))
+        uc["req_ids"] = sorted(refs)
     return names
+
+
+def _rtm_norm_refs_from_uc(uc: dict) -> set[str]:
+    """Normalized FR/NFR ids mentioned explicitly or embedded in name/body (for cross-artifact consistency)."""
+    found: set[str] = set()
+    for x in uc.get("req_ids") or []:
+        n = _normalize_req_id(str(x))
+        if n:
+            found.add(n)
+    blob = " ".join(
+        str(uc.get(k) or "")
+        for k in (
+            "name",
+            "text",
+            "use_case_name",
+            "main_success_scenario",
+            "preconditions",
+            "description",
+        )
+    )
+    for x in _extract_req_ids(blob):
+        n = _normalize_req_id(x)
+        if n:
+            found.add(n)
+    return found
 
 
 def _is_testable_requirement(text: str) -> tuple[bool, list]:
@@ -1159,20 +1185,17 @@ def _build_rtm_report(srs_data: dict, use_case_data: dict) -> dict:
                 _canonical_uc_name(name) for name in diagram_names if _canonical_uc_name(name)
             }
             name_overlap = bool(textual_names_norm.intersection(diagram_names_norm))
-            textual_refs = {
-                _normalize_req_id(x)
-                for _, uc in best_t
-                for x in uc.get("req_ids", [])
-                if _normalize_req_id(x)
-            }
-            diagram_refs = {
-                _normalize_req_id(x)
-                for _, du in best_d
-                for x in du.get("req_ids", [])
-                if _normalize_req_id(x)
-            }
-            ref_overlap = bool(textual_refs.intersection(diagram_refs))
-            consistency = "good" if (name_overlap or ref_overlap) else "partial"
+            # Include ids embedded in titles/bodies (e.g. diagram "FR-01 - …", textual "Trace to FR-01"),
+            # not only structured req_ids / PlantUML notes — otherwise everything becomes "partial".
+            textual_refs: set[str] = set()
+            for _, uc in best_t:
+                textual_refs |= _rtm_norm_refs_from_uc(uc)
+            diagram_refs: set[str] = set()
+            for _, du in best_d:
+                diagram_refs |= _rtm_norm_refs_from_uc(du)
+            # This requirement's id must appear in both linked artifacts (name/body/req_ids), not merely any shared FR.
+            req_trace_match = bool(req_norm and req_norm in textual_refs and req_norm in diagram_refs)
+            consistency = "good" if (name_overlap or req_trace_match) else "partial"
         elif textual_ids or diagram_ids:
             consistency = "partial"
         if consistency == "good":

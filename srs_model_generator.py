@@ -328,7 +328,14 @@ Format rules:
 End the SRS narrative with exactly: End of Document.
 
 Appendix (same response, after that line): newline, then alone on one line: {TEXTUAL_UC_APPENDIX_START}
-Then Cockburn-style textual use cases for each FR you wrote (name, primary actor, stakeholders, preconditions, numbered main success, extensions if needed, postconditions, trace to FR id). Match the SRS I/O/processing; stay concise. Close with this line alone: {TEXTUAL_UC_APPENDIX_END}
+Then Cockburn-style textual use cases for EACH functional requirement FR-01, FR-02, … that appears in the SRS body (add NFR blocks only if you wrote matching NFRs). Appendix rules:
+- One dedicated use-case block per FR (or one clearly titled block per FR). Do NOT merge every FR into a single generic "Use Case 1" / "UC-1" without repeating each FR id inside that block.
+- Open each block with a title line that includes the id, e.g. "Use Case: FR-02 - Ticket Purchase".
+- Include: Primary Actor, Stakeholders, Preconditions, numbered Main Success Scenario, Extensions if needed, Postcondition. Align steps with that FR’s Input / Processing / Output in the SRS.
+- The LAST line of each block MUST be exactly this pattern (uppercase FR, two digits): Trace to FR Id: FR-NN (example: Trace to FR Id: FR-01). For an NFR-only block use: Trace to NFR Id: NFR-NN.
+- Mention the same FR-NN token at least once earlier in the block (e.g. in Preconditions or step 1) so traceability tools can link the appendix to the SRS and to diagram labels.
+
+Stay concise. Close the appendix with this line alone: {TEXTUAL_UC_APPENDIX_END}
 Nothing after the closing line.
 
 Context (do not repeat as a document header): project "{title}", author "{author}".
@@ -557,7 +564,8 @@ Context (do not repeat as a document header): project "{title}", author "{author
                 + "'3. SPECIFIC REQUIREMENTS'. Include at least FR-1..FR-5 and Non-functional "
                 + "Requirements. Do not output only a title/author block. "
                 + "After 'End of Document.' you MUST still include the textual use case appendix between "
-                + f"{TEXTUAL_UC_APPENDIX_START} and {TEXTUAL_UC_APPENDIX_END} as specified in the contract."
+                + f"{TEXTUAL_UC_APPENDIX_START} and {TEXTUAL_UC_APPENDIX_END} as specified in the contract. "
+                + "In the appendix: one block per FR, each ending with 'Trace to FR Id: FR-NN' matching that block."
             )
             raw_retry = self._call_replicate(
                 retry_prompt,

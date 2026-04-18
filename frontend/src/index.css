@@ -662,6 +662,22 @@ html.dark .srs-doc-root .srs-p.srs-highlight {
 }
 
 /* Inline highlights inside SRS for live checks */
+/* Metrics page + conflict preview: Tailwind preflight resets native <mark> (transparent). */
+mark.srs-metrics-mark,
+.srs-metrics-mark {
+  background: rgba(250, 204, 21, 0.42);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+html.dark mark.srs-metrics-mark,
+html.dark .srs-metrics-mark {
+  background: rgba(250, 204, 21, 0.28);
+  color: #f8fafc;
+}
+
 .srs-doc-root mark.srs-mark {
   background: rgba(37, 99, 235, 0.18);
   color: inherit;
@@ -682,26 +698,45 @@ html.dark .srs-doc-root mark.srs-mark--warn {
   box-shadow: inset 0 -1px 0 rgba(255, 237, 213, 0.20);
 }
 
-/* Textual use cases formatted document */
+/* Textual use cases — card grid (each use case / FR is a .tuc-card) */
 .tuc-doc {
-  max-width: 92ch;
+  max-width: 120ch;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .tuc-doc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .tuc-card {
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px 20px;
   background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.tuc-card:hover {
+  border-color: #c7d2fe;
+  box-shadow:
+    0 2px 4px rgba(15, 23, 42, 0.06),
+    0 12px 28px rgba(37, 99, 235, 0.1);
 }
 .tuc-title {
-  margin: 0 0 10px;
-  font-size: 1.12rem;
+  margin: 0 0 12px;
+  font-size: 1.05rem;
   line-height: 1.35;
   font-weight: 700;
   color: #0f172a;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
+  letter-spacing: -0.01em;
 }
 .tuc-row,
 .tuc-para {
@@ -748,8 +783,17 @@ html.dark .srs-doc-root mark.srs-mark--warn {
   font-style: italic;
 }
 html.dark .tuc-card {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.92);
   border-color: #334155;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 10px 28px rgba(0, 0, 0, 0.35);
+}
+html.dark .tuc-card:hover {
+  border-color: #4f46e5;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 14px 32px rgba(79, 70, 229, 0.18);
 }
 html.dark .tuc-title {
   color: #e2e8f0;

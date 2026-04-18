@@ -351,6 +351,14 @@ export const formatTextualUseCasesToHtml = (text = '') => {
       continue;
     }
     if (/^Use Case Name\s*:/i.test(trimmed) && current.length) pushCurrent();
+    // New Cockburn-style row "Use Case: FR-01 - …" starts its own card (appendix often omits blank lines between FRs).
+    if (
+      /^Use Case\s*:/i.test(trimmed) &&
+      !/^Use Case Name\s*:/i.test(trimmed) &&
+      current.length
+    ) {
+      pushCurrent();
+    }
     current.push(trimmed);
   }
   pushCurrent();
@@ -359,6 +367,7 @@ export const formatTextualUseCasesToHtml = (text = '') => {
 
   const renderBlock = (block, idx) => {
     let caseName = `Use Case ${idx + 1}`;
+    let namedByUseCaseName = false;
     /** @type {{type:'kv',key:string,value:string}|{type:'ul',items:string[]}|{type:'ol',items:string[]}|{type:'para',text:string}}[]} */
     const segments = [];
 
@@ -406,7 +415,15 @@ export const formatTextualUseCasesToHtml = (text = '') => {
         }
         if (/^use case name$/i.test(key)) {
           caseName = value || caseName;
+          namedByUseCaseName = true;
           continue;
+        }
+        // Title from "Use Case: FR-01 - …" when there is no separate Use Case Name (avoids duplicating the heading in the body).
+        if (/^use case$/i.test(key) && value) {
+          if (!namedByUseCaseName) {
+            caseName = value;
+            continue;
+          }
         }
         segments.push({ type: 'kv', key, value });
         continue;

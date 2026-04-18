@@ -25,6 +25,12 @@ import { getApiErrorMessage } from '../utils/apiErrors';
 import { HALLUCINATION_HELP, formatPct01, flagTypeLabel } from '../utils/srsQualityCopy';
 import { brandUrl } from './BrandLogo';
 import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
+import {
+  ARM_TERMS,
+  ARM_METRIC_TO_GROUP,
+  HIGHLIGHTABLE_HALLUCINATION_KEYS,
+  collectHallucinationMetricTerms,
+} from '../utils/srsLanguageQualityTerms';
 
 /** Same contract as generate-srs-stream `results` body. */
 function buildRequirementsArrayForSrs(resultsData) {
@@ -510,32 +516,67 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
   }, [clearInlineMarks]);
 
   useEffect(() => {
-    // Live highlighting is tied to “Show checks” so it doesn’t distract by default.
-    if (!showValidation) {
+    const metricFocus = new URLSearchParams(location.search).get('metricFocus') || '';
+    const armGroup = ARM_METRIC_TO_GROUP[metricFocus];
+    const hallMetricFocus = HIGHLIGHTABLE_HALLUCINATION_KEYS.has(metricFocus);
+    const shouldApplyMarks = showValidation || !!armGroup || hallMetricFocus;
+
+    // Live highlighting is tied to “Show checks” by default; /srs?metricFocus=… drives the same marks without toggling the panel.
+    if (!shouldApplyMarks) {
       clearInlineMarks();
       return;
     }
+
     const flagged =
       srsData?.hallucination_analysis?.flagged_sections ||
       srsData?.sections?._hallucination_analysis?.flagged_sections ||
       [];
     const terms = [];
-    flagged.forEach((f) => {
-      (f?.terms || []).forEach((t) => terms.push(t));
-      // Also try to highlight the indicator type label where it might appear as wording.
-      if (f?.type === 'excessive_detail' || f?.type === 'expansion_vs_input') terms.push('response time', 'performance');
-    });
-    // Add first few conflict sentences as highlight needles (shortened)
-    const conflicts = srsData?.verification_report?.conflict_analysis?.conflicts || [];
-    conflicts.slice(0, 6).forEach((c) => {
-      if (c?.sentence) terms.push(String(c.sentence).slice(0, 40));
-    });
-    interactiveQualityFlags.forEach((f) => {
-      (f?.terms || []).forEach((t) => terms.push(t));
-      if (f?.snippet) terms.push(String(f.snippet).slice(0, 60));
-    });
+
+    if (armGroup) {
+      (ARM_TERMS[armGroup] || []).forEach((t) => terms.push(t));
+    }
+    if (hallMetricFocus) {
+      collectHallucinationMetricTerms(srsData, null).forEach((t) => terms.push(t));
+    }
+
+    if (showValidation) {
+      flagged.forEach((f) => {
+        (f?.terms || []).forEach((t) => terms.push(t));
+        if (f?.type === 'excessive_detail' || f?.type === 'expansion_vs_input') terms.push('response time', 'performance');
+      });
+      const conflicts = srsData?.verification_report?.conflict_analysis?.conflicts || [];
+      conflicts.slice(0, 6).forEach((c) => {
+        if (c?.sentence) terms.push(String(c.sentence).slice(0, 40));
+      });
+      interactiveQualityFlags.forEach((f) => {
+        (f?.terms || []).forEach((t) => terms.push(t));
+        if (f?.snippet) terms.push(String(f.snippet).slice(0, 60));
+      });
+    }
+
     applyInlineMarks(terms);
-  }, [showValidation, srsData, srsFormattedHtml, applyInlineMarks, clearInlineMarks, interactiveQualityFlags]);
+  }, [
+    showValidation,
+    location.search,
+    srsData,
+    srsFormattedHtml,
+    applyInlineMarks,
+    clearInlineMarks,
+    interactiveQualityFlags,
+  ]);
+
+  useEffect(() => {
+    const metricFocus = new URLSearchParams(location.search).get('metricFocus') || '';
+    if (!metricFocus) return;
+    const id = window.requestAnimationFrame(() => {
+      const root = docRootRef.current;
+      if (!root) return;
+      const el = root.querySelector('mark.srs-mark');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [location.search, srsFormattedHtml, showValidation]);
 
   const toggleSection = useCallback((section) => {
     setExpandedSections(prev => ({

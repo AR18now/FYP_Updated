@@ -1,4 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Download, RefreshCw, FileText } from 'lucide-react';
 import config from '../config';
@@ -9,6 +11,7 @@ import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../ut
 
 const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const generateUseCases = useCallback(async () => {
     if (!srsData?.sections) return;
@@ -18,14 +21,19 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
         config.API_ENDPOINTS.GENERATE_USECASES,
         buildGenerateUseCasesRequestBody(srsData)
       );
-      if (onUseCaseDataChange) onUseCaseDataChange(response.data);
+      if (onUseCaseDataChange) {
+        flushSync(() => {
+          onUseCaseDataChange(response.data);
+        });
+      }
+      navigate('/usecase-diagram');
     } catch (error) {
       console.error('Failed to generate use cases', error);
       alert(getApiErrorMessage(error, 'Failed to generate textual use cases.'));
     } finally {
       setIsLoading(false);
     }
-  }, [srsData, onUseCaseDataChange]);
+  }, [srsData, onUseCaseDataChange, navigate]);
 
   const modelUcText = useMemo(() => {
     const fromSaved = useCaseData?.textual_usecases?.text;
@@ -104,9 +112,9 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           </div>
         </div>
 
-        <div className="border border-slate-200 dark:border-slate-600 rounded-lg p-3 sm:p-4 md:p-6 bg-slate-50 dark:bg-slate-950/50 min-h-[50vh] sm:min-h-[62vh] lg:min-h-[70vh] overflow-auto">
+        <div className="rounded-xl border border-slate-200/80 dark:border-slate-600/80 bg-slate-100/90 dark:bg-slate-950/60 min-h-[50vh] sm:min-h-[62vh] lg:min-h-[70vh] overflow-auto p-4 sm:p-5 md:p-6">
           {!hasModelTextualUseCases(srsData) && (
-            <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+            <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 max-w-[92ch] mx-auto">
               Regenerate the SRS so the model outputs the textual use case appendix (delimiters in the SRS prompt). This page no longer builds use cases from SRS sections on the server.
             </p>
           )}

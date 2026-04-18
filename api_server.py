@@ -428,6 +428,48 @@ def evaluate_srs_kb_metrics():
         return jsonify({"error": str(e), "metrics": {}, "srs_quality_table": []}), 500
 
 
+@app.route("/api/knowledge-base-corpus-metrics-report", methods=["GET"])
+def knowledge_base_corpus_metrics_report():
+    """
+    Full HTML table for offline KB batch evaluation (e.g. final_extracted_srs_ieee830 corpus).
+
+    Reads ``data/output/<file>.json`` (default ``kb_quality_report_final_extracted.json``) produced by
+    ``python rag/evaluate_srs_kb.py`` and renders the same layout as ``rag/export_kb_metrics_html.py``.
+    Optional query: ``?file=kb_quality_report_other.json`` (basename only).
+    """
+    try:
+        from rag.export_kb_metrics_html import build_kb_metrics_report_html
+    except ImportError as e:
+        logger.error("knowledge-base-corpus-metrics-report: import failed: %s", e)
+        return jsonify({"error": "KB metrics HTML builder is not available on this server."}), 500
+
+    root = Path(__file__).resolve().parent
+    filename = (request.args.get("file") or "kb_quality_report_final_extracted.json").strip()
+    if not re.fullmatch(r"[A-Za-z0-9._-]+\.json", filename):
+        return jsonify({"error": "Invalid file parameter (use a .json basename only)."}), 400
+    json_path = root / "data" / "output" / filename
+    if not json_path.is_file():
+        return (
+            jsonify(
+                {
+                    "error": f"No evaluation JSON at {json_path}.",
+                    "hint": (
+                        "Run: python rag/evaluate_srs_kb.py --kb_dir <path-to-final_extracted_srs_ieee830> "
+                        f"--json_out data/output/{filename}"
+                    ),
+                }
+            ),
+            404,
+        )
+    try:
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+        html_body = build_kb_metrics_report_html(payload, str(json_path))
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as e:
+        logger.exception("knowledge-base-corpus-metrics-report: failed to build HTML")
+        return jsonify({"error": str(e)}), 500
+    return Response(html_body, mimetype="text/html; charset=utf-8")
+
+
 def _srs_plain_text_for_dashboard(srs: dict) -> str:
     """Same plain-text contract as the SRS metrics page (raw_text, else JSON sections)."""
     if not isinstance(srs, dict):

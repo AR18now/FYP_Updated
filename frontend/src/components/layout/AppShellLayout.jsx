@@ -21,6 +21,7 @@ import {
   UserCircle2,
   UserCheck,
   BarChart3,
+  Library,
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { BrandMark } from '../BrandLogo';
@@ -32,6 +33,7 @@ const primaryNav = [
   { to: '/srs', label: 'SRS document', icon: FileText },
   { to: '/expert-review', label: 'Expert review', icon: UserCheck },
   { to: '/srs-metrics', label: 'SRS metrics', icon: BarChart3 },
+  { to: '/kb-corpus-metrics', label: 'KB corpus metrics', icon: Library },
   { to: '/textual-usecases', label: 'Textual use cases', icon: ClipboardList },
   { to: '/usecase-diagram', label: 'Use case diagram', icon: GitBranch },
   { to: '/rtm', label: 'RTM matrix', icon: Table2 },
@@ -81,6 +83,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
       '/profile': 'Profile',
       '/expert-review': 'Expert review',
       '/srs-metrics': 'SRS metrics',
+      '/kb-corpus-metrics': 'KB corpus metrics',
     };
     return map[location.pathname] || 'Workspace';
   }, [location.pathname]);

@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
+"""
+Export KB batch evaluation JSON (from rag/evaluate_srs_kb.py) to a wide HTML table.
+
+Used offline via CLI and online via api_server ``/api/knowledge-base-corpus-metrics-report``.
+"""
+from __future__ import annotations
+
 import argparse
 import html
 import json
 from pathlib import Path
+from typing import Any, Mapping
 
 
 def _unique_preserve_order(items: list[str]) -> list[str]:
-    seen = set()
-    unique = []
+    seen: set[str] = set()
+    unique: list[str] = []
     for item in items:
         if item in seen:
             continue
@@ -16,17 +24,9 @@ def _unique_preserve_order(items: list[str]) -> list[str]:
     return unique
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Export KB metrics JSON to an HTML table report.")
-    parser.add_argument("--input_json", default="data/output/kb_quality_report_all232.json")
-    parser.add_argument("--output_html", default="data/output/kb_metrics_report_all232.html")
-    args = parser.parse_args()
-
-    src = Path(args.input_json)
-    out = Path(args.output_html)
-    payload = json.loads(src.read_text(encoding="utf-8"))
-    rows = payload.get("rows", [])
-
+def build_kb_metrics_report_html(payload: Mapping[str, Any], source_display: str) -> str:
+    """Build full HTML document for one ``evaluate_srs_kb`` summary JSON object."""
+    rows = list(payload.get("rows") or [])
     metric_columns = [
         "arm_overall_score",
         "arm_imperative_quality",
@@ -69,14 +69,13 @@ def main() -> None:
         "lexical_richness",
         "requirements_detected",
     ]
-
     metric_columns = _unique_preserve_order(metric_columns)
     header_cells = ["file_name", "passed", *metric_columns]
     header_html = "".join(f"<th>{html.escape(col)}</th>" for col in header_cells)
 
-    body_rows = []
+    body_rows: list[str] = []
     for row in rows:
-        file_name = Path(row.get("file", "")).name
+        file_name = Path(str(row.get("file", ""))).name
         cells = [file_name, str(row.get("passed", ""))]
         cells.extend(str(row.get(col, "")) for col in metric_columns)
         td = "".join(f"<td>{html.escape(cell)}</td>" for cell in cells)
@@ -84,8 +83,13 @@ def main() -> None:
 
     table_body = "\n".join(body_rows)
     report_title = "SRS Knowledge Base Metrics Report"
+    kb_dir = html.escape(str(payload.get("kb_dir", "")))
+    docs_total = payload.get("documents_total", len(rows))
+    docs_passed = payload.get("documents_passed", "")
+    pass_thr = payload.get("pass_threshold", "")
+    avg = payload.get("average_score", "")
 
-    doc = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -137,9 +141,12 @@ def main() -> None:
 <body>
   <h1>{report_title}</h1>
   <div class="meta">
-    <div><strong>Source:</strong> {html.escape(str(src))}</div>
-    <div><strong>Total Documents:</strong> {len(rows)}</div>
-    <div><strong>Average Score:</strong> {payload.get("average_score", "")}</div>
+    <div><strong>Source JSON:</strong> {html.escape(str(source_display))}</div>
+    <div><strong>KB directory:</strong> {kb_dir}</div>
+    <div><strong>Total documents:</strong> {html.escape(str(docs_total))}</div>
+    <div><strong>Passed:</strong> {html.escape(str(docs_passed))}</div>
+    <div><strong>Pass threshold:</strong> {html.escape(str(pass_thr))}</div>
+    <div><strong>Average score:</strong> {html.escape(str(avg))}</div>
   </div>
   <div class="table-wrap">
     <table>
@@ -155,14 +162,26 @@ def main() -> None:
 </html>
 """
 
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Export KB metrics JSON to an HTML table report.")
+    parser.add_argument("--input_json", default="data/output/kb_quality_report_all232.json")
+    parser.add_argument("--output_html", default="data/output/kb_metrics_report_all232.html")
+    args = parser.parse_args()
+
+    src = Path(args.input_json)
+    out = Path(args.output_html)
+    payload = json.loads(src.read_text(encoding="utf-8"))
+    doc = build_kb_metrics_report_html(payload, str(src))
+
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc, encoding="utf-8")
+    rows = payload.get("rows", [])
     print(
         json.dumps(
             {
                 "output_html": str(out),
                 "rows": len(rows),
-                "metric_columns": len(metric_columns),
             },
             indent=2,
         )
@@ -171,4 +190,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

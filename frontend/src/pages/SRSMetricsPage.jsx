@@ -3,10 +3,17 @@ import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2, FileText, RefreshCw, AlertTriangle } from 'lucide-react';
 import config from '../config';
+import {
+  ARM_TERMS,
+  ARM_METRIC_TO_GROUP,
+  HIGHLIGHTABLE_ARM_KEYS,
+  HIGHLIGHTABLE_HALLUCINATION_KEYS,
+  collectHallucinationMetricTerms,
+} from '../utils/srsLanguageQualityTerms';
 
 function srsPlainText(srs) {
   if (!srs) return '';
-  const raw = String(srs.raw_text || '').trim();
+  const raw = String(srs.raw_text || srs.sections?._raw_text || '').trim();
   if (raw.length >= 80) return raw;
   try {
     return JSON.stringify(srs.sections || {}, null, 0);
@@ -173,51 +180,6 @@ function sectionLevelMetrics(srsText) {
   const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
   return { precision, recall, f1, foundCount: found.size, headingCount: normalized.length };
 }
-
-const ARM_TERMS = {
-  imperative: ['shall', 'must', 'is required to', 'are applicable', 'are to', 'responsible for', 'will', 'should'],
-  continuance: ['below:', 'as follows:', 'following:', 'listed:', 'in particular:', 'support:', 'and', ':'],
-  directive: ['e.g.', 'i.e.', 'for example', 'figure', 'table', 'note:'],
-  option: ['can', 'may', 'optionally'],
-  weakPhrase: ['adequate', 'as appropriate', 'be able to', 'be capable of', 'capability of', 'capability to', 'effective', 'as required', 'normal', 'provide for', 'timely', 'easy to'],
-  incomplete: ['tbd', 'tbs', 'tbe', 'tbc', 'tbr', 'not defined', 'not determined', 'but not limited to', 'as a minimum', '######'],
-};
-const HIGHLIGHTABLE_ARM_KEYS = new Set([
-  'imperative_quality',
-  'imperative_count',
-  'continuance_quality',
-  'continuance_count',
-  'directive_quality',
-  'directive_count',
-  'option_quality',
-  'option_count',
-  'weak_phrase_quality',
-  'weak_phrase_count',
-  'incomplete_quality',
-  'incomplete_count',
-]);
-const HIGHLIGHTABLE_HALLUCINATION_KEYS = new Set([
-  'ai_hallucination_quality',
-  'has_hallucinations',
-  'confidence_score',
-  'term_overlap',
-  'total_original_terms',
-]);
-
-const ARM_METRIC_TO_GROUP = {
-  imperative_quality: 'imperative',
-  imperative_count: 'imperative',
-  continuance_quality: 'continuance',
-  continuance_count: 'continuance',
-  directive_quality: 'directive',
-  directive_count: 'directive',
-  option_quality: 'option',
-  option_count: 'option',
-  weak_phrase_quality: 'weakPhrase',
-  weak_phrase_count: 'weakPhrase',
-  incomplete_quality: 'incomplete',
-  incomplete_count: 'incomplete',
-};
 
 function countTerm(text, term) {
   const src = String(text || '');
@@ -388,7 +350,7 @@ function buildHighlightedHtmlByTerms(text, terms) {
   let cursor = 0;
   for (const r of merged) {
     html += escapeHtml(source.slice(cursor, r.start));
-    html += `<mark>${escapeHtml(source.slice(r.start, r.end))}</mark>`;
+    html += `<mark class="srs-metrics-mark">${escapeHtml(source.slice(r.start, r.end))}</mark>`;
     cursor = r.end;
   }
   html += escapeHtml(source.slice(cursor));
@@ -535,38 +497,10 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   const selectedArmGroup = ARM_METRIC_TO_GROUP[selectedHighlightMetricKey] || '';
   const selectedArmTerms = selectedArmGroup ? ARM_TERMS[selectedArmGroup] : [];
 
-  const hallucinationEvidenceTerms = useMemo(() => {
-    const terms = [];
-    const hall = hallForFallback || {};
-    const flags = Array.isArray(hall?.flagged_sections) ? hall.flagged_sections : [];
-    flags.forEach((flag) => {
-      if (Array.isArray(flag?.terms)) {
-        flag.terms.forEach((t) => terms.push(String(t || '').trim()));
-      }
-      if (typeof flag?.message === 'string' && flag.message.trim()) {
-        terms.push(flag.message.trim().slice(0, 120));
-      }
-      if (Array.isArray(flag?.requirements)) {
-        flag.requirements.forEach((req) => {
-          const desc = String(req?.description || '').trim();
-          if (desc) terms.push(desc.slice(0, 120));
-        });
-      }
-    });
-
-    const aiHallMetric = Array.isArray(aiEval?.metrics)
-      ? aiEval.metrics.find((m) => m?.key === 'hallucination')
-      : null;
-    const examples = Array.isArray(aiHallMetric?.highlights?.examples)
-      ? aiHallMetric.highlights.examples
-      : [];
-    examples.forEach((ex) => {
-      const t = String(ex?.text || '').trim();
-      if (t) terms.push(t.slice(0, 140));
-    });
-
-    return Array.from(new Set(terms.filter((t) => t.length >= 4)));
-  }, [hallForFallback, aiEval]);
+  const hallucinationEvidenceTerms = useMemo(
+    () => collectHallucinationMetricTerms(srsData, aiEval),
+    [srsData, aiEval]
+  );
 
   const selectedHighlightTerms = selectedArmGroup
     ? selectedArmTerms
@@ -586,7 +520,9 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
     const match = text.match(rx);
     if (!match) return escapeHtml(text);
     const idx = match.index || 0;
-    return `${escapeHtml(text.slice(0, idx))}<mark>${escapeHtml(text.slice(idx, idx + match[0].length))}</mark>${escapeHtml(text.slice(idx + match[0].length))}`;
+    return `${escapeHtml(text.slice(0, idx))}<mark class="srs-metrics-mark">${escapeHtml(
+      text.slice(idx, idx + match[0].length)
+    )}</mark>${escapeHtml(text.slice(idx + match[0].length))}`;
   }, [selectedConflict, text]);
 
   useEffect(() => {
@@ -662,14 +598,13 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
                 >
                   <td className="px-3 py-3 font-medium text-slate-900 dark:text-slate-100 font-mono whitespace-nowrap">
                     {HIGHLIGHTABLE_ARM_KEYS.has(m.key) || HIGHLIGHTABLE_HALLUCINATION_KEYS.has(m.key) ? (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedHighlightMetricKey(m.key)}
+                      <Link
+                        to={`/srs?metricFocus=${encodeURIComponent(m.key)}`}
                         className="underline decoration-dotted underline-offset-4 text-r2d-primary dark:text-cyan-300 hover:text-r2d-primaryLight"
-                        title="Click to preview highlighted occurrences in SRS"
+                        title="Open the formatted SRS with matching phrases highlighted"
                       >
                         {m.label}
-                      </button>
+                      </Link>
                     ) : (
                       m.label
                     )}
@@ -696,13 +631,21 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
               Preview for <span className="font-mono">{selectedHighlightMetricKey}</span>{' '}
               ({selectedArmGroup || 'hallucination'})
             </h2>
-            <button
-              type="button"
-              onClick={() => setSelectedHighlightMetricKey('')}
-              className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-800 w-full sm:w-auto"
-            >
-              Close preview
-            </button>
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <Link
+                to={`/srs?metricFocus=${encodeURIComponent(selectedHighlightMetricKey)}`}
+                className="text-center text-xs px-2 py-1 rounded bg-r2d-primary text-white hover:bg-r2d-primaryLight"
+              >
+                Show in formatted SRS
+              </Link>
+              <button
+                type="button"
+                onClick={() => setSelectedHighlightMetricKey('')}
+                className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-800"
+              >
+                Close preview
+              </button>
+            </div>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
             Terms being checked: {selectedHighlightTerms.length ? selectedHighlightTerms.join(', ') : 'No flagged terms available'}

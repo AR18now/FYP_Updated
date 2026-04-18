@@ -41,6 +41,8 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
     return '';
   }, [useCaseData?.diagram]);
 
+  const diagramAlreadyRendered = Boolean(activeDiagramB64);
+
   const downloadPuml = useCallback(() => {
     if (!activePlantUml) return;
     const blob = new Blob([activePlantUml], { type: 'text/plain;charset=utf-8' });
@@ -115,17 +117,20 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           </div>
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             <button
+              type="button"
               onClick={generateUseCases}
-              disabled={isLoading || !hasModelTextualUseCases(srsData)}
+              disabled={isLoading || !hasModelTextualUseCases(srsData) || diagramAlreadyRendered}
               title={
-                hasModelTextualUseCases(srsData)
-                  ? 'Render diagram from model appendix text'
-                  : 'Regenerate SRS so the model includes the textual use case appendix'
+                diagramAlreadyRendered
+                  ? 'Diagram is already shown for this SRS. Generate a new SRS to rebuild.'
+                  : hasModelTextualUseCases(srsData)
+                    ? 'Render diagram from model appendix text'
+                    : 'Regenerate SRS so the model includes the textual use case appendix'
               }
-              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-              {isLoading ? 'Generating...' : 'Generate diagram'}
+              {isLoading ? 'Generating...' : diagramAlreadyRendered ? 'Diagram ready' : 'Generate diagram'}
             </button>
             <button
               type="button"

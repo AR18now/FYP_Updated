@@ -1,0 +1,112 @@
+Use Case: FR-01 - Route Planning
+Primary Actor:Passenger
+Stakeholders:Operations Team
+Precondition:Passenger has entered origin and destination into the application.
+Main Success Scenario:1. Application calculates and displays the most efficient route based on predefined criteria.
+2. Passenger reviews and selects the preferred route.
+Extensions:- If no suitable route exists, the application suggests alternative options.
+Postcondition:Passenger knows which route to follow.
+Trace to FR Id:FR-01
+Use Case: FR-02 - Ticket Purchase
+Primary Actor:Passenger
+Stakeholders:Operations Team
+Precondition:Passenger has selected a route and chosen their passenger type.
+Main Success Scenario:1. Application generates a ticket with the correct fare and concession discounts applied.
+2. Passenger receives a confirmation message and ticket details.
+Extensions:- If the passenger does not qualify for a discount, they receive a standard ticket.
+Postcondition:Passenger holds a valid ticket.
+Trace to FR Id:FR-02
+Use Case: FR-03 - Single Ticket Validation
+Primary Actor:Passenger
+Stakeholders:Conductors
+Precondition:Passenger presents a single-use ticket at the entry point.
+Main Success Scenario:1. Entry point machine scans the ticket.
+2. Machine verifies the ticket’s validity and applies penalties if necessary.
+3. Machine displays a green light and allows passage.
+Extensions:- If the ticket is invalid, the machine denies passage and provides feedback.
+Postcondition:Passenger either enters the vehicle or is informed about the issue.
+Trace to FR Id:FR-03
+Use Case: FR-04 - Monthly Pass Validation
+Primary Actor:Passenger
+Stakeholders:Conductors
+Precondition:Passenger presents a monthly pass at the entry point.
+Main Success Scenario:1. Entry point machine scans the pass.
+2. Machine verifies the pass’s validity and updates the ride count.
+3. Machine displays a green light and allows passage.
+Extensions:- If the pass is expired or invalid, the machine denies passage and provides feedback.
+Postcondition:Passenger either enters the vehicle or is informed about the issue.
+Trace to FR Id:FR-04
+Use Case: FR-05 - Fare Zone Management
+Primary Actor:Operations Team
+Stakeholders:None
+Precondition:New zone boundaries and fare rates are defined.
+Main Success Scenario:1. System assigns correct fares to journey segments based on new zone definitions.
+2. System updates journey costs automatically.
+Extensions:- If incorrect zones are assigned, the system flags the error for review.
+Postcondition:Journey costs reflect updated zone definitions.
+Trace to FR Id:FR-05
+Use Case: FR-06 - Concession Handling
+Primary Actor:Operations Team
+Stakeholders:None
+Precondition:Passenger qualifies for a concession.
+Main Success Scenario:1. System checks passenger eligibility.
+2. System adjusts ticket prices according to concession rules.
+3. System generates a discounted ticket.
+Extensions:- If the passenger does not qualify, the system generates a standard ticket.
+Postcondition:Passenger receives a correctly priced ticket.
+Trace to FR Id:FR-06
+Use Case: FR-07 - Penalty Calculation
+Primary Actor:Operations Team
+Stakeholders:None
+Precondition:Information regarding invalid travel is provided.
+Main Success Scenario:1. System determines the penalty amount based on established policies.
+2. System displays the calculated penalty to the relevant authority.
+Extensions:- If no policy applies, the system indicates this fact.
+Postcondition:Authority knows the amount of the penalty.
+Trace to FR Id:FR-07
+Use Case: FR-08 - Offline Conductor Validation
+Primary Actor:Conductor
+Stakeholders:None
+Precondition:Conductor has a handheld device and a ticket to validate.
+Main Success Scenario:1. Conductor inputs the ticket number into the device.
+2. Device performs local validation using stored data.
+3. Device confirms the ticket’s validity and allows passage.
+Extensions:- If the ticket is invalid, the device denies passage and provides feedback.
+Postcondition:Conductor knows whether the ticket is valid.
+Trace to FR Id:FR-08
+Use Case: FR-09 - Log Sync Post Connectivity Restoration
+Primary Actor:Conductor
+Stakeholders:Operations Team
+Precondition:Conductor completes a transaction while offline.
+Main Success Scenario:1. Conductor uploads the transaction record to the central server upon reconnection.
+2. Server updates the transaction history.
+Extensions:- If reconnection fails, the transaction remains pending until successful upload.
+Postcondition:Transaction history reflects completed actions.
+Trace to FR Id:FR-09
+Use Case: FR-10 - Monitoring Route Usage
+Primary Actor:Operations Team
+Stakeholders:None
+Precondition:Historical data from station interfaces is available.
+Main Success Scenario:1. System analyzes the usage patterns over time.
+2. System generates trend reports for the operations team.
+Extensions:- If insufficient data is available, the system generates a warning.
+Postcondition:Operations team receives usage trend reports.
+Trace to FR Id:FR-10
+Use Case: FR-11 - Peak Traffic Trend Analysis
+Primary Actor:Operations Team
+Stakeholders:None
+Precondition:Current and historical traffic data is available.
+Main Success Scenario:1. System identifies peak times and locations.
+2. System generates an analysis report highlighting these periods.
+Extensions:- If no peaks are identified, the system notes this absence.
+Postcondition:Operations team receives peak traffic analysis reports.
+Trace to FR Id:FR-11
+Use Case: FR-12 - Device Health Monitoring
+Primary Actor:Maintenance Crew
+Stakeholders:Operations Team
+Precondition:Sensor data from devices is collected regularly.
+Main Success Scenario:1. System evaluates device performance indicators.
+2. System sends alerts to the maintenance crew if issues are detected.
+Extensions:- If no issues are found, the system generates a confirmation report.
+Postcondition:Maintenance crew is aware of potential device problems.
+Trace to FR Id:FR-12

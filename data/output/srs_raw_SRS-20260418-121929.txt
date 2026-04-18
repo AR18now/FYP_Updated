@@ -1,0 +1,129 @@
+INTRODUCTION
+Purpose: To specify the software requirements for a public transport ticketing system that supports planning routes, purchasing tickets, validating them, handling fare zones, refunds, and monitoring operations.
+Scope: This SRS covers functionalities related to passenger ticket management, conductor validation processes, and operational analytics within the context of a public transport network.
+Definitions/Acronyms:
+- PTT: Public Transport Ticketing
+- QR: Quick Response Code
+- NFC: Near Field Communication
+References: IEEE Std 830-1998, ISO/IEC 25010:2011
+
+OVERALL DESCRIPTION
+Perspective: The perspective of this system is from the viewpoint of passengers, conductors, and operations staff managing a public transport network.
+
+Functions:
+- Route Planning
+- Ticket Purchase
+- Ticket Validation
+- Fare Zone Management
+- Concession Handling
+- Penalty Calculation
+- Offline Conductor Validation
+- Log Sync Post Connectivity Restoration
+- Monitoring Route Usage
+- Peak Traffic Trend Analysis
+- Device Health Monitoring
+- Refund Workflows
+
+Users: Passengers, Conductors, Operations Teams
+Constraints:
+- Real-time ticket validation required during peak hours
+- Offline validation necessary when no internet connection available
+- Data privacy and security measures must be implemented
+Assumptions/Dependencies:
+- Network infrastructure supports real-time updates and log synchronization
+- Devices used by conductors have NFC capabilities
+- Passenger devices can scan QR codes
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Passenger Interface: Web portal, mobile app
+- Conductor Interface: Handheld device
+- Station Interface: Entry point machines
+- Operations Interface: Central server, dashboard
+Functional Requirements:
+FR-01
+- Route Planning
+Input: User's origin and destination
+Processing: Calculate optimal route based on predefined criteria such as distance, time, and fare zone
+Output: Display suggested routes to user
+Priority: High
+FR-02
+- Ticket Purchase
+Input: Selected route details, passenger type (e.g., adult, student)
+Processing: Generate appropriate ticket(s) including fare calculation and concession eligibility check
+Output: Provide purchase confirmation and ticket details
+Priority: High
+FR-03
+- Single Ticket Validation
+Input: Ticket barcode or QR code
+Processing: Verify ticket validity against database and apply penalty if necessary
+Output: Validate ticket and display status message
+Priority: Medium
+FR-04
+- Monthly Pass Validation
+Input: Monthly pass barcode or QR code
+Processing: Verify pass validity period and deduct applicable rides
+Output: Validate pass and update remaining ride count
+Priority: Medium
+FR-05
+- Fare Zone Management
+Input: Zone boundaries and fare rates
+Processing: Assign correct fare rate to journey segments based on entered zones
+Output: Update journey cost accordingly
+Priority: Low
+FR-06
+- Concession Handling
+Input: Passenger ID and concession category
+Processing: Check eligibility and adjust ticket price
+Output: Apply concession and generate discounted ticket
+Priority: Low
+FR-07
+- Penalty Calculation
+Input: Invalid travel information
+Processing: Determine penalty amount based on policy
+Output: Display calculated penalty
+Priority: Low
+FR-08
+- Offline Conductor Validation
+Input: Conductor device, ticket barcode or QR code
+Processing: Perform local validation without internet access
+Output: Validate ticket locally and provide status
+Priority: Medium
+FR-09
+- Log Sync Post Connectivity Restoration
+Input: Conducted transactions and validation results
+Processing: Upload logs to central server upon reconnection
+Output: Update transaction records in central database
+Priority: Low
+FR-10
+- Monitoring Route Usage
+Input: Historical data from station interfaces
+Processing: Analyze usage patterns over time
+Output: Present trend reports to operations team
+Priority: Low
+FR-11
+- Peak Traffic Trend Analysis
+Input: Current and historical traffic data
+Processing: Identify peak times and locations
+Output: Generate analysis report highlighting busy periods
+Priority: Low
+FR-12
+- Device Health Monitoring
+Input: Sensor data from devices at stations
+Processing: Evaluate device performance and alert maintenance crew if issues detected
+Output: Send alerts via email or SMS to maintenance team
+Priority: Low
+Non-Functional Requirements:
+Usability: The interface shall be intuitive and easy to navigate for all users.
+Reliability: The system must ensure accurate and consistent operation under various conditions.
+Performance: The system shall process transactions quickly, especially during peak hours.
+Portability: The system shall function reliably on different hardware platforms.
+
+SYSTEM FEATURES
+- Real-time route planning and ticket validation
+- Support for multiple payment methods including cash, card, and digital payments
+- Integration with third-party services for additional convenience
+- Secure storage and transmission of sensitive data
+- Automated refund processing following service cancellations
+
+End of Document.

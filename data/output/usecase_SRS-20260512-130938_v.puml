@@ -1,0 +1,83 @@
+@startuml
+' UML 2.x Use Case Diagram (PlantUML)
+top to bottom direction
+
+title UML 2.x Use Case Diagram (vertical)\n<size:12><i>library system</i></size>
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI", Helvetica, Arial, sans-serif
+skinparam defaultFontSize 12
+skinparam TitleFontSize 14
+skinparam TitleFontStyle bold
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #1e3a8a
+  FontColor #0f172a
+  RoundCorner 10
+}
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam actor {
+  BackgroundColor #EEF2FF
+  BorderColor #1d4ed8
+  FontColor #0f172a
+}
+skinparam arrow {
+  Color #475569
+  Thickness 1.5
+}
+
+' --- Actors (outside subject boundary) ---
+actor "Reader" as act_0
+
+' --- Subject (system boundary) & use cases ---
+rectangle "library system" {
+  usecase "FR-01 - Search Books" as uc_0
+  usecase "FR-02 - Borrow Books" as uc_1
+  usecase "FR-03 - Return Books" as uc_2
+  usecase "FR-04 - Catalog Management" as uc_3
+  usecase "FR-05 - Issue Workflows" as uc_4
+  usecase "FR-06 - Renewal Limits" as uc_5
+  usecase "FR-07 - Overdue Fines" as uc_6
+  usecase "FR-08 - Reservation Queues" as uc_7
+  usecase "FR-09 - Hold Availability Updates" as uc_8
+  usecase "FR-10 - Damage Reporting" as uc_9
+  usecase "FR-11 - Membership Management" as uc_10
+  usecase "FR-12 - Analytics" as uc_11
+  usecase "FR-13 - Automated Reminders" as uc_12
+  ' use case ordering hint (vertical)
+  uc_0 -[hidden]down- uc_1
+  uc_1 -[hidden]down- uc_2
+  uc_2 -[hidden]down- uc_3
+  uc_3 -[hidden]down- uc_4
+  uc_4 -[hidden]down- uc_5
+  uc_5 -[hidden]down- uc_6
+  uc_6 -[hidden]down- uc_7
+  uc_7 -[hidden]down- uc_8
+  uc_8 -[hidden]down- uc_9
+  uc_9 -[hidden]down- uc_10
+  uc_10 -[hidden]down- uc_11
+  uc_11 -[hidden]down- uc_12
+}
+
+' --- Associations (actor to use case) ---
+act_0 -- uc_0
+act_0 -- uc_1
+act_0 -- uc_2
+act_0 -- uc_3
+act_0 -- uc_4
+act_0 -- uc_5
+act_0 -- uc_6
+act_0 -- uc_7
+act_0 -- uc_8
+act_0 -- uc_9
+act_0 -- uc_10
+act_0 -- uc_11
+act_0 -- uc_12
+
+@enduml

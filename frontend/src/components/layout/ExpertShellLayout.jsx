@@ -43,7 +43,7 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-slate-100 via-blue-50/70 to-indigo-50/60 text-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-stone-100 via-amber-50/65 to-stone-50 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
       {sidebarOpen && (
         <button
           type="button"

@@ -1089,80 +1089,117 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
             </p>
           )}
 
-          {!srsDashboardLoading && dashboardTiles.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {dashboardTiles.map((tile, idx) => {
-                const href = tile.focus
-                  ? `/srs-metrics?focus=${encodeURIComponent(tile.focus)}`
-                  : '/srs-metrics';
-                const pass = tile.pass === true;
-                const label = pass ? 'Pass' : 'Review';
-                return (
-                  <Link
-                    key={`tile-${idx}-${tile.focus || 'full'}`}
-                    to={href}
-                    aria-label={`${tile.title}: ${label}. Open SRS metrics.`}
-                    className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary cursor-pointer"
+          {!srsDashboardLoading &&
+            (dashboardTiles.length > 0 || Object.keys(hallForDashboard).length > 0) && (
+              <div
+                className={`grid gap-3 items-stretch ${
+                  dashboardTiles.length > 0 && Object.keys(hallForDashboard).length > 0
+                    ? 'grid-cols-1 lg:grid-cols-12'
+                    : dashboardTiles.length > 0
+                      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                      : 'grid-cols-1'
+                }`}
+              >
+                {dashboardTiles.length > 0 && (
+                  <div
+                    className={
+                      Object.keys(hallForDashboard).length > 0
+                        ? 'lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3'
+                        : 'contents'
+                    }
                   >
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      {tile.title}
-                    </p>
-                    <div className="mt-3 flex items-center" aria-hidden="true">
-                      <span
-                        title={label}
-                        className={`inline-block h-5 w-5 rounded-full shrink-0 ${
-                          pass ? 'bg-emerald-500 ring-2 ring-emerald-500/40' : 'bg-red-500 ring-2 ring-red-500/40'
-                        }`}
-                      />
+                    <div
+                      className={
+                        Object.keys(hallForDashboard).length > 0
+                          ? 'contents'
+                          : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 col-span-full'
+                      }
+                    >
+                      {dashboardTiles.map((tile, idx) => {
+                        const href = tile.focus
+                          ? `/srs-metrics?focus=${encodeURIComponent(tile.focus)}`
+                          : '/srs-metrics';
+                        const pass = tile.pass === true;
+                        const label = pass ? 'Pass' : 'Review';
+                        return (
+                          <Link
+                            key={`tile-${idx}-${tile.focus || 'full'}`}
+                            to={href}
+                            aria-label={`${tile.title}: ${label}. Open SRS metrics.`}
+                            className="block rounded-lg border border-slate-200 dark:border-slate-600 p-3 hover:border-r2d-primary dark:hover:border-r2d-accent hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-r2d-primary cursor-pointer h-full"
+                          >
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                              {tile.title}
+                            </p>
+                            <div className="mt-3 flex items-center" aria-hidden="true">
+                              <span
+                                title={label}
+                                className={`inline-block h-5 w-5 rounded-full shrink-0 ${
+                                  pass ? 'bg-emerald-500 ring-2 ring-emerald-500/40' : 'bg-red-500 ring-2 ring-red-500/40'
+                                }`}
+                              />
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-snug">{tile.subtitle}</p>
+                            <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Open metrics →</p>
+                          </Link>
+                        );
+                      })}
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-snug">{tile.subtitle}</p>
-                    <p className="text-[11px] text-r2d-primary dark:text-cyan-300 mt-2">Open metrics →</p>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+                  </div>
+                )}
 
-          {Object.keys(hallForDashboard).length > 0 && (
-            <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-600">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
-                Generation-time alignment
-              </p>
-              <div className="flex flex-wrap gap-3 text-sm text-slate-700 dark:text-slate-200">
-                {typeof hallForDashboard.term_overlap === 'number' && (
-                  <span>
-                    Word overlap:{' '}
-                    <span className="font-mono font-semibold">
-                      {hallForDashboard.term_overlap} / {hallForDashboard.total_original_terms ?? '—'}
-                    </span>
-                  </span>
+                {Object.keys(hallForDashboard).length > 0 && (
+                  <div
+                    className={
+                      dashboardTiles.length > 0
+                        ? 'lg:col-span-4 rounded-lg border border-slate-200 dark:border-slate-600 p-3 bg-slate-50/70 dark:bg-slate-800/50 flex flex-col justify-between min-h-[8rem]'
+                        : 'rounded-lg border border-slate-200 dark:border-slate-600 p-3 bg-slate-50/70 dark:bg-slate-800/50'
+                    }
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
+                      Generation-time alignment
+                    </p>
+                    <div className="flex flex-col gap-2 text-sm text-slate-700 dark:text-slate-200">
+                      {typeof hallForDashboard.term_overlap === 'number' && (
+                        <span>
+                          Word overlap:{' '}
+                          <span className="font-mono font-semibold">
+                            {hallForDashboard.term_overlap} / {hallForDashboard.total_original_terms ?? '—'}
+                          </span>
+                        </span>
+                      )}
+                      {hallForDashboard.monitoring?.strictness ? (
+                        <span className="text-slate-600 dark:text-slate-400 font-mono text-xs">
+                          Monitor: {hallForDashboard.monitoring.strictness}
+                        </span>
+                      ) : null}
+                      {hallForDashboard.flagged_sections?.length > 0 && (
+                        <span className="text-amber-800 dark:text-amber-200">
+                          {hallForDashboard.flagged_sections.length} review note(s) — see{' '}
+                          <Link to="/srs-metrics?focus=has_hallucinations" className="underline text-r2d-primary">
+                            metrics
+                          </Link>
+                        </span>
+                      )}
+                      {Array.isArray(hallForDashboard.informational_signals) &&
+                        hallForDashboard.informational_signals.length > 0 && (
+                          <span className="text-slate-600 dark:text-slate-400">
+                            {hallForDashboard.informational_signals.length} FYI note(s){' '}
+                            {hallForDashboard.flagged_sections?.length > 0
+                              ? '(with review notes in metrics)'
+                              : '(expansion/detail is expected)'}
+                          </span>
+                        )}
+                    </div>
+                    {Number(hallForDashboard.confidence_score) < 0.5 && (
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                        {HALLUCINATION_HELP.confidenceLowExample}
+                      </p>
+                    )}
+                  </div>
                 )}
-                {hallForDashboard.monitoring?.strictness ? (
-                  <span className="text-slate-600 dark:text-slate-400 font-mono text-xs">
-                    Monitor: {hallForDashboard.monitoring.strictness}
-                  </span>
-                ) : null}
-                {hallForDashboard.flagged_sections?.length > 0 && (
-                  <span className="text-amber-800 dark:text-amber-200">
-                    {hallForDashboard.flagged_sections.length} review note(s) — see{' '}
-                    <Link to="/srs-metrics?focus=has_hallucinations" className="underline text-r2d-primary">
-                      metrics
-                    </Link>
-                  </span>
-                )}
-                {Array.isArray(hallForDashboard.informational_signals) &&
-                  hallForDashboard.informational_signals.length > 0 && (
-                    <span className="text-slate-600 dark:text-slate-400">
-                      {hallForDashboard.informational_signals.length} FYI note(s){' '}
-                      {hallForDashboard.flagged_sections?.length > 0 ? '(plus review notes above)' : '(expansion/detail is expected)'}
-                    </span>
-                  )}
               </div>
-              {Number(hallForDashboard.confidence_score) < 0.5 && (
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">{HALLUCINATION_HELP.confidenceLowExample}</p>
-              )}
-            </div>
-          )}
+            )}
 
           <div className="mt-4">
             <Link

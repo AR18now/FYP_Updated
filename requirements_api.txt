@@ -8,6 +8,7 @@
 Flask==2.3.3
 Flask-CORS==4.0.0
 Werkzeug==2.3.7
+gunicorn>=22.0.0
 xhtml2pdf>=0.2.15
 reportlab>=4.0.0
 replicate>=0.24.0

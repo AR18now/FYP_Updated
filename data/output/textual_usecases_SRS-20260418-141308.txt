@@ -1,0 +1,65 @@
+Use Case: FR-01 - Land Profile Registration
+Primary Actor: Farmer
+Stakeholders: Field Officers, Administrators
+Preconditions: Farmer has basic knowledge of their land's characteristics.
+Main Success Scenario:
+1. Farmer opens the app and navigates to the land profile registration page.
+2. Farmer fills out the form with required fields including geographic coordinates, size, type, and previous crop history.
+3. Farmer reviews the submitted information and confirms submission.
+4. System validates the entered data and provides feedback on any discrepancies.
+5. If valid, confirmation message is displayed; otherwise, corrections are suggested.
+Extensions:
+- If invalid data is detected, the system prompts the farmer to correct the information before resubmitting.
+Postcondition: Land profile is registered successfully or corrected appropriately.
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Crop Cycle Management
+Primary Actor: Farmer
+Stakeholders: Field Officers, Administrators
+Preconditions: Farmer has already registered their land profile and knows which crops they plan to grow.
+Main Success Scenario:
+1. Farmer accesses the crop cycle management feature.
+2. Farmer selects the desired crop and sets the start date for planting.
+3. System automatically populates subsequent stages based on typical timelines.
+4. Farmer adjusts dates as needed and saves the updated schedule.
+5. Calendar view displays the revised timeline visually.
+Extensions:
+- If incorrect dates are set, the system highlights potential issues and suggests adjustments.
+Postcondition: Updated crop cycle plan is saved and visible in the calendar view.
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Localized Advisory Generation
+Primary Actor: Farmer
+Stakeholders: Field Officers, Administrators
+Preconditions: Farmer has reported current conditions and requested assistance.
+Main Success Scenario:
+1. Farmer initiates the request for localized advisory.
+2. System gathers relevant data points such as recent weather forecasts and soil test results.
+3. Based on gathered data, the system generates a detailed advisory report.
+4. Farmer receives the advisory via email or push notification.
+5. Farmer reviews the report and implements recommended actions.
+Postcondition: Farmer receives customized advisory tailored to their specific circumstances.
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Field Officer Visit Logs
+Primary Actor: Field Officer
+Stakeholders: Farmers, Administrators
+Preconditions: Field officer has completed a visit to a farm and wishes to document findings.
+Main Success Scenario:
+1. Field officer logs into the app and goes to the visit log section.
+2. Field officer describes observations and recommends next steps.
+3. System links the log entry to the appropriate land profile.
+4. Log entry is saved and becomes part of the overall record.
+Postcondition: Field officer's visit notes are recorded accurately and linked correctly.
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Administrator Monitoring Tools
+Primary Actor: Administrator
+Stakeholders: All users
+Preconditions: Administrator has logged into the admin panel.
+Main Success Scenario:
+1. Administrator navigates to the monitoring tool section.
+2. Administrator views summary statistics on advisory usage, crop outcomes, and unresolved support tickets.
+3. Administrator uses interactive dashboards to analyze trends and make informed decisions.
+Postcondition: Administrator gains valuable insights into system performance and user engagement.
+Trace to FR Id: FR-05

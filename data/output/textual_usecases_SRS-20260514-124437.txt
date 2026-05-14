@@ -1,0 +1,78 @@
+Use Case: FR-01 - Slot Viewing
+Primary Actor: Driver
+Stakeholders: None
+Preconditions: Driver has active internet connection and is located near a parking lot.
+Main Success Scenario:
+1. Driver opens the app and selects 'View Slots'.
+2. App retrieves list of available slots within driver's vicinity.
+3. Driver reviews available slots and chooses one.
+Extensions: If no slots are available, display notification suggesting alternative locations.
+Postcondition: Driver receives information about available slots along with distances and prices.
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Reservation
+Primary Actor: Driver
+Stakeholders: None
+Preconditions: Driver has chosen a slot and verified its availability.
+Main Success Scenario:
+1. Driver initiates reservation process.
+2. System checks slot availability during specified period.
+3. Reservation is confirmed upon success.
+Extensions: If reservation fails due to unavailability, prompt driver to choose another slot.
+Postcondition: Driver receives confirmation of reservation.
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Payment
+Primary Actor: Driver
+Stakeholders: None
+Preconditions: Driver has made a reservation and selected a valid payment method.
+Main Success Scenario:
+1. Driver proceeds to make payment.
+2. System verifies payment details.
+3. Reservation status is updated accordingly.
+Postcondition: Driver receives a receipt with payment and reservation details.
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Digital Payment Gateway Integration
+Primary Actor: Driver
+Stakeholders: None
+Preconditions: Driver has initiated payment process.
+Main Success Scenario:
+1. Driver enters payment information.
+2. Payment gateway processes transaction securely.
+3. Driver receives confirmation of payment.
+Postcondition: Reservation is marked as paid.
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Gate Operator Validation
+Primary Actor: Gate Operator
+Stakeholders: Administrator
+Preconditions: Driver has arrived at designated entrance with reserved slot.
+Main Success Scenario:
+1. Operator scans reservation code presented by driver.
+2. System validates reservation code.
+3. Gate opens automatically if validated successfully.
+Extensions: If reservation cannot be found, operator manually overrides access and logs incident.
+Postcondition: Driver gains access or operator notes override attempt.
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Manual Override
+Primary Actor: Gate Operator
+Stakeholders: Administrator
+Preconditions: Driver needs immediate access but lacks proper reservation.
+Main Success Scenario:
+1. Operator decides to grant access.
+2. System records override action.
+3. Notification is sent to administrator.
+Postcondition: Driver gains unauthorized access noted in system logs.
+Trace to FR Id: FR-06
+
+Use Case: FR-07 - Incident Reporting
+Primary Actor: Gate Operator
+Stakeholders: Administrator
+Preconditions: An issue occurs requiring attention.
+Main Success Scenario:
+1. Operator describes incident briefly.
+2. System logs report and sends acknowledgment.
+Postcondition: Report is recorded in system and acknowledged to operator.
+Trace to FR Id: FR-07

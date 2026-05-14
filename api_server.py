@@ -1248,13 +1248,34 @@ def _build_rtm_report(srs_data: dict, use_case_data: dict) -> dict:
     }
 
 
-# Initialize orchestrator
-orchestrator = RequirementsOrchestrator()
-# Ensure audio transcription is enabled for the API unless explicitly disabled elsewhere
-try:
-    orchestrator.processor.config.enable_whisper = True
-except Exception:
-    pass
+# Lazy-init orchestrator so Flask can bind PORT before heavy models (Whisper / HF) finish loading.
+# Render.com and similar platforms probe for an open port soon after start; import-time init caused
+# "No open ports detected" when model download/load exceeded the probe window.
+_orchestrator_impl = None
+_orchestrator_lock = threading.Lock()
+
+
+def get_orchestrator():
+    global _orchestrator_impl
+    if _orchestrator_impl is None:
+        with _orchestrator_lock:
+            if _orchestrator_impl is None:
+                _orchestrator_impl = RequirementsOrchestrator()
+                try:
+                    _orchestrator_impl.processor.config.enable_whisper = True
+                except Exception:
+                    pass
+    return _orchestrator_impl
+
+
+class _LazyOrchestratorProxy:
+    __slots__ = ()
+
+    def __getattr__(self, name):
+        return getattr(get_orchestrator(), name)
+
+
+orchestrator = _LazyOrchestratorProxy()
 
 # Helper: serialize SRS object to dict with hallucination analysis if present
 def serialize_srs(srs):
@@ -6387,6 +6408,29 @@ if __name__ == '__main__':
     bind_host = (os.environ.get("API_BIND_HOST") or os.environ.get("FLASK_RUN_HOST") or "").strip()
     if not bind_host:
         bind_host = "127.0.0.1" if sys.platform == "win32" else "0.0.0.0"
+
+    # Docker / Render: listen on all interfaces. Docker does not always pass RENDER into the container;
+    # /.dockerenv is present in Linux containers. Render's edge proxy must reach the bound port.
+    _in_linux_container = os.path.exists("/.dockerenv")
+    _on_render = str(os.environ.get("RENDER") or "").strip().lower() in ("1", "true", "yes")
+    _render_service = str(os.environ.get("RENDER_SERVICE_ID") or "").strip() != ""
+    if (_in_linux_container or _on_render or _render_service) and bind_host in (
+        "",
+        "127.0.0.1",
+        "localhost",
+        "::1",
+    ):
+        prev = bind_host or "(default)"
+        bind_host = "0.0.0.0"
+        print(
+            f"Container/cloud runtime detected (dockerenv={_in_linux_container}, render={_on_render}): "
+            f"binding on 0.0.0.0 (was {prev!r}). Remove API_BIND_HOST=127.0.0.1 on Render if you set it by mistake."
+        )
+    elif (_on_render or _render_service) and bind_host and bind_host not in ("0.0.0.0", "[::]", "::"):
+        print(
+            f"WARNING: Render detected but API_BIND_HOST={bind_host!r}. "
+            "Render usually requires 0.0.0.0 so health checks can reach the service."
+        )
 
     # Check if frontend is built
     if os.path.exists(FRONTEND_BUILD_DIR):

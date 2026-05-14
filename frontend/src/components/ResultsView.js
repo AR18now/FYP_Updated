@@ -613,8 +613,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData 
             <h3 className="text-sm font-medium text-green-900 dark:text-emerald-200 mb-2">Requirements</h3>
             <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-emerald-400">{items.length}</p>
           </div>
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/40 dark:to-indigo-900/30 p-6 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-shadow duration-200">
-            <h3 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Timestamp</h3>
+          <div className="bg-gradient-to-br from-amber-50 to-stone-100 dark:from-amber-950/35 dark:to-stone-900/40 p-6 rounded-lg border border-amber-200/90 dark:border-amber-800/50 hover:shadow-lg transition-shadow duration-200">
+            <h3 className="text-sm font-medium text-amber-950 dark:text-amber-200 mb-2">Timestamp</h3>
             <p className="text-sm font-bold text-r2d-accent dark:text-r2d-accentSoft">
               {results.timestamp ? new Date(results.timestamp).toLocaleString() : 'N/A'}
             </p>

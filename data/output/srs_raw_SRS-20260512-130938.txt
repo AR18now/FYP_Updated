@@ -1,0 +1,137 @@
+INTRODUCTION
+Purpose: To define the software requirements for a library system that supports readers' searches, borrows, and returns of both physical and digital books, librarians' catalog management and workflow processes, and administrators' management of memberships and analytics.
+Scope: This Software Requirements Specification (SRS) defines the functionalities required for the library system application. It covers user interactions, system operations, and non-functional requirements such as usability and performance.
+Definitions/Acronyms:
+- LMS: Library Management System
+- Reader: Any individual who is registered to access resources within the library system.
+- Librarian: An authorized staff member responsible for managing the library's collection and conducting transactions.
+- Administrator: A high-level system manager responsible for overseeing all aspects of the library system including policy setting and usage statistics analysis.
+- Membership Rules: Guidelines governing how long items may be borrowed, whether renewals are permitted, etc.
+- Overdue Fine: Financial penalty imposed when a borrower does not return a borrowed item before its due date.
+Overview: The library system will provide a comprehensive solution for managing various activities related to library operations. These include searching for books, handling loans and returns, maintaining records, issuing fines, and generating reports.
+
+OVERALL DESCRIPTION
+Perspective: From the perspective of the end-users, the library system aims to streamline the process of accessing information while ensuring efficient management practices among staff members.
+
+Functions:
+- Search Books: Enable readers to find books based on different criteria.
+- Borrow Books: Allow readers to check out books following specified rules.
+- Return Books: Provide functionality for returning borrowed materials.
+- Catalog Management: Support librarians in organizing and updating the library’s collection.
+- Issue Workflows: Facilitate the issuance of new books and other media.
+- Renewal Limits: Enforce maximum periods for which items can remain checked out.
+- Overdue Fines: Implement mechanisms for collecting penalties for late returns.
+- Reservation Queues: Manage requests for reserved items.
+- Hold Availability Updates: Notify patrons about changes in holds status.
+- Damage Reporting: Track damaged books and initiate replacements.
+- Membership Management: Handle registration and maintenance of reader profiles.
+- Analytics: Generate insights through statistical analyses of reading habits and preferences.
+- Automated Reminders: Send notifications regarding upcoming due dates, expirations, and hold statuses.
+
+Users: Readers, librarians, and administrators.
+Constraints:
+- Legal Compliance: Adherence to local regulations concerning privacy, copyright, and accessibility.
+- Technical Feasibility: Implementation must be technically viable given current technology standards.
+- Resource Limitations: Limited budget and personnel available for development and maintenance.
+Assumptions/Dependencies:
+- Existing Infrastructure: Utilizes existing hardware and network infrastructure.
+- User Training: Users undergo necessary training sessions prior to using the system.
+- Data Integrity: Ensures accurate and consistent data throughout the system.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Human-Machine Interface (HMI): Graphical interface accessible via web browsers or mobile applications.
+- Machine-Machine Interface (MMI): API for integration with external systems like payment gateways or inventory management platforms.
+Functional Requirements:
+FR-01
+- Search Books
+Input: Search parameters (title, author, subject, keyword)
+Processing: Query database for matches against provided criteria
+Output: List of matching books with details (ISBN, edition, publication year, location)
+Priority: High
+FR-02
+- Borrow Books
+Input: Book ID, Reader ID, Membership Type
+Processing: Validate eligibility, update loan record, deduct appropriate period from total allowable loans
+Output: Confirmation message indicating success/failure
+Priority: High
+FR-03
+- Return Books
+Input: Book ID, Reader ID
+Processing: Update loan record, calculate fees if applicable, adjust circulation count
+Output: Receipt showing transaction details
+Priority: Medium
+FR-04
+- Catalog Management
+Input: New book metadata, ISBN, publisher, authors, subjects, descriptions
+Processing: Add entry to catalog database, generate unique identifier
+Output: Confirmation message
+Priority: Low
+FR-05
+- Issue Workflows
+Input: Request form filled by librarian
+Processing: Process request, allocate resources, notify relevant parties
+Output: Notification email sent to requester
+Priority: Low
+FR-06
+- Renewal Limits
+Input: Book ID, Reader ID
+Processing: Check remaining renewals, extend loan period if possible
+Output: Updated loan record
+Priority: Low
+FR-07
+- Overdue Fines
+Input: Book ID, Due Date
+Processing: Calculate fine amount, send reminder notice
+Output: Fine invoice
+Priority: Low
+FR-08
+- Reservation Queues
+Input: Patron ID, Book ID
+Processing: Insert patron name into queue, monitor wait time
+Output: Queue position number
+Priority: Low
+FR-09
+- Hold Availability Updates
+Input: Patron ID, Book ID
+Processing: Update hold status, notify patron of change
+Output: Status update notification
+Priority: Low
+FR-10
+- Damage Reporting
+Input: Book ID, Description of damage
+Processing: Log incident, track repair progress
+Output: Repair log entry
+Priority: Low
+FR-11
+- Membership Management
+Input: Registration form, personal details, contact info
+Processing: Create profile, assign default settings
+Output: Welcome message and login credentials
+Priority: Low
+FR-12
+- Analytics
+Input: Category selection, date range
+Processing: Aggregate data, produce charts/graphs
+Output: Summary report
+Priority: Low
+FR-13
+- Automated Reminders
+Input: Due date, expiration date, hold status
+Processing: Schedule alerts, deliver notifications
+Output: Reminder messages
+Priority: Low
+Non-Functional Requirements:
+Usability: Ensure intuitive navigation and clear presentation of information.
+Reliability: Maintain stable operation under normal conditions and recover quickly from failures.
+Performance: Respond promptly to user actions and complete tasks efficiently.
+Portability: Adapt seamlessly across multiple devices and operating environments.
+
+SYSTEM FEATURES
+- Web-based interface allowing access from anywhere with internet connectivity.
+- Mobile app version compatible with iOS and Android platforms.
+- Real-time synchronization between online and offline databases.
+- Secure authentication methods protecting sensitive user data.
+- Customizable dashboard views tailored to specific roles (reader, librarian, admin).
+
+End of Document.Appendix

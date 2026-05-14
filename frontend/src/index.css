@@ -7,27 +7,27 @@ html.dark {
 }
 
 :root {
-  --bg: #f8faff;
-  --text: #0f172a;
-  --muted: #334155;
+  --bg: #fafaf9;
+  --text: #1c1917;
+  --muted: #57534e;
   --card: #ffffff;
-  --card-border: #dbe5ff;
-  --accent: linear-gradient(135deg, #1e3a8a 0%, #2563eb 48%, #1a1aff 100%);
-  --panel: #0b1226;
-  --panel-border: #1e3a8a;
-  --panel-text: #e2e8f0;
+  --card-border: #e7e5e4;
+  --accent: linear-gradient(135deg, #92400e 0%, #d97706 50%, #b45309 100%);
+  --panel: #1c1917;
+  --panel-border: #d97706;
+  --panel-text: #e7e5e4;
 }
 
 .theme-dark {
-  --bg: #020617;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --card: #0f172a;
-  --card-border: #1e3a8a;
-  --accent: linear-gradient(135deg, #0b1226 0%, #1e3a8a 42%, #1a1aff 100%);
-  --panel: #020617;
-  --panel-border: #1e3a8a;
-  --panel-text: #dbeafe;
+  --bg: #0c0a09;
+  --text: #e7e5e4;
+  --muted: #a8a29e;
+  --card: #292524;
+  --card-border: #44403c;
+  --accent: linear-gradient(135deg, #292524 0%, #78350f 42%, #d97706 100%);
+  --panel: #0c0a09;
+  --panel-border: #d97706;
+  --panel-text: #fef3c7;
 }
 
 body {
@@ -38,10 +38,10 @@ body {
   scroll-behavior: smooth;
   background-color: var(--bg);
   background-image:
-    radial-gradient(1000px at 12% 18%, rgba(37, 99, 235, 0.10), transparent 55%),
-    radial-gradient(900px at 88% 8%, rgba(26, 26, 255, 0.08), transparent 50%),
-    radial-gradient(800px at 50% 100%, rgba(30, 58, 138, 0.06), transparent 55%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 64 64' fill='none' stroke='%2394a3b8' stroke-width='1.5' stroke-opacity='0.06'><circle cx='32' cy='32' r='1.5' fill='%231a1aff' fill-opacity='0.13'/></svg>");
+    radial-gradient(1000px at 12% 18%, rgba(217, 119, 6, 0.09), transparent 55%),
+    radial-gradient(900px at 88% 8%, rgba(180, 83, 9, 0.06), transparent 50%),
+    radial-gradient(800px at 50% 100%, rgba(120, 53, 15, 0.05), transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 64 64' fill='none' stroke='%23a8a29e' stroke-width='1.5' stroke-opacity='0.06'><circle cx='32' cy='32' r='1.5' fill='%23d97706' fill-opacity='0.1'/></svg>");
   background-size: auto, auto, auto, 160px 160px;
   background-repeat: no-repeat, no-repeat, no-repeat, repeat;
   color: var(--text);
@@ -77,13 +77,13 @@ code {
 .progress-animated {
   background: linear-gradient(
     120deg,
-    rgba(30, 58, 138, 0.35),
-    rgba(37, 99, 235, 0.55),
-    rgba(26, 26, 255, 0.4)
+    rgba(146, 64, 14, 0.35),
+    rgba(217, 119, 6, 0.5),
+    rgba(180, 83, 9, 0.38)
   );
   background-size: 200% 100%;
   animation: progressShift 2s linear infinite;
-  box-shadow: 0 0 14px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 14px rgba(217, 119, 6, 0.35);
 }
 
 @keyframes progressShift {
@@ -93,16 +93,16 @@ code {
 
 .neon-text {
   text-shadow:
-    0 0 8px rgba(26, 26, 255, 0.55),
-    0 0 16px rgba(37, 99, 235, 0.38),
-    0 0 26px rgba(129, 140, 248, 0.30);
+    0 0 8px rgba(180, 83, 9, 0.45),
+    0 0 16px rgba(217, 119, 6, 0.32),
+    0 0 26px rgba(251, 191, 36, 0.28);
 }
 
 .neon-card {
   box-shadow:
     0 12px 40px -18px rgba(24, 24, 27, 0.45),
-    0 0 24px rgba(37, 99, 235, 0.24),
-    0 0 42px rgba(26, 26, 255, 0.18);
+    0 0 24px rgba(217, 119, 6, 0.18),
+    0 0 42px rgba(146, 64, 14, 0.14);
 }
 
 /* Card shadow with depth */
@@ -212,30 +212,30 @@ code {
 /* Intro splash neon effects */
 .splash-grid {
   background-image:
-    linear-gradient(rgba(129, 140, 248, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(129, 140, 248, 0.14) 1px, transparent 1px);
+    linear-gradient(rgba(217, 119, 6, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 119, 6, 0.12) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
 }
 
 .splash-neon-text {
   text-shadow:
-    0 0 8px rgba(129, 140, 248, 0.85),
-    0 0 22px rgba(37, 99, 235, 0.5),
-    0 0 40px rgba(26, 26, 255, 0.35);
+    0 0 8px rgba(251, 191, 36, 0.75),
+    0 0 22px rgba(217, 119, 6, 0.42),
+    0 0 40px rgba(180, 83, 9, 0.28);
 }
 
 .splash-neon-ring {
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.18) inset,
-    0 0 20px rgba(37, 99, 235, 0.45),
-    0 0 38px rgba(129, 140, 248, 0.35);
+    0 0 20px rgba(217, 119, 6, 0.38),
+    0 0 38px rgba(251, 191, 36, 0.26);
 }
 
 .splash-loader {
   width: 35%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #818cf8, #2563eb, #1a1aff);
+  background: linear-gradient(90deg, #fcd34d, #f59e0b, #d97706);
   background-size: 200% 100%;
   animation: splashLoad 2.3s linear forwards;
 }
@@ -249,11 +249,11 @@ code {
 .splash-ghost-card {
   position: absolute;
   width: min(280px, 36vw);
-  border: 1px solid rgba(59, 130, 246, 0.24);
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.48), rgba(2, 6, 23, 0.25));
+  border: 1px solid rgba(217, 119, 6, 0.28);
+  background: linear-gradient(180deg, rgba(28, 25, 23, 0.52), rgba(12, 10, 9, 0.28));
   border-radius: 12px;
   padding: 10px 12px;
-  box-shadow: 0 8px 28px -18px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 8px 28px -18px rgba(217, 119, 6, 0.35);
   opacity: 0.72;
   animation: splashCardFloat 7.2s ease-in-out infinite;
 }
@@ -269,7 +269,7 @@ code {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(191, 219, 254, 0.85);
+  color: rgba(254, 243, 199, 0.88);
   margin-bottom: 8px;
   font-weight: 700;
 }
@@ -279,7 +279,7 @@ code {
   height: 4px;
   border-radius: 9999px;
   margin-bottom: 6px;
-  background: linear-gradient(90deg, rgba(96, 165, 250, 0.2), rgba(37, 99, 235, 0.95), rgba(96, 165, 250, 0.25));
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.22), rgba(217, 119, 6, 0.9), rgba(251, 191, 36, 0.26));
   background-size: 220% 100%;
   animation: splashTyping 2.8s ease-in-out infinite;
 }
@@ -299,8 +299,8 @@ code {
   width: 10px;
   height: 10px;
   border-radius: 9999px;
-  background: #60a5fa;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.75);
+  background: #fbbf24;
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.7);
   animation: splashNodePulse 2.4s ease-in-out infinite;
 }
 
@@ -312,8 +312,8 @@ code {
   position: absolute;
   height: 2px;
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.95), rgba(96, 165, 250, 0.2));
-  box-shadow: 0 0 8px rgba(37, 99, 235, 0.65);
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(217, 119, 6, 0.95), rgba(251, 191, 36, 0.2));
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.55);
   animation: splashLinkFlow 2.6s ease-in-out infinite;
 }
 
@@ -418,7 +418,7 @@ code {
 
 /* Focus visible for accessibility */
 *:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid #d97706;
   outline-offset: 2px;
 }
 
@@ -446,7 +446,7 @@ code {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #d97706;
 }
 
 /* Print styles */
@@ -491,19 +491,19 @@ code {
 }
 
 .srs-paper {
-  background: linear-gradient(180deg, #ffffff 0%, #f5f8ff 100%);
-  border: 1px solid #dbe5ff;
+  background: linear-gradient(180deg, #ffffff 0%, #fafaf9 100%);
+  border: 1px solid #e7e5e4;
   border-radius: 16px;
   box-shadow:
     0 24px 56px -32px rgba(24, 24, 27, 0.4),
-    0 10px 24px -12px rgba(37, 99, 235, 0.12);
+    0 10px 24px -12px rgba(217, 119, 6, 0.1);
 }
 
 .srs-doc-cover {
   border: 1px solid #e4e4e7;
   border-radius: 14px;
   background:
-    linear-gradient(135deg, rgba(37, 99, 235, 0.09), rgba(24, 24, 27, 0.03)),
+    linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(28, 25, 23, 0.03)),
     #fafafa;
 }
 
@@ -631,7 +631,7 @@ html.dark .srs-paper {
 html.dark .srs-doc-cover {
   border-color: #3f3f46;
   background:
-    linear-gradient(135deg, rgba(37, 99, 235, 0.22), rgba(9, 9, 11, 0.5)),
+    linear-gradient(135deg, rgba(217, 119, 6, 0.18), rgba(9, 9, 11, 0.5)),
     rgba(24, 24, 27, 0.65);
 }
 html.dark .srs-doc-cover .srs-cover-kicker {
@@ -679,15 +679,15 @@ html.dark .srs-metrics-mark {
 }
 
 .srs-doc-root mark.srs-mark {
-  background: rgba(37, 99, 235, 0.18);
+  background: rgba(217, 119, 6, 0.18);
   color: inherit;
   padding: 0 2px;
   border-radius: 3px;
-  box-shadow: inset 0 -1px 0 rgba(37, 99, 235, 0.28);
+  box-shadow: inset 0 -1px 0 rgba(217, 119, 6, 0.28);
 }
 html.dark .srs-doc-root mark.srs-mark {
-  background: rgba(167, 139, 250, 0.2);
-  box-shadow: inset 0 -1px 0 rgba(167, 139, 250, 0.28);
+  background: rgba(251, 191, 36, 0.16);
+  box-shadow: inset 0 -1px 0 rgba(251, 191, 36, 0.28);
 }
 .srs-doc-root mark.srs-mark--warn {
   background: rgba(234, 88, 12, 0.18);
@@ -723,10 +723,10 @@ html.dark .srs-doc-root mark.srs-mark--warn {
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .tuc-card:hover {
-  border-color: #c7d2fe;
+  border-color: #fcd34d;
   box-shadow:
     0 2px 4px rgba(15, 23, 42, 0.06),
-    0 12px 28px rgba(37, 99, 235, 0.1);
+    0 12px 28px rgba(217, 119, 6, 0.1);
 }
 .tuc-title {
   margin: 0 0 12px;
@@ -790,10 +790,10 @@ html.dark .tuc-card {
     0 10px 28px rgba(0, 0, 0, 0.35);
 }
 html.dark .tuc-card:hover {
-  border-color: #4f46e5;
+  border-color: #d97706;
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.4),
-    0 14px 32px rgba(79, 70, 229, 0.18);
+    0 14px 32px rgba(217, 119, 6, 0.16);
 }
 html.dark .tuc-title {
   color: #e2e8f0;

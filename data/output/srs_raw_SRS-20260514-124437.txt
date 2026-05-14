@@ -1,0 +1,76 @@
+INTRODUCTION
+Purpose: To specify the requirements for a Smart Parking System designed to enhance user experience through real-time slot viewing, reservation, payment, gate operator management, and administrative oversight.
+Scope: This document outlines the functional and non-functional requirements necessary for implementing the Smart Parking System. It does not cover detailed design specifications or implementation details.
+Definitions/Acronyms:
+- API: Application Programming Interface
+- GUI: Graphical User Interface
+- IoT: Internet of Things
+- POS: Point of Sale
+- SDK: Software Development Kit
+Overview: The Smart Parking System aims to provide seamless interaction between drivers, gate operators, and administrators using digital technologies such as real-time data processing and automated systems.
+
+OVERALL DESCRIPTION
+Perspective: The perspective is from both end-users (drivers, gate operators, administrators) and system stakeholders interested in efficient parking lot utilization and management.
+Functions: The system will enable real-time slot viewing, reservation, payment, gate operation management, and administrative monitoring.
+Users: Drivers, gate operators, and administrators who interact with the system via various interfaces.
+Constraints: Real-time data accuracy, limited internet connectivity in remote areas, and compliance with local regulations regarding parking fees and transactions.
+Assumptions/Dependencies: The system relies on accurate GPS location services, reliable network infrastructure, and timely updates from third-party providers for parking lot status.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Driver interface: Web-based application or mobile app for viewing slots, making reservations, and paying.
+- Gate operator interface: Mobile app for validating reservations, overriding access, and reporting incidents.
+- Administrator interface: Web-based dashboard for managing reservations, generating reports, and scheduling maintenance.
+Functional Requirements:
+FR-01
+- Slot Viewing
+Input: Driver's current location
+Processing: Retrieve available parking slots within proximity based on driver's location.
+Output: List of available slots with distance, price, and reservation status.
+Priority: High
+FR-02
+- Reservation
+Input: Selected slot ID, start/end times, number of vehicles.
+Processing: Validate selected slot against availability and time constraints.
+Output: Confirmation message indicating successful reservation or error messages for failed attempts.
+Priority: High
+FR-03
+- Payment
+Input: Driver's payment method (credit card, mobile wallet, etc.)
+Processing: Process payment securely and update reservation status.
+Output: Receipt confirming payment and reservation details.
+Priority: High
+FR-04
+- Digital Payment Gateway Integration
+Input: Payment request from driver
+Processing: Securely process payment through integrated gateway.
+Output: Payment confirmation back to driver.
+Priority: Medium
+FR-05
+- Gate Operator Validation
+Input: Reservation code provided by driver
+Processing: Verify reservation code against database.
+Output: Access granted or denied.
+Priority: High
+FR-06
+- Manual Override
+Input: Operator's decision to allow entry despite no reservation
+Processing: Update system records to reflect overridden access.
+Output: Notification sent to administrator about override event.
+Priority: High
+FR-07
+- Incident Reporting
+Input: Description of incident reported by operator
+Processing: Log incident details and notify relevant parties.
+Output: Acknowledgment receipt sent to reporter.
+Priority: High
+Non-Functional Requirements:
+Usability: The system shall have an intuitive UI that guides users through processes easily.
+Reliability: The system shall ensure high uptime and minimal downtime due to failures.
+Performance: The system shall respond to requests within 2 seconds under normal load conditions.
+Portability: The system shall support deployment across different operating environments including web browsers and mobile devices.
+
+SYSTEM FEATURES
+The Smart Parking System will feature real-time slot viewing, reservation capabilities, secure digital payments, gate operator management functionalities, and comprehensive administrative tools for monitoring and reporting purposes.
+
+End of Document.Appendix

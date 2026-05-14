@@ -91,7 +91,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-slate-100 via-blue-50/80 to-indigo-50/70 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-stone-100 via-amber-50/70 to-stone-50 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
       {sidebarOpen && (
         <button
           type="button"
@@ -202,7 +202,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
           <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
             <button
               type="button"
-              className="lg:hidden p-2 rounded-lg text-zinc-600 hover:bg-blue-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="lg:hidden p-2 rounded-lg text-zinc-600 hover:bg-amber-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
               onClick={() => setSidebarOpen((o) => !o)}
               aria-label="Toggle navigation"
             >
@@ -228,7 +228,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
               type="button"
               onClick={toggleTheme}
               title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-zinc-200 text-zinc-600 hover:bg-blue-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-zinc-200 text-zinc-600 hover:bg-amber-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
             </button>
@@ -239,7 +239,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
                   onLogout();
                   navigate('/start');
                 }}
-                className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-lg bg-r2d-accent text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-lg bg-r2d-accent text-white hover:bg-amber-700 dark:bg-amber-600 dark:hover:bg-amber-500"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Logout</span>

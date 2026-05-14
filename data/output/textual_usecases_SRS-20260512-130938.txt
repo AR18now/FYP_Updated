@@ -1,0 +1,171 @@
+Use Case: FR-01 - Search Books
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader has logged into the system.
+Main Success Scenario:
+1. Reader enters search terms into the search bar.
+2. System queries the database based on the entered criteria.
+3. Results list displays matching titles along with additional details.
+Extensions:
+- If no results match the query, display a message informing the reader.
+Postcondition: Reader receives a list of potential book matches or confirmation of no matches found.
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Borrow Books
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader has selected a book to borrow and meets membership rules.
+Main Success Scenario:
+1. Reader selects a book and initiates the borrowing process.
+2. System checks reader eligibility and loan history.
+3. Loan record is updated accordingly.
+4. Reader receives a confirmation message.
+Extensions:
+- If the reader exceeds their borrowing limit, deny the request and inform them.
+Postcondition: Reader either successfully borrows a book or receives feedback on why they cannot.
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Return Books
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader has a borrowed book ready to return.
+Main Success Scenario:
+1. Reader selects the book to return.
+2. System verifies the book and updates the loan record.
+3. Reader receives a receipt detailing the transaction.
+Extensions:
+- If the book is returned past the due date, calculate and apply fines automatically.
+Postcondition: Reader completes the return process with a receipt or fine notification.
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Catalog Management
+Primary Actor: Librarian
+Stakeholders: Librarian, Administrator
+Preconditions: Librarian logs into the system with appropriate permissions.
+Main Success Scenario:
+1. Librarian inputs new book details.
+2. System generates a unique identifier for the book.
+3. Librarian confirms the addition.
+4. Confirmation message displayed.
+Extensions:
+- If duplicate entries are detected, prompt the librarian to resolve conflicts manually.
+Postcondition: Book is added to the catalog with a unique identifier.
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Issue Workflows
+Primary Actor: Librarian
+Stakeholders: Librarian, Administrator
+Preconditions: Librarian submits a request form.
+Main Success Scenario:
+1. System processes the request.
+2. Resources are allocated and assigned.
+3. Relevant parties receive notifications.
+4. Librarian receives a confirmation email.
+Extensions:
+- If resource allocation fails, notify the librarian immediately.
+Postcondition: Request is processed and communicated appropriately.
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Renewal Limits
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader attempts to renew a book.
+Main Success Scenario:
+1. Reader requests a renewal.
+2. System checks remaining renewals.
+3. Loan period is extended if valid.
+4. Reader receives an updated loan record.
+Extensions:
+- If no renewals left, deny the request and inform the reader.
+Postcondition: Reader either successfully renews the book or gets informed about limitations.
+Trace to FR Id: FR-06
+
+Use Case: FR-07 - Overdue Fines
+Primary Actor: System
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Book is returned past its due date.
+Main Success Scenario:
+1. System calculates the fine amount.
+2. Reader receives a reminder notice.
+Extensions:
+- If the fine is significant, escalate the matter to the administrator.
+Postcondition: Reader is notified of the overdue fine.
+Trace to FR Id: FR-07
+
+Use Case: FR-08 - Reservation Queues
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader places a reservation.
+Main Success Scenario:
+1. Reader selects a book for reservation.
+2. System inserts the reader into the queue.
+3. Reader receives a position number.
+Extensions:
+- If another copy becomes available, notify the reader immediately.
+Postcondition: Reader knows their place in the reservation queue.
+Trace to FR Id: FR-08
+
+Use Case: FR-09 - Hold Availability Updates
+Primary Actor: Reader
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Reader requests a status update.
+Main Success Scenario:
+1. Reader asks about the status of a held book.
+2. System checks the current status.
+3. Reader receives an update notification.
+Extensions:
+- If the book is still unavailable, provide estimated waiting time.
+Postcondition: Reader is informed about the current status of their hold.
+Trace to FR Id: FR-09
+
+Use Case: FR-10 - Damage Reporting
+Primary Actor: Librarian
+Stakeholders: Librarian, Administrator
+Preconditions: Book is reported as damaged.
+Main Success Scenario:
+1. Librarian documents the damage.
+2. System logs the incident.
+3. Librarian tracks the repair progress.
+Extensions:
+- If the book needs immediate attention, alert the administrator.
+Postcondition: Damage is recorded and monitored.
+Trace to FR Id: FR-10
+
+Use Case: FR-11 - Membership Management
+Primary Actor: Administrator
+Stakeholders: Administrator, Reader
+Preconditions: New registration form submitted.
+Main Success Scenario:
+1. Administrator reviews the form.
+2. System creates a new profile.
+3. Default settings are applied.
+4. Welcome message and login credentials are sent.
+Extensions:
+- If the form contains errors, reject it and ask for corrections.
+Postcondition: New reader account is created with initial settings.
+Trace to FR Id: FR-11
+
+Use Case: FR-12 - Analytics
+Primary Actor: Administrator
+Stakeholders: Administrator, Reader
+Preconditions: Admin selects categories and date ranges.
+Main Success Scenario:
+1. System aggregates data based on selections.
+2. Charts and graphs are generated.
+3. Summary report is produced.
+Extensions:
+- If insufficient data exists, display a message indicating lack of results.
+Postcondition: Admin receives detailed analytical reports.
+Trace to FR Id: FR-12
+
+Use Case: FR-13 - Automated Reminders
+Primary Actor: System
+Stakeholders: Reader, Librarian, Administrator
+Preconditions: Due dates, expiration dates, or hold statuses trigger reminders.
+Main Success Scenario:
+1. System schedules alerts.
+2. Notifications are delivered to relevant parties.
+Extensions:
+- If delivery fails, retry until successful or mark as failed.
+Postcondition: Appropriate reminders are issued.
+Trace to FR Id: FR-13

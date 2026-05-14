@@ -1,0 +1,119 @@
+INTRODUCTION
+Purpose: To define the software requirements for a library system that enables readers to search for and borrow books, librarians to manage collections and patron interactions, and administrators to oversee operations and generate reports.
+Scope: This Software Requirements Specification (SRS) covers the core functionalities required for the library system including user interaction, librarian tasks, and administrative management.
+Definitions/Acronyms:
+- Reader: A registered user who borrows books from the library.
+- Librarian: An authorized staff member responsible for managing the collection and handling patron requests.
+- Administrator: A high-level manager responsible for overseeing the overall operation of the library system.
+Overview: The library system will provide a comprehensive suite of tools for managing various aspects of a library's operations, ensuring efficient service delivery to its patrons while maintaining accurate records and supporting decision-making through detailed analytics.
+
+OVERALL DESCRIPTION
+Perspective: The perspective is from the end-user viewpoint, encompassing both reader and librarian roles, as well as administrator oversight.
+Functions:
+- Search functionality for locating books by title, author, subject, and availability.
+- Borrowing and returning of physical and digital copies based on membership status.
+- Reservation queue management.
+- Renewal limit enforcement.
+- Fine calculation and payment processing.
+- Reporting and analytics on book usage patterns.
+Users: Readers, librarians, and administrators.
+Constraints:
+- Compliance with local laws regarding privacy and data protection.
+- Integration with existing hardware and software systems within the library network.
+Assumptions/Dependencies:
+- Existing database infrastructure supports integration.
+- Network connectivity is reliable across all locations.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- User Interface (UI) for interacting with the system via web browser or mobile app.
+- API for integrating with third-party services such as payment gateways and notification platforms.
+Functional Requirements:
+FR-01
+- Book Search
+Input:
+- Search criteria (title, author, subject)
+Output:
+- List of matching books with details (availability, location, etc.)
+Processing:
+- Query database using provided search terms
+Priority: High
+- FR-02
+- Book Borrowing
+Input:
+- Membership ID, book ID, copy type (physical/digital), loan duration
+Output:
+- Confirmation message indicating success or failure
+Processing:
+- Validate borrower eligibility
+- Update inventory status
+- Generate transaction record
+Priority: High
+- FR-03
+- Book Return
+Input:
+- Membership ID, book ID, copy type (physical/digital)
+Output:
+- Confirmation message indicating success or failure
+Processing:
+- Validate borrower identity
+- Update inventory status
+- Process returned item
+Priority: Medium
+- FR-04
+- Reservation Management
+Input:
+- Member ID, book ID, preferred pickup branch
+Output:
+- Reservation confirmation or waitlist position
+Processing:
+- Check current reservations and waiting list
+- Insert new reservation request
+Priority: Low
+- FR-05
+- Renewal Limit Enforcement
+Input:
+- Membership ID, book ID, renewal count
+Output:
+- Notification of remaining renewals or denial of additional renewals
+Processing:
+- Track number of renewals already performed
+- Apply policy restrictions
+Priority: Medium
+- FR-06
+- Fine Calculation and Payment
+Input:
+- Overdue period, book value, late fee rate
+Output:
+- Due amount for fines
+Processing:
+- Calculate fine based on policy
+- Deduct payment from account balance
+Priority: Medium
+- FR-07
+- Reporting and Analytics
+Input:
+- Date range, report type (category-wise, member-wise, etc.)
+Output:
+- Summary statistics and visualizations
+Processing:
+- Aggregate relevant data points
+- Present results in a readable format
+Priority: Low
+- Non-Functional Requirements:
+Usability:
+- Intuitive UI design with clear navigation paths
+Reliability:
+- Robust error handling mechanisms
+Performance:
+- Fast query responses under heavy load conditions
+Portability:
+- Cross-platform compatibility for different devices and operating systems
+
+SYSTEM FEATURES
+- Web-based interface accessible via standard browsers
+- Mobile application for convenient access on smartphones and tablets
+- Comprehensive backend database management system
+- Real-time notifications for important events (due date reminders, hold availability updates)
+
+End of Document.Appendix

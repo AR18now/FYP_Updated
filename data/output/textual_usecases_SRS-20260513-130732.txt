@@ -1,0 +1,83 @@
+Use Case: FR-01 - Book Search
+Primary Actor: Reader, Librarian
+Stakeholders: All users needing information about available books
+Preconditions: User has logged into the system
+Main Success Scenario:
+1. Enter search term(s) (title, author, subject)
+2. System queries database and returns list of matching books
+Extensions:
+- If no matches found, display appropriate message
+Postcondition: User receives searchable list of books or feedback on non-existent match
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Book Borrowing
+Primary Actor: Reader
+Stakeholders: Library members seeking to borrow materials
+Preconditions: Validated user login, eligible for borrowing
+Main Success Scenario:
+1. Select desired book and specify copy type (physical/digital)
+2. Provide loan duration
+3. System validates eligibility and processes transaction
+4. Confirm successful borrowing or deny if ineligible
+Extensions:
+- Handle case where book is unavailable temporarily
+Postcondition: Borrower receives confirmation of loan or notice of unavailability
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Book Return
+Primary Actor: Reader
+Stakeholders: Users returning borrowed items
+Preconditions: Validated user login, possession of borrowed book
+Main Success Scenario:
+1. Select book to return
+2. System verifies borrower identity and updates inventory
+3. Confirm successful return or indicate issues
+Postcondition: Inventory updated, borrower notified of return status
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Reservation Management
+Primary Actor: Reader
+Stakeholders: Members interested in reserving books
+Preconditions: Validated user login, selected book not currently available
+Main Success Scenario:
+1. Choose book and preferred pickup branch
+2. System checks reservation queue and assigns place
+3. Notify user of reservation confirmation or waitlist position
+Extensions:
+- Allow cancellation of reservations
+Postcondition: Reservation made or placed on waitlist
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Renewal Limit Enforcement
+Primary Actor: Reader
+Stakeholders: Members seeking to extend loan periods
+Preconditions: Validated user login, active loan
+Main Success Scenario:
+1. Request renewal
+2. System tracks number of renewals and applies policy
+3. Inform user of remaining renewals or denial of further extensions
+Postcondition: Loan renewed or extension denied
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Fine Calculation and Payment
+Primary Actor: Reader
+Stakeholders: Members owing fines
+Preconditions: Outstanding overdue loans exist
+Main Success Scenario:
+1. Generate fine statement
+2. Display total amount due
+3. Accept payment method and process deduction
+4. Confirm payment and update account balance
+Postcondition: Fines paid or outstanding balances adjusted
+Trace to FR Id: FR-06
+
+Use Case: FR-07 - Reporting and Analytics
+Primary Actor: Administrator
+Stakeholders: Staff requiring operational insights
+Preconditions: Logged in as admin with proper permissions
+Main Success Scenario:
+1. Define date range and report type
+2. Retrieve aggregated data
+3. View generated summary and charts
+Postcondition: Admin receives analytical reports
+Trace to FR Id: FR-07

@@ -1,0 +1,76 @@
+INTRODUCTION
+Purpose: To define the Smart Parking System's software requirements ensuring seamless operation and user satisfaction.
+Scope: This Software Requirements Specification (SRS) covers functionalities required for drivers, gate operators, and administrators within the Smart Parking System.
+Definitions/Acronyms:
+- SP: Smart Parking System
+- DR: Driver
+- GO: Gate Operator
+- ADM: Administrator
+Overview: The SRS outlines how the SP will support real-time viewing, slot reserving, payment processing, and management activities for all stakeholders involved.
+
+OVERALL DESCRIPTION
+Perspective: From a system perspective, the SP is designed to facilitate efficient parking through automated processes and real-time information updates.
+Functions:
+- Real-time display of parking lot status
+- Slot reservation and digital payment
+- QR code validation and manual override
+- Incident reporting
+- Reservation expiration handling
+- Dynamic pricing adjustment based on demand
+- Occupancy monitoring and analytics
+- Revenue tracking and maintenance scheduling
+Users: Drivers, gate operators, and administrators.
+Constraints: Limited network connectivity may affect real-time updates.
+Assumptions/Dependencies:
+- Reliable internet connection for real-time updates.
+- Validity of payment methods accepted.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Web interface for drivers and administrators
+- Mobile app for drivers
+- Physical gates interfacing with QR codes
+Functional Requirements:
+FR-01
+- Real-time Display of Parking Lot Status
+Input: User requests current parking lot status via web/mobile interface.
+Processing: System queries connected sensors and displays available slots in real-time.
+Output: Updated list of available parking slots shown to the user.
+Priority: High
+FR-02
+- Slot Reservation and Digital Payment
+Input: Driver selects desired slot and initiates reservation process.
+Processing: System verifies slot availability, calculates fees, prompts for payment method, and confirms reservation.
+Output: Confirmation message displayed indicating successful reservation and payment.
+Priority: High
+FR-03
+- QR Code Validation and Manual Override
+Input: GO scans QR code associated with reserved space.
+Processing: System validates reservation details against sensor data; if mismatch, manual override allows entry.
+Output: Entry granted upon valid reservation confirmation or operator approval.
+Priority: Medium
+FR-04
+- Incident Reporting
+Input: GO reports incidents such as blocked or damaged spots using mobile app.
+Processing: Report is logged and sent to maintenance team for action.
+Output: Notification sent to relevant personnel regarding reported issue.
+Priority: Low
+Non-functional Requirements:
+Usability: Interface shall be intuitive and accessible to users across different devices.
+Reliability: System must ensure accurate and consistent operation even under varying loads.
+Performance: Response times for critical actions (reservation, payment, entry) shall not exceed 5 seconds.
+Portability: Platform must run on multiple operating systems and browsers.
+
+SYSTEM FEATURES
+Real-time parking lot status update mechanism.
+Slot reservation and payment facilitation.
+QR-based access control with fallback options.
+Incident logging and reporting functionality.
+Dynamic pricing algorithm.
+Occupancy analysis dashboard.
+Revenue summary report generation.
+Maintenance schedule planner.
+Alert system for overstay violations.
+Immutable transaction log storage.
+
+End of Document.Appendix

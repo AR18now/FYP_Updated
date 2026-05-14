@@ -66,18 +66,20 @@ COPY --from=frontend-builder /app/frontend/build ./frontend/build
 # Create directory for serving static files
 RUN mkdir -p /app/static
 
-# Expose port
+# EXPOSE is informational; Render and other hosts inject PORT (often not 8000).
 EXPOSE 8000
 
 # Set environment variables
 ENV FLASK_APP=api_server.py
 ENV FLASK_ENV=production
 ENV PYTHONUNBUFFERED=1
+# Render / Docker must listen on all interfaces; Render injects PORT at runtime.
+ENV API_BIND_HOST=0.0.0.0
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/api/health')" || exit 1
+# Health check must use the same PORT the app binds (Render sets PORT dynamically).
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+    CMD python -c "import os,urllib.request; p=os.environ.get('PORT','8000'); urllib.request.urlopen('http://127.0.0.1:'+p+'/api/health', timeout=5)" || exit 1
 
-# Run the application
-CMD ["python", "api_server.py"]
+# Production WSGI server — binds 0.0.0.0:$PORT (Render requirement). Local: docker run -p 8000:8000 -e PORT=8000 ...
+CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:${PORT:-8000} --worker-class gthread --workers 1 --threads 4 --timeout 600 --graceful-timeout 120 --access-logfile - --error-logfile - api_server:app"]
 

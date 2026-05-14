@@ -2202,7 +2202,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                 )}
 
                 {structuredFeedback && (
-                  <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'bg-slate-900/60 border-slate-700' : 'bg-indigo-50/60 border-indigo-200'}`}>
+                  <div className={`mt-4 rounded-lg border p-3 ${isDark ? 'bg-slate-900/60 border-slate-700' : 'bg-amber-50/70 border-amber-200/90'}`}>
                     <p className={`text-sm font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                       Requirement Quality Panel
                     </p>
@@ -2239,7 +2239,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
 
                     {!!structuredFeedback.suggestions?.length && (
                       <div className="mt-3">
-                        <p className={`text-xs font-semibold ${isDark ? 'text-indigo-200' : 'text-indigo-700'}`}>Suggested improvements</p>
+                        <p className={`text-xs font-semibold ${isDark ? 'text-amber-200' : 'text-amber-800'}`}>Suggested improvements</p>
                         <ul className="mt-1 space-y-1">
                           {structuredFeedback.suggestions.slice(0, 5).map((tip, idx) => (
                             <li key={`structured-tip-${idx}`} className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
@@ -2605,7 +2605,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   onChange={() => setSrsLlmChoice('qwen25')}
                 />
                 <span>
-                  <span className="font-semibold text-r2d-primary dark:text-blue-200">Qwen 2.5 (default)</span>
+                  <span className="font-semibold text-r2d-primary dark:text-amber-200">Qwen 2.5 (default)</span>
                   <span className={`mt-0.5 block text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     Uses the existing Replicate-hosted generator (requires <code className="font-mono">REPLICATE_API_TOKEN</code> on
                     the server).
@@ -2627,7 +2627,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
                   onChange={() => setSrsLlmChoice('qwen35')}
                 />
                 <span>
-                  <span className="font-semibold text-r2d-primary dark:text-blue-200">Qwen 3.5</span>
+                  <span className="font-semibold text-r2d-primary dark:text-amber-200">Qwen 3.5</span>
                   <span className={`mt-0.5 block text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     Uses an OpenAI-compatible Chat Completions API (configure <code className="font-mono">QWEN35_OPENAI_API_KEY</code>{' '}
                     and optional <code className="font-mono">QWEN35_OPENAI_BASE_URL</code> / <code className="font-mono">QWEN35_OPENAI_MODEL</code> on the server).

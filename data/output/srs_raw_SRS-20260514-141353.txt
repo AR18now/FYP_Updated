@@ -1,0 +1,161 @@
+INTRODUCTION
+Purpose
+This Software Requirements Specification (SRS) documents the functional and non-functional requirements for the warehouse inventory management system. Its purpose is to define what the system must do to support stock receipt, bin movement, dispatch processing, dashboard reporting, batch/serial tracking, low-stock alerts, cycle counting, purchase order generation, supplier lead time monitoring, and auditable inventory adjustments.
+
+Scope
+The system supports warehouse staff, supervisors, and procurement users in managing physical inventory across receiving, storage, picking, dispatch, reconciliation, and replenishment activities. It does not cover financial accounting, human resources, transportation logistics beyond dispatch list generation, or external supplier systems integration beyond read-only lead time data.
+
+Definitions and Acronyms
+Bin: A physical storage location within the warehouse identified by a unique alphanumeric code.
+Cycle Count: A periodic physical count of a subset of inventory items to verify system accuracy.
+Dispatch Request: A request to prepare items for shipment, fulfilled via a pick list.
+Reason Code: A standardized identifier explaining why an inventory adjustment was made (e.g., "damage", "shrinkage", "recount").
+Serial Number: A unique identifier assigned to an individual item.
+Batch: A group of items produced or received together, sharing common attributes such as manufacture date or expiry.
+
+Overview
+Section 2 describes the system’s context and operational environment. Section 3 details functional and non-functional requirements. Section 4 lists system features aligned with user goals.
+
+OVERALL DESCRIPTION
+Product Perspective
+The warehouse system is a standalone application with web-based user interfaces and a backend database. It interfaces with barcode scanners via USB HID emulation and optionally integrates with supplier APIs for lead time data retrieval.
+
+Product Functions
+- Receive incoming stock and record quantities, batches, and serial numbers
+- Scan barcodes to identify items during receipt, movement, and dispatch
+- Move items between bins and update location records in real time
+- Generate and process dispatch requests using pick lists
+- Display supervisor dashboards showing stock aging, reorder thresholds, and damaged goods status
+- Track inventory by batch and serial number
+- Trigger configurable low-stock alerts
+- Support cycle count reconciliation workflows
+- Enable procurement users to create purchase orders from approved shortages
+- Monitor and display supplier lead times
+- Log all inventory adjustments with user identity and reason codes
+
+User Classes and Characteristics
+Warehouse Staff: Perform daily operational tasks (receiving, scanning, moving, picking); require intuitive UI and fast response times.
+Supervisors: Monitor inventory health and compliance; require aggregated views and trend analysis.
+Procurement Users: Initiate replenishment actions; require shortage validation and PO workflow controls.
+
+Operating Environment
+Web browser (Chrome, Edge, Firefox latest two versions), Windows 10+ or macOS 12+, barcode scanners supporting USB HID keyboard emulation.
+
+Design and Implementation Constraints
+- All inventory adjustments must be immutable once committed; no direct database edits permitted.
+- Reason codes must be selected from a predefined, administrator-configurable list.
+- Low-stock alert thresholds must be configurable per item.
+- Batch and serial tracking must be enabled globally; no per-item opt-out.
+
+User Documentation Constraints
+Online help accessible from each screen; tooltips for all form fields and icons.
+
+Assumptions and Dependencies
+- Barcode scanners will be preconfigured to emulate keyboard input.
+- Supplier lead time data will be provided via REST API endpoints maintained by external parties.
+- User authentication and role assignment are handled by an existing enterprise identity provider.
+
+SPECIFIC REQUIREMENTS
+External Interface Requirements
+User Interfaces: Responsive web interface compatible with desktop and tablet devices; all data entry fields support keyboard and scanner input.
+Hardware Interfaces: USB barcode scanners operating in HID keyboard mode; no proprietary drivers required.
+Software Interfaces: REST API client for supplier lead time data retrieval; JSON format, HTTPS transport.
+Communications Interfaces: HTTP/HTTPS only; no WebSocket or MQTT support.
+
+Functional Requirements
+FR-01
+Input: Scanned barcode, quantity, batch/serial identifiers, receiving location bin, user identity
+Processing: Validate item existence; assign batch/serial numbers if new; record receipt timestamp; update on-hand quantity and bin location; log adjustment with reason code "receipt"
+Output: Confirmation screen showing item name, quantity received, bin assigned, and timestamp; updated inventory balance
+Priority: High
+FR-02
+Input: Scanned source barcode, scanned destination bin code, quantity, user identity
+Processing: Verify source item exists and quantity is available; update item location record; decrement source bin quantity and increment destination bin quantity; log adjustment with reason code "bin transfer"
+Output: Confirmation screen showing item, moved quantity, source bin, destination bin, and timestamp; updated bin-level balances
+Priority: High
+FR-03
+Input: Dispatch request ID, user identity
+Processing: Retrieve associated items and quantities; generate pick list sorted by bin location; mark request as "picking in progress"; lock quantities against concurrent dispatches
+Output: Printable and on-screen pick list showing item, quantity, source bin, and sequence; system status update
+Priority: High
+FR-04
+Input: Supervisor role login, date range, filter criteria (aging bucket, damage flag, reorder status)
+Processing: Query inventory records for age (days since receipt), current stock level vs. reorder threshold, and damage flags; aggregate counts and percentages; render dashboard widgets
+Output: Dashboard view with charts and tables for stock aging distribution, items below reorder point, and damaged goods summary
+Priority: High
+FR-05
+Input: Item ID, batch ID or serial number, user identity
+Processing: Retrieve full history including receipts, transfers, dispatches, and adjustments; display chronological log with timestamps, users, and reason codes
+Output: Read-only audit trail screen listing all events for the specified item/batch/serial number
+Priority: Medium
+FR-06
+Input: Configured low-stock threshold per item, current on-hand quantity
+Processing: Compare on-hand quantity against threshold daily at 02:00 local time; trigger alert if below threshold and no open purchase order exists for that item
+Output: Alert visible in supervisor dashboard and email notification to designated procurement users
+Priority: High
+FR-07
+Input: Cycle count session ID, scanned item barcode, counted quantity, user identity
+Processing: Compare counted quantity against system quantity; flag discrepancies; allow user to submit adjustment with mandatory reason code; log adjustment with reason code "cycle count"
+Output: Session summary showing matched counts, discrepancies, and pending adjustments; confirmation of logged adjustment
+Priority: Medium
+FR-08
+Input: Approved shortage record (item, deficit quantity, reason), user identity
+Processing: Validate shortage approval status; pre-populate purchase order with item, quantity, supplier, and expected delivery date; assign PO number; store in procurement workflow queue
+Output: Generated purchase order with status "draft"; link to originating shortage record
+Priority: Medium
+FR-09
+Input: Supplier ID, cached or retrieved lead time value, last updated timestamp
+Processing: Retrieve lead time data from configured supplier API endpoint; cache for up to 24 hours; refresh on demand; validate numeric format and reasonable range (1–365 days)
+Output: Lead time value displayed per supplier on procurement dashboard; timestamp of last successful retrieval
+Priority: Medium
+FR-10
+Input: Inventory adjustment parameters (item, quantity delta, bin, reason code), user identity
+Processing: Enforce reason code selection from configured list; record full adjustment metadata (user, timestamp, IP address, reason code, before/after quantities); prevent modification after commit
+Output: Immutable audit log entry; updated inventory balance; success confirmation
+Priority: High
+
+Non-Functional Requirements
+Usability
+The system shall enable warehouse staff to complete a typical stock receipt (FR-01) in under 15 seconds, measured from barcode scan to confirmation screen display. All primary task flows (receipt, transfer, dispatch, cycle count) shall require ≤ 3 screen interactions.
+
+Reliability
+The system shall maintain data consistency across concurrent operations: no inventory double-spending or negative quantities shall occur under load of up to 50 simultaneous users performing mixed transactions.
+
+Performance
+Page load time for supervisor dashboard (FR-04) shall not exceed 3 seconds with up to 10,000 active inventory items. Pick list generation (FR-03) shall complete in under 1 second for requests involving up to 100 line items.
+
+Portability
+The application shall execute identically across Chrome v115+, Edge v115+, and Firefox v115+ on Windows 10 and macOS 12 without browser-specific code or plugins.
+
+SYSTEM FEATURES
+Feature: Stock Receipt
+Description: Enables warehouse staff to record incoming goods with batch/serial and bin assignment.
+
+Feature: Bin Transfer
+Description: Enables warehouse staff to relocate items between storage locations with full audit logging.
+
+Feature: Dispatch Processing
+Description: Generates and manages pick lists for outbound shipments.
+
+Feature: Supervisor Dashboard
+Description: Provides real-time visual summaries of stock aging, reorder status, and damaged goods.
+
+Feature: Batch and Serial Tracking
+Description: Maintains granular traceability for all inventory units by batch or serial number.
+
+Feature: Low-Stock Alerts
+Description: Notifies users when item quantities fall below configurable thresholds.
+
+Feature: Cycle Count Reconciliation
+Description: Supports scheduled partial physical counts and discrepancy resolution.
+
+Feature: Purchase Order Generation
+Description: Allows procurement users to convert approved shortages into purchase orders.
+
+Feature: Supplier Lead Time Monitoring
+Description: Displays and caches supplier delivery time estimates from external APIs.
+
+Feature: Audit-Logged Adjustments
+Description: Ensures every inventory change is immutably recorded with user and reason.
+
+End of Document.

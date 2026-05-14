@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Model-driven SRS Generator (Replicate)
-======================================
+Model-driven SRS Generator (Replicate + optional Qwen API)
+==========================================================
 
-Uses the Replicate-hosted model to generate SRS documents from vague requirements.
-Runs on Replicate's infrastructure - no local GPU required.
+- Qwen 2.5 lane: Replicate-hosted model (no local GPU).
+- Qwen 3.5 lane: OpenAI-compatible Chat Completions (Qwen API / DashScope compatible-mode),
+  same pattern as https://qwen.ai/apiplatform — keys and base URL come from env only (never the frontend).
 """
 
 import json
@@ -53,20 +54,36 @@ def normalize_srs_llm_choice(raw: Optional[str]) -> str:
     return "qwen25"
 
 
+# Qwen OpenAI-compatible endpoint (international DashScope by default; China mainland often uses
+# https://dashscope.aliyuncs.com/compatible-mode/v1 — override with QWEN35_OPENAI_BASE_URL or QWEN_OPENAI_BASE_URL).
+_DEFAULT_QWEN_OPENAI_COMPAT_BASE_URL = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+
+
+def qwen_openai_compatible_api_key() -> str:
+    """
+    API key for the Qwen 3.5 (OpenAI-compatible) lane. Matches Qwen API Platform examples (QWEN_API_KEY)
+    while keeping backward-compatible env names used in this repo.
+    """
+    return (
+        (os.getenv("QWEN_API_KEY") or "").strip()
+        or (os.getenv("QWEN35_OPENAI_API_KEY") or "").strip()
+        or (os.getenv("DASHSCOPE_API_KEY") or "").strip()
+    )
+
+
 def model_config_for_llm_choice(llm_choice: Optional[str]) -> "ModelConfig":
     """
     Build generation config from user selection.
     - qwen25: existing Replicate deployment (Qwen 2.x family on Replicate).
-    - qwen35: OpenAI-compatible Chat Completions (DashScope compatible-mode by default).
+    - qwen35: OpenAI-compatible Chat Completions (Qwen API / DashScope compatible-mode; intl endpoint default).
     """
     lane = normalize_srs_llm_choice(llm_choice)
     if lane == "qwen35":
         base = (
-            os.getenv("QWEN35_OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
-            .strip()
-            .rstrip("/")
-        )
-        key = (os.getenv("QWEN35_OPENAI_API_KEY") or os.getenv("DASHSCOPE_API_KEY") or "").strip()
+            (os.getenv("QWEN35_OPENAI_BASE_URL") or os.getenv("QWEN_OPENAI_BASE_URL") or "").strip()
+            or _DEFAULT_QWEN_OPENAI_COMPAT_BASE_URL
+        ).rstrip("/")
+        key = qwen_openai_compatible_api_key()
         model = (os.getenv("QWEN35_OPENAI_MODEL", "qwen-plus") or "qwen-plus").strip()
         return ModelConfig(
             text_backend="openai_compatible",
@@ -82,7 +99,7 @@ def model_config_for_llm_choice(llm_choice: Optional[str]) -> "ModelConfig":
 @dataclass
 class ModelConfig:
     """Configuration for hosted text generation (Replicate or OpenAI-compatible chat)."""
-    # replicate | openai_compatible (DashScope/OpenRouter/etc. — any OpenAI-style /v1/chat/completions)
+    # replicate | openai_compatible (Qwen API / DashScope / OpenRouter — any OpenAI-style /v1/chat/completions)
     text_backend: str = "replicate"
     # Pin to published version to avoid 422 invalid version errors; override via REPLICATE_MODEL if needed
     model_name: str = os.getenv(
@@ -180,7 +197,8 @@ class SRSModelGenerator:
             if not self.config.openai_api_key or not str(self.config.openai_api_key).strip():
                 error_msg = (
                     "Qwen 3.5 (OpenAI-compatible) is selected, but no API key is configured. "
-                    "Set QWEN35_OPENAI_API_KEY (recommended) or DASHSCOPE_API_KEY in the server environment / `.env`."
+                    "Set QWEN_API_KEY (Qwen API Platform), or QWEN35_OPENAI_API_KEY / DASHSCOPE_API_KEY "
+                    "in the server environment / `.env`."
                 )
                 self.logger.error(error_msg)
                 raise ValueError(error_msg)
@@ -526,57 +544,94 @@ Context (do not repeat as a document header): project "{title}", author "{author
         appendix = t[i0 + len(start) : i1].strip()
         return srs_part, appendix
 
+    def _llm_backend_label(self) -> str:
+        return "OpenAI-compatible" if self._text_backend == "openai_compatible" else "Replicate"
+
     def _call_hosted_text_model(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> str:
         if self._text_backend == "openai_compatible":
             return self._call_openai_compatible_chat(prompt, input_overrides)
         return self._call_replicate(prompt, input_overrides)
 
     def _call_openai_compatible_chat(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> str:
-        """Call an OpenAI-compatible Chat Completions API (used for the Qwen 3.5 lane)."""
+        """Call an OpenAI-compatible Chat Completions API (Qwen API / DashScope; used for the Qwen 3.5 lane)."""
         t_outer = time.perf_counter()
         base = str(self.config.openai_base_url or "").strip().rstrip("/")
-        url = f"{base}/chat/completions"
         ov = input_overrides or {}
         mt = self._replicate_max_tokens(ov.get("max_new_tokens"))
         temperature = float(ov.get("temperature", self.config.temperature))
         top_p = float(ov.get("top_p", self.config.top_p))
-        body = {
-            "model": str(self.config.openai_model or "").strip(),
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature,
-            "top_p": top_p,
-            "max_tokens": int(mt),
-        }
-        payload = json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(
-            url,
-            data=payload,
-            headers={
-                "Content-Type": "application/json; charset=utf-8",
-                "Authorization": f"Bearer {self.config.openai_api_key}",
-            },
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=int(self.config.timeout)) as resp:
-                raw = resp.read().decode("utf-8", errors="replace")
-        except urllib.error.HTTPError as e:
-            err_body = ""
-            try:
-                err_body = e.read().decode("utf-8", errors="replace")
-            except Exception:
-                err_body = ""
-            raise RuntimeError(f"OpenAI-compatible API HTTP {e.code}: {err_body[:1200]}") from e
+        model = str(self.config.openai_model or "").strip()
 
-        obj = json.loads(raw)
-        choices = obj.get("choices") or []
-        if not choices:
-            raise RuntimeError("OpenAI-compatible API returned no choices")
-        msg = choices[0].get("message") or {}
-        content = msg.get("content")
-        if content is None:
-            raise RuntimeError("OpenAI-compatible API returned empty message content")
-        generated_text = str(content)
+        try:
+            from openai import OpenAI  # type: ignore[import-not-found]
+        except ImportError:
+            OpenAI = None  # type: ignore[misc, assignment]
+
+        generated_text: str
+
+        if OpenAI is not None:
+            client = OpenAI(
+                api_key=self.config.openai_api_key,
+                base_url=base,
+                timeout=float(self.config.timeout),
+            )
+            try:
+                resp = client.chat.completions.create(
+                    model=model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=temperature,
+                    top_p=top_p,
+                    max_tokens=int(mt),
+                )
+            except Exception as e:
+                raise RuntimeError(f"OpenAI-compatible API error: {e}") from e
+            choices = getattr(resp, "choices", None) or []
+            if not choices:
+                raise RuntimeError("OpenAI-compatible API returned no choices")
+            msg = choices[0].message
+            content = getattr(msg, "content", None) if msg is not None else None
+            if content is None:
+                raise RuntimeError("OpenAI-compatible API returned empty message content")
+            generated_text = str(content)
+        else:
+            url = f"{base}/chat/completions"
+            body = {
+                "model": model,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": temperature,
+                "top_p": top_p,
+                "max_tokens": int(mt),
+            }
+            payload = json.dumps(body).encode("utf-8")
+            req = urllib.request.Request(
+                url,
+                data=payload,
+                headers={
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": f"Bearer {self.config.openai_api_key}",
+                },
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=int(self.config.timeout)) as resp:
+                    raw = resp.read().decode("utf-8", errors="replace")
+            except urllib.error.HTTPError as e:
+                err_body = ""
+                try:
+                    err_body = e.read().decode("utf-8", errors="replace")
+                except Exception:
+                    err_body = ""
+                raise RuntimeError(f"OpenAI-compatible API HTTP {e.code}: {err_body[:1200]}") from e
+
+            obj = json.loads(raw)
+            choices = obj.get("choices") or []
+            if not choices:
+                raise RuntimeError("OpenAI-compatible API returned no choices")
+            msg = choices[0].get("message") or {}
+            content = msg.get("content")
+            if content is None:
+                raise RuntimeError("OpenAI-compatible API returned empty message content")
+            generated_text = str(content)
 
         self._last_replicate_call_metrics = {
             "provider": "openai_compatible",
@@ -741,7 +796,11 @@ Context (do not repeat as a document header): project "{title}", author "{author
     ) -> SRSDocument:
         """Clean, validate, parse, and package model output (used by sync and streaming paths)."""
         raw_text = self._clean_generated_text(raw_text)
-        self.logger.info(f"Received response from Replicate, length: {len(raw_text)} chars")
+        self.logger.info(
+            "Received response from %s, length: %s chars",
+            self._llm_backend_label(),
+            len(raw_text),
+        )
         if raw_text:
             self.logger.info(f"Raw text response (first 1000 chars): {raw_text[:1000]}")
 
@@ -2031,9 +2090,13 @@ Context (do not repeat as a document header): project "{title}", author "{author
                 raw_text = self._call_hosted_text_model(prompt)
                 return self._document_from_replicate_output(raw_text, prompt, requirements_text, project_info)
             except Exception as e:
-                self.logger.error(f"Error calling Replicate: {e}. Using empty sections.", exc_info=True)
-                sections = self._empty_sections()
-                stored_raw_text = None
+                self.logger.error(
+                    "%s SRS generation failed: %s",
+                    self._llm_backend_label(),
+                    e,
+                    exc_info=True,
+                )
+                raise
 
         document_id = f"SRS-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
         srs_doc = SRSDocument(
@@ -2079,6 +2142,6 @@ if __name__ == "__main__":
         "version": "1.0",
     }
 
-    print("Generating SRS document with Replicate...")
+    print("Generating SRS document (hosted text model)...")
     doc = generator.generate_srs(requirements, project_info)
     print(json.dumps(doc.sections, indent=2, ensure_ascii=False))

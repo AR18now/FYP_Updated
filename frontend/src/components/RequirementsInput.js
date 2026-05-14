@@ -1594,6 +1594,52 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
         if (Array.isArray(securityValidation) && securityValidation.length > 0) {
           setValidationErrors(securityValidation);
         }
+      } else if (
+        err.response?.status === 502 &&
+        err.response?.data?.processing &&
+        err.response?.data?.srs_error
+      ) {
+        // Processing succeeded but hosted SRS generation failed (e.g. invalid API key).
+        const data = err.response.data;
+        const processing = data.processing;
+        setResults(processing);
+        setStructuredFeedback(extractStructuredAnalysis(processing));
+        onResultsGenerated(processing);
+        try {
+          await saveInput({
+            projectInfo: {
+              ...projectInfo,
+              clarification_summary: clarification ? {
+                clarification_score: clarification.clarification_score,
+                unresolved_items: clarification.unresolved_items,
+                warning_level: clarification.warning_level,
+              } : null
+            },
+            inputType: 'text',
+            content: buildFinalTextWithFollowups((refinedInputText?.trim() ? refinedInputText : textInput), followupAnswers),
+            fileNames: [],
+            results: processing,
+            audioBlob: null,
+            transcription: '',
+            liveTranscription: '',
+            clarification: clarification || null
+          });
+        } catch (saveErr) {
+          console.error('Error saving input to storage:', saveErr);
+        }
+        onSRSGenerated(null);
+        navigate('/srs', {
+          state: {
+            srsPipeline: {
+              id: Date.now(),
+              projectInfo: { ...projectInfo },
+              processingPayload: processing,
+              prebuiltSrs: null,
+              combinedError: data.srs_error,
+              srsLlmChoice,
+            },
+          },
+        });
       } else if (err.response?.data?.validation_errors) {
         setStructuredFeedback(extractStructuredAnalysis(err.response?.data));
         const validationData = err.response.data.validation_errors;

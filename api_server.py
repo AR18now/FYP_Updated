@@ -23,6 +23,7 @@ from flask_cors import CORS
 from werkzeug.exceptions import RequestEntityTooLarge, BadRequest
 import json
 import os
+import sys
 import tempfile
 import time
 import unicodedata
@@ -39,7 +40,7 @@ from main_orchestrator import RequirementsOrchestrator
 from srs_generator import SRSGenerator
 from generation.srs_generator import RAGSRSGenerator
 from json_to_srs_pdf import load_srs_from_json, render_html, save_pdf_or_html
-from srs_model_generator import SRSModelGenerator, strip_srs_references_section, normalize_srs_llm_choice
+from srs_model_generator import SRSModelGenerator, strip_srs_references_section, normalize_srs_llm_choice, qwen_openai_compatible_api_key
 from generation.usecase_diagram_generator import UseCaseDiagramGenerator
 from input_processing.ambiguity_detection import AmbiguityDetector
 from input_processing.requirement_refinement import RequirementRefiner
@@ -2963,13 +2964,14 @@ def process_and_generate_srs():
         )
 
         if srs_llm_choice == "qwen35":
-            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            qk = qwen_openai_compatible_api_key()
             if not qk:
                 return jsonify(
                     {
                         "error": (
-                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
-                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                            "Qwen 3.5 is selected, but the server has no Qwen API key. "
+                            "Set QWEN_API_KEY (Qwen API Platform), or QWEN35_OPENAI_API_KEY / DASHSCOPE_API_KEY "
+                            "in the API server's environment / `.env`."
                         )
                     }
                 ), 400
@@ -3025,7 +3027,7 @@ def process_and_generate_srs():
                 'processing': result,
                 'srs': None,
                 'srs_error': str(srs_e),
-            }), 200
+            }), 502
 
         return jsonify({
             'processing': result,
@@ -3482,13 +3484,14 @@ def generate_srs():
         srs_lane = normalize_srs_llm_choice(data.get("srs_llm_choice"))
 
         if srs_lane == "qwen35":
-            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            qk = qwen_openai_compatible_api_key()
             if not qk:
                 return jsonify(
                     {
                         "error": (
-                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
-                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                            "Qwen 3.5 is selected, but the server has no Qwen API key. "
+                            "Set QWEN_API_KEY (Qwen API Platform), or QWEN35_OPENAI_API_KEY / DASHSCOPE_API_KEY "
+                            "in the API server's environment / `.env`."
                         )
                     }
                 ), 400
@@ -3548,13 +3551,14 @@ def generate_srs_stream():
         srs_llm_choice = normalize_srs_llm_choice(data.get("srs_llm_choice"))
 
         if srs_llm_choice == "qwen35":
-            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            qk = qwen_openai_compatible_api_key()
             if not qk:
                 return jsonify(
                     {
                         "error": (
-                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
-                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                            "Qwen 3.5 is selected, but the server has no Qwen API key. "
+                            "Set QWEN_API_KEY (Qwen API Platform), or QWEN35_OPENAI_API_KEY / DASHSCOPE_API_KEY "
+                            "in the API server's environment / `.env`."
                         )
                     }
                 ), 400
@@ -3583,14 +3587,14 @@ def generate_srs_stream():
                     return
 
                 if srs_llm_choice == "qwen35":
-                    qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+                    qk = qwen_openai_compatible_api_key()
                     if not qk:
                         yield _sse_srs_event(
                             {
                                 "type": "error",
                                 "message": (
-                                    "Qwen 3.5 is selected but QWEN35_OPENAI_API_KEY (or DASHSCOPE_API_KEY) is not "
-                                    "configured on the server."
+                                    "Qwen 3.5 is selected but no Qwen API key is configured. "
+                                    "Set QWEN_API_KEY, or QWEN35_OPENAI_API_KEY / DASHSCOPE_API_KEY on the server."
                                 ),
                             }
                         )
@@ -6375,15 +6379,42 @@ if __name__ == '__main__':
     print("  GET  /api/stats - Get system statistics")
     print("  POST /api/cleanup - Clean up system")
     
+    port = int(os.environ.get("PORT", 8000))
+    debug = os.environ.get("FLASK_ENV", "production") != "production"
+
+    # Bind host: 0.0.0.0 = all interfaces (Docker/Linux). On Windows, binding 0.0.0.0 sometimes raises
+    # WinError 10013 ("socket in a way forbidden by its access permissions"); default to loopback unless overridden.
+    bind_host = (os.environ.get("API_BIND_HOST") or os.environ.get("FLASK_RUN_HOST") or "").strip()
+    if not bind_host:
+        bind_host = "127.0.0.1" if sys.platform == "win32" else "0.0.0.0"
+
     # Check if frontend is built
     if os.path.exists(FRONTEND_BUILD_DIR):
         print(f"\nFrontend detected at: {FRONTEND_BUILD_DIR}")
-        print("Serving frontend and API on http://localhost:8000")
+        if bind_host == "0.0.0.0":
+            print(f"Serving frontend and API on http://127.0.0.1:{port} (bound on all interfaces)")
+        else:
+            print(f"Serving frontend and API on http://{bind_host}:{port}")
     else:
         print(f"\nFrontend not found at: {FRONTEND_BUILD_DIR}")
         print("API only mode. Build frontend with: cd frontend && npm run build")
-    
-    port = int(os.environ.get('PORT', 8000))
-    debug = os.environ.get('FLASK_ENV', 'production') != 'production'
-    
-    app.run(host='0.0.0.0', port=port, debug=debug)
+        print(f"API listening on http://{bind_host}:{port}")
+
+    try:
+        app.run(host=bind_host, port=port, debug=debug)
+    except OSError as e:
+        winerr = getattr(e, "winerror", None)
+        msg = str(e).lower()
+        if (
+            sys.platform == "win32"
+            and bind_host == "0.0.0.0"
+            and (winerr == 10013 or "forbidden" in msg or "access permissions" in msg)
+        ):
+            print(
+                "\nCould not bind on 0.0.0.0 (Windows permission / policy). Retrying on 127.0.0.1 …\n"
+                "To listen on all interfaces: fix excluded ports (netsh), VPN, or run with API_BIND_HOST=0.0.0.0 after resolving.\n"
+                f"Or use another port: set PORT=8080\n"
+            )
+            app.run(host="127.0.0.1", port=port, debug=debug)
+        else:
+            raise

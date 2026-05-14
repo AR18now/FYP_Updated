@@ -6,7 +6,7 @@
 /**
  * @param {object} opts
  * @param {string} opts.url
- * @param {object} opts.body - { results, project_info }
+ * @param {object} opts.body - { results, project_info, srs_llm_choice? }
  * @param {(chunk: string, accumulated: string) => void} [opts.onDelta]
  * @param {(srs: object) => void} [opts.onDone]
  * @param {AbortSignal} [opts.signal]

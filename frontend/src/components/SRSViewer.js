@@ -11,7 +11,6 @@ import {
   RefreshCw,
   UserCheck,
   BarChart3,
-  Timer,
 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
@@ -23,7 +22,7 @@ import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../ut
 import { formatSrsToHtml, buildSrsMajorSectionCards } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
-import { HALLUCINATION_HELP, formatPct01, flagTypeLabel } from '../utils/srsQualityCopy';
+import { HALLUCINATION_HELP, flagTypeLabel } from '../utils/srsQualityCopy';
 import { brandUrl } from './BrandLogo';
 import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
 import {
@@ -76,8 +75,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
   /** SRS body: section cards vs single scroll */
   const [srsDocLayout, setSrsDocLayout] = useState('cards');
   const [activeSrsSectionId, setActiveSrsSectionId] = useState(null);
-  /** Full model-metrics panel (P/R/F1, alignment monitoring, provider timings)—closed by default; resets per SRS. */
-  const [modelMetricsOpen, setModelMetricsOpen] = useState(false);
 
   const buildRequirementsArray = useCallback((resultsData) => {
     if (!resultsData) return [];
@@ -139,6 +136,7 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
           body: {
             results: items,
             project_info: pipe.projectInfo || {},
+            srs_llm_choice: pipe.srsLlmChoice || 'qwen25',
           },
           onDelta: (_chunk, accumulated) => setStreamPreview(accumulated),
         });
@@ -291,25 +289,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
       {},
     [srsDashboard, srsData]
   );
-
-  const modelRunSummary = useMemo(() => {
-    const gm = srsData?.generation_meta;
-    if (!gm || typeof gm !== 'object') return null;
-    const mp = gm.model_performance;
-    const qs = gm.quality_scores;
-    const interp =
-      typeof gm.model_performance_interpretation === 'string' ? gm.model_performance_interpretation.trim() : '';
-    const qInterp =
-      typeof gm.quality_scores_interpretation === 'string' ? gm.quality_scores_interpretation.trim() : '';
-    const hasMp = mp && typeof mp === 'object' && Object.keys(mp).length > 0;
-    const hasQs = qs && typeof qs === 'object' && Object.keys(qs).length > 0;
-    if (!hasMp && !interp && !hasQs && !qInterp) return null;
-    return { mp: hasMp ? mp : {}, qs: hasQs ? qs : {}, interp, qInterp };
-  }, [srsData?.generation_meta]);
-
-  useEffect(() => {
-    setModelMetricsOpen(false);
-  }, [srsData?.document_id]);
 
   const dashboardTiles = useMemo(() => {
     const tiles = [];
@@ -1062,178 +1041,6 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
             </div>
           </div>
         </div>
-
-        {modelRunSummary && (
-          <div className="mb-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-              <div className="flex items-start gap-2">
-                <Timer className="h-5 w-5 text-r2d-primary shrink-0 mt-0.5" aria-hidden />
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Model run</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Heuristic precision/recall/F1, flexible alignment monitoring, and provider timings for{' '}
-                    <span className="font-mono text-slate-600 dark:text-slate-300">{srsData.document_id || 'this SRS'}</span>
-                    . Open metrics after each generation—the panel resets when you switch documents.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2 shrink-0">
-                <button
-                  type="button"
-                  aria-expanded={modelMetricsOpen}
-                  onClick={() => setModelMetricsOpen((v) => !v)}
-                  className="text-sm px-4 py-2.5 rounded-lg bg-r2d-primary text-white hover:bg-r2d-primaryLight font-medium shadow-sm"
-                >
-                  {modelMetricsOpen ? 'Hide model metrics' : 'Model metrics'}
-                </button>
-                <Link
-                  to="/srs-metrics"
-                  className="text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 inline-flex items-center"
-                >
-                  Open SRS quality metrics
-                </Link>
-              </div>
-            </div>
-            {!modelMetricsOpen ? (
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-4">
-                Metrics are loaded from this SRS object only (no extra request). Generate again or pick another
-                document to refresh numbers.
-              </p>
-            ) : null}
-            {modelMetricsOpen ? (
-              <div className="mt-5 pt-5 border-t border-slate-200 dark:border-slate-600 space-y-5">
-                <p className="text-xs font-mono text-slate-500 dark:text-slate-400">
-                  generation_meta snapshot · {srsData.document_id || '—'}
-                </p>
-                {modelRunSummary.qInterp ? (
-                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed border-l-4 border-emerald-600/70 dark:border-emerald-400/80 pl-3">
-                    {modelRunSummary.qInterp}
-                  </p>
-                ) : null}
-                {modelRunSummary.interp ? (
-                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed border-l-4 border-r2d-primary pl-3">
-                    {modelRunSummary.interp}
-                  </p>
-                ) : null}
-                {Object.keys(modelRunSummary.qs).length > 0 ? (
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50/60 dark:bg-slate-800/40 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-3">
-                      Precision / recall / F1 (heuristic)
-                    </p>
-                    {modelRunSummary.qs.notes ? (
-                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-3 leading-snug">{modelRunSummary.qs.notes}</p>
-                    ) : null}
-                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Section heading precision</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.section_heading_precision)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Section heading recall</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.section_heading_recall)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Section heading F1</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.section_heading_f1)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Input-token precision</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.input_token_precision)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Input-token recall</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.input_token_recall)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Input-token F1</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.input_token_f1)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Heuristic accuracy</dt>
-                        <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
-                          {formatPct01(modelRunSummary.qs.heuristic_accuracy)}
-                        </dd>
-                      </div>
-                      <div className="flex justify-between gap-2 border-b border-slate-200/80 dark:border-slate-600/80 pb-2 sm:col-span-2">
-                        <dt className="text-slate-600 dark:text-slate-400">Alignment (review-tier)</dt>
-                        <dd className="text-right text-slate-900 dark:text-slate-100 text-sm">
-                          {(modelRunSummary.qs.alignment_review_recommended ??
-                            modelRunSummary.qs.hallucination_has_potential) ? (
-                            <span>Review suggested</span>
-                          ) : (
-                            <span>None required</span>
-                          )}
-                          {typeof modelRunSummary.qs.hallucination_grounding_confidence === 'number' ? (
-                            <span className="block font-mono text-xs mt-0.5 text-slate-600 dark:text-slate-400">
-                              Grounding overlap {formatPct01(modelRunSummary.qs.hallucination_grounding_confidence)} ·
-                              review notes {modelRunSummary.qs.alignment_review_notes_count ?? modelRunSummary.qs.hallucination_flags_count ?? 0}
-                              {typeof modelRunSummary.qs.alignment_informational_notes_count === 'number' &&
-                              modelRunSummary.qs.alignment_informational_notes_count > 0 ? (
-                                <span>
-                                  {' '}
-                                  · FYI only {modelRunSummary.qs.alignment_informational_notes_count}
-                                </span>
-                              ) : null}
-                              {modelRunSummary.qs.grounding_monitoring_strictness ? (
-                                <span> · monitor={String(modelRunSummary.qs.grounding_monitoring_strictness)}</span>
-                              ) : null}
-                            </span>
-                          ) : null}
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
-                ) : null}
-                {Object.keys(modelRunSummary.mp).length > 0 || Object.keys(modelRunSummary.qs).length > 0 ? (
-                  <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-600">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 px-3 pt-3">
-                      All raw fields
-                    </p>
-                    <table className="min-w-full text-sm">
-                      <thead className="bg-slate-50 dark:bg-slate-800/80 text-left text-xs uppercase text-slate-500 dark:text-slate-400">
-                        <tr>
-                          <th className="px-3 py-2 font-medium">Metric</th>
-                          <th className="px-3 py-2 font-medium">Value</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200 dark:divide-slate-600">
-                        {Object.entries({
-                          ...Object.fromEntries(
-                            Object.entries(modelRunSummary.qs).filter(([k]) => k !== 'notes')
-                          ),
-                          ...modelRunSummary.mp,
-                        })
-                          .sort(([a], [b]) => a.localeCompare(b))
-                          .map(([k, v]) => (
-                            <tr key={k} className="text-slate-800 dark:text-slate-100">
-                              <td className="px-3 py-2 font-mono text-xs text-slate-600 dark:text-slate-300 whitespace-nowrap">
-                                {k}
-                              </td>
-                              <td className="px-3 py-2 break-all">
-                                {typeof v === 'boolean' ? (v ? 'yes' : 'no') : String(v)}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-        )}
 
         <div className="flex flex-col w-full">
         <div className="order-2 mt-8 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">

@@ -34,7 +34,9 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
   const [showHelp, setShowHelp] = useState(false);
   /** Clarification / live copilot — off by default to keep the flow simple */
   const [optionalToolsOpen, setOptionalToolsOpen] = useState(false);
-  
+  /** SRS text model lane: qwen25 = Replicate Qwen 2.x (default), qwen35 = OpenAI-compatible API (e.g. DashScope Qwen 3.x). */
+  const [srsLlmChoice, setSrsLlmChoice] = useState('qwen25');
+
   // Audio recording states
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
@@ -1478,6 +1480,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
           {
             type: 'text',
             content: sanitizedContent,
+            srs_llm_choice: srsLlmChoice,
             project_info: {
               ...projectInfo,
               clarification_summary: clarificationSummary
@@ -1562,6 +1565,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
             processingPayload: response.data,
             prebuiltSrs: srsFromCombined,
             combinedError: combinedSrsError || null,
+            srsLlmChoice,
           },
         },
       });
@@ -1622,7 +1626,7 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
       setShowProcessPipelineOverlay(false);
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     }
-  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing, extractStructuredAnalysis]);
+  }, [backendReady, inputType, textInput, refinedInputText, followupAnswers, clarification, audioBlob, uploadedFiles, projectInfo, validateInput, onResultsGenerated, onSRSGenerated, sanitizeInput, setCurrentResults, liveTranscription, buildFinalTextWithFollowups, navigate, validateProjectInfo, pendingTranscript, transcribeFullRecording, recordingTranscript, isPostRecordingTranscribing, extractStructuredAnalysis, srsLlmChoice]);
 
   const canProcess = useMemo(() => {
     if (isProcessing) return false;
@@ -2527,6 +2531,65 @@ const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themePro
               )}
             </div>
           )}
+
+          {/* SRS model selection (server-side keys; see QWEN35_* / REPLICATE_* in backend `.env`) */}
+          <div
+            className={`mb-4 rounded-xl border px-4 py-3 text-left ${
+              isDark ? 'border-slate-600 bg-slate-800/80' : 'border-slate-200 bg-slate-50'
+            }`}
+            role="group"
+            aria-label="SRS generation model"
+          >
+            <p className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              SRS generation model
+            </p>
+            <div className="mt-3 grid sm:grid-cols-2 gap-2">
+              <label
+                className={`flex cursor-pointer items-start gap-2 rounded-lg border px-3 py-2.5 text-sm ${
+                  srsLlmChoice === 'qwen25'
+                    ? 'border-r2d-primary bg-white shadow-sm dark:border-r2d-primary dark:bg-slate-900'
+                    : 'border-transparent hover:border-slate-300 dark:hover:border-slate-600'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="srs-llm-choice"
+                  className="mt-0.5"
+                  checked={srsLlmChoice === 'qwen25'}
+                  onChange={() => setSrsLlmChoice('qwen25')}
+                />
+                <span>
+                  <span className="font-semibold text-r2d-primary dark:text-blue-200">Qwen 2.5 (default)</span>
+                  <span className={`mt-0.5 block text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    Uses the existing Replicate-hosted generator (requires <code className="font-mono">REPLICATE_API_TOKEN</code> on
+                    the server).
+                  </span>
+                </span>
+              </label>
+              <label
+                className={`flex cursor-pointer items-start gap-2 rounded-lg border px-3 py-2.5 text-sm ${
+                  srsLlmChoice === 'qwen35'
+                    ? 'border-r2d-primary bg-white shadow-sm dark:border-r2d-primary dark:bg-slate-900'
+                    : 'border-transparent hover:border-slate-300 dark:hover:border-slate-600'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="srs-llm-choice"
+                  className="mt-0.5"
+                  checked={srsLlmChoice === 'qwen35'}
+                  onChange={() => setSrsLlmChoice('qwen35')}
+                />
+                <span>
+                  <span className="font-semibold text-r2d-primary dark:text-blue-200">Qwen 3.5</span>
+                  <span className={`mt-0.5 block text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    Uses an OpenAI-compatible Chat Completions API (configure <code className="font-mono">QWEN35_OPENAI_API_KEY</code>{' '}
+                    and optional <code className="font-mono">QWEN35_OPENAI_BASE_URL</code> / <code className="font-mono">QWEN35_OPENAI_MODEL</code> on the server).
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
 
           {/* Process Button */}
           <div className="text-center">

@@ -12,6 +12,8 @@ import logging
 import re
 import os
 import time
+import urllib.error
+import urllib.request
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Dict, Iterator, List, Optional, Tuple
@@ -43,15 +45,54 @@ except Exception:
         sections: Dict[str, Any]
 
 
+def normalize_srs_llm_choice(raw: Optional[str]) -> str:
+    """UI/API value -> internal lane: qwen25 (Replicate Qwen2) or qwen35 (OpenAI-compatible Qwen3.x)."""
+    s = str(raw or "").strip().lower()
+    if s in ("qwen35", "qwen-3.5", "qwen3.5", "qwen_3.5"):
+        return "qwen35"
+    return "qwen25"
+
+
+def model_config_for_llm_choice(llm_choice: Optional[str]) -> "ModelConfig":
+    """
+    Build generation config from user selection.
+    - qwen25: existing Replicate deployment (Qwen 2.x family on Replicate).
+    - qwen35: OpenAI-compatible Chat Completions (DashScope compatible-mode by default).
+    """
+    lane = normalize_srs_llm_choice(llm_choice)
+    if lane == "qwen35":
+        base = (
+            os.getenv("QWEN35_OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+            .strip()
+            .rstrip("/")
+        )
+        key = (os.getenv("QWEN35_OPENAI_API_KEY") or os.getenv("DASHSCOPE_API_KEY") or "").strip()
+        model = (os.getenv("QWEN35_OPENAI_MODEL", "qwen-plus") or "qwen-plus").strip()
+        return ModelConfig(
+            text_backend="openai_compatible",
+            model_name="",
+            api_token="",
+            openai_base_url=base,
+            openai_api_key=key,
+            openai_model=model,
+        )
+    return ModelConfig()
+
+
 @dataclass
 class ModelConfig:
-    """Configuration for Replicate model"""
+    """Configuration for hosted text generation (Replicate or OpenAI-compatible chat)."""
+    # replicate | openai_compatible (DashScope/OpenRouter/etc. — any OpenAI-style /v1/chat/completions)
+    text_backend: str = "replicate"
     # Pin to published version to avoid 422 invalid version errors; override via REPLICATE_MODEL if needed
     model_name: str = os.getenv(
         "REPLICATE_MODEL",
         "ar18now/qwen2:e2488e00bc2be9f83f548b6f1591c4dcc69cd6dc5e7a82ceb4968dc209ebd420"
     )
     api_token: str = os.getenv("REPLICATE_API_TOKEN", "")
+    openai_base_url: str = ""
+    openai_api_key: str = ""
+    openai_model: str = ""
     # Replicate `ar18now/qwen2` API rejects values > 4096; see `_replicate_max_tokens`.
     max_new_tokens: int = 4096
     temperature: float = 0.4
@@ -128,11 +169,33 @@ def strip_srs_references_section(text: str) -> str:
 class SRSModelGenerator:
     """Generates SRS sections using Replicate-hosted model."""
 
-    def __init__(self, config: Optional[ModelConfig] = None):
+    def __init__(self, config: Optional[ModelConfig] = None, llm_choice: Optional[str] = None):
         self.logger = logging.getLogger(__name__)
-        self.config = config or ModelConfig()
-        
-        # Validate API token - must be set via environment variable
+        self.config = config if config is not None else model_config_for_llm_choice(llm_choice)
+        self._text_backend = str(getattr(self.config, "text_backend", None) or "replicate").strip().lower()
+        if self._text_backend not in {"replicate", "openai_compatible"}:
+            self._text_backend = "replicate"
+
+        if self._text_backend == "openai_compatible":
+            if not self.config.openai_api_key or not str(self.config.openai_api_key).strip():
+                error_msg = (
+                    "Qwen 3.5 (OpenAI-compatible) is selected, but no API key is configured. "
+                    "Set QWEN35_OPENAI_API_KEY (recommended) or DASHSCOPE_API_KEY in the server environment / `.env`."
+                )
+                self.logger.error(error_msg)
+                raise ValueError(error_msg)
+            if not self.config.openai_base_url or not str(self.config.openai_base_url).strip():
+                raise ValueError("QWEN35_OPENAI_BASE_URL is empty.")
+            if not self.config.openai_model or not str(self.config.openai_model).strip():
+                raise ValueError("QWEN35_OPENAI_MODEL is empty.")
+            self.logger.info(
+                "Initialized SRS generator with OpenAI-compatible backend model=%s base=%s",
+                self.config.openai_model,
+                self.config.openai_base_url,
+            )
+            return
+
+        # Replicate path (default / Qwen 2.5 lane)
         if not self.config.api_token or self.config.api_token.strip() == "":
             error_msg = (
                 "REPLICATE_API_TOKEN is not set. Get a token at "
@@ -143,7 +206,7 @@ class SRSModelGenerator:
             )
             self.logger.error(error_msg)
             raise ValueError("REPLICATE_API_TOKEN environment variable is required")
-        
+
         # Set the token as environment variable for Replicate SDK to use
         os.environ["REPLICATE_API_TOKEN"] = self.config.api_token
 
@@ -463,6 +526,72 @@ Context (do not repeat as a document header): project "{title}", author "{author
         appendix = t[i0 + len(start) : i1].strip()
         return srs_part, appendix
 
+    def _call_hosted_text_model(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> str:
+        if self._text_backend == "openai_compatible":
+            return self._call_openai_compatible_chat(prompt, input_overrides)
+        return self._call_replicate(prompt, input_overrides)
+
+    def _call_openai_compatible_chat(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> str:
+        """Call an OpenAI-compatible Chat Completions API (used for the Qwen 3.5 lane)."""
+        t_outer = time.perf_counter()
+        base = str(self.config.openai_base_url or "").strip().rstrip("/")
+        url = f"{base}/chat/completions"
+        ov = input_overrides or {}
+        mt = self._replicate_max_tokens(ov.get("max_new_tokens"))
+        temperature = float(ov.get("temperature", self.config.temperature))
+        top_p = float(ov.get("top_p", self.config.top_p))
+        body = {
+            "model": str(self.config.openai_model or "").strip(),
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": int(mt),
+        }
+        payload = json.dumps(body).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": f"Bearer {self.config.openai_api_key}",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=int(self.config.timeout)) as resp:
+                raw = resp.read().decode("utf-8", errors="replace")
+        except urllib.error.HTTPError as e:
+            err_body = ""
+            try:
+                err_body = e.read().decode("utf-8", errors="replace")
+            except Exception:
+                err_body = ""
+            raise RuntimeError(f"OpenAI-compatible API HTTP {e.code}: {err_body[:1200]}") from e
+
+        obj = json.loads(raw)
+        choices = obj.get("choices") or []
+        if not choices:
+            raise RuntimeError("OpenAI-compatible API returned no choices")
+        msg = choices[0].get("message") or {}
+        content = msg.get("content")
+        if content is None:
+            raise RuntimeError("OpenAI-compatible API returned empty message content")
+        generated_text = str(content)
+
+        self._last_replicate_call_metrics = {
+            "provider": "openai_compatible",
+            "delivery": "sync",
+            "model": str(self.config.openai_model),
+            "openai_base_url": str(self.config.openai_base_url),
+            "latency_seconds": round(time.perf_counter() - t_outer, 3),
+            "output_characters": len(generated_text),
+            "max_tokens": int(mt),
+            "temperature": float(temperature),
+            "top_p": float(top_p),
+        }
+        self.logger.info("OpenAI-compatible chat call successful")
+        return generated_text.strip()
+
     def _call_replicate(self, prompt: str, input_overrides: Optional[Dict[str, Any]] = None) -> str:
         """Call the Replicate model with retry logic."""
         t_outer = time.perf_counter()
@@ -592,6 +721,15 @@ Context (do not repeat as a document header): project "{title}", author "{author
         if not requirements_text or len(requirements_text.strip()) < 10:
             raise ValueError("Requirements text is too short or empty for streaming")
         prompt = self._build_prompt(requirements_text, project_info)
+        if self._text_backend == "openai_compatible":
+            def _chunk_openai() -> Iterator[str]:
+                full = self._call_openai_compatible_chat(prompt)
+                step = 240
+                for i in range(0, len(full), step):
+                    yield full[i : i + step]
+
+            return requirements_text, prompt, _chunk_openai()
+
         return requirements_text, prompt, self._stream_call_replicate(prompt)
 
     def _document_from_replicate_output(
@@ -624,7 +762,7 @@ Context (do not repeat as a document header): project "{title}", author "{author
                 + f"{TEXTUAL_UC_APPENDIX_START} and {TEXTUAL_UC_APPENDIX_END} as specified in the contract. "
                 + "In the appendix: one block per FR, each ending with 'Trace to FR Id: FR-NN' matching that block."
             )
-            raw_retry = self._call_replicate(
+            raw_retry = self._call_hosted_text_model(
                 retry_prompt,
                 input_overrides={
                     "temperature": 0.25,
@@ -1890,7 +2028,7 @@ Context (do not repeat as a document header): project "{title}", author "{author
             self.logger.info(f"Built prompt, length: {len(prompt)} chars")
 
             try:
-                raw_text = self._call_replicate(prompt)
+                raw_text = self._call_hosted_text_model(prompt)
                 return self._document_from_replicate_output(raw_text, prompt, requirements_text, project_info)
             except Exception as e:
                 self.logger.error(f"Error calling Replicate: {e}. Using empty sections.", exc_info=True)

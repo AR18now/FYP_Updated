@@ -39,7 +39,7 @@ from main_orchestrator import RequirementsOrchestrator
 from srs_generator import SRSGenerator
 from generation.srs_generator import RAGSRSGenerator
 from json_to_srs_pdf import load_srs_from_json, render_html, save_pdf_or_html
-from srs_model_generator import SRSModelGenerator, strip_srs_references_section
+from srs_model_generator import SRSModelGenerator, strip_srs_references_section, normalize_srs_llm_choice
 from generation.usecase_diagram_generator import UseCaseDiagramGenerator
 from input_processing.ambiguity_detection import AmbiguityDetector
 from input_processing.requirement_refinement import RequirementRefiner
@@ -2693,7 +2693,7 @@ def _validate_generation_payload(results: list, project_info: dict) -> Optional[
     return None
 
 
-def _generate_srs_document(results: list, project_info: dict, mode_override=None):
+def _generate_srs_document(results: list, project_info: dict, mode_override=None, srs_llm_choice: Optional[str] = None):
     """
     Runtime generation switch.
     Env variables:
@@ -2746,21 +2746,21 @@ def _generate_srs_document(results: list, project_info: dict, mode_override=None
 
             if loaded_docs <= 0:
                 logger.warning("RAG mode requested but KB is empty; falling back to model mode.")
-                model_gen = SRSModelGenerator()
+                model_gen = SRSModelGenerator(llm_choice=srs_llm_choice)
                 return model_gen.generate_srs(results, project_info)
 
             return rag.generate(results, project_info=project_info, top_k=top_k)
         except Exception as e:
             logger.error("RAG generation failed (%s). Falling back to model mode.", e, exc_info=True)
-            model_gen = SRSModelGenerator()
+            model_gen = SRSModelGenerator(llm_choice=srs_llm_choice)
             return model_gen.generate_srs(results, project_info)
 
     logger.info("SRS generation mode=model")
-    model_gen = SRSModelGenerator()
+    model_gen = SRSModelGenerator(llm_choice=srs_llm_choice)
     return model_gen.generate_srs(results, project_info)
 
 
-def _build_srs_dict_from_results(results: list, project_info: dict, mode_override=None) -> dict:
+def _build_srs_dict_from_results(results: list, project_info: dict, mode_override=None, srs_llm_choice: Optional[str] = None) -> dict:
     """Build SRS JSON payload (same contract as POST /api/generate-srs)."""
     if not results:
         raise ValueError("No results provided")
@@ -2785,11 +2785,11 @@ def _build_srs_dict_from_results(results: list, project_info: dict, mode_overrid
         logger.warning("Unknown SRS_GENERATION_MODE in build payload; using model.")
         resolved_mode = "model"
 
-    srs = _generate_srs_document(results, project_info, mode_override=resolved_mode)
+    srs = _generate_srs_document(results, project_info, mode_override=resolved_mode, srs_llm_choice=srs_llm_choice)
 
     logger.info(f"SRS generated successfully: {srs.document_id}")
 
-    return _srs_document_to_api_dict(srs, results, project_info, resolved_mode)
+    return _srs_document_to_api_dict(srs, results, project_info, resolved_mode, srs_llm_choice=srs_llm_choice)
 
 
 def _sse_srs_event(payload: dict) -> str:
@@ -2797,7 +2797,9 @@ def _sse_srs_event(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
 
-def _srs_document_to_api_dict(srs, results: list, project_info: dict, resolved_mode: str) -> dict:
+def _srs_document_to_api_dict(
+    srs, results: list, project_info: dict, resolved_mode: str, srs_llm_choice: Optional[str] = None
+) -> dict:
     """Build the same JSON contract as POST /api/generate-srs from an in-memory SRS document."""
     raw_text = getattr(srs, "raw_text", None) or srs.sections.get("_raw_text")
     hallucination_analysis = srs.sections.get("_hallucination_analysis", {})
@@ -2841,6 +2843,7 @@ def _srs_document_to_api_dict(srs, results: list, project_info: dict, resolved_m
         },
         "generation_meta": {
             "mode": resolved_mode,
+            "srs_llm_choice": normalize_srs_llm_choice(srs_llm_choice),
         },
     }
     srs_text_for_quality = raw_text or json.dumps(srs.sections, ensure_ascii=False)
@@ -2952,6 +2955,24 @@ def process_and_generate_srs():
         input_type = data.get('type', 'text')
         content = data.get('content', '')
         project_info = data.get('project_info', {})
+        srs_llm_choice = normalize_srs_llm_choice(data.get("srs_llm_choice"))
+        logger.info(
+            "process-and-generate-srs: srs_llm_choice=%s (raw client field=%r)",
+            srs_llm_choice,
+            data.get("srs_llm_choice"),
+        )
+
+        if srs_llm_choice == "qwen35":
+            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            if not qk:
+                return jsonify(
+                    {
+                        "error": (
+                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
+                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                        )
+                    }
+                ), 400
 
         if input_type != 'text':
             return jsonify({'error': 'Only type=text is supported for this endpoint'}), 400
@@ -2995,7 +3016,7 @@ def process_and_generate_srs():
             return jsonify({'error': 'Processing produced no results', 'processing': result}), 500
 
         try:
-            srs_dict = _build_srs_dict_from_results(results_list, project_info)
+            srs_dict = _build_srs_dict_from_results(results_list, project_info, srs_llm_choice=srs_llm_choice)
         except RequirementSecurityError as sec:
             return jsonify(sec.payload), sec.status
         except Exception as srs_e:
@@ -3458,7 +3479,21 @@ def generate_srs():
                 'structured_analysis': quality_validation.get('structured_analysis', {}),
             }), 400
 
-        srs_dict = _build_srs_dict_from_results(results, project_info)
+        srs_lane = normalize_srs_llm_choice(data.get("srs_llm_choice"))
+
+        if srs_lane == "qwen35":
+            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            if not qk:
+                return jsonify(
+                    {
+                        "error": (
+                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
+                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                        )
+                    }
+                ), 400
+
+        srs_dict = _build_srs_dict_from_results(results, project_info, srs_llm_choice=srs_lane)
         return jsonify(srs_dict)
 
     except RequirementSecurityError as sec:
@@ -3510,6 +3545,20 @@ def generate_srs_stream():
         if inj:
             raise RequirementSecurityError(inj, 403)
 
+        srs_llm_choice = normalize_srs_llm_choice(data.get("srs_llm_choice"))
+
+        if srs_llm_choice == "qwen35":
+            qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+            if not qk:
+                return jsonify(
+                    {
+                        "error": (
+                            "Qwen 3.5 is selected, but the server is missing QWEN35_OPENAI_API_KEY "
+                            "(or DASHSCOPE_API_KEY). Add it to the API server's environment / `.env`."
+                        )
+                    }
+                ), 400
+
         logger.info(f"SRS stream: generating with {len(results)} result(s)")
 
         resolved_mode = str(os.environ.get("SRS_GENERATION_MODE", "model")).strip().lower()
@@ -3521,29 +3570,43 @@ def generate_srs_stream():
             try:
                 if resolved_mode == "rag":
                     # RAG returns a full document; we still chunk `raw_text` so the UI can reveal it progressively.
-                    srs = _generate_srs_document(results, project_info, mode_override="rag")
+                    srs = _generate_srs_document(results, project_info, mode_override="rag", srs_llm_choice=srs_llm_choice)
                     raw = (getattr(srs, "raw_text", None) or (srs.sections or {}).get("_raw_text") or "")
                     step = 320
                     for i in range(0, len(raw), step):
                         yield _sse_srs_event({"type": "delta", "text": raw[i : i + step]})
-                    out = _srs_document_to_api_dict(srs, results, project_info, "rag")
+                    out = _srs_document_to_api_dict(srs, results, project_info, "rag", srs_llm_choice=srs_llm_choice)
                     gm = dict(out.get("generation_meta") or {})
                     gm["streamed"] = True
                     out["generation_meta"] = gm
                     yield _sse_srs_event({"type": "done", "srs": out})
                     return
 
-                token = (os.environ.get("REPLICATE_API_TOKEN") or "").strip()
-                if not token:
-                    yield _sse_srs_event(
-                        {
-                            "type": "error",
-                            "message": "REPLICATE_API_TOKEN is not configured; streaming requires the model backend.",
-                        }
-                    )
-                    return
+                if srs_llm_choice == "qwen35":
+                    qk = (os.environ.get("QWEN35_OPENAI_API_KEY") or os.environ.get("DASHSCOPE_API_KEY") or "").strip()
+                    if not qk:
+                        yield _sse_srs_event(
+                            {
+                                "type": "error",
+                                "message": (
+                                    "Qwen 3.5 is selected but QWEN35_OPENAI_API_KEY (or DASHSCOPE_API_KEY) is not "
+                                    "configured on the server."
+                                ),
+                            }
+                        )
+                        return
+                else:
+                    token = (os.environ.get("REPLICATE_API_TOKEN") or "").strip()
+                    if not token:
+                        yield _sse_srs_event(
+                            {
+                                "type": "error",
+                                "message": "REPLICATE_API_TOKEN is not configured; streaming requires the model backend.",
+                            }
+                        )
+                        return
 
-                model_gen = SRSModelGenerator()
+                model_gen = SRSModelGenerator(llm_choice=srs_llm_choice)
                 req_text, prompt, chunk_it = model_gen.stream_srs_text_chunks(results, project_info)
                 parts = []
                 _t_stream = time.perf_counter()
@@ -3557,7 +3620,7 @@ def generate_srs_stream():
                     "raw_model_output_characters": len(full_raw),
                 }
                 srs_doc = model_gen._document_from_replicate_output(full_raw, prompt, req_text, project_info)
-                out = _srs_document_to_api_dict(srs_doc, results, project_info, "model")
+                out = _srs_document_to_api_dict(srs_doc, results, project_info, "model", srs_llm_choice=srs_llm_choice)
                 gm = dict(out.get("generation_meta") or {})
                 gm["streamed"] = True
                 out["generation_meta"] = gm

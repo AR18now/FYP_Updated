@@ -33,7 +33,6 @@ frontend/.env.production.local
 .env.*.local
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo

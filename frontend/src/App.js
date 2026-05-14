@@ -23,6 +23,7 @@ import RTMPage from './pages/RTMPage';
 import ProfilePage from './pages/ProfilePage';
 import ExpertReviewPage from './pages/ExpertReviewPage';
 import SRSMetricsPage from './pages/SRSMetricsPage';
+import SrsModelRunPage from './pages/SrsModelRunPage';
 import { isAuthenticated, getCurrentUser, logout } from './utils/auth';
 import { getStoredSRS } from './utils/storage';
 import './App.css';
@@ -141,12 +142,7 @@ function App() {
               <Route
                 index
                 element={
-                  <DashboardPage
-                    hasResults={!!currentResults}
-                    hasSrs={!!srsData}
-                    hasUseCases={useCaseData}
-                    srsData={srsData}
-                  />
+                  <DashboardPage srsData={srsData} />
                 }
               />
               <Route
@@ -231,6 +227,7 @@ function App() {
                 element={<ExpertReviewPage srsData={srsData} mode="user" />}
               />
               <Route path="srs-metrics" element={<SRSMetricsPage srsData={srsData} currentResults={currentResults} />} />
+              <Route path="srs-model-run" element={<SrsModelRunPage srsData={srsData} />} />
             </Route>
 
             <Route

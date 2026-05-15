@@ -3,7 +3,8 @@ import { Sparkles, Workflow } from 'lucide-react';
 import RequirementsInput from '../components/RequirementsInput';
 
 /**
- * Enterprise entry: requirements capture and SRS generation pipeline.
+ * Thin wrapper around `RequirementsInput` — the main author-facing capture + pipeline UI.
+ * Props are forwarded so results/SRS state can live in `App.js` route-level state.
  */
 const GenerateSRSPage = (props) => {
   return (

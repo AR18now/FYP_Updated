@@ -3,8 +3,10 @@ import { useNavigate, Link, Navigate, useParams } from 'react-router-dom';
 import { Lock, User, AlertCircle, Eye, EyeOff, Moon, Sun, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
 import { BrandFull } from './BrandLogo';
 import { login, isAuthenticated, getCurrentUser, ROLES } from '../utils/auth';
+import { appendActivityLog } from '../utils/storage';
 import { useTheme } from '../context/ThemeContext';
 
+/** Role-specific sign-in (`/login/user` vs `/login/expert`) backed by `utils/auth` local accounts. */
 const Login = ({ onLogin }) => {
   const { role: roleParam } = useParams();
   const navigate = useNavigate();
@@ -57,6 +59,12 @@ const Login = ({ onLogin }) => {
       const result = login(formData.usernameOrEmail, formData.password, role);
 
       if (result.success) {
+        appendActivityLog({
+          type: 'login',
+          title: 'Signed in',
+          detail: `${result.user?.username || result.user?.email || 'User'} · ${isExpert ? 'Expert reviewer' : 'Project user'}`,
+          meta: { role: result.user?.role },
+        });
         if (onLogin) {
           onLogin(result.user);
         }

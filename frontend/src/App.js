@@ -1,3 +1,8 @@
+/**
+ * Req2Design root SPA: routing, shared SRS/results/use-case state, and one-shot intro splash.
+ * Authenticated areas are split by role (`RoleProtectedRoute`): project users under relative routes
+ * inside `AppShellLayout`, expert reviewers under `/expert` + `ExpertShellLayout`.
+ */
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,11 +34,16 @@ import { getStoredSRS } from './utils/storage';
 import './App.css';
 
 function App() {
+  /** Latest pipeline output from Generate SRS / History reload (feeds Results + SRS views). */
   const [currentResults, setCurrentResults] = useState(null);
+  /** Active SRS document object (sections, raw_text, ids) shared across SRS, RTM, metrics, use cases. */
   const [srsData, setSrsData] = useState(null);
+  /** Last `/api/generate-usecases` response (textual appendix + diagram PNGs) shared by diagram + textual pages. */
   const [useCaseData, setUseCaseData] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  /** First paint: marketing intro; dismissed to reveal the router (see `IntroSplashPage`). */
   const [showIntroSplash, setShowIntroSplash] = useState(true);
+  /** Prevents duplicate auto-fetch when the same SRS is still missing diagram assets after a failed request. */
   const useCaseAutoFetchAttempted = useRef(new Set());
 
   useEffect(() => {
@@ -46,6 +56,7 @@ function App() {
     }
   }, []);
 
+  // Warm-start: if the user refreshed without in-memory SRS, hydrate from the most recent local copy.
   useEffect(() => {
     if (!srsData) {
       const stored = getStoredSRS();
@@ -55,6 +66,7 @@ function App() {
     }
   }, [srsData]);
 
+  // When SRS includes the model textual-use-case appendix but no diagram yet, request diagram once per document_id.
   useEffect(() => {
     const id = srsData?.document_id;
     if (!id || !hasModelTextualUseCases(srsData)) {
@@ -123,8 +135,9 @@ function App() {
         {showIntroSplash ? (
           <IntroSplashPage onComplete={handleSplashComplete} />
         ) : (
-        <div className="min-h-screen">
+        <div className="min-h-screen animate-fade-in">
           <Routes>
+            {/* --- Public auth entry --- */}
             <Route path="/" element={<Navigate to="/start" replace />} />
             <Route path="/start" element={<WelcomePage />} />
             <Route path="/login/:role" element={<Login onLogin={handleLogin} />} />
@@ -132,6 +145,7 @@ function App() {
             <Route path="/login" element={<Navigate to="/start" replace />} />
             <Route path="/signup" element={<Navigate to="/start" replace />} />
 
+            {/* --- Project user workspace (nested routes render inside AppShellLayout `<Outlet />`) --- */}
             <Route
               element={
                 <RoleProtectedRoute allowedRole="user">
@@ -230,6 +244,7 @@ function App() {
               <Route path="srs-model-run" element={<SrsModelRunPage srsData={srsData} />} />
             </Route>
 
+            {/* --- Expert reviewer panel (separate nav shell, minimal routes) --- */}
             <Route
               path="/expert"
               element={

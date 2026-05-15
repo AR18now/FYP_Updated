@@ -1,12 +1,16 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { History, FileText, Trash2, Eye, Download, Calendar, User, X, Search, Filter, Mic, Play } from 'lucide-react';
-import { getStoredInputs, getStoredSRS, deleteInput, deleteSRS, clearAllStorage, getStorageStats } from '../utils/storage';
+import { History, FileText, Trash2, Eye, Download, Calendar, User, Search, Mic, Play, LogIn, UserPlus, ClipboardList, GitBranch, Sparkles, Pencil } from 'lucide-react';
+import { getStoredInputs, getStoredSRS, deleteInput, deleteSRS, clearAllStorage, getStorageStats, getActivityLog, deleteActivityEntry } from '../utils/storage';
 import axios from 'axios';
 import config from '../config';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { useTheme } from '../context/ThemeContext';
 
+/**
+ * History hub: persisted inputs, saved SRS documents, and the local activity timeline (login / generation events).
+ * Polls storage on an interval so new saves from other tabs show up without a manual refresh.
+ */
 const HistoryView = ({ onLoadInput, onLoadSRS }) => {
   const toSafeFilename = useCallback((value, fallback = 'SRS') => {
     const cleaned = String(value || fallback)
@@ -19,9 +23,10 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [activeTab, setActiveTab] = useState('srs'); // 'inputs' or 'srs'
+  const [activeTab, setActiveTab] = useState('activity'); // 'activity' | 'srs' | 'inputs'
   const [inputs, setInputs] = useState([]);
   const [srsList, setSrsList] = useState([]);
+  const [activityLog, setActivityLog] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [stats, setStats] = useState({ inputsCount: 0, srsCount: 0, totalSizeMB: '0.00' });
 
@@ -31,6 +36,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
     const storedSRS = getStoredSRS();
     setInputs(storedInputs);
     setSrsList(storedSRS);
+    setActivityLog(getActivityLog());
     setStats(getStorageStats());
   }, []);
 
@@ -65,6 +71,45 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
       (srs.preview || '').toLowerCase().includes(query)
     );
   }, [srsList, searchQuery]);
+
+  const filteredActivity = useMemo(() => {
+    if (!searchQuery.trim()) return activityLog;
+    const query = searchQuery.toLowerCase();
+    return activityLog.filter(
+      (a) =>
+        (a.title || '').toLowerCase().includes(query) ||
+        (a.detail || '').toLowerCase().includes(query) ||
+        (a.type || '').toLowerCase().includes(query)
+    );
+  }, [activityLog, searchQuery]);
+
+  const activityIcon = useCallback((type) => {
+    switch (type) {
+      case 'login':
+        return LogIn;
+      case 'signup':
+        return UserPlus;
+      case 'srs_generated':
+        return Sparkles;
+      case 'srs_updated':
+        return Pencil;
+      case 'textual_usecases':
+        return ClipboardList;
+      case 'usecase_diagram':
+        return GitBranch;
+      default:
+        return History;
+    }
+  }, []);
+
+  const handleDeleteActivity = useCallback(
+    (id) => {
+      if (window.confirm('Remove this activity entry?')) {
+        if (deleteActivityEntry(id)) loadData();
+      }
+    },
+    [loadData]
+  );
 
   const handleDeleteInput = useCallback((inputId) => {
     if (window.confirm('Are you sure you want to delete this input?')) {
@@ -155,14 +200,16 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
               <span>History</span>
             </h2>
             <p className="text-sm" style={{ color: 'var(--muted)' }}>
-              View and manage your previous inputs and generated SRS documents
+              Saved inputs, generated SRS, and a persistent timeline of sign-ins and generation steps on this device.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
             <div className="text-sm w-full sm:w-auto" style={{ color: 'var(--muted)' }}>
-              <span className="font-semibold">{stats.inputsCount}</span> inputs • <span className="font-semibold">{stats.srsCount}</span> SRS • {stats.totalSizeMB} MB
+              <span className="font-semibold">{stats.activityCount ?? activityLog.length}</span> activity ·{' '}
+              <span className="font-semibold">{stats.inputsCount}</span> inputs ·{' '}
+              <span className="font-semibold">{stats.srsCount}</span> SRS · {stats.totalSizeMB} MB
             </div>
-            {(inputs.length > 0 || srsList.length > 0) && (
+            {(inputs.length > 0 || srsList.length > 0 || activityLog.length > 0) && (
               <button
                 onClick={handleClearAll}
                 className="text-red-500 hover:text-red-600 text-sm px-3 py-1.5 rounded border border-red-300 hover:border-red-400 transition-colors w-full sm:w-auto"
@@ -176,9 +223,10 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
         {/* Tabs */}
         <div className="flex flex-wrap gap-2 mb-6 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {[
+            { id: 'activity', label: 'Activity', count: activityLog.length },
             { id: 'srs', label: 'SRS Documents', count: srsList.length },
-            { id: 'inputs', label: 'Inputs', count: inputs.length }
-          ].map(tab => (
+            { id: 'inputs', label: 'Inputs', count: inputs.length },
+          ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -198,7 +246,7 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
           <input
             type="text"
-            placeholder="Search by title, author, or content..."
+            placeholder="Search history, titles, authors, or activity…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-r2d-accent focus:border-transparent"
@@ -209,6 +257,69 @@ const HistoryView = ({ onLoadInput, onLoadSRS }) => {
             }}
           />
         </div>
+
+        {/* Activity timeline (persisted locally) */}
+        {activeTab === 'activity' && (
+          <div className="space-y-3">
+            {filteredActivity.length === 0 ? (
+              <div className="text-center py-12" style={{ color: 'var(--muted)' }}>
+                <History className="h-16 w-16 mx-auto mb-4 opacity-50" aria-hidden="true" />
+                <p className="text-lg font-medium mb-2">No activity yet</p>
+                <p className="text-sm max-w-lg mx-auto leading-relaxed">
+                  Sign in, sign up, generate an SRS, or run textual use cases and diagrams—each step is recorded here and
+                  stays after you close the browser.
+                </p>
+              </div>
+            ) : (
+              filteredActivity.map((a) => {
+                const Icon = activityIcon(a.type);
+                return (
+                  <div
+                    key={a.id}
+                    className="border rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 hover:shadow-md transition-all duration-200"
+                    style={{
+                      background: 'var(--card)',
+                      borderColor: 'var(--card-border)',
+                    }}
+                  >
+                    <div className="flex items-start gap-3 min-w-0">
+                      <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-r2d-primary/12 text-r2d-primary border border-r2d-border/80 dark:border-slate-600">
+                        <Icon className="h-5 w-5" aria-hidden />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
+                          {a.title}
+                        </p>
+                        {a.detail ? (
+                          <p className="text-sm mt-1 line-clamp-2" style={{ color: 'var(--muted)' }}>
+                            {a.detail}
+                          </p>
+                        ) : null}
+                        <p className="text-[11px] mt-2 uppercase tracking-wide font-semibold" style={{ color: 'var(--muted)' }}>
+                          {String(a.type || '').replace(/_/g, ' ')}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 sm:flex-col sm:items-end sm:gap-2 shrink-0 w-full sm:w-auto justify-between sm:justify-start">
+                      <span className="text-xs flex items-center gap-1" style={{ color: 'var(--muted)' }}>
+                        <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+                        {new Date(a.ts).toLocaleString()}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteActivity(a.id)}
+                        className="p-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 border border-transparent hover:border-red-200 dark:hover:border-red-900"
+                        title="Remove this entry"
+                      >
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
 
         {/* SRS Documents Tab */}
         {activeTab === 'srs' && (

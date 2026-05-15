@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   SESSION: 'req2design_session',
 };
 
+/** Demo-grade auth: passwords live in localStorage in plaintext — suitable for local FYP demos only. */
 export const ROLES = {
   USER: 'user',
   EXPERT: 'expert',

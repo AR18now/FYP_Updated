@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LogOut, User } from 'lucide-react';
 import { BrandMark } from './BrandLogo';
 
+/** Top navigation chrome for early layouts — newer shells use `AppShellLayout` instead. */
 const Header = ({ theme = 'dark', onToggleTheme, currentUser, onLogout }) => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);

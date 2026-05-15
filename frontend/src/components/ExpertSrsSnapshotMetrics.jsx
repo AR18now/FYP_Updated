@@ -4,6 +4,7 @@ import { getApiErrorMessage } from '../utils/apiErrors';
 import { DOC_QUALITY_METRIC_ROWS, formatPct01 } from '../utils/srsQualityCopy';
 import { collectPromptFromResults, postSrsDashboardWithFallback } from '../utils/srsDashboardClient';
 
+/** Pulls `generation_meta` slices out of a stored SRS snapshot for compact display in expert UI. */
 function buildModelRunSummary(srs) {
   const gm = srs?.generation_meta;
   if (!gm || typeof gm !== 'object') return null;

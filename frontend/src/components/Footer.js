@@ -2,6 +2,7 @@ import React from 'react';
 import { Github, Twitter, Linkedin } from 'lucide-react';
 import { BrandMark } from './BrandLogo';
 
+/** Simple marketing footer with social placeholders (links intentionally generic). */
 const Footer = () => {
   const year = new Date().getFullYear();
 

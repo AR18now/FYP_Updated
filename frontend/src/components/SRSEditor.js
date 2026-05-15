@@ -1,6 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Edit3, Bold, Highlighter, Save, X, Undo, Redo } from 'lucide-react';
 
+/**
+ * Lightweight `contentEditable` SRS editor used from `ResultsView` modal — persists edited HTML back
+ * into `raw_text` via `onSave` (caller re-serializes / saves to storage).
+ */
+
 const toInitialHtml = (rawText = '') =>
   String(rawText)
     .replace(/&/g, '&amp;')

@@ -3,6 +3,7 @@ import config from '../config';
 import { useTheme } from '../context/ThemeContext';
 import { BrandFull } from '../components/BrandLogo';
 
+/** Workspace preferences (theme) plus read-only API base URL hints for troubleshooting deployments. */
 const SettingsPage = () => {
   const { theme, toggleTheme } = useTheme();
   return (

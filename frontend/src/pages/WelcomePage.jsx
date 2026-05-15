@@ -21,7 +21,7 @@ import { isAuthenticated, getCurrentUser, ROLES } from '../utils/auth';
 function AuthorPortalArt({ className }) {
   return (
     <svg className={className} viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect x="24" y="20" width="120" height="150" rx="10" fill="currentColor" className="text-amber-100 dark:text-amber-950/45" />
+      <rect x="24" y="20" width="120" height="150" rx="10" fill="currentColor" className="text-sky-100 dark:text-sky-950/45" />
       <rect
         x="44"
         y="8"
@@ -32,7 +32,7 @@ function AuthorPortalArt({ className }) {
         strokeWidth="3"
         className="text-r2d-primary fill-white dark:fill-slate-800"
       />
-      <path d="M60 40h88M60 58h72M60 76h88M60 94h56" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-amber-400/50 dark:text-amber-500/35" />
+      <path d="M60 40h88M60 58h72M60 76h88M60 94h56" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-sky-400/50 dark:text-sky-500/35" />
       <circle cx="148" cy="128" r="28" fill="currentColor" className="text-r2d-primaryLight/95" />
       <path d="M138 128l6 6 14-16" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M168 36l-8 8M160 36h8v8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-r2d-primary" />
@@ -51,19 +51,20 @@ function ReviewerPortalArt({ className }) {
         height="136"
         rx="8"
         strokeWidth="3"
-        className="stroke-stone-600/70 fill-stone-100/95 dark:stroke-amber-500/45 dark:fill-stone-900/50"
+        className="stroke-slate-600/70 fill-slate-100/95 dark:stroke-sky-500/45 dark:fill-slate-900/50"
       />
       <rect x="64" y="32" width="72" height="8" rx="2" className="fill-stone-200/90 dark:fill-stone-700/45" />
       <rect x="64" y="48" width="56" height="8" rx="2" className="fill-stone-200/70 dark:fill-stone-700/35" />
       <rect x="64" y="72" width="72" height="8" rx="2" className="fill-slate-200 dark:fill-slate-600" />
       <rect x="64" y="88" width="48" height="8" rx="2" className="fill-slate-200 dark:fill-slate-600" />
-      <path d="M64 112h48" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-stone-500/40 dark:text-amber-500/35" />
+      <path d="M64 112h48" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-slate-500/40 dark:text-sky-500/35" />
       <circle cx="156" cy="44" r="22" fill="currentColor" className="text-r2d-primaryDark dark:text-slate-800" />
       <path d="M148 44l5 5 12-14" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" className="text-r2d-primaryLight" />
     </svg>
   );
 }
 
+/** Public marketing + portal chooser (author vs expert) before authentication. */
 const WelcomePage = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();

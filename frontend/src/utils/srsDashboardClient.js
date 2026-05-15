@@ -2,8 +2,10 @@ import axios from 'axios';
 import config from '../config';
 
 /**
- * POST body for SRS dashboard / quality insights endpoints.
- * Tries primary URL then alternate (same handler on some deployments).
+ * Small axios helpers for the “SRS dashboard insights” bundle (KB metrics, hallucination snapshot, etc.).
+ * Primary + alternate URLs exist because some deployments only expose the legacy path.
+ *
+ * POST body for SRS dashboard / quality insights endpoints — tries primary URL then alternate.
  */
 export async function postSrsDashboardWithFallback(body) {
   const urls = [config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS, config.API_ENDPOINTS.SRS_DASHBOARD_INSIGHTS_ALT].filter(

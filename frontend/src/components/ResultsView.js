@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import { saveSRS } from '../utils/storage';
+import { saveSRS, appendActivityLog } from '../utils/storage';
 import SRSEditor from './SRSEditor';
 import config from '../config';
 import { formatSrsToHtml } from '../utils/documentFormatter';
@@ -27,6 +27,11 @@ import { getApiErrorMessage } from '../utils/apiErrors';
 import { consumeSrsGenerateStream } from '../utils/srsStream';
 import { hasModelTextualUseCases } from '../utils/useCaseRequest';
 import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
+
+/**
+ * Post-processing review surface: shows NLP pipeline output, lets the user generate/download SRS,
+ * open the rich SRS viewer, and (optionally) jump into streaming generation overlays.
+ */
 
 /**
  * Summarize pipeline steps for the UI (no raw tab dumps).
@@ -143,7 +148,8 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData 
     return Math.round(clamped * 100);
   }, [hallAnalysis?.confidence_score]);
 
-  const lowConfidenceThreshold = 60;
+  /** Grounding overlap (confidence_score %) below this suggests expert review when alignment is weak. */
+  const lowConfidenceThreshold = 40;
   const shouldSuggestExpertReview =
     srsGenerated &&
     hallucinationPct !== null &&
@@ -186,6 +192,12 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData 
 
         try {
           saveSRS(srsPayload);
+          appendActivityLog({
+            type: 'srs_generated',
+            title: 'SRS generated',
+            detail: srsPayload.title || srsPayload.document_id || '',
+            meta: { document_id: srsPayload.document_id },
+          });
         } catch (error) {
           console.error('Error saving SRS to storage:', error);
         }
@@ -408,7 +420,7 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData 
                   className={`order-1 sm:order-none inline-flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
                     hallucinationPct >= 70
                       ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-100'
-                      : hallucinationPct >= 50
+                      : hallucinationPct >= lowConfidenceThreshold
                         ? 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-100'
                         : 'border-red-200 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-900/30 dark:text-red-100'
                   }`}
@@ -879,6 +891,12 @@ const ResultsView = ({ results, srsData: srsFromApp, onGenerateSRS, useCaseData 
             // Update storage with edited version
             try {
               saveSRS(editedSRS);
+              appendActivityLog({
+                type: 'srs_updated',
+                title: 'SRS updated (editor)',
+                detail: editedSRS.title || editedSRS.document_id || '',
+                meta: { document_id: editedSRS.document_id },
+              });
             } catch (error) {
               console.error('Error saving edited SRS:', error);
             }

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, AlertTriangle, Shield, Sparkles, FileText } from 'lucide-react';
 
+/** Static explainer for evaluation metrics (used in nav or deep links); not wired to live SRS state. */
 const METRIC_LABELS = {
   clarity: 'Clarity (readability)',
   ambiguity: 'Ambiguity (inverse)',

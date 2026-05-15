@@ -3,8 +3,10 @@ import { useNavigate, Link, Navigate, useParams } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, AlertCircle, Eye, EyeOff, CheckCircle, Moon, Sun, Rocket, ArrowRight, UserCheck } from 'lucide-react';
 import { BrandFull } from './BrandLogo';
 import { signup, isAuthenticated, getCurrentUser, ROLES, validatePasswordPolicy, PASSWORD_POLICY } from '../utils/auth';
+import { appendActivityLog } from '../utils/storage';
 import { useTheme } from '../context/ThemeContext';
 
+/** Registration mirrors login roles; on success we route to the matching login path. */
 const Signup = ({ onSignup }) => {
   const { role: roleParam } = useParams();
   const navigate = useNavigate();
@@ -77,6 +79,12 @@ const Signup = ({ onSignup }) => {
       const result = signup(formData.username, formData.email, formData.password, role);
 
       if (result.success) {
+        appendActivityLog({
+          type: 'signup',
+          title: 'Account created',
+          detail: `${formData.username} · ${isExpert ? 'Expert reviewer' : 'Project user'}`,
+          meta: { role },
+        });
         if (onSignup) {
           onSignup(result.user);
         }

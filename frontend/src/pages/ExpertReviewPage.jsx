@@ -21,6 +21,12 @@ import { getApiErrorMessage } from '../utils/apiErrors';
 import { getStoredSRS } from '../utils/storage';
 import { getCurrentUser } from '../utils/auth';
 
+/**
+ * Dual-mode expert workflow: authors submit SRS snapshots for review; experts triage inbox threads.
+ * Network calls hit `EXPERT_REVIEW_*` endpoints declared in `config.js`.
+ */
+
+/** Normalizes whichever SRS shape is in memory into the API-friendly subset used by expert endpoints. */
 function buildSrsPayload(srs) {
   if (!srs || typeof srs !== 'object') return null;
   const hall = srs.hallucination_analysis || srs.sections?._hallucination_analysis;

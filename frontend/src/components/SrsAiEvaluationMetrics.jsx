@@ -4,6 +4,12 @@ import { FlaskConical, Loader2, Download, AlertCircle, Info, ChevronDown, Chevro
 import config from '../config';
 import { getApiErrorMessage } from '../utils/apiErrors';
 
+/**
+ * Optional srs_eval integration: on-demand POST to `SRS_EVAL_EXISTING` for structured metric cards.
+ * Includes helper prompt builders; distinct from the lighter dashboard bundle in `srsDashboardClient`.
+ */
+
+/** Maps a 0–1 score to Tailwind color classes for compact metric cards. */
 function scoreTone(score, skipped) {
   if (skipped) return { bar: 'bg-slate-400', text: 'text-slate-600 dark:text-slate-400', label: 'N/A' };
   if (score >= 0.72) return { bar: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-300', label: 'Good' };
@@ -104,7 +110,7 @@ export function buildRequirementsPromptFromResults(resultsData) {
 }
 
 /**
- * Button + expandable panel: runs AI metrics on the current SRS vs requirements text.
+ * Collapsible panel: runs AI metrics on the current SRS vs requirements text (`SRS_EVAL_EXISTING`).
  */
 export default function SrsAiEvaluationMetrics({ srsData, currentResults }) {
   const [open, setOpen] = useState(false);

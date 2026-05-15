@@ -11,22 +11,22 @@ module.exports = {
       },
       colors: {
         primary: {
-          50: '#fffbeb',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
+          50: '#eff6ff',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
         },
-        /** Req2Design — stone surfaces + amber accent */
+        /** Req2Design — slate surfaces + blue accent */
         r2d: {
-          primary: '#d97706',
-          primaryLight: '#fbbf24',
-          primaryDark: '#92400e',
-          accent: '#f59e0b',
-          accentSoft: '#fcd34d',
-          accentMuted: '#fffbeb',
-          surface: '#fafaf9',
+          primary: '#2563eb',
+          primaryLight: '#3b82f6',
+          primaryDark: '#1e40af',
+          accent: '#0ea5e9',
+          accentSoft: '#7dd3fc',
+          accentMuted: '#eff6ff',
+          surface: '#f8fafc',
           surfaceElevated: '#ffffff',
-          border: '#e7e5e4',
+          border: '#e2e8f0',
           success: '#059669',
           successMuted: '#d1fae5',
           warning: '#ea580c',
@@ -36,8 +36,8 @@ module.exports = {
         },
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgb(28 25 23 / 0.04), 0 4px 16px -4px rgb(217 119 6 / 0.12)',
-        'card-hover': '0 4px 24px -6px rgb(28 25 23 / 0.12), 0 8px 28px -8px rgb(217 119 6 / 0.14)',
+        card: '0 1px 2px 0 rgb(15 23 42 / 0.04), 0 4px 16px -4px rgb(37 99 235 / 0.12)',
+        'card-hover': '0 4px 24px -6px rgb(15 23 42 / 0.1), 0 8px 28px -8px rgb(37 99 235 / 0.14)',
         nav: '0 4px 28px -6px rgba(24, 24, 27, 0.45)',
       },
       animation: {

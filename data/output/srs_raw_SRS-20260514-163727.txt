@@ -1,0 +1,110 @@
+INTRODUCTION
+Purpose: This Software Requirements Specification (SRS) documents the functional and non-functional requirements for the pARKING SYSTEM, enabling drivers, gate operators, and administrators to interact with a unified parking reservation and management platform.
+Scope: The system supports real-time parking lot discovery, slot reservation, digital pre-payment, QR-based entry validation, manual override at gates, incident reporting, dynamic pricing, reservation lifecycle management (including expiry and grace periods), occupancy and revenue analytics, maintenance scheduling, overstay alerting, and immutable transaction logging.
+Definitions/Acronyms: QR — Quick Response code; FR — Functional Requirement; NFR — Non-Functional Requirement; API — Application Programming Interface.
+Overview: Section 2 describes the system’s context and user roles. Section 3 details external interfaces, functional requirements (FR-01 through
+FR-10), and non-functional requirements for usability, reliability, performance, and portability. Section 4 lists high-level system features. Appendices contain textual use cases.
+
+OVERALL DESCRIPTION
+Perspective: The pARKING SYSTEM is a standalone web and mobile application integrated with on-site gate hardware (QR scanners, barrier controllers) and backend analytics services. It interfaces with third-party payment gateways and SMS/email notification services.
+
+Functions: Core functions include real-time lot discovery, availability checking, reservation creation and expiry handling, digital payment processing, QR validation at entry, manual override, incident reporting, dynamic pricing calculation, occupancy and revenue reporting, maintenance scheduling, overstay detection and alerting, and immutable transaction history storage.
+
+Users: Drivers (mobile/web users), Gate Operators (on-site kiosk/tablet users), Administrators (web dashboard users).
+Constraints: Must operate on Android 10+/iOS 14+ and modern desktop browsers (Chrome, Firefox, Edge). Payment integration limited to PCI-DSS compliant gateways. All transaction records must be write-once, append-only.
+Assumptions/Dependencies: Real-time slot availability depends on IoT sensors or manual spot updates from gate operators. Internet connectivity is assumed for driver and admin interfaces; gate terminals support offline QR validation with periodic sync. Dynamic pricing rules are configured by administrators and applied per demand window.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- User Interface: Responsive web dashboard (admin/operator), native mobile apps (driver).
+- Hardware Interface: QR scanners and barrier controllers at gate terminals via RESTful API.
+- Software Interfaces: HTTPS-based integrations with payment gateway (e.g., Stripe), SMS/email service (e.g., Twilio), and time-series database for sensor data.
+- Communications Protocols: HTTP/1.1, TLS 1.2+, WebSockets for real-time availability updates.
+Functional Requirements:
+FR-01
+Input: Driver’s current GPS coordinates, search radius (default 1 km).
+Processing: Query geolocated parking lots; filter by operational status; retrieve real-time slot counts from sensor or operator-updated data source.
+Output: List of nearby lots with name, distance, total slots, available slots, and dynamic price per hour.
+Priority: High
+FR-02
+Input: Selected lot ID, desired start time, duration, vehicle registration.
+Processing: Check slot availability for requested time window; reserve one slot; assign unique reservation ID; apply dynamic pricing model based on demand window; initiate payment request.
+Output: Reservation confirmation with QR code, expiry timestamp, and price.
+Priority: High
+FR-03
+Input: Driver’s payment method token, reservation ID.
+Processing: Submit payment to configured gateway; record transaction ID; update reservation status to “paid” on success; trigger confirmation notification.
+Output: Success/failure indicator; if successful, updated reservation object with payment ID and status.
+Priority: High
+FR-04
+Input: QR code scanned at gate terminal.
+Processing: Validate QR against active reservations; verify time window (within grace period); unlock barrier if valid; log entry event.
+Output: Barrier control signal (open/close), on-screen validation result (valid/invalid/expired), entry timestamp.
+Priority: High
+FR-05
+Input: Gate operator selection of manual override mode, lot ID, spot ID, reason (e.g., blocked, damaged).
+Processing: Mark spot as temporarily unavailable; log incident with timestamp, operator ID, and description; notify administrator.
+Output: Updated spot status in system; incident record; notification event.
+Priority: Medium
+FR-06
+Input: Reservation ID, actual entry time (from gate scan or manual input).
+Processing: Compare entry time against reserved start time; apply grace period (15 min); if exceeded, flag as late entry; update reservation state.
+Output: Revised status (e.g., “active”, “late-entry”), grace period warning, or rejection.
+Priority: Medium
+FR-07
+Input: Reservation ID, exit time (from gate scan or manual input).
+Processing: Calculate duration; compare against reserved duration; if exceeded, calculate overstay fee using dynamic rate; generate alert; record final transaction.
+Output: Exit confirmation, overstay fee (if any), final receipt, overstay alert to admin.
+Priority: High
+FR-08
+Input: Administrator date range, report type (occupancy, revenue, maintenance).
+Processing: Aggregate stored transaction and sensor data; compute metrics (e.g., avg. occupancy %, total revenue, overdue maintenance items); generate summary.
+Output: Tabular and chart-based dashboard view; exportable CSV/PDF.
+Priority: Medium
+FR-09
+Input: Administrator configuration of demand windows (time ranges), base price, and multiplier rules.
+Processing: Store pricing rules; apply multipliers to base rate during matching demand windows; recalculate displayed price for
+FR-01 and
+FR-02.
+Output: Updated dynamic price per lot per time window; audit log of rule change.
+Priority: Medium
+FR-10
+Input: System-generated or manual trigger (e.g., reservation completion, incident log, payment).
+Processing: Write immutable record to append-only ledger; include timestamp, actor, action, affected entities, and cryptographic hash of prior record.
+Output: Unique transaction ID; verifiable chain integrity; read-only historical view.
+Priority: High
+Non-Functional Requirements:
+Usability:
+- Drivers complete reservation (FR-01 through
+FR-03) in ≤ 90 seconds on mobile.
+- Gate operators perform QR validation (FR-04) or incident report (FR-05) in ≤ 15 seconds.
+- Admin dashboard loads core reports (FR-08) in ≤ 3 seconds on 100k-record datasets.
+
+Reliability:
+- System maintains ≥ 99.5% uptime during business hours (6:00–24:00 local time).
+- All transaction records (FR-10) survive node failure without corruption or loss.
+- QR validation (FR-04) succeeds offline for ≥ 2 hours with cached active reservations.
+
+Performance:
+- Real-time slot count (FR-01) updates within 5 seconds of sensor/operator change.
+- Reservation creation (FR-02) completes in ≤ 3 seconds under peak load (500 concurrent requests).
+- Overstay alert (FR-07) is generated and delivered within 30 seconds of exit detection.
+
+Portability:
+- Mobile apps deploy identically across Android 10+ and iOS 14+.
+- Admin dashboard renders correctly in Chrome v110+, Firefox v115+, Edge v112+.
+- Backend services containerized using Docker and deployable on Linux x86_64 and ARM64.
+
+SYSTEM FEATURES
+- Real-Time Parking Discovery
+- Slot Reservation & Pre-Payment
+- QR-Based Entry Validation
+- Manual Override & Incident Reporting
+- Dynamic Pricing Engine
+- Reservation Lifecycle Management (Expiry, Grace, Overstay)
+- Occupancy & Revenue Analytics Dashboard
+- Maintenance Scheduling Module
+- Immutable Transaction Ledger
+- Automated Overstay Alerting
+
+End of Document.

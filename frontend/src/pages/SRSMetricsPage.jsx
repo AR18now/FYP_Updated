@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { Loader2, FileText, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Loader2, FileText, RefreshCw, AlertTriangle, BarChart3 } from 'lucide-react';
 import config from '../config';
+import PresentationRouteSplash from '../components/PresentationRouteSplash';
 import {
   ARM_TERMS,
   ARM_METRIC_TO_GROUP,
@@ -10,7 +11,15 @@ import {
   HIGHLIGHTABLE_HALLUCINATION_KEYS,
   collectHallucinationMetricTerms,
 } from '../utils/srsLanguageQualityTerms';
+import { SRS_SECTION_METRIC_THRESHOLDS, SRS_SECTION_METRIC_THRESHOLD_FOOTNOTE } from '../utils/srsQualityCopy';
 
+/**
+ * Deep quality dashboard: merges verification_report metrics, hallucination heuristics, optional
+ * `/api/srs-eval-existing` AI scores, ARM phrase checks, and client-side ROUGE/BERT proxies.
+ * URL `?focus=` deep-links a metric row for demos.
+ */
+
+/** Prefer raw_text; fall back to stringified sections only when the body is extremely short. */
 function srsPlainText(srs) {
   if (!srs) return '';
   const raw = String(srs.raw_text || srs.sections?._raw_text || '').trim();
@@ -578,6 +587,12 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
   }
 
   return (
+    <PresentationRouteSplash
+      title="SRS quality metrics"
+      subtitle="Preparing charts, overlap signals, and conflict highlights for your presentation."
+      icon={BarChart3}
+      delayMs={2600}
+    >
     <div className="max-w-6xl mx-auto space-y-6 animate-fade-in px-1 sm:px-0">
       <header className="border-b border-slate-200 dark:border-slate-700 pb-4">
         <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Generated SRS</p>
@@ -725,12 +740,45 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
         <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Section-level precision / recall / F1</h2>
           <ul className="mt-3 space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-            <li>Precision: <span className="font-mono">{scoreToPct(sectionMetrics.precision)}</span></li>
-            <li>Recall: <span className="font-mono">{scoreToPct(sectionMetrics.recall)}</span></li>
-            <li>F1: <span className="font-mono">{scoreToPct(sectionMetrics.f1)}</span></li>
-            <li>ROUGE-L: <span className="font-mono">{scoreToPct(rougeLScore)}</span></li>
-            <li>BERTScore (proxy): <span className="font-mono">{scoreToPct(bertScoreProxy)}</span></li>
+            <li>
+              Precision: <span className="font-mono">{scoreToPct(sectionMetrics.precision)}</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {' '}
+                · target ≥ {scoreToPct(SRS_SECTION_METRIC_THRESHOLDS.section_precision)}
+              </span>
+            </li>
+            <li>
+              Recall: <span className="font-mono">{scoreToPct(sectionMetrics.recall)}</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {' '}
+                · target ≥ {scoreToPct(SRS_SECTION_METRIC_THRESHOLDS.section_recall)}
+              </span>
+            </li>
+            <li>
+              F1: <span className="font-mono">{scoreToPct(sectionMetrics.f1)}</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {' '}
+                · target ≥ {scoreToPct(SRS_SECTION_METRIC_THRESHOLDS.section_f1)}
+              </span>
+            </li>
+            <li>
+              ROUGE-L: <span className="font-mono">{scoreToPct(rougeLScore)}</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {' '}
+                · target ≥ {scoreToPct(SRS_SECTION_METRIC_THRESHOLDS.rouge_l)}
+              </span>
+            </li>
+            <li>
+              BERTScore (proxy): <span className="font-mono">{scoreToPct(bertScoreProxy)}</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {' '}
+                · target ≥ {scoreToPct(SRS_SECTION_METRIC_THRESHOLDS.bertscore_proxy)}
+              </span>
+            </li>
           </ul>
+          <p className="mt-3 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-3">
+            {SRS_SECTION_METRIC_THRESHOLD_FOOTNOTE}
+          </p>
         </div>
       </div>
 
@@ -773,6 +821,7 @@ const SRSMetricsPage = ({ srsData, currentResults }) => {
       </div>
 
     </div>
+    </PresentationRouteSplash>
   );
 };
 

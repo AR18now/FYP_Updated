@@ -15,7 +15,7 @@ import {
 import axios from 'axios';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import config from '../config';
-import { saveSRS, patchStoredSRSById } from '../utils/storage';
+import { saveSRS, patchStoredSRSById, appendActivityLog } from '../utils/storage';
 import { postSrsDashboardWithFallback, collectPromptFromResults } from '../utils/srsDashboardClient';
 import { consumeSrsGenerateStream } from '../utils/srsStream';
 import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
@@ -32,7 +32,13 @@ import {
   collectHallucinationMetricTerms,
 } from '../utils/srsLanguageQualityTerms';
 
-/** Same contract as generate-srs-stream `results` body. */
+/**
+ * Primary SRS reader: formatted HTML, section cards, hallucination tooling, exports, optional
+ * streaming generation when navigated from Generate with `location.state.srsPipeline`, and
+ * dashboard/quality panels backed by `postSrsDashboardWithFallback`.
+ *
+ * Helper: same contract as generate-srs-stream `results` body.
+ */
 function buildRequirementsArrayForSrs(resultsData) {
   if (!resultsData) return [];
   if (Array.isArray(resultsData)) return resultsData;
@@ -120,6 +126,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
       if (onSelectSrsVariant) onSelectSrsVariant(pipe.prebuiltSrs);
       try {
         saveSRS(pipe.prebuiltSrs);
+        appendActivityLog({
+          type: 'srs_generated',
+          title: 'SRS generated',
+          detail: pipe.prebuiltSrs.title || pipe.prebuiltSrs.document_id || '',
+          meta: { document_id: pipe.prebuiltSrs.document_id },
+        });
       } catch (e) {
         console.error('Error saving SRS to storage:', e);
       }
@@ -144,6 +156,12 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
           if (onSelectSrsVariant) onSelectSrsVariant(srsPayload);
           try {
             saveSRS(srsPayload);
+            appendActivityLog({
+              type: 'srs_generated',
+              title: 'SRS generated',
+              detail: srsPayload.title || srsPayload.document_id || '',
+              meta: { document_id: srsPayload.document_id },
+            });
           } catch (err) {
             console.error('Error saving SRS to storage:', err);
           }
@@ -1062,14 +1080,22 @@ const SRSViewer = ({ srsData, currentResults, onSelectSrsVariant, onUseCaseDataC
               title={
                 hasModelTextualUseCases(srsData)
                   ? 'Build textual use cases and diagram from the model appendix'
-                  : 'Regenerate the SRS so the model includes the textual use case appendix'
+                  : 'No co-generated textual use case appendix on this SRS. Regenerate SRS (server can recover appendix after “End of Document.” even without delimiter markers).'
               }
-              className="shrink-0 bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+              className="shrink-0 bg-r2d-primary hover:bg-r2d-primaryLight disabled:bg-slate-400 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
             >
               {genTextualUcLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Workflow className="h-4 w-4" />}
               Generate textual use case!
             </button>
           </div>
+          {!genTextualUcLoading && !hasModelTextualUseCases(srsData) && (
+            <p className="mb-4 text-xs text-slate-600 dark:text-slate-400 rounded-lg border border-amber-200/80 dark:border-amber-800/50 bg-amber-50/60 dark:bg-amber-950/25 px-3 py-2 leading-relaxed">
+              This button stays off until the SRS payload includes the <strong className="font-semibold">model textual use case appendix</strong>
+              (co-generated with the SRS). It is <strong className="font-semibold">not</strong> tied to red quality tiles—those are hints only.
+              If you just generated this SRS, run <strong className="font-semibold">Generate SRS</strong> again so the server can attach appendix text
+              (including recovery when the model writes use cases after &quot;End of Document.&quot; without delimiter markers).
+            </p>
+          )}
 
           {srsDashboardLoading && (
             <p className="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2">

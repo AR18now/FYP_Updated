@@ -5,7 +5,9 @@ import config from '../config';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
+import { appendActivityLog } from '../utils/storage';
 
+/** PlantUML-backed diagram viewer/regenerator; shares payload rules with `TextualUseCasesPage`. */
 const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   /** false = prioritize vertical/tall diagram in viewport; true = fit width (horizontal emphasis) */
@@ -65,6 +67,12 @@ const UseCaseDiagramPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
         buildGenerateUseCasesRequestBody(srsData)
       );
       if (onUseCaseDataChange) onUseCaseDataChange(response.data);
+      appendActivityLog({
+        type: 'usecase_diagram',
+        title: 'Use case diagram generated',
+        detail: srsData?.title || srsData?.document_id || '',
+        meta: { document_id: srsData?.document_id },
+      });
     } catch (error) {
       console.error('Failed to generate use case diagram', error);
       alert(getApiErrorMessage(error, 'Failed to generate use case diagram.'));

@@ -1,0 +1,98 @@
+INTRODUCTION
+Purpose: To specify the system requirements for an Insurance Claim Processing Platform designed to streamline the submission, evaluation, and resolution of insurance claims.
+Scope: This Software Requirements Specification (SRS) defines the functionality required for the Insurance Claim Processing Platform, including user interactions, system operations, and external interface specifications.
+Definitions/Acronyms:
+- ICPP: Insurance Claim Processing Platform
+- Policy Holder: An individual or entity holding an insurance policy
+- Claim Officer: A staff member responsible for evaluating and processing claims
+- Supervisor: A manager overseeing multiple Claim Officers and managing workflow
+- Deductible: The amount a policy holder is responsible for paying out-of-pocket before the insurer pays benefits
+- Settlement Statement: A detailed financial report summarizing the claim outcome
+Overview: The ICPP will enable efficient management of insurance claims through automated processes, ensuring accurate and timely handling while maintaining compliance with regulatory standards.
+
+OVERALL DESCRIPTION
+Perspective: The perspective of the ICPP is from the end-user's viewpoint, encompassing both internal stakeholders such as policy holders and claim officers, as well as external stakeholders such as supervisors and customers.
+
+Functions:
+- Submission of claims
+- Verification and validation of policies
+- Calculation of deductibles
+- Workflow management and escalation
+- Status notification to customers
+- Review of workload and metrics by supervisors
+
+Users:
+- Policy Holders
+- Claim Officers
+- Supervisors
+- Customers
+Constraints:
+- Compliance with relevant insurance regulations
+- Integration with existing systems and databases
+- Security measures to protect sensitive customer data
+Assumptions/Dependencies:
+- Availability of necessary backend services and databases
+- Adequate network infrastructure support
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- Interface with policy database
+- Interface with customer service portal
+- Interface with payment gateway
+Functional Requirements:
+FR-01
+- Claim Submission
+Input: Incident details, supporting documents, bank information
+Processing: Validation of policy, calculation of deductible, generation of unique claim ID
+Output: Confirmation message and claim reference number
+Priority: High
+FR-02
+- Policy Verification
+Input: Claim reference number
+Processing: Retrieval of policy details, verification against submitted information
+Output: Verdict on policy validity and coverage limits
+Priority: Medium
+FR-03
+- Deductible Computation
+Input: Claim reference number
+Processing: Determination of applicable deductible based on policy terms
+Output: Deductible amount
+Priority: Medium
+FR-04
+- Workload Management
+Input: Pending claim IDs
+Processing: Assignment of claims to available Claim Officers, tracking progress
+Output: Updated workload dashboard
+Priority: Low
+FR-05
+- Fraud Detection
+Input: Claim reference number
+Processing: Analysis of claim details for suspicious patterns
+Output: Flagging potential fraudulent claims
+Priority: Medium
+FR-06
+- Customer Notifications
+Input: Claim status updates
+Processing: Generation of notifications via email or SMS
+Output: Delivery of notifications to customers
+Priority: High
+Non-Functional Requirements:
+NFR-01
+- Usability
+The system shall provide clear and intuitive interfaces for all users, minimizing learning curves and errors.
+NFR-02
+- Reliability
+The system shall ensure high uptime and minimal downtime, with regular backups and disaster recovery plans.
+NFR-03
+- Performance
+The system shall process claims within specified timeframes, ensuring timely responses to policy holders and supervisors.
+NFR-04
+- Portability
+The system shall support deployment across various operating environments and devices, ensuring compatibility and accessibility.
+System Features:
+- Automated claim processing
+- Real-time status updates
+- Secure transaction handling
+- Comprehensive reporting capabilities
+
+End of Document.Appendix

@@ -1,14 +1,19 @@
 /**
- * Storage utility for managing previous inputs and SRS documents
- * Uses localStorage for client-side persistence
+ * Client-side persistence for Req2Design: processed inputs, generated SRS list, settings, and an
+ * append-only activity log (login, generation milestones). All use `localStorage` — not synced
+ * across browsers and subject to quota limits (we cap list lengths in save helpers).
  */
 
 const STORAGE_KEYS = {
   INPUTS: 'req2design_inputs_history',
   SRS_DOCUMENTS: 'req2design_srs_history',
-  SETTINGS: 'req2design_settings'
+  SETTINGS: 'req2design_settings',
+  ACTIVITY: 'req2design_activity_log',
 };
 
+/** @typedef {'login'|'signup'|'srs_generated'|'srs_updated'|'textual_usecases'|'usecase_diagram'} ActivityType */
+
+// --- Requirements capture history (Generate SRS / audio / files) ---
 /**
  * Get all stored inputs
  */
@@ -95,6 +100,63 @@ export const saveInput = async (inputData) => {
   }
 };
 
+// --- Activity timeline (shown under History → Activity) ---
+/**
+ * Append a durable activity entry (login, SRS generation, use cases, etc.).
+ * @param {{ type: string, title: string, detail?: string, meta?: object }} entry
+ */
+export const appendActivityLog = (entry) => {
+  try {
+    if (!entry || !entry.type || !entry.title) return null;
+    const log = getActivityLog();
+    const item = {
+      id: `act_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      ts: new Date().toISOString(),
+      type: entry.type,
+      title: entry.title,
+      detail: entry.detail || '',
+      meta: entry.meta && typeof entry.meta === 'object' ? entry.meta : {},
+    };
+    log.unshift(item);
+    localStorage.setItem(STORAGE_KEYS.ACTIVITY, JSON.stringify(log.slice(0, 200)));
+    return item;
+  } catch (error) {
+    console.error('Error saving activity log:', error);
+    return null;
+  }
+};
+
+/**
+ * @returns {Array<{ id: string, ts: string, type: string, title: string, detail: string, meta: object }>}
+ */
+export const getActivityLog = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.ACTIVITY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error('Error reading activity log:', error);
+    return [];
+  }
+};
+
+/**
+ * Remove a single activity row (user action from History UI).
+ * @param {string} id
+ * @returns {boolean}
+ */
+export const deleteActivityEntry = (id) => {
+  if (id == null || String(id).trim() === '') return false;
+  try {
+    const log = getActivityLog().filter((a) => a.id !== id);
+    localStorage.setItem(STORAGE_KEYS.ACTIVITY, JSON.stringify(log));
+    return true;
+  } catch (error) {
+    console.error('Error deleting activity entry:', error);
+    return false;
+  }
+};
+
+// --- Generated SRS library (most recent first; capped in `saveSRS`) ---
 /**
  * Get all stored SRS documents
  */
@@ -232,12 +294,13 @@ export const deleteSRS = (documentId) => {
 };
 
 /**
- * Clear all stored data
+ * Wipes inputs, SRS library, and activity log (used by History “Clear all”). Settings key untouched.
  */
 export const clearAllStorage = () => {
   try {
     localStorage.removeItem(STORAGE_KEYS.INPUTS);
     localStorage.removeItem(STORAGE_KEYS.SRS_DOCUMENTS);
+    localStorage.removeItem(STORAGE_KEYS.ACTIVITY);
     return true;
   } catch (error) {
     console.error('Error clearing storage:', error);
@@ -252,21 +315,24 @@ export const getStorageStats = () => {
   try {
     const inputs = getStoredInputs();
     const srsList = getStoredSRS();
-    
+    const activity = getActivityLog();
+
     // Calculate approximate size
     const inputsSize = JSON.stringify(inputs).length;
     const srsSize = JSON.stringify(srsList).length;
-    const totalSize = inputsSize + srsSize;
-    
+    const activitySize = JSON.stringify(activity).length;
+    const totalSize = inputsSize + srsSize + activitySize;
+
     return {
       inputsCount: inputs.length,
       srsCount: srsList.length,
+      activityCount: activity.length,
       totalSize: totalSize,
-      totalSizeMB: (totalSize / (1024 * 1024)).toFixed(2)
+      totalSizeMB: (totalSize / (1024 * 1024)).toFixed(2),
     };
   } catch (error) {
     console.error('Error getting storage stats:', error);
-    return { inputsCount: 0, srsCount: 0, totalSize: 0, totalSizeMB: '0.00' };
+    return { inputsCount: 0, srsCount: 0, activityCount: 0, totalSize: 0, totalSizeMB: '0.00' };
   }
 };
 

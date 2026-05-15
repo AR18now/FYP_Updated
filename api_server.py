@@ -48,6 +48,7 @@ from evaluation.manual_metrics_engine import ManualMetricsEngine
 from evaluation.conflict_metric import ConflictMetric
 from evaluation.nfr_specificity_metric import NFRSpecificityMetric
 from evaluation.professional_style_metric import ProfessionalStyleMetric
+from overall_model_run_heuristic import compute_overall_model_run_heuristic
 import base64
 import threading
 import uuid
@@ -2873,6 +2874,7 @@ def _srs_document_to_api_dict(
     gm = srs_dict["generation_meta"]
     gm["quality_scores"] = quality_scores
     gm["quality_scores_interpretation"] = _interpret_quality_scores(quality_scores)
+    gm["overall_model_run_heuristic"] = compute_overall_model_run_heuristic(quality_scores)
 
     mp = getattr(srs, "model_performance_metrics", None)
     if isinstance(mp, dict) and mp:
@@ -3765,7 +3767,7 @@ def generate_usecases():
         id_ok = not gw or gw == dw
         use_model_uc = (
             bool(incoming_uc.get("co_generated"))
-            and str(incoming_uc.get("source", "")).strip() == "model_prompt_appendix"
+            and str(incoming_uc.get("source", "")).strip().lower() == "model_prompt_appendix"
             and str(incoming_uc.get("text", "")).strip()
             and id_ok
         )

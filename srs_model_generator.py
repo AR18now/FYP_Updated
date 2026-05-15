@@ -544,6 +544,35 @@ Context (do not repeat as a document header): project "{title}", author "{author
         appendix = t[i0 + len(start) : i1].strip()
         return srs_part, appendix
 
+    def _fallback_textual_appendix_split(self, text: str) -> Tuple[str, str]:
+        """
+        If the model skipped <<<TEXTUAL_USE_CASES_*>>> markers but still appended Cockburn-style
+        use cases after the IEEE closing line, split on the last ``End of Document`` occurrence.
+        Returns (srs_head_including_eod_line, appendix_text) or (full_text_stripped, "") when unsure.
+        """
+        if not text or not str(text).strip():
+            return "", ""
+        t = str(text).replace("\r\n", "\n")
+        last_match = None
+        for m in re.finditer(r"(?is)\bEnd\s+of\s+Document\.?\s*", t):
+            last_match = m
+        if not last_match:
+            return t.strip(), ""
+        head = t[: last_match.end()].rstrip()
+        tail = t[last_match.end() :].strip()
+        if len(tail) < 60:
+            return t.strip(), ""
+        low = tail.lower()
+        # Light-weight signals — appendix is usually titled Use Case… and/or traces to FR-NN.
+        if not (
+            "use case" in low
+            or "trace to fr" in low
+            or "trace to nfr" in low
+            or ("primary actor" in low and ("scenario" in low or "main success" in low))
+        ):
+            return t.strip(), ""
+        return head.strip(), tail
+
     def _llm_backend_label(self) -> str:
         return "OpenAI-compatible" if self._text_backend == "openai_compatible" else "Replicate"
 
@@ -858,6 +887,15 @@ Context (do not repeat as a document header): project "{title}", author "{author
 
         cleaned_raw_text = cleaned_raw_text.strip()
         srs_body, uc_appendix_inner = self._split_textual_use_cases_appendix(cleaned_raw_text)
+        if not (uc_appendix_inner and str(uc_appendix_inner).strip()):
+            fb_body, fb_appendix = self._fallback_textual_appendix_split(cleaned_raw_text)
+            if fb_appendix and str(fb_appendix).strip():
+                srs_body = fb_body
+                uc_appendix_inner = fb_appendix
+                self.logger.info(
+                    "Recovered textual use case appendix via End-of-Document fallback (%s chars).",
+                    len(str(fb_appendix).strip()),
+                )
 
         cleaned_raw_text = self._normalize_generated_layout(srs_body)
         cleaned_raw_text = strip_srs_references_section(cleaned_raw_text)

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { BrandFull } from '../components/BrandLogo';
 
+/** Static storyboard shown once per session to frame the product before routing to `/start`. */
 const FLOW_STEPS = [
   {
     step: 1,
@@ -43,6 +44,7 @@ const FLOW_STEPS = [
   },
 ];
 
+/** First-run cinematic splash; `onComplete` hands control to `App` so the real router mounts. */
 const IntroSplashPage = ({ onComplete }) => {
   const handleStart = () => {
     if (onComplete) onComplete();
@@ -115,7 +117,7 @@ const IntroSplashPage = ({ onComplete }) => {
 
       <div className="relative z-10 w-full max-w-5xl flex flex-col lg:flex-row gap-8 lg:gap-10 lg:items-stretch">
         {/* Left: app flow */}
-        <section className="flex-1 rounded-2xl border border-r2d-primary/35 bg-slate-900/50 backdrop-blur-md p-6 sm:p-8 shadow-xl shadow-amber-950/35">
+        <section className="flex-1 rounded-2xl border border-r2d-primary/35 bg-slate-900/50 backdrop-blur-md p-6 sm:p-8 shadow-xl shadow-slate-950/40">
           <div className="flex items-center gap-2 text-r2d-primaryLight mb-4">
             <Sparkles className="h-5 w-5 shrink-0" aria-hidden />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">End-to-end flow</span>
@@ -132,7 +134,7 @@ const IntroSplashPage = ({ onComplete }) => {
                 key={step}
                 className="flex gap-3 rounded-xl border border-white/10 bg-r2d-primaryDark/40 px-3 py-3 sm:px-4 sm:py-3.5"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-r2d-primary/30 text-amber-50 ring-1 ring-r2d-primaryLight/35">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-r2d-primary/30 text-sky-50 ring-1 ring-r2d-primaryLight/35">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <div className="min-w-0 pt-0.5">
@@ -149,7 +151,7 @@ const IntroSplashPage = ({ onComplete }) => {
         </section>
 
         {/* Right: brand + start */}
-        <div className="w-full lg:max-w-md shrink-0 rounded-2xl border border-r2d-primary/35 bg-slate-900/60 backdrop-blur-md p-8 shadow-2xl shadow-amber-950/45 flex flex-col items-center text-center">
+        <div className="w-full lg:max-w-md shrink-0 rounded-2xl border border-r2d-primary/35 bg-slate-900/60 backdrop-blur-md p-8 shadow-2xl shadow-slate-950/50 flex flex-col items-center text-center">
           <BrandFull className="w-28 h-28 sm:w-32 sm:h-32 select-none" alt="Req2Design" />
           <h1 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-white splash-neon-text">
             Req2Design

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
+/** Default signed-in landing: highlights the next step (open generation workspace) and shows active SRS context. */
 const DashboardPage = ({ srsData }) => {
   const srsTitle = srsData?.title ? String(srsData.title).slice(0, 48) : null;
 
@@ -26,7 +27,7 @@ const DashboardPage = ({ srsData }) => {
                 <Sparkles className="h-5 w-5" aria-hidden />
               </span>
               <div className="min-w-0 space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-r2d-primary dark:text-amber-300">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-r2d-primary dark:text-sky-300">
                   Start here
                 </p>
                 <h2
@@ -49,7 +50,7 @@ const DashboardPage = ({ srsData }) => {
             >
               <span className="min-w-0">
                 <span className="block text-sm font-semibold sm:text-base">Open the generation workspace</span>
-                <span className="mt-0.5 block text-xs font-normal text-amber-50/95 sm:text-sm">
+                <span className="mt-0.5 block text-xs font-normal text-sky-50/95 sm:text-sm">
                   Add inputs, run processing, and review your draft
                 </span>
               </span>

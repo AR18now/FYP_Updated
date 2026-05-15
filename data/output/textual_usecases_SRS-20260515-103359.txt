@@ -1,0 +1,72 @@
+Use Case: FR-01 - Claim Submission
+Primary Actor: Policy Holder
+Stakeholders: Claim Officer, Supervisor
+Preconditions: Policy Holder has valid insurance policy
+Main Success Scenario:
+1. Policy Holder submits incident details, supporting documents, and bank information
+2. System validates policy and calculates deductible
+3. System generates unique claim ID and sends confirmation message along with claim reference number
+Extensions: None
+Postcondition: Claim record created in system database
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Policy Verification
+Primary Actor: Claim Officer
+Stakeholders: Policy Holder, Supervisor
+Preconditions: Claim Officer receives claim reference number
+Main Success Scenario:
+1. Claim Officer enters claim reference number
+2. System retrieves policy details and verifies them against submitted information
+3. System provides verdict on policy validity and coverage limits
+Extensions: If policy is invalid, notify Claim Officer to contact Policy Holder
+Postcondition: Policy verification result recorded in system database
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Deductible Computation
+Primary Actor: Claim Officer
+Stakeholders: Policy Holder, Supervisor
+Preconditions: Claim Officer receives claim reference number
+Main Success Scenario:
+1. Claim Officer enters claim reference number
+2. System determines applicable deductible based on policy terms
+3. System displays deductible amount
+Extensions: None
+Postcondition: Deductible amount calculated and stored in system database
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - Workload Management
+Primary Actor: Supervisor
+Stakeholders: Claim Officer, Policy Holder
+Preconditions: Supervisor logs into system
+Main Success Scenario:
+1. Supervisor views list of pending claims
+2. Supervisor assigns claims to available Claim Officers
+3. System tracks progress of assigned claims
+4. System updates workload dashboard
+Extensions: If no Claim Officers are available, escalate claim to next level
+Postcondition: Claims are managed efficiently and updated in real-time
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Fraud Detection
+Primary Actor: Claim Officer
+Stakeholders: Policy Holder, Supervisor
+Preconditions: Claim Officer receives claim reference number
+Main Success Scenario:
+1. Claim Officer enters claim reference number
+2. System analyzes claim details for suspicious patterns
+3. System flags potential fraudulent claims
+Extensions: If flagged, notify Claim Officer to investigate further
+Postcondition: Fraud detection results logged in system database
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Customer Notifications
+Primary Actor: System
+Stakeholders: Customer
+Preconditions: Claim status changes
+Main Success Scenario:
+1. System detects change in claim status
+2. System generates appropriate notification (email/SMS)
+3. Notification is delivered to customer
+Extensions: None
+Postcondition: Customer notified about claim status update
+Trace to FR Id: FR-06

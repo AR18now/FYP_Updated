@@ -65,6 +65,23 @@ export function formatPct01(value) {
   return `${Math.round(Math.max(0, Math.min(1, n)) * 100)}%`;
 }
 
+/**
+ * Reference targets for the SRS metrics page “Section-level precision / recall / F1” card
+ * (client-side heuristics). Not an official certification bar—adjust for your rubric.
+ * Values are 0–1; UI shows as percentages next to live scores.
+ */
+export const SRS_SECTION_METRIC_THRESHOLDS = {
+  section_precision: 0.6,
+  section_recall: 0.8,
+  section_f1: 0.7,
+  rouge_l: 0.45,
+  /** Shown as “BERTScore (proxy)” in the UI — computed as token Jaccard overlap here. */
+  bertscore_proxy: 0.25,
+};
+
+export const SRS_SECTION_METRIC_THRESHOLD_FOOTNOTE =
+  'Targets are reference bands for Req2Design’s on-page heuristics (not IEEE pass/fail). Treat red/green in the table as guidance.';
+
 export function flagTypeLabel(type) {
   if (!type) return 'Check';
   return FLAG_TYPE_LABELS[type] || type.replace(/_/g, ' ');

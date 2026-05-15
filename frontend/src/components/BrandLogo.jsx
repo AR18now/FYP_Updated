@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** Helpers for resolving brand assets under CRA `PUBLIC_URL` (subpath deployments). */
 export function brandUrl(filename) {
   const base = process.env.PUBLIC_URL ?? '';
   const path = filename.startsWith('/') ? filename : `/${filename}`;

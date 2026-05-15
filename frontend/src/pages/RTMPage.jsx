@@ -18,6 +18,7 @@ const badgeClass = (kind) => {
   return 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-900/30 dark:text-rose-200 dark:border-rose-800';
 };
 
+/** Requirements Traceability Matrix: POST `/api/rtm-analyze` against the active SRS + use-case context. */
 const RTMPage = ({ srsData, useCaseData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Mail, User, Calendar } from 'lucide-react';
 import { BrandMark } from '../components/BrandLogo';
 
+/** Read-only view of the locally authenticated user (data comes from `utils/auth` storage). */
 const ProfilePage = ({ currentUser }) => {
   const createdLabel = currentUser?.createdAt
     ? new Date(currentUser.createdAt).toLocaleString()

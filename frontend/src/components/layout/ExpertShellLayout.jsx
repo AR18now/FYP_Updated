@@ -3,11 +3,13 @@ import { NavLink, Link, useLocation, useNavigate, Outlet } from 'react-router-do
 import { Inbox, UserCircle2, Menu, X, LogOut, User, Moon, Sun, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
+/** Expert-only navigation (queue + profile). Routes live under `/expert`. */
 const nav = [
   { to: '/expert', label: 'Review queue', icon: Inbox, end: true },
   { to: '/expert/profile', label: 'Profile', icon: UserCircle2, end: false },
 ];
 
+/** Minimal chrome for reviewers — mirrors author shell patterns but only exposes queue + profile. */
 const ExpertShellLayout = ({ currentUser, onLogout }) => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -43,7 +45,7 @@ const ExpertShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-stone-100 via-amber-50/65 to-stone-50 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-slate-100 via-sky-50/75 to-slate-50 text-zinc-800 dark:from-zinc-950 dark:via-slate-950 dark:to-zinc-950 dark:text-zinc-100">
       {sidebarOpen && (
         <button
           type="button"

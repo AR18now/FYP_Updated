@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useLayoutEffect, useState, useCallback } from 'react';
 
+/**
+ * Light/dark theme persisted in localStorage and mirrored to `document.documentElement` + `body`
+ * so Tailwind `dark:` variants and CSS variables (`index.css` `.theme-dark`) stay in sync.
+ */
 const STORAGE_KEY = 'req2design-theme';
-
 const ThemeContext = createContext({
   theme: 'light',
   toggleTheme: () => {},

@@ -2,6 +2,10 @@ import React from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Catches render errors anywhere under `<App />` and shows a recovery UI instead of a blank screen.
+ * Stack traces are limited to development builds to avoid leaking internals in production.
+ */
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);

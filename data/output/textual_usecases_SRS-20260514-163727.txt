@@ -1,0 +1,144 @@
+Use Case: FR-01 - Real-Time Parking Discovery
+Primary Actor: Driver
+Stakeholders: Driver, Parking Operator, System Administrator
+Preconditions: Driver has location services enabled and app installed; system has at least one active lot with sensor or operator-updated availability.
+Main Success Scenario:
+1. Driver opens app and grants location permission.
+2. System retrieves current GPS coordinates.
+3. System queries backend for lots within default 1 km radius.
+4. For each lot, system fetches real-time available slot count and applies dynamic pricing.
+5. System displays list sorted by distance, showing name, distance, available slots, and price.
+Extensions:
+- If no lots found, display “No parking available” with option to increase radius.
+- If GPS fails, prompt to enter address manually.
+Postcondition: Driver views up-to-date lot list with pricing and availability.
+Trace to FR Id: FR-01
+
+Use Case: FR-02 - Slot Reservation
+Primary Actor: Driver
+Stakeholders: Driver, Payment Gateway, Parking Operator
+Preconditions: Driver has selected a lot from FR-01 results; lot has ≥1 available slot for requested time window.
+Main Success Scenario:
+1. Driver selects lot, enters start time and duration, and provides vehicle registration.
+2. System validates slot availability for the full duration.
+3. System calculates dynamic price using current demand window rules.
+4. System creates reservation record with unique ID, expiry time, and price.
+5. System returns confirmation screen with QR code and expiry timestamp.
+Extensions:
+- If slot becomes unavailable mid-process, display “Slot no longer available” and refresh FR-01.
+Postcondition: Reservation exists in system with status “reserved”, unconfirmed.
+Trace to FR Id: FR-02
+
+Use Case: FR-03 - Digital Payment Processing
+Primary Actor: Driver
+Stakeholders: Driver, Payment Gateway, System Administrator
+Preconditions: Driver has an active reservation (FR-02) with status “reserved”.
+Main Success Scenario:
+1. Driver selects payment method and confirms payment on reservation screen.
+2. System submits tokenized payment request to gateway.
+3. On success, system records transaction ID and updates reservation status to “paid”.
+4. System displays confirmation and triggers push/SMS notification.
+Extensions:
+- On gateway failure, display error and allow retry or alternate method.
+Postcondition: Reservation status is “paid”; payment ID is linked; notification sent.
+Trace to FR Id: FR-03
+
+Use Case: FR-04 - QR Validation at Gate
+Primary Actor: Gate Operator (system acts autonomously upon scan)
+Stakeholders: Gate Operator, Driver, Parking Operator
+Preconditions: Driver has a paid reservation (FR-03); QR code is scannable; gate terminal has cached reservation data or online access.
+Main Success Scenario:
+1. Driver presents QR code at gate.
+2. Terminal scans and decodes QR, extracting reservation ID.
+3. System validates ID against active reservations and checks entry time vs. reserved start + grace period.
+4. If valid, system sends open signal to barrier and logs entry timestamp.
+5. Terminal displays “Valid – Enter” and unlocks barrier.
+Extensions:
+- If expired or invalid, display “Invalid QR” and hold barrier closed.
+Postcondition: Barrier opens for valid entry; entry event logged; reservation status updated to “active”.
+Trace to FR Id: FR-04
+
+Use Case: FR-05 - Incident Reporting
+Primary Actor: Gate Operator
+Stakeholders: Gate Operator, System Administrator, Maintenance Team
+Preconditions: Gate operator is authenticated on terminal; spot is physically blocked or damaged.
+Main Success Scenario:
+1. Operator selects “Report Incident” and chooses target lot and spot ID.
+2. Operator selects reason (e.g., “blocked”, “damaged”) and adds optional notes.
+3. System marks spot status as “unavailable” and logs incident with timestamp and operator ID.
+4. System queues notification to administrator.
+Extensions:
+- If spot ID is invalid, prompt to reselect.
+Postcondition: Spot is marked unavailable; incident record created; admin notified.
+Trace to FR Id: FR-05
+
+Use Case: FR-06 - Grace Period Enforcement
+Primary Actor: System (automated)
+Stakeholders: Driver, Gate Operator, Parking Operator
+Preconditions: Reservation exists with status “paid”; gate terminal recorded entry time.
+Main Success Scenario:
+1. System compares actual entry time (from FR-04 scan) against reserved start time.
+2. System calculates difference and checks against 15-minute grace window.
+3. If within grace, sets reservation status to “active”.
+4. If late, sets status to “late-entry” and logs warning.
+Extensions:
+- If entry time is missing, flag for manual review.
+Postcondition: Reservation reflects accurate entry status (active or late-entry).
+Trace to FR Id: FR-06
+
+Use Case: FR-07 - Overstay Detection and Alerting
+Primary Actor: System (automated)
+Stakeholders: Driver, Gate Operator, System Administrator, Finance Team
+Preconditions: Reservation has status “active” and exit time is detected (via gate scan or manual input).
+Main Success Scenario:
+1. System retrieves reserved duration and calculates expected exit time.
+2. System compares actual exit time against expected exit time.
+3. If exit is late, system computes overstay fee using dynamic rate.
+4. System generates overstay alert and sends to administrator.
+5. System finalizes transaction record with overstay fee and receipt.
+Extensions:
+- If exit time cannot be determined, flag reservation for manual resolution.
+Postcondition: Final transaction is immutable (FR-10); overstay alert is dispatched; receipt issued.
+Trace to FR Id: FR-07
+
+Use Case: FR-08 - Occupancy and Revenue Analytics
+Primary Actor: Administrator
+Stakeholders: Administrator, Finance Team, Operations Manager
+Preconditions: Administrator is logged in; system contains ≥1 day of transaction and sensor data.
+Main Success Scenario:
+1. Administrator selects date range and report type (e.g., “occupancy”).
+2. System aggregates sensor and reservation data across selected period.
+3. System computes occupancy percentage per lot per hour and total revenue.
+4. System renders dashboard with charts and tables; enables CSV export.
+Extensions:
+- If no data exists for range, display “No data available”.
+Postcondition: Administrator views accurate, filtered analytics; export file generated if requested.
+Trace to FR Id: FR-08
+
+Use Case: FR-09 - Dynamic Pricing Configuration
+Primary Actor: Administrator
+Stakeholders: Administrator, Pricing Analyst, Parking Operator
+Preconditions: Administrator has pricing configuration privileges.
+Main Success Scenario:
+1. Administrator navigates to pricing rules and defines a demand window (e.g., Mon-Fri 7–10am).
+2. Administrator sets base price and multiplier (e.g., ×1.5).
+3. System saves rule and applies it to matching time windows in FR-01 and FR-02.
+4. System logs rule change with timestamp and admin ID.
+Extensions:
+- If overlapping windows exist, system warns and requires resolution.
+Postcondition: Pricing rules are persisted and active for subsequent reservations and listings.
+Trace to FR Id: FR-09
+
+Use Case: FR-10 - Immutable Transaction Ledger
+Primary Actor: System (automated)
+Stakeholders: System Administrator, Auditor, Compliance Officer
+Preconditions: Any system event requiring audit trail (e.g., reservation, payment, incident, exit).
+Main Success Scenario:
+1. System detects event triggering ledger write (e.g., FR-03 payment confirmed).
+2. System constructs record with timestamp, actor, action, entities, and hash of prior record.
+3. System appends record to write-once ledger.
+4. System assigns immutable transaction ID and verifies chain integrity.
+Extensions:
+- If ledger write fails, system retries once then alerts admin.
+Postcondition: Transaction is permanently recorded; hash chain remains unbroken; ID is globally unique.
+Trace to FR Id: FR-10

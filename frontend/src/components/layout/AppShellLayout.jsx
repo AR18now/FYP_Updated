@@ -26,6 +26,7 @@ import {
 import { useTheme } from '../../context/ThemeContext';
 import { BrandMark } from '../BrandLogo';
 
+/** Primary navigation metadata for the author workspace (paths are relative to the layout route). */
 const primaryNav = [
   { to: '/', label: 'Workspace Home', icon: LayoutDashboard, end: true },
   { to: '/generate-srs', label: 'Generate SRS', icon: FileInput },
@@ -39,12 +40,14 @@ const primaryNav = [
   { to: '/rtm', label: 'RTM matrix', icon: Table2 },
 ];
 
+/** Account / persistence shortcuts — visually grouped below the main pipeline links. */
 const secondaryNav = [
   { to: '/profile', label: 'Profile', icon: UserCircle2 },
   { to: '/history', label: 'History', icon: History },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
+/** Responsive author shell: collapsible sidebar, mobile drawer, theme toggle, and `<Outlet />` for child routes. */
 const AppShellLayout = ({ currentUser, onLogout }) => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -91,7 +94,7 @@ const AppShellLayout = ({ currentUser, onLogout }) => {
   const closeMobile = () => setSidebarOpen(false);
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-stone-100 via-amber-50/70 to-stone-50 text-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 dark:text-zinc-100">
+    <div className="flex min-h-dvh overflow-x-hidden bg-gradient-to-br from-slate-100 via-sky-50/80 to-slate-50 text-zinc-800 dark:from-zinc-950 dark:via-slate-950 dark:to-zinc-950 dark:text-zinc-100">
       {sidebarOpen && (
         <button
           type="button"

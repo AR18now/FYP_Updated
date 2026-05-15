@@ -9,6 +9,11 @@ import { useTheme } from '../context/ThemeContext';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import SrsGenerationLoaderOverlay from './SrsGenerationLoaderOverlay';
 
+/**
+ * Requirements intake: text / files / audio → `/api/process-*` → optional clarification →
+ * “Process & generate” hands off to SRS streaming (`SRSViewer` navigation) or classic results flow.
+ * Large component: search for `handleSubmit` / `processPipeline` when debugging submission paths.
+ */
 const RequirementsInput = ({ onResultsGenerated, onSRSGenerated, theme: themeProp, setCurrentResults = () => {} }) => {
   const { theme: themeFromContext } = useTheme();
   const theme = themeProp ?? themeFromContext ?? 'light';

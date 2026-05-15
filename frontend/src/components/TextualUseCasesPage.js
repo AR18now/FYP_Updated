@@ -8,7 +8,9 @@ import { formatTextualUseCasesToHtml } from '../utils/documentFormatter';
 import { saveBlobResponseAsDownload, messageFromAxiosBlobError } from '../utils/downloadHelpers';
 import { getApiErrorMessage } from '../utils/apiErrors';
 import { buildGenerateUseCasesRequestBody, hasModelTextualUseCases } from '../utils/useCaseRequest';
+import { appendActivityLog } from '../utils/storage';
 
+/** Renders the model textual use-case appendix; can POST to `/api/generate-usecases` to build diagram assets. */
 const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,6 +28,12 @@ const TextualUseCasesPage = ({ srsData, useCaseData, onUseCaseDataChange }) => {
           onUseCaseDataChange(response.data);
         });
       }
+      appendActivityLog({
+        type: 'textual_usecases',
+        title: 'Textual use cases generated',
+        detail: srsData?.title || srsData?.document_id || '',
+        meta: { document_id: srsData?.document_id },
+      });
       navigate('/usecase-diagram');
     } catch (error) {
       console.error('Failed to generate use cases', error);

@@ -1,3 +1,7 @@
+/**
+ * Parsing, normalization, and HTML rendering for SRS bodies and textual use-case appendices.
+ * Shared by `SRSViewer`, exports, and PDF download helpers — keep output XSS-safe (`escapeHtml`).
+ */
 const escapeHtml = (value = '') =>
   String(value)
     .replace(/&/g, '&amp;')

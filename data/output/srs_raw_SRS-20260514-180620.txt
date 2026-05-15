@@ -1,0 +1,111 @@
+INTRODUCTION
+Purpose: To define the system requirements for a freelance marketplace application enabling clients and freelancers to manage project interactions securely and efficiently.
+Scope: This Software Requirements Specification (SRS) covers the core functionalities required by clients, freelancers, and administrators within the freelance marketplace.
+Definitions/Acronyms:
+- Client: A user seeking services from freelancers.
+- Freelancer: A service provider offering skills or expertise through the platform.
+- Administrator: An individual responsible for managing the platform's operations, including monitoring and enforcing policies.
+
+OVERALL DESCRIPTION
+Perspective: This specification outlines the high-level view of the freelance marketplace application, detailing its intended functionality and how it supports client-freelancer interactions.
+Functions: Posting projects, bidding on projects, negotiating milestones, releasing payments, managing profiles, securing messages, escrowing funds, resolving disputes, setting deadlines, monitoring trust signals, verifying accounts, rating and reviewing services.
+Users: Clients, freelancers, and administrators.
+Constraints: The system must ensure secure transactions, fair ratings, and timely communication between all parties involved.
+Assumptions/Dependencies: The system relies on external payment gateways for transaction processing and uses third-party identity verification services for account validation.
+
+SPECIFIC REQUIREMENTS
+External Interfaces:
+- User Interface: Provides a graphical interface for posting projects, viewing proposals, communicating via chat, accessing personal profiles, and managing payment releases.
+- API: Supports integration with third-party systems such as payment processors and identity verification services.
+Functional Requirements:
+FR-01
+- Project Posting
+Input: Client inputs project details, budget, timeline, and skill requirements.
+Processing: Validates input fields, checks against existing listings, and creates a new project record.
+Output: Displays confirmation message and project ID.
+Priority: High
+- Main Success Scenario:
+1. Client logs in.
+2. Client navigates to the project creation page.
+3. Client fills out the form with valid information.
+4. Client submits the form.
+5. System validates the input.
+6. System checks for duplicate entries.
+7. System saves the project and displays a success message along with the project ID.
+
+Trace to FR Id:
+FR-01
+FR-02
+- Proposal Bidding
+Input: Freelancer views available projects and selects one to bid on.
+Processing: Reviews project details, calculates bid amount, and submits proposal.
+Output: Displays confirmation message and proposal ID.
+Priority: High
+- Main Success Scenario:
+1. Freelancer logs in.
+2. Freelancer browses the list of open projects.
+3. Freelancer clicks on a specific project.
+4. Freelancer reviews the project details.
+5. Freelancer calculates the bid amount.
+6. Freelancer submits the proposal.
+7. System validates the bid.
+8. System records the proposal and displays a success message along with the proposal ID.
+
+Trace to FR Id:
+FR-02
+FR-03
+- Milestone Negotiation
+Input: Client and freelancer agree on milestone terms.
+Processing: Updates project record with agreed-upon milestones.
+Output: Sends notification to both parties confirming changes.
+Priority: Medium
+- Main Success Scenario:
+1. Client and freelancer reach agreement on milestone terms.
+2. Client updates the project record with the new milestones.
+3. System sends notifications to both parties about the updated milestone plan.
+
+Trace to FR Id:
+FR-03
+FR-04
+- Payment Release
+Input: Client approves completed work and requests payment release.
+Processing: Escrows the payment until final approval from the client.
+Output: Releases payment to the freelancer upon final approval.
+Priority: High
+- Main Success Scenario:
+1. Client confirms completion of work.
+2. Client initiates the payment request.
+3. System holds the payment in escrow.
+4. Client provides evidence of work completion.
+5. Client requests final approval.
+6. System verifies the evidence.
+7. System releases the payment to the freelancer.
+
+Trace to FR Id:
+FR-04
+Non-Functional Requirements:
+NFR-01
+- Usability
+- Ensure intuitive navigation and clear error messages.
+- Provide help documentation and tooltips for guidance.
+NFR-02
+- Reliability
+- Maintain consistent uptime and minimal downtime.
+- Implement robust backup and recovery mechanisms.
+NFR-03
+- Performance
+- Respond to user actions within 2 seconds.
+- Handle up to 10,000 concurrent users without degradation.
+NFR-04
+- Portability
+- Support multiple operating systems and devices.
+- Facilitate easy deployment across various environments.
+
+SYSTEM FEATURES
+- Secure messaging system for client-freelancer communications.
+- Trust signal tracking for assessing freelancer reputation.
+- Dispute resolution mechanism for handling disagreements.
+- Account verification process for ensuring authenticity.
+- Rating and review workflow with anti-abuse measures.
+
+End of Document.Appendix

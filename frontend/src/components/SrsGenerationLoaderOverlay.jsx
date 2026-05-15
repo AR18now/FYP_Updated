@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
 
+/**
+ * Full-screen progress overlay for long-running SRS / preprocessing operations — rotates hints and
+ * shows an honest elapsed timer so demos don’t look “stuck”.
+ */
 const GENERATING_HINTS = [
   'Structuring sections (IEEE 830)…',
   'Streaming model output — the timer reflects real generation time.',

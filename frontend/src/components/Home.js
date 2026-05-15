@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, Upload, Eye, Download, Users, Zap, ArrowRight, Sparkles } from 'lucide-react';
 
+/** Legacy marketing landing (kept for experiments); primary onboarding is `WelcomePage` + `/start`. */
 const Home = ({ theme = 'dark' }) => {
   const [animatedStats, setAnimatedStats] = useState([0, 0, 0]);
   const [isVisible, setIsVisible] = useState(false);

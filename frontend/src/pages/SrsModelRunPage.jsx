@@ -1,96 +1,16 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Timer, BarChart3, FileText, CheckCircle2, AlertTriangle, Activity } from 'lucide-react';
+import { Timer, BarChart3, FileText } from 'lucide-react';
 import { formatPct01 } from '../utils/srsQualityCopy';
-
-/** Weights for a single “how close did the draft heuristics look” score (0–1 each). */
-const W_HEURISTIC_ACCURACY = 0.45;
-const W_INPUT_TOKEN_F1 = 0.35;
-const W_SECTION_HEADING_F1 = 0.2;
-/** Composite at/above this is labeled “good” when alignment does not force review. */
-const COMPOSITE_GOOD_MIN = 0.52;
-/** Between this and COMPOSITE_GOOD_MIN → “mixed”. Below → “weak”. */
-const COMPOSITE_FAIR_MIN = 0.38;
-
-function pick01(v) {
-  const n = Number(v);
-  if (!Number.isFinite(n)) return null;
-  return Math.max(0, Math.min(1, n));
-}
+import PresentationRouteSplash from '../components/PresentationRouteSplash';
 
 /**
- * One-line overall verdict for the model-run heuristic block.
- * Alignment “review suggested” always wins over a high composite (human check still needed).
+ * Read-only inspection of `generation_meta` bundled at SRS creation time: provider timings,
+ * `quality_scores` heuristics, and the raw key/value dump for advanced reviewers.
+ *
+ * Blended overall-model-run interpretation lives on the server as
+ * `generation_meta.overall_model_run_heuristic` (see `overall_model_run_heuristic.py`).
  */
-function computeOverallModelVerdict(qs) {
-  if (!qs || typeof qs !== 'object') return null;
-
-  const review = !!(qs.alignment_review_recommended ?? qs.hallucination_has_potential);
-  const ha = pick01(qs.heuristic_accuracy);
-  const fi = pick01(qs.input_token_f1);
-  const fs = pick01(qs.section_heading_f1);
-
-  let w = 0;
-  let sum = 0;
-  if (ha !== null) {
-    w += W_HEURISTIC_ACCURACY;
-    sum += W_HEURISTIC_ACCURACY * ha;
-  }
-  if (fi !== null) {
-    w += W_INPUT_TOKEN_F1;
-    sum += W_INPUT_TOKEN_F1 * fi;
-  }
-  if (fs !== null) {
-    w += W_SECTION_HEADING_F1;
-    sum += W_SECTION_HEADING_F1 * fs;
-  }
-  const composite = w > 0 ? sum / w : null;
-
-  if (review) {
-    return {
-      headline: 'Review recommended',
-      tone: 'review',
-      composite,
-      review: true,
-      caption:
-        'Alignment monitoring wants a pass against your source. That outweighs a strong heuristic score—treat this as “needs human check”, not pass/fail from percentages alone.',
-    };
-  }
-  if (composite === null) {
-    return {
-      headline: 'Overall score unavailable',
-      tone: 'unknown',
-      composite: null,
-      review: false,
-      caption: 'Fill in heuristic accuracy / F1 fields to compute the blended bar.',
-    };
-  }
-  if (composite >= COMPOSITE_GOOD_MIN) {
-    return {
-      headline: 'Good heuristic match',
-      tone: 'good',
-      composite,
-      review: false,
-      caption: `Blended score ${formatPct01(composite)} meets the “good” band (≥ ${formatPct01(COMPOSITE_GOOD_MIN)}), using the weights below.`,
-    };
-  }
-  if (composite >= COMPOSITE_FAIR_MIN) {
-    return {
-      headline: 'Mixed / acceptable',
-      tone: 'fair',
-      composite,
-      review: false,
-      caption: `Blended score ${formatPct01(composite)} is between “fair” (${formatPct01(COMPOSITE_FAIR_MIN)}) and “good” (${formatPct01(COMPOSITE_GOOD_MIN)}).`,
-    };
-  }
-  return {
-    headline: 'Weak heuristic match',
-    tone: 'weak',
-    composite,
-    review: false,
-    caption: `Blended score ${formatPct01(composite)} is below the “fair” line (${formatPct01(COMPOSITE_FAIR_MIN)}).`,
-  };
-}
 
 /**
  * Generation-time model performance / quality_scores matrix (from srs.generation_meta).
@@ -112,17 +32,17 @@ const SrsModelRunPage = ({ srsData }) => {
     return { mp: hasMp ? mp : {}, qs: hasQs ? qs : {}, interp, qInterp };
   }, [srsData?.generation_meta]);
 
-  const overallVerdict = useMemo(() => {
-    const qs = modelRunSummary?.qs;
-    if (!qs || typeof qs !== 'object' || Object.keys(qs).length === 0) return null;
-    return computeOverallModelVerdict(qs);
-  }, [modelRunSummary]);
-
   return (
+    <PresentationRouteSplash
+      title="Model run metrics"
+      subtitle="Loading generation snapshot, heuristics, and alignment notes…"
+      icon={Timer}
+      delayMs={2600}
+    >
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-16">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
         <div className="flex items-start gap-3 min-w-0">
-          <div className="shrink-0 rounded-xl bg-r2d-primary/15 p-3 text-r2d-primary dark:text-amber-300">
+          <div className="shrink-0 rounded-xl bg-r2d-primary/15 p-3 text-r2d-primary dark:text-sky-300">
             <Timer className="h-7 w-7" aria-hidden />
           </div>
           <div>
@@ -181,95 +101,6 @@ const SrsModelRunPage = ({ srsData }) => {
           <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mb-5">
             generation_meta snapshot · {srsData?.document_id || '—'}
           </p>
-
-          {overallVerdict ? (
-            <div
-              className={`mb-6 rounded-xl border p-4 sm:p-5 ${
-                overallVerdict.tone === 'good'
-                  ? 'border-emerald-300/90 bg-emerald-50/80 dark:border-emerald-700/80 dark:bg-emerald-950/25'
-                  : overallVerdict.tone === 'fair'
-                    ? 'border-amber-300/90 bg-amber-50/80 dark:border-amber-800/70 dark:bg-amber-950/25'
-                    : overallVerdict.tone === 'weak'
-                      ? 'border-rose-300/90 bg-rose-50/80 dark:border-rose-800/70 dark:bg-rose-950/25'
-                      : overallVerdict.tone === 'review'
-                        ? 'border-amber-400 bg-amber-50/90 dark:border-amber-600 dark:bg-amber-950/35'
-                        : 'border-slate-200 bg-slate-50/80 dark:border-slate-600 dark:bg-slate-800/50'
-              }`}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div className="flex items-start gap-3 min-w-0">
-                  <div className="shrink-0 mt-0.5" aria-hidden>
-                    {overallVerdict.tone === 'good' ? (
-                      <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
-                    ) : overallVerdict.tone === 'review' ? (
-                      <AlertTriangle className="h-8 w-8 text-amber-700 dark:text-amber-300" />
-                    ) : (
-                      <Activity className="h-8 w-8 text-slate-600 dark:text-slate-300" />
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">
-                      Overall model run (heuristic)
-                    </p>
-                    <h2 className="mt-1 text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-50 leading-tight">
-                      {overallVerdict.headline}
-                    </h2>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-200/95 leading-relaxed">
-                      {overallVerdict.caption}
-                    </p>
-                    <p className="mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                      Blended score weights: heuristic accuracy {Math.round(W_HEURISTIC_ACCURACY * 100)}%, input-token
-                      F1 {Math.round(W_INPUT_TOKEN_F1 * 100)}%, section-heading F1 {Math.round(W_SECTION_HEADING_F1 * 100)}
-                      %. Bands: below {formatPct01(COMPOSITE_FAIR_MIN)} = weak; {formatPct01(COMPOSITE_FAIR_MIN)}–
-                      {formatPct01(COMPOSITE_GOOD_MIN)} = mixed; ≥ {formatPct01(COMPOSITE_GOOD_MIN)} = good — unless
-                      alignment review is suggested (then always “review recommended”).
-                    </p>
-                  </div>
-                </div>
-                {typeof overallVerdict.composite === 'number' ? (
-                  <div className="shrink-0 w-full sm:w-52">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Blended score
-                    </p>
-                    <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900 dark:text-slate-50">
-                      {formatPct01(overallVerdict.composite)}
-                    </p>
-                    <div className="relative mt-3 h-2.5 rounded-full bg-slate-200/90 dark:bg-slate-700 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${
-                          overallVerdict.tone === 'good'
-                            ? 'bg-emerald-500'
-                            : overallVerdict.tone === 'fair'
-                              ? 'bg-amber-500'
-                              : overallVerdict.tone === 'weak'
-                                ? 'bg-rose-500'
-                                : overallVerdict.tone === 'review'
-                                  ? 'bg-amber-600'
-                                  : 'bg-slate-500'
-                        }`}
-                        style={{ width: `${Math.round(overallVerdict.composite * 100)}%` }}
-                      />
-                      <div
-                        className="absolute top-0 h-full w-px bg-slate-700/35 dark:bg-white/25"
-                        style={{ left: `${COMPOSITE_FAIR_MIN * 100}%` }}
-                        title={`Fair threshold ${formatPct01(COMPOSITE_FAIR_MIN)}`}
-                      />
-                      <div
-                        className="absolute top-0 h-full w-px bg-slate-900/45 dark:bg-white/35"
-                        style={{ left: `${COMPOSITE_GOOD_MIN * 100}%` }}
-                        title={`Good threshold ${formatPct01(COMPOSITE_GOOD_MIN)}`}
-                      />
-                    </div>
-                    <div className="mt-1 flex justify-between text-[10px] text-slate-500 dark:text-slate-400 tabular-nums">
-                      <span>0%</span>
-                      <span>Fair {formatPct01(COMPOSITE_FAIR_MIN)}</span>
-                      <span>Good {formatPct01(COMPOSITE_GOOD_MIN)}</span>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
 
           {modelRunSummary.qInterp ? (
             <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed border-l-4 border-emerald-600/70 dark:border-emerald-400/80 pl-3 mb-5">
@@ -371,7 +202,10 @@ const SrsModelRunPage = ({ srsData }) => {
               </table>
             </div>
           ) : null}
-          {Object.keys(modelRunSummary.mp).length > 0 || Object.keys(modelRunSummary.qs).length > 0 ? (
+          {Object.keys(modelRunSummary.mp).length > 0 ||
+          Object.keys(modelRunSummary.qs).length > 0 ||
+          (srsData?.generation_meta?.overall_model_run_heuristic &&
+            typeof srsData.generation_meta.overall_model_run_heuristic === 'object') ? (
             <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-600">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 px-3 pt-3">
                 All raw fields
@@ -386,6 +220,16 @@ const SrsModelRunPage = ({ srsData }) => {
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-600">
                   {Object.entries({
                     ...Object.fromEntries(Object.entries(modelRunSummary.qs).filter(([k]) => k !== 'notes')),
+                    ...(srsData?.generation_meta?.overall_model_run_heuristic &&
+                    typeof srsData.generation_meta.overall_model_run_heuristic === 'object'
+                      ? {
+                          overall_model_run_heuristic: JSON.stringify(
+                            srsData.generation_meta.overall_model_run_heuristic,
+                            null,
+                            2
+                          ),
+                        }
+                      : {}),
                     ...modelRunSummary.mp,
                   })
                     .sort(([a], [b]) => a.localeCompare(b))
@@ -404,6 +248,7 @@ const SrsModelRunPage = ({ srsData }) => {
         </div>
       )}
     </div>
+    </PresentationRouteSplash>
   );
 };
 
